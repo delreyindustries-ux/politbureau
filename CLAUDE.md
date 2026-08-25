@@ -169,6 +169,8 @@ un codi provisional `?XXX` — la dada no es perd. Afegir-les a
 - [ ] Itàlia: la Camera es reparteix amb el Rosatellum, no proporcionalment
 - [ ] Europees: verificar que la pàgina de Wikipedia existeix
 - [x] Lloc públic estàtic bilingüe amb 16.455 pàgines
-- [ ] Omplir titular i contacte a `config/site.yaml` (obligatori per llei)
-- [ ] Domini i alta a AdSense
-- [ ] Rutes legals en català (`/ca/aviso-legal/` encara té el nom en castellà)
+- [x] Titular i contacte a `config/site.yaml` (Alfonso del Rey Vega)
+- [x] Domini comprat: politbureau.es (Hostinger)
+- [ ] Repositori a GitHub, DNS i Search Console (vegeu DESPLEGAMENT.md)
+- [ ] Alta a AdSense, quan el lloc porti setmanes en linia
+- [x] Rutes legals en català (`/ca/avis-legal/`, `/ca/privadesa/`, `/ca/galetes/`)
