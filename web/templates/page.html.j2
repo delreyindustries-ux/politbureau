@@ -1,0 +1,7 @@
+{% extends "base.html.j2" %}
+{% block content %}
+<article class="doc">
+  <h1>{{ heading }}</h1>
+  {{ body | safe }}
+</article>
+{% endblock %}

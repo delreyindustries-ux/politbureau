@@ -1,0 +1,81 @@
+name: Actualitza i publica
+
+# Cada dia a les 6:15 UTC (8:15 a Espanya, ja hi ha les enquestes de la nit),
+# i tambe a ma des de la pestanya Actions.
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # Els ZIP del Ministeri i la geometria de l'IGN no canvien mai: baixar-los
+      # cada dia seria carregar els seus servidors per res.
+      - name: Recupera les descarregues guardades
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/raw
+            data/geo
+          key: fonts-v1-${{ hashFiles('config/sources.yaml') }}
+
+      - name: Prepara
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau init
+          python -m politbureau geo
+
+      - name: Llegeix les enquestes noves
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau ingest
+
+      - name: Recalcula i genera el lloc
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau build
+          python -m politbureau site
+
+      # Si el lloc te enllacos trencats, titols duplicats o adreces al sitemap
+      # que no existeixen, NO es publica. Val mes deixar en linia la versio
+      # d'ahir que substituir-la per una de trencada.
+      - name: Revisa abans de publicar
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau check
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

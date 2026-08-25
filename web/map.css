@@ -1,0 +1,113 @@
+/* Mapa interactiu dins del lloc public. Hereta els colors de site.css. */
+
+h1.maptitle{font-size:20px;margin:0 0 12px}
+#mapapp{
+  margin:0 -20px;display:flex;flex-direction:column;
+  height:calc(100vh - 150px);min-height:520px;
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;
+}
+#mapapp .bar{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:9px 16px;border-bottom:1px solid var(--line);background:var(--panel);
+}
+#mapapp .spacer{flex:1}
+#mapapp .meta{font:11px/1.4 var(--mono);color:var(--dim);text-align:right}
+#mapapp .split{flex:1;display:flex;min-height:0}
+
+#mapapp .seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+#mapapp .seg button{
+  background:var(--bg);color:var(--dim);border:0;padding:7px 12px;
+  font-size:13px;cursor:pointer;border-right:1px solid var(--line);
+}
+#mapapp .seg button:last-child{border-right:0}
+#mapapp .seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+#mapapp select{
+  background:var(--bg);color:var(--ink);border:1px solid var(--line);
+  border-radius:8px;padding:7px 10px;font-size:13px;max-width:280px;
+}
+
+#mapwrap{flex:1;position:relative;min-width:0;background:var(--panel)}
+#map{width:100%;height:100%;display:block;cursor:grab}
+#map.dragging{cursor:grabbing}
+
+#side{
+  width:380px;flex:none;border-left:1px solid var(--line);
+  background:var(--panel);overflow-y:auto;
+}
+#side .pane{padding:16px}
+#side h2{font-size:15px;margin:0 0 14px}
+#side h3{font-size:12px;color:var(--dim);margin:22px 0 8px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.07em}
+
+#tooltip{
+  position:absolute;pointer-events:none;z-index:5;max-width:250px;
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:8px 11px;font-size:12px;box-shadow:0 8px 26px rgba(0,0,0,.35);
+}
+#tooltip b{display:block;font-size:13px;margin-bottom:4px}
+#tooltip .tiprows{margin-top:5px;display:flex;flex-direction:column;gap:2px}
+#tooltip .tiprow{display:flex;align-items:center;gap:6px;font-size:11.5px}
+#tooltip .tiprow.first{font-weight:600}
+#tooltip .tiprow .nm{width:66px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#tooltip .tiprow .track{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+#tooltip .tiprow .track i{display:block;height:100%}
+#tooltip .tiprow .pc{width:34px;text-align:right;font:11px var(--mono)}
+#tooltip .tipfoot{margin-top:6px;color:var(--faint);font:10.5px var(--mono)}
+#tooltip .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}
+
+#legend{
+  position:absolute;left:14px;bottom:14px;z-index:4;max-height:46%;overflow:auto;
+  background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:11.5px;
+  box-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+#legend .legtitle{color:var(--faint);font-size:10px;text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:3px}
+#legend .row{display:flex;align-items:center;gap:7px;white-space:nowrap}
+#legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+#legend .n{color:var(--faint);font:11px var(--mono);margin-left:auto;padding-left:12px}
+
+#mapapp .note{
+  position:absolute;right:14px;bottom:14px;z-index:4;max-width:330px;
+  background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--warn);
+  border-radius:0 8px 8px 0;padding:9px 12px;font-size:11.5px;color:var(--dim);
+  box-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+#loading{
+  position:absolute;inset:0;display:grid;place-items:center;z-index:9;
+  background:var(--panel);color:var(--dim);font:13px var(--mono);
+}
+#loading[hidden]{display:none}
+
+/* barres del panell */
+#side .bar{display:block;margin-bottom:10px}
+#side .bar .top{display:flex;align-items:baseline;gap:7px;margin-bottom:3px}
+#side .bar .nm{font-weight:600;font-size:13px}
+#side .bar .pc{margin-left:auto;font:13px var(--mono)}
+#side .bar .track{height:7px;background:var(--line);border-radius:4px;
+  position:relative;overflow:hidden}
+#side .bar .fill{height:100%;border-radius:4px}
+#side .bar .rng{position:absolute;top:0;height:100%;background:rgba(255,255,255,.18)}
+#side .thin{font:10px var(--mono);color:var(--warn);
+  background:color-mix(in srgb, var(--warn) 16%, transparent);
+  padding:1px 5px;border-radius:3px;cursor:help}
+#side .fine{font-size:11.5px;color:var(--faint);line-height:1.6}
+#side svg.spark{width:100%;height:150px;display:block}
+#side svg.hemi{width:100%;height:190px;display:block;margin:2px 0 10px}
+#side table{width:100%;border-collapse:collapse;font-size:12px}
+#side th{text-align:left;color:var(--dim);font-weight:600;font-size:11px;
+  text-transform:uppercase;letter-spacing:.05em;padding:5px 4px;
+  border-bottom:1px solid var(--line)}
+#side td{padding:5px 4px;border-bottom:1px solid var(--line)}
+#side td.num{text-align:right;font:12px var(--mono)}
+#side .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}
+#side .warn{border-left:3px solid var(--warn);
+  background:color-mix(in srgb, var(--warn) 10%, transparent);
+  border-radius:0 6px 6px 0;padding:9px 11px;font-size:11.5px;color:var(--dim);margin:0 0 14px}
+
+@media (max-width:860px){
+  #mapapp{height:auto;margin:0 -14px;border-radius:0;border-left:0;border-right:0}
+  #mapapp .split{flex-direction:column}
+  #mapwrap{height:58vh;min-height:320px}
+  #side{width:auto;border-left:0;border-top:1px solid var(--line)}
+}

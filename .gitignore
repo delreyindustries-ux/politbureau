@@ -1,0 +1,11 @@
+data/politbureau.db*
+data/raw/
+data/geo/
+data/*.pem
+data/refresh.log
+__pycache__/
+*.pyc
+dist/
+
+# Instantanies generades a ma durant el desenvolupament
+data/*.svg

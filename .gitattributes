@@ -1,0 +1,10 @@
+# El repositori guarda sempre finals de linia LF. El servidor que construeix el
+# lloc es Linux i els fitxers de Windows amb CRLF hi poden fer coses rares.
+* text=auto eol=lf
+
+# Binaris: que git no els toqui.
+*.png binary
+*.jpg binary
+*.gz  binary
+*.zip binary
+*.db  binary

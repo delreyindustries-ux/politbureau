@@ -1,0 +1,133 @@
+{% extends "base.html.j2" %}
+{% block content %}
+<article class="doc">
+{% if lang == 'es' %}
+  <h1>Metodología</h1>
+  <p class="lede">Todo lo que hay aquí se puede comprobar. Estas son las fuentes, el
+  cálculo y, sobre todo, los límites de lo que publicamos.</p>
+
+  <h2>Dos capas que nunca se mezclan</h2>
+  <p><b>Resultado real.</b> El escrutinio oficial del Ministerio del Interior,
+  municipio a municipio, de las elecciones generales del 23 de julio de 2023. Son
+  datos verificados: {{ stats.municipalities }} municipios y {{ stats.valid_votes }}
+  votos válidos.</p>
+  <p><b>Estimación de hoy.</b> Un modelo. Parte del resultado real de cada territorio
+  y le aplica el desplazamiento de voto que marcan las encuestas de ámbito nacional.
+  <b>No existen encuestas municipales</b> y nunca las habrá: nadie encuesta a los
+  68 habitantes de Cabra de Mora. Cuando lees una cifra de «hoy», estás leyendo un
+  modelo, no una medición.</p>
+
+  <h2>Cómo se promedian las encuestas</h2>
+  <p>Se recogen todas las encuestas publicadas de intención de voto para el Congreso.
+  Hoy hay {{ stats.polls }} de {{ stats.pollsters }} institutos distintos. El peso de
+  cada una combina dos cosas:</p>
+  <ul>
+    <li><b>Recencia</b>: el peso cae a la mitad cada 14 días.</li>
+    <li><b>Muestra</b>: crece con la raíz cuadrada del número de entrevistas, con un
+    tope para que una macroencuesta no domine al resto.</li>
+  </ul>
+  <p>Se descartan las de más de 90 días y las de menos de 300 entrevistas. No se
+  aplica corrección de sesgo por casa encuestadora: hacerlo bien exige un modelo
+  bayesiano, y hacerlo mal es peor que no hacerlo.</p>
+
+  <h2>Cómo se proyecta sobre un municipio</h2>
+  <p>Si un partido pasa del 33% al 38% en el conjunto de España, no sube cinco puntos
+  en todas partes: sube proporcionalmente a la fuerza que ya tenía en cada sitio. Es
+  la técnica del <i>swing</i> proporcional, la misma que usan el <i>Financial Times</i>
+  o <i>The Economist</i>.</p>
+  <p>Hay dos salvaguardas. Un partido con una base nacional minúscula no se mueve,
+  porque dividir por un número casi cero dispara el resultado. Y los partidos
+  territoriales solo existen en su territorio: su ámbito está derivado de sus propios
+  votos reales, no escrito a mano.</p>
+
+  <h2>Cómo se reparten los escaños</h2>
+  <p>Con la ley d'Hondt de verdad, en cada una de las 52 circunscripciones, con su
+  magnitud real y el umbral del 3%. No es un promedio de lo que dicen los institutos.</p>
+  <p><b>El contraste.</b> Aplicado a los votos reales de 2023, este mismo cálculo
+  reproduce <b>348 de los 350 escaños</b>. Las dos diferencias vienen del diccionario
+  de siglas, no del reparto.</p>
+
+  <h2>Lo que este sitio no sabe</h2>
+  <ul>
+    <li>No sabe qué votará un municipio concreto. Sabe qué votó y cuánto se ha movido
+    el país desde entonces.</li>
+    <li>No corrige el sesgo conocido de cada instituto.</li>
+    <li>El <i>swing</i> es uniforme; la realidad es más local.</li>
+    <li>Cuando una cifra se apoya en pocas encuestas, lo dice.</li>
+  </ul>
+
+  <h2>Fuentes</h2>
+  <ul>
+    <li><a href="https://infoelectoral.interior.gob.es/" rel="noopener" target="_blank">Infoelectoral</a>,
+      Ministerio del Interior: resultados, escaños por circunscripción y diputados
+      electos. Reutilización comercial autorizada citando la fuente.</li>
+    <li><a href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_Spanish_general_election" rel="noopener" target="_blank">Wikipedia</a>:
+      recopilación de encuestas, CC BY-SA 4.0.</li>
+    <li>Instituto Geográfico Nacional: cartografía municipal, CC BY 4.0.</li>
+  </ul>
+{% else %}
+  <h1>Metodologia</h1>
+  <p class="lede">Tot el que hi ha aquí es pot comprovar. Aquestes són les fonts, el
+  càlcul i, sobretot, els límits del que publiquem.</p>
+
+  <h2>Dues capes que no es barregen mai</h2>
+  <p><b>Resultat real.</b> L'escrutini oficial del Ministeri de l'Interior, municipi a
+  municipi, de les eleccions generals del 23 de juliol del 2023. Són dades verificades:
+  {{ stats.municipalities }} municipis i {{ stats.valid_votes }} vots vàlids.</p>
+  <p><b>Estimació d'avui.</b> Un model. Parteix del resultat real de cada territori i
+  hi aplica el desplaçament de vot que marquen les enquestes d'àmbit estatal.
+  <b>No existeixen enquestes municipals</b> i no n'hi haurà mai: ningú no enquesta els
+  68 habitants de Cabra de Mora. Quan llegeixes una xifra d'«avui», llegeixes un model,
+  no una mesura.</p>
+
+  <h2>Com es promitgen les enquestes</h2>
+  <p>Es recullen totes les enquestes publicades d'intenció de vot per al Congrés. Avui
+  n'hi ha {{ stats.polls }} de {{ stats.pollsters }} instituts diferents. El pes de
+  cadascuna combina dues coses:</p>
+  <ul>
+    <li><b>Recència</b>: el pes cau a la meitat cada 14 dies.</li>
+    <li><b>Mostra</b>: creix amb l'arrel quadrada del nombre d'entrevistes, amb un
+    límit perquè una macroenquesta no domini la resta.</li>
+  </ul>
+  <p>Es descarten les de més de 90 dies i les de menys de 300 entrevistes. No s'aplica
+  correcció de biaix per casa enquestadora: fer-ho bé exigeix un model bayesià, i
+  fer-ho malament és pitjor que no fer-ho.</p>
+
+  <h2>Com es projecta sobre un municipi</h2>
+  <p>Si un partit passa del 33% al 38% al conjunt d'Espanya, no puja cinc punts a tot
+  arreu: puja proporcionalment a la força que ja tenia a cada lloc. És la tècnica del
+  <i>swing</i> proporcional, la mateixa que fan servir el <i>Financial Times</i> o
+  <i>The Economist</i>.</p>
+  <p>Hi ha dues salvaguardes. Un partit amb una base estatal minúscula no es mou,
+  perquè dividir per un número quasi zero dispara el resultat. I els partits
+  territorials només existeixen al seu territori: l'àmbit està derivat dels seus propis
+  vots reals, no escrit a mà.</p>
+
+  <h2>Com es reparteixen els escons</h2>
+  <p>Amb la llei d'Hondt de veritat, a cadascuna de les 52 circumscripcions, amb la
+  seva magnitud real i el llindar del 3%. No és una mitjana del que diuen els instituts.</p>
+  <p><b>El contrast.</b> Aplicat als vots reals del 2023, aquest mateix càlcul
+  reprodueix <b>348 dels 350 escons</b>. Les dues diferències vénen del diccionari de
+  sigles, no del repartiment.</p>
+
+  <h2>El que aquest lloc no sap</h2>
+  <ul>
+    <li>No sap què votarà un municipi concret. Sap què va votar i quant s'ha mogut el
+    país des de llavors.</li>
+    <li>No corregeix el biaix conegut de cada institut.</li>
+    <li>El <i>swing</i> és uniforme; la realitat és més local.</li>
+    <li>Quan una xifra se sosté en poques enquestes, ho diu.</li>
+  </ul>
+
+  <h2>Fonts</h2>
+  <ul>
+    <li><a href="https://infoelectoral.interior.gob.es/" rel="noopener" target="_blank">Infoelectoral</a>,
+      Ministeri de l'Interior: resultats, escons per circumscripció i diputats electes.
+      Reutilització comercial autoritzada citant la font.</li>
+    <li><a href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_Spanish_general_election" rel="noopener" target="_blank">Wikipedia</a>:
+      recopilació d'enquestes, CC BY-SA 4.0.</li>
+    <li>Institut Geogràfic Nacional: cartografia municipal, CC BY 4.0.</li>
+  </ul>
+{% endif %}
+</article>
+{% endblock %}

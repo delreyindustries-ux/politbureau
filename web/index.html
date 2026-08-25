@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polit Bureau</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="dot"></span>
+    <h1>Polit&nbsp;Bureau</h1>
+  </div>
+  <select id="election" aria-label="Elecció"></select>
+  <div class="search">
+    <input id="q" type="search" placeholder="Cerca un municipi…" autocomplete="off"
+           aria-label="Cercar territori">
+    <div id="hits" hidden></div>
+  </div>
+  <div class="seg" id="layer" role="group" aria-label="Capa">
+    <button data-layer="real">Resultat real</button>
+    <button data-layer="projection" class="on">Estimació d'avui</button>
+  </div>
+  <div class="seg" id="level" role="group" aria-label="Nivell"></div>
+  <select id="colourby" aria-label="Acolorir per"></select>
+  <div class="spacer"></div>
+  <div id="freshness" class="meta"></div>
+</header>
+
+<main>
+  <section id="mapwrap">
+    <canvas id="map"></canvas>
+    <div id="tooltip" hidden></div>
+    <div id="legend"></div>
+    <div id="mapnote" class="note"></div>
+    <div id="loading">carregant…</div>
+  </section>
+
+  <aside id="side">
+    <nav class="tabs">
+      <button data-tab="summary" class="on">Resum</button>
+      <button data-tab="area">Territori</button>
+      <button data-tab="seats">Escons</button>
+      <button data-tab="polls">Enquestes</button>
+    </nav>
+
+    <div class="tab" id="tab-summary">
+      <h2 id="sum-title">—</h2>
+      <div id="sum-bars"></div>
+      <h3>Evolució</h3>
+      <div id="trend"></div>
+      <p class="fine" id="sum-method"></p>
+    </div>
+
+    <div class="tab" id="tab-area" hidden>
+      <p class="fine">Fes clic a un territori del mapa.</p>
+    </div>
+
+    <div class="tab" id="tab-seats" hidden></div>
+
+    <div class="tab" id="tab-polls" hidden>
+      <div id="polls"></div>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span id="sources"></span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

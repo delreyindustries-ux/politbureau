@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ base_url }}{{ canonical }}">
+{%- for alt_lang, alt_url in alternates.items() %}
+<link rel="alternate" hreflang="{{ alt_lang }}" href="{{ base_url }}{{ alt_url }}">
+{%- endfor %}
+<link rel="alternate" hreflang="x-default" href="{{ base_url }}{{ alternates.get('es', canonical) }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="{{ base_url }}{{ canonical }}">
+<meta property="og:locale" content="{{ 'es_ES' if lang == 'es' else 'ca_ES' }}">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="icon" href="{{ root }}assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{{ root }}assets/site.css">
+{%- if structured_data %}
+<script type="application/ld+json">{{ structured_data }}</script>
+{%- endif %}
+{%- block head %}{% endblock %}
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="{{ root }}{{ lang }}/">
+    <span class="dot"></span><strong>{{ site_name }}</strong>
+  </a>
+  <nav>
+    <a href="{{ root }}{{ lang }}/{{ page('map') }}/">{{ t('nav_map') }}</a>
+    <a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ t('nav_method') }}</a>
+  </nav>
+  <form class="find" role="search" onsubmit="return pbSearch(event)">
+    <input id="pbq" type="search" placeholder="{{ t('search_placeholder') }}"
+           autocomplete="off" aria-label="{{ t('search_placeholder') }}">
+    <div id="pbhits" hidden></div>
+  </form>
+  <a class="lang" href="{{ root }}{{ other_lang_url.lstrip('/') }}">{{ t('other_lang') }}</a>
+</header>
+
+<main>
+{%- block content %}{% endblock %}
+</main>
+
+<footer class="foot">
+  <div class="cols">
+    <div>
+      <strong>{{ site_name }}</strong>
+      <p>{{ t('site_tagline') }}</p>
+    </div>
+    <div>
+      <a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ t('nav_method') }}</a>
+      <a href="{{ root }}{{ lang }}/{{ page('legal') }}/">{{ t('nav_legal') }}</a>
+      <a href="{{ root }}{{ lang }}/{{ page('privacy') }}/">{{ t('nav_privacy') }}</a>
+      <a href="{{ root }}{{ lang }}/{{ page('cookies') }}/">{{ t('nav_cookies') }}</a>
+    </div>
+    <div>
+      <strong>{{ t('sources') }}</strong>
+      <p>{{ t('source_line') }}</p>
+    </div>
+  </div>
+  <p class="tiny">{{ t('updated') }} {{ built_on }}</p>
+</footer>
+
+<div id="pbcookie" hidden>
+  <div>
+    <strong>{{ t('cookie_title') }}</strong>
+    <p>{{ t('cookie_text') }}
+       <a href="{{ root }}{{ lang }}/{{ page('cookies') }}/">{{ t('cookie_more') }}</a></p>
+  </div>
+  <div class="btns">
+    <button id="pbreject" type="button">{{ t('cookie_reject') }}</button>
+    <button id="pbaccept" type="button" class="primary">{{ t('cookie_accept') }}</button>
+  </div>
+</div>
+
+<script>
+window.PB = {
+  root: "{{ root }}",
+  lang: "{{ lang }}",
+  adsense: {{ adsense_client | tojson }},
+  ga: {{ ga_id | tojson }},
+  paths: {{ paths | tojson }}
+};
+</script>
+<script src="{{ root }}assets/site.js" defer></script>
+{%- block scripts %}{% endblock %}
+</body>
+</html>

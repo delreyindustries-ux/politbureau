@@ -1,0 +1,74 @@
+# Fonts d'enquestes. Cada entrada és una pàgina de Wikipedia amb taules d'enquestes.
+# L'ingestor tolera pàgines inexistents: les registra com a "skipped" i continua.
+# Afegir-ne una de nova = afegir una línia aquí. No cal tocar codi.
+
+wikipedia_api: "https://en.wikipedia.org/w/api.php"
+
+elections:
+
+  # ---------- ESPANYA ----------
+  - id: es-general
+    country: ES
+    label: "Espanya — Generals (Congrés)"
+    scope: national
+    page: "Opinion_polling_for_the_next_Spanish_general_election"
+    baseline: {election: "congreso-2023", date: "2023-07-23"}
+    chamber:
+      name: "Congreso de los Diputados"
+      seats: 350
+      method: dhondt_province      # llei d'Hondt a cadascuna de les 52 circumscripcions
+
+  - id: es-general-sub
+    country: ES
+    label: "Espanya — Generals per comunitat"
+    scope: region
+    page: "Sub-national_opinion_polling_for_the_next_Spanish_general_election"
+    baseline: {election: "congreso-2023", date: "2023-07-23"}
+
+  - id: es-local-2027
+    country: ES
+    label: "Espanya — Municipals 2027"
+    scope: national
+    page: "Opinion_polling_for_the_2027_Spanish_local_elections"
+    baseline: {election: "municipales-2023", date: "2023-05-28"}
+    regional_pages:
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Andalusia)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Aragon)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Basque_Country)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Canary_Islands)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Catalonia)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Extremadura)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Galicia)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Community_of_Madrid)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Region_of_Murcia)"
+      - "Opinion_polling_for_the_2027_Spanish_local_elections_(Valencian_Community)"
+
+  - id: es-euro
+    country: ES
+    label: "Espanya — Europees"
+    scope: national
+    page: "Opinion_polling_for_the_next_European_Parliament_election_in_Spain"
+    baseline: {election: "europeas-2024", date: "2024-06-09"}
+    seat_method: dhondt
+    seat_level: national
+    optional: true
+
+
+
+# ---------- GEOMETRIES ----------
+# es-atlas i us-atlas venen ja com a TopoJSON quantitzat i lleuger.
+# Italia i Franca nomes es publiquen com a GeoJSON de 36 i 12 MB, aixi que es
+# quantitzen a `digits` decimals abans de guardar-los (vegeu geo/simplify.py).
+geo:
+  ES:
+    format: topojson
+    url: "https://cdn.jsdelivr.net/npm/es-atlas@0.6.0/es/municipalities.json"
+    file: "es.json"
+    levels: {municipality: municipalities, province: provinces, region: autonomous_regions}
+
+# ---------- AGREGACIÓ ----------
+aggregation:
+  half_life_days: 14        # pes = 0.5 ^ (dies_enrere / half_life)
+  max_age_days: 90          # descarta enquestes més velles
+  min_sample: 300
+  sample_weight: sqrt       # pes addicional = sqrt(mostra / 1000)

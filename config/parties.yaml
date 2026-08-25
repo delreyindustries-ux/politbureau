@@ -1,0 +1,262 @@
+# Diccionari canonic de partits d'Espanya.
+# `aliases` = com apareix la columna a les taules de Wikipedia i a les sigles
+# del Ministeri (minuscules, sense accents).
+# Els colors son valors per defecte editables: el mapa i els grafics els llegeixen d'aqui.
+
+ES:
+  PSOE:
+    name: PSOE
+    color: '#E30613'
+    aliases:
+    - psoe
+    - psoe-psc
+    - pspv
+    - psc
+  PP:
+    name: PP
+    color: '#1D84CE'
+    aliases:
+    - pp
+    - pp-fa
+    - ppcv
+  VOX:
+    name: Vox
+    color: '#63BE21'
+    aliases:
+    - vox
+  SUMAR:
+    name: Sumar
+    color: '#E01B4C'
+    aliases:
+    - sumar
+    - smr
+    - sumar-iu
+    - movimiento sumar
+  PODEMOS:
+    name: Podemos
+    color: '#683064'
+    aliases:
+    - podemos
+    - up
+    - unidas podemos
+    - pdm
+  SALF:
+    name: SALF
+    color: '#F5B301'
+    aliases:
+    - salf
+    - se acabo la fiesta
+  ERC:
+    name: ERC
+    color: '#FFB232'
+    aliases:
+    - erc
+    - erc-sobiranistes
+  JUNTS:
+    name: Junts
+    color: '#00C3B2'
+    aliases:
+    - junts
+    - junts+
+    - jxcat
+  EHB:
+    name: EH Bildu
+    color: '#B5CF18'
+    aliases:
+    - eh bildu
+    - ehb
+    - bildu
+  PNV:
+    name: PNV
+    color: '#009526'
+    aliases:
+    - pnv
+    - eaj
+    - eaj-pnv
+  BNG:
+    name: BNG
+    color: '#ADCFEF'
+    aliases:
+    - bng
+  CC:
+    name: Coalición Canaria
+    color: '#FFD700'
+    aliases:
+    - cc
+    - cca
+    - cc-pnc
+  UPN:
+    name: UPN
+    color: '#0043A9'
+    aliases:
+    - upn
+  CUP:
+    name: CUP
+    color: '#FFED00'
+    aliases:
+    - cup
+  AA:
+    name: Adelante Andalucia
+    color: '#2E9E4F'
+    aliases:
+    - adelante andalucia
+  ALIANCA:
+    name: Alianca.cat
+    color: '#1C3F94'
+    aliases:
+    - alianca.cat
+    - aliança.cat
+    - alianca
+  UPAF:
+    name: Un Paso al Frente
+    color: '#7B3FA0'
+    aliases:
+    - un paso al frente
+  PACMA:
+    name: PACMA
+    color: '#ADBE18'
+    aliases:
+    - pacma
+  PDECAT:
+    name: PDeCAT
+    color: '#C4A000'
+    aliases:
+    - pdecat
+    - pdecat-e-ciu
+    - ciu
+  NC:
+    name: Nueva Canarias
+    color: '#FFCC00'
+    aliases:
+    - nc
+    - nc-bc
+  EXISTE:
+    name: Coalicion Existe
+    color: '#00A0A0'
+    aliases:
+    - existe
+    - aragon existe
+    - teruel existe
+  SY:
+    name: Soria Ya
+    color: '#8B2E8B'
+    aliases:
+    - sy
+    - soria ya
+  XAV:
+    name: Por Avila
+    color: '#C1440E'
+    aliases:
+    - xav
+    - por avila
+  PAR:
+    name: Partido Aragones
+    color: '#0066A6'
+    aliases:
+    - par
+    - partido aragones
+  EV:
+    name: Espana Vaciada
+    color: '#7A9E3B'
+    aliases:
+    - espana vaciada
+  GBAI:
+    name: Geroa Bai
+    color: '#3FA34D'
+    aliases:
+    - gbai
+    - geroa bai
+  FO:
+    name: Frente Obrero
+    color: '#8C1C13'
+    aliases:
+    - fo
+    - frente obrero
+  EB:
+    name: Escanos en Blanco
+    color: '#6B7280'
+    aliases:
+    - escanos en blanco
+  OTHER:
+    name: Altres
+    color: '#9E9E9E'
+    aliases:
+    - others
+    - otros
+    - altres
+    - other
+_contains:
+  ES:
+    psoe: PSOE
+    sumar: SUMAR
+    podemos: PODEMOS
+    compromis: SUMAR
+_order:
+  ES:
+  - FO
+  - PODEMOS
+  - SUMAR
+  - CUP
+  - ERC
+  - BNG
+  - EHB
+  - AA
+  - PSOE
+  - GBAI
+  - PNV
+  - JUNTS
+  - PAR
+  - EXISTE
+  - SY
+  - XAV
+  - EV
+  - EB
+  - PDECAT
+  - NC
+  - CC
+  - ALIANCA
+  - PP
+  - UPN
+  - VOX
+  - SALF
+  - PACMA
+  - OTHER
+_scope:
+  ES:
+    AA:
+    - '01'
+    ALIANCA:
+    - 09
+    BNG:
+    - '12'
+    CC:
+    - '05'
+    CUP:
+    - 09
+    EHB:
+    - '15'
+    - '16'
+    ERC:
+    - 09
+    EV:
+    - '07'
+    EXISTE:
+    - '02'
+    GBAI:
+    - '15'
+    JUNTS:
+    - 09
+    NC:
+    - '05'
+    PAR:
+    - '02'
+    PDECAT:
+    - 09
+    PNV:
+    - '16'
+    SY:
+    - '07'
+    UPN:
+    - '15'
+    XAV:
+    - '07'

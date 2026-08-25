@@ -1,0 +1,32 @@
+{% extends "base.html.j2" %}
+{% block head %}
+<link rel="stylesheet" href="{{ root }}assets/map.css">
+{% endblock %}
+{% block content %}
+<h1 class="maptitle">{{ map_heading }}</h1>
+<div id="mapapp" data-root="{{ root }}" data-lang="{{ lang }}">
+  <div class="bar">
+    <div class="seg" id="layer" role="group">
+      <button data-layer="real">{{ t('real_result') }}</button>
+      <button data-layer="projection" class="on">{{ t('estimate_today') }}</button>
+    </div>
+    <div class="seg" id="level" role="group"></div>
+    <select id="colourby" aria-label="Color"></select>
+    <span class="spacer"></span>
+    <span id="freshness" class="meta"></span>
+  </div>
+  <div class="split">
+    <section id="mapwrap">
+      <canvas id="map"></canvas>
+      <div id="tooltip" hidden></div>
+      <div id="legend"></div>
+      <div id="mapnote" class="note"></div>
+      <div id="loading">…</div>
+    </section>
+    <aside id="side"></aside>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ root }}assets/map.js" defer></script>
+{% endblock %}

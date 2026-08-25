@@ -1,0 +1,44 @@
+{% extends "base.html.j2" %}
+{% block content %}
+<section class="hero">
+  <h1>{{ site_name }}</h1>
+  <p class="lede">{{ t('site_tagline') }}</p>
+  <p>{{ t('site_description') }}</p>
+  <p class="cta">
+    <a class="btn primary" href="{{ root }}{{ lang }}/{{ page('map') }}/">{{ t('nav_map') }}</a>
+    <a class="btn" href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ t('nav_method') }}</a>
+  </p>
+</section>
+
+{% if highlights %}
+<section class="doc">
+  <h2>{{ t('estimate_today') }}</h2>
+  <table class="results">
+    <thead><tr>
+      <th>{{ t('party') }}</th>
+      <th class="n">%</th>
+      <th class="n">{{ t('seats_title') }}</th>
+    </tr></thead>
+    <tbody>
+    {% for h in highlights %}
+      <tr>
+        <td><span class="sw" style="background:{{ h.color }}"></span>{{ h.name }}</td>
+        <td class="n">{{ h.share | pct }}</td>
+        <td class="n">{{ h.seats if h.seats else '·' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p class="warn">{{ t('estimate_warning') | safe }}</p>
+</section>
+{% endif %}
+
+{{ ad('territory_top') }}
+
+<section class="doc">
+  <h2>{{ t('provinces_of') }} España</h2>
+  <ul class="children">
+  {% for r in regions %}<li><a href="{{ r.url }}">{{ r.name }}</a></li>{% endfor %}
+  </ul>
+</section>
+{% endblock %}

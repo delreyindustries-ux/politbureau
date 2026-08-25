@@ -1,0 +1,125 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+<article class="territory">
+
+  <nav class="crumbs">
+    <a href="{{ root }}{{ lang }}/">{{ site_name }}</a>
+    {%- for c in crumbs %} <span>›</span> <a href="{{ c.url }}">{{ c.name }}</a>{% endfor %}
+  </nav>
+
+  <h1>{{ area.name }}</h1>
+  <p class="lede">{{ lede }}</p>
+
+  <div class="facts">
+    {%- if area.census %}<span><b>{{ area.census | thousands }}</b> {{ t('census') }}</span>{% endif %}
+    {%- if area.valid_votes %}<span><b>{{ area.valid_votes | thousands }}</b> {{ t('valid_votes') }}</span>{% endif %}
+    {%- if magnitude %}<span><b>{{ magnitude }}</b> {{ t('seats_title') | lower }}</span>{% endif %}
+  </div>
+
+  {{ ad('territory_top') }}
+
+  <section>
+    <h2>{{ t('real_result') }} · {{ baseline_year }}</h2>
+    <table class="results">
+      <thead><tr>
+        <th>{{ t('party') }}</th>
+        <th class="n">{{ t('votes') }}</th>
+        <th class="n">{{ t('share') }}</th>
+        <th class="n">{{ t('today') }}</th>
+        <th class="n">{{ t('change') }}</th>
+      </tr></thead>
+      <tbody>
+      {%- for r in rows %}
+        <tr>
+          <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+          <td class="n">{{ r.votes | thousands if r.votes else '—' }}</td>
+          <td class="n">{{ r.share | pct }}</td>
+          <td class="n">{{ r.now | pct }}</td>
+          <td class="n {{ 'up' if r.delta and r.delta > 0 else 'dn' }}">
+            {{ ('+' if r.delta > 0 else '') ~ ('%.1f'|format(r.delta))|replace('.', ',') if r.delta is not none else '' }}</td>
+        </tr>
+      {%- endfor %}
+      </tbody>
+    </table>
+    <p class="warn">{{ t('estimate_warning') | safe }}</p>
+  </section>
+
+  {%- if dhondt %}
+  <section>
+    <h2>{{ t('seats_in_play') }}</h2>
+    <ol class="hondt">
+      {%- for w in dhondt.won %}
+      <li class="{{ 'last' if loop.last }}">
+        <span class="sw" style="background:{{ w.color }}"></span>
+        <span class="p">{{ w.name }}</span>
+        <span class="d">÷{{ w.divisor }}</span>
+        <span class="q">{{ ('%.2f'|format(w.quotient))|replace('.', ',') }}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+    <p class="cut">{{ t('last_seat') }} · {{ ('%.2f'|format(dhondt.cutoff))|replace('.', ',') }}</p>
+    <ol class="hondt miss">
+      {%- for n in dhondt.next %}
+      <li>
+        <span class="sw" style="background:{{ n.color }}"></span>
+        <span class="p">{{ n.name }}</span>
+        <span class="d">÷{{ n.divisor }}</span>
+        <span class="q">{{ ('%.2f'|format(n.quotient))|replace('.', ',') }}</span>
+        <span class="need">{{ t('needs') }} {{ n.needed_votes | thousands }} {{ t('votes') | lower }}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endif %}
+
+  {%- if deputies %}
+  <section>
+    <h2>{{ t('deputies_elected') }} · {{ baseline_year }}</h2>
+    <ul class="deps">
+      {%- for p in deputies.real %}
+      <li><span class="sw" style="background:{{ p.color }}"></span>
+          <span class="nm">{{ p.name }}</span>
+          <span class="pt">{{ p.party_name }}</span></li>
+      {%- endfor %}
+    </ul>
+    {%- if deputies.changes %}
+    <h3>{{ t('with_estimate') }}</h3>
+    <ul class="deps">
+      {%- for p, kind in deputies.changes %}
+      <li><span class="sw" style="background:{{ p.color }}"></span>
+          <span class="nm">{{ p.name }}</span>
+          <span class="tag {{ kind }}">{{ t('enters') if kind == 'in' else t('leaves') }}</span>
+          <span class="pt">{{ p.party_name }}</span></li>
+      {%- endfor %}
+    </ul>
+    <p class="warn">{{ t('deputies_warning') }}</p>
+    {%- endif %}
+  </section>
+  {%- endif %}
+
+  {%- if children %}
+  <section>
+    <h2>{{ children_title }}</h2>
+    <ul class="children">
+      {%- for c in children %}<li><a href="{{ c.url }}">{{ c.name }}</a></li>{% endfor %}
+    </ul>
+  </section>
+  {%- endif %}
+
+  {%- if siblings %}
+  <section>
+    <h2>{{ siblings_title }}</h2>
+    <ul class="children">
+      {%- for c in siblings %}<li><a href="{{ c.url }}">{{ c.name }}</a></li>{% endfor %}
+    </ul>
+  </section>
+  {%- endif %}
+
+  {{ ad('territory_bottom') }}
+
+  <p class="tiny">
+    <a href="{{ root }}{{ lang }}/{{ page('map') }}/?{{ level }}={{ area.code }}">{{ t('see_map') }}</a>
+  </p>
+</article>
+{% endblock %}

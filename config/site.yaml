@@ -1,0 +1,37 @@
+# Configuracio del lloc public. Tot el que cal tocar per posar-lo en marxa es aqui.
+
+site:
+  # El domini definitiu. Ha de portar https i NO ha d'acabar amb barra.
+  # Fins que no en tinguis un, deixa'l aixi i el lloc funcionara igual, pero els
+  # enllacos canonics i el sitemap apuntaran a un domini que no existeix.
+  base_url: "https://politbureau.es"
+  name: "Polit Bureau"
+  default_language: es
+  languages: [es, ca]
+
+  # Contacte que ha de constar a l'avis legal. Obligatori per la LSSI-CE
+  # (Llei 34/2002, art. 10) per a qualsevol web amb activitat economica,
+  # i els anuncis en son una. Omple'l abans de publicar.
+  owner: "Alfonso del Rey Vega"
+  email: "delreyindustries@gmail.com"
+
+publicidad:
+  # Identificador d'editor d'AdSense, de la forma ca-pub-0000000000000000.
+  # Mentre estigui buit NO es carrega cap script d'anuncis i el lloc no fa cap
+  # peticio a Google: aixi es pot desenvolupar i provar sense rastrejar ningu.
+  adsense_client: ""
+  # Blocs d'anunci. `slot` es l'identificador que dona AdSense a cada bloc.
+  slots:
+    territory_top: ""
+    territory_bottom: ""
+    map_side: ""
+
+analitica:
+  # Opcional. Igual que els anuncis, nomes es carrega si l'usuari accepta cookies.
+  ga_measurement_id: ""
+
+# Els anuncis i l'analitica NOMES es carreguen despres del consentiment explicit.
+# No es cap floritura: el RGPD i la LSSI-CE exigeixen consentiment PREVI per a
+# cookies que no siguin estrictament necessaries, i AdSense en posa.
+consentiment:
+  requerit: true
