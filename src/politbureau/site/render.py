@@ -11,7 +11,7 @@ from markupsafe import Markup
 from .. import parties
 from . import i18n
 from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, WEB, area_rows, deputies_for,
-                    unrepresented,
+                    simulator_for, unrepresented,
                     dhondt_for, lede_for, pct, thousands)
 
 
@@ -131,6 +131,12 @@ def territory_pages(env, cfg, data, urls, prov_region):
             area = {"code": code, "name": info.get("name") or name,
                     "census": info.get("census"), "valid_votes": info.get("valid_votes")}
             dh = dhondt_for(data, code) if level == "province" else None
+            sim = simulator_for(data, code) if level == "province" else None
+            # Autoescape esta desactivat en aquestes plantilles (acaben en .j2),
+            # aixi que el JSON surt tal qual. Escapar `<` evita que un nom amb
+            # `</script>` a dins tanqui l'etiqueta abans d'hora.
+            sim_json = (json.dumps(sim, ensure_ascii=False).replace("<", "\\u003c")
+                        if sim else None)
             dep = deputies_for(data, code) if level == "province" else None
             mag = data["magnitude"].get(code) if level == "province" else None
 
@@ -202,7 +208,7 @@ def territory_pages(env, cfg, data, urls, prov_region):
                     level=level,
                     lede=lede_for(data, level, code, rows, lang),
                     baseline_year=BASELINE_YEAR, magnitude=mag,
-                    dhondt=dh, deputies=dep,
+                    dhondt=dh, deputies=dep, simulator=sim_json,
                     crumbs=crumbs, children=children, children_title=ch_title,
                     siblings=siblings, siblings_title=si_title)
                 write(DIST / canonical.strip("/") / "index.html", html)

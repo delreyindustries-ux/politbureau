@@ -87,6 +87,9 @@ window.PB = {
 };
 </script>
 <script src="{{ root }}assets/site.js" defer></script>
+{%- if simulator %}
+<script src="{{ root }}assets/coalition.js" defer></script>
+{%- endif %}
 {%- block scripts %}{% endblock %}
 </body>
 </html>

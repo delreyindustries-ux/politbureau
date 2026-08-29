@@ -155,6 +155,19 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     escó, amb els vots i el pes conjunt. Filtrar-les d'entrada era publicar
     mitja graella electoral.
 
+25. **El repartiment d'escons es calcula a dos llocs, i han de coincidir.**
+    `web/coalition.js` refà la llei d'Hondt al navegador per al simulador de
+    coalicions, amb el mateix desempat que `model/seats.py` (primer el quocient,
+    després els vots). Si canvia la regla en un lloc, ha de canviar a l'altre:
+    dues implementacions divergents publiquen dues xifres que no quadren.
+    Verificat que el JavaScript reprodueix el repartiment **oficial** de
+    Barcelona del 2023 (PSOE 13, PP 5, Sumar 5, ERC 4, Junts 3, Vox 2) i que
+    coincideix amb Python en les cinc coalicions de prova.
+26. **Anar junts no resta escons.** Comprovat sobre les 52 circumscripcions i
+    les dues capes, 6.316 parelles: en 437 la coalició en guanya i en cap no en
+    perd. És la propietat coneguda del mètode d'Hondt; si algun dia el
+    simulador diu el contrari, l'error és al simulador.
+
 ## Quan surtin partits nous
 
 `ingest` acaba llistant les etiquetes que no ha sabut classificar. Es guarden amb

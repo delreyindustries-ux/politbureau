@@ -312,6 +312,37 @@ def dhondt_for(data, code):
     }
 
 
+def simulator_for(data, code):
+    """Dades per al simulador de coalicions d'una circumscripcio.
+
+    Van les dues capes, perque les dues preguntes son legitimes i diferents:
+    que hauria passat el 2023 si haguessin anat junts (comprovable) i que
+    passaria avui (estimacio). El calcul el fa el navegador amb la mateixa
+    regla d'Hondt que `model/seats.py`, i per aixo hi va la magnitud real de
+    la circumscripcio i els vots valids, no cap aproximacio.
+    """
+    mag = data["magnitude"].get(code)
+    if not mag:
+        return None
+    real = data["real"].get(("province", code), {})
+    proj = data["proj"].get(("province", code), {})
+    valid = (data["meta"].get(("province", code)) or {}).get("valid_votes") or 0
+    out = []
+    for party in set(real) | set(proj):
+        votes = real.get(party)
+        share = (votes * 100.0 / valid) if (votes and valid) else 0.0
+        now = proj.get(party) or 0.0
+        if share < 0.1 and now < 0.1:
+            continue
+        info = parties.meta(party, "ES")
+        out.append({"code": party, "name": info["name"], "color": info["color"],
+                    "real": round(share, 3), "now": round(now, 3)})
+    if len(out) < 2:
+        return None
+    out.sort(key=lambda r: -max(r["now"], r["real"]))
+    return {"magnitude": mag, "valid": valid, "parties": out}
+
+
 def deputies_for(data, code):
     members = data["deputies"].get(code)
     if not members:

@@ -305,7 +305,7 @@ def assets(data, urls):
     """Copia el CSS i el JS i escriu les dades que necessita el mapa interactiu."""
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
-    for name in ("site.css", "site.js", "map.js", "map.css", "favicon.svg"):
+    for name in ("site.css", "site.js", "map.js", "map.css", "coalition.js", "favicon.svg"):
         src = WEB / name
         if src.exists():
             shutil.copy2(src, out / name)

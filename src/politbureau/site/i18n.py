@@ -59,6 +59,27 @@ T = {
     "belongs_to": {"es": "Pertenece a", "ca": "Pertany a"},
     "seats_title": {"es": "Diputados que elige", "ca": "Diputats que elegeix"},
     "seats_in_play": {"es": "Escaños en juego", "ca": "Escons en joc"},
+    "coalition": {"es": "¿Y si se presentaran juntos?",
+                  "ca": "I si es presentessin junts?"},
+    "coalition_intro": {
+        "es": "Pulsa dos o más partidos. La suma de escaños no es la respuesta: "
+              "la ley d'Hondt no es aditiva, y los votos que a cada uno le sobraban "
+              "por separado pueden sumar para un escaño más. Comprobado en las 52 "
+              "circunscripciones: una coalición nunca pierde escaños, y en 437 de "
+              "las 6.316 parejas posibles gana alguno.",
+        "ca": "Prem dos o més partits. La suma d'escons no és la resposta: la llei "
+              "d'Hondt no és additiva, i els vots que a cadascun li sobraven per "
+              "separat poden sumar per a un escó més. Comprovat a les 52 "
+              "circumscripcions: una coalició no perd mai escons, i en 437 de les "
+              "6.316 parelles possibles en guanya algun."},
+    "coalition_hint": {"es": "Elige al menos dos partidos.",
+                       "ca": "Tria almenys dos partits."},
+    "coalition_separate": {"es": "Por separado", "ca": "Per separat"},
+    "coalition_together": {"es": "Juntos", "ca": "Junts"},
+    "coalition_nochange": {"es": "sin cambios", "ca": "sense canvis"},
+    "coalition_from": {"es": "El escaño sale de", "ca": "L'escó surt de"},
+    "seat_one": {"es": "escaño", "ca": "escó"},
+    "seat_many": {"es": "escaños", "ca": "escons"},
     "other_parties": {"es": "Resto de candidaturas",
                       "ca": "Resta de candidatures"},
     "other_parties_note": {
