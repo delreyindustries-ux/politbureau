@@ -10,7 +10,8 @@ from pathlib import Path
 from .. import parties
 from ..geo import fetch as geo
 from . import i18n
-from .build import DIST, ELECTION, ROOT, WEB, BASELINE_YEAR, thousands
+from .build import (DIST, ELECTION, ROOT, WEB, BASELINE_YEAR, simulator_for,
+                    thousands)
 from .render import render_page, write
 
 LEGAL = {
@@ -240,6 +241,11 @@ def map_page(env, cfg):
 
 
 def home_page(env, cfg, data, urls, highlights):
+    # El simulador de coalicions a escala estatal: les 52 circumscripcions
+    # alhora. La portada ES la pagina d'Espanya; no cal inventar-ne una altra.
+    sim = simulator_for(data, "national", "ES")
+    sim_json = (json.dumps(sim, ensure_ascii=False).replace("<", "\u003c")
+                if sim else None)
     for lang in i18n.LANGS:
         canonical = f"/{lang}/"
         html = render_page(
@@ -247,7 +253,7 @@ def home_page(env, cfg, data, urls, highlights):
             {lg: f"/{lg}/" for lg in i18n.LANGS},
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
-            highlights=highlights, regions=[
+            highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR, regions=[
                 {"name": data["names"]["region"].get(c, c), "url": urls[("region", c)][lang]}
                 for c in sorted(data["names"]["region"],
                                 key=lambda c: data["names"]["region"].get(c, ""))

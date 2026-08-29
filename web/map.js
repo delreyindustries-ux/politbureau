@@ -284,15 +284,62 @@ function draw(interacting = false) {
   }
 }
 
+/* El punt cau dins de la capsa d'aquesta forma? Es la comprovacio que separa
+   una lectura bona d'un color barrejat. Amb un pel de marge, perque la capsa
+   es calcula en coordenades de pantalla i el pixel esta arrodonit. */
+function boxHit(i, x, y) {
+  const s = state.shapes[i];
+  if (!s) return false;
+  const v = state.view, b = s.box, pad = 1.5;
+  return x >= b[0] * v.k + v.x - pad && x <= b[2] * v.k + v.x + pad
+      && y >= b[1] * v.k + v.y - pad && y <= b[3] * v.k + v.y + pad;
+}
+
+/* Quin territori hi ha sota el cursor.
+ *
+ * El canvas d'identificacio codifica cada forma com un color, pero `fill()`
+ * SUAVITZA LES VORES: un pixel de frontera es una barreja dels colors de dos
+ * veins, i una barreja descodifica a un index qualsevol. La forma 255 es
+ * rgb(0,0,255) i la 256 es rgb(0,1,0); a mig cami surt rgb(0,0,127), que es
+ * la forma 127, a l'altra punta del mapa. Aixo feia que clicar a prop d'una
+ * frontera obris un municipi que no hi tenia cap relacio.
+ *
+ * Canvas 2D no deixa desactivar el suavitzat, aixi que es comprova el
+ * resultat: l'index nomes val si el punt cau dins de la capsa d'aquella forma.
+ * Si el pixel central no passa la prova, es mira el veinat i es tria el pixel
+ * valid mes proper, preferint els opacs (els de dins) als semitransparents
+ * (els de la vora).
+ */
 function at(ev) {
   if (state.pickDirty) { state.pickDirty = false; paint(true); }
   const r = cv.getBoundingClientRect();
   const x = Math.round(ev.clientX - r.left), y = Math.round(ev.clientY - r.top);
   if (x < 0 || y < 0 || x >= pick.width || y >= pick.height) return -1;
-  const d = pctx.getImageData(x, y, 1, 1).data;
-  if (!d[3]) return -1;
-  const i = (d[0] << 16) | (d[1] << 8) | d[2];
-  return i < state.shapes.length ? i : -1;
+  if (!(state.view && state.view.k > 0)) return -1;
+
+  const R = 2;
+  const x0 = Math.max(0, x - R), y0 = Math.max(0, y - R);
+  const w = Math.min(pick.width, x + R + 1) - x0;
+  const h = Math.min(pick.height, y + R + 1) - y0;
+  if (w <= 0 || h <= 0) return -1;
+
+  const img = pctx.getImageData(x0, y0, w, h).data;
+  let best = -1, bestScore = Infinity;
+  for (let py = 0; py < h; py++) {
+    for (let px = 0; px < w; px++) {
+      const o = (py * w + px) * 4;
+      const a = img[o + 3];
+      if (!a) continue;
+      const i = (img[o] << 16) | (img[o + 1] << 8) | img[o + 2];
+      if (i >= state.shapes.length || !boxHit(i, x, y)) continue;
+      const dx = x0 + px - x, dy = y0 + py - y;
+      // Distancia al cursor, i penalitzacio als pixels de vora, que son els
+      // que poden portar color barrejat.
+      const score = dx * dx + dy * dy + (a === 255 ? 0 : 0.5);
+      if (score < bestScore) { bestScore = score; best = i; }
+    }
+  }
+  return best;
 }
 
 /* ------------------------------------------------------- interaccio */

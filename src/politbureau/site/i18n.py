@@ -61,17 +61,41 @@ T = {
     "seats_in_play": {"es": "Escaños en juego", "ca": "Escons en joc"},
     "coalition": {"es": "¿Y si se presentaran juntos?",
                   "ca": "I si es presentessin junts?"},
+    "coalition_preset_left": {"es": "Todo a la izquierda del PSOE",
+                             "ca": "Tot a l'esquerra del PSOE"},
+    "coalition_preset_leftpsoe": {"es": "La izquierda con el PSOE",
+                                  "ca": "L'esquerra amb el PSOE"},
+    "coalition_clear": {"es": "Limpiar", "ca": "Netejar"},
+    "coalition_scenario": {"es": "Escenario", "ca": "Escenari"},
+    "sc_full": {"es": "Todo el voto se transfiere (techo)",
+                "ca": "Tot el vot es transfereix (sostre)"},
+    "sc_mob": {"es": "La unidad moviliza: +5%", "ca": "La unitat mobilitza: +5%"},
+    "sc_leak": {"es": "Se descuelga un 10%", "ca": "Se'n despenja un 10%"},
+    "sc_break": {"es": "Se descuelga un 20%", "ca": "Se'n despenja un 20%"},
+    "coalition_caveat": {
+        "es": "Ningún escenario es una predicción. Una coalición cambia la "
+              "campaña, el mensaje y quién se siente representado, y eso no cabe "
+              "en un porcentaje. El voto que no sigue a la lista conjunta se "
+              "cuenta como abstención, no se reparte entre rivales: repartirlo "
+              "sería inventar un trasvase que ningún dato sostiene.",
+        "ca": "Cap escenari no és una predicció. Una coalició canvia la campanya, "
+              "el missatge i qui s'hi sent representat, i això no cap en un "
+              "percentatge. El vot que no segueix la llista conjunta es compta "
+              "com a abstenció, no es reparteix entre rivals: repartir-lo seria "
+              "inventar-se un transvasament que cap dada no sustenta."},
     "coalition_intro": {
         "es": "Pulsa dos o más partidos. La suma de escaños no es la respuesta: "
               "la ley d'Hondt no es aditiva, y los votos que a cada uno le sobraban "
-              "por separado pueden sumar para un escaño más. Comprobado en las 52 "
-              "circunscripciones: una coalición nunca pierde escaños, y en 437 de "
-              "las 6.316 parejas posibles gana alguno.",
+              "por separado pueden sumar para un escaño más. El reparto se hace "
+              "circunscripción por circunscripción, como en la realidad. Y como el "
+              "electorado no se transfiere entero, verás cuatro escenarios en vez "
+              "de una cifra.",
         "ca": "Prem dos o més partits. La suma d'escons no és la resposta: la llei "
               "d'Hondt no és additiva, i els vots que a cadascun li sobraven per "
-              "separat poden sumar per a un escó més. Comprovat a les 52 "
-              "circumscripcions: una coalició no perd mai escons, i en 437 de les "
-              "6.316 parelles possibles en guanya algun."},
+              "separat poden sumar per a un escó més. El repartiment es fa "
+              "circumscripció per circumscripció, com a la realitat. I com que "
+              "l'electorat no es transfereix sencer, hi veuràs quatre escenaris en "
+              "comptes d'una xifra."},
     "coalition_hint": {"es": "Elige al menos dos partidos.",
                        "ca": "Tria almenys dos partits."},
     "coalition_separate": {"es": "Por separado", "ca": "Per separat"},

@@ -1,0 +1,31 @@
+  <section id="coalition"
+           data-hint="{{ t('coalition_hint') }}"
+           data-separate="{{ t('coalition_separate') }}"
+           data-together="{{ t('coalition_together') }}"
+           data-nochange="{{ t('coalition_nochange') }}"
+           data-from="{{ t('coalition_from') }}"
+           data-votes="{{ t('votes') | lower }}"
+           data-seat="{{ t('seat_one') }}"
+           data-seats="{{ t('seat_many') }}"
+           data-scenario="{{ t('coalition_scenario') }}"
+           data-change="{{ t('change') }}"
+           data-caveat="{{ t('coalition_caveat') }}"
+           data-sc_full="{{ t('sc_full') }}"
+           data-sc_mob="{{ t('sc_mob') }}"
+           data-sc_leak="{{ t('sc_leak') }}"
+           data-sc_break="{{ t('sc_break') }}">
+    <h2>{{ t('coalition') }}</h2>
+    <p class="note">{{ t('coalition_intro') }}</p>
+    <div class="clayer">
+      <button type="button" data-layer="now" class="on">{{ t('today') }}</button>
+      <button type="button" data-layer="real">{{ t('real_result') }} &middot; {{ baseline_year }}</button>
+    </div>
+    <div class="cpreset">
+      <button type="button" data-preset="left">{{ t('coalition_preset_left') }}</button>
+      <button type="button" data-preset="leftpsoe">{{ t('coalition_preset_leftpsoe') }}</button>
+      <button type="button" data-preset="clear">{{ t('coalition_clear') }}</button>
+    </div>
+    <ul class="cparties"></ul>
+    <div class="cresult"></div>
+    <script type="application/json" id="coalition-data">{{ simulator }}</script>
+  </section>

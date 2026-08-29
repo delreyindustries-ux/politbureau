@@ -131,7 +131,8 @@ def territory_pages(env, cfg, data, urls, prov_region):
             area = {"code": code, "name": info.get("name") or name,
                     "census": info.get("census"), "valid_votes": info.get("valid_votes")}
             dh = dhondt_for(data, code) if level == "province" else None
-            sim = simulator_for(data, code) if level == "province" else None
+            sim = (simulator_for(data, level, code)
+                   if level in ("province", "region") else None)
             # Autoescape esta desactivat en aquestes plantilles (acaben en .j2),
             # aixi que el JSON surt tal qual. Escapar `<` evita que un nom amb
             # `</script>` a dins tanqui l'etiqueta abans d'hora.

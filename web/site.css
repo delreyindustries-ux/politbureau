@@ -201,3 +201,10 @@ ul.children li{font-size:14px;padding:3px 0}
 .cresult .cverdict{margin:0;font-size:15px}
 .cresult .gain{color:var(--up)}
 .cresult .same{color:var(--dim)}
+#coalition .cpreset{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+#coalition .cpreset button{
+  background:var(--panel);color:var(--ink);border:1px solid var(--line);
+  border-radius:8px;padding:5px 12px;font-size:13px;cursor:pointer}
+#coalition .cpreset button:hover{border-color:var(--accent)}
+table.scen{margin-top:10px}
+table.scen td:first-child{color:var(--dim)}

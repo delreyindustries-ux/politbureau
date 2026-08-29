@@ -127,25 +127,7 @@
   {%- endif %}
 
   {%- if simulator %}
-  <section id="coalition"
-           data-hint="{{ t('coalition_hint') }}"
-           data-separate="{{ t('coalition_separate') }}"
-           data-together="{{ t('coalition_together') }}"
-           data-nochange="{{ t('coalition_nochange') }}"
-           data-from="{{ t('coalition_from') }}"
-           data-votes="{{ t('votes') | lower }}"
-           data-seat="{{ t('seat_one') }}"
-           data-seats="{{ t('seat_many') }}">
-    <h2>{{ t('coalition') }}</h2>
-    <p class="note">{{ t('coalition_intro') }}</p>
-    <div class="clayer">
-      <button type="button" data-layer="now" class="on">{{ t('today') }}</button>
-      <button type="button" data-layer="real">{{ t('real_result') }} &middot; {{ baseline_year }}</button>
-    </div>
-    <ul class="cparties"></ul>
-    <div class="cresult"></div>
-    <script type="application/json" id="coalition-data">{{ simulator }}</script>
-  </section>
+{% include "_coalition.html.j2" %}
   {%- endif %}
 
 

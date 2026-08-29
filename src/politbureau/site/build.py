@@ -152,8 +152,8 @@ def area_rows(data, level, code):
     real = data["real"].get((level, code), {})
     proj = data["proj"].get((level, code), {})
     valid = (data["meta"].get((level, code)) or {}).get("valid_votes") or 0
-    seats_real = (data["seats_real"].get(code) or {}) if level == "province" else {}
-    seats_now = (data["seats_proj"].get(code) or {}) if level == "province" else {}
+    seats_real = aggregate_seats(data, "seats_real", level, code)
+    seats_now = aggregate_seats(data, "seats_proj", level, code)
     rows = []
     for party in set(real) | set(proj):
         votes = real.get(party)
@@ -169,13 +169,27 @@ def area_rows(data, level, code):
     return rows
 
 
+def aggregate_seats(data, key, level, code):
+    """Escons d'un territori: els de la provincia, o la suma de les seves.
+
+    Un municipi no escull diputats, aixi que alla no hi ha res a sumar.
+    """
+    if level == "municipality":
+        return {}
+    out = {}
+    for c in constituencies_of(data, level, code):
+        for party, n in (data[key].get(c) or {}).items():
+            out[party] = out.get(party, 0) + n
+    return out
+
+
 def unrepresented(rows, level, valid_votes):
     """Les formacions que van rebre vots i cap escó, amb el seu pes conjunt.
 
-    Nomes te sentit a la provincia, que es la circumscripcio: un municipi no
-    escull diputats. A la resta de nivells retorna None i la pagina no ho pinta.
+    Nomes te sentit alla on s'escullen diputats: la provincia, la comunitat
+    (suma de les seves) i l'Estat. Un municipi no n'escull.
     """
-    if level != "province":
+    if level == "municipality":
         return None
     losers = [r for r in rows if not r["seats"] and r["votes"]]
     if not losers:
@@ -312,35 +326,92 @@ def dhondt_for(data, code):
     }
 
 
-def simulator_for(data, code):
-    """Dades per al simulador de coalicions d'una circumscripcio.
+def constituencies_of(data, level, code):
+    """Quines circumscripcions cobreix aquest territori.
 
-    Van les dues capes, perque les dues preguntes son legitimes i diferents:
-    que hauria passat el 2023 si haguessin anat junts (comprovable) i que
-    passaria avui (estimacio). El calcul el fa el navegador amb la mateixa
-    regla d'Hondt que `model/seats.py`, i per aixo hi va la magnitud real de
-    la circumscripcio i els vots valids, no cap aproximacio.
+    El Congres s'escull per provincia. Una comunitat o l'Estat sencer no son
+    circumscripcions: reparteixen els seus escons a cada provincia i despres se
+    sumen. Fer-ho d'una altra manera (repartir els 350 escons de cop a escala
+    estatal) donaria una cambra que no s'assembla a la real.
     """
-    mag = data["magnitude"].get(code)
-    if not mag:
+    if level == "province":
+        return [code] if code in data["magnitude"] else []
+    prov_region = data["region_of"]["province"]
+    if level == "region":
+        return sorted(c for c in data["magnitude"] if prov_region.get(c) == code)
+    if level == "national":
+        return sorted(data["magnitude"])
+    return []
+
+
+def simulator_for(data, level, code):
+    """Dades per al simulador de coalicions, a qualsevol nivell territorial.
+
+    Va una entrada per circumscripcio amb la seva magnitud i els percentatges
+    de cada capa: el navegador aplica la llei d'Hondt a cadascuna i suma. Aixi
+    el simulador dona el mateix a la fitxa de Barcelona que a la de Catalunya o
+    a la d'Espanya, i respon la pregunta que de debo importa a escala estatal:
+    quants escons trauria una candidatura conjunta.
+
+    Les dues capes hi son perque son dues preguntes diferents i totes dues
+    legitimes: que hauria passat el 2023 (comprovable) i que passaria avui
+    (estimacio).
+    """
+    codes = constituencies_of(data, level, code)
+    if not codes:
         return None
-    real = data["real"].get(("province", code), {})
-    proj = data["proj"].get(("province", code), {})
-    valid = (data["meta"].get(("province", code)) or {}).get("valid_votes") or 0
-    out = []
-    for party in set(real) | set(proj):
-        votes = real.get(party)
-        share = (votes * 100.0 / valid) if (votes and valid) else 0.0
-        now = proj.get(party) or 0.0
-        if share < 0.1 and now < 0.1:
+
+    seen, cons = {}, []
+    for c in codes:
+        mag = data["magnitude"].get(c)
+        real_votes = data["real"].get(("province", c), {})
+        valid = (data["meta"].get(("province", c)) or {}).get("valid_votes") or 0
+        now = data["proj"].get(("province", c), {})
+        if not mag or not (real_votes or now):
             continue
-        info = parties.meta(party, "ES")
-        out.append({"code": party, "name": info["name"], "color": info["color"],
-                    "real": round(share, 3), "now": round(now, 3)})
-    if len(out) < 2:
+        entry = {"code": c, "name": data["names"]["province"].get(c, c),
+                 "magnitude": mag, "valid": valid, "real": {}, "now": {}}
+        for party, votes in real_votes.items():
+            if valid and votes:
+                entry["real"][party] = round(votes * 100.0 / valid, 3)
+                seen[party] = True
+        for party, share in now.items():
+            if share:
+                entry["now"][party] = round(share, 3)
+                seen[party] = True
+        cons.append(entry)
+
+    if not cons or len(seen) < 2:
         return None
-    out.sort(key=lambda r: -max(r["now"], r["real"]))
-    return {"magnitude": mag, "valid": valid, "parties": out}
+
+    # Quins partits es poden clicar. A escala estatal hi ha seixanta-dues
+    # candidatures i una graella de seixanta-dos botons no la mira ningu. Es
+    # deixen les que arriben al mig punt en alguna circumscripcio, que son les
+    # que algu es plantejaria ajuntar. Les altres NO desapareixen del calcul:
+    # segueixen als percentatges de cada circumscripcio i per tant al
+    # denominador i al llindar del 3%. Nomes deixen de ser clicables.
+    # Hi son totes les formacions classificades, per petites que siguin: si el
+    # boto diu "tot a l'esquerra del PSOE" ha de voler dir TOT, i deixar-ne
+    # fora Frente Obrero per petit canviava el resultat de dos escons sense
+    # dir-ho enlloc. De les no classificades (codi provisional ?XXXX) nomes
+    # s'hi posen les que arriben al mig punt en alguna circumscripcio, que si
+    # no la graella estatal en te seixanta-dues i no la mira ningu.
+    pickable = set()
+    for con in cons:
+        for layer in ("real", "now"):
+            for party, share in con[layer].items():
+                if parties.position(party, "ES") < 999 or share >= 0.5:
+                    pickable.add(party)
+    if len(pickable) < 2:
+        pickable = set(seen)
+
+    plist = [{"code": c, "name": parties.meta(c, "ES")["name"],
+              "color": parties.meta(c, "ES")["color"],
+              "pos": parties.position(c, "ES")} for c in pickable]
+    plist.sort(key=lambda x: x["pos"])
+    return {"level": level, "seats": sum(c["magnitude"] for c in cons),
+            "constituencies": cons, "parties": plist,
+            "psoe": parties.position("PSOE", "ES")}
 
 
 def deputies_for(data, code):

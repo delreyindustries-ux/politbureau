@@ -10,6 +10,10 @@
   </p>
 </section>
 
+{%- if simulator %}
+{% include "_coalition.html.j2" %}
+{%- endif %}
+
 {% if highlights %}
 <section class="doc">
   <h2>{{ t('estimate_today') }}</h2>

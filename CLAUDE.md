@@ -168,6 +168,31 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     perd. És la propietat coneguda del mètode d'Hondt; si algun dia el
     simulador diu el contrari, l'error és al simulador.
 
+27. **El canvas d'identificació del mapa suavitza les vores, i una barreja
+    de dos colors descodifica a un tercer territori.** La forma 255 és
+    `rgb(0,0,255)` i la 256 és `rgb(0,1,0)`; a mig camí surt `rgb(0,0,127)`, que
+    és la forma 127, a l'altra punta d'Espanya. Per això clicar prop d'una
+    frontera obria un municipi sense cap relació. Canvas 2D no deixa desactivar
+    el suavitzat, així que `at()` **valida** el resultat: l'índex només val si el
+    punt cau dins de la capsa d'aquella forma, i si no, es busca el píxel vàlid
+    més proper del veïnat prioritzant els opacs. No treguis la validació.
+28. **La comunitat i l'Estat no són circumscripcions.** El Congrés s'escull per
+    província: per a qualsevol territori més gran cal repartir a cada província i
+    després sumar (`constituencies_of()`). Repartir els 350 escons d'un sol cop a
+    escala estatal donaria una cambra que no s'assembla a la real.
+29. **Un botó que diu «tot» ha de voler dir tot.** El selector de partits
+    amagava les formacions per sota del 0,5%, i el bloc «tot a l'esquerra del
+    PSOE» en deixava fora Frente Obrero **sense dir-ho**: dos escons de
+    diferència en dos dels quatre escenaris. Ara hi són totes les classificades
+    (`position < 999`); el filtre del 0,5% només s'aplica a les que encara tenen
+    codi provisional `?XXXX`.
+30. **Una coalició no és una suma de vots.** El simulador dona quatre escenaris
+    (transferència total, +5%, −10%, −20%) i cap no és una predicció. El vot que
+    no segueix la llista conjunta va a l'abstenció, no es reparteix entre
+    rivals: repartir-lo seria inventar-se un transvasament que cap dada no
+    sustenta. Si algú converteix això en una xifra única, el producte torna a
+    mentir.
+
 ## Quan surtin partits nous
 
 `ingest` acaba llistant les etiquetes que no ha sabut classificar. Es guarden amb
