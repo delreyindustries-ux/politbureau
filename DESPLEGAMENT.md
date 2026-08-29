@@ -19,7 +19,7 @@ en tots dos idiomes, tal com exigeix l'article 10 de la Llei 34/2002.
 > vols un correu específic per a això (`contacto@politbureau.es`, que Hostinger
 > et deixa crear amb el domini), canvia'l al mateix fitxer i republica.
 
-## 2. Crear el repositori a GitHub
+## 2. Crear el repositori a GitHub — ~~fet~~
 
 Si encara no hi tens compte, fes-te'l a [github.com](https://github.com).
 Després crea un repositori **buit** (sense README, sense .gitignore) que es digui
@@ -30,7 +30,7 @@ de pagament. **Fes-lo públic.**
 Que sigui públic vol dir que qualsevol pot veure el codi. Les dades no hi són
 (`data/` i `dist/` estan al `.gitignore`), i no hi ha cap contrasenya enlloc.
 
-## 3. Pujar el projecte
+## 3. Pujar el projecte — ~~fet~~
 
 Des de la carpeta del projecte:
 
@@ -39,24 +39,24 @@ git add -A && git commit -m "Polit Bureau"
 ```
 
 ```bash
-git branch -M main && git remote add origin https://github.com/EL-TEU-USUARI/politbureau.git && git push -u origin main
+git branch -M main && git remote add origin https://github.com/delreyindustries-ux/politbureau.git && git push -u origin main
 ```
 
-Canvia `EL-TEU-USUARI` pel teu nom d'usuari de GitHub.
+Canvia `delreyindustries-ux` pel teu nom d'usuari de GitHub.
 
-## 4. Activar GitHub Pages
+## 4. Activar GitHub Pages — ~~fet~~
 
 Al repositori: **Settings → Pages → Build and deployment → Source**, tria
 **GitHub Actions**.
 
 Ves a la pestanya **Actions** i comprova que el workflow «Actualitza i publica»
 s'executa. La primera vegada triga uns 10-15 minuts, perquè baixa els ZIP del
-Ministeri. Quan acabi, el lloc ja serà a `EL-TEU-USUARI.github.io/politbureau`.
+Ministeri. Quan acabi, el lloc ja serà a `delreyindustries-ux.github.io/politbureau`.
 
 **Comprova que funciona abans de tocar el DNS.** Si el workflow falla, el
 problema és al codi i el DNS no hi té res a veure.
 
-## 5. Dir a GitHub quin és el domini
+## 5. Dir a GitHub quin és el domini — ~~fet~~
 
 **Settings → Pages → Custom domain**: escriu `politbureau.es` i desa.
 
@@ -64,7 +64,7 @@ problema és al codi i el DNS no hi té res a veure.
 > Actions, GitHub **ignora** qualsevol fitxer `CNAME`; el domini només val si
 > està posat aquí.
 
-## 6. El DNS a Hostinger
+## 6. El DNS a Hostinger — ~~fet~~
 
 A l'hPanel: **Dominis → politbureau.es → DNS / Nameservers → Gestionar registres DNS**.
 
@@ -93,7 +93,7 @@ I un **CNAME** perquè `www` també funcioni:
 
 | Tipus | Nom | Apunta a |
 | --- | --- | --- |
-| CNAME | www | `EL-TEU-USUARI.github.io` |
+| CNAME | www | `delreyindustries-ux.github.io` |
 
 El punt final de `github.io.` el posa Hostinger sol; si el panell te'l demana,
 posa-l'hi.

@@ -171,6 +171,8 @@ un codi provisional `?XXX` — la dada no es perd. Afegir-les a
 - [x] Lloc públic estàtic bilingüe amb 16.455 pàgines
 - [x] Titular i contacte a `config/site.yaml` (Alfonso del Rey Vega)
 - [x] Domini comprat: politbureau.es (Hostinger)
-- [ ] Repositori a GitHub, DNS i Search Console (vegeu DESPLEGAMENT.md)
+- [x] Repositori a GitHub: delreyindustries-ux/politbureau, Pages amb workflow i domini politbureau.es
+- [x] DNS a Hostinger verificat (4 A, 4 AAAA, CNAME de www)
+- [ ] Google Search Console: propietat de domini i enviar sitemap.xml (pas 7 de DESPLEGAMENT.md)
 - [ ] Alta a AdSense, quan el lloc porti setmanes en linia
 - [x] Rutes legals en català (`/ca/avis-legal/`, `/ca/privadesa/`, `/ca/galetes/`)
