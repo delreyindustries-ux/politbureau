@@ -120,6 +120,19 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     escó. Comptar només el llindar posava un partit del 0,9% per davant de
     Soria ¡Ya!, que hi va pel 18,8%.
 
+20. **El servidor del Ministeri no respon des dels runners de GitHub.** La
+    primera publicació automàtica va fallar amb `TimeoutError` als 30 s en les
+    quatre càrregues: `infoelectoral.interior.gob.es` no arriba ni a acceptar la
+    connexió TCP des d'un runner, i des d'una connexió espanyola sí. Els ZIP són
+    de 2023 i no canviaran mai, així que ara **viuen al repositori**
+    (`data/raw/*.zip`, 6,2 MB) i `download()` no toca la xarxa. No els tornis a
+    treure del control de versions.
+21. **Una càrrega real que falla ha d'aturar el `build`.** El `try/except` de
+    `load_real_results` convertia la fallada en una línia de text i el `build`
+    acabava amb «Fet.» i codi 0. Amb quatre errors i zero resultats reals hauria
+    publicat 16.000 pàgines buides si el generador no hagués petat per una altra
+    banda. `run()` ara aixeca `RuntimeError` amb la llista del que ha fallat.
+
 ## Quan surtin partits nous
 
 `ingest` acaba llistant les etiquetes que no ha sabut classificar. Es guarden amb
@@ -173,6 +186,7 @@ un codi provisional `?XXX` — la dada no es perd. Afegir-les a
 - [x] Domini comprat: politbureau.es (Hostinger)
 - [x] Repositori a GitHub: delreyindustries-ux/politbureau, Pages amb workflow i domini politbureau.es
 - [x] DNS a Hostinger verificat (4 A, 4 AAAA, CNAME de www)
+- [x] **El lloc és en línia a https://politbureau.es** des del 29/08/2026, amb HTTPS
 - [ ] Google Search Console: propietat de domini i enviar sitemap.xml (pas 7 de DESPLEGAMENT.md)
 - [ ] Alta a AdSense, quan el lloc porti setmanes en linia
 - [x] Rutes legals en català (`/ca/avis-legal/`, `/ca/privadesa/`, `/ca/galetes/`)
