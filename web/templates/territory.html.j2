@@ -45,6 +45,59 @@
     <p class="warn">{{ t('estimate_warning') | safe }}</p>
   </section>
 
+  {%- if minor_rows %}
+  <section>
+    <details class="minor">
+      <summary>{{ t('other_parties') }} ({{ minor_rows | length }})</summary>
+      <p class="note">{{ t('other_parties_note') }}</p>
+      <table class="results">
+        <thead><tr>
+          <th>{{ t('party') }}</th>
+          <th class="n">{{ t('votes') }}</th>
+          <th class="n">{{ t('share') }}</th>
+          <th class="n">{{ t('today') }}</th>
+        </tr></thead>
+        <tbody>
+        {%- for r in minor_rows %}
+          <tr>
+            <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+            <td class="n">{{ r.votes | thousands if r.votes else '—' }}</td>
+            <td class="n">{{ r.share | pct }}</td>
+            <td class="n">{{ r.now | pct }}</td>
+          </tr>
+        {%- endfor %}
+        </tbody>
+      </table>
+    </details>
+  </section>
+  {%- endif %}
+
+  {%- if no_seat %}
+  <section>
+    <h2>{{ t('no_seat') }}</h2>
+    <p class="note">{{ t('no_seat_note').format(year=baseline_year, count=no_seat.count,
+        votes=no_seat.votes|thousands, share=no_seat.share|pct) }}</p>
+    <table class="results">
+      <thead><tr>
+        <th>{{ t('party') }}</th>
+        <th class="n">{{ t('votes') }}</th>
+        <th class="n">{{ t('share') }}</th>
+        <th class="n">{{ t('today') }}</th>
+      </tr></thead>
+      <tbody>
+      {%- for r in no_seat.rows %}
+        <tr>
+          <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+          <td class="n">{{ r.votes | thousands }}</td>
+          <td class="n">{{ r.share | pct }}</td>
+          <td class="n">{{ r.now | pct }}</td>
+        </tr>
+      {%- endfor %}
+      </tbody>
+    </table>
+  </section>
+  {%- endif %}
+
   {%- if dhondt %}
   <section>
     <h2>{{ t('seats_in_play') }}</h2>

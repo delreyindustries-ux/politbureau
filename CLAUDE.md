@@ -133,6 +133,28 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     publicat 16.000 pàgines buides si el generador no hagués petat per una altra
     banda. `run()` ara aixeca `RuntimeError` amb la llista del que ha fallat.
 
+22. **Un partit d'àmbit no té el seu percentatge estatal al seu territori.**
+    Aliança Catalana amb el 0,97% estatal té el 6,8% a Catalunya, perquè tots
+    aquests vots són a dins i Catalunya és 3,5 de 24,3 milions. Congelar-los al
+    resultat anterior (o donar-los la quota estatal tal qual) els deixava amb
+    **zero escons mentre totes les cases d'enquestes els en donaven entre 1 i
+    5**. Ho resol `build.scope_concentration()`, amb dos comportaments:
+    conservar la geografia anterior escalada (`factor`) quan el partit ja hi
+    tenia vots, o repartir la quota uniformement (`share`) quan no n'hi tenia o
+    quan el factor passa de `MAX_FACTOR`. Aquest segon cas no és opcional:
+    Adelante Andalucía només tenia vots a Cadis el 2023 i conservar-li aquella
+    geografia li donava el 38% de Cadis, el mateix disbarat d'abans.
+23. **La quota d'àmbit s'ha de donar a TOT l'àmbit.** `proportional_swing`
+    recorre els partits del `baseline` del territori, així que un partit amb
+    quota però sense resultat anterior allà no hi apareixia mai. Adelante
+    Andalucía sortia només a Cadis i a les altres set províncies andaluses
+    quedava a zero.
+24. **Cap formació s'amaga.** `area_rows` retorna totes les candidatures amb
+    vots i marca amb `minor` les que no arriben al 0,3%, que van a un bloc
+    desplegable. A la província hi ha a més el bloc de les que no van treure cap
+    escó, amb els vots i el pes conjunt. Filtrar-les d'entrada era publicar
+    mitja graella electoral.
+
 ## Quan surtin partits nous
 
 `ingest` acaba llistant les etiquetes que no ha sabut classificar. Es guarden amb

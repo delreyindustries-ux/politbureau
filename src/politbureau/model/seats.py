@@ -43,28 +43,48 @@ MIN_FACTOR, MAX_FACTOR = 0.2, 5.0
 
 
 def proportional_swing(baseline: dict, national_now: dict, national_before: dict,
-                       report: dict | None = None) -> dict:
+                       report: dict | None = None,
+                       concentrate: dict | None = None) -> dict:
     """Projecta un territori.
 
     `baseline`        -- % real de cada partit en aquell territori a l'ultima eleccio
     `national_before` -- % real de cada partit al conjunt del pais a la mateixa eleccio
     `national_now`    -- % que li donen les enquestes d'avui
+    `concentrate`     -- {partit: factor} per als que tenen ambit declarat
 
     Cada partit es multiplica pel seu factor nacional (ara / abans) i despres es
     reescala el territori perque torni a sumar 100. Si `report` es un diccionari,
     s'hi anoten els partits que s'han hagut de frenar, per poder-ho auditar.
+
+    `concentrate` resol el cas dels partits que neixen o que creixen des de
+    gairebe zero. El swing els deixava congelats al seu resultat anterior (o els
+    donava la quota estatal a pals de cec), i el resultat era que Adelante
+    Andalucia i Alianca Catalana sortien amb ZERO escons quan totes les cases
+    d'enquestes els en donen entre 1 i 5. Un partit amb el 0,9% estatal que
+    nomes es presenta a Catalunya no te el 0,9% a Catalunya: hi te el 0,9%
+    multiplicat per la part d'Espanya que Catalunya representa. El factor el
+    calcula `build.py` a partir dels vots valids reals de cada ambit.
     """
+    concentrate = concentrate or {}
     projected = {}
     for party, before_local in baseline.items():
         now = national_now.get(party)
         before = national_before.get(party)
         if now is None or not before or before < MIN_BASE:
-            # Sense equivalent nacional (regionalistes) o amb una base massa
-            # petita per mesurar-ne el moviment: val mes deixar-lo quiet que
-            # moure'l a cegues.
-            projected[party] = before_local
-            if report is not None and now is not None and before and before < MIN_BASE:
-                report.setdefault("frozen", set()).add(party)
+            k = concentrate.get(party)
+            if k:
+                # Base estatal massa petita per mesurar-ne el moviment, pero
+                # sabem on es presenta: el swing es calcula dins del seu ambit.
+                projected[party] = (before_local * k["factor"] if "factor" in k
+                                    else k["share"])
+                if report is not None:
+                    report.setdefault("concentrat al seu ambit", set()).add(party)
+            else:
+                # Sense equivalent nacional (regionalistes sense enquesta): val
+                # mes deixar-lo quiet que moure'l a cegues.
+                projected[party] = before_local
+                if report is not None and now is not None and before and before < MIN_BASE:
+                    report.setdefault("frozen", set()).add(party)
         else:
             raw = now / before
             factor = min(max(raw, MIN_FACTOR), MAX_FACTOR)
@@ -72,9 +92,20 @@ def proportional_swing(baseline: dict, national_now: dict, national_before: dict
                 report.setdefault("clamped", set()).add(party)
             projected[party] = before_local * factor
 
-    # Partits nous que no existien a l'ultima eleccio en aquell territori.
+    # Partits que no surten al resultat d'aquell territori pero que avui hi
+    # concorren: o be son nous a tot arreu, o be tenen una quota d'ambit que
+    # se'ls ha de donar a TOT l'ambit i no nomes on ja tenien vots. Adelante
+    # Andalucia nomes s'havia presentat a Cadis; si aixo no hi fos, seguiria
+    # sense existir a les altres set provincies andaluses.
     for party, now in national_now.items():
-        if party not in projected and not national_before.get(party):
+        if party in projected:
+            continue
+        k = concentrate.get(party)
+        if k and "share" in k:
+            projected[party] = k["share"]
+            if report is not None:
+                report.setdefault("concentrat al seu ambit", set()).add(party)
+        elif not national_before.get(party):
             projected[party] = now
 
     total = sum(projected.values())

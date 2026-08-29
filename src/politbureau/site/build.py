@@ -138,23 +138,55 @@ def gather(conn) -> dict:
             "seats_proj": seats_proj, "deputies": deputies}
 
 
+MINOR_CUT = 0.3     # per sota d'aixo la formacio va al bloc desplegable
+
+
 def area_rows(data, level, code):
-    """Files de la taula: partit, vots reals, % real, % estimat i diferencia."""
+    """Files de la taula: partit, vots reals, % real, % estimat i diferencia.
+
+    Hi son TOTES les formacions que van rebre vots, tambe les que no van treure
+    cap escó. Les que no arriben al `MINOR_CUT` es marquen amb `minor` perque la
+    pagina les pugui posar en un bloc a part: la taula principal ha de ser
+    llegible, pero amagar-les seria deixar fora la meitat de les candidatures.
+    """
     real = data["real"].get((level, code), {})
     proj = data["proj"].get((level, code), {})
     valid = (data["meta"].get((level, code)) or {}).get("valid_votes") or 0
+    seats_real = (data["seats_real"].get(code) or {}) if level == "province" else {}
+    seats_now = (data["seats_proj"].get(code) or {}) if level == "province" else {}
     rows = []
     for party in set(real) | set(proj):
         votes = real.get(party)
         share = (votes * 100.0 / valid) if (votes and valid) else None
         now = proj.get(party)
-        if (share or 0) < 0.3 and (now or 0) < 0.3:
-            continue
         rows.append({**parties.meta(party, "ES"), "votes": votes, "share": share,
                      "now": now,
+                     "seats": seats_real.get(party, 0),
+                     "seats_now": seats_now.get(party, 0),
+                     "minor": (share or 0) < MINOR_CUT and (now or 0) < MINOR_CUT,
                      "delta": (now - share) if (now is not None and share is not None) else None})
     rows.sort(key=lambda r: -(r["now"] if r["now"] is not None else r["share"] or 0))
     return rows
+
+
+def unrepresented(rows, level, valid_votes):
+    """Les formacions que van rebre vots i cap escó, amb el seu pes conjunt.
+
+    Nomes te sentit a la provincia, que es la circumscripcio: un municipi no
+    escull diputats. A la resta de nivells retorna None i la pagina no ho pinta.
+    """
+    if level != "province":
+        return None
+    losers = [r for r in rows if not r["seats"] and r["votes"]]
+    if not losers:
+        return None
+    votes = sum(r["votes"] for r in losers)
+    return {
+        "rows": sorted(losers, key=lambda r: -r["votes"]),
+        "count": len(losers),
+        "votes": votes,
+        "share": (votes * 100.0 / valid_votes) if valid_votes else None,
+    }
 
 
 def lede_for(data, level, code, rows, lang):

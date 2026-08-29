@@ -169,6 +169,11 @@ def _scopes() -> dict:
             for country, rules in (raw.get("_scope") or {}).items()}
 
 
+def scopes() -> dict:
+    """{pais: {partit: {regions}}} tal com estan declarats a `_scope`."""
+    return _scopes()
+
+
 def stands_in(code: str, country: str, region: str | None) -> bool:
     """Si aquest partit es presenta o no en aquesta regió.
 

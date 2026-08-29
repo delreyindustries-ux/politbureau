@@ -87,6 +87,69 @@ def _region_lookup():
     return region_of
 
 
+def scope_concentration(conn, baseline_election, national_before, national_now):
+    """Com projectar els partits amb ambit territorial declarat a `_scope`.
+
+    El problema: un partit que nomes es presenta a Catalunya i que les enquestes
+    situen al 0,9% ESTATAL no te el 0,9% a Catalunya. Tots aquests vots hi son a
+    dins, i Catalunya son 3,5 dels 24,3 milions de vots valids de l'Estat: el
+    seu percentatge catala es 0,9 x (24,3 / 3,5) = 6,3%. Sense aixo, el swing
+    els deixava congelats al resultat anterior i sortien amb ZERO escons mentre
+    totes les cases d'enquestes els en donaven entre 1 i 5.
+
+    Retorna {partit: {"factor": f}} o {partit: {"share": s}}:
+
+    * `factor` -- el partit ja tenia vots al seu ambit l'ultima vegada. Es
+      multiplica el seu resultat LOCAL per aquest factor, que es el swing
+      calculat dins de l'ambit en comptes de a escala estatal. Aixo conserva la
+      geografia real: Teruel Existe te els vots a Terol i no repartits per
+      l'Aragó, i repartir-li la quota uniformement l'hi destrossaria.
+    * `share`  -- el partit no existia (Alianca Catalana no es va presentar al
+      Congres el 2023). No hi ha geografia que conservar, aixi que se li dona el
+      mateix percentatge a tot l'ambit.
+
+    Nomes s'aplica als partits sense base estatal mesurable (`MIN_BASE`); els
+    que en tenen ja es mouen be amb el swing normal.
+    """
+    valid = dict(conn.execute(
+        "SELECT code, MAX(valid_votes) FROM election_result "
+        "WHERE election = ? AND level = 'region' AND valid_votes IS NOT NULL "
+        "GROUP BY code", (baseline_election,)).fetchall())
+    nation = conn.execute(
+        "SELECT MAX(valid_votes) FROM election_result "
+        "WHERE election = ? AND level = 'national'", (baseline_election,)).fetchone()[0]
+    if not nation or not valid:
+        return {}
+
+    out = {}
+    for party, regions in (parties.scopes().get("ES") or {}).items():
+        now = national_now.get(party)
+        base = national_before.get(party)
+        if now is None or (base and base >= seatlib.MIN_BASE):
+            continue
+        inside = sum(valid.get(str(r), 0) for r in regions)
+        if not inside:
+            continue
+        target = now * nation / inside          # % que li toca dins de l'ambit
+        got = conn.execute(
+            "SELECT SUM(votes) FROM election_result WHERE election = ? "
+            "AND level = 'region' AND party = ? AND code IN "
+            "(%s)" % ",".join("?" * len(regions)),
+            (baseline_election, party, *sorted(regions))).fetchone()[0]
+        before_in_scope = 100.0 * (got or 0) / inside
+        factor = target / before_in_scope if before_in_scope > 0 else None
+        if factor is not None and factor <= seatlib.MAX_FACTOR:
+            out[party] = {"factor": factor}
+        else:
+            # O no existia, o ha crescut tant que la seva geografia anterior ja
+            # no diu res. Adelante Andalucia nomes tenia vots a Cadis el 2023 i
+            # les enquestes li donen tres escons, que exigeixen vots a tota
+            # Andalusia: conservar-li aquella geografia li donaria el 38% de
+            # Cadis, que es exactament el disbarat que aquest modul evita.
+            out[party] = {"share": target}
+    return out
+
+
 def project(conn, election_id, baseline_election,
             levels=("municipality", "province", "region")):
     """Aplica el swing nacional sobre cada territori i desa el resultat."""
@@ -99,6 +162,8 @@ def project(conn, election_id, baseline_election,
     national_before = next(iter(national.values()), {}) if national else {}
     if not national_before:
         return 0
+
+    concentrate = scope_concentration(conn, baseline_election, national_before, national_now)
 
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     total = 0
@@ -113,7 +178,8 @@ def project(conn, election_id, baseline_election,
         region_of = _region_lookup()
         dropped = set()
         for code, before in baseline_shares(conn, baseline_election, level).items():
-            projected = seatlib.proportional_swing(before, national_now, national_before, report)
+            projected = seatlib.proportional_swing(
+                before, national_now, national_before, report, concentrate)
 
             # Un partit nou sense base estatal rebia la seva quota nacional a
             # TOT arreu, i Alianca Catalana acabava sortint a Ceuta i Melilla.

@@ -11,6 +11,7 @@ from markupsafe import Markup
 from .. import parties
 from . import i18n
 from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, WEB, area_rows, deputies_for,
+                    unrepresented,
                     dhondt_for, lede_for, pct, thousands)
 
 
@@ -195,7 +196,10 @@ def territory_pages(env, cfg, data, urls, prov_region):
                 html = render_page(
                     env, cfg, "territory.html.j2", lang, canonical,
                     urls[(level, code)], title, desc, structured,
-                    area=area, rows=rows, level=level,
+                    area=area, rows=[r for r in rows if not r["minor"]],
+                    minor_rows=[r for r in rows if r["minor"]],
+                    no_seat=unrepresented(rows, level, area["valid_votes"]),
+                    level=level,
                     lede=lede_for(data, level, code, rows, lang),
                     baseline_year=BASELINE_YEAR, magnitude=mag,
                     dhondt=dh, deputies=dep,

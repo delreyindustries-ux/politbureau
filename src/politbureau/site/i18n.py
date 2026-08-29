@@ -59,6 +59,20 @@ T = {
     "belongs_to": {"es": "Pertenece a", "ca": "Pertany a"},
     "seats_title": {"es": "Diputados que elige", "ca": "Diputats que elegeix"},
     "seats_in_play": {"es": "Escaños en juego", "ca": "Escons en joc"},
+    "other_parties": {"es": "Resto de candidaturas",
+                      "ca": "Resta de candidatures"},
+    "other_parties_note": {
+        "es": "Formaciones por debajo del 0,3%. Aparecen todas: quedarse solo con "
+              "las grandes es esconder la mitad de las candidaturas presentadas.",
+        "ca": "Formacions per sota del 0,3%. Hi son totes: quedar-se nomes amb les "
+              "grans es amagar la meitat de les candidatures presentades."},
+    "no_seat": {"es": "Candidaturas sin representación",
+                "ca": "Candidatures sense representació"},
+    "no_seat_note": {
+        "es": "Votos que no eligieron a nadie en esta circunscripción en {year}: "
+              "{count} candidaturas, {votes} votos, el {share} del voto válido.",
+        "ca": "Vots que no van triar ningu en aquesta circumscripcio el {year}: "
+              "{count} candidatures, {votes} vots, el {share} del vot valid."},
     "deputies_elected": {"es": "Diputados electos", "ca": "Diputats electes"},
     "with_estimate": {"es": "Con la estimación de hoy", "ca": "Amb l'estimació d'avui"},
     "enters": {"es": "entra", "ca": "entra"},
