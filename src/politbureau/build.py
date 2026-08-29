@@ -230,8 +230,19 @@ def load_real_results(conn):
 
 def run(conn):
     print("1/3  Resultats electorals reals (Ministeri de l'Interior)")
+    fallits = []
     for process, n_munis, n_rows in load_real_results(conn):
         print(f"     {process:<20} {n_munis:>6} municipis  {n_rows} files")
+        if isinstance(n_rows, str) and n_rows.startswith("ERROR"):
+            fallits.append(f"{process}: {n_rows}")
+    if fallits:
+        raise RuntimeError(
+            "Sense resultats reals no hi ha res honest a publicar; aturat.\n  "
+            + "\n  ".join(fallits)
+            + "\nEls ZIP del Ministeri viuen a data/raw/ i van al repositori.\n"
+              "Si en falta cap, baixa'l de "
+              "https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/"
+        )
 
     print("\n2/3  Mitjanes ponderades d'enquestes")
     for eid, scope, n_polls, n_parties in aggregate_all(conn):

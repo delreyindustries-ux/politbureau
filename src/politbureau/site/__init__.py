@@ -63,7 +63,15 @@ def summary_highlights(cfg):
 
 
 def site_stats(conn):
-    q = lambda s, *a: conn.execute(s, a).fetchone()[0]      # noqa: E731
+    def q(s, *a):
+        row = conn.execute(s, a).fetchone()
+        if row is None or row[0] is None:
+            raise RuntimeError(
+                "La base de dades no porta resultats reals, no es pot generar el "
+                "lloc.\n  Consulta sense resposta: " + " ".join(s.split())
+                + "\n  Executa `politbureau build` abans de `politbureau site`."
+            )
+        return row[0]
     return {
         "municipalities": thousands(q(
             "SELECT COUNT(DISTINCT code) FROM election_result "

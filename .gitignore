@@ -1,5 +1,7 @@
 data/politbureau.db*
-data/raw/
+data/raw/*
+!data/raw/*.zip
+!data/raw/FONT.md
 data/geo/
 data/*.pem
 data/refresh.log
