@@ -160,6 +160,13 @@ ES:
     color: '#7A9E3B'
     aliases:
     - espana vaciada
+  CHA:
+    name: Chunta Aragonesista
+    color: '#0066B3'
+    aliases:
+    - cha
+    - chunta aragonesista
+    - chunta
   GBAI:
     name: Geroa Bai
     color: '#3FA34D'
@@ -193,16 +200,17 @@ _contains:
     compromis: SUMAR
 _order:
   ES:
-  - FO
   - PODEMOS
   - SUMAR
   - CUP
+  - CHA
   - ERC
   - BNG
   - EHB
+  - GBAI
+  - NC
   - AA
   - PSOE
-  - GBAI
   - PNV
   - JUNTS
   - PAR
@@ -212,13 +220,13 @@ _order:
   - EV
   - EB
   - PDECAT
-  - NC
   - CC
   - ALIANCA
   - PP
   - UPN
   - VOX
   - SALF
+  - FO
   - PACMA
   - OTHER
 _scope:
@@ -231,6 +239,8 @@ _scope:
     - '12'
     CC:
     - '05'
+    CHA:
+    - '02'
     CUP:
     - 09
     EHB:

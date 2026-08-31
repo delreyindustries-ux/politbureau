@@ -193,6 +193,15 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     sustenta. Si algú converteix això en una xifra única, el producte torna a
     mentir.
 
+31. **L'eix esquerra-dreta de `_order` és una afirmació política, no un
+    detall tècnic.** L'Alfonso el va corregir el 29/08/2026: Frente Obrero **no
+    és d'esquerres** i surt del bloc; Nueva Canarias, Geroa Bai i Chunta
+    Aragonesista **sí que ho són** i hi entren. Aquest ordre no decideix només
+    com s'asseu l'hemicicle: decideix qui entra al botó «tot a l'esquerra del
+    PSOE», i per tant quins escons surten al simulador. No el toquis a ull.
+    FO s'ha col·locat entre SALF i PACMA; és una ubicació provisional, no una
+    afirmació sobre on cau exactament.
+
 ## Quan surtin partits nous
 
 `ingest` acaba llistant les etiquetes que no ha sabut classificar. Es guarden amb
@@ -232,6 +241,8 @@ un codi provisional `?XXX` — la dada no es perd. Afegir-les a
 ## Estat pendent
 
 - [ ] Correcció de biaix per casa enquestadora (cal model bayesià)
+- [ ] Classificar els set partits que surten com a `?XXXX` al selector estatal
+- [ ] `actions/deploy-pages@v4` va amb Node 20, en desús: pujar-ne la versió
 - [x] Llei d'Hondt pròpia amb les magnituds reals (backtest: 348/350 escons de 2023)
 - [x] Mapes d'Itàlia (regions i comuni) i França (régions i comunes)
 - [x] Escons per circumscripció i marge de vots per canviar el repartiment
