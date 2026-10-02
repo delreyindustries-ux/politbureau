@@ -10,6 +10,7 @@ d'una execucio anterior amb enquestes que despres s'han corregit.
 from __future__ import annotations
 
 import datetime as dt
+import json
 
 import yaml
 
@@ -87,7 +88,8 @@ def _region_lookup():
     return region_of
 
 
-def scope_concentration(conn, baseline_election, national_before, national_now):
+def scope_concentration(conn, baseline_election, national_before, national_now,
+                        country="ES"):
     """Com projectar els partits amb ambit territorial declarat a `_scope`.
 
     El problema: un partit que nomes es presenta a Catalunya i que les enquestes
@@ -122,7 +124,7 @@ def scope_concentration(conn, baseline_election, national_before, national_now):
         return {}
 
     out = {}
-    for party, regions in (parties.scopes().get("ES") or {}).items():
+    for party, regions in (parties.scopes().get(country) or {}).items():
         now = national_now.get(party)
         base = national_before.get(party)
         if now is None or (base and base >= seatlib.MIN_BASE):
@@ -151,8 +153,13 @@ def scope_concentration(conn, baseline_election, national_before, national_now):
 
 
 def project(conn, election_id, baseline_election,
-            levels=("municipality", "province", "region")):
-    """Aplica el swing nacional sobre cada territori i desa el resultat."""
+            levels=("municipality", "province", "region"), country="ES"):
+    """Aplica el swing nacional sobre cada territori i desa el resultat.
+
+    `country` no es decoratiu: decideix quines regles d'ambit de partit
+    s'apliquen. Amb "ES" escrit a ma, una eleccio italiana feia servir les
+    regles d'ambit espanyoles.
+    """
     national_now = {p: v["share"] for p, v in
                     agg.aggregate(load_polls(conn, election_id)).items()}
     if not national_now:
@@ -163,7 +170,8 @@ def project(conn, election_id, baseline_election,
     if not national_before:
         return 0
 
-    concentrate = scope_concentration(conn, baseline_election, national_before, national_now)
+    concentrate = scope_concentration(conn, baseline_election, national_before,
+                                      national_now, country)
 
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     total = 0
@@ -175,7 +183,9 @@ def project(conn, election_id, baseline_election,
         conn.execute("DELETE FROM projection WHERE election_id = ? AND level = ?",
                      (election_id, level))
         rows, report = [], {}
-        region_of = _region_lookup()
+        # La taula de pertinenca a comunitat es nomes d'Espanya.
+        region_of = (_region_lookup() if country == "ES"
+                     else (lambda level, code: None))
         dropped = set()
         for code, before in baseline_shares(conn, baseline_election, level).items():
             projected = seatlib.proportional_swing(
@@ -186,7 +196,7 @@ def project(conn, election_id, baseline_election,
             # Els partits amb ambit declarat nomes existeixen dins del seu.
             region = region_of(level, code)
             outside = [p for p in projected
-                       if not parties.stands_in(p, "ES", region)]
+                       if not parties.stands_in(p, country, region)]
             if outside:
                 dropped.update(outside)
                 for p in outside:
@@ -245,6 +255,100 @@ def project_seats(conn, election_id, baseline_election):
     return sum(totals.values())
 
 
+def project_states(conn, election_id):
+    """Els EUA no necessiten cap swing: les enquestes ja son per estat.
+
+    L'unica feina es lligar el nom de l'estat ("Georgia") amb el codi FIPS que
+    fa servir la geometria ("13"), que es el que el mapa sap dibuixar.
+
+    NOMES es pinten els estats amb enquestes. No hi ha resultat de base del
+    qual partir, aixi que un estat sense enquestes queda en blanc: inventar-li
+    un color seria presentar com a dada el que no ho es.
+    """
+    from .geo import fetch as geo
+    fips = {(name or "").lower(): code for code, name in geo.names("US", "state").items()}
+    if not fips:
+        return 0
+
+    now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    rows = []
+    states = conn.execute(
+        """SELECT DISTINCT scope_code FROM poll
+           WHERE election_id = ? AND scope = 'state' AND scope_code IS NOT NULL""",
+        (election_id,)).fetchall()
+    for row in states:
+        name = row["scope_code"]
+        code = fips.get((name or "").lower())
+        if not code:
+            continue
+        result = agg.aggregate(load_polls(conn, election_id, name))
+        # Nomes DEM/REP/IND: qualsevol altra cosa es un candidat que no hem
+        # sabut classificar, i pintar el mapa amb aixo enganyaria.
+        shares = {p: v["share"] for p, v in result.items() if p in ("DEM", "REP", "IND")}
+        if not shares:
+            continue
+        for party, share in agg.normalise(shares).items():
+            rows.append((now, election_id, "state", code, party, round(share, 2)))
+    # Esborrar abans d'inserir (llico 9): l'original feia INSERT OR REPLACE, i un
+    # estat que deixa de tenir enquestes vigents s'hauria quedat pintat.
+    conn.execute("DELETE FROM projection WHERE election_id = ? AND level = 'state'",
+                 (election_id,))
+    conn.executemany(
+        """INSERT INTO projection
+           (computed_at, election_id, level, code, party, share) VALUES (?,?,?,?,?,?)""", rows)
+    conn.commit()
+    return len(rows)
+
+
+def project_seats_proportional(conn, election_id, chamber_seats, threshold=0.03):
+    """Repartiment purament proporcional d'una cambra a escala estatal.
+
+    S'aplica alla on no tenim ni circumscripcions ni projeccions publicades
+    (Italia). NO reprodueix la llei electoral real, i per aixo el grafic ho ha
+    de dir. Serveix per veure l'ordre de magnitud, no per encertar l'escon.
+    """
+    result = agg.aggregate(load_polls(conn, election_id))
+    shares = {p: v["share"] for p, v in result.items() if not p.startswith("?")}
+    if not shares:
+        return 0
+    got = seatlib.dhondt(shares, chamber_seats, threshold)
+    now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    conn.execute("DELETE FROM seat_projection WHERE election_id = ?", (election_id,))
+    conn.executemany(
+        """INSERT INTO seat_projection
+           (computed_at, election_id, level, code, party, seats) VALUES (?,?,?,?,?,?)""",
+        [(now, election_id, "chamber", "", p, n) for p, n in got.items() if n])
+    conn.commit()
+    return sum(got.values())
+
+
+def project_seats_states(conn, election_id):
+    """Cada estat dels EUA elegeix un senador: el mes votat s'emporta l'escon."""
+    rows_in = {}
+    for r in conn.execute(
+            "SELECT code, party, share FROM projection WHERE election_id = ? AND level = 'state'",
+            (election_id,)):
+        rows_in.setdefault(r["code"], {})[r["party"]] = r["share"]
+    if not rows_in:
+        return 0
+    totals: dict[str, int] = {}
+    rows = []
+    now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    for code, shares in rows_in.items():
+        party, _ = seatlib.winner(shares)
+        if not party:
+            continue
+        totals[party] = totals.get(party, 0) + 1
+        rows.append((now, election_id, "state", code, party, 1))
+    rows += [(now, election_id, "chamber", "", p, n) for p, n in totals.items()]
+    conn.execute("DELETE FROM seat_projection WHERE election_id = ?", (election_id,))
+    conn.executemany(
+        """INSERT INTO seat_projection
+           (computed_at, election_id, level, code, party, seats) VALUES (?,?,?,?,?,?)""", rows)
+    conn.commit()
+    return sum(totals.values())
+
+
 def aggregate_all(conn):
     """Mitjana per a cada eleccio i cada ambit territorial que tingui enquestes."""
     conn.execute("DELETE FROM aggregate")
@@ -262,8 +366,57 @@ def aggregate_all(conn):
     return done
 
 
-def load_real_results(conn):
-    """Baixa i desa els resultats reals que serveixen de base al mapa."""
+def load_real_results(conn, countries=("ES",)):
+    """Baixa i desa els resultats reals que serveixen de base al mapa.
+
+    Retorna (proces, pais, n_territoris, files_o_ERROR). Nomes es toquen els
+    paisos demanats: la publicacio de politbureau.es demana nomes "ES", i aixi
+    una caiguda del servidor italia no pot aturar la web espanyola.
+    """
+    out = []
+    if "ES" in countries:
+        out += [(proc, "ES", n, rows) for proc, n, rows in _load_spain(conn)]
+    if "IT" in countries:
+        out.append(_load_italy(conn))
+    if "FR" in countries:
+        out.append(_load_france(conn))
+    return out
+
+
+def _load_italy(conn):
+    from .ingest import italy as it
+    try:
+        matched, missing, rows = it.store(conn, lambda s: parties.resolve(s, "IT")[0])
+        return ("politiche-2022", "IT", matched, f"{rows} files, {missing} comuni sense mapa")
+    except Exception as exc:                           # noqa: BLE001
+        db.log_ingest(conn, "politiche-2022", None, "error", 0, f"{type(exc).__name__}: {exc}")
+        return ("politiche-2022", "IT", 0, f"ERROR {type(exc).__name__}: {exc}")
+
+
+def _load_france(conn):
+    from .geo import fetch as geo
+    from .ingest import france as fr
+    try:
+        # La regio de cada comuna surt de la geometria, no de cap taula a ma.
+        cache = geo.GEO_DIR / "fr-communes-regions.json"
+        if cache.exists():
+            region_of = json.loads(cache.read_text(encoding="utf-8"))
+        else:
+            from .geo import regions as georegions
+            communes = json.loads(geo.level_path("FR", "municipality").read_text(encoding="utf-8"))
+            regs = json.loads(geo.level_path("FR", "region").read_text(encoding="utf-8"))
+            region_of = georegions.assign(communes, regs, "id", "id")
+            cache.write_text(json.dumps(region_of), encoding="utf-8")
+        matched, skipped, rows = fr.store(conn, lambda s: parties.resolve(s, "FR")[0], region_of)
+        return ("presidentielle-2022-t1", "FR", matched,
+                f"{rows} files, {skipped} comunes fora del mapa")
+    except Exception as exc:                           # noqa: BLE001
+        db.log_ingest(conn, "presidentielle-2022-t1", None, "error", 0,
+                      f"{type(exc).__name__}: {exc}")
+        return ("presidentielle-2022-t1", "FR", 0, f"ERROR {type(exc).__name__}: {exc}")
+
+
+def _load_spain(conn):
     from .ingest import infoelectoral as ie
     resolver = lambda s: parties.resolve(s, "ES")[0]      # noqa: E731
     out = []
@@ -294,13 +447,23 @@ def load_real_results(conn):
     return out
 
 
-def run(conn):
-    print("1/3  Resultats electorals reals (Ministeri de l'Interior)")
+def run(conn, countries=None):
+    """Recalcula-ho tot per als paisos demanats (per defecte, tots).
+
+    La regla de la llico 21 es mante: si falla una carrega de resultats reals,
+    el build s'atura. Pero nomes es carrega el que s'ha demanat, aixi que la
+    publicacio de politbureau.es (`--country ES`) no depen mai d'Italia.
+    """
+    cfg = _config()
+    countries = tuple(countries or sorted({e["country"] for e in cfg["elections"]}))
+    print(f"Paisos: {', '.join(countries)}\n")
+
+    print("1/3  Resultats electorals reals")
     fallits = []
-    for process, n_munis, n_rows in load_real_results(conn):
-        print(f"     {process:<20} {n_munis:>6} municipis  {n_rows} files")
+    for process, country, n_areas, n_rows in load_real_results(conn, countries):
+        print(f"     {country} {process:<24} {n_areas:>6} territoris  {n_rows}")
         if isinstance(n_rows, str) and n_rows.startswith("ERROR"):
-            fallits.append(f"{process}: {n_rows}")
+            fallits.append(f"{country} {process}: {n_rows}")
     if fallits:
         raise RuntimeError(
             "Sense resultats reals no hi ha res honest a publicar; aturat.\n  "
@@ -315,24 +478,47 @@ def run(conn):
         print(f"     {eid:<18} {scope:<22} {n_polls:>5} enquestes -> {n_parties} partits")
 
     print("\n3/3  Projeccio territorial")
-    cfg = _config()
     for election in cfg["elections"]:
-        eid = election["id"]
-        if election["country"] == "ES":
-            base = (election.get("baseline") or {}).get("election")
+        eid, country = election["id"], election["country"]
+        if country not in countries:
+            continue
+        base = (election.get("baseline") or {}).get("election")
+        if country == "ES":
             if not base:
                 continue
-            n = project(conn, eid, base, levels=("municipality", "province", "region"))
+            n = project(conn, eid, base, levels=("municipality", "province", "region"),
+                        country="ES")
             if n:
                 print(f"     {eid:<18} {n:>7} files (swing sobre el resultat real)")
+        elif country in ("IT", "FR"):
+            if not base:
+                continue
+            n = project(conn, eid, base, levels=("municipality", "region"), country=country)
+            if n:
+                print(f"     {eid:<18} {n:>7} files (swing sobre el resultat real)")
+        elif country == "US":
+            n = project_states(conn, eid)
+            if n:
+                print(f"     {eid:<18} {n:>7} files (enquestes per estat, sense swing)")
 
     print("\n4/4  Repartiment d'escons")
+    labels = {"dhondt_province": "llei d'Hondt per circumscripcio",
+              "proportional": "proporcional estatal, NO el Rosatellum",
+              "fptp_state": "majoritari per estat"}
     for election in cfg["elections"]:
         chamber = election.get("chamber")
-        if not chamber:
+        if not chamber or election["country"] not in countries:
             continue
-        eid = election["id"]
-        n = project_seats(conn, eid, (election.get("baseline") or {}).get("election"))
+        eid, method = election["id"], chamber.get("method", "dhondt_province")
+        if method == "dhondt_province":
+            n = project_seats(conn, eid, (election.get("baseline") or {}).get("election"))
+        elif method == "proportional":
+            n = project_seats_proportional(conn, eid, chamber["seats"])
+        elif method == "fptp_state":
+            n = project_seats_states(conn, eid)
+        else:
+            n = 0
         if n:
-            print(f"     {eid:<18} {n:>4}/{chamber['seats']} escons (llei d'Hondt per circumscripcio)")
+            total = chamber.get("in_play") or chamber["seats"]
+            print(f"     {eid:<18} {n:>4}/{total} escons ({labels.get(method, method)})")
     print("\nFet.")

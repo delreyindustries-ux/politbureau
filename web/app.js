@@ -22,6 +22,7 @@ const LEVELS = {
   ES: [['municipality', 'Municipis'], ['province', 'Províncies'], ['region', 'Comunitats']],
   US: [['state', 'Estats']],
   IT: [['region', 'Regions'], ['municipality', 'Comuni']],
+  FR: [['region', 'Régions'], ['municipality', 'Comunes']],
 };
 
 /* ------------------------------------------------------------ TopoJSON */
@@ -365,6 +366,19 @@ async function selectElection(id) {
   });
   state.level = (LEVELS[country] || [['municipality']])[0][0];
   state.colourBy = -1;
+
+  // Sense resultat de base (EUA) no hi ha capa real que ensenyar: el boto es
+  // desactiva en lloc de mostrar un mapa buit amb l'etiqueta "Dada real".
+  const realBtn = $('#layer').querySelector('[data-layer="real"]');
+  if (realBtn) {
+    realBtn.disabled = !state.election.baseline;
+    realBtn.title = state.election.baseline ? '' : 'No hi ha resultat de base per a aquesta elecció';
+    if (!state.election.baseline && state.layer === 'real') {
+      state.layer = 'projection';
+      $('#layer').querySelectorAll('button').forEach((x) =>
+        x.classList.toggle('on', x.dataset.layer === 'projection'));
+    }
+  }
   state.view = { k: 0, x: 0, y: 0 };      // reenquadra en canviar de pais
 
   $('#freshness').innerHTML =
@@ -432,14 +446,26 @@ async function loadMap() {
   renderLegend();
   const noParliament = { IT: `A Itàlia aquest mapa <b>no decideix res</b>: la Camera es
       reparteix per circumscripcions plurinominals i districtes uninominals, no per comuni.
-      Serveix per veure on és fort cada partit.` }[country] || '';
+      Serveix per veure on és fort cada partit.`,
+    FR: `A França aquest mapa <b>no decideix res</b>: el president s'elegeix per sufragi
+      directe a tot el país i l'Assemblea per circumscripcions, no per comunes.
+      Serveix per veure on és fort cada candidatura.` }[country] || '';
 
-  $('#mapnote').innerHTML = (state.layer === 'projection'
-    ? `<b>Estimació, no un resultat.</b> Parteix del resultat real de ${state.election.baseline || '—'}
-       a cada territori i hi aplica el desplaçament de vot que marquen les enquestes d'avui.
-       No hi ha enquestes municipals: aquest mapa és un model, no una mesura.`
-    : `<b>Dada real.</b> Escrutini oficial de ${state.election.baseline || '—'}.
-       ${d.n.toLocaleString('ca')} territoris.`) + (noParliament ? ' ' + noParliament : '');
+  if (!state.election.baseline) {
+    // Sense resultat de base: no hi ha swing ni model, nomes la mitjana de les
+    // enquestes de cada estat. Dir "parteix del resultat real de —" era fals.
+    // (Sense `return`: el mapa s'ha de pintar igualment, tres linies mes avall.)
+    $('#mapnote').innerHTML = `<b>Mitjana d'enquestes, no un resultat ni un model.</b>
+      Cada estat mostra la mitjana ponderada de les seves pròpies enquestes. Els estats
+      sense cap enquesta publicada queden <b>en blanc</b>: posar-los color seria inventar-se'l.`;
+  } else {
+    $('#mapnote').innerHTML = (state.layer === 'projection'
+      ? `<b>Estimació, no un resultat.</b> Parteix del resultat real de ${state.election.baseline || '—'}
+         a cada territori i hi aplica el desplaçament de vot que marquen les enquestes d'avui.
+         No hi ha enquestes municipals: aquest mapa és un model, no una mesura.`
+      : `<b>Dada real.</b> Escrutini oficial de ${state.election.baseline || '—'}.
+         ${d.n.toLocaleString('ca')} territoris.`) + (noParliament ? ' ' + noParliament : '');
+  }
 
   $('#loading').hidden = true;
   paint();
@@ -503,7 +529,7 @@ async function loadTrend(id) {
   const d = await api(`/api/trend/${id}`);
   const W = 360, H = 150, P = 22;
   const pts = d.series.flatMap((s) => s.points);
-  if (!pts.length) { $('#trend').innerHTML = '<p class="fine">sense sèrie</p>'; return; }
+  if (!pts.length) { $('#trend').innerHTML = `<p class="fine">${d.note || 'sense sèrie'}</p>`; return; }
   const xs = pts.map((p) => +new Date(p[0])), ys = pts.map((p) => p[1]);
   const x0 = Math.min(...xs), x1 = Math.max(...xs), y1 = Math.max(...ys) * 1.1;
   const X = (t) => P + (+new Date(t) - x0) / (x1 - x0 || 1) * (W - P - 6);

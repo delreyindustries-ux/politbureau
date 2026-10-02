@@ -8,6 +8,22 @@ Es genera com a **lloc estàtic** (16.455 fitxers) i es publica sol cada matí a
 GitHub Actions. Cost d'allotjament: zero. Vegeu [DESPLEGAMENT.md](DESPLEGAMENT.md)
 per posar-lo en línia.
 
+**L'eina local** (`.\pb.ps1 serve`, a http://127.0.0.1:8730) fa a més **Itàlia**
+(generals, comune a comune), **França** (presidencials 2027, comuna a comuna) i
+els **Estats Units** (Senat i governadors 2026, estat per estat). Aquests tres
+països **no** es publiquen a politbureau.es: la publicació treballa amb
+`--country ES`. Per posar-los al dia en local:
+
+```powershell
+.\pb.ps1 geo --only US IT FR      # una sola vegada: ~50 MB de geometries
+.\pb.ps1 ingest                   # tots els paisos
+.\pb.ps1 build                    # tots els paisos
+.\pb.ps1 serve
+```
+
+Als EUA no hi ha resultat de base: el mapa és la mitjana d'enquestes de cada estat,
+i els estats sense enquestes queden en blanc.
+
 ---
 
 ## Què fa i què no fa

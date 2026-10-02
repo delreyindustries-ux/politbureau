@@ -45,17 +45,20 @@ jobs:
         run: |
           export PYTHONPATH=src
           python -m politbureau init
-          python -m politbureau geo
+          # politbureau.es es nomes Espanya. Italia, Franca i els EUA viuen a
+          # l'eina local: aqui no es baixen les seves geometries (50 MB) ni es
+          # rasquen les seves enquestes, i una fallada seva no atura la web.
+          python -m politbureau geo --only ES
 
       - name: Llegeix les enquestes noves
         run: |
           export PYTHONPATH=src
-          python -m politbureau ingest
+          python -m politbureau ingest --country ES
 
       - name: Recalcula i genera el lloc
         run: |
           export PYTHONPATH=src
-          python -m politbureau build
+          python -m politbureau build --country ES
           python -m politbureau site
 
       # Si el lloc te enllacos trencats, titols duplicats o adreces al sitemap

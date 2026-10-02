@@ -13,11 +13,21 @@ def cmd_init(args):
     print(f"Base de dades preparada a {db.DB_PATH}")
 
 
+def _elections_of(countries):
+    """Els id de sources.yaml que pertanyen a aquests paisos."""
+    from .ingest.runner import load_config
+    wanted = {c.upper() for c in countries}
+    return [e["id"] for e in load_config()["elections"] if e["country"] in wanted]
+
+
 def cmd_ingest(args):
     from .ingest import runner
     conn = db.connect()
     db.init(conn)
-    summary, unmapped = runner.run(conn, only=args.only)
+    only = list(args.only or [])
+    if args.country:
+        only += _elections_of(args.country)
+    summary, unmapped = runner.run(conn, only=only or None)
     total = sum(n for _, _, n in summary)
     print(f"\n{'ELECCIO':<18} {'PAGINA':<58} {'NOVES':>6}")
     print("-" * 84)
@@ -36,7 +46,7 @@ def cmd_build(args):
     from . import build
     conn = db.connect()
     db.init(conn)
-    build.run(conn)
+    build.run(conn, countries=[c.upper() for c in args.country] if args.country else None)
 
 
 def cmd_geo(args):
@@ -84,13 +94,17 @@ def main(argv=None):
 
     p = sub.add_parser("ingest", help="baixa i guarda les enquestes")
     p.add_argument("--only", nargs="*", help="nomes aquestes eleccions (id de sources.yaml)")
+    p.add_argument("--country", nargs="*", help="nomes aquests paisos (ES FR IT US)")
     p.set_defaults(func=cmd_ingest)
 
     p = sub.add_parser("geo", help="baixa les geometries dels mapes")
     p.add_argument("--only", nargs="*", help="nomes aquests paisos (ES FR IT US)")
     p.set_defaults(func=cmd_geo)
 
-    sub.add_parser("build", help="calcula mitjanes i projeccions").set_defaults(func=cmd_build)
+    p = sub.add_parser("build", help="calcula mitjanes i projeccions")
+    p.add_argument("--country", nargs="*",
+                   help="nomes aquests paisos (ES FR IT US); la publicacio fa servir ES")
+    p.set_defaults(func=cmd_build)
     sub.add_parser("status", help="que hi ha a la base de dades").set_defaults(func=cmd_status)
 
     p = sub.add_parser("site", help="genera el lloc public estatic a dist/")

@@ -30,6 +30,9 @@ DEFAULT_SECTIONS = (
     "statewide polling",
     "general election polling",
     "party vote",        # aixi es diu la seccio a la Wikipedia italiana
+    "first round",       # presidencials franceses: la pagina ara les parteix per
+                         # dates ("Since September 2026 > First round") i sense
+                         # aixo NO es llegia cap enquesta real de primera volta.
 )
 
 # Seccions que caldria excloure encara que la cadena de titols contingui un terme
@@ -44,9 +47,18 @@ DENIED_SECTIONS = (
     "approval",
     "seat projection",
     "primary",          # primaries dels EUA: hi competeixen candidats del mateix partit
+    "convention",       # "Democratic nominating convention" (Maine): una primaria amb un
+                        # altre nom. Sis democrates a la mateixa taula; si es colessin, l'estat
+                        # sortiria 100% d'un partit.
     "runoff",
     "aggregation",      # mitjanes d'altri: incloure-les seria comptar dues vegades
     "approval rating",
+    # Presidencials franceses: el 02/10/2026 les 98 enquestes que es llegien eren
+    # TOTES hipotetiques: exploracions d'escenaris d'una sola casa, reedicions del
+    # 2022 amb Macron (que no es pot tornar a presentar) i duels de segona volta.
+    "scenario",
+    "re-run",
+    "second round",
 )
 
 MONTHS = {m.lower(): i for i, m in enumerate(
@@ -245,8 +257,29 @@ def poll_tables(soup, allowed=DEFAULT_SECTIONS, denied=DENIED_SECTIONS):
             continue
         if denied and any(d in section for d in denied):
             continue
+        # Les mitjanes d'altres agregadors (RealClearPolitics, 270toWin...) surten
+        # DINS de la seccio "General election", aixi que el filtre per seccio no
+        # les veu. Es reconeixen per la primera capcalera. Incloure-les seria
+        # comptar les mateixes enquestes dues vegades (llico 7).
+        first = table.find("th")
+        if first and "aggregat" in first.get_text(" ", strip=True).lower():
+            continue
         year = next((int(h) for h in chain if re.fullmatch(r"(?:19|20)\d{2}", h.strip())), None)
         yield table, section, year
+
+
+def _span(value, limit=200):
+    """Valor de rowspan/colspan tolerant amb l'HTML mal escrit.
+
+    Wikipedia l'escriu a ma i de vegades malament: el 02/10/2026 una taula
+    d'enquestes d'un estat americà portava `rowspan="2""`, amb una cometa de
+    mes, i `int('2"')` va fer petar TOTA la descarrega, no nomes aquella taula.
+    Aquest lector es el mateix de les enquestes espanyoles, aixi que el dia que
+    passes amb una taula espanyola, la publicacio de cada mati cauria igual.
+    Es llegeixen els digits del davant i es posa un sostre per si de cas.
+    """
+    m = re.match(r"\s*(\d+)", str(value or ""))
+    return min(max(int(m.group(1)), 1), limit) if m else 1
 
 
 def grid(table):
@@ -263,8 +296,8 @@ def grid(table):
         for cell in tr.find_all(["td", "th"], recursive=False):
             while col < len(matrix[r]) and matrix[r][col] is not None:
                 col += 1
-            rowspan = int(cell.get("rowspan") or 1)
-            colspan = int(cell.get("colspan") or 1)
+            rowspan = _span(cell.get("rowspan"))
+            colspan = _span(cell.get("colspan"))
             for dr in range(rowspan):
                 if r + dr >= len(matrix):
                     break
@@ -383,12 +416,26 @@ def parse_table(table, country, anchor_year):
               if i not in party_cols and i not in (date_col, sample_col, turnout_col)), 0),
     )
 
+    # Vot per ordre de preferencia (Alaska, Maine): cada enquesta surt en tantes
+    # files com rondes. Comptar-les totes seria comptar la mateixa enquesta tres
+    # vegades, i les rondes 2 i 3 ja no son suport sino vots redistribuits. Es
+    # queda la primera, que es la intencio de vot de sortida.
+    round_col = next((i for i, h in enumerate(header_text)
+                      if re.search(r"\b(rcv )?round\b", h)), None)
+    if round_col is not None:
+        party_cols = {c: p for c, p in party_cols.items() if c != round_col}
+
     polls = []
     year, previous_end = anchor_year, None
 
     for cells in data_rows:
         if len(cells) < 4:                     # separadors i files d'esdeveniments
             continue
+        if round_col is not None and round_col < len(cells):
+            # NOMES la ronda 1. Hi ha files marcades "BA" i altres etiquetes que
+            # no son cap numero: deixar-les passar duplicava el mateix sondeig.
+            if not re.match(r"\s*1\s*$", cell_text(cells[round_col])):
+                continue
         raw = cell_text(cells[pollster_col]) if len(cells) > pollster_col else ""
         if not raw:
             continue
@@ -421,12 +468,30 @@ def parse_table(table, country, anchor_year):
                          if sample_col is not None and len(cells) > sample_col else None),
             turnout=turnout,
         )
+        seen_cells = set()
         for col, code in party_cols.items():
             if col >= len(cells):
                 continue
+            # grid() replica una cel.la amb colspan a totes les columnes que
+            # ocupa. Amb la suma de sota, una cel.la de dues columnes es
+            # comptaria dues vegades amb ella mateixa: cada cel.la, un sol cop.
+            if id(cells[col]) in seen_cells:
+                continue
+            seen_cells.add(id(cells[col]))
             share, lo, hi = parse_cell(cell_text(cells[col]))
-            if share is not None:
-                poll.results[code] = (share, lo, hi)
+            if share is None:
+                continue
+            # Dos candidats del mateix partit a la mateixa enquesta se SUMEN.
+            # Abans l'ultim sobreescrivia l'anterior: a Alaska, on la primaria
+            # oberta deixa diversos republicans a la general, el senador Dan S.
+            # Sullivan (46%) quedava tapat pel 2% d'un homonim, Dan J. Sullivan,
+            # i el model llegia "republicans 4%" en un estat republica.
+            if code in poll.results:
+                s0, lo0, hi0 = poll.results[code]
+                share = s0 + share
+                lo = (lo0 or 0) + (lo or 0) if (lo0 is not None or lo is not None) else None
+                hi = (hi0 or 0) + (hi or 0) if (hi0 is not None or hi is not None) else None
+            poll.results[code] = (share, lo, hi)
         if poll.results:
             polls.append(poll)
     return polls, unknown

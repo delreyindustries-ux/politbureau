@@ -40,6 +40,9 @@ _NON_PARTY_SUBSTRINGS = (
     "commissioner", "updated", "question", "scenario", "mark",
     # CDX/CSX son coalicions italianes: sumen partits que ja comptem per separat.
     "cdx", "csx", "coalition", "centre-right", "centre-left",
+    # Columnes de les enquestes dels EUA que no son cap candidat.
+    # "Generic Opponent" arriba com a "opponent": resolve() treu "generic " abans.
+    "rcv round", "opponent", "someone else", "not ranked",
 )
 
 # Als EUA la capçalera és el nom del candidat amb el partit entre parèntesis.

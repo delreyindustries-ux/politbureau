@@ -27,11 +27,21 @@ ES:
   SUMAR:
     name: Sumar
     color: '#E01B4C'
+    # Frente Amplio es la marca electoral amb que IU, Movimiento Sumar, Mes
+    # Madrid i Catalunya en Comu es presentaran a les generals del 2027: els
+    # mateixos quatre que el 2023 anaven dins de Sumar. Per tant la seva base
+    # real es la de Sumar, i han de resoldre al MATEIX codi. Si no, el dia que
+    # una casa publiqui "Frente Amplio" entraria com a partit nou sense cap
+    # resultat del 2023 al darrere, perdriem la continuitat de la serie i el
+    # model li aplicaria el tracte dels partits sense base.
+    # Compte: Podemos NO hi es, i ja va a part amb codi propi.
     aliases:
     - sumar
     - smr
     - sumar-iu
     - movimiento sumar
+    - frente amplio
+    - un paso al frente
   PODEMOS:
     name: Podemos
     color: '#683064'
@@ -107,11 +117,6 @@ ES:
     - alianca.cat
     - aliança.cat
     - alianca
-  UPAF:
-    name: Un Paso al Frente
-    color: '#7B3FA0'
-    aliases:
-    - un paso al frente
   PACMA:
     name: PACMA
     color: '#ADBE18'
@@ -192,12 +197,122 @@ ES:
     - otros
     - altres
     - other
+# ---------------------------------------------------------------- ALTRES PAISOS
+# Nomes per a l'eina LOCAL (pb.ps1 serve). politbureau.es segueix sent nomes
+# Espanya. Restaurat el 02/10/2026 a peticio de l'Alfonso.
+
+FR:
+  RN:     {name: "RN",              color: "#143C8C", aliases: [rn, "rassemblement national", lepen, bardella]}
+  LFI:    {name: "LFI",             color: "#CC2443", aliases: [lfi, "la france insoumise", melenchon]}
+  PS:     {name: "PS",              color: "#FF8080", aliases: [ps, "parti socialiste"]}
+  ENS:    {name: "Ensemble",        color: "#FFEB00", aliases: [ens, ensemble, renaissance, re, lrem, macron]}
+  LR:     {name: "LR",              color: "#0066CC", aliases: [lr, "les republicains"]}
+  EELV:   {name: "Les Écologistes", color: "#00C000", aliases: [eelv, "les ecologistes", verts]}
+  REC:    {name: "Reconquête",      color: "#404040", aliases: [rec, "reconquete", zemmour]}
+  PCF:    {name: "PCF",             color: "#DD0000", aliases: [pcf]}
+  OTHER:  {name: "Autres",          color: "#9E9E9E", aliases: [others, autres, "other"]}
+
+IT:
+  FDI:    {name: "FdI",             color: "#0F4C81", aliases: [fdi, "fratelli d'italia", "fratelli ditalia", "brothers of italy"]}
+  PD:     {name: "PD",              color: "#EF3E3E", aliases: [pd, "partito democratico", "democratic party (italy)", "democratic party"]}
+  M5S:    {name: "M5S",             color: "#FFEB3B", aliases: [m5s, "movimento 5 stelle", "five star movement"]}
+  LEGA:   {name: "Lega",            color: "#009EE0", aliases: [lega, "lega nord", ln]}
+  FI:     {name: "Forza Italia",    color: "#0088CE", aliases: [fi, "forza italia"]}
+  AVS:    {name: "AVS",             color: "#DE7C00", aliases: [avs, "alleanza verdi e sinistra", "verdi-si", "greens and left alliance"]}
+  AZ:     {name: "Azione",          color: "#A0CFEB", aliases: [az, azione, action, "action (italian political party)", "action - italia viva", "action – italia viva"]}
+  IV:     {name: "Italia Viva",     color: "#E5007D", aliases: [iv, "italia viva"]}
+  SVP:    {name: "SVP (Sudtirol)",  color: "#00A651", aliases: [svp, "sudtiroler volkspartei", "svp - patt"]}
+  NM:     {name: "Noi Moderati",    color: "#4FA3D1", aliases: [nm, "noi moderati", "us moderates"]}
+  # Futuro Nazionale: extrema dreta, fundat el febrer del 2026 per Roberto
+  # Vannacci en sortir de la Lega. Sense resultat del 2022: el model li dona la
+  # seva quota estatal a tot arreu, com a qualsevol partit nou.
+  FN:     {name: "Futuro Nazionale", color: "#8B6F47", aliases: [fn, fnv, "futuro nazionale", "national future"]}
+  # Partito Liberale Democratico: liberal, de centre. Tambe nou.
+  PLD:    {name: "PLD",             color: "#5DA9E9", aliases: [pld, "partito liberale democratico", "liberal democratic party (italy)", "liberal democratic party"]}
+  ITX:    {name: "Italexit",        color: "#5E4B8B", aliases: [italexit, "italexit per l'italia"]}
+  UP:     {name: "Unione Popolare", color: "#B5175A", aliases: ["unione popolare", "people's union (italy)", "people's union"]}
+  ISP:    {name: "Italia Sovrana",  color: "#7A6A55", aliases: ["italia sovrana e popolare", "sovereign and popular italy"]}
+  SCN:    {name: "Sud chiama Nord", color: "#E08A2E", aliases: ["sud chiama nord", "south calls north"]}
+  PIU:    {name: "+Europa",         color: "#FFD700", aliases: ["+eu", "+europa", pe, "more europe"]}
+  OTHER:  {name: "Altri",           color: "#9E9E9E", aliases: [others, altri, "other", "freedom (electoral list)", "popular alternative", "peace land dignity", "sovereign popular democracy", "united states of europe (electoral list)"]}
+
+US:
+  DEM:    {name: "Democrat",        color: "#3B7DD8", aliases: [dem, "d", democratic, democrat]}
+  REP:    {name: "Republican",      color: "#CC2222", aliases: [rep, "r", republican, gop]}
+  IND:    {name: "Independent",     color: "#9E9E9E", aliases: [ind, "i", independent, other, others]}
+
+# Enquestes fetes per candidat i no per sigla (Franca presidencials).
+# Ampliable: afegir-hi noms nous a mesura que apareguin a les enquestes.
+_candidates:
+  FR:
+    "Jordan Bardella": RN
+    "Marine Le Pen": RN
+    "Edouard Philippe": ENS
+    "Gabriel Attal": ENS
+    "Emmanuel Macron": ENS
+    "Elisabeth Borne": ENS
+    "Gerald Darmanin": ENS
+    "Jean-Luc Melenchon": LFI
+    "Francois Ruffin": LFI
+    "Manon Aubry": LFI
+    "Raphael Glucksmann": PS
+    "Anne Hidalgo": PS
+    "Olivier Faure": PS
+    "Bernard Cazeneuve": PS
+    "Bruno Retailleau": LR
+    "Laurent Wauquiez": LR
+    "Xavier Bertrand": LR
+    "Valerie Pecresse": LR
+    "Marion Marechal": REC
+    "Eric Zemmour": REC
+    "Fabien Roussel": PCF
+    "Marine Tondelier": EELV
+    "Yannick Jadot": EELV
+    "Sandrine Rousseau": EELV
+    "Dominique de Villepin": OTHER
+    "Cyril Hanouna": OTHER
+    "Philippe Poutou": OTHER
+    "Nathalie Arthaud": OTHER
+    "Jean Lassalle": OTHER
+    "Nicolas Dupont-Aignan": OTHER
+    "Francois Hollande": PS
+    "Francois Bayrou": ENS
+    "Sarah Knafo": REC
+    "Philippe de Villiers": OTHER
+    "Michel-Edouard Leclerc": OTHER
+    "Patrick Sebastien": OTHER
+    # Comprovats a la fitxa de Wikipedia de cadascun el 02/10/2026.
+    "Segolene Royal": PS
+    "Jerome Guedj": PS
+    "Karim Bouamrane": PS
+    "Carole Delga": PS
+    "Bruno Le Maire": ENS
+    "Yael Braun-Pivet": ENS
+    "Michel Barnier": LR
+    "David Lisnard": OTHER          # Nouvelle Energie (2021-), no LR
+    "Jean Castex": OTHER            # independent des del 2020
+    "Emmanuel Maurel": OTHER        # Gauche republicaine et socialiste
+
+
 _contains:
+  # Els noms de llista italians son llargs i variables.
+  IT:
+    "fratelli d'italia": FDI
+    "partito democratico": PD
+    "movimento 5 stelle": M5S
+    "lega per salvini": LEGA
+    "forza italia": FI
+    "azione": AZ
+    "alleanza verdi e sinistra": AVS
+    "noi moderati": NM
   ES:
     psoe: PSOE
     sumar: SUMAR
     podemos: PODEMOS
     compromis: SUMAR
+    # Per capcaleres del tipus "Frente Amplio (Sumar-IU-Mas Madrid-Comuns)".
+    frente amplio: SUMAR
+    paso al frente: SUMAR
 _order:
   ES:
   - PODEMOS
@@ -229,6 +344,9 @@ _order:
   - FO
   - PACMA
   - OTHER
+  IT: [UP, AVS, M5S, PD, IV, AZ, PIU, PLD, SVP, NM, FI, LEGA, SCN, FDI, FN, ITX, ISP, OTHER]
+  FR: [PCF, LFI, EELV, PS, ENS, LR, REC, RN, OTHER]
+  US: [DEM, IND, REP]
 _scope:
   ES:
     AA:

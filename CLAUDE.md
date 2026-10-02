@@ -8,8 +8,17 @@ Una **web pública** de resultats electorals i estimació de vot per als 8.131
 municipis d'Espanya, que es finança amb publicitat. Es genera com a lloc estàtic
 i es publica amb GitHub Actions.
 
-Només Espanya: Itàlia, França i els Estats Units es van eliminar el 23/08/2026 a
-petició de l'Alfonso, en convertir el projecte en web pública.
+**Dues coses diferents amb el mateix codi:**
+
+| | Abast | Com s'executa |
+| --- | --- | --- |
+| **politbureau.es** | **Només Espanya** | GitHub Actions, cada matí: `geo --only ES`, `ingest --country ES`, `build --country ES` |
+| **Eina local** | Espanya, Itàlia, França i EUA | `pb.ps1 serve` al PC de l'Alfonso |
+
+Itàlia, França i els EUA es van eliminar el 23/08/2026 en convertir el projecte en
+web pública, i es van **restaurar el 02/10/2026 només per a l'eina local**, a
+petició de l'Alfonso. Si algun dia s'han de publicar, és una decisió seva: afecta
+l'enfocament SEO i el risc de *scaled content abuse* davant d'AdSense.
 
 Llegeix [DESPLEGAMENT.md](DESPLEGAMENT.md) abans de tocar res que afecti la
 publicació.
@@ -201,6 +210,96 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     PSOE», i per tant quins escons surten al simulador. No el toquis a ull.
     FO s'ha col·locat entre SALF i PACMA; és una ubicació provisional, no una
     afirmació sobre on cau exactament.
+
+32. **Frente Amplio és Sumar, no un partit nou.** És la marca amb què
+    Izquierda Unida, Movimiento Sumar, Més Madrid i Catalunya en Comú es
+    presentaran a les generals del 2027: els mateixos quatre que el 2023 anaven
+    dins de Sumar, i per tant **la seva base real és la de Sumar**. Els àlies
+    `frente amplio` i `un paso al frente` resolen a `SUMAR`, i hi ha les regles
+    per contingut per a capçaleres com «Frente Amplio (Sumar-IU-Más Madrid-
+    Comuns)». Si entrés com a codi propi, perdríem la continuïtat de la sèrie i
+    el model li aplicaria el tracte dels partits sense base del 2023.
+    **Podemos no hi és** i continua amb codi propi: no té resultat separat del
+    2023 perquè anava dins de Sumar, i el model ja el tracta com a partit nou.
+    Hi havia una entrada `UPAF` («Un Paso al Frente») com a partit a part, amb
+    zero dades a totes les taules: era el mateix projecte amb el nom provisional
+    i s'ha eliminat. A 02/10/2026 cap enquesta no fa servir encara la marca
+    nova: la pàgina de Wikipedia diu «Sumar» a les 745 aparicions.
+
+33. **Un país de fora no pot aturar politbureau.es.** La publicació crida
+    `geo --only ES`, `ingest --country ES` i `build --country ES`. Sense aquests
+    filtres baixaria cada matí 50 MB de geometries, rascaria ~77 pàgines més de
+    Wikipedia (amb el risc dels 429) i, per la llicó 21, una caiguda del servidor
+    italià aturaria la web espanyola. `load_real_results()` només carrega els
+    països demanats. **No treguis els filtres del workflow.**
+34. **El codi d'Itàlia i França es va reconstruir de la transcripció i és
+    idèntic a l'original.** El repositori es va crear dos dies després
+    d'esborrar-lo i no era a git. `france.py` i `italy.py` es van refer
+    reproduint l'escriptura i l'edició originals, i compilen **byte a byte** al
+    mateix bytecode que havia quedat orfe a `__pycache__`. Els Estats Units no
+    tenien mòdul d'ingest: les enquestes ja són per estat.
+35. **Els patrons de descoberta originals perdien estats i n'agafaven de més.**
+    El del Senat no trobava les **eleccions especials** d'Ohio i Florida (les
+    dimissions de Vance i Rubio): 33 de 35. El dels governadors agafava també els
+    **vicegovernadors**: 49 pàgines en comptes de 39 (36 estats + 3 territoris).
+    Comprovat contra Wikipedia el 02/10/2026. Si l'any vinent hi ha cap elecció
+    especial, mira-ho abans de fiar-te del patró.
+36. **Els EUA no tenen resultat de base, i el mapa ho ha de dir.** Hi ha només la
+    mitjana d'enquestes de cada estat: ni swing ni model. Els estats sense cap
+    enquesta queden **en blanc**. La capa «Resultat real» es desactiva, i el
+    cartell ja no diu «parteix del resultat real de —», que era fals. Si mai s'hi
+    afegeix un resultat de base (presidencials 2024 per estat), aquesta llicó
+    canvia.
+
+37. **Una sola cel·la mal escrita feia petar tota la descàrrega.** Una taula
+    d'un estat americà portava `rowspan="2""` i `int('2"')` va aturar l'ingest
+    sencer. El lector de taules és **el mateix de les enquestes espanyoles**: el
+    dia que passés amb una taula espanyola, la publicació de cada matí cauria.
+    Ara `_span()` llegeix els dígits del davant, i `read_page()` aïlla cada taula:
+    si una falla, es perd aquella taula, es registra a `ingest_log` i surt un
+    `AVIS` a la sortida. Verificat: Espanya llegeix les mateixes 549 enquestes
+    amb el codi vell i el nou, resultat idèntic.
+38. **Els agregadors es colaven per dins de «General election».** A les pàgines
+    dels EUA, les mitjanes de RealClearPolitics i companyia són taules dins de la
+    secció bona, encapçalades «Source of poll aggregation». El filtre per secció
+    no les veia i les comptava com a enquestes: **les mateixes enquestes dues
+    vegades** (llicó 7). Ara `poll_tables()` les descarta per la primera capçalera.
+    I la «Democratic nominating convention» de Maine és una primària amb un altre
+    nom: sis demòcrates a la mateixa taula. S'ha afegit `convention` als exclosos.
+    Verificat que Espanya, Itàlia i França llegeixen exactament el mateix.
+
+39. **Dos candidats del mateix partit a la mateixa enquesta se SUMEN.** El
+    lector feia `poll.results[code] = ...` i l'últim sobreescrivia l'anterior.
+    Ho va destapar Alaska: amb la primària oberta hi ha diversos republicans a la
+    general, i el 2% d'un homònim (Dan J. Sullivan) tapava el 46% del senador
+    (Dan S. Sullivan): el model llegia «republicans 4%» en un estat republicà.
+    Però l'error era a l'original des del principi: a França perdia candidats
+    menors i escollia a l'atzar entre Attal i Philippe quan es provaven junts.
+    **La prova que és correcte: les files sumen el 100%.** França passa de 96,3%
+    a 99,9%. Espanya, zero diferències.
+40. **Una cel·la amb `colspan` compta un sol cop.** `grid()` la replica a totes
+    les columnes que ocupa. A Itàlia, quan Azione i Italia Viva anaven en llista
+    conjunta, una xifra ocupava dues columnes i el codi vell la donava **sencera
+    a tots dos partits**: 121 enquestes sumaven un 107,7%. Ara 100,0%.
+41. **De les enquestes per rondes, només la ronda 1.** Alaska vota per ordre de
+    preferència i cada sondeig surt en tantes files com rondes (i alguna «BA»).
+    Comptar-les totes era comptar el mateix sondeig tres o quatre vegades.
+
+42. **França es construïa NOMÉS amb enquestes hipotètiques.** La pàgina de les
+    presidencials ara parteix les taules per dates («Since September 2026 ›
+    First round»), i com que cap títol deia «polling», el filtre descartava
+    **totes** les enquestes reals de primera volta. Les 98 que entraven eren de
+    subseccions «scenario polling»: exploracions d'escenaris d'una sola casa,
+    **reedicions del 2022 amb Macron**, que no es pot tornar a presentar, i fins
+    i tot duels de segona volta. Ara s'accepta «first round» i s'exclouen
+    «scenario», «re-run» i «second round»: 177 enquestes reals, la més recent
+    del 29/09/2026. Espanya: contingut idèntic.
+43. **Wikipedia posa els noms dels partits italians en anglès.** «Brothers of
+    Italy», «Democratic Party (Italy)», «Five Star Movement»: el catàleg només
+    tenia els noms italians, i FdI, el PD i el M5S quedaven **sense classificar**.
+    El mapa italià només hauria pintat la Lega, Forza Italia i Italia Viva. Hi ha
+    dos partits nous del 2026: **Futuro Nazionale** (Vannacci, escindit de la
+    Lega) i el **Partito Liberale Democratico**, comprovats a Wikipedia.
 
 ## Quan surtin partits nous
 

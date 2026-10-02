@@ -68,8 +68,18 @@ def read_page(conn, session, election_id, country, scope, page_name,
     soup = BeautifulSoup(page["html"], "lxml")
     this_year = dt.date.today().year
     polls, unknown = [], set()
-    for table, _section, year in wk.poll_tables(soup):
-        got, unk = wk.parse_table(table, country, year or this_year)
+    for i, (table, _section, year) in enumerate(wk.poll_tables(soup)):
+        # La mateixa regla que per a una pagina caiguda, aplicada a cada taula:
+        # una taula mal formada fa perdre aquella taula, no la pagina ni la resta
+        # de la descarrega. El 02/10/2026 un `rowspan="2""` d'un estat americà
+        # va fer petar l'ingest sencer, governadors inclosos.
+        try:
+            got, unk = wk.parse_table(table, country, year or this_year)
+        except Exception as exc:                  # noqa: BLE001
+            msg = f"taula {i}: {type(exc).__name__}: {exc}"
+            db.log_ingest(conn, election_id, page["url"], "error", 0, msg)
+            print(f"   AVIS {election_id} {page_name}: {msg}", flush=True)
+            continue
         polls += got
         unknown.update(unk)
     n = store(conn, election_id, country, scope, scope_code, scope_name, page, polls)

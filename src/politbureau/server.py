@@ -181,12 +181,22 @@ def create_app():
     def api_trend(election_id):
         """Serie temporal per partit: mitjana movil setmanal dels darrers 2 anys."""
         conn = db.connect()
-        country = elections.get(election_id, {}).get("country", "ES")
+        meta = elections.get(election_id, {})
+        country = meta.get("country", "ES")
+        # Nomes enquestes d'ambit estatal, igual que el resum. Una mitjana
+        # setmanal d'enquestes del Senat americà de TOTS els estats barrejava
+        # curses diferents: la linia dels independents saltava del 5% al 45%
+        # segons si aquella setmana hi havia enquestes de Nebraska.
+        if meta.get("scope") == "state":
+            return jsonify({"series": [], "note": "Cada estat té la seva pròpia elecció: "
+                            "una mitjana de tots junts no voldria dir res. "
+                            "Mira els estats al mapa o a la pestanya Territori."})
         rows = conn.execute(
             """SELECT strftime('%Y-%W', p.fieldwork_end) wk,
                       MIN(p.fieldwork_end) day, r.party, AVG(r.share) share, COUNT(*) n
                FROM poll p JOIN poll_result r ON r.poll_id = p.id
                WHERE p.election_id = ? AND p.fieldwork_end >= date('now', '-730 days')
+                 AND (p.scope_code IS NULL OR p.scope_code = '')
                GROUP BY wk, r.party HAVING n >= 1 ORDER BY day""", (election_id,)).fetchall()
         series: dict[str, list] = {}
         for r in rows:

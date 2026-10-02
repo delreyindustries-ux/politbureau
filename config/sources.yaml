@@ -54,6 +54,67 @@ elections:
     optional: true
 
 
+  # ======================================================================
+  # FORA D'ESPANYA — nomes eina local (pb.ps1 serve), NO a politbureau.es.
+  # La publicacio fa `--country ES` i aquestes entrades no hi entren.
+  # Restaurades el 02/10/2026 a peticio de l'Alfonso.
+  # ======================================================================
+
+  # ---------- FRANÇA ----------
+  - id: fr-pres-2027
+    country: FR
+    label: "França — Presidencials 2027 (1a volta)"
+    scope: national
+    page: "Opinion_polling_for_the_2027_French_presidential_election"
+    baseline: {election: "presidentielle-2022-t1", date: "2022-04-10"}
+
+  # ---------- ITÀLIA ----------
+  - id: it-general
+    country: IT
+    label: "Itàlia — Generals (Camera)"
+    scope: national
+    page: "Opinion_polling_for_the_next_Italian_general_election"
+    baseline: {election: "politiche-2022", date: "2022-09-25"}
+    chamber:
+      name: "Camera dei Deputati"
+      seats: 400
+      method: proportional
+      # Avis honest: el Rosatellum reparteix un 37% dels escons en districtes
+      # uninominals, i aixo no es modela. El grafic dona l'ordre de magnitud,
+      # no l'escon exacte, i ho ha de dir a la pantalla.
+
+  # ---------- ESTATS UNITS: midterms 2026, estat per estat ----------
+  # Sense resultat de base: als EUA les enquestes ja son per estat, aixi que el
+  # mapa nomes pinta els estats que tenen enquestes. Un estat sense enquestes
+  # queda en blanc en lloc de rebre un color inventat.
+  - id: us-senate-2026
+    country: US
+    label: "EUA — Senat 2026 per estat"
+    scope: state
+    page: "2026_United_States_Senate_elections"
+    # El patro original perdia Ohio i Florida: son ELECCIONS ESPECIALS (les
+    # dimissions de Vance i Rubio) i la pagina es diu "Senate special election
+    # in ...". Comprovat el 02/10/2026: el patro original en trobava 33 de 35.
+    discover:
+      pattern: "^2026_United_States_Senate_(?:special_)?election_in_(.+)$"
+    chamber:
+      name: "Senat dels Estats Units"
+      seats: 100
+      in_play: 35                  # 33 ordinaris (classe 2) + 2 especials (Ohio, Florida)
+      method: fptp_state
+      partial: true
+
+  - id: us-gov-2026
+    country: US
+    label: "EUA — Governadors 2026 per estat"
+    scope: state
+    page: "2026_United_States_gubernatorial_elections"
+    # Exclou els vicegovernadors: el patro original els agafava i rascava deu
+    # pagines de mes. Queden 39 = 36 estats + 3 territoris.
+    discover:
+      pattern: "^2026_(?!.*lieutenant)(.+)_gubernatorial_election$"
+    optional: true
+
 
 # ---------- GEOMETRIES ----------
 # es-atlas i us-atlas venen ja com a TopoJSON quantitzat i lleuger.
@@ -65,6 +126,40 @@ geo:
     url: "https://cdn.jsdelivr.net/npm/es-atlas@0.6.0/es/municipalities.json"
     file: "es.json"
     levels: {municipality: municipalities, province: provinces, region: autonomous_regions}
+  # Les tres de sota nomes per a l'eina local; la publicacio fa `geo --only ES`.
+  US:
+    format: topojson
+    url: "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json"
+    file: "us.json"
+    levels: {state: states}
+  IT:
+    format: geojson
+    file: "it.json"
+    digits: 4
+    sources:
+      municipality:
+        url: "https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_municipalities.geojson"
+        key: minint_elettorale
+        key_slice: -7          # els set ultims digits = provincia + comune
+        name: name
+      region:
+        url: "https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson"
+        key: reg_istat_code
+        name: reg_name
+  FR:
+    format: geojson
+    file: "fr.json"
+    digits: 4
+    note: "Nomes metropoli i Corsega: france-geojson no publica els departaments d'ultramar."
+    sources:
+      municipality:
+        url: "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/communes.geojson"
+        key: code
+        name: nom
+      region:
+        url: "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions.geojson"
+        key: code
+        name: nom
 
 # ---------- AGREGACIÓ ----------
 aggregation:
