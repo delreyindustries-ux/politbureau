@@ -39,6 +39,12 @@ def load_polls(conn, election_id, scope_code=None):
             FROM poll p JOIN poll_result r ON r.poll_id = p.id
             WHERE {where}""", args).fetchall()
 
+    # Partits que a aquesta eleccio van dins d'un altre (sources.yaml -> merge):
+    # es sumen DINS de cada enquesta, abans de fer la mitjana. Sumar-los despres,
+    # amb mitjanes fetes per separat, comptaria malament les enquestes que nomes
+    # en pregunten un.
+    merge = next((e.get("merge") or {} for e in _config()["elections"]
+                  if e["id"] == election_id), {})
     polls: dict[int, dict] = {}
     for r in rows:
         entry = polls.setdefault(r["id"], {
@@ -46,7 +52,14 @@ def load_polls(conn, election_id, scope_code=None):
             "sample_size": r["sample_size"],
             "results": {},
         })
-        entry["results"][r["party"]] = (r["share"], r["seats_lo"], r["seats_hi"])
+        code = merge.get(r["party"], r["party"])
+        share, lo, hi = r["share"], r["seats_lo"], r["seats_hi"]
+        if code in entry["results"]:
+            s0, lo0, hi0 = entry["results"][code]
+            share = (s0 or 0) + (share or 0)
+            lo = None if lo0 is None and lo is None else (lo0 or 0) + (lo or 0)
+            hi = None if hi0 is None and hi is None else (hi0 or 0) + (hi or 0)
+        entry["results"][code] = (share, lo, hi)
     return list(polls.values())
 
 

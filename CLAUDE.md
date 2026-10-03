@@ -335,6 +335,24 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     Mélenchon i Glucksmann alhora). França passa de 177 files a 49 enquestes. Als
     EUA ja funcionava així des del principi; a Espanya no canvia res (547).
 
+48. **Socis d'una eleccio, rivals d'una altra: la fusio va per eleccio.** Mes
+    per Mallorca va dins de Sumar a les generals (el 2023 la llista balear ja es
+    deia «MÉS PER MALLORCA-MÉS PER MENORCA-SUMAR»), però es presenta sol al
+    Parlament balear i a les municipals; Más Madrid i els Comuns igual. Tenen
+    codi propi (`MESPM`, `MASMADRID`, `COMUNS`) i `sources.yaml → merge` els suma
+    a Sumar **dins de cada enquesta** de les generals (`load_polls`). Tres
+    trampes trobades fent-ho: (1) el prefix «mes per mallorca» s'enduia la llista
+    conjunta del 2023 i el 16,75% de Sumar a les Balears desapareixia de la base
+    del web públic —hi ha un àlies explícit de SUMAR per a aquella llista—;
+    (2) **el codi i el nom visible també s'indexen com a àlies**
+    (`parties._catalog`), i «MES» o «Més» atrapaven llistes municipals sense cap
+    relació (MES-SOMMESCAT, MÉS X VILALLER…): per això `MESPM` i el nom complet;
+    (3) mai un àlies que sigui una paraula comuna. La Chunta (CHA) també hi és
+    des del 03/10/2026. Comprovat: al Congrés del 2023
+    cap candidatura canvia de codi, i la cambra surt idèntica.
+    Pendent: `compromis: SUMAR` és global a `_contains`, i a les municipals
+    també suma Compromís a Sumar. Caldria passar-lo a `merge`.
+
 ## Quan surtin partits nous
 
 `ingest` acaba llistant les etiquetes que no ha sabut classificar. Es guarden amb

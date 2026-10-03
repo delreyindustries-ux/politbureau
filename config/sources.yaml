@@ -26,6 +26,16 @@ elections:
     #   catalanes i a les municipals, per aixo la regla va per eleccio i no al
     #   cataleg de partits. Font: infoLibre i El Español, consultats el 03/10/2026.
     not_standing: [ALIANCA]
+    # Partits que a aquesta eleccio van DINS d'un altre. Es sumen enquesta per
+    # enquesta abans de fer la mitjana. Nomes aqui: a les autonomiques i les
+    # municipals es presenten sols.
+    #   MESPM: Mes per Mallorca i Mes per Menorca. El 2023 la llista balear al
+    #   Congres ja es deia "MES PER MALLORCA-MES PER MENORCA-SUMAR" (fitxer 03 del
+    #   Ministeri), i l'Alfonso confirma que hi tornaria a anar (03/10/2026).
+    #   MASMADRID, COMUNS: socis del Frente Amplio, la marca de Sumar per al 2027.
+    #   CHA: Chunta Aragonesista, que el 2023 ja va anar dins de la llista de
+    #   Sumar a l'Arago; l'Alfonso confirma que hi tornaria (03/10/2026).
+    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR}
 
   - id: es-general-sub
     country: ES

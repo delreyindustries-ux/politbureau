@@ -42,6 +42,43 @@ ES:
     - movimiento sumar
     - frente amplio
     - un paso al frente
+    # La llista balear del 2023. Sense aquesta linia, el prefix "mes per
+    # mallorca" de MES se l'enduia i el 16,75% de Sumar a les Balears
+    # desapareixia de la base del web public. Una llista "...-SUMAR" es Sumar.
+    - mes per mallorca-mes per menorca-sumar
+  # Socis de Sumar a les generals, pero partits propis a les autonomiques i les
+  # municipals. Per aixo tenen codi propi i la fusio es fa per eleccio a
+  # sources.yaml (merge), no amb un alies de SUMAR: a les municipals del 2023 Mes
+  # i Mas Madrid es van presentar sols, i sumar-los a Sumar alla seria fals.
+  MESPM:
+    # El nom tambe s'indexa com a alies (parties._catalog): "Mes" sol tornava a
+    # atrapar les llistes municipals genèriques. Per aixo el nom complet.
+    name: Més per Mallorca
+    color: '#D6D145'
+    # Nomes els noms complets: "Mes" sol es massa generic i a les municipals
+    # atrapava llistes sense cap relacio (MES-SOMMESCAT, MES X VILALLER a Lleida,
+    # MES-COMPROMIS al Pais Valencia...). Wikipedia posa el titol de l'article,
+    # "Mes per Mallorca", aixi que el nom complet n'hi ha prou.
+    aliases:
+    - mes per mallorca
+    - més per mallorca
+    - mes per menorca
+    - més per menorca
+  MASMADRID:
+    name: Más Madrid
+    color: '#3DB37A'
+    aliases:
+    - mas madrid
+    - más madrid
+  COMUNS:
+    name: Comuns
+    color: '#9B2D5E'
+    aliases:
+    - comuns
+    - catalunya en comu
+    - catalunya en comú
+    - en comu podem
+    - en comú podem
   PODEMOS:
     name: Podemos
     color: '#683064'
@@ -318,6 +355,8 @@ _contains:
     compromis: SUMAR
     # Per capcaleres del tipus "Frente Amplio (Sumar-IU-Mas Madrid-Comuns)".
     frente amplio: SUMAR
+    mes per mallorca: MESPM
+    mes per menorca: MESPM
     paso al frente: SUMAR
 _order:
   ES:
