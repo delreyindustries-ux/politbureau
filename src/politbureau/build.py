@@ -161,7 +161,8 @@ def project(conn, election_id, baseline_election,
     regles d'ambit espanyoles.
     """
     national_now = {p: v["share"] for p, v in
-                    agg.aggregate(load_polls(conn, election_id)).items()}
+                    drop_not_standing(election_id,
+                                      agg.aggregate(load_polls(conn, election_id))).items()}
     if not national_now:
         return 0
 
@@ -189,7 +190,8 @@ def project(conn, election_id, baseline_election,
         dropped = set()
         for code, before in baseline_shares(conn, baseline_election, level).items():
             projected = seatlib.proportional_swing(
-                before, national_now, national_before, report, concentrate)
+                before, national_now, national_before, report, concentrate,
+                parties.families().get(country))
 
             # Un partit nou sense base estatal rebia la seva quota nacional a
             # TOT arreu, i Alianca Catalana acabava sortint a Ceuta i Melilla.
@@ -281,7 +283,7 @@ def project_states(conn, election_id):
         code = fips.get((name or "").lower())
         if not code:
             continue
-        result = agg.aggregate(load_polls(conn, election_id, name))
+        result = drop_not_standing(election_id, agg.aggregate(load_polls(conn, election_id, name)))
         # Nomes DEM/REP/IND: qualsevol altra cosa es un candidat que no hem
         # sabut classificar, i pintar el mapa amb aixo enganyaria.
         shares = {p: v["share"] for p, v in result.items() if p in ("DEM", "REP", "IND")}
@@ -307,7 +309,7 @@ def project_seats_proportional(conn, election_id, chamber_seats, threshold=0.03)
     (Italia). NO reprodueix la llei electoral real, i per aixo el grafic ho ha
     de dir. Serveix per veure l'ordre de magnitud, no per encertar l'escon.
     """
-    result = agg.aggregate(load_polls(conn, election_id))
+    result = drop_not_standing(election_id, agg.aggregate(load_polls(conn, election_id)))
     shares = {p: v["share"] for p, v in result.items() if not p.startswith("?")}
     if not shares:
         return 0
@@ -349,6 +351,30 @@ def project_seats_states(conn, election_id):
     return sum(totals.values())
 
 
+def not_standing(election_id) -> set:
+    """Partits que surten a les enquestes pero NO es presenten a aquesta eleccio.
+
+    Es declaren a `sources.yaml` per eleccio (`not_standing`), no al cataleg de
+    partits: Alianca Catalana no es presenta a les generals pero si a les
+    catalanes i a les municipals.
+    """
+    for e in _config()["elections"]:
+        if e["id"] == election_id:
+            return set(e.get("not_standing") or [])
+    return set()
+
+
+def drop_not_standing(election_id, shares: dict) -> dict:
+    """Treu de la mitjana els partits que no es presenten.
+
+    NO es reparteix el seu pes a la mitjana estatal: inflar tots els altres un
+    1% seria una hipotesi presentada com a enquesta. Qui la reparteix es la
+    projeccio, que dins de cada territori torna a sumar 100.
+    """
+    gone = not_standing(election_id)
+    return {p: v for p, v in shares.items() if p not in gone} if gone else shares
+
+
 def aggregate_all(conn):
     """Mitjana per a cada eleccio i cada ambit territorial que tingui enquestes."""
     conn.execute("DELETE FROM aggregate")
@@ -358,7 +384,7 @@ def aggregate_all(conn):
            FROM poll GROUP BY election_id, sc""").fetchall()
     for row in combos:
         polls = load_polls(conn, row["election_id"], row["sc"] or None)
-        result = agg.aggregate(polls)
+        result = drop_not_standing(row["election_id"], agg.aggregate(polls))
         if result:
             store_aggregate(conn, row["election_id"], row["sc"], result)
             done.append((row["election_id"], row["sc"] or "(estatal)", len(polls), len(result)))

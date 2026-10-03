@@ -438,7 +438,8 @@ async function loadMap() {
   if (state.colourBy >= state.parties.length) state.colourBy = -1;
 
   const sel = $('#colourby');
-  sel.innerHTML = '<option value="-1">Acolorir: partit guanyador</option>' +
+  const who = state.election.display === 'candidates' ? 'candidat' : 'partit';
+  sel.innerHTML = `<option value="-1">Acolorir: ${who} guanyador</option>` +
     state.parties.map((p, i) => `<option value="${i}">Acolorir: vot a ${p.name}</option>`).join('');
   sel.value = String(state.colourBy);
   sel.onchange = () => { state.colourBy = +sel.value; cacheFills(); renderLegend(); paint(); };

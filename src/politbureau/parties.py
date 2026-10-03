@@ -172,6 +172,14 @@ def _scopes() -> dict:
             for country, rules in (raw.get("_scope") or {}).items()}
 
 
+@lru_cache(maxsize=1)
+def families() -> dict:
+    """{pais: {partit: partit_de_base}} declarat a `_family`."""
+    with CONFIG.open(encoding="utf-8") as fh:
+        raw = yaml.safe_load(fh) or {}
+    return raw.get("_family") or {}
+
+
 def scopes() -> dict:
     """{pais: {partit: {regions}}} tal com estan declarats a `_scope`."""
     return _scopes()

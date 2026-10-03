@@ -210,6 +210,12 @@ FR:
   EELV:   {name: "Les Écologistes", color: "#00C000", aliases: [eelv, "les ecologistes", verts]}
   REC:    {name: "Reconquête",      color: "#404040", aliases: [rec, "reconquete", zemmour]}
   PCF:    {name: "PCF",             color: "#DD0000", aliases: [pcf]}
+  # Comprovats a Wikipedia el 03/10/2026. Philippe i Attal NO son el mateix
+  # partit: surten junts a la mateixa enquesta en 24 de 92 files recents, com a
+  # candidats rivals. El cataleg els sumava dins d'Ensemble. Igual Ruffin, que ja
+  # no es de LFI i surt contra Melenchon en 8 files.
+  HOR:    {name: "Horizons",        color: "#0FA3B1", aliases: [hor, horizons]}
+  DEBOUT: {name: "Debout!",         color: "#E8505B", aliases: ["debout!", debout]}
   OTHER:  {name: "Autres",          color: "#9E9E9E", aliases: [others, autres, "other"]}
 
 IT:
@@ -247,13 +253,13 @@ _candidates:
   FR:
     "Jordan Bardella": RN
     "Marine Le Pen": RN
-    "Edouard Philippe": ENS
+    "Edouard Philippe": HOR         # Horizons (2021-), no Renaissance
     "Gabriel Attal": ENS
     "Emmanuel Macron": ENS
     "Elisabeth Borne": ENS
     "Gerald Darmanin": ENS
     "Jean-Luc Melenchon": LFI
-    "Francois Ruffin": LFI
+    "Francois Ruffin": DEBOUT       # Debout! (2017-), ja no LFI
     "Manon Aubry": LFI
     "Raphael Glucksmann": PS
     "Anne Hidalgo": PS
@@ -345,8 +351,15 @@ _order:
   - PACMA
   - OTHER
   IT: [UP, AVS, M5S, PD, IV, AZ, PIU, PLD, SVP, NM, FI, LEGA, SCN, FDI, FN, ITX, ISP, OTHER]
-  FR: [PCF, LFI, EELV, PS, ENS, LR, REC, RN, OTHER]
+  FR: [PCF, LFI, DEBOUT, EELV, PS, ENS, HOR, LR, REC, RN, OTHER]
   US: [DEM, IND, REP]
+# Partits que no es van presentar a l'eleccio de base pero que surten d'un
+# espai que si: es projecten sobre la base d'aquell espai en lloc de rebre la
+# seva quota estatal uniforme a tot arreu.
+_family:
+  FR:
+    HOR: ENS          # Philippe es projecta sobre el vot de Macron del 2022
+    DEBOUT: LFI       # Ruffin, sobre el de Melenchon
 _scope:
   ES:
     AA:

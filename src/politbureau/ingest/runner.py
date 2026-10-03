@@ -43,9 +43,10 @@ def store(conn, election, country, scope, scope_code, scope_name, page, polls):
             continue
         poll_id = cur.lastrowid
         conn.executemany(
-            "INSERT OR REPLACE INTO poll_result (poll_id, party, share, seats_lo, seats_hi) "
-            "VALUES (?,?,?,?,?)",
-            [(poll_id, code, share, lo, hi) for code, (share, lo, hi) in poll.results.items()],
+            "INSERT OR REPLACE INTO poll_result (poll_id, party, share, seats_lo, seats_hi, label) "
+            "VALUES (?,?,?,?,?,?)",
+            [(poll_id, code, share, lo, hi, poll.labels.get(code))
+             for code, (share, lo, hi) in poll.results.items()],
         )
         inserted += 1
     conn.commit()

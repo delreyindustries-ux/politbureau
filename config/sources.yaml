@@ -17,6 +17,15 @@ elections:
       name: "Congreso de los Diputados"
       seats: 350
       method: dhondt_province      # llei d'Hondt a cadascuna de les 52 circumscripcions
+    # Partits que les cases d'enquestes pregunten pero que NO es presenten a
+    # aquesta eleccio. Es treuen de la mitjana i de la projeccio; dins de cada
+    # territori la resta es reparteix el seu pes proporcionalment, que en
+    # percentatges es el mateix que comptar-los com a abstencio.
+    #   ALIANCA: Silvia Orriols ha dit que no es presentara a les generals ("no
+    #   som espanyols") i vol prohibir-ho als estatuts. Si que es presenta a les
+    #   catalanes i a les municipals, per aixo la regla va per eleccio i no al
+    #   cataleg de partits. Font: infoLibre i El Español, consultats el 03/10/2026.
+    not_standing: [ALIANCA]
 
   - id: es-general-sub
     country: ES
@@ -66,7 +75,23 @@ elections:
     label: "França — Presidencials 2027 (1a volta)"
     scope: national
     page: "Opinion_polling_for_the_2027_French_presidential_election"
-    baseline: {election: "presidentielle-2022-t1", date: "2022-04-10"}
+    # Es vota una persona: el mapa i el resum mostren el CANDIDAT, no el partit.
+    # Els de l'estimacio surten de les enquestes (el mes preguntat de cada linia
+    # als ultims 90 dies); els del 2022, del fitxer oficial de resultats.
+    display: candidates
+    baseline:
+      election: "presidentielle-2022-t1"
+      date: "2022-04-10"
+      candidates:
+        ENS: "Emmanuel Macron"
+        RN: "Marine Le Pen"
+        LFI: "Jean-Luc Mélenchon"
+        REC: "Éric Zemmour"
+        LR: "Valérie Pécresse"
+        EELV: "Yannick Jadot"
+        PCF: "Fabien Roussel"
+        PS: "Anne Hidalgo"
+        OTHER: "Altres candidats"   # Lassalle, Dupont-Aignan, Poutou i Arthaud
 
   # ---------- ITÀLIA ----------
   - id: it-general

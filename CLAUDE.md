@@ -301,6 +301,40 @@ PATH**: cal invocar-lo per ruta completa o fer servir `pb.ps1`.
     dos partits nous del 2026: **Futuro Nazionale** (Vannacci, escindit de la
     Lega) i el **Partito Liberale Democratico**, comprovats a Wikipedia.
 
+44. **Aliança Catalana no es presenta a les generals**, encara que les enquestes
+    la segueixin preguntant. Orriols ho ha dit («no som espanyols») i vol
+    prohibir-ho als estatuts. La regla va a `sources.yaml → not_standing`, **per
+    elecció**: a les catalanes i a les municipals sí que es presenta. Es treu de
+    la mitjana (sense inflar els altres: seria una hipòtesi presentada com a
+    enquesta) i de la projecció, que dins de cada província torna a sumar 100.
+    Els seus 3 escons de Barcelona passen a Sumar, ERC i Junts, un cadascun. El
+    repartiment és proporcional, la hipòtesi neutra; segons SocioMétrica, a la
+    realitat Junts en recuperaria més.
+45. **La clau única de les enquestes no aturava cap duplicat.** Era
+    `UNIQUE(election_id, scope_code, ..., sample_size)`, i a SQLite **dos NULL mai
+    no són iguals** dins d'una clau única: les enquestes estatals porten
+    `scope_code` NULL, així que cada descàrrega les tornava a desar totes. La base
+    local en tenia 662 de repetides, i les enquestes velles hi pesaven més que les
+    noves. **politbureau.es no n'estava afectat**: el workflow no guarda la base i
+    comença cada matí de zero. Ara `db.init()` esborra els duplicats i crea
+    l'índex `poll_dedup` sobre `IFNULL(...)`. Tornar a descarregar afegeix 0.
+
+46. **A les presidencials franceses es mostra el CANDIDAT, no el partit.**
+    `sources.yaml → display: candidates`. El nom de cada línia de l'estimació
+    surt de les dades: el candidat més preguntat als últims 90 dies (es desa a
+    `poll_result.label`), així que si les enquestes passen de Le Pen a Bardella,
+    el nom canvia sol. La capa del 2022 mostra els candidats d'aleshores, trets
+    del fitxer oficial. Per fer-ho bé va caldre separar **Philippe (Horizons)**
+    d'**Attal (Renaissance)**, que el catàleg sumava dins d'Ensemble tot i ser
+    candidats rivals a la mateixa enquesta, i **Ruffin (Debout!)** de LFI.
+    Philippe es projecta sobre el vot de Macron del 2022 (`_family`), no uniforme.
+47. **Cada enquesta compta un cop, amb el seu escenari principal.** Amb la clau
+    de duplicats arreglada (llicó 45), les diverses files d'una mateixa enquesta
+    francesa —mateixa casa, data i mostra, escenaris diferents— ja no entren
+    totes: es queda la primera, que és l'escenari principal (Attal, Philippe,
+    Mélenchon i Glucksmann alhora). França passa de 177 files a 49 enquestes. Als
+    EUA ja funcionava així des del principi; a Espanya no canvia res (547).
+
 ## Quan surtin partits nous
 
 `ingest` acaba llistant les etiquetes que no ha sabut classificar. Es guarden amb

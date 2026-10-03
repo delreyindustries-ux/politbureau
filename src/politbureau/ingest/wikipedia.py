@@ -78,6 +78,9 @@ class Poll:
     sample_size: int | None
     turnout: float | None
     results: dict = field(default_factory=dict)   # codi -> (share, seats_lo, seats_hi)
+    # codi -> com es deia la columna ("Marine Le Pen"). A les presidencials es
+    # vota una persona, i el nom del partit no diu qui: cal conservar-lo.
+    labels: dict = field(default_factory=dict)
 
 
 # --------------------------------------------------------------------------- xarxa
@@ -479,6 +482,7 @@ def parse_table(table, country, anchor_year):
                 continue
             seen_cells.add(id(cells[col]))
             share, lo, hi = parse_cell(cell_text(cells[col]))
+            name = cell_text(rows[header_row][col]).strip() if col < len(rows[header_row]) else ""
             if share is None:
                 continue
             # Dos candidats del mateix partit a la mateixa enquesta se SUMEN.
@@ -492,6 +496,9 @@ def parse_table(table, country, anchor_year):
                 lo = (lo0 or 0) + (lo or 0) if (lo0 is not None or lo is not None) else None
                 hi = (hi0 or 0) + (hi or 0) if (hi0 is not None or hi is not None) else None
             poll.results[code] = (share, lo, hi)
+            if name:
+                prev = poll.labels.get(code)
+                poll.labels[code] = f"{prev} + {name}" if prev and name not in prev else (prev or name)
         if poll.results:
             polls.append(poll)
     return polls, unknown

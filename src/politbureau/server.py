@@ -151,8 +151,42 @@ def create_app():
                 "map_country": meta["country"] if meta["country"] in mapped else None,
                 "baseline": (meta.get("baseline") or {}).get("election"),
                 "chamber": (meta.get("chamber") or {}).get("name"),
+                "display": meta.get("display", "parties"),
             })
         return jsonify(out)
+
+    def candidate_names(election_id, layer="projection"):
+        """{partit: candidat} per a les eleccions on es vota una persona.
+
+        A les presidencials franceses el nom del partit no diu qui es presenta:
+        Ensemble eren Philippe i Attal alhora, i el PS es prova amb Glucksmann,
+        Hollande o Faure. Capa real: els candidats del 2022, del fitxer oficial.
+        Estimacio: el candidat mes preguntat de cada linia als ultims 90 dies,
+        tret de les dades, aixi que canvia sol si les enquestes canvien de nom.
+        """
+        meta = elections.get(election_id, {})
+        if meta.get("display") != "candidates":
+            return {}
+        if layer == "real":
+            return dict((meta.get("baseline") or {}).get("candidates") or {})
+        conn = db.connect()
+        best = {}
+        for r in conn.execute(
+                """SELECT r.party, r.label, COUNT(*) n
+                   FROM poll p JOIN poll_result r ON r.poll_id = p.id
+                   WHERE p.election_id = ? AND r.label IS NOT NULL AND r.label != ''
+                     AND p.fieldwork_end >= date('now', '-90 days')
+                   GROUP BY r.party, r.label ORDER BY n DESC""", (election_id,)):
+            # "A + B" vol dir dos candidats sumats a la mateixa fila: no es un nom.
+            if r["party"] not in best and " + " not in r["label"]:
+                best[r["party"]] = r["label"]
+        best["OTHER"] = "Altres candidats"     # diversos candidats menors sumats
+        return best
+
+    def meta_for(election_id, code, country, layer="projection", names=None):
+        info = parties.meta(code, country)
+        names = names if names is not None else candidate_names(election_id, layer)
+        return {**info, "name": names[code]} if code in names else info
 
     @app.get("/api/summary/<election_id>")
     def api_summary(election_id):
@@ -168,10 +202,11 @@ def create_app():
                WHERE p.election_id = ? AND r.seats_lo IS NOT NULL
                  AND p.fieldwork_end >= date('now', '-30 days')
                GROUP BY r.party""", (election_id,))}
+        names = candidate_names(election_id)
         return jsonify({
             "election": election_id,
             "parties": [{
-                **parties.meta(r["party"], country),
+                **meta_for(election_id, r["party"], country, names=names),
                 "share": r["share"], "lo": r["lo"], "hi": r["hi"],
                 "n_polls": r["n_polls"], "seats": seats.get(r["party"]),
             } for r in rows],
@@ -202,7 +237,8 @@ def create_app():
         for r in rows:
             series.setdefault(r["party"], []).append([r["day"], round(r["share"], 2)])
         top = sorted(series, key=lambda p: -(series[p][-1][1] if series[p] else 0))[:8]
-        return jsonify({"series": [{**parties.meta(p, country), "points": series[p]}
+        names = candidate_names(election_id)
+        return jsonify({"series": [{**meta_for(election_id, p, country, names=names), "points": series[p]}
                                    for p in top]})
 
     @app.get("/api/map/<election_id>")
@@ -265,10 +301,11 @@ def create_app():
             out[code] = [index.get(party, -1), margin] + vector
 
         used = set(keep) | {v[0] for v in shares.values() for v in [seatlib.winner(v)] if v[0]}
+        names = candidate_names(election_id, layer)
         return jsonify({
             "level": level, "layer": layer, "n": len(out),
-            "parties": [parties.meta(p, country) for p in keep],
-            "palette": {p: parties.meta(p, country) for p in used},
+            "parties": [meta_for(election_id, p, country, layer, names) for p in keep],
+            "palette": {p: meta_for(election_id, p, country, layer, names) for p in used},
             "areas": out,
         })
 
@@ -345,10 +382,10 @@ def create_app():
             "code": code, "name": name,
             "census": real[0]["census"] if real else None,
             "valid_votes": valid,
-            "real": [{**parties.meta(r["party"], country), "votes": r["votes"],
+            "real": [{**meta_for(election_id, r["party"], country, "real"), "votes": r["votes"],
                       "share": round(r["votes"] * 100.0 / valid, 2) if valid else None}
                      for r in real],
-            "projection": [{**parties.meta(r["party"], country), "share": r["share"]}
+            "projection": [{**meta_for(election_id, r["party"], country), "share": r["share"]}
                            for r in proj],
         })
 
@@ -510,14 +547,19 @@ def create_app():
         ids = [r["id"] for r in rows]
         marks = ",".join("?" * len(ids)) or "NULL"
         results: dict[int, dict] = {}
+        labels: dict[int, dict] = {}
         for r in conn.execute(
-                f"SELECT poll_id, party, share FROM poll_result WHERE poll_id IN ({marks})", ids):
+                f"SELECT poll_id, party, share, label FROM poll_result WHERE poll_id IN ({marks})", ids):
             results.setdefault(r["poll_id"], {})[r["party"]] = r["share"]
+            labels.setdefault(r["poll_id"], {})[r["party"]] = r["label"]
+        by_person = elections.get(election_id, {}).get("display") == "candidates"
         return jsonify([{
             "pollster": r["pollster"], "client": r["client"],
             "start": r["fieldwork_start"], "end": r["fieldwork_end"],
             "sample": r["sample_size"], "url": r["source_url"], "title": r["source_title"],
-            "results": [{**parties.meta(p, country), "share": s}
+            "results": [{**parties.meta(p, country), "share": s,
+                         **({"name": labels[r["id"]][p]} if by_person and p != "OTHER"
+                            and (labels.get(r["id"]) or {}).get(p) else {})}
                         for p, s in sorted(results.get(r["id"], {}).items(),
                                            key=lambda kv: -kv[1])[:8]],
         } for r in rows])

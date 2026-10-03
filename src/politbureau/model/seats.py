@@ -44,7 +44,8 @@ MIN_FACTOR, MAX_FACTOR = 0.2, 5.0
 
 def proportional_swing(baseline: dict, national_now: dict, national_before: dict,
                        report: dict | None = None,
-                       concentrate: dict | None = None) -> dict:
+                       concentrate: dict | None = None,
+                       family: dict | None = None) -> dict:
     """Projecta un territori.
 
     `baseline`        -- % real de cada partit en aquell territori a l'ultima eleccio
@@ -66,6 +67,7 @@ def proportional_swing(baseline: dict, national_now: dict, national_before: dict
     calcula `build.py` a partir dels vots valids reals de cada ambit.
     """
     concentrate = concentrate or {}
+    family = family or {}
     projected = {}
     for party, before_local in baseline.items():
         now = national_now.get(party)
@@ -105,6 +107,15 @@ def proportional_swing(baseline: dict, national_now: dict, national_before: dict
             projected[party] = k["share"]
             if report is not None:
                 report.setdefault("concentrat al seu ambit", set()).add(party)
+        elif (family.get(party) and national_before.get(family[party])
+              and family[party] in baseline):
+            # No es va presentar a l'eleccio de base pero surt d'un espai que si:
+            # Philippe es projecta sobre el vot de Macron del 2022, no uniforme.
+            fam = family[party]
+            factor = min(now / national_before[fam], MAX_FACTOR)
+            projected[party] = baseline[fam] * factor
+            if report is not None:
+                report.setdefault("sobre la base de la seva familia", set()).add(party)
         elif not national_before.get(party):
             projected[party] = now
 

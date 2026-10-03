@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS poll_result (
     share     REAL,               -- percentatge de vot
     seats_lo  INTEGER,
     seats_hi  INTEGER,
+    label     TEXT,               -- nom de la columna: el candidat a les presidencials
     PRIMARY KEY (poll_id, party)
 );
 
@@ -153,7 +154,37 @@ def connect(path: Path | str = DB_PATH) -> sqlite3.Connection:
 
 def init(conn: sqlite3.Connection) -> None:
     conn.executescript(SCHEMA)
+    # Bases creades abans del 03/10/2026 no tenen la columna: s'hi afegeix.
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(poll_result)")}
+    if "label" not in cols:
+        conn.execute("ALTER TABLE poll_result ADD COLUMN label TEXT")
+    _dedupe_polls(conn)
     conn.commit()
+
+
+def _dedupe_polls(conn: sqlite3.Connection) -> int:
+    """Clau unica de debo per a les enquestes, tolerant amb els NULL.
+
+    La de la taula, UNIQUE(election_id, scope_code, pollster, fieldwork_end,
+    sample_size), no ho era: a SQLite dos NULL MAI no son iguals dins d'una clau
+    unica, i les enquestes estatals porten scope_code NULL. `INSERT OR IGNORE` no
+    ignorava res i cada descarrega tornava a desar TOTES les estatals. Detectat
+    el 03/10/2026 amb 662 duplicats a la base local; la publicacio no n'estava
+    afectada perque comenca cada mati amb una base nova.
+
+    Primer s'esborren els duplicats que hi hagi (es queda la fila mes antiga),
+    i despres es crea l'index unic sobre IFNULL(...), que ja no deixa entrar-ne.
+    """
+    key = ("election_id, IFNULL(scope_code, ''), IFNULL(pollster, ''), "
+           "fieldwork_end, IFNULL(sample_size, -1)")
+    dup = f"""SELECT id FROM poll WHERE id NOT IN (
+                  SELECT MIN(id) FROM poll GROUP BY {key})"""
+    n = len(conn.execute(dup).fetchall())
+    if n:
+        conn.execute(f"DELETE FROM poll_result WHERE poll_id IN ({dup})")
+        conn.execute(f"DELETE FROM poll WHERE id IN ({dup})")
+    conn.execute(f"CREATE UNIQUE INDEX IF NOT EXISTS poll_dedup ON poll ({key})")
+    return n
 
 
 def log_ingest(conn, source, url, status, n_polls=0, detail=None):
