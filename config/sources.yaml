@@ -11,7 +11,7 @@ elections:
     country: ES
     label: "Espanya — Generals (Congrés)"
     scope: national
-    page: "Opinion_polling_for_the_next_Spanish_general_election"
+    page: "Opinion_polling_for_the_2026_Spanish_general_election"
     baseline: {election: "congreso-2023", date: "2023-07-23"}
     chamber:
       name: "Congreso de los Diputados"

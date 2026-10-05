@@ -1,10 +1,12 @@
 name: Actualitza i publica
 
-# Cada dia a les 6:15 UTC (8:15 a Espanya, ja hi ha les enquestes de la nit),
-# i tambe a ma des de la pestanya Actions.
+# Cada hora (al minut 17) mentre duri la campanya de les generals del
+# 29/11/2026, perque cada enquesta nova surti a la web com mes aviat millor.
+# Abans era un cop al dia (6:15 UTC); quan acabin les eleccions es pot tornar
+# a "15 6 * * *". Tambe es pot llancar a ma des de la pestanya Actions.
 on:
   schedule:
-    - cron: "15 6 * * *"
+    - cron: "17 * * * *"
   workflow_dispatch:
   push:
     branches: [main]
