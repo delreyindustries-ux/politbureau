@@ -9,7 +9,7 @@ import requests
 import yaml
 from bs4 import BeautifulSoup
 
-from .. import db
+from .. import db, veda
 from . import wikipedia as wk
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -124,6 +124,14 @@ def run(conn, only=None):
         if only and eid not in only:
             continue
         country, scope = election["country"], election.get("scope", "national")
+
+        # Veda electoral (LOREG 69.7): ni una enquesta nova fins que tanquin els
+        # col.legis. La web es queda amb les que ja tenia.
+        if veda.active(election):
+            db.log_ingest(conn, eid, election["page"], "skipped", 0,
+                          "veda electoral (LOREG art. 69.7)")
+            summary.append((eid, "VEDA ELECTORAL: no es llegeix res", 0))
+            continue
 
         n, unk = read_page(conn, session, eid, country, scope, election["page"])
         unmapped.update(unk)

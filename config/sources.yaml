@@ -13,6 +13,11 @@ elections:
     scope: national
     page: "Opinion_polling_for_the_2026_Spanish_general_election"
     baseline: {election: "congreso-2023", date: "2023-07-23"}
+    election_date: "2026-11-29"
+    # Veda de la LOREG (art. 69.7): del 24/11 fins que tanquen els col.legis el
+    # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a
+    # peu d'urna. Decisio de l'Alfonso, 05/10/2026. Vegeu src/politbureau/veda.py.
+    veda: {from: "2026-11-24T00:00:00+01:00", to: "2026-11-29T20:00:00+01:00"}
     chamber:
       name: "Congreso de los Diputados"
       seats: 350
@@ -43,6 +48,11 @@ elections:
     scope: region
     page: "Sub-national_opinion_polling_for_the_next_Spanish_general_election"
     baseline: {election: "congreso-2023", date: "2023-07-23"}
+    election_date: "2026-11-29"
+    # Veda de la LOREG (art. 69.7): del 24/11 fins que tanquen els col.legis el
+    # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a
+    # peu d'urna. Decisio de l'Alfonso, 05/10/2026. Vegeu src/politbureau/veda.py.
+    veda: {from: "2026-11-24T00:00:00+01:00", to: "2026-11-29T20:00:00+01:00"}
 
   - id: es-local-2027
     country: ES

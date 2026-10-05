@@ -83,6 +83,22 @@ T = {
               "percentatge. El vot que no segueix la llista conjunta es compta "
               "com a abstenció, no es reparteix entre rivals: repartir-lo seria "
               "inventar-se un transvasament que cap dada no sustenta."},
+    "notice_veda": {
+        "es": "<b>Veda electoral.</b> La ley (art. 69.7 de la LOREG) prohíbe publicar "
+              "encuestas los cinco días anteriores a la votación. Desde el 24 de noviembre "
+              "no añadimos ninguna encuesta nueva: la estimación es la del 23 de noviembre "
+              "y no se actualizará hasta que cierren los colegios, el 29 a las 20:00.",
+        "ca": "<b>Veda electoral.</b> La llei (art. 69.7 de la LOREG) prohibeix publicar "
+              "enquestes els cinc dies anteriors a la votació. Des del 24 de novembre no "
+              "afegim cap enquesta nova: l'estimació és la del 23 de novembre i no "
+              "s'actualitzarà fins que tanquin els col·legis, el 29 a les 20.00.",
+    },
+    "notice_exit_polls": {
+        "es": "<b>Colegios cerrados.</b> Cuando hay sondeos a pie de urna, la estimación "
+              "se calcula solo con ellos. Son sondeos, no el recuento oficial.",
+        "ca": "<b>Col·legis tancats.</b> Quan hi ha sondeigs a peu d'urna, l'estimació "
+              "es calcula només amb ells. Són sondeigs, no el recompte oficial.",
+    },
     "coalition_intro": {
         "es": "Pulsa dos o más partidos. La suma de escaños no es la respuesta: "
               "la ley d'Hondt no es aditiva, y los votos que a cada uno le sobraban "

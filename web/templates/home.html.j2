@@ -4,6 +4,9 @@
   <h1>{{ site_name }}</h1>
   <p class="lede">{{ t('site_tagline') }}</p>
   <p>{{ t('site_description') }}</p>
+  {%- if notice %}
+  <p class="note">{{ t(notice) | safe }}</p>
+  {%- endif %}
   <p class="cta">
     <a class="btn primary" href="{{ root }}{{ lang }}/{{ page('map') }}/">{{ t('nav_map') }}</a>
     <a class="btn" href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ t('nav_method') }}</a>

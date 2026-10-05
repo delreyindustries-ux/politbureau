@@ -7,7 +7,8 @@ import json
 import shutil
 from pathlib import Path
 
-from .. import parties
+from .. import parties, veda
+from ..ingest.runner import load_config as load_sources
 from ..geo import fetch as geo
 from . import i18n
 from .build import (DIST, ELECTION, ROOT, WEB, BASELINE_YEAR, simulator_for,
@@ -246,6 +247,9 @@ def home_page(env, cfg, data, urls, highlights):
     sim = simulator_for(data, "national", "ES")
     sim_json = (json.dumps(sim, ensure_ascii=False).replace("<", "\u003c")
                 if sim else None)
+    # Avis de veda electoral o de sondeigs a peu d'urna (generals, veda.py).
+    general = next((e for e in load_sources()["elections"] if e["id"] == "es-general"), None)
+    notice = {"veda": "notice_veda", "peu_urna_obert": "notice_exit_polls"}.get(veda.status(general))
     for lang in i18n.LANGS:
         canonical = f"/{lang}/"
         html = render_page(
@@ -253,7 +257,8 @@ def home_page(env, cfg, data, urls, highlights):
             {lg: f"/{lg}/" for lg in i18n.LANGS},
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
-            highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR, regions=[
+            highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
+            notice=notice, regions=[
                 {"name": data["names"]["region"].get(c, c), "url": urls[("region", c)][lang]}
                 for c in sorted(data["names"]["region"],
                                 key=lambda c: data["names"]["region"].get(c, ""))

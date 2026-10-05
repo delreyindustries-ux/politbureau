@@ -14,7 +14,7 @@ import json
 
 import yaml
 
-from . import db, parties
+from . import db, parties, veda
 from .ingest.runner import SOURCES
 from .model import aggregate as agg
 from .model import seats as seatlib
@@ -395,8 +395,15 @@ def aggregate_all(conn):
     combos = conn.execute(
         """SELECT election_id, COALESCE(scope_code, '') AS sc, COUNT(*) n
            FROM poll GROUP BY election_id, sc""").fetchall()
+    elections = {e["id"]: e for e in _config()["elections"]}
     for row in combos:
         polls = load_polls(conn, row["election_id"], row["sc"] or None)
+        # Dia de la votacio: abans de les 20 h cap sondeig a peu d'urna; despres,
+        # la mitjana es fa nomes amb ells (veda.py).
+        polls, mode = veda.select_polls(elections.get(row["election_id"]), polls)
+        if mode == "peu_urna":
+            print(f"   {row['election_id']} {row['sc'] or '(estatal)'}: "
+                  f"mitjana nomes amb {len(polls)} sondeigs a peu d'urna")
         result = drop_not_standing(row["election_id"], agg.aggregate(polls))
         if result:
             store_aggregate(conn, row["election_id"], row["sc"], result)
