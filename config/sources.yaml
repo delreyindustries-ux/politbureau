@@ -41,6 +41,16 @@ elections:
     #   CHA: Chunta Aragonesista, que el 2023 ja va anar dins de la llista de
     #   Sumar a l'Arago; l'Alfonso confirma que hi tornaria (03/10/2026).
     merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR}
+    # Llistes uniques per comunitat: alla, TOTS els partits a l'esquerra del PSOE
+    # (posicio < PSOE a parties.yaml) van en una sola candidatura, que el model
+    # compta amb el codi `into`. Els vots se SUMEN (retencio 100 %). Es fa a cada
+    # territori despres de la projeccio, perque les enquestes son estatals.
+    #   05 Canarias: Podemos, Sumar i Nueva Canarias (NC negocia una llista
+    #      unica "amb marca canaria").  02 Arago: Podemos i Sumar (amb CHA, que
+    #      la vol encapcalar).  10 Comunitat Valenciana: Podemos i Sumar (amb
+    #      Compromis). Decisio de l'Alfonso, 06/10/2026.
+    regional_merge:
+      - {regions: ["05", "02", "10"], into: SUMAR, left_of: PSOE}
 
   - id: es-general-sub
     country: ES

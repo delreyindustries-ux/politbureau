@@ -165,6 +165,33 @@ def scope_concentration(conn, baseline_election, national_before, national_now,
     return out
 
 
+def regional_merges(election_id):
+    """Regles `regional_merge` d'una eleccio (sources.yaml)."""
+    for e in _config()["elections"]:
+        if e["id"] == election_id:
+            return e.get("regional_merge") or []
+    return []
+
+
+def apply_regional_merge(projected, region, rules, country="ES", report=None):
+    """Dins de les regions d'una regla, ajunta a `into` tots els partits a
+    l'esquerra de `left_of`. Els percentatges ja sumen 100 i se sumen, aixi que
+    no cal renormalitzar."""
+    for rule in rules:
+        if region not in rule["regions"]:
+            continue
+        limit = parties.position(rule["left_of"], country)
+        into = rule["into"]
+        joined = [p for p in projected
+                  if p != into and parties.position(p, country) < limit]
+        if not joined:
+            continue
+        projected[into] = round(projected.get(into, 0) + sum(projected.pop(p) for p in joined), 2)
+        if report is not None:
+            report.setdefault(f"llista unica ({into})", set()).update(joined)
+    return projected
+
+
 def project(conn, election_id, baseline_election,
             levels=("municipality", "province", "region"), country="ES"):
     """Aplica el swing nacional sobre cada territori i desa el resultat.
@@ -201,6 +228,7 @@ def project(conn, election_id, baseline_election,
         region_of = (_region_lookup() if country == "ES"
                      else (lambda level, code: None))
         dropped = set()
+        merges = regional_merges(election_id)
         for code, before in baseline_shares(conn, baseline_election, level).items():
             projected = seatlib.proportional_swing(
                 before, national_now, national_before, report, concentrate,
@@ -220,6 +248,8 @@ def project(conn, election_id, baseline_election,
                 if total_share:
                     projected = {p: round(v * 100.0 / total_share, 2)
                                  for p, v in projected.items()}
+            if merges:
+                projected = apply_regional_merge(projected, region, merges, country, report)
 
             rows += [(now, election_id, level, code, party, share)
                      for party, share in projected.items() if share >= 0.05]
