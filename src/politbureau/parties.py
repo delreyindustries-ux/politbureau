@@ -145,13 +145,26 @@ def resolve(label: str, country: str) -> tuple[str | None, bool]:
     return f"?{provisional}", False
 
 
-def meta(code: str, country: str) -> dict:
+@lru_cache(maxsize=1)
+def _display() -> dict:
+    """{eleccio: {codi: nom}}: noms de presentacio propis d'una eleccio
+    (`display` a sources.yaml). A les generals del 2026 el codi SUMAR es diu
+    "Frente Amplio", pero el resultat del 2023 i les altres eleccions segueixen
+    dient-se Sumar perque es el nom amb que es van presentar."""
+    from .ingest.runner import load_config   # aqui per no fer una importacio circular
+    return {e["id"]: e.get("display") or {} for e in load_config()["elections"]}
+
+
+def meta(code: str, country: str, election: str | None = None) -> dict:
     entry = _catalog().get(country, {}).get("meta", {}) .get(code) or {}
     # Amb .get() i no amb []: una errada de picatge a parties.yaml ha de deixar
     # el partit en gris, no tombar el servidor sencer amb un KeyError.
+    name = entry.get("name") or code.lstrip("?")
+    if election:
+        name = _display().get(election, {}).get(code, name)
     return {
         "code": code,
-        "name": entry.get("name") or code.lstrip("?"),
+        "name": name,
         "color": entry.get("color") or "#9E9E9E",
     }
 

@@ -159,7 +159,7 @@ def area_rows(data, level, code):
         votes = real.get(party)
         share = (votes * 100.0 / valid) if (votes and valid) else None
         now = proj.get(party)
-        rows.append({**parties.meta(party, "ES"), "votes": votes, "share": share,
+        rows.append({**parties.meta(party, "ES", ELECTION), "votes": votes, "share": share,
                      "now": now,
                      "seats": seats_real.get(party, 0),
                      "seats_now": seats_now.get(party, 0),
@@ -318,9 +318,9 @@ def dhondt_for(data, code):
     to_votes = lambda pts: int(round(pts * valid / 100)) if valid else 0   # noqa: E731
     return {
         "cutoff": table["cutoff"],
-        "won": [{**parties.meta(w["party"], "ES"), "divisor": w["divisor"],
+        "won": [{**parties.meta(w["party"], "ES", ELECTION), "divisor": w["divisor"],
                  "quotient": w["quotient"]} for w in table["won"]],
-        "next": [{**parties.meta(n["party"], "ES"), "divisor": n["divisor"],
+        "next": [{**parties.meta(n["party"], "ES", ELECTION), "divisor": n["divisor"],
                   "quotient": n["quotient"], "needed_votes": to_votes(n["needed"])}
                  for n in table["next"][:3]],
     }
@@ -405,8 +405,8 @@ def simulator_for(data, level, code):
     if len(pickable) < 2:
         pickable = set(seen)
 
-    plist = [{"code": c, "name": parties.meta(c, "ES")["name"],
-              "color": parties.meta(c, "ES")["color"],
+    plist = [{"code": c, "name": parties.meta(c, "ES", ELECTION)["name"],
+              "color": parties.meta(c, "ES", ELECTION)["color"],
               "pos": parties.position(c, "ES")} for c in pickable]
     plist.sort(key=lambda x: x["pos"])
     return {"level": level, "seats": sum(c["magnitude"] for c in cons),
@@ -423,7 +423,7 @@ def deputies_for(data, code):
         by_party.setdefault(m["party"], []).append(m)
 
     def row(m, party):
-        info = parties.meta(party, "ES")
+        info = parties.meta(party, "ES", ELECTION)
         return {"color": info["color"], "party_name": info["name"], "name": m["name"],
                 "code": party, "position": m["position"]}
 

@@ -58,7 +58,7 @@ def summary_highlights(cfg):
         """SELECT party, share FROM aggregate
            WHERE election_id = ? AND scope_code = '' ORDER BY share DESC LIMIT 10""",
         (ELECTION,)).fetchall()
-    return [{**parties.meta(r["party"], "ES"), "share": r["share"],
+    return [{**parties.meta(r["party"], "ES", ELECTION), "share": r["share"],
              "seats": seats.get(r["party"])} for r in rows if r["share"] >= 0.5]
 
 

@@ -40,11 +40,19 @@ elections:
     #   MASMADRID, COMUNS: socis del Frente Amplio, la marca de Sumar per al 2027.
     #   CHA: Chunta Aragonesista, que el 2023 ja va anar dins de la llista de
     #   Sumar a l'Arago; l'Alfonso confirma que hi tornaria (03/10/2026).
-    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR}
+    #   PODEMOS: des del 07/10/2026 va dins del Frente Amplio (decisio de
+    #   l'Alfonso). El 2023 Podemos ja anava dins de Sumar, aixi que la base del
+    #   codi SUMAR ja l'inclou i la comparacio es d'igual a igual.
+    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, PODEMOS: SUMAR}
+    # A les generals del 2026 el codi SUMAR es presenta com a Frente Amplio
+    # (parties.meta amb l'eleccio). El 2023 i les altres eleccions: Sumar.
+    display: {SUMAR: "Frente Amplio"}
     # Llistes uniques per comunitat: alla, TOTS els partits a l'esquerra del PSOE
     # (posicio < PSOE a parties.yaml) van en una sola candidatura, que el model
     # compta amb el codi `into`. Els vots se SUMEN (retencio 100 %). Es fa a cada
     # territori despres de la projeccio, perque les enquestes son estatals.
+    #   Des del 07/10 Podemos ja va dins del Frente Amplio a tot Espanya; aqui
+    #   la regla encara hi suma Nueva Canarias.
     #   05 Canarias: Podemos, Sumar i Nueva Canarias (NC negocia una llista
     #      unica "amb marca canaria").  02 Arago: Podemos i Sumar (amb CHA, que
     #      la vol encapcalar).  10 Comunitat Valenciana: Podemos i Sumar (amb
@@ -58,6 +66,9 @@ elections:
     scope: region
     page: "Sub-national_opinion_polling_for_the_next_Spanish_general_election"
     baseline: {election: "congreso-2023", date: "2023-07-23"}
+    # Les mateixes regles que a es-general: Frente Amplio = Sumar + Podemos + socis.
+    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, PODEMOS: SUMAR}
+    display: {SUMAR: "Frente Amplio"}
     election_date: "2026-11-29"
     # Veda de la LOREG (art. 69.7): del 24/11 fins que tanquen els col.legis el
     # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a

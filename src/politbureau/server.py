@@ -184,7 +184,7 @@ def create_app():
         return best
 
     def meta_for(election_id, code, country, layer="projection", names=None):
-        info = parties.meta(code, country)
+        info = parties.meta(code, country, election_id)
         names = names if names is not None else candidate_names(election_id, layer)
         return {**info, "name": names[code]} if code in names else info
 
@@ -337,7 +337,7 @@ def create_app():
 
         def block(source):
             return sorted(
-                ({**parties.meta(p, country), "seats": n} for p, n in source.items() if n),
+                ({**parties.meta(p, country, election_id), "seats": n} for p, n in source.items() if n),
                 key=lambda x: (parties.position(x["code"], country), -x["seats"]))
 
         total = sum(proj.values())
@@ -442,16 +442,16 @@ def create_app():
             "magnitude": magnitude,
             "valid_votes": valid_votes,
             "threshold": 3.0,
-            "rows": [{**parties.meta(r["party"], country), **r} for r in rows],
-            "real": [{**parties.meta(p, country), "seats": n}
+            "rows": [{**parties.meta(r["party"], country, election_id), **r} for r in rows],
+            "real": [{**parties.meta(p, country, election_id), "seats": n}
                      for p, n in sorted(real.items(), key=lambda kv: -kv[1])],
             "pivot": ({"points": pivot[0], "kind": pivot[2],
-                       **parties.meta(pivot[1], country)} if pivot else None),
+                       **parties.meta(pivot[1], country, election_id)} if pivot else None),
             "dhondt": {
                 "cutoff": round(table["cutoff"], 3) if table["cutoff"] else None,
-                "won": [{**parties.meta(w["party"], country), "divisor": w["divisor"],
+                "won": [{**parties.meta(w["party"], country, election_id), "divisor": w["divisor"],
                          "quotient": round(w["quotient"], 3)} for w in table["won"]],
-                "next": [{**parties.meta(n["party"], country), "divisor": n["divisor"],
+                "next": [{**parties.meta(n["party"], country, election_id), "divisor": n["divisor"],
                           "quotient": round(n["quotient"], 3),
                           "needed": round(n["needed"], 2),
                           "needed_votes": to_votes(n["needed"]),
@@ -494,7 +494,7 @@ def create_app():
         for party, members in by_party.items():
             # `name` es el del diputat i `party_name` el del partit: si es fessin
             # servir tots dos la clau "name", el segon esborraria el primer.
-            info = parties.meta(party, country)
+            info = parties.meta(party, country, election_id)
             base_row = {"code": info["code"], "color": info["color"],
                         "party_name": info["name"]}
             for m in members:
@@ -557,7 +557,7 @@ def create_app():
             "pollster": r["pollster"], "client": r["client"],
             "start": r["fieldwork_start"], "end": r["fieldwork_end"],
             "sample": r["sample_size"], "url": r["source_url"], "title": r["source_title"],
-            "results": [{**parties.meta(p, country), "share": s,
+            "results": [{**parties.meta(p, country, election_id), "share": s,
                          **({"name": labels[r["id"]][p]} if by_person and p != "OTHER"
                             and (labels.get(r["id"]) or {}).get(p) else {})}
                         for p, s in sorted(results.get(r["id"], {}).items(),
