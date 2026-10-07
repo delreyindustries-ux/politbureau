@@ -149,6 +149,16 @@ def parse_cell(text):
     text = re.sub(r"\[[^\]]*\]", "", str(text)).translate(DASHES).strip()
     if text.lower() in _EMPTY:
         return None, None, None
+    # "? 62": la casa no dona el percentatge, nomes els escons. El numero que
+    # queda son ESCONS. Abans es llegia com un 62 % de vot: el 06/10/2026 dues
+    # enquestes nomes d'escons (SocioMetrica/PP i la del PSOE) van portar Vox
+    # al 28 % de la mitjana. I "? 8" d'ERC entrava com un 8 %.
+    if text.startswith("?"):
+        s = re.search(r"(\d+)(?:\s*[/–-]\s*(\d+))?", text[1:])
+        if not s:
+            return None, None, None
+        lo = int(s.group(1))
+        return None, lo, int(s.group(2)) if s.group(2) else lo
     m = _CELL.search(text)
     if not m:
         return None, None, None
@@ -499,6 +509,8 @@ def parse_table(table, country, anchor_year):
             if name:
                 prev = poll.labels.get(code)
                 poll.labels[code] = f"{prev} + {name}" if prev and name not in prev else (prev or name)
-        if poll.results:
+        # Una enquesta amb el vot d'un sol partit no es una estimacio de vot:
+        # gairebe sempre es una fila nomes d'escons mal llegida. Fora.
+        if len(poll.results) >= 2:
             polls.append(poll)
     return polls, unknown
