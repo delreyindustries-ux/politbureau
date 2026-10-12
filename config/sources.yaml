@@ -30,7 +30,11 @@ elections:
     #   som espanyols") i vol prohibir-ho als estatuts. Si que es presenta a les
     #   catalanes i a les municipals, per aixo la regla va per eleccio i no al
     #   cataleg de partits. Font: infoLibre i El Español, consultats el 03/10/2026.
-    not_standing: [ALIANCA]
+    #   CUP: no es presenta a les generals del 29/11/2026 (decisio de l'Alfonso,
+    #   12/10/2026). Com que no surt a les enquestes estatals, el model el
+    #   mantenia congelat al seu resultat del 2023 a Catalunya; ara es treu
+    #   tambe de la projeccio (build.py) i el seu vot es reparteix com abstencio.
+    not_standing: [ALIANCA, CUP]
     # Partits que a aquesta eleccio van DINS d'un altre. Es sumen enquesta per
     # enquesta abans de fer la mitjana. Nomes aqui: a les autonomiques i les
     # municipals es presenten sols.
@@ -71,6 +75,7 @@ elections:
     page: "Sub-national_opinion_polling_for_the_next_Spanish_general_election"
     baseline: {election: "congreso-2023", date: "2023-07-23"}
     # Les mateixes regles que a es-general: Frente Amplio = Sumar + Podemos + socis.
+    not_standing: [ALIANCA, CUP]
     merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, PODEMOS: SUMAR}
     display: {SUMAR: "Frente Amplio"}
     election_date: "2026-11-29"

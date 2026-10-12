@@ -142,6 +142,25 @@ ES:
     color: '#FFED00'
     aliases:
     - cup
+  # Partits nous de les generals del 29/11/2026. Encara no surten a cap enquesta
+  # (12/10/2026): es donen d'alta perque, el dia que una casa els pregunti,
+  # entrin amb el seu codi i no amb un de provisional. Colors provisionals.
+  #   D21: Democracia 21, de Miriam Gonzalez. Nomes es presenta a Madrid (28) i
+  #   Barcelona (08). _scope es per comunitat i no pot dir "nomes la provincia
+  #   de Barcelona": si arriben enquestes, caldra afinar-ho.
+  D21:
+    name: Democracia 21
+    color: '#00A3A1'
+    aliases:
+    - democracia 21
+    - d21
+  #   IUSTITIA: Iustitia Europa, de Luis Maria Pardo.
+  IUSTITIA:
+    name: Iustitia Europa
+    color: '#7A5C1E'
+    aliases:
+    - iustitia europa
+    - iustitia
   AA:
     name: Adelante Andalucia
     color: '#2E9E4F'
@@ -382,10 +401,12 @@ _order:
   - PDECAT
   - CC
   - ALIANCA
+  - D21
   - PP
   - UPN
   - VOX
   - SALF
+  - IUSTITIA
   - FO
   - PACMA
   - OTHER

@@ -229,6 +229,7 @@ def project(conn, election_id, baseline_election,
                      else (lambda level, code: None))
         dropped = set()
         merges = regional_merges(election_id)
+        gone = not_standing(election_id)
         for code, before in baseline_shares(conn, baseline_election, level).items():
             projected = seatlib.proportional_swing(
                 before, national_now, national_before, report, concentrate,
@@ -238,8 +239,11 @@ def project(conn, election_id, baseline_election,
             # TOT arreu, i Alianca Catalana acabava sortint a Ceuta i Melilla.
             # Els partits amb ambit declarat nomes existeixen dins del seu.
             region = region_of(level, code)
+            # Tambe els que no es presenten a aquesta eleccio (`not_standing`):
+            # sense enquesta estatal, el swing els deixaria congelats al
+            # resultat de base (la CUP al 2023, quan el 2026 no es presenta).
             outside = [p for p in projected
-                       if not parties.stands_in(p, country, region)]
+                       if not parties.stands_in(p, country, region) or p in gone]
             if outside:
                 dropped.update(outside)
                 for p in outside:
