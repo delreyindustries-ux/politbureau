@@ -79,6 +79,12 @@
     /* Reparteix tota la cambra amb un conjunt de partits fusionats.
        `keep` aplica l'escenari: el vot que no segueix la coalicio desapareix
        del recompte, aixi que la resta de partits pugen de percentatge sols. */
+    /* El 2023 Madrid escollia 37 diputats i Cadis 9; el 29/11/2026, 38 i 8
+       (Reial decret 806/2026). La capa real fa servir els del 2023. */
+    function magOf(con) {
+      return (layer === 'real' && con.magnitude_real) ? con.magnitude_real : con.magnitude;
+    }
+
     function share(codes, keep) {
       var merged = {}, joined = {};
       codes.forEach(function (c) { joined[c] = true; });
@@ -89,9 +95,10 @@
           if (joined[p]) sum += base[p]; else s[p] = base[p];
         });
         if (sum > 0) s.__coalition__ = sum * keep;
-        var got = dhondt(s, con.magnitude);
+        var mag = magOf(con);
+        var got = dhondt(s, mag);
         detail.push({ code: con.code, name: con.name, got: got, share: s.__coalition__ || 0,
-                      magnitude: con.magnitude, valid: con.valid });
+                      magnitude: mag, valid: con.valid });
         Object.keys(got).forEach(function (p) {
           if (got[p]) merged[p] = (merged[p] || 0) + got[p];
         });
@@ -102,7 +109,7 @@
     function baseline() {
       var totals = {};
       data.constituencies.forEach(function (con) {
-        var got = dhondt(con[layer] || {}, con.magnitude);
+        var got = dhondt(con[layer] || {}, magOf(con));
         Object.keys(got).forEach(function (p) {
           if (got[p]) totals[p] = (totals[p] || 0) + got[p];
         });

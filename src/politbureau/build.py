@@ -267,15 +267,26 @@ def project(conn, election_id, baseline_election,
     return total
 
 
+def magnitudes_for(conn, election_id, baseline_election):
+    """Diputats de cada circumscripcio per a `election_id`: els de l'eleccio de
+    base, corregits amb `magnitudes` de sources.yaml quan el decret de
+    convocatoria en canvia algun (el 2026, Madrid 38 i Cadis 8)."""
+    mags = {r["code"]: r["seats"] for r in conn.execute(
+        "SELECT code, seats FROM constituency WHERE election = ? AND level = 'province'",
+        (baseline_election,))}
+    for e in _config()["elections"]:
+        if e["id"] == election_id:
+            mags.update({str(k): int(v) for k, v in (e.get("magnitudes") or {}).items()})
+    return mags
+
+
 def project_seats(conn, election_id, baseline_election):
     """Llei d'Hondt sobre la projeccio provincial: escons estimats per a avui.
 
     Es millor que agafar la mediana de les projeccions dels instituts perque el
     calcul es reproduible i es pot resseguir circumscripcio a circumscripcio.
     """
-    magnitudes = {r["code"]: r["seats"] for r in conn.execute(
-        "SELECT code, seats FROM constituency WHERE election = ? AND level = 'province'",
-        (baseline_election,))}
+    magnitudes = magnitudes_for(conn, election_id, baseline_election)
     if not magnitudes:
         return 0
 

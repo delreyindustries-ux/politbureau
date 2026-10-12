@@ -113,9 +113,13 @@ def gather(conn) -> dict:
             (ELECTION,)):
         proj.setdefault((r["level"], r["code"]), {})[r["party"]] = r["share"]
 
-    magnitude = {r["code"]: r["seats"] for r in conn.execute(
+    # Dues magnituds: la del 2023 (per a la capa real) i la del decret del 2026
+    # (per a l'estimacio). Nomes canvien Madrid (38) i Cadis (8).
+    magnitude_real = {r["code"]: r["seats"] for r in conn.execute(
         "SELECT code, seats FROM constituency WHERE election = ? AND level = 'province'",
         (BASELINE,))}
+    from ..build import magnitudes_for
+    magnitude = magnitudes_for(conn, ELECTION, BASELINE)
     seats_real: dict = {}
     for r in conn.execute(
             """SELECT code, party, seats FROM constituency_result
@@ -134,7 +138,8 @@ def gather(conn) -> dict:
         deputies.setdefault(r["province"], []).append(dict(r))
 
     return {"names": names, "region_of": table, "real": real, "meta": meta,
-            "proj": proj, "magnitude": magnitude, "seats_real": seats_real,
+            "proj": proj, "magnitude": magnitude, "magnitude_real": magnitude_real,
+            "seats_real": seats_real,
             "seats_proj": seats_proj, "deputies": deputies}
 
 
@@ -370,7 +375,9 @@ def simulator_for(data, level, code):
         if not mag or not (real_votes or now):
             continue
         entry = {"code": c, "name": data["names"]["province"].get(c, c),
-                 "magnitude": mag, "valid": valid, "real": {}, "now": {}}
+                 "magnitude": mag,
+                 "magnitude_real": (data.get("magnitude_real") or {}).get(c, mag),
+                 "valid": valid, "real": {}, "now": {}}
         for party, votes in real_votes.items():
             if valid and votes:
                 entry["real"][party] = round(votes * 100.0 / valid, 3)

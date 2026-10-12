@@ -9,7 +9,7 @@ from pathlib import Path
 import yaml
 from flask import Flask, jsonify, request, send_from_directory
 
-from . import db, parties
+from . import build, db, parties
 from .geo import fetch as geo
 from .ingest.runner import SOURCES
 from .model import seats as seatlib
@@ -397,12 +397,9 @@ def create_app():
         country = meta.get("country", "ES")
         base = (meta.get("baseline") or {}).get("election")
 
-        row = conn.execute(
-            "SELECT seats FROM constituency WHERE election = ? AND level = 'province' AND code = ?",
-            (base, code)).fetchone()
-        if not row:
+        magnitude = build.magnitudes_for(conn, election_id, base).get(code)
+        if not magnitude:
             return jsonify({"magnitude": None})
-        magnitude = row["seats"]
 
         shares = {r["party"]: r["share"] for r in conn.execute(
             """SELECT party, share FROM projection
