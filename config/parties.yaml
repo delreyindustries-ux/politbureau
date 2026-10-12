@@ -154,6 +154,13 @@ ES:
     aliases:
     - democracia 21
     - d21
+  #   ALHORA: el partit de Jordi Graupera i Clara Ponsati. La militancia va
+  #   votar presentar-se a les generals del 29/11/2026 (67 %). Nomes a Catalunya.
+  ALHORA:
+    name: Alhora
+    color: '#3A3A3A'
+    aliases:
+    - alhora
   #   IUSTITIA: Iustitia Europa, de Luis Maria Pardo.
   IUSTITIA:
     name: Iustitia Europa
@@ -392,6 +399,7 @@ _order:
   - PSOE
   - PNV
   - JUNTS
+  - ALHORA
   - PAR
   - EXISTE
   - SY
@@ -425,6 +433,8 @@ _scope:
     AA:
     - '01'
     ALIANCA:
+    - 09
+    ALHORA:
     - 09
     BNG:
     - '12'
