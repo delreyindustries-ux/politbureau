@@ -101,8 +101,21 @@ def _region_lookup():
     return region_of
 
 
+def election_scopes(election_id) -> dict:
+    """{partit: {regions on es presenta}} propis d'una eleccio, a partir de
+    `scope_exclude` a sources.yaml (Podemos no es presenta a Catalunya a les
+    generals del 2026, pero si a les altres eleccions)."""
+    rules = next((e.get("scope_exclude") or {} for e in _config()["elections"]
+                  if e["id"] == election_id), {}) if election_id else {}
+    if not rules:
+        return {}
+    from .geo import regions as georegions
+    every = {str(r) for r in georegions.table()["province"].values() if r}
+    return {p: every - {str(r) for r in out} for p, out in rules.items()}
+
+
 def scope_concentration(conn, baseline_election, national_before, national_now,
-                        country="ES"):
+                        country="ES", extra=None):
     """Com projectar els partits amb ambit territorial declarat a `_scope`.
 
     El problema: un partit que nomes es presenta a Catalunya i que les enquestes
@@ -137,7 +150,9 @@ def scope_concentration(conn, baseline_election, national_before, national_now,
         return {}
 
     out = {}
-    for party, regions in (parties.scopes().get(country) or {}).items():
+    scopes = dict(parties.scopes().get(country) or {})
+    scopes.update(extra or {})
+    for party, regions in scopes.items():
         now = national_now.get(party)
         base = national_before.get(party)
         if now is None or (base and base >= seatlib.MIN_BASE):
@@ -211,8 +226,9 @@ def project(conn, election_id, baseline_election,
     if not national_before:
         return 0
 
+    extra_scopes = election_scopes(election_id)
     concentrate = scope_concentration(conn, baseline_election, national_before,
-                                      national_now, country)
+                                      national_now, country, extra_scopes)
 
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     total = 0
@@ -243,7 +259,8 @@ def project(conn, election_id, baseline_election,
             # sense enquesta estatal, el swing els deixaria congelats al
             # resultat de base (la CUP al 2023, quan el 2026 no es presenta).
             outside = [p for p in projected
-                       if not parties.stands_in(p, country, region) or p in gone]
+                       if not parties.stands_in(p, country, region) or p in gone
+                       or (p in extra_scopes and region not in extra_scopes[p])]
             if outside:
                 dropped.update(outside)
                 for p in outside:

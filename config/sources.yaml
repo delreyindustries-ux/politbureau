@@ -44,10 +44,15 @@ elections:
     #   MASMADRID, COMUNS: socis del Frente Amplio, la marca de Sumar per al 2027.
     #   CHA: Chunta Aragonesista, que el 2023 ja va anar dins de la llista de
     #   Sumar a l'Arago; l'Alfonso confirma que hi tornaria (03/10/2026).
-    #   PODEMOS: des del 07/10/2026 va dins del Frente Amplio (decisio de
-    #   l'Alfonso). El 2023 Podemos ja anava dins de Sumar, aixi que la base del
-    #   codi SUMAR ja l'inclou i la comparacio es d'igual a igual.
-    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, PODEMOS: SUMAR}
+    #   PODEMOS: del 07/10 al 13/10/2026 es va comptar dins del Frente Amplio;
+    #   des del 13/10 (decisio de l'Alfonso) torna a anar per separat.
+    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR}
+    # Partits que a AQUESTA eleccio no es presenten en algunes comunitats (codi
+    # INE). A diferencia de _scope (parties.yaml), val nomes per a aquesta eleccio.
+    #   PODEMOS: no es presenta a Catalunya (09) a les generals del 29/11/2026
+    #   (decisio de l'Alfonso, 13/10/2026). El seu vot de les enquestes estatals
+    #   es concentra a la resta d'Espanya (build.scope_concentration).
+    scope_exclude: {PODEMOS: ["09"]}
     # A les generals del 2026 el codi SUMAR es presenta com a Frente Amplio
     # (parties.meta amb l'eleccio). El 2023 i les altres eleccions: Sumar.
     display: {SUMAR: "Frente Amplio"}
@@ -76,7 +81,8 @@ elections:
     baseline: {election: "congreso-2023", date: "2023-07-23"}
     # Les mateixes regles que a es-general: Frente Amplio = Sumar + Podemos + socis.
     not_standing: [ALIANCA, CUP]
-    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, PODEMOS: SUMAR}
+    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR}
+    scope_exclude: {PODEMOS: ["09"]}
     display: {SUMAR: "Frente Amplio"}
     election_date: "2026-11-29"
     # Veda de la LOREG (art. 69.7): del 24/11 fins que tanquen els col.legis el
