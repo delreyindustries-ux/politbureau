@@ -34,7 +34,7 @@ elections:
     #   12/10/2026). Com que no surt a les enquestes estatals, el model el
     #   mantenia congelat al seu resultat del 2023 a Catalunya; ara es treu
     #   tambe de la projeccio (build.py) i el seu vot es reparteix com abstencio.
-    not_standing: [ALIANCA, CUP]
+    not_standing: [ALIANCA, CUP, UPL]   # UPL: no es presenta a Lleó (14/10/2026)
     # Partits que a aquesta eleccio van DINS d'un altre. Es sumen enquesta per
     # enquesta abans de fer la mitjana. Nomes aqui: a les autonomiques i les
     # municipals es presenten sols.
@@ -80,7 +80,7 @@ elections:
     page: "Sub-national_opinion_polling_for_the_next_Spanish_general_election"
     baseline: {election: "congreso-2023", date: "2023-07-23"}
     # Les mateixes regles que a es-general: Frente Amplio = Sumar + Podemos + socis.
-    not_standing: [ALIANCA, CUP]
+    not_standing: [ALIANCA, CUP, UPL]   # UPL: no es presenta a Lleó (14/10/2026)
     merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR}
     scope_exclude: {PODEMOS: ["09"]}
     display: {SUMAR: "Frente Amplio"}

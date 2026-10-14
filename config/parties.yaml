@@ -137,6 +137,15 @@ ES:
     color: '#0043A9'
     aliases:
     - upn
+  #   UPL: Unión del Pueblo Leonés. Ambit Castella i Lleó (Lleó, Zamora i Salamanca).
+  #   No es presenta a les generals del 29/11/2026 (decisió de l'Alfonso, 14/10/2026).
+  UPL:
+    name: UPL
+    color: '#8B1E3F'
+    aliases:
+    - upl
+    - union del pueblo leones
+    - unión del pueblo leonés
   CUP:
     name: CUP
     color: '#FFED00'
@@ -466,6 +475,8 @@ _scope:
     PNV:
     - '16'
     SY:
+    - '07'
+    UPL:
     - '07'
     UPN:
     - '15'
