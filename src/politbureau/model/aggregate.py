@@ -6,6 +6,9 @@ mesos amb 400. El pes combina dues coses:
   * recencia  -> 0.5 ** (dies_enrere / half_life_days)
   * mostra    -> sqrt(n / 1000), limitat perque una macroenquesta no domini
 
+Hi pot haver un pes editorial per casa (`pollster_weights` a sources.yaml), que
+multiplica el pes de cada enquesta d'aquell institut: arriba com a `weight`.
+
 No s'aplica correccio per "casa" (house effect): caldria un model bayesia i,
 sense saber-ho, seria pitjor el remei que la malaltia. Aixo es documenta al
 README com a limitacio coneguda.
@@ -49,6 +52,7 @@ def aggregate(polls, today=None, half_life=14.0, max_age_days=90, min_sample=300
     buckets: dict[str, list[tuple[float, float, int | None]]] = {}
     for poll in usable:
         w = weight(poll["fieldwork_end"], poll.get("sample_size"), today, half_life)
+        w *= poll.get("weight", 1.0)
         for party, (share, seats_lo, seats_hi) in poll["results"].items():
             if share is None:
                 continue

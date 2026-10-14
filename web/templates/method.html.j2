@@ -25,6 +25,12 @@
     <li><b>Recencia</b>: el peso cae a la mitad cada 14 días.</li>
     <li><b>Muestra</b>: crece con la raíz cuadrada del número de entrevistas, con un
     tope para que una macroencuesta no domine al resto.</li>
+    {% for name, mult in stats.pollster_weights.items() %}
+    <li><b>Casa encuestadora</b>: las encuestas del {{ name }} cuentan {{ mult }} veces más que las de
+    cualquier otro instituto. Es una decisión editorial de este sitio, no un criterio
+    estadístico, y mueve la media hacia lo que diga el {{ name }}. Las reestimaciones de
+    otras casas con datos del {{ name }} cuentan como una encuesta normal.</li>
+    {% endfor %}
   </ul>
   <p>Se descartan las de más de 90 días y las de menos de 300 entrevistas. No se
   aplica corrección de sesgo por casa encuestadora: hacerlo bien exige un modelo
@@ -97,6 +103,12 @@
     <li><b>Recència</b>: el pes cau a la meitat cada 14 dies.</li>
     <li><b>Mostra</b>: creix amb l'arrel quadrada del nombre d'entrevistes, amb un
     límit perquè una macroenquesta no domini la resta.</li>
+    {% for name, mult in stats.pollster_weights.items() %}
+    <li><b>Casa enquestadora</b>: les enquestes del {{ name }} compten {{ mult }} vegades més que les de
+    qualsevol altre institut. És una decisió editorial d'aquest lloc, no un criteri
+    estadístic, i mou la mitjana cap al que digui el {{ name }}. Les reestimacions d'altres
+    cases amb dades del {{ name }} compten com una enquesta normal.</li>
+    {% endfor %}
   </ul>
   <p>Es descarten les de més de 90 dies i les de menys de 300 entrevistes. No s'aplica
   correcció de biaix per casa enquestadora: fer-ho bé exigeix un model bayesià, i

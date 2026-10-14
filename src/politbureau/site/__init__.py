@@ -81,7 +81,14 @@ def site_stats(conn):
             "WHERE election='congreso-2023' AND level='national' LIMIT 1")),
         "polls": thousands(q("SELECT COUNT(*) FROM poll WHERE election_id=?", ELECTION)),
         "pollsters": q("SELECT COUNT(DISTINCT pollster) FROM poll WHERE election_id=?", ELECTION),
+        "pollster_weights": _pollster_weights(),
     }
+
+
+def _pollster_weights():
+    from ..build import pollster_weights
+    return {k: (int(v) if float(v).is_integer() else v)
+            for k, v in pollster_weights(ELECTION).items() if v != 1}
 
 
 def run(clean=True):

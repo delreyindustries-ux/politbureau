@@ -25,6 +25,17 @@ def _config():
         return yaml.safe_load(fh)
 
 
+def pollster_weights(election_id) -> dict:
+    """{institut: multiplicador} d'una eleccio (`pollster_weights` a sources.yaml).
+    El nom ha de coincidir exactament amb el de la taula de Wikipedia: "CIS" no
+    inclou les reestimacions d'altres cases fetes amb les dades del CIS, que
+    surten com a "CIS (Target Point)", "CIS (Ateneo del Dato)"..."""
+    for e in _config()["elections"]:
+        if e["id"] == election_id:
+            return {str(k): float(v) for k, v in (e.get("pollster_weights") or {}).items()}
+    return {}
+
+
 def load_polls(conn, election_id, scope_code=None):
     where = "p.election_id = ?"
     args = [election_id]
@@ -35,7 +46,7 @@ def load_polls(conn, election_id, scope_code=None):
         args.append(scope_code)
 
     rows = conn.execute(
-        f"""SELECT p.id, p.fieldwork_end, p.sample_size, r.party, r.share, r.seats_lo, r.seats_hi
+        f"""SELECT p.id, p.pollster, p.fieldwork_end, p.sample_size, r.party, r.share, r.seats_lo, r.seats_hi
             FROM poll p JOIN poll_result r ON r.poll_id = p.id
             WHERE {where}""", args).fetchall()
 
@@ -45,11 +56,13 @@ def load_polls(conn, election_id, scope_code=None):
     # en pregunten un.
     merge = next((e.get("merge") or {} for e in _config()["elections"]
                   if e["id"] == election_id), {})
+    weights = pollster_weights(election_id)
     polls: dict[int, dict] = {}
     for r in rows:
         entry = polls.setdefault(r["id"], {
             "fieldwork_end": r["fieldwork_end"],
             "sample_size": r["sample_size"],
+            "weight": weights.get((r["pollster"] or "").strip(), 1.0),
             "results": {},
         })
         code = merge.get(r["party"], r["party"])
