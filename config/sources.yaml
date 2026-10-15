@@ -60,6 +60,8 @@ elections:
     # A les generals del 2026 el codi SUMAR es presenta com a Frente Amplio
     # (parties.meta amb l'eleccio). El 2023 i les altres eleccions: Sumar.
     display: {SUMAR: "Frente Amplio"}
+    # A Canaries (05) la llista unica va amb Nueva Canarias (acord del 15/10/2026).
+    regional_display: {"05": {SUMAR: "Nueva Canarias-Frente Amplio"}}
     # Diputats per circumscripcio al 29/11/2026, quan no son els del 2023. Font:
     # Reial decret 806/2026, de 5 d'octubre (BOE-A-2026-20742), annex: Madrid
     # passa de 37 a 38 i Cadis de 9 a 8; la resta, igual. Total: 350.
@@ -92,6 +94,8 @@ elections:
     merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR}
     scope_exclude: {PODEMOS: ["09"]}
     display: {SUMAR: "Frente Amplio"}
+    # A Canaries (05) la llista unica va amb Nueva Canarias (acord del 15/10/2026).
+    regional_display: {"05": {SUMAR: "Nueva Canarias-Frente Amplio"}}
     election_date: "2026-11-29"
     # Veda de la LOREG (art. 69.7): del 24/11 fins que tanquen els col.legis el
     # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a

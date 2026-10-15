@@ -143,6 +143,18 @@ def gather(conn) -> dict:
             "seats_proj": seats_proj, "deputies": deputies}
 
 
+def region_code(data, level, code):
+    """Comunitat d'un territori, per als noms de partit propis d'una comunitat."""
+    prov_region = data["region_of"]["province"]
+    if level == "region":
+        return code
+    if level == "province":
+        return prov_region.get(code)
+    if level == "municipality":
+        return prov_region.get(code[:2])
+    return None
+
+
 MINOR_CUT = 0.3     # per sota d'aixo la formacio va al bloc desplegable
 
 
@@ -159,12 +171,13 @@ def area_rows(data, level, code):
     valid = (data["meta"].get((level, code)) or {}).get("valid_votes") or 0
     seats_real = aggregate_seats(data, "seats_real", level, code)
     seats_now = aggregate_seats(data, "seats_proj", level, code)
+    region = region_code(data, level, code)
     rows = []
     for party in set(real) | set(proj):
         votes = real.get(party)
         share = (votes * 100.0 / valid) if (votes and valid) else None
         now = proj.get(party)
-        rows.append({**parties.meta(party, "ES", ELECTION), "votes": votes, "share": share,
+        rows.append({**parties.meta(party, "ES", ELECTION, region), "votes": votes, "share": share,
                      "now": now,
                      "seats": seats_real.get(party, 0),
                      "seats_now": seats_now.get(party, 0),
@@ -321,11 +334,12 @@ def dhondt_for(data, code):
     if not table["won"]:
         return None
     to_votes = lambda pts: int(round(pts * valid / 100)) if valid else 0   # noqa: E731
+    region = region_code(data, "province", code)
     return {
         "cutoff": table["cutoff"],
-        "won": [{**parties.meta(w["party"], "ES", ELECTION), "divisor": w["divisor"],
+        "won": [{**parties.meta(w["party"], "ES", ELECTION, region), "divisor": w["divisor"],
                  "quotient": w["quotient"]} for w in table["won"]],
-        "next": [{**parties.meta(n["party"], "ES", ELECTION), "divisor": n["divisor"],
+        "next": [{**parties.meta(n["party"], "ES", ELECTION, region), "divisor": n["divisor"],
                   "quotient": n["quotient"], "needed_votes": to_votes(n["needed"])}
                  for n in table["next"][:3]],
     }
@@ -412,7 +426,8 @@ def simulator_for(data, level, code):
     if len(pickable) < 2:
         pickable = set(seen)
 
-    plist = [{"code": c, "name": parties.meta(c, "ES", ELECTION)["name"],
+    region = region_code(data, level, code)
+    plist = [{"code": c, "name": parties.meta(c, "ES", ELECTION, region)["name"],
               "color": parties.meta(c, "ES", ELECTION)["color"],
               "pos": parties.position(c, "ES")} for c in pickable]
     plist.sort(key=lambda x: x["pos"])
@@ -429,8 +444,10 @@ def deputies_for(data, code):
     for m in members:
         by_party.setdefault(m["party"], []).append(m)
 
+    region = region_code(data, "province", code)
+
     def row(m, party):
-        info = parties.meta(party, "ES", ELECTION)
+        info = parties.meta(party, "ES", ELECTION, region)
         return {"color": info["color"], "party_name": info["name"], "name": m["name"],
                 "code": party, "position": m["position"]}
 

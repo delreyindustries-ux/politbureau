@@ -155,13 +155,26 @@ def _display() -> dict:
     return {e["id"]: e.get("display") or {} for e in load_config()["elections"]}
 
 
-def meta(code: str, country: str, election: str | None = None) -> dict:
+@lru_cache(maxsize=1)
+def _regional_display() -> dict:
+    """{eleccio: {comunitat: {codi: nom}}}: el mateix que `display`, pero nomes
+    dins d'una comunitat (`regional_display` a sources.yaml). A Canaries la llista
+    del Frente Amplio va amb Nueva Canarias i es diu "Nueva Canarias-Frente Amplio";
+    a la resta d'Espanya, "Frente Amplio"."""
+    from .ingest.runner import load_config
+    return {e["id"]: {str(r).zfill(2): names for r, names in (e.get("regional_display") or {}).items()}
+            for e in load_config()["elections"]}
+
+
+def meta(code: str, country: str, election: str | None = None, region: str | None = None) -> dict:
     entry = _catalog().get(country, {}).get("meta", {}) .get(code) or {}
     # Amb .get() i no amb []: una errada de picatge a parties.yaml ha de deixar
     # el partit en gris, no tombar el servidor sencer amb un KeyError.
     name = entry.get("name") or code.lstrip("?")
     if election:
         name = _display().get(election, {}).get(code, name)
+        if region:
+            name = _regional_display().get(election, {}).get(str(region).zfill(2), {}).get(code, name)
     return {
         "code": code,
         "name": name,
