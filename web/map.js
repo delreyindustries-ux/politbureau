@@ -388,11 +388,21 @@ addEventListener('resize', resize);
 /* El tooltip mostra la intencio de vot SENCERA del territori, no nomes qui
    guanya: el guanyador sol amaga si va per mig punt o per trenta, i quin partit
    li ve al darrere. */
+/* Les coalicions amb nom propi d'una comunitat (Unidad del Pueblo Canario...)
+   es diuen aixi nomes dins d'aquella comunitat. */
+function nameIn(p, i, id) {
+  const reg = state.regional;
+  if (!reg || !Object.keys(reg).length) return p.name;
+  const prov = state.level === 'province' ? id : String(id).slice(0, 2);
+  const r = state.level === 'region' ? id : (state.provRegion || {})[prov];
+  return ((reg[r] || {})[i]) || p.name;
+}
+
 function tooltipHTML(shape) {
   const row = state.areas[shape.id];
   if (!row) return `<b>${shape.name}</b><span style="color:#98a0b5">sense dades</span>`;
   const ranked = state.parties
-    .map((p, i) => ({ ...p, share: row[2 + i] }))
+    .map((p, i) => ({ ...p, name: nameIn(p, i, shape.id), share: row[2 + i] }))
     .filter((p) => p.share > 0.2)
     .sort((a, b) => b.share - a.share)
     .slice(0, 9);
@@ -524,6 +534,8 @@ async function loadMap() {
   state.areas = d.areas;
   state.parties = d.parties;
   state.palette = d.palette;
+  state.regional = d.regional || {};
+  state.provRegion = d.prov_region || {};
   state.fills = null;                    // colors nous: cal recalcular-los
   if (state.colourBy >= state.parties.length) state.colourBy = -1;
 

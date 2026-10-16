@@ -302,8 +302,22 @@ def create_app():
 
         used = set(keep) | {v[0] for v in shares.values() for v in [seatlib.winner(v)] if v[0]}
         names = candidate_names(election_id, layer)
+        # Noms de coalicio propis d'una comunitat (Unidad del Pueblo Canario...):
+        # nomes a l'estimacio, que el 2023 aquestes llistes no existien. Van per
+        # index de `parties`, i el mapa sap la comunitat de cada provincia.
+        regional, prov_region = {}, {}
+        if layer == "projection" and country == "ES":
+            for reg, by_code in parties.regional_names(election_id).items():
+                idx = {str(keep.index(c)): n for c, n in by_code.items() if c in keep}
+                if idx:
+                    regional[reg] = idx
+            if regional:
+                from .geo import regions as georegions
+                prov_region = {str(p).zfill(2): str(r).zfill(2)
+                               for p, r in georegions.table()["province"].items() if r}
         return jsonify({
             "level": level, "layer": layer, "n": len(out),
+            "regional": regional, "prov_region": prov_region,
             "parties": [meta_for(election_id, p, country, layer, names) for p in keep],
             "palette": {p: meta_for(election_id, p, country, layer, names) for p in used},
             "areas": out,

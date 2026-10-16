@@ -166,6 +166,11 @@ def _regional_display() -> dict:
             for e in load_config()["elections"]}
 
 
+def regional_names(election: str | None) -> dict:
+    """{comunitat: {codi: nom}} propis d'una eleccio (per al mapa)."""
+    return _regional_display().get(election, {}) if election else {}
+
+
 def meta(code: str, country: str, election: str | None = None, region: str | None = None) -> dict:
     entry = _catalog().get(country, {}).get("meta", {}) .get(code) or {}
     # Amb .get() i no amb []: una errada de picatge a parties.yaml ha de deixar
