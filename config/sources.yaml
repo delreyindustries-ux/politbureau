@@ -65,10 +65,15 @@ elections:
     #   05 Canaries: Podemos + NC-BC + IU + Sumar = "Unidad del Pueblo Canario"
     #   04 Balears:  Ara Mes + Sumar + EU (sense Podemos), nom oficial pendent
     #   02 Arago:    CHA + IU + Sumar + PV + Recortes Cero (sense Podemos)
+    #   10 Pais Valencia: Compromis + Podem + ERPV; EUPV va amb el Frente Amplio a part
+    #      (sense enquestes per separar-la: el model la deixa dins la llista)
+    #   15 Navarra: "Unión del Pueblo Navarro en coalición con el Partido Popular"
     regional_display:
       "05": {SUMAR: "Unidad del Pueblo Canario"}
-      "04": {SUMAR: "Ara Més–Frente Amplio"}
-      "02": {SUMAR: "Chunta Aragonesista–Frente Amplio Aragón"}
+      "04": {SUMAR: "Ara Més-Front Ampli"}
+      "02": {SUMAR: "Chunta Aragonesista-Frente Amplio Aragón"}
+      "10": {SUMAR: "Compromís"}
+      "15": {PP: "UPN-PP"}
     # Diputats per circumscripcio al 29/11/2026, quan no son els del 2023. Font:
     # Reial decret 806/2026, de 5 d'octubre (BOE-A-2026-20742), annex: Madrid
     # passa de 37 a 38 i Cadis de 9 a 8; la resta, igual. Total: 350.
@@ -86,6 +91,8 @@ elections:
     regional_merge:
       # Arago (02) en surt el 16/10/2026: Podemos hi va per separat.
       - {regions: ["05", "10"], into: SUMAR, left_of: PSOE}
+      # Navarra (15): UPN i PP van junts (acord del 13/10/2026).
+      - {regions: ["15"], into: PP, parties: [UPN]}
 
   - id: es-general-sub
     country: ES
@@ -107,10 +114,15 @@ elections:
     #   05 Canaries: Podemos + NC-BC + IU + Sumar = "Unidad del Pueblo Canario"
     #   04 Balears:  Ara Mes + Sumar + EU (sense Podemos), nom oficial pendent
     #   02 Arago:    CHA + IU + Sumar + PV + Recortes Cero (sense Podemos)
+    #   10 Pais Valencia: Compromis + Podem + ERPV; EUPV va amb el Frente Amplio a part
+    #      (sense enquestes per separar-la: el model la deixa dins la llista)
+    #   15 Navarra: "Unión del Pueblo Navarro en coalición con el Partido Popular"
     regional_display:
       "05": {SUMAR: "Unidad del Pueblo Canario"}
-      "04": {SUMAR: "Ara Més–Frente Amplio"}
-      "02": {SUMAR: "Chunta Aragonesista–Frente Amplio Aragón"}
+      "04": {SUMAR: "Ara Més-Front Ampli"}
+      "02": {SUMAR: "Chunta Aragonesista-Frente Amplio Aragón"}
+      "10": {SUMAR: "Compromís"}
+      "15": {PP: "UPN-PP"}
     election_date: "2026-11-29"
     # Veda de la LOREG (art. 69.7): del 24/11 fins que tanquen els col.legis el
     # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a

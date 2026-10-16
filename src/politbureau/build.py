@@ -203,15 +203,19 @@ def regional_merges(election_id):
 
 def apply_regional_merge(projected, region, rules, country="ES", report=None):
     """Dins de les regions d'una regla, ajunta a `into` tots els partits a
-    l'esquerra de `left_of`. Els percentatges ja sumen 100 i se sumen, aixi que
-    no cal renormalitzar."""
+    l'esquerra de `left_of`, o be els de la llista `parties` (coalicions que no
+    son "tota l'esquerra", com UPN amb el PP a Navarra). Els percentatges ja
+    sumen 100 i se sumen, aixi que no cal renormalitzar."""
     for rule in rules:
         if region not in rule["regions"]:
             continue
-        limit = parties.position(rule["left_of"], country)
         into = rule["into"]
-        joined = [p for p in projected
-                  if p != into and parties.position(p, country) < limit]
+        if rule.get("parties"):
+            joined = [p for p in projected if p != into and p in rule["parties"]]
+        else:
+            limit = parties.position(rule["left_of"], country)
+            joined = [p for p in projected
+                      if p != into and parties.position(p, country) < limit]
         if not joined:
             continue
         projected[into] = round(projected.get(into, 0) + sum(projected.pop(p) for p in joined), 2)
