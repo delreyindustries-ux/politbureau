@@ -1,0 +1,118 @@
+{% extends "base.html.j2" %}
+{% block content %}
+<article class="doc wide">
+{% if lang == 'es' %}
+  <h1>Participación en los feudos progresistas</h1>
+  <p class="lede">Los {{ rows | length }} municipios que más han votado a la izquierda en las
+  últimas cuatro elecciones generales, ordenados de más a menos electores. El 29 de noviembre
+  esta tabla se actualiza con cada dato de participación del Ministerio del Interior
+  (14:00, 18:00 y escrutinio) y se compara con la misma hora de 2023.</p>
+{% else %}
+  <h1>Participació als feus progressistes</h1>
+  <p class="lede">Els {{ rows | length }} municipis que més han votat l'esquerra a les darreres
+  quatre eleccions generals, ordenats de més a menys electors. El 29 de novembre aquesta taula
+  s'actualitza amb cada dada de participació del Ministeri de l'Interior (14:00, 18:00 i
+  escrutini) i es compara amb la mateixa hora del 2023.</p>
+{% endif %}
+
+  <p>{{ 'Lista completa, con el voto a la izquierda en cada elección:' if lang == 'es' else "Llista completa, amb el vot a l'esquerra a cada elecció:" }}
+    <a href="{{ root }}{{ lang }}/{{ page('strongholds') }}/">{{ t('nav_strongholds') }}</a>.</p>
+
+  {% if live.updated %}
+  <p class="note">{{ 'Última actualización' if lang == 'es' else 'Darrera actualització' }}:
+    <b>{{ live.updated }}</b> · {{ live.stage_label }}</p>
+  {% else %}
+  <p class="note">{{ 'Los datos del 29N aparecerán aquí a partir del primer avance de participación, a las 14:00. Mientras tanto, la tabla muestra la participación de 2023.'
+      if lang == 'es' else
+      'Les dades del 29N apareixeran aquí a partir del primer avanç de participació, a les 14:00. Mentrestant, la taula mostra la participació del 2023.' }}</p>
+  {% endif %}
+
+  <h2>{{ 'Resumen' if lang == 'es' else 'Resum' }}</h2>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th></th>
+      <th class="n">14:00 · 2023</th><th class="n">14:00 · 29N</th>
+      <th class="n">18:00 · 2023</th><th class="n">18:00 · 29N</th>
+      <th class="n">{{ 'Final' }} · 2023</th><th class="n">{{ 'Final' }} · 29N</th>
+    </tr></thead>
+    <tbody>
+    {% for s in summary %}
+    <tr>
+      <td>{{ s.label }}</td>
+      {% for k in ('t14', 't18', 'final') %}
+      <td class="n">{{ pct(s.before[k]) }}</td>
+      <td class="n">{{ pct(s.now[k]) }}{% if s.now[k] is not none and s.before[k] is not none %}
+        <span class="{{ 'up' if s.now[k] >= s.before[k] else 'down' }}">{{ diff(s.now[k] - s.before[k]) }}</span>{% endif %}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  <h2>{{ 'Los ' ~ rows|length ~ ' municipios' if lang == 'es' else 'Els ' ~ rows|length ~ ' municipis' }}</h2>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th class="n">#</th>
+      <th>{{ 'Municipio' if lang == 'es' else 'Municipi' }}</th>
+      <th>{{ 'Provincia' if lang == 'es' else 'Província' }}</th>
+      <th class="n">{{ 'Electores 29N' if lang == 'es' else 'Electors 29N' }}</th>
+      <th class="n" title="{{ 'Media 2016–2023' if lang == 'es' else 'Mitjana 2016–2023' }}">{{ 'Voto izq.' if lang == 'es' else 'Vot esq.' }}</th>
+      <th class="n">14:00 · 2023</th><th class="n">14:00 · 29N</th>
+      <th class="n">18:00 · 2023</th><th class="n">18:00 · 29N</th>
+      <th class="n">Final · 2023</th><th class="n">Final · 29N</th>
+    </tr></thead>
+    <tbody>
+    {% for r in rows %}
+    <tr>
+      <td class="n">{{ loop.index }}</td>
+      <td>{% if r.url %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a>{% else %}{{ r.name }}{% endif %}</td>
+      <td>{{ r.province_name }}</td>
+      <td class="n">{{ r.census_2026 | thousands if r.census_2026 else '—' }}</td>
+      <td class="n">{{ pct(r.left_avg) }}</td>
+      {% for k, before in (('t14', r.t23_14), ('t18', r.t23_18), ('final', r.t23_final)) %}
+      <td class="n">{{ pct(before) }}</td>
+      <td class="n">{% set now = r.now.get(k) %}{{ pct(now) }}{% if now is not none and before is not none %}
+        <span class="{{ 'up' if now >= before else 'down' }}">{{ diff(now - before) }}</span>{% endif %}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+{% if lang == 'es' %}
+  <h2>Cómo se ha hecho la lista</h2>
+  <ul>
+    <li><b>Voto de izquierda</b>: PSOE y todo lo que hay a su izquierda (Podemos, Sumar, IU,
+      ERC, EH Bildu, BNG, CUP, Compromís, Más País, Chunta, Nueva Canarias, Geroa Bai…).</li>
+    <li><b>«Tradicionalmente»</b>: la media de su porcentaje en las generales de 2016, abril de
+      2019, noviembre de 2019 y 2023. Entran los {{ rows | length }} con la media más alta
+      (desde el {{ pct(cut) }}) y se ordenan por electores.</li>
+    <li><b>Participación</b>: votantes sobre el censo de residentes en España de cada municipio.
+      La de 2023 a las 14:00 y a las 18:00 son los avances oficiales de aquel día.</li>
+    <li>Muchos son pueblos pequeños: en un municipio de pocos centenares de electores, unos
+      pocos votos mueven mucho el porcentaje.</li>
+  </ul>
+{% else %}
+  <h2>Com s'ha fet la llista</h2>
+  <ul>
+    <li><b>Vot d'esquerres</b>: el PSOE i tot el que hi ha a la seva esquerra (Podemos, Sumar,
+      IU, ERC, EH Bildu, BNG, CUP, Compromís, Más País, Chunta, Nueva Canarias, Geroa Bai…).</li>
+    <li><b>«Tradicionalment»</b>: la mitjana del seu percentatge a les generals del 2016,
+      l'abril del 2019, el novembre del 2019 i el 2023. Hi entren els {{ rows | length }} amb la
+      mitjana més alta (des del {{ pct(cut) }}) i s'ordenen per electors.</li>
+    <li><b>Participació</b>: votants sobre el cens de residents a Espanya de cada municipi.
+      La del 2023 a les 14:00 i a les 18:00 són els avanços oficials d'aquell dia.</li>
+    <li>Molts són pobles petits: en un municipi de pocs centenars d'electors, pocs vots mouen
+      molt el percentatge.</li>
+  </ul>
+{% endif %}
+  <p class="fine">{{ 'Fuentes' if lang == 'es' else 'Fonts' }}: Ministerio del Interior
+    (<a href="https://infoelectoral.interior.gob.es/" rel="noopener" target="_blank">Infoelectoral</a>),
+    generales de 2016, 2019 y 2023; {{ 'censo del 29N' if lang == 'es' else 'cens del 29N' }}:
+    <a href="https://www.ine.es/dyngs/Prensa/es/EG2026.htm" rel="noopener" target="_blank">INE</a>.</p>
+</article>
+{% endblock %}

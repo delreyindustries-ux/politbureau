@@ -202,6 +202,98 @@ def legal_pages(env, cfg):
             write(DIST / canonical.strip("/") / "index.html", html)
 
 
+def participation_page(env, cfg, urls):
+    """Participacio als 500 municipis de tradicio progressista (nit del 29N)."""
+    from .. import participation
+    rows = participation.load()
+    if not rows:
+        return 0
+    live = participation.live()
+    munis = live.get("munis") or {}
+    provs = geo.names("ES", "province")
+    ref = participation.reference()
+    stages = {"14h": ("avance de las 14:00", "avanç de les 14:00"),
+              "18h": ("avance de las 18:00", "avanç de les 18:00"),
+              "final": ("escrutinio", "escrutini")}
+
+    def fmt_pct(v):
+        return "—" if v is None else f"{v:.1f}".replace(".", ",") + " %"
+
+    def fmt_diff(v):
+        return ("+" if v >= 0 else "−") + f"{abs(v):.1f}".replace(".", ",")
+
+    def group_now(key):
+        """Participacio conjunta dels 500 amb les dades de la nit (ponderada pel cens)."""
+        pairs = [((munis.get(r["code"]) or {}).get(key), r["census_2026"] or 0) for r in rows]
+        pairs = [(v, w) for v, w in pairs if v is not None and w]
+        if not pairs:
+            return None
+        return round(sum(v * w for v, w in pairs) / sum(w for _, w in pairs), 2)
+
+    c23 = sum(r["c23"] or 0 for r in rows)
+    before500 = {k: round(sum(r[f"v23_{s}"] or 0 for r in rows) * 100.0 / c23, 2)
+                 for k, s in (("t14", "14"), ("t18", "18"), ("final", "final"))}
+    cut = min(r["left_avg"] for r in rows)
+    n = 0
+    for lang in i18n.LANGS:
+        canonical = i18n.page_url("participation", lang)
+        view = [{**r, "url": (urls.get(("municipality", r["code"])) or {}).get(lang),
+                 "province_name": provs.get(r["province"], r["province"]),
+                 "now": munis.get(r["code"]) or {}} for r in rows]
+        summary = [
+            {"label": (f"Los {len(rows)} municipios" if lang == "es" else f"Els {len(rows)} municipis"),
+             "before": before500, "now": {k: group_now(k) for k in ("t14", "t18", "final")}},
+            {"label": "Toda España" if lang == "es" else "Tot Espanya",
+             "before": {k: ref.get(k) for k in ("t14", "t18", "final")},
+             "now": {k: (live.get("national") or {}).get(k) for k in ("t14", "t18", "final")}},
+        ]
+        stage = stages.get(live.get("stage"), ("", ""))[0 if lang == "es" else 1]
+        html = render_page(
+            env, cfg, "participation.html.j2", lang, canonical,
+            {lg: i18n.page_url("participation", lg) for lg in i18n.LANGS},
+            ("Participación en los feudos progresistas · 29N" if lang == "es"
+             else "Participació als feus progressistes · 29N"),
+            (f"Participación en los {len(rows)} municipios con más voto de izquierda de "
+             "las últimas generales, hora a hora el 29N y comparada con 2023." if lang == "es" else
+             f"Participació als {len(rows)} municipis amb més vot d'esquerres de les darreres "
+             "generals, hora a hora el 29N i comparada amb el 2023."),
+            rows=view, summary=summary, cut=cut, pct=fmt_pct, diff=fmt_diff,
+            live={**live, "stage_label": stage})
+        write(DIST / canonical.strip("/") / "index.html", html)
+        n += 1
+    return len(rows)
+
+
+def strongholds_page(env, cfg, urls):
+    """La llista dels 500 feus progressistes, amb el vot a l'esquerra de cada eleccio."""
+    from .. import participation
+    rows = participation.load()
+    if not rows:
+        return 0
+    provs = geo.names("ES", "province")
+
+    def fmt_pct(v):
+        return "—" if v is None else f"{v:.1f}".replace(".", ",") + " %"
+
+    for lang in i18n.LANGS:
+        canonical = i18n.page_url("strongholds", lang)
+        view = [{**r, "url": (urls.get(("municipality", r["code"])) or {}).get(lang),
+                 "province_name": provs.get(r["province"], r["province"])} for r in rows]
+        html = render_page(
+            env, cfg, "strongholds.html.j2", lang, canonical,
+            {lg: i18n.page_url("strongholds", lg) for lg in i18n.LANGS},
+            (f"Los {len(rows)} feudos progresistas de España" if lang == "es"
+             else f"Els {len(rows)} feus progressistes d'Espanya"),
+            (f"Los {len(rows)} municipios con más voto a la izquierda en las generales de 2016, "
+             "2019 y 2023, con su porcentaje en cada elección." if lang == "es" else
+             f"Els {len(rows)} municipis amb més vot a l'esquerra a les generals del 2016, "
+             "2019 i 2023, amb el seu percentatge a cada elecció."),
+            rows=view, pct=fmt_pct, cut=min(r["left_avg"] for r in rows),
+            total_census=sum(int(r["census_2026"] or 0) for r in rows))
+        write(DIST / canonical.strip("/") / "index.html", html)
+    return len(rows)
+
+
 def method_page(env, cfg, stats):
     """La metodologia sencera. Es la pagina que fa creible tota la resta."""
     for lang in i18n.LANGS:
@@ -288,7 +380,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("map", "method", "legal", "privacy", "cookies")]
+                                   for k in ("map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
         entries += sorted(u[lang] for u in urls.values() if lang in u)
         body = "\n".join(
             f"  <url><loc>{base}{u}</loc><lastmod>{today}</lastmod>"

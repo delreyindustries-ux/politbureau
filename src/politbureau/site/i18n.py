@@ -23,6 +23,8 @@ PATHS = {
 PAGES = {
     "map":     {"es": "mapa", "ca": "mapa"},
     "method":  {"es": "metodologia", "ca": "metodologia"},
+    "participation": {"es": "participacion", "ca": "participacio"},
+    "strongholds": {"es": "feudos-progresistas", "ca": "feus-progressistes"},
     "legal":   {"es": "aviso-legal", "ca": "avis-legal"},
     "privacy": {"es": "privacidad", "ca": "privadesa"},
     "cookies": {"es": "cookies", "ca": "galetes"},
@@ -41,6 +43,8 @@ T = {
     },
     "nav_map": {"es": "Mapa", "ca": "Mapa"},
     "nav_method": {"es": "Metodología", "ca": "Metodologia"},
+    "nav_participation": {"es": "Participación 29N", "ca": "Participació 29N"},
+    "nav_strongholds": {"es": "Feudos progresistas", "ca": "Feus progressistes"},
     "nav_legal": {"es": "Aviso legal", "ca": "Avís legal"},
     "nav_privacy": {"es": "Privacidad", "ca": "Privadesa"},
     "nav_cookies": {"es": "Cookies", "ca": "Galetes"},

@@ -33,6 +33,8 @@ CONGRESO, MUNICIPALES, EUROPEAS = "02", "04", "07"
 PROCESSES = {
     "congreso-2023":    (CONGRESO, "2023", "07"),
     "congreso-2019n":   (CONGRESO, "2019", "11"),
+    "congreso-2019a":   (CONGRESO, "2019", "04"),
+    "congreso-2016":    (CONGRESO, "2016", "06"),
     "municipales-2023": (MUNICIPALES, "2023", "05"),
     "europeas-2024":    (EUROPEAS, "2024", "06"),
 }

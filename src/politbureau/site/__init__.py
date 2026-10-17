@@ -135,6 +135,10 @@ def run(clean=True):
     pagemod.home_page(env, cfg, data, urls, summary_highlights(cfg))
     pagemod.map_page(env, cfg)
     pagemod.method_page(env, cfg, site_stats(conn))
+    n_part = pagemod.participation_page(env, cfg, urls)
+    pagemod.strongholds_page(env, cfg, urls)
+    if n_part:
+        print(f"     participacio: {n_part} municipis")
     pagemod.legal_pages(env, cfg)
 
     print("4/6  Dades del mapa")

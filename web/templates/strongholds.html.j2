@@ -1,0 +1,85 @@
+{% extends "base.html.j2" %}
+{% block content %}
+<article class="doc wide">
+{% if lang == 'es' %}
+  <h1>Los {{ rows | length }} feudos progresistas</h1>
+  <p class="lede">Los municipios que más han votado a la izquierda de forma sostenida: la media
+  de su voto a la izquierda en las elecciones generales de 2016, abril de 2019, noviembre de
+  2019 y 2023. Están ordenados de más a menos electores para el 29 de noviembre.</p>
+  <p class="note">El 29N, la participación de estos municipios se sigue hora a hora en
+    <a href="{{ root }}{{ lang }}/{{ page('participation') }}/">Participación 29N</a>.</p>
+{% else %}
+  <h1>Els {{ rows | length }} feus progressistes</h1>
+  <p class="lede">Els municipis que més han votat l'esquerra de manera sostinguda: la mitjana
+  del seu vot a l'esquerra a les eleccions generals del 2016, l'abril del 2019, el novembre del
+  2019 i el 2023. Estan ordenats de més a menys electors per al 29 de novembre.</p>
+  <p class="note">El 29N, la participació d'aquests municipis se segueix hora a hora a
+    <a href="{{ root }}{{ lang }}/{{ page('participation') }}/">Participació 29N</a>.</p>
+{% endif %}
+
+  <div class="facts">
+    <span><b>{{ rows | length }}</b> {{ 'municipios' if lang == 'es' else 'municipis' }}</span>
+    <span><b>{{ total_census | thousands }}</b> {{ 'electores el 29N' if lang == 'es' else 'electors el 29N' }}</span>
+    <span><b>{{ pct(cut) }}</b> {{ 'de voto a la izquierda, como mínimo' if lang == 'es' else "de vot a l'esquerra, com a mínim" }}</span>
+  </div>
+
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th class="n">#</th>
+      <th>{{ 'Municipio' if lang == 'es' else 'Municipi' }}</th>
+      <th>{{ 'Provincia' if lang == 'es' else 'Província' }}</th>
+      <th class="n">{{ 'Electores 29N' if lang == 'es' else 'Electors 29N' }}</th>
+      <th class="n">2016</th>
+      <th class="n">{{ 'Abr. 2019' if lang == 'es' else 'Abr. 2019' }}</th>
+      <th class="n">{{ 'Nov. 2019' if lang == 'es' else 'Nov. 2019' }}</th>
+      <th class="n">2023</th>
+      <th class="n">{{ 'Media' if lang == 'es' else 'Mitjana' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in rows %}
+    <tr>
+      <td class="n">{{ loop.index }}</td>
+      <td>{% if r.url %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a>{% else %}{{ r.name }}{% endif %}</td>
+      <td>{{ r.province_name }}</td>
+      <td class="n">{{ r.census_2026 | thousands if r.census_2026 else '—' }}</td>
+      <td class="n">{{ pct(r.left_2016) }}</td>
+      <td class="n">{{ pct(r.left_2019a) }}</td>
+      <td class="n">{{ pct(r.left_2019n) }}</td>
+      <td class="n">{{ pct(r.left_2023) }}</td>
+      <td class="n"><b>{{ pct(r.left_avg) }}</b></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+{% if lang == 'es' %}
+  <h2>Cómo se ha hecho la lista</h2>
+  <ul>
+    <li><b>Voto a la izquierda</b>: PSOE y todo lo que hay a su izquierda (Podemos, Sumar, IU,
+      ERC, EH Bildu, BNG, CUP, Compromís, Más País, Chunta, Nueva Canarias, Geroa Bai…), sobre
+      los votos válidos de cada municipio.</li>
+    <li>Entran los {{ rows | length }} municipios con la media más alta de las cuatro elecciones
+      (los que solo tienen dos de ellas, por ser de nueva creación, no entran).</li>
+    <li>Muchos son pueblos pequeños: en un municipio de pocos centenares de electores, unos
+      pocos votos mueven mucho el porcentaje.</li>
+  </ul>
+{% else %}
+  <h2>Com s'ha fet la llista</h2>
+  <ul>
+    <li><b>Vot a l'esquerra</b>: el PSOE i tot el que hi ha a la seva esquerra (Podemos, Sumar,
+      IU, ERC, EH Bildu, BNG, CUP, Compromís, Más País, Chunta, Nueva Canarias, Geroa Bai…),
+      sobre els vots vàlids de cada municipi.</li>
+    <li>Hi entren els {{ rows | length }} municipis amb la mitjana més alta de les quatre
+      eleccions (els que només en tenen dues, perquè són de creació recent, no hi entren).</li>
+    <li>Molts són pobles petits: en un municipi de pocs centenars d'electors, pocs vots mouen
+      molt el percentatge.</li>
+  </ul>
+{% endif %}
+  <p class="fine">{{ 'Fuentes' if lang == 'es' else 'Fonts' }}: Ministerio del Interior
+    (<a href="https://infoelectoral.interior.gob.es/" rel="noopener" target="_blank">Infoelectoral</a>),
+    generales de 2016, 2019 y 2023; {{ 'censo del 29N' if lang == 'es' else 'cens del 29N' }}:
+    <a href="https://www.ine.es/dyngs/Prensa/es/EG2026.htm" rel="noopener" target="_blank">INE</a>.</p>
+</article>
+{% endblock %}

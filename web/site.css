@@ -208,3 +208,13 @@ ul.children li{font-size:14px;padding:3px 0}
 #coalition .cpreset button:hover{border-color:var(--accent)}
 table.scen{margin-top:10px}
 table.scen td:first-child{color:var(--dim)}
+
+/* Participacio 29N */
+.doc.wide{max-width:none}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 14px}
+table.part{font-size:14px;min-width:760px}
+table.part td,table.part th{white-space:nowrap}
+table.part tbody tr:first-child td{font-weight:400}
+table.part .up,table.part .down{font-size:12px;margin-left:4px}
+table.part .up{color:#2e9e5b}
+table.part .down{color:#d2463c}
