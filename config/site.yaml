@@ -19,7 +19,7 @@ publicidad:
   # Identificador d'editor d'AdSense, de la forma ca-pub-0000000000000000.
   # Mentre estigui buit NO es carrega cap script d'anuncis i el lloc no fa cap
   # peticio a Google: aixi es pot desenvolupar i provar sense rastrejar ningu.
-  adsense_client: ""
+  adsense_client: "ca-pub-1384731349482384"
   # Blocs d'anunci. `slot` es l'identificador que dona AdSense a cada bloc.
   slots:
     territory_top: ""

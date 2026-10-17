@@ -16,6 +16,9 @@
 <meta property="og:url" content="{{ base_url }}{{ canonical }}">
 <meta property="og:locale" content="{{ 'es_ES' if lang == 'es' else 'ca_ES' }}">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+{%- if adsense_client %}
+<meta name="google-adsense-account" content="{{ adsense_client }}">
+{%- endif %}
 <link rel="icon" href="{{ root }}assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{{ root }}assets/site.css">
 {%- if structured_data %}

@@ -401,6 +401,13 @@ def sitemaps(cfg, urls):
     write(DIST / "robots.txt",
           "User-agent: *\nAllow: /\n\n"
           f"Sitemap: {base}/sitemap.xml\n")
+    # ads.txt: declara qui pot vendre anuncis en aquest domini. Google el fa
+    # servir per verificar el lloc; es un fitxer de text i no carrega res al
+    # navegador de ningu.
+    client = (cfg.get("publicidad") or {}).get("adsense_client") or ""
+    if client:
+        write(DIST / "ads.txt",
+              f"google.com, {client.removeprefix('ca-')}, DIRECT, f08c47fec0942fa0\n")
     return files
 
 
