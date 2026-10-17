@@ -137,6 +137,13 @@ ES:
     color: '#0043A9'
     aliases:
     - upn
+  #   RECORTESCERO: Recortes Cero. Al Congres del 2023, 23.006 vots (0,09 %).
+  #   A les generals del 2026 va dins del Frente Amplio (decisio de l'Alfonso, 17/10/2026).
+  RECORTESCERO:
+    name: Recortes Cero
+    color: '#5B8C3A'
+    aliases:
+    - recortes cero
   #   UPL: Unión del Pueblo Leonés. Ambit Castella i Lleó (Lleó, Zamora i Salamanca).
   #   No es presenta a les generals del 29/11/2026 (decisió de l'Alfonso, 14/10/2026).
   UPL:

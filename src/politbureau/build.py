@@ -207,7 +207,8 @@ def apply_regional_merge(projected, region, rules, country="ES", report=None):
     son "tota l'esquerra", com UPN amb el PP a Navarra). Els percentatges ja
     sumen 100 i se sumen, aixi que no cal renormalitzar."""
     for rule in rules:
-        if region not in rule["regions"]:
+        # regions: "*" = a tot l'Estat (Recortes Cero dins del Frente Amplio).
+        if rule["regions"] != "*" and region not in rule["regions"]:
             continue
         into = rule["into"]
         if rule.get("parties"):
