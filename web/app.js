@@ -332,7 +332,7 @@ function tooltipHTML(shape) {
         <span class="track"><i style="width:${p.share / max * 100}%;background:${p.color}"></i></span>
         <span class="pc">${p.share.toFixed(1)}</span>
       </div>`).join('')}</div>
-    <div class="tipfoot">marge del primer: ${row[1]} punts</div>`;
+    <div class="tipfoot">${(state.census || {})[shape.id] ? `Cens electoral${state.censusYear ? ' ' + state.censusYear : ''}: ${state.census[shape.id].toLocaleString('ca-ES')}<br>` : ''}marge del primer: ${row[1]} punts</div>`;
 }
 
 /* -------------------------------------------------------------- dades */
@@ -434,6 +434,8 @@ async function loadMap() {
   state.areas = d.areas;
   state.parties = d.parties;
   state.palette = d.palette;
+  state.census = d.census || {};
+  state.censusYear = (String(d.census_of || '').match(/\d{4}/) || [''])[0];
   state.fills = null;                    // colors nous: cal recalcular-los
   if (state.colourBy >= state.parties.length) state.colourBy = -1;
 

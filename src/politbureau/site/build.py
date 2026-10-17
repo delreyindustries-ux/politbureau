@@ -23,6 +23,7 @@ from pathlib import Path
 import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from .. import census as censuslib
 from .. import db, parties
 from ..geo import fetch as geo
 from ..geo import regions as georegions
@@ -243,7 +244,10 @@ def lede_for(data, level, code, rows, lang):
     with_real = [r for r in rows if r["share"] is not None]
     top = max(with_real, key=lambda r: r["share"]) if with_real else None
     now = rows[0] if rows and rows[0]["now"] is not None else None
-    census = (data["meta"].get((level, code)) or {}).get("census")
+    # Cens de l'eleccio que ve (INE, CER + CERA) si ja s'ha publicat; si no, el del 2023.
+    census = (censuslib.total(ELECTION, level, code)
+              or (data["meta"].get((level, code)) or {}).get("census"))
+    cens_now = censuslib.total(ELECTION, level, code) is not None
 
     if lang == "es":
         parts = []
@@ -261,7 +265,8 @@ def lede_for(data, level, code, rows, lang):
                 parts.append(f"Con las encuestas de hoy, la estimación sitúa por delante "
                              f"a {now['name']}, con un {pct(now['now'])}.")
         if census:
-            parts.append(f"{name} tiene {thousands(census)} electores.")
+            parts.append(f"Para el 29N, {name} tiene {thousands(census)} electores." if cens_now
+                         else f"{name} tiene {thousands(census)} electores.")
         return " ".join(parts)
 
     parts = []
@@ -279,7 +284,8 @@ def lede_for(data, level, code, rows, lang):
             parts.append(f"Amb les enquestes d'avui, l'estimació situa al davant "
                          f"{now['name']}, amb un {pct(now['now'])}.")
     if census:
-        parts.append(f"{name} té {thousands(census)} electors.")
+        parts.append(f"Per al 29N, {name} té {thousands(census)} electors." if cens_now
+                     else f"{name} té {thousands(census)} electors.")
     return " ".join(parts)
 
 

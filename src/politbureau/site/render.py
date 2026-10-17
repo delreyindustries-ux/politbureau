@@ -8,6 +8,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
 
+from .. import census as censuslib
 from .. import parties
 from . import i18n
 from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, WEB, area_rows, deputies_for,
@@ -129,7 +130,8 @@ def territory_pages(env, cfg, data, urls, prov_region):
                 continue          # territoris sense dades: no es publica una pagina buida
             info = data["meta"].get((level, code)) or {}
             area = {"code": code, "name": info.get("name") or name,
-                    "census": info.get("census"), "valid_votes": info.get("valid_votes")}
+                    "census": (censuslib.total("es-general", level, code) or info.get("census")),
+                    "valid_votes": info.get("valid_votes")}
             dh = dhondt_for(data, code) if level == "province" else None
             sim = (simulator_for(data, level, code)
                    if level in ("province", "region") else None)

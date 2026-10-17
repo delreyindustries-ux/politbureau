@@ -9,7 +9,7 @@ from pathlib import Path
 import yaml
 from flask import Flask, jsonify, request, send_from_directory
 
-from . import build, db, parties
+from . import build, census as censuslib, db, parties
 from .geo import fetch as geo
 from .ingest.runner import SOURCES
 from .model import seats as seatlib
@@ -305,6 +305,16 @@ def create_app():
         # Noms de coalicio propis d'una comunitat (Unidad del Pueblo Canario...):
         # nomes a l'estimacio, que el 2023 aquestes llistes no existien. Van per
         # index de `parties`, i el mapa sap la comunitat de cada provincia.
+        # Cens electoral de cada territori, de l'eleccio de base (el 2023 a
+        # Espanya): el mapa el mostra al quadre emergent.
+        base_el = (meta.get("baseline") or {}).get("election")
+        # Si l'INE ja ha publicat el cens d'aquesta eleccio (config/cens), mana aquest.
+        own = {code: v["total"] for (lvl, code), v in censuslib.load(election_id).items() if lvl == level}
+        census = own or ({r["code"]: r["c"] for r in conn.execute(
+            """SELECT code, MAX(census) AS c FROM election_result
+               WHERE election = ? AND level = ? AND census > 0 GROUP BY code""",
+            (base_el, level))} if base_el else {})
+        census_of = (meta.get("election_date") or election_id) if own else base_el
         regional, prov_region = {}, {}
         if layer == "projection" and country == "ES":
             for reg, by_code in parties.regional_names(election_id).items():
@@ -318,6 +328,7 @@ def create_app():
         return jsonify({
             "level": level, "layer": layer, "n": len(out),
             "regional": regional, "prov_region": prov_region,
+            "census": census, "census_of": census_of,
             "parties": [meta_for(election_id, p, country, layer, names) for p in keep],
             "palette": {p: meta_for(election_id, p, country, layer, names) for p in used},
             "areas": out,
@@ -394,7 +405,8 @@ def create_app():
         valid = real[0]["valid_votes"] if real else 0
         return jsonify({
             "code": code, "name": name,
-            "census": real[0]["census"] if real else None,
+            "census": (censuslib.total(election_id, level, code)
+                       or (real[0]["census"] if real else None)),
             "valid_votes": valid,
             "real": [{**meta_for(election_id, r["party"], country, "real"), "votes": r["votes"],
                       "share": round(r["votes"] * 100.0 / valid, 2) if valid else None}

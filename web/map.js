@@ -398,6 +398,15 @@ function nameIn(p, i, id) {
   return ((reg[r] || {})[i]) || p.name;
 }
 
+/* Cens electoral del territori (el de l'eleccio de base, el 2023). */
+function censusLine(id) {
+  const n = (state.census || {})[id];
+  if (!n) return '';
+  const label = LANG === 'ca' ? 'Cens electoral' : 'Censo electoral';
+  const year = state.censusYear ? ` ${state.censusYear}` : '';
+  return `${label}${year}: ${n.toLocaleString(LANG === 'ca' ? 'ca-ES' : 'es-ES')}<br>`;
+}
+
 function tooltipHTML(shape) {
   const row = state.areas[shape.id];
   if (!row) return `<b>${shape.name}</b><span style="color:#98a0b5">sense dades</span>`;
@@ -415,7 +424,7 @@ function tooltipHTML(shape) {
         <span class="track"><i style="width:${p.share / max * 100}%;background:${p.color}"></i></span>
         <span class="pc">${num(p.share)}</span>
       </div>`).join('')}</div>
-    <div class="tipfoot">marge del primer: ${num(row[1], 2)} punts</div>`;
+    <div class="tipfoot">${censusLine(shape.id)}${LANG === 'ca' ? 'marge del primer' : 'margen del primero'}: ${num(row[1], 2)} ${LANG === 'ca' ? 'punts' : 'puntos'}</div>`;
 }
 
 /* -------------------------------------------------------------- dades */
@@ -535,6 +544,8 @@ async function loadMap() {
   state.parties = d.parties;
   state.palette = d.palette;
   state.regional = d.regional || {};
+  state.census = d.census || {};
+  state.censusYear = (String(d.census_of || '').match(/\d{4}/) || [''])[0];
   state.provRegion = d.prov_region || {};
   state.fills = null;                    // colors nous: cal recalcular-los
   if (state.colourBy >= state.parties.length) state.colourBy = -1;

@@ -54,7 +54,7 @@ T = {
     "share": {"es": "% sobre voto válido", "ca": "% sobre vot vàlid"},
     "today": {"es": "Hoy", "ca": "Avui"},
     "change": {"es": "Cambio", "ca": "Canvi"},
-    "census": {"es": "Censo electoral", "ca": "Cens electoral"},
+    "census": {"es": "electores el 29N", "ca": "electors el 29N"},
     "valid_votes": {"es": "Votos válidos", "ca": "Vots vàlids"},
     "belongs_to": {"es": "Pertenece a", "ca": "Pertany a"},
     "seats_title": {"es": "Diputados que elige", "ca": "Diputats que elegeix"},
