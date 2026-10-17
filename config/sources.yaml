@@ -68,9 +68,12 @@ elections:
     #   10 Pais Valencia: Compromis + Podem + EUPV + ERPV = "Compromís-Front Valencià"
     #      (EUPV hi entra a ultima hora, 16/10/2026)
     #   15 Navarra: "Unión del Pueblo Navarro en coalición con el Partido Popular"
+    #   01 Andalusia: IU + Sumar + Iniciativa del Pueblo Andaluz + Verdes Equo (sense
+    #      Podemos; Adelante Andalucia, a part). Resta: "Frente Amplio" (17/10/2026)
     regional_display:
       "05": {SUMAR: "Unidad del Pueblo Canario"}
-      "04": {SUMAR: "Ara Més-Front Ampli"}
+      "04": {SUMAR: "Ara MÉS-Front Ampli"}
+      "01": {SUMAR: "Frente Amplio por Andalucía"}
       "02": {SUMAR: "Chunta Aragonesista-Frente Amplio Aragón"}
       "10": {SUMAR: "Compromís-Front Valencià"}
       "15": {PP: "UPN-PP"}
@@ -117,9 +120,12 @@ elections:
     #   10 Pais Valencia: Compromis + Podem + EUPV + ERPV = "Compromís-Front Valencià"
     #      (EUPV hi entra a ultima hora, 16/10/2026)
     #   15 Navarra: "Unión del Pueblo Navarro en coalición con el Partido Popular"
+    #   01 Andalusia: IU + Sumar + Iniciativa del Pueblo Andaluz + Verdes Equo (sense
+    #      Podemos; Adelante Andalucia, a part). Resta: "Frente Amplio" (17/10/2026)
     regional_display:
       "05": {SUMAR: "Unidad del Pueblo Canario"}
-      "04": {SUMAR: "Ara Més-Front Ampli"}
+      "04": {SUMAR: "Ara MÉS-Front Ampli"}
+      "01": {SUMAR: "Frente Amplio por Andalucía"}
       "02": {SUMAR: "Chunta Aragonesista-Frente Amplio Aragón"}
       "10": {SUMAR: "Compromís-Front Valencià"}
       "15": {PP: "UPN-PP"}
