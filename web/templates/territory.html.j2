@@ -14,6 +14,7 @@
   <div class="facts">
     {%- if area.census %}<span><b>{{ area.census | thousands }}</b> {{ t('census') }}</span>{% endif %}
     {%- if area.valid_votes %}<span><b>{{ area.valid_votes | thousands }}</b> {{ t('valid_votes') }}</span>{% endif %}
+    {%- if renda %}<span><b>{{ renda | thousands }}</b> {{ t('renda') }}</span>{% endif %}
     {%- if magnitude %}<span><b>{{ magnitude }}</b> {{ t('seats_title') | lower }}</span>{% endif %}
   </div>
 
@@ -156,6 +157,40 @@
   </section>
   {%- endif %}
 
+  {%- if districts %}
+  <section>
+    <h2>{{ t('districts_title') }}</h2>
+    <p>{{ t('districts_lede') }}</p>
+    <div class="tablewrap">
+    <table class="results part">
+      <thead><tr>
+        <th>{{ t('district') }}</th>
+        <th class="n">{{ t('mesa_electors') }}</th>
+        <th class="n">{{ t('sections_n') }}</th>
+        <th class="n">{{ t('mesas_n') }}</th>
+        <th class="n">{{ t('renda_short') }}</th>
+        <th class="n">{{ t('final_23') }}</th>
+        <th>{{ t('first_29') }}</th>
+      </tr></thead>
+      <tbody>
+      {%- for d in districts %}
+        <tr>
+          <td>{{ d.num }}{% if d.name %} · {{ d.name }}{% endif %}</td>
+          <td class="n">{{ d.census_29 | thousands }}</td>
+          <td class="n">{{ d.sections }}</td>
+          <td class="n">{{ d.mesas }}</td>
+          <td class="n">{{ (d.renda | thousands ~ ' €') if d.renda else '—' }}</td>
+          <td class="n">{{ d.final | pct }}</td>
+          <td>{% if d.first %}<span class="sw" style="background:{{ d.first.color }}"></span>{{ d.first.name }} {{ d.first_share | pct }}{% else %}—{% endif %}</td>
+        </tr>
+      {%- endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="note">{{ t('renda_note') }}</p>
+  </section>
+  {%- endif %}
+
   {%- if secmap %}
   <section id="secmap" data-src="{{ root }}assets/seccions/{{ area.code }}.json">
     <h2>{{ t('secmap_title') }}</h2>
@@ -202,7 +237,7 @@
         <tbody>
         {%- for m in mesas.rows %}
           <tr>
-            <td>{% if m.district %}{{ t('mesa_district') }} {{ m.district }} · {% endif %}{{ t('mesa_section') }} {{ m.section }} · {{ m.mesa }}</td>
+            <td>{% if m.district %}{{ t('mesa_district') }} {{ m.district }}{% if m.district_name %} {{ m.district_name }}{% endif %} · {% endif %}{{ t('mesa_section') }} {{ m.section }} · {{ m.mesa }}</td>
             <td class="n">{{ m.census_29 | thousands }}</td>
             <td class="n">{{ m.t14 | pct }}</td>
             <td class="n">{{ m.t18 | pct }}</td>

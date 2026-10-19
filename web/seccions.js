@@ -23,14 +23,17 @@
     t14: 'Participació 23J a les 14:00', share: 'Estimació 29N: ',
     dist: 'Dte.', sec: 'Secc.', mesas: 'Meses', electors: 'Electors 29N (est.)',
     part: 'Participació 23J', est: 'Estimació 29N', nodata: 'Sense dades d\'aquesta secció',
+    renda: 'Renda per persona (INE 2023)',
   } : {
     first: '1.ª fuerza 29N (estimación)', turnout: 'Participación 23J (final)',
     t14: 'Participación 23J a las 14:00', share: 'Estimación 29N: ',
     dist: 'Dist.', sec: 'Secc.', mesas: 'Mesas', electors: 'Electores 29N (est.)',
     part: 'Participación 23J', est: 'Estimación 29N', nodata: 'Sin datos de esta sección',
+    renda: 'Renta por persona (INE 2023)',
   };
   const num = (x, d = 1) => (x == null ? '—' : x.toFixed(d).replace('.', ','));
   const pc = (x) => (x == null ? '—' : num(x) + '%');
+  const eur = (x) => (x == null ? '—' : Math.round(x).toLocaleString('es-ES') + ' €');
   const thousands = (n) => (n == null ? '—' : Math.round(n).toLocaleString('es-ES'));
 
   let doc, view, full, paths = {}, mode = 'first';
@@ -40,7 +43,7 @@
 
   function init() {
     const P = doc.d.parties;
-    const opts = [['first', T.first], ['turnout', T.turnout], ['t14', T.t14]]
+    const opts = [['first', T.first], ['turnout', T.turnout], ['t14', T.t14], ['renda', T.renda]]
       .concat(P.map((p, i) => ['p' + i, T.share + p.name]));
     select.innerHTML = opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
     select.onchange = () => { mode = select.value; paint(); };
@@ -81,6 +84,10 @@
       get = (s) => (s.f == null ? null : s.s[s.f]);
       [lo, hi] = range(get);
       colour = (s) => P[s.f].color;
+    } else if (mode === 'renda') {
+      get = (s) => s.r;
+      [lo, hi] = range(get);
+      colour = () => accent;
     } else if (mode === 'turnout' || mode === 't14') {
       const i = mode === 'turnout' ? 2 : 0;
       get = (s) => s.t[i];
@@ -112,7 +119,8 @@
         `<span><span class="sw" style="background:${P[i].color}"></span>${P[i].name} · ${n}</span>`).join('');
       return;
     }
-    legend.innerHTML = `<span>${pc(lo)}<span class="grad" style="background:linear-gradient(90deg, ${hue}38, ${hue})"></span>${pc(hi)}</span>`;
+    const f = mode === 'renda' ? eur : pc;
+    legend.innerHTML = `<span>${f(lo)}<span class="grad" style="background:linear-gradient(90deg, ${hue}38, ${hue})"></span>${f(hi)}</span>`;
   }
 
   function show(key, evt) {
@@ -121,13 +129,15 @@
     for (const p of svg.querySelectorAll('path.on')) p.classList.remove('on');
     const path = paths[key];
     if (path) { path.classList.add('on'); path.parentNode.appendChild(path); }
-    let html = `<b>${T.dist} ${d} · ${T.sec} ${sec}</b><br>`;
+    const dname = (doc.d.districts || {})[d];
+    let html = `<b>${T.dist} ${d}${dname ? ' ' + dname : ''} · ${T.sec} ${sec}</b><br>`;
     if (!s) {
       html += T.nodata;
     } else {
       const P = doc.d.parties;
       const top = s.s.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]).slice(0, 4);
       html += `${T.mesas}: ${s.m.join(', ')}<br>${T.electors}: ${thousands(s.c)}<br>`
+        + `${T.renda}: ${eur(s.r)}<br>`
         + `${T.part}: 14:00 ${pc(s.t[0])} · 18:00 ${pc(s.t[1])} · Final ${pc(s.t[2])}<br>`
         + `${T.est}: ` + top.map(([v, i]) =>
           `<span class="sw" style="background:${P[i].color}"></span>${P[i].name} ${pc(v)}`).join(' · ');

@@ -25,6 +25,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from .. import census as censuslib
 from .. import db, parties
+from .. import renda as rendalib
 from ..geo import fetch as geo
 from ..geo import regions as georegions
 from ..model import seats as seatlib
@@ -199,6 +200,56 @@ def area_rows(data, level, code):
 MESA_PARTIES = 5    # columnes de partit a la taula de meses
 
 
+_DISTRICT_NAMES = None
+
+
+def district_names(muni: str) -> dict:
+    """{numero: nom} dels districtes d'un municipi, nomes els comprovats
+    (config/districtes.yaml). Buit a la resta: alla es queda el numero."""
+    global _DISTRICT_NAMES
+    if _DISTRICT_NAMES is None:
+        path = ROOT / "config" / "districtes.yaml"
+        _DISTRICT_NAMES = (yaml.safe_load(path.read_text(encoding="utf-8")) or {})             if path.exists() else {}
+    return {str(k): v for k, v in (_DISTRICT_NAMES.get(muni) or {}).items()}
+
+
+def district_table(data, code, rows):
+    """Una fila per districte: electors del 29N, seccions, meses, renda per
+    persona (INE 2023), participacio final del 23J i 1a forca estimada.
+    Nomes als municipis amb mes d'un districte."""
+    mesas = data.get("mesas", {}).get(code)
+    if not mesas:
+        return None
+    names = district_names(code)
+    region = region_code(data, "municipality", code)
+    acc = {}
+    for m in mesas:
+        d = acc.setdefault(m["district"], {"c": 0, "c23": 0, "v": 0.0, "w": 0,
+                                           "secs": set(), "n": 0, "p": {}})
+        d["c"] += m["census_29"] or 0
+        d["c23"] += m["census_23"]
+        d["v"] += (m["final"] or 0) * m["census_23"] / 100.0
+        d["w"] += m["cand"]
+        d["secs"].add(m["section"][:3])
+        d["n"] += 1
+        for party, share in m["now"].items():
+            d["p"][party] = d["p"].get(party, 0) + share * m["cand"]
+    if len(acc) < 2:
+        return None
+    out = []
+    for num, d in sorted(acc.items()):
+        top = max(d["p"].items(), key=lambda kv: kv[1]) if d["p"] else None
+        out.append({
+            "num": num, "name": names.get(num),
+            "census_29": d["c"], "sections": len(d["secs"]), "mesas": d["n"],
+            "renda": rendalib.district(code, num),
+            "final": d["v"] * 100.0 / d["c23"] if d["c23"] else None,
+            "first": parties.meta(top[0], "ES", ELECTION, region) if top else None,
+            "first_share": top[1] / d["w"] if top and d["w"] else None,
+        })
+    return out
+
+
 def mesa_table(data, code, rows):
     """Taula de meses d'un municipi: els partits son els cinc primers de
     l'estimacio del municipi, en el mateix ordre que la taula principal."""
@@ -208,11 +259,13 @@ def mesa_table(data, code, rows):
     region = region_code(data, "municipality", code)
     cols = [r for r in rows if r["now"] is not None][:MESA_PARTIES]
     districts = {m["district"] for m in mesas}
+    names = district_names(code)
     out = []
     for m in mesas:
         top = max(m["now"].items(), key=lambda kv: kv[1])[0] if m["now"] else None
         out.append({
             "district": m["district"] if len(districts) > 1 else None,
+            "district_name": names.get(m["district"]),
             "section": m["section"], "mesa": m["mesa"],
             "census_29": m["census_29"], "census_23": m["census_23"],
             "t14": m["t14"], "t18": m["t18"], "final": m["final"],
@@ -240,7 +293,8 @@ def section_map(data, code, rows):
     for m in mesas:
         key = f"{m['district']}-{m['section'][:3]}"
         s = acc.setdefault(key, {"m": [], "c": 0, "c23": 0, "v": [0.0, 0.0, 0.0],
-                                 "w": 0, "p": {}})
+                                 "w": 0, "p": {},
+                                 "r": rendalib.section(code, m["district"], m["section"])})
         s["m"].append(m["mesa"])
         s["c"] += m["census_29"] or 0
         s["c23"] += m["census_23"]
@@ -265,10 +319,12 @@ def section_map(data, code, rows):
             "t": [round(v * 100.0 / s["c23"], 1) if s["c23"] else None for v in s["v"]],
             "s": [round(s["p"].get(p, 0), 1) for p in order],
             "f": order.index(first) if first else None,
+            "r": s["r"],
         }
     return {"parties": [{k: v for k, v in parties.meta(p, "ES", ELECTION, region).items()}
                         for p in order],
-            "sections": sections}
+            "sections": sections,
+            "districts": district_names(code)}
 
 
 def aggregate_seats(data, key, level, code):

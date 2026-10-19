@@ -60,6 +60,30 @@ T = {
     "change": {"es": "Cambio", "ca": "Canvi"},
     "census": {"es": "electores el 29N", "ca": "electors el 29N"},
     "valid_votes": {"es": "Votos válidos", "ca": "Vots vàlids"},
+    # --- districtes i renda
+    "renda": {"es": "€ de renta neta por persona (INE, 2023)",
+              "ca": "€ de renda neta per persona (INE, 2023)"},
+    "districts_title": {"es": "Distritos", "ca": "Districtes"},
+    "districts_lede": {
+        "es": "Electores del 29N, renta y voto de cada distrito. Los nombres solo salen "
+              "donde se ha podido comprobar que el distrito electoral coincide con el "
+              "municipal; en el resto, el número del distrito censal.",
+        "ca": "Electors del 29N, renda i vot de cada districte. Els noms només surten on "
+              "s'ha pogut comprovar que el districte electoral coincideix amb el "
+              "municipal; a la resta, el número del districte censal."},
+    "district": {"es": "Distrito", "ca": "Districte"},
+    "sections_n": {"es": "Secciones", "ca": "Seccions"},
+    "mesas_n": {"es": "Mesas", "ca": "Meses"},
+    "renda_short": {"es": "Renta/persona", "ca": "Renda/persona"},
+    "final_23": {"es": "Particip. 23J", "ca": "Particip. 23J"},
+    "first_29": {"es": "1.ª fuerza 29N", "ca": "1a força 29N"},
+    "renda_note": {
+        "es": "Renta: renta neta media por persona de 2023 (INE, Atlas de Distribución de "
+              "Renta de los Hogares). No es el PIB per cápita, que el INE solo calcula por "
+              "provincias. Electores del 29N por distrito: estimados como en las mesas.",
+        "ca": "Renda: renda neta mitjana per persona del 2023 (INE, Atles de Distribució de "
+              "Renda de les Llars). No és el PIB per càpita, que l'INE només calcula per "
+              "províncies. Electors del 29N per districte: estimats com a les meses."},
     # --- mapa de seccions
     "secmap_title": {"es": "Mapa de secciones y mesas", "ca": "Mapa de seccions i meses"},
     "secmap_lede": {

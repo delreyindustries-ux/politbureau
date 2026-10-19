@@ -10,9 +10,10 @@ from markupsafe import Markup
 
 from .. import census as censuslib
 from .. import parties
+from .. import renda as rendalib
 from . import i18n
 from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, SECCIONS, WEB, area_rows, deputies_for,
-                    mesa_table, section_map, simulator_for, unrepresented,
+                    district_table, mesa_table, section_map, simulator_for, unrepresented,
                     dhondt_for, lede_for, pct, thousands)
 
 
@@ -142,6 +143,7 @@ def territory_pages(env, cfg, data, urls, prov_region):
                         if sim else None)
             dep = deputies_for(data, code) if level == "province" else None
             mesas = mesa_table(data, code, rows) if level == "municipality" else None
+            districts = district_table(data, code, rows) if level == "municipality" else None
             secmap = section_map(data, code, rows) if level == "municipality" else None
             if secmap:
                 # Contorns + dades en un sol fitxer, que el navegador nomes
@@ -221,7 +223,8 @@ def territory_pages(env, cfg, data, urls, prov_region):
                     lede=lede_for(data, level, code, rows, lang),
                     baseline_year=BASELINE_YEAR, magnitude=mag,
                     dhondt=dh, deputies=dep, simulator=sim_json, mesas=mesas,
-                    secmap=bool(secmap),
+                    secmap=bool(secmap), districts=districts,
+                    renda=(rendalib.load().get((level, code)) if level == "municipality" else None),
                     crumbs=crumbs, children=children, children_title=ch_title,
                     siblings=siblings, siblings_title=si_title)
                 write(DIST / canonical.strip("/") / "index.html", html)
