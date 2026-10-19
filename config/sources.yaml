@@ -50,7 +50,10 @@ elections:
     #   Sumar a l'Arago; l'Alfonso confirma que hi tornaria (03/10/2026).
     #   PODEMOS: del 07/10 al 13/10/2026 es va comptar dins del Frente Amplio;
     #   des del 13/10 (decisio de l'Alfonso) torna a anar per separat.
-    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, RECORTESCERO: SUMAR}
+    # "?FA": columna "FA" (Frente Amplio) d'algunes cases des del 14/10/2026.
+    # No es un alies del cataleg perque "FA" tambe es una llista municipal.
+    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, RECORTESCERO: SUMAR,
+            "?FA": SUMAR}
     # Partits que a AQUESTA eleccio no es presenten en algunes comunitats (codi
     # INE). A diferencia de _scope (parties.yaml), val nomes per a aquesta eleccio.
     #   PODEMOS: no es presenta a Catalunya (09) a les generals del 29/11/2026
@@ -129,7 +132,10 @@ elections:
     # del CIS compten 10 vegades més. Només "CIS": no les reestimacions
     # d'altres cases amb dades del CIS ("CIS (Target Point)"...).
     pollster_weights: {CIS: 10}
-    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, RECORTESCERO: SUMAR}
+    # "?FA": columna "FA" (Frente Amplio) d'algunes cases des del 14/10/2026.
+    # No es un alies del cataleg perque "FA" tambe es una llista municipal.
+    merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, RECORTESCERO: SUMAR,
+            "?FA": SUMAR}
     scope_exclude: {PODEMOS: ["09"]}
     display: {SUMAR: "Frente Amplio"}
     # A Canaries (05) la llista unica va amb Nueva Canarias (acord del 15/10/2026).

@@ -42,6 +42,15 @@ ES:
     - movimiento sumar
     - frente amplio
     - un paso al frente
+    # Des del 14/10/2026 algunes cases (Sigma Dos, EM-Analytics) publiquen
+    # "Valencian Front" (Compromís-Front Valencià: Compromís, Podem i EUPV) en
+    # una columna a part. Al País Valencià tot va dins de la llista única, i a
+    # escala estatal es suma al Frente Amplio, com ja es feia amb "compromis".
+    # "FA" NO va aqui: a les municipals del 2023 hi ha una llista "FA"
+    # (Fresnedillas Avanza) que es convertiria en Sumar. Va al `merge` de
+    # l'eleccio a sources.yaml, que nomes toca les enquestes.
+    - valencian front
+    - compromis-front valencia
     # La llista balear del 2023. Sense aquesta linia, el prefix "mes per
     # mallorca" de MES se l'enduia i el 16,75% de Sumar a les Balears
     # desapareixia de la base del web public. Una llista "...-SUMAR" es Sumar.
