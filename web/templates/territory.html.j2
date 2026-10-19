@@ -156,6 +156,51 @@
   </section>
   {%- endif %}
 
+  {%- if mesas %}
+  <section>
+    <h2>{{ t('mesas_title') }}</h2>
+    <p>{{ t('mesas_lede') }}</p>
+    <details class="minor mesas"{% if mesas.rows | length <= 10 %} open{% endif %}>
+      <summary>{{ t('mesas_show') | replace('{n}', mesas.rows | length | thousands) }}</summary>
+      <div class="tablewrap">
+      <table class="results part">
+        <thead>
+          <tr>
+            <th rowspan="2">{{ t('mesa') }}</th>
+            <th rowspan="2" class="n">{{ t('mesa_electors') }}</th>
+            <th colspan="3" class="n">{{ t('mesa_turnout') }}</th>
+            <th colspan="{{ mesas.parties | length + 1 }}" class="n">{{ t('mesa_estimate') }}</th>
+          </tr>
+          <tr>
+            <th class="n">14:00</th><th class="n">18:00</th><th class="n">Final</th>
+            {%- for p in mesas.parties %}
+            <th class="n"><span class="sw" style="background:{{ p.color }}"></span>{{ p.name }}</th>
+            {%- endfor %}
+            <th>{{ t('mesa_first') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {%- for m in mesas.rows %}
+          <tr>
+            <td>{% if m.district %}{{ t('mesa_district') }} {{ m.district }} · {% endif %}{{ t('mesa_section') }} {{ m.section }} · {{ m.mesa }}</td>
+            <td class="n">{{ m.census_29 | thousands }}</td>
+            <td class="n">{{ m.t14 | pct }}</td>
+            <td class="n">{{ m.t18 | pct }}</td>
+            <td class="n">{{ m.final | pct }}</td>
+            {%- for s in m.shares %}
+            <td class="n">{{ s | pct }}</td>
+            {%- endfor %}
+            <td>{% if m.first %}<span class="sw" style="background:{{ m.first.color }}"></span>{{ m.first.name }}{% else %}—{% endif %}</td>
+          </tr>
+        {%- endfor %}
+        </tbody>
+      </table>
+      </div>
+      <p class="note">{{ t('mesas_note') }}</p>
+    </details>
+  </section>
+  {%- endif %}
+
   {%- if children %}
   <section>
     <h2>{{ children_title }}</h2>

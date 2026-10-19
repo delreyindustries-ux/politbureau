@@ -60,6 +60,34 @@ T = {
     "change": {"es": "Cambio", "ca": "Canvi"},
     "census": {"es": "electores el 29N", "ca": "electors el 29N"},
     "valid_votes": {"es": "Votos válidos", "ca": "Vots vàlids"},
+    # --- meses electorals
+    "mesas_title": {"es": "Mesas electorales", "ca": "Meses electorals"},
+    "mesas_show": {"es": "Ver las {n} mesas", "ca": "Veure les {n} meses"},
+    "mesa": {"es": "Mesa", "ca": "Mesa"},
+    "mesa_district": {"es": "Dist.", "ca": "Dte."},
+    "mesa_section": {"es": "Secc.", "ca": "Secc."},
+    "mesa_electors": {"es": "Electores 29N*", "ca": "Electors 29N*"},
+    "mesa_turnout": {"es": "Participación 23J", "ca": "Participació 23J"},
+    "mesa_estimate": {"es": "Estimación 29N", "ca": "Estimació 29N"},
+    "mesa_first": {"es": "1.ª fuerza", "ca": "1a força"},
+    "mesas_lede": {
+        "es": "Censo, participación de 2023 y estimación de voto para el 29N de cada mesa. "
+              "La estimación aplica a cada mesa el mismo cambio que el modelo prevé para "
+              "todo el municipio, a partir de su resultado del 23J.",
+        "ca": "Cens, participació del 2023 i estimació de vot per al 29N de cada mesa. "
+              "L'estimació aplica a cada mesa el mateix canvi que el model preveu per a "
+              "tot el municipi, a partir del seu resultat del 23J."},
+    "mesas_note": {
+        "es": "* Estimado: el INE publica el censo del 29N por municipio, no por mesa. Es el "
+              "censo de cada mesa en 2023 multiplicado por el crecimiento de los residentes del "
+              "municipio, sin el voto exterior (CERA), que no se cuenta en ninguna mesa. La "
+              "participación del 29N por mesa la publica el Ministerio del Interior semanas "
+              "después de la elección; la noche electoral solo la da por municipio.",
+        "ca": "* Estimat: l'INE publica el cens del 29N per municipi, no per mesa. És el cens "
+              "de cada mesa el 2023 multiplicat pel creixement dels residents del municipi, "
+              "sense el vot exterior (CERA), que no es compta a cap mesa. La participació del "
+              "29N per mesa la publica el Ministeri de l'Interior setmanes després de "
+              "l'elecció; la nit electoral només la dona per municipi."},
     "belongs_to": {"es": "Pertenece a", "ca": "Pertany a"},
     "seats_title": {"es": "Diputados que elige", "ca": "Diputats que elegeix"},
     "seats_in_play": {"es": "Escaños en juego", "ca": "Escons en joc"},

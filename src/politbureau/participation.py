@@ -10,7 +10,7 @@ IU, ERC, Bildu, BNG, CUP, Chunta, Nueva Canarias, Geroa Bai, Adelante...), mes
 les candidatures antigues que el cataleg no reconeix pel nom (En Comu Podem,
 Mas Pais, Mes Compromis, PSE-EE retallat...), llistades a LEFT_LABELS.
 
-La seleccio es fa UNA vegada (`politbureau participacio --tria`) i es desa a
+La seleccio es fa UNA vegada (`participation.select()`) i es desa a
 config/participacio/es-general.csv amb la participacio del 2023 a les 14 h, a
 les 18 h i final, per comparar-hi la del 29N hora a hora. La de la nit
 electoral la llegira un altre modul quan l'Interior obri la seva web de
@@ -85,8 +85,9 @@ def turnout_records(zf, tipo, year, month) -> dict:
             "census": int(rec[141:149]),
             "avance1": int(rec[173:181]),
             "avance2": int(rec[181:189]),
+            "blank": int(rec[189:197]),
             "invalid": int(rec[197:205]),
-            "valid": int(rec[205:213]),
+            "valid": int(rec[205:213]),   # vots a candidatures: SENSE el blanc
         }
     return out
 
@@ -117,19 +118,19 @@ def select(size: int = SIZE) -> list[dict]:
             "census_2026": censuslib.total("es-general", "municipality", code) or "",
             "t23_14": pct(info["avance1"]),
             "t23_18": pct(info["avance2"]),
-            "t23_final": pct(info["valid"] + info["invalid"]),
+            "t23_final": pct(info["valid"] + info["invalid"] + info["blank"]),
             "c23": info["census"], "v23_14": info["avance1"], "v23_18": info["avance2"],
-            "v23_final": info["valid"] + info["invalid"],
+            "v23_final": info["valid"] + info["invalid"] + info["blank"],
         })
     # Referencia estatal del 2023 (tots els municipis), per comparar-hi els 500
     every23 = [i for _, i in shares["congreso-2023"].values()]
-    nat = {k: sum(i[k] for i in every23) for k in ("census", "avance1", "avance2", "valid", "invalid")}
+    nat = {k: sum(i[k] for i in every23) for k in ("census", "avance1", "avance2", "valid", "invalid", "blank")}
     REF.parent.mkdir(parents=True, exist_ok=True)
     REF.write_text(json.dumps({
         "census": nat["census"],
         "t14": round(nat["avance1"] * 100.0 / nat["census"], 2),
         "t18": round(nat["avance2"] * 100.0 / nat["census"], 2),
-        "final": round((nat["valid"] + nat["invalid"]) * 100.0 / nat["census"], 2),
+        "final": round((nat["valid"] + nat["invalid"] + nat["blank"]) * 100.0 / nat["census"], 2),
         "note": "Congres 23/07/2023, municipis (sense CERA). Font: Infoelectoral, fitxer 05.",
     }, ensure_ascii=False, indent=2), encoding="utf-8")
     rows.sort(key=lambda r: -r["left_avg"])

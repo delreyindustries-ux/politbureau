@@ -70,8 +70,12 @@ elections:
     #   15 Navarra: "Unión del Pueblo Navarro en coalición con el Partido Popular"
     #   01 Andalusia: IU + Sumar + Iniciativa del Pueblo Andaluz + Verdes Equo (sense
     #      Podemos; Adelante Andalucia, a part). Resta: "Frente Amplio" (17/10/2026)
+    #   05 Canaries: CC + Primero Canarias (+ CCD), acord del 17/10/2026. A Santa
+    #      Cruz de Tenerife «Coalición Canaria-Primero Canarias»; a Las Palmas
+    #      «Primero Canarias-Coalición Canaria». Drago Canarias va sol (sense
+    #      enquestes: el model no l'estima).
     regional_display:
-      "05": {SUMAR: "Unidad del Pueblo Canario"}
+      "05": {SUMAR: "Unidad del Pueblo Canario", CC: "Coalición Canaria-Primero Canarias"}
       "04": {SUMAR: "Ara MÉS-Front Ampli"}
       "01": {SUMAR: "Frente Amplio por Andalucía"}
       "02": {SUMAR: "Chunta Aragonesista-Frente Amplio Aragón"}
@@ -91,6 +95,20 @@ elections:
     #      unica "amb marca canaria").  02 Arago: Podemos i Sumar (amb CHA, que
     #      la vol encapcalar).  10 Comunitat Valenciana: Podemos i Sumar (amb
     #      Compromis). Decisio de l'Alfonso, 06/10/2026.
+    # Correccions del resultat de base (23J) ABANS del swing, per a partits que
+    # el 2023 no hi eren o que s'han partit (build.adjust_baseline):
+    #   baseline_fill: Vox no es va presentar al Congres per Santa Cruz de
+    #     Tenerife el 23J (la llista es va quedar sense prou candidats) i el 29N
+    #     si. Se li dona el seu % del nov. 2019 a cada municipi, multiplicat pel
+    #     que va creixer a Las Palmas entre el 2019 i el 2023 (14,71 / 13,44).
+    #   baseline_split: Primero Canarias, escindit de Nueva Canarias, va amb CC.
+    #     La meitat del vot de NC del 2023 passa a CC; l'altra meitat es queda a
+    #     NC, que la regla de sota suma a Unidad del Pueblo Canario. Hipotesi de
+    #     l'Alfonso (18/10/2026), fins que hi hagi enquestes canaries.
+    baseline_fill:
+      - {party: VOX, provinces: ["38"], from: congreso-2019n, scale_from: "35"}
+    baseline_split:
+      - {party: NC, regions: ["05"], to: CC, share: 0.5}
     regional_merge:
       # Arago (02) en surt el 16/10/2026: Podemos hi va per separat.
       - {regions: ["05", "10"], into: SUMAR, left_of: PSOE}
@@ -124,13 +142,21 @@ elections:
     #   15 Navarra: "Unión del Pueblo Navarro en coalición con el Partido Popular"
     #   01 Andalusia: IU + Sumar + Iniciativa del Pueblo Andaluz + Verdes Equo (sense
     #      Podemos; Adelante Andalucia, a part). Resta: "Frente Amplio" (17/10/2026)
+    #   05 Canaries: CC + Primero Canarias (+ CCD), acord del 17/10/2026. A Santa
+    #      Cruz de Tenerife «Coalición Canaria-Primero Canarias»; a Las Palmas
+    #      «Primero Canarias-Coalición Canaria». Drago Canarias va sol (sense
+    #      enquestes: el model no l'estima).
     regional_display:
-      "05": {SUMAR: "Unidad del Pueblo Canario"}
+      "05": {SUMAR: "Unidad del Pueblo Canario", CC: "Coalición Canaria-Primero Canarias"}
       "04": {SUMAR: "Ara MÉS-Front Ampli"}
       "01": {SUMAR: "Frente Amplio por Andalucía"}
       "02": {SUMAR: "Chunta Aragonesista-Frente Amplio Aragón"}
       "10": {SUMAR: "Compromís-Front Valencià"}
       "15": {PP: "UPN-PP"}
+    baseline_fill:
+      - {party: VOX, provinces: ["38"], from: congreso-2019n, scale_from: "35"}
+    baseline_split:
+      - {party: NC, regions: ["05"], to: CC, share: 0.5}
     election_date: "2026-11-29"
     # Veda de la LOREG (art. 69.7): del 24/11 fins que tanquen els col.legis el
     # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a

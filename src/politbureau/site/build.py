@@ -138,10 +138,18 @@ def gather(conn) -> dict:
                WHERE election = ? ORDER BY province, party, position""", (BASELINE,)):
         deputies.setdefault(r["province"], []).append(dict(r))
 
+    # Meses electorals (cens, participacio del 23J i estimacio per al 29N).
+    # Sense el ZIP per meses d'Interior el lloc es genera igual, sense taula.
+    from .. import mesas as mesalib
+    try:
+        mesas = mesalib.by_municipality(conn)
+    except FileNotFoundError:
+        mesas = {}
+
     return {"names": names, "region_of": table, "real": real, "meta": meta,
             "proj": proj, "magnitude": magnitude, "magnitude_real": magnitude_real,
             "seats_real": seats_real,
-            "seats_proj": seats_proj, "deputies": deputies}
+            "seats_proj": seats_proj, "deputies": deputies, "mesas": mesas}
 
 
 def region_code(data, level, code):
@@ -186,6 +194,32 @@ def area_rows(data, level, code):
                      "delta": (now - share) if (now is not None and share is not None) else None})
     rows.sort(key=lambda r: -(r["now"] if r["now"] is not None else r["share"] or 0))
     return rows
+
+
+MESA_PARTIES = 5    # columnes de partit a la taula de meses
+
+
+def mesa_table(data, code, rows):
+    """Taula de meses d'un municipi: els partits son els cinc primers de
+    l'estimacio del municipi, en el mateix ordre que la taula principal."""
+    mesas = data.get("mesas", {}).get(code)
+    if not mesas:
+        return None
+    region = region_code(data, "municipality", code)
+    cols = [r for r in rows if r["now"] is not None][:MESA_PARTIES]
+    districts = {m["district"] for m in mesas}
+    out = []
+    for m in mesas:
+        top = max(m["now"].items(), key=lambda kv: kv[1])[0] if m["now"] else None
+        out.append({
+            "district": m["district"] if len(districts) > 1 else None,
+            "section": m["section"], "mesa": m["mesa"],
+            "census_29": m["census_29"], "census_23": m["census_23"],
+            "t14": m["t14"], "t18": m["t18"], "final": m["final"],
+            "shares": [m["now"].get(c["code"]) for c in cols],
+            "first": parties.meta(top, "ES", ELECTION, region) if top else None,
+        })
+    return {"parties": cols, "rows": out, "districts": len(districts) > 1}
 
 
 def aggregate_seats(data, key, level, code):

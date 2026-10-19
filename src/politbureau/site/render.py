@@ -12,7 +12,7 @@ from .. import census as censuslib
 from .. import parties
 from . import i18n
 from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, WEB, area_rows, deputies_for,
-                    simulator_for, unrepresented,
+                    mesa_table, simulator_for, unrepresented,
                     dhondt_for, lede_for, pct, thousands)
 
 
@@ -141,6 +141,7 @@ def territory_pages(env, cfg, data, urls, prov_region):
             sim_json = (json.dumps(sim, ensure_ascii=False).replace("<", "\\u003c")
                         if sim else None)
             dep = deputies_for(data, code) if level == "province" else None
+            mesas = mesa_table(data, code, rows) if level == "municipality" else None
             mag = data["magnitude"].get(code) if level == "province" else None
 
             for lang in i18n.LANGS:
@@ -211,7 +212,7 @@ def territory_pages(env, cfg, data, urls, prov_region):
                     level=level,
                     lede=lede_for(data, level, code, rows, lang),
                     baseline_year=BASELINE_YEAR, magnitude=mag,
-                    dhondt=dh, deputies=dep, simulator=sim_json,
+                    dhondt=dh, deputies=dep, simulator=sim_json, mesas=mesas,
                     crumbs=crumbs, children=children, children_title=ch_title,
                     siblings=siblings, siblings_title=si_title)
                 write(DIST / canonical.strip("/") / "index.html", html)

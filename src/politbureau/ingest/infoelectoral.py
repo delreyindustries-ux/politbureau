@@ -75,6 +75,63 @@ def candidacies(zf, tipo, year, month) -> dict:
     return out
 
 
+def download_mesas(process: str) -> zipfile.ZipFile:
+    """El ZIP per meses (_MESA), que porta a mes els fitxers 09 i 10."""
+    tipo, year, month = PROCESSES[process]
+    name = f"{tipo}{year}{month}_MESA.zip"
+    cached = CACHE / name
+    if not cached.exists():
+        CACHE.mkdir(parents=True, exist_ok=True)
+        resp = gobtls.session().get(BASE + name, timeout=600)
+        resp.raise_for_status()
+        cached.write_bytes(resp.content)
+    return zipfile.ZipFile(io.BytesIO(cached.read_bytes()))
+
+
+def _mesa_id(rec: str) -> str:
+    """municipi(5)-districte(2)-seccio(3/4)-mesa(1): «08019-02-015-A»."""
+    return f"{rec[11:13]}{rec[13:16]}-{rec[16:18]}-{rec[18:22].strip()}-{rec[22]}"
+
+
+def mesas(zf, tipo, year, month) -> dict:
+    """{id_mesa: {census, avance1, avance2, blank, invalid, cand, voters}}. Fitxer 09,
+    101 caracters. Les files del CERA (municipi 999) es descarten: el vot de
+    l'exterior no es compta a cap mesa sino a la junta provincial.
+
+        tipus(2) any(4) mes(2) volta(1) ccaa(2) provincia(2) municipi(3)
+        districte(2) seccio(4) mesa(1) cens_INE(7) cens_escrutini(7)
+        cens_CERE(7) votants_CERE(7) avanc1(7) avanc2(7) blanc(7) nuls(7)
+        vots_candidatures(7) ...
+    """
+    out = {}
+    for rec in _records(_member(zf, "09", tipo, year, month), 101):
+        if rec[13:16] == "999":
+            continue
+        blank, cand = int(rec[65:72]), int(rec[79:86])
+        out[_mesa_id(rec)] = {
+            "census": int(rec[30:37]),
+            "avance1": int(rec[51:58]),
+            "avance2": int(rec[58:65]),
+            "blank": blank,
+            "invalid": int(rec[72:79]),
+            "cand": cand,                 # vots a candidatures (sense blanc)
+            "voters": blank + int(rec[72:79]) + cand,
+        }
+    return out
+
+
+def mesa_votes(zf, tipo, year, month) -> dict:
+    """{id_mesa: {codi_candidatura: vots}}. Fitxer 10, 36 caracters."""
+    out: dict[str, dict[str, int]] = {}
+    for rec in _records(_member(zf, "10", tipo, year, month), 36):
+        if rec[13:16] == "999":
+            continue
+        n = int(rec[29:36])
+        if n:
+            out.setdefault(_mesa_id(rec), {})[rec[23:29]] = n
+    return out
+
+
 def municipalities(zf, tipo, year, month) -> dict:
     """{codi_INE: {name, census, blank, invalid, valid}}. Fitxer 05, 233 car."""
     out = {}

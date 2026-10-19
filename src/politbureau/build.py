@@ -201,6 +201,93 @@ def regional_merges(election_id):
     return []
 
 
+def _election_rules(election_id, key):
+    for e in _config()["elections"]:
+        if e["id"] == election_id:
+            return e.get(key) or []
+    return []
+
+
+_FILLS: dict = {}
+
+
+def fill_table(conn, baseline_election, rule) -> dict:
+    """{(nivell, codi): % que s'afegeix al partit} per a una regla `baseline_fill`.
+
+    Per a cada municipi de les provincies de la regla: el % del partit a
+    l'eleccio `from`, multiplicat pel que va canviar entre `from` i la de base a
+    la provincia `scale_from`. Provincia i comunitat surten de sumar els vots
+    imputats als municipis sobre els vots a candidatures de la base."""
+    key = (baseline_election, rule["party"], rule["from"], tuple(rule["provinces"]),
+           rule["scale_from"])
+    if key in _FILLS:
+        return _FILLS[key]
+    from .ingest import infoelectoral as ie
+    tipo, year, month = ie.PROCESSES[rule["from"]]
+    zf = ie.download(rule["from"])
+    labels = ie.candidacies(zf, tipo, year, month)
+    codes = {c for c, label in labels.items()
+             if parties.resolve(label, "ES")[0] == rule["party"]}
+    votes = ie.votes(zf, tipo, year, month)
+    munis = ie.municipalities(zf, tipo, year, month)
+
+    def then(m):
+        return sum(n for c, n in votes.get(m, {}).items() if c in codes)
+
+    ref = rule["scale_from"]
+    ref_then = (sum(then(m) for m in munis if m[:2] == ref) * 100.0
+                / max(1, sum(i["valid"] for m, i in munis.items() if m[:2] == ref)))
+    ref_now = baseline_shares(conn, baseline_election, "province").get(ref, {}).get(rule["party"], 0)
+    factor = ref_now / ref_then if ref_then else 1.0
+
+    valid = {(r[0], r[1]): r[2] for r in conn.execute(
+        """SELECT level, code, MAX(valid_votes) FROM election_result
+           WHERE election = ? GROUP BY level, code""", (baseline_election,))}
+    region_of = _region_lookup()
+    out, added = {}, {}
+    for m, info in munis.items():
+        if m[:2] not in rule["provinces"] or not info["valid"]:
+            continue
+        share = then(m) * 100.0 / info["valid"] * factor
+        out[("municipality", m)] = share
+        w = valid.get(("municipality", m), 0) * share / 100.0
+        for k in (("province", m[:2]), ("region", region_of("province", m[:2]))):
+            added[k] = added.get(k, 0) + w
+    for k, w in added.items():
+        if valid.get(k):
+            out[k] = w * 100.0 / valid[k]
+    _FILLS[key] = out
+    return out
+
+
+def baseline_rules(conn, baseline_election, election_id):
+    """(fills, splits) d'una eleccio, llegits UNA vegada: es fan servir per a
+    cada territori i cada mesa, i rellegir sources.yaml cada cop son minuts."""
+    fills = [(rule, fill_table(conn, baseline_election, rule))
+             for rule in _election_rules(election_id, "baseline_fill")]
+    return fills, _election_rules(election_id, "baseline_split")
+
+
+def adjust_baseline(rules, level, code, region, before):
+    """Aplica `baseline_fill` i `baseline_split` (sources.yaml) al resultat de
+    base d'un territori. Les meses (codi «MMMMM-DD-SSS-L») fan servir el valor
+    del seu municipi."""
+    fills, splits = rules
+    out = dict(before)
+    for rule, table in fills:
+        key = ("municipality", code[:5]) if "-" in code else (level, code)
+        add = table.get(key)
+        if add:
+            out = {p: v * (1 - add / 100.0) for p, v in out.items()}
+            out[rule["party"]] = out.get(rule["party"], 0) + add
+    for rule in splits:
+        if region in rule["regions"] and rule["party"] in out:
+            moved = out[rule["party"]] * rule["share"]
+            out[rule["party"]] -= moved
+            out[rule["to"]] = out.get(rule["to"], 0) + moved
+    return out
+
+
 def apply_regional_merge(projected, region, rules, country="ES", report=None):
     """Dins de les regions d'una regla, ajunta a `into` tots els partits a
     l'esquerra de `left_of`, o be els de la llista `parties` (coalicions que no
@@ -225,6 +312,75 @@ def apply_regional_merge(projected, region, rules, country="ES", report=None):
     return projected
 
 
+def project_shares(conn, baseline_election, national_now, level, country="ES",
+                   report=None, election_id=None, baseline=None):
+    """{codi_territori: {partit: %}}: el vot estatal `national_now` portat a cada
+    territori d'un nivell. Es el cor de `project`, separat perque l'enquesta
+    propia (survey/estimate.py) passi exactament pel mateix model que la mitjana
+    d'enquestes i no per una copia que es pugui desajustar.
+
+    `baseline` substitueix els resultats de base del nivell per uns altres
+    ({codi: {partit: %}}): les meses electorals (mesas.py) passen per aqui amb
+    codis que comencen pel del municipi, i la comunitat surt de la provincia."""
+    national = baseline_shares(conn, baseline_election, "national")
+    national_before = next(iter(national.values()), {}) if national else {}
+    if not national_before or not national_now:
+        return {}
+    if report is None:
+        report = {}
+    extra_scopes = election_scopes(election_id)
+    concentrate = scope_concentration(conn, baseline_election, national_before,
+                                      national_now, country, extra_scopes)
+    # La taula de pertinenca a comunitat es nomes d'Espanya.
+    region_of = (_region_lookup() if country == "ES"
+                 else (lambda level, code: None))
+    merges = regional_merges(election_id) if election_id else []
+    gone = not_standing(election_id) if election_id else set()
+    out, dropped = {}, set()
+    if baseline is None:
+        baseline = baseline_shares(conn, baseline_election, level)
+    adjust = (baseline_rules(conn, baseline_election, election_id)
+              if election_id and country == "ES" else ([], []))
+    for code, before in baseline.items():
+        if adjust != ([], []):
+            before = adjust_baseline(adjust, level, code, region_of(level, code), before)
+        projected = seatlib.proportional_swing(
+            before, national_now, national_before, report, concentrate,
+            parties.families().get(country))
+
+        # Un partit nou sense base estatal rebia la seva quota nacional a
+        # TOT arreu, i Alianca Catalana acabava sortint a Ceuta i Melilla.
+        # Els partits amb ambit declarat nomes existeixen dins del seu.
+        region = region_of(level, code)
+        # Tambe els que no es presenten a aquesta eleccio (`not_standing`): sense
+        # enquesta estatal, el swing els deixaria congelats al resultat de base
+        # (la CUP al 2023, quan el 2026 no es presenta).
+        outside = [p for p in projected
+                   if not parties.stands_in(p, country, region) or p in gone
+                   or (p in extra_scopes and region not in extra_scopes[p])]
+        if outside:
+            dropped.update(outside)
+            for p in outside:
+                projected.pop(p, None)
+            total_share = sum(projected.values())
+            if total_share:
+                projected = {p: round(v * 100.0 / total_share, 2)
+                             for p, v in projected.items()}
+        if merges:
+            projected = apply_regional_merge(projected, region, merges, country, report)
+        out[code] = projected
+    if dropped:
+        report.setdefault("fora del seu ambit", set()).update(dropped)
+    return out
+
+
+def current_national(conn, election_id) -> dict:
+    """{partit: %} estatal d'avui segons la mitjana d'enquestes."""
+    return {p: v["share"] for p, v in
+            drop_not_standing(election_id,
+                              agg.aggregate(load_polls(conn, election_id))).items()}
+
+
 def project(conn, election_id, baseline_election,
             levels=("municipality", "province", "region"), country="ES"):
     """Aplica el swing nacional sobre cada territori i desa el resultat.
@@ -233,20 +389,11 @@ def project(conn, election_id, baseline_election,
     s'apliquen. Amb "ES" escrit a ma, una eleccio italiana feia servir les
     regles d'ambit espanyoles.
     """
-    national_now = {p: v["share"] for p, v in
-                    drop_not_standing(election_id,
-                                      agg.aggregate(load_polls(conn, election_id))).items()}
+    national_now = current_national(conn, election_id)
     if not national_now:
         return 0
-
-    national = baseline_shares(conn, baseline_election, "national")
-    national_before = next(iter(national.values()), {}) if national else {}
-    if not national_before:
+    if not baseline_shares(conn, baseline_election, "national"):
         return 0
-
-    extra_scopes = election_scopes(election_id)
-    concentrate = scope_concentration(conn, baseline_election, national_before,
-                                      national_now, country, extra_scopes)
 
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     total = 0
@@ -257,43 +404,12 @@ def project(conn, election_id, baseline_election,
         # a la taula, contaminant el mapa amb dades d'un calcul anterior.
         conn.execute("DELETE FROM projection WHERE election_id = ? AND level = ?",
                      (election_id, level))
-        rows, report = [], {}
-        # La taula de pertinenca a comunitat es nomes d'Espanya.
-        region_of = (_region_lookup() if country == "ES"
-                     else (lambda level, code: None))
-        dropped = set()
-        merges = regional_merges(election_id)
-        gone = not_standing(election_id)
-        for code, before in baseline_shares(conn, baseline_election, level).items():
-            projected = seatlib.proportional_swing(
-                before, national_now, national_before, report, concentrate,
-                parties.families().get(country))
-
-            # Un partit nou sense base estatal rebia la seva quota nacional a
-            # TOT arreu, i Alianca Catalana acabava sortint a Ceuta i Melilla.
-            # Els partits amb ambit declarat nomes existeixen dins del seu.
-            region = region_of(level, code)
-            # Tambe els que no es presenten a aquesta eleccio (`not_standing`):
-            # sense enquesta estatal, el swing els deixaria congelats al
-            # resultat de base (la CUP al 2023, quan el 2026 no es presenta).
-            outside = [p for p in projected
-                       if not parties.stands_in(p, country, region) or p in gone
-                       or (p in extra_scopes and region not in extra_scopes[p])]
-            if outside:
-                dropped.update(outside)
-                for p in outside:
-                    projected.pop(p, None)
-                total_share = sum(projected.values())
-                if total_share:
-                    projected = {p: round(v * 100.0 / total_share, 2)
-                                 for p, v in projected.items()}
-            if merges:
-                projected = apply_regional_merge(projected, region, merges, country, report)
-
-            rows += [(now, election_id, level, code, party, share)
-                     for party, share in projected.items() if share >= 0.05]
-        if dropped:
-            report.setdefault("fora del seu ambit", set()).update(dropped)
+        report = {}
+        shares = project_shares(conn, baseline_election, national_now, level,
+                                country, report, election_id=election_id)
+        rows = [(now, election_id, level, code, party, share)
+                for code, projected in shares.items()
+                for party, share in projected.items() if share >= 0.05]
         conn.executemany(
             """INSERT INTO projection
                (computed_at, election_id, level, code, party, share)
