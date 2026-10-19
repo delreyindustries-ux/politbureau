@@ -11,6 +11,7 @@ from markupsafe import Markup
 from .. import census as censuslib
 from .. import parties
 from .. import renda as rendalib
+from ..geo import seccions
 from . import i18n
 from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, SECCIONS, WEB, area_rows, deputies_for,
                     district_table, mesa_table, section_map, simulator_for, unrepresented,
@@ -150,6 +151,8 @@ def territory_pages(env, cfg, data, urls, prov_region):
                 # baixa quan algu obre la fitxa (no va dins de l'HTML).
                 geo_doc = json.loads((SECCIONS / f"{code}.json").read_text(encoding="utf-8"))
                 geo_doc["d"] = secmap
+                if len({k.split("-")[0] for k in geo_doc["s"]}) > 1:
+                    geo_doc["db"], geo_doc["dl"] = seccions.district_outlines(geo_doc)
                 write(DIST / "assets" / "seccions" / f"{code}.json",
                       json.dumps(geo_doc, ensure_ascii=False, separators=(",", ":")))
             mag = data["magnitude"].get(code) if level == "province" else None

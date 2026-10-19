@@ -84,6 +84,15 @@ T = {
         "ca": "Renda: renda neta mitjana per persona del 2023 (INE, Atles de Distribució de "
               "Renda de les Llars). No és el PIB per càpita, que l'INE només calcula per "
               "províncies. Electors del 29N per districte: estimats com a les meses."},
+    # --- mapa de la ciutat (carrers d'OpenFreeMap, nomes si es prem el boto)
+    "secmap_city": {"es": "Mostrar el mapa de la ciudad", "ca": "Mostrar el mapa de la ciutat"},
+    "secmap_city_note": {
+        "es": "El mapa de la ciudad (calles de OpenFreeMap, datos de OpenStreetMap) solo se "
+              "carga si pulsas el botón: entonces tu navegador se conecta a unpkg.com y a "
+              "tiles.openfreemap.org. Más información en",
+        "ca": "El mapa de la ciutat (carrers d'OpenFreeMap, dades d'OpenStreetMap) només es "
+              "carrega si prems el botó: aleshores el teu navegador es connecta a unpkg.com i "
+              "a tiles.openfreemap.org. Més informació a"},
     # --- mapa de seccions
     "secmap_title": {"es": "Mapa de secciones y mesas", "ca": "Mapa de seccions i meses"},
     "secmap_lede": {

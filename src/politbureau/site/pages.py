@@ -102,6 +102,15 @@ target="_blank">policies.google.com/technologies/partner-sites</a> y configurar 
 preferencias en <a href="https://adssettings.google.com" rel="nofollow noopener"
 target="_blank">adssettings.google.com</a>.</p>
 
+<h2>Mapa de la ciudad</h2>
+<p>En la ficha de cada municipio, el botón «Mostrar el mapa de la ciudad» carga los
+calles de <a href="https://openfreemap.org" rel="nofollow noopener" target="_blank">OpenFreeMap</a>
+(datos de OpenStreetMap) y la librería MapLibre desde
+<a href="https://unpkg.com" rel="nofollow noopener" target="_blank">unpkg.com</a>.
+<b>Solo si lo pulsas</b>, tu navegador se conecta a esos dos servidores, que reciben
+tu dirección IP como cualquier servidor web. No se usan cookies. Si no lo pulsas,
+el mapa de secciones se dibuja sin ninguna conexión externa.</p>
+
 <h2>Si rechazas</h2>
 <p>Si rechazas las cookies, <b>no se carga ningún script de Google</b> y el sitio
 funciona con normalidad. Tu decisión se guarda en el almacenamiento local de tu
@@ -128,6 +137,15 @@ visitades. Google actua com a responsable independent d'aquest tractament.</p>
 target="_blank">policies.google.com/technologies/partner-sites</a> i configurar les
 teves preferències a <a href="https://adssettings.google.com" rel="nofollow noopener"
 target="_blank">adssettings.google.com</a>.</p>
+
+<h2>Mapa de la ciutat</h2>
+<p>A la fitxa de cada municipi, el botó «Mostrar el mapa de la ciutat» carrega els
+carrers d'<a href="https://openfreemap.org" rel="nofollow noopener" target="_blank">OpenFreeMap</a>
+(dades d'OpenStreetMap) i la llibreria MapLibre des
+d'<a href="https://unpkg.com" rel="nofollow noopener" target="_blank">unpkg.com</a>.
+<b>Només si el prems</b>, el teu navegador es connecta a aquests dos servidors, que
+reben la teva adreça IP com qualsevol servidor web. No es fan servir galetes. Si no
+el prems, el mapa de seccions es dibuixa sense cap connexió externa.</p>
 
 <h2>Si ho rebutges</h2>
 <p>Si rebutges les galetes, <b>no es carrega cap script de Google</b> i el lloc

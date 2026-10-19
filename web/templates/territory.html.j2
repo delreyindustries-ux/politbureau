@@ -197,6 +197,8 @@
     <p>{{ t('secmap_lede') }}</p>
     <div class="secmap-bar">
       <select id="secmap-by" aria-label="{{ t('secmap_title') }}"></select>
+      <button type="button" id="secmap-city" class="secmap-city" data-label="{{ t('secmap_city') }}"
+        title="{{ t('secmap_city_note') }}">{{ t('secmap_city') }}</button>
       <span class="secmap-zoom">
         <button type="button" data-z="1.6" aria-label="+">+</button><button type="button" data-z="0.625" aria-label="−">−</button><button type="button" data-z="0" aria-label="Reset">⟲</button>
       </span>
@@ -206,7 +208,8 @@
       <div id="secmap-info" class="secmap-info" hidden></div>
     </div>
     <div id="secmap-legend" class="secmap-legend"></div>
-    <p class="note">{{ t('secmap_note') }}</p>
+    <p class="note">{{ t('secmap_note') }} {{ t('secmap_city_note') }}
+      <a href="{{ root }}{{ lang }}/{{ page('privacy') }}/">{{ t('nav_privacy') }}</a>.</p>
     <script src="{{ root }}assets/seccions.js" defer></script>
   </section>
   {%- endif %}

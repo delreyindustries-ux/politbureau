@@ -171,3 +171,79 @@ def build(zip_path: str | Path) -> tuple[int, int, int]:
         n_secs += len(sections)
         size += len(text)
     return n_munis, n_secs, size
+
+
+# --------------------------------------------------------------- districtes
+
+def _points(ring):
+    x, y, out = ring[0], ring[1], [(ring[0], ring[1])]
+    for i in range(2, len(ring), 2):
+        x += ring[i]
+        y += ring[i + 1]
+        out.append((x, y))
+    return out
+
+
+def district_outlines(doc: dict) -> tuple[list, dict]:
+    """Limits dels districtes d'un municipi, en coordenades de la graella.
+
+    Com que totes les seccions comparteixen la MATEIXA graella, un tram de
+    frontera entre dues seccions surt identic a totes dues. Un tram es limit
+    de districte si el comparteixen seccions de districtes diferents, o si
+    nomes en te una (la vora del municipi). Els trams es tornen a encadenar en
+    linies i es codifiquen com els anells: [x, y, dx, dy, ...].
+
+    Retorna (linies, {districte: [x, y] on posar-hi l'etiqueta}). L'etiqueta va
+    al centre de la seccio mes gran del districte, que sempre cau a dins (el
+    centre del districte sencer pot caure fora si te forma de mitja lluna)."""
+    owners: dict = {}
+    biggest: dict = {}
+    for key, rings in doc["s"].items():
+        district = key.split("-")[0]
+        for ring in rings:
+            pts = _points(ring)
+            area = cx = cy = 0.0
+            for (x1, y1), (x2, y2) in zip(pts, pts[1:] + pts[:1]):
+                if (x1, y1) != (x2, y2):
+                    seg = ((x1, y1), (x2, y2)) if (x1, y1) < (x2, y2) else ((x2, y2), (x1, y1))
+                    owners.setdefault(seg, set()).add(district)
+                    owners.setdefault(("n", seg), []).append(district)
+                cross = x1 * y2 - x2 * y1
+                area += cross
+                cx += (x1 + x2) * cross
+                cy += (y1 + y2) * cross
+            if area and abs(area) > biggest.get(district, (0, None))[0]:
+                biggest[district] = (abs(area), (round(cx / (3 * area)), round(cy / (3 * area))))
+    edges = [seg for seg, ds in owners.items()
+             if seg[0] != "n" and (len(ds) > 1 or len(owners[("n", seg)]) == 1)]
+    graph: dict = {}
+    for a, b in edges:
+        graph.setdefault(a, []).append(b)
+        graph.setdefault(b, []).append(a)
+    used: set = set()
+    lines = []
+    # Primer des dels extrems i les cruïlles, despres els cicles que quedin.
+    starts = [p for p, n in graph.items() if len(n) != 2] + list(graph)
+    for start in starts:
+        for nxt in graph[start]:
+            seg = (start, nxt) if start < nxt else (nxt, start)
+            if seg in used:
+                continue
+            line, prev, cur = [start], start, nxt
+            used.add(seg)
+            while True:
+                line.append(cur)
+                if len(graph[cur]) != 2:
+                    break
+                cand = graph[cur][0] if graph[cur][0] != prev else graph[cur][1]
+                s2 = (cur, cand) if cur < cand else (cand, cur)
+                if s2 in used:
+                    break
+                used.add(s2)
+                prev, cur = cur, cand
+            flat, px, py = [], 0, 0
+            for x, y in line:
+                flat += [x - px, y - py]
+                px, py = x, y
+            lines.append(flat)
+    return lines, {d: list(c) for d, (_, c) in biggest.items()}
