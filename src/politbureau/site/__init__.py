@@ -81,8 +81,21 @@ def site_stats(conn):
             "WHERE election='congreso-2023' AND level='national' LIMIT 1")),
         "polls": thousands(q("SELECT COUNT(*) FROM poll WHERE election_id=?", ELECTION)),
         "pollsters": q("SELECT COUNT(DISTINCT pollster) FROM poll WHERE election_id=?", ELECTION),
+        "pollsters_used": _polls_in_average(conn),
         "pollster_weights": _pollster_weights(),
     }
+
+
+def _polls_in_average(conn):
+    """Enquestes que entren avui a la mitjana estatal: l'ultima de cada casa,
+    amb els mateixos filtres d'antiguitat i mostra que aplica aggregate()."""
+    import datetime as dt
+    from ..build import load_polls
+    today = dt.date.today()
+    return sum(1 for p in load_polls(conn, ELECTION)
+               if p["fieldwork_end"]
+               and (today - dt.date.fromisoformat(p["fieldwork_end"])).days <= 90
+               and not (p["sample_size"] and p["sample_size"] < 300))
 
 
 def _pollster_weights():

@@ -18,9 +18,12 @@
   modelo, no una medición.</p>
 
   <h2>Cómo se promedian las encuestas</h2>
-  <p>Se recogen todas las encuestas publicadas de intención de voto para el Congreso.
-  Hoy hay {{ stats.polls }} de {{ stats.pollsters }} institutos distintos. El peso de
-  cada una combina dos cosas:</p>
+  <p>Se recogen todas las encuestas publicadas de intención de voto para el Congreso
+  ({{ stats.polls }} de {{ stats.pollsters }} institutos distintos), pero <b>de cada
+  instituto solo cuenta la más reciente</b>: cuando publica una nueva, sustituye a la
+  anterior en vez de sumarse. Así, una casa que publica cada semana no pesa más que una
+  que lo hace cada mes. Hoy entran en la media {{ stats.pollsters_used }} encuestas, una
+  por instituto. El peso de cada una combina dos cosas:</p>
   <ul>
     <li><b>Recencia</b>: el peso cae a la mitad cada 14 días.</li>
     <li><b>Muestra</b>: crece con la raíz cuadrada del número de entrevistas, con un
@@ -99,9 +102,12 @@
   no una mesura.</p>
 
   <h2>Com es promitgen les enquestes</h2>
-  <p>Es recullen totes les enquestes publicades d'intenció de vot per al Congrés. Avui
-  n'hi ha {{ stats.polls }} de {{ stats.pollsters }} instituts diferents. El pes de
-  cadascuna combina dues coses:</p>
+  <p>Es recullen totes les enquestes publicades d'intenció de vot per al Congrés
+  ({{ stats.polls }} de {{ stats.pollsters }} instituts diferents), però <b>de cada
+  institut només compta la més recent</b>: quan en publica una de nova, substitueix
+  l'anterior en lloc de sumar-s'hi. Així, una casa que publica cada setmana no pesa més
+  que una que ho fa cada mes. Avui entren a la mitjana {{ stats.pollsters_used }}
+  enquestes, una per institut. El pes de cadascuna combina dues coses:</p>
   <ul>
     <li><b>Recència</b>: el pes cau a la meitat cada 14 dies.</li>
     <li><b>Mostra</b>: creix amb l'arrel quadrada del nombre d'entrevistes, amb un

@@ -60,6 +60,7 @@ def load_polls(conn, election_id, scope_code=None):
     polls: dict[int, dict] = {}
     for r in rows:
         entry = polls.setdefault(r["id"], {
+            "pollster": (r["pollster"] or "").strip(),
             "fieldwork_end": r["fieldwork_end"],
             "sample_size": r["sample_size"],
             "weight": weights.get((r["pollster"] or "").strip(), 1.0),
@@ -73,7 +74,26 @@ def load_polls(conn, election_id, scope_code=None):
             lo = None if lo0 is None and lo is None else (lo0 or 0) + (lo or 0)
             hi = None if hi0 is None and hi is None else (hi0 or 0) + (hi or 0)
         entry["results"][code] = (share, lo, hi)
-    return list(polls.values())
+    return latest_per_pollster(polls)
+
+
+def latest_per_pollster(polls: dict) -> list:
+    """De cada casa enquestadora, NOMES la seva enquesta mes recent.
+
+    Decisio de l'Alfonso (19/10/2026): una enquesta nova d'una casa substitueix
+    l'anterior, no s'hi afegeix. Si no, les cases que publiquen cada setmana
+    (EM-Analytics en porta 13 en 90 dies) pesaven molt mes que les que ho fan
+    un cop al mes. La casa es el nom tal com surt a Wikipedia: "CIS (Opina
+    360)" es una reestimacio d'una altra casa i compta a part del CIS.
+    "Mes recent" = data final del treball de camp; a igualtat, la que s'ha
+    llegit despres (id mes alt). Sense nom de casa, cada enquesta va a part."""
+    latest: dict = {}
+    for pid, entry in polls.items():
+        house = entry["pollster"].lower() or f"#{pid}"
+        rank = (entry["fieldwork_end"] or "", pid)
+        if house not in latest or rank > latest[house][0]:
+            latest[house] = (rank, entry)
+    return [entry for _, entry in latest.values()]
 
 
 def store_aggregate(conn, election_id, scope_code, result):
