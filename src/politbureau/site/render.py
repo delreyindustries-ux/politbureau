@@ -11,8 +11,8 @@ from markupsafe import Markup
 from .. import census as censuslib
 from .. import parties
 from . import i18n
-from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, WEB, area_rows, deputies_for,
-                    mesa_table, simulator_for, unrepresented,
+from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, SECCIONS, WEB, area_rows, deputies_for,
+                    mesa_table, section_map, simulator_for, unrepresented,
                     dhondt_for, lede_for, pct, thousands)
 
 
@@ -142,6 +142,14 @@ def territory_pages(env, cfg, data, urls, prov_region):
                         if sim else None)
             dep = deputies_for(data, code) if level == "province" else None
             mesas = mesa_table(data, code, rows) if level == "municipality" else None
+            secmap = section_map(data, code, rows) if level == "municipality" else None
+            if secmap:
+                # Contorns + dades en un sol fitxer, que el navegador nomes
+                # baixa quan algu obre la fitxa (no va dins de l'HTML).
+                geo_doc = json.loads((SECCIONS / f"{code}.json").read_text(encoding="utf-8"))
+                geo_doc["d"] = secmap
+                write(DIST / "assets" / "seccions" / f"{code}.json",
+                      json.dumps(geo_doc, ensure_ascii=False, separators=(",", ":")))
             mag = data["magnitude"].get(code) if level == "province" else None
 
             for lang in i18n.LANGS:
@@ -213,6 +221,7 @@ def territory_pages(env, cfg, data, urls, prov_region):
                     lede=lede_for(data, level, code, rows, lang),
                     baseline_year=BASELINE_YEAR, magnitude=mag,
                     dhondt=dh, deputies=dep, simulator=sim_json, mesas=mesas,
+                    secmap=bool(secmap),
                     crumbs=crumbs, children=children, children_title=ch_title,
                     siblings=siblings, siblings_title=si_title)
                 write(DIST / canonical.strip("/") / "index.html", html)

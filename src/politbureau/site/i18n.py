@@ -60,6 +60,20 @@ T = {
     "change": {"es": "Cambio", "ca": "Canvi"},
     "census": {"es": "electores el 29N", "ca": "electors el 29N"},
     "valid_votes": {"es": "Votos válidos", "ca": "Vots vàlids"},
+    # --- mapa de seccions
+    "secmap_title": {"es": "Mapa de secciones y mesas", "ca": "Mapa de seccions i meses"},
+    "secmap_lede": {
+        "es": "Cada mancha es una sección censal; sus mesas se reparten a los electores "
+              "por orden alfabético, así que no tienen límites propios. Pasa el ratón o toca "
+              "una sección para ver sus mesas. Rueda o botones para acercarte.",
+        "ca": "Cada taca és una secció censal; les seves meses es reparteixen els electors "
+              "per ordre alfabètic, i per això no tenen límits propis. Passa el ratolí o toca "
+              "una secció per veure'n les meses. Roda o botons per apropar-t'hi."},
+    "secmap_note": {
+        "es": "Límites: INE, secciones censales a 1/1/2023 (las del 23J). Las secciones "
+              "creadas o cambiadas después salen en gris.",
+        "ca": "Límits: INE, seccions censals a 1/1/2023 (les del 23J). Les seccions "
+              "creades o canviades després surten en gris."},
     # --- meses electorals
     "mesas_title": {"es": "Mesas electorales", "ca": "Meses electorals"},
     "mesas_show": {"es": "Ver las {n} mesas", "ca": "Veure les {n} meses"},

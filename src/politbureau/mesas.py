@@ -88,6 +88,7 @@ def by_municipality(conn) -> dict:
         out.setdefault(muni, []).append({
             "id": mid, "district": district, "section": section, "mesa": mesa,
             "census_23": c,
+            "cand": r["cand"],
             "census_29": round(c * growth) if growth else None,
             "t14": r["avance1"] * 100.0 / c if c else None,
             "t18": r["avance2"] * 100.0 / c if c else None,

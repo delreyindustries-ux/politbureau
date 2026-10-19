@@ -156,6 +156,26 @@
   </section>
   {%- endif %}
 
+  {%- if secmap %}
+  <section id="secmap" data-src="{{ root }}assets/seccions/{{ area.code }}.json">
+    <h2>{{ t('secmap_title') }}</h2>
+    <p>{{ t('secmap_lede') }}</p>
+    <div class="secmap-bar">
+      <select id="secmap-by" aria-label="{{ t('secmap_title') }}"></select>
+      <span class="secmap-zoom">
+        <button type="button" data-z="1.6" aria-label="+">+</button><button type="button" data-z="0.625" aria-label="−">−</button><button type="button" data-z="0" aria-label="Reset">⟲</button>
+      </span>
+    </div>
+    <div class="secmap-wrap">
+      <svg id="secmap-svg" role="img" aria-label="{{ t('secmap_title') }} · {{ area.name }}"></svg>
+      <div id="secmap-info" class="secmap-info" hidden></div>
+    </div>
+    <div id="secmap-legend" class="secmap-legend"></div>
+    <p class="note">{{ t('secmap_note') }}</p>
+    <script src="{{ root }}assets/seccions.js" defer></script>
+  </section>
+  {%- endif %}
+
   {%- if mesas %}
   <section>
     <h2>{{ t('mesas_title') }}</h2>

@@ -222,6 +222,55 @@ def mesa_table(data, code, rows):
     return {"parties": cols, "rows": out, "districts": len(districts) > 1}
 
 
+SECCIONS = ROOT / "data" / "seccions"
+MAP_PARTIES = 8     # partits que es poden triar al mapa de seccions
+
+
+def section_map(data, code, rows):
+    """Dades del mapa de seccions d'un municipi, o None si no en te.
+
+    Cada seccio suma les seves meses: electors del 29N, participacio del 23J
+    ponderada pel cens de cada mesa, i estimacio de vot ponderada pels vots a
+    candidatures de cada mesa. Els contorns son a data/seccions (geo/seccions.py)."""
+    mesas = data.get("mesas", {}).get(code)
+    if not mesas or not (SECCIONS / f"{code}.json").exists():
+        return None
+    region = region_code(data, "municipality", code)
+    acc = {}
+    for m in mesas:
+        key = f"{m['district']}-{m['section'][:3]}"
+        s = acc.setdefault(key, {"m": [], "c": 0, "c23": 0, "v": [0.0, 0.0, 0.0],
+                                 "w": 0, "p": {}})
+        s["m"].append(m["mesa"])
+        s["c"] += m["census_29"] or 0
+        s["c23"] += m["census_23"]
+        for i, k in enumerate(("t14", "t18", "final")):
+            s["v"][i] += (m[k] or 0) * m["census_23"] / 100.0
+        s["w"] += m["cand"]
+        for party, share in m["now"].items():
+            s["p"][party] = s["p"].get(party, 0) + share * m["cand"]
+    for s in acc.values():
+        s["p"] = {p: v / s["w"] for p, v in s["p"].items()} if s["w"] else {}
+    order = [r["code"] for r in rows if r["now"] is not None][:MAP_PARTIES]
+    for s in acc.values():
+        if s["p"]:
+            first = max(s["p"].items(), key=lambda kv: kv[1])[0]
+            if first not in order:
+                order.append(first)
+    sections = {}
+    for key, s in acc.items():
+        first = max(s["p"].items(), key=lambda kv: kv[1])[0] if s["p"] else None
+        sections[key] = {
+            "m": s["m"], "c": s["c"],
+            "t": [round(v * 100.0 / s["c23"], 1) if s["c23"] else None for v in s["v"]],
+            "s": [round(s["p"].get(p, 0), 1) for p in order],
+            "f": order.index(first) if first else None,
+        }
+    return {"parties": [{k: v for k, v in parties.meta(p, "ES", ELECTION, region).items()}
+                        for p in order],
+            "sections": sections}
+
+
 def aggregate_seats(data, key, level, code):
     """Escons d'un territori: els de la provincia, o la suma de les seves.
 

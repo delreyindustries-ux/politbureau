@@ -218,3 +218,23 @@ table.part tbody tr:first-child td{font-weight:400}
 table.part .up,table.part .down{font-size:12px;margin-left:4px}
 table.part .up{color:#2e9e5b}
 table.part .down{color:#d2463c}
+
+/* --------------------------------------------------------------- mapa de seccions */
+.secmap-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 10px}
+.secmap-bar select{background:var(--panel);color:var(--ink);border:1px solid var(--line);
+  border-radius:6px;padding:5px 8px;font:inherit;font-size:14px;max-width:100%}
+.secmap-zoom{margin-left:auto;display:flex;gap:4px}
+.secmap-zoom button{width:32px;height:32px;border:1px solid var(--line);border-radius:6px;
+  background:var(--panel);color:var(--ink);font-size:16px;cursor:pointer}
+.secmap-wrap{position:relative;border:1px solid var(--line);border-radius:8px;
+  background:var(--panel);overflow:hidden}
+#secmap-svg{display:block;width:100%;height:min(70vh,560px);touch-action:none;cursor:grab}
+#secmap-svg.drag{cursor:grabbing}
+#secmap-svg path{stroke:var(--bg);stroke-width:.6;vector-effect:non-scaling-stroke}
+#secmap-svg path.on{stroke:var(--ink);stroke-width:2}
+.secmap-info{position:absolute;left:8px;top:8px;max-width:min(320px,calc(100% - 16px));
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;
+  font-size:13px;line-height:1.45;box-shadow:0 4px 18px rgba(0,0,0,.25);pointer-events:none}
+.secmap-info b{font-size:14px}
+.secmap-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--dim);margin:8px 0}
+.secmap-legend .grad{display:inline-block;width:140px;height:10px;border-radius:3px;vertical-align:middle;margin:0 6px}
