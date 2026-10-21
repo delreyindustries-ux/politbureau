@@ -46,7 +46,14 @@ DENIED_SECTIONS = (
     "preferred candidate",
     "approval",
     "seat projection",
-    "primary",          # primaries dels EUA: hi competeixen candidats del mateix partit
+    # Espanya, 21/10/2026: "Senate projections" penja d'"Electoral polling" i
+    # porta ESCONS del Senat (Opina 360: PP 83, EH Bildu 5...). Es llegien com a
+    # percentatges: un PP al 83 % que, amb una enquesta per casa, a mes
+    # substituia l'enquesta bona d'Opina 360. "Victory likelihood" son
+    # probabilitats de guanyar, tampoc intencio de vot.
+    "senate projection",
+    "victory likelihood",
+    "primary",         # primaries dels EUA: hi competeixen candidats del mateix partit
     "convention",       # "Democratic nominating convention" (Maine): una primaria amb un
                         # altre nom. Sis democrates a la mateixa taula; si es colessin, l'estat
                         # sortiria 100% d'un partit.
