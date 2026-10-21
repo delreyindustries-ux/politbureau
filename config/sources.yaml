@@ -108,6 +108,15 @@ elections:
     #     La meitat del vot de NC del 2023 passa a CC; l'altra meitat es queda a
     #     NC, que la regla de sota suma a Unidad del Pueblo Canario. Hipotesi de
     #     l'Alfonso (18/10/2026), fins que hi hagi enquestes canaries.
+    # Partits que no es presenten en unes provincies i el vot dels quals passa a
+    # un altre (retencio del 100 %, el criteri de les llistes uniques). Es fa
+    # despres de la projeccio (build.apply_withdraw).
+    #   44 Terol: CHA-Frente Amplio Arago no es presenta al Congres per Terol
+    #   (Jorge Pueyo, 21/10/2026: "evitar la dispersio del vot"); alla nomes va
+    #   al Senat, amb el PSOE ("Senado de Progreso"). Per al Congres no hi ha
+    #   pacte formal; el vot al PSOE es decisio de l'Alfonso (21/10/2026).
+    withdraw:
+      - {party: SUMAR, provinces: ["44"], to: PSOE}
     baseline_fill:
       - {party: VOX, provinces: ["38"], from: congreso-2019n, scale_from: "35"}
     baseline_split:
@@ -159,6 +168,15 @@ elections:
       "02": {SUMAR: "Chunta Aragonesista-Frente Amplio Aragón"}
       "10": {SUMAR: "Compromís-Front Valencià"}
       "15": {PP: "UPN-PP"}
+    # Partits que no es presenten en unes provincies i el vot dels quals passa a
+    # un altre (retencio del 100 %, el criteri de les llistes uniques). Es fa
+    # despres de la projeccio (build.apply_withdraw).
+    #   44 Terol: CHA-Frente Amplio Arago no es presenta al Congres per Terol
+    #   (Jorge Pueyo, 21/10/2026: "evitar la dispersio del vot"); alla nomes va
+    #   al Senat, amb el PSOE ("Senado de Progreso"). Per al Congres no hi ha
+    #   pacte formal; el vot al PSOE es decisio de l'Alfonso (21/10/2026).
+    withdraw:
+      - {party: SUMAR, provinces: ["44"], to: PSOE}
     baseline_fill:
       - {party: VOX, provinces: ["38"], from: congreso-2019n, scale_from: "35"}
     baseline_split:
