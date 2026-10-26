@@ -272,6 +272,17 @@ ES:
     aliases:
     - fo
     - frente obrero
+  # Falange Espanola de las JONS. Al 23J va treure 4.618 vots i, sense aquesta
+  # fitxa, quedava amb el codi provisional ?FEDELASJONS (26/10/2026). Nomes els
+  # noms complets: "falange" sol es menjaria Falange Autentica, que es un altre
+  # partit, i "fe" sol qualsevol sigla que hi comenci.
+  FE:
+    name: Falange Española de las JONS
+    color: '#1F1F1F'
+    aliases:
+    - fe de las jons
+    - falange espanola de las jons
+    - fe-jons
   EB:
     name: Escanos en Blanco
     color: '#6B7280'
@@ -439,6 +450,7 @@ _order:
   - UPN
   - VOX
   - SALF
+  - FE
   - IUSTITIA
   - FO
   - PACMA

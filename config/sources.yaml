@@ -118,6 +118,15 @@ elections:
     #   pacte formal; el vot al PSOE es decisio de l'Alfonso (21/10/2026).
     withdraw:
       - {party: SUMAR, provinces: ["44"], to: PSOE}
+    # Partits sense columna a la taula d'enquestes ni resultat del 23J, amb una
+    # xifra publicada: el % estatal es concentra a les provincies on es presenten
+    # (build.apply_fixed). Democracia 21 (Cs + UCIN + D21) nomes va a Madrid i
+    # Barcelona; El Espanol / SocioMetrica, 25/10/2026: "anclada en el 0,1 %".
+    fixed_estimates:
+      - {party: D21, share: 0.1, provinces: ["28", "08"]}
+    # Partits que el mapa ensenya sempre al desplegable encara que no arribin al
+    # 3 % enlloc ni a l'1 % de la mitjana (decisio de l'Alfonso, 26/10/2026).
+    map_always: [FO, FE, D21]
     baseline_fill:
       - {party: VOX, provinces: ["38"], from: congreso-2019n, scale_from: "35"}
     baseline_split:
@@ -181,6 +190,15 @@ elections:
     #   pacte formal; el vot al PSOE es decisio de l'Alfonso (21/10/2026).
     withdraw:
       - {party: SUMAR, provinces: ["44"], to: PSOE}
+    # Partits sense columna a la taula d'enquestes ni resultat del 23J, amb una
+    # xifra publicada: el % estatal es concentra a les provincies on es presenten
+    # (build.apply_fixed). Democracia 21 (Cs + UCIN + D21) nomes va a Madrid i
+    # Barcelona; El Espanol / SocioMetrica, 25/10/2026: "anclada en el 0,1 %".
+    fixed_estimates:
+      - {party: D21, share: 0.1, provinces: ["28", "08"]}
+    # Partits que el mapa ensenya sempre al desplegable encara que no arribin al
+    # 3 % enlloc ni a l'1 % de la mitjana (decisio de l'Alfonso, 26/10/2026).
+    map_always: [FO, FE, D21]
     baseline_fill:
       - {party: VOX, provinces: ["38"], from: congreso-2019n, scale_from: "35"}
     baseline_split:

@@ -363,6 +363,47 @@ def apply_withdraw(projected, rule, level, code, region_part):
     return out
 
 
+def fixed_parts(conn, baseline_election, rule) -> dict:
+    """{"province": %, "region": {comunitat: %}} d'una regla `fixed_estimates`.
+
+    Per a partits que no tenen columna a la taula d'enquestes ni resultat del
+    23J (Democracia 21): el % estatal publicat es concentra a les provincies
+    on es presenta, com fa scope_concentration amb els partits d'ambit propi.
+    A cada provincia li toca share * vots_estat / vots_d'aquelles_provincies; a
+    una comunitat, la part dels seus vots que hi cau."""
+    valid = {r[0]: r[1] for r in conn.execute(
+        """SELECT code, MAX(valid_votes) FROM election_result
+           WHERE election = ? AND level = 'province' GROUP BY code""", (baseline_election,))}
+    region_valid = {r[0]: r[1] for r in conn.execute(
+        """SELECT code, MAX(valid_votes) FROM election_result
+           WHERE election = ? AND level = 'region' GROUP BY code""", (baseline_election,))}
+    nat = sum(valid.values())
+    inside = sum(valid.get(p, 0) for p in rule["provinces"])
+    if not inside:
+        return {"province": 0, "region": {}}
+    prov_share = rule["share"] * nat / inside
+    region_of = _region_lookup()
+    region = {}
+    for p in rule["provinces"]:
+        reg = region_of("province", p)
+        region[reg] = region.get(reg, 0) + prov_share * valid.get(p, 0)
+    return {"province": prov_share,
+            "region": {r: v / region_valid[r] for r, v in region.items() if region_valid.get(r)}}
+
+
+def apply_fixed(projected, rule, level, code, parts):
+    """Posa el % de `fixed_estimates` i reescala la resta perque sumi 100."""
+    if level == "region":
+        add = parts["region"].get(code, 0)
+    else:
+        add = parts["province"] if code[:2] in rule["provinces"] else 0
+    if not add:
+        return projected
+    out = {p: round(v * (1 - add / 100.0), 2) for p, v in projected.items()}
+    out[rule["party"]] = round(out.get(rule["party"], 0) + add, 2)
+    return out
+
+
 def apply_regional_merge(projected, region, rules, country="ES", report=None):
     """Dins de les regions d'una regla, ajunta a `into` tots els partits a
     l'esquerra de `left_of`, o be els de la llista `parties` (coalicions que no
@@ -413,6 +454,9 @@ def project_shares(conn, baseline_election, national_now, level, country="ES",
     withdraws = ([(rule, withdraw_region_part(conn, baseline_election, rule))
                   for rule in _election_rules(election_id, "withdraw")]
                  if election_id and country == "ES" else [])
+    fixed = ([(rule, fixed_parts(conn, baseline_election, rule))
+              for rule in _election_rules(election_id, "fixed_estimates")]
+             if election_id and country == "ES" else [])
     gone = not_standing(election_id) if election_id else set()
     out, dropped = {}, set()
     if baseline is None:
@@ -448,6 +492,8 @@ def project_shares(conn, baseline_election, national_now, level, country="ES",
             projected = apply_regional_merge(projected, region, merges, country, report)
         for rule, region_part in withdraws:
             projected = apply_withdraw(projected, rule, level, code, region_part)
+        for rule, parts in fixed:
+            projected = apply_fixed(projected, rule, level, code, parts)
         out[code] = projected
     if dropped:
         report.setdefault("fora del seu ambit", set()).update(dropped)

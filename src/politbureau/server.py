@@ -282,8 +282,21 @@ def create_app():
                 if share > peak.get(party, 0):
                     peak[party] = share
                 weight[party] = weight.get(party, 0) + share
-        keep = sorted((p for p in peak if peak[p] >= 3.0),
-                      key=lambda x: -weight[x])[:16]
+        # A la capa d'estimacio, tambe els partits amb un 1 % o mes a la mitjana
+        # d'enquestes, encara que no arribin al 3 % enlloc: SALF (1,7 % repartit
+        # per tot Espanya, sense escons el 2023) no sortia al desplegable del
+        # mapa tot i tenir 17 enquestes (decisio de l'Alfonso, 26/10/2026).
+        polled = set()
+        if layer != "real":
+            from .build import current_national
+            polled = {p for p, v in current_national(conn, election_id).items()
+                      if v >= 1.0 and p in peak}
+        # I els que l'eleccio demana mostrar sempre (`map_always`: FO, FE, D21).
+        # Van al final i fora del limit de 20, perque no en treguin cap d'un
+        # partit gran o regional.
+        always = [p for p in (meta.get("map_always") or []) if p in peak]
+        keep = sorted((p for p in peak if (peak[p] >= 3.0 or p in polled) and p not in always),
+                      key=lambda x: -weight[x])[:20] + always
         index = {p: i for i, p in enumerate(keep)}
 
         # Format compacte: una llista d'ordre fix de partits i, per a cada
