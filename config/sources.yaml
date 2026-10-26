@@ -66,7 +66,8 @@ elections:
     # A Canaries (05) la llista unica va amb Nueva Canarias (acord del 15/10/2026).
     # Noms de les coalicions registrades el 15-16/10/2026, nomes a la seva comunitat:
     #   05 Canaries: Podemos + NC-BC + IU + Sumar = "Unidad del Pueblo Canario"
-    #   04 Balears:  Ara Mes + Sumar + EU (sense Podemos), nom oficial pendent
+    #   04 Balears:  Ara Mes + Sumar + EU + Recortes Cero = "Ara Mes-Front Ampli";
+    #      Podemos s'hi suma el 25/10/2026 (Lucia Munoz, n. 3, com a independent)
     #   02 Arago:    CHA + IU + Sumar + PV + Recortes Cero (sense Podemos)
     #   10 Pais Valencia: Compromis + Podem + EUPV + ERPV = "Compromís-Front Valencià"
     #      (EUPV hi entra a ultima hora, 16/10/2026)
@@ -128,6 +129,8 @@ elections:
       - {regions: ["15"], into: PP, parties: [UPN]}
       # Recortes Cero va dins del Frente Amplio a tot l'Estat (17/10/2026).
       - {regions: "*", into: SUMAR, parties: [RECORTESCERO]}
+      # Balears (04): Podemos entra a Ara Mes-Front Ampli (acord del 25/10/2026).
+      - {regions: ["04"], into: SUMAR, parties: [PODEMOS]}
 
   - id: es-general-sub
     country: ES
@@ -150,7 +153,8 @@ elections:
     # A Canaries (05) la llista unica va amb Nueva Canarias (acord del 15/10/2026).
     # Noms de les coalicions registrades el 15-16/10/2026, nomes a la seva comunitat:
     #   05 Canaries: Podemos + NC-BC + IU + Sumar = "Unidad del Pueblo Canario"
-    #   04 Balears:  Ara Mes + Sumar + EU (sense Podemos), nom oficial pendent
+    #   04 Balears:  Ara Mes + Sumar + EU + Recortes Cero = "Ara Mes-Front Ampli";
+    #      Podemos s'hi suma el 25/10/2026 (Lucia Munoz, n. 3, com a independent)
     #   02 Arago:    CHA + IU + Sumar + PV + Recortes Cero (sense Podemos)
     #   10 Pais Valencia: Compromis + Podem + EUPV + ERPV = "Compromís-Front Valencià"
     #      (EUPV hi entra a ultima hora, 16/10/2026)
