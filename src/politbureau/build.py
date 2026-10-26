@@ -46,7 +46,7 @@ def load_polls(conn, election_id, scope_code=None):
         args.append(scope_code)
 
     rows = conn.execute(
-        f"""SELECT p.id, p.pollster, p.fieldwork_end, p.sample_size, r.party, r.share, r.seats_lo, r.seats_hi
+        f"""SELECT p.id, p.country, p.pollster, p.fieldwork_end, p.sample_size, r.party, r.share, r.seats_lo, r.seats_hi
             FROM poll p JOIN poll_result r ON r.poll_id = p.id
             WHERE {where}""", args).fetchall()
 
@@ -59,6 +59,8 @@ def load_polls(conn, election_id, scope_code=None):
     weights = pollster_weights(election_id)
     polls: dict[int, dict] = {}
     for r in rows:
+        if is_party_poll(r["pollster"], r["country"]):
+            continue
         entry = polls.setdefault(r["id"], {
             "pollster": (r["pollster"] or "").strip(),
             "fieldwork_end": r["fieldwork_end"],
@@ -75,6 +77,16 @@ def load_polls(conn, election_id, scope_code=None):
             hi = None if hi0 is None and hi is None else (hi0 or 0) + (hi or 0)
         entry["results"][code] = (share, lo, hi)
     return latest_per_pollster(polls)
+
+
+def is_party_poll(pollster, country) -> bool:
+    """Enquestes internes d'un partit: l'"institut" es el mateix partit (PSOE,
+    Sumar...). Les filtra elDiario.es o la premsa sense mostra ni fitxa tecnica,
+    i les encarrega un dels que es mesuren: no entren a la mitjana (26/10/2026,
+    un "tracking" del PSOE). Nomes coincidencia EXACTA amb el nom d'un partit:
+    amb prefixos, "NC Report" passaria per Nueva Canarias."""
+    key = parties.slug((pollster or "").strip())
+    return bool(key) and key in parties._catalog().get(country or "ES", {}).get("index", {})
 
 
 def latest_per_pollster(polls: dict) -> list:
