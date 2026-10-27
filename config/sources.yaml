@@ -52,8 +52,10 @@ elections:
     #   des del 13/10 (decisio de l'Alfonso) torna a anar per separat.
     # "?FA": columna "FA" (Frente Amplio) d'algunes cases des del 14/10/2026.
     # No es un alies del cataleg perque "FA" tambe es una llista municipal.
+    # "?FV": Compromis-Front Valencia quan una casa el posa com a "FV"
+    # (SocioMetrica, 27/10/2026); "FV-ERC-AM" o "FV - C" son llistes municipals.
     merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, RECORTESCERO: SUMAR,
-            "?FA": SUMAR}
+            "?FA": SUMAR, "?FV": SUMAR}
     # Partits que a AQUESTA eleccio no es presenten en algunes comunitats (codi
     # INE). A diferencia de _scope (parties.yaml), val nomes per a aquesta eleccio.
     #   PODEMOS: no es presenta a Catalunya (09) a les generals del 29/11/2026
@@ -155,8 +157,10 @@ elections:
     pollster_weights: {CIS: 10}
     # "?FA": columna "FA" (Frente Amplio) d'algunes cases des del 14/10/2026.
     # No es un alies del cataleg perque "FA" tambe es una llista municipal.
+    # "?FV": Compromis-Front Valencia quan una casa el posa com a "FV"
+    # (SocioMetrica, 27/10/2026); "FV-ERC-AM" o "FV - C" son llistes municipals.
     merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, RECORTESCERO: SUMAR,
-            "?FA": SUMAR}
+            "?FA": SUMAR, "?FV": SUMAR}
     scope_exclude: {PODEMOS: ["09"]}
     display: {SUMAR: "Frente Amplio"}
     # A Canaries (05) la llista unica va amb Nueva Canarias (acord del 15/10/2026).
