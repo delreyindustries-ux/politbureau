@@ -338,8 +338,34 @@ def create_app():
                 from .geo import regions as georegions
                 prov_region = {str(p).zfill(2): str(r).zfill(2)
                                for p, r in georegions.table()["province"].items() if r}
+        # Empats en escons al capdavant d'una provincia (decisio de l'Alfonso,
+        # 28/10/2026): si el partit amb mes escons n'empata amb un altre, el mapa
+        # pinta la provincia a franges amb els colors de tots dos (o dels tres:
+        # Terol reparteix 3 escons i pot quedar 1-1-1). Ordre: el mes votat primer.
+        ties = {}
+        if level == "province" and country == "ES":
+            if layer == "real":
+                seat_rows = conn.execute(
+                    """SELECT code, party, seats FROM constituency_result
+                       WHERE election = ? AND level = 'province' AND seats > 0""",
+                    ((meta.get("baseline") or {}).get("election"),)).fetchall()
+            else:
+                seat_rows = conn.execute(
+                    """SELECT code, party, seats FROM seat_projection
+                       WHERE election_id = ? AND level = 'province' AND seats > 0""",
+                    (election_id,)).fetchall()
+            by_prov: dict = {}
+            for r in seat_rows:
+                by_prov.setdefault(r["code"], {})[r["party"]] = r["seats"]
+            for code, seats in by_prov.items():
+                top = max(seats.values())
+                tied = [p for p, n in seats.items() if n == top]
+                if len(tied) > 1 and all(p in index for p in tied):
+                    tied.sort(key=lambda p: -(shares.get(code, {}).get(p) or 0))
+                    ties[code] = [index[p] for p in tied]
         return jsonify({
             "level": level, "layer": layer, "n": len(out),
+            "ties": ties,
             "regional": regional, "prov_region": prov_region,
             "census": census, "census_of": census_of,
             "parties": [meta_for(election_id, p, country, layer, names) for p in keep],

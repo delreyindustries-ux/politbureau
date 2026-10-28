@@ -111,3 +111,5 @@ h1.maptitle{font-size:20px;margin:0 0 12px}
   #mapwrap{height:58vh;min-height:320px}
   #side{width:auto;border-left:0;border-top:1px solid var(--line)}
 }
+/* Mostra de la llegenda per als empats en escons (franges a 45 graus). */
+.sw.tie{background:repeating-linear-gradient(45deg,#9aa3b8 0 3px,#3a4152 3px 6px)}

@@ -206,8 +206,36 @@ function colourOf(row) {
    Amb 35.000 comunes, construir dues cadenes "rgba(...)" per forma i per
    repintada costava mes de mig segon; precalculant-les, arrossegar el mapa
    torna a ser fluid. Nomes cal refer-ho quan canvia la capa o el partit. */
+/* Empat en escons al capdavant d'una provincia (decisio de l'Alfonso,
+   28/10/2026): franges en diagonal amb els colors dels partits empatats, el
+   mes votat primer. Nomes en mode guanyador; en mode d'un sol partit el color
+   ja diu una altra cosa (el seu percentatge). El patró va en coordenades de
+   pantalla, aixi que les franges tenen la mateixa amplada a qualsevol zoom. */
+const stripeCache = {};
+function stripes(idxs) {
+  const key = idxs.join('-');
+  if (stripeCache[key]) return stripeCache[key];
+  const band = 7, n = idxs.length, size = band * n;
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const g = c.getContext('2d');
+  // Bandes a 45 graus: amb un periode horitzontal de n*band i un costat de
+  // n*band, el patro encaixa amb ell mateix i no es veuen costures.
+  for (let k = -2 * size, j = 0; k < 2 * size; k += band, j++) {
+    const p = state.parties[idxs[((j % n) + n) % n]];
+    g.fillStyle = rgba(p ? p.color : '#888', 0.85);
+    g.beginPath();
+    g.moveTo(k, 0); g.lineTo(k + band, 0); g.lineTo(k + band - size, size); g.lineTo(k - size, size);
+    g.closePath(); g.fill();
+  }
+  return (stripeCache[key] = ctx.createPattern(c, 'repeat'));
+}
+
 function cacheFills() {
-  state.fills = state.shapes.map((s) => colourOf(state.areas[s.id]));
+  for (const k in stripeCache) delete stripeCache[k];   // els colors poden canviar amb la capa
+  const ties = state.ties || {};
+  state.fills = state.shapes.map((s) =>
+    (state.colourBy < 0 && ties[s.id]) ? stripes(ties[s.id]) : colourOf(state.areas[s.id]));
   state.picks = state.shapes.map((_, i) => `rgb(${i >> 16 & 255},${i >> 8 & 255},${i & 255})`);
 }
 
@@ -416,7 +444,10 @@ function tooltipHTML(shape) {
     .sort((a, b) => b.share - a.share)
     .slice(0, 9);
   const max = ranked.length ? ranked[0].share : 1;
-  return `<b>${shape.name}</b>
+  const tie = (state.ties || {})[shape.id];
+  const tieLine = tie ? `<div class="tipfoot">${LANG === 'ca' ? 'Empat en escons' : 'Empate en escaños'}: ${
+    tie.map((i) => nameIn(state.parties[i], i, shape.id)).join(' = ')}</div>` : '';
+  return `<b>${shape.name}</b>${tieLine}
     <div class="tiprows">${ranked.map((p, i) => `
       <div class="tiprow${i === 0 ? ' first' : ''}">
         <span class="sw" style="background:${p.color}"></span>
@@ -541,6 +572,7 @@ async function loadMap() {
 
   const d = await api(`/api/map/${state.election.id}?level=${state.level}&layer=${state.layer}`);
   state.areas = d.areas;
+  state.ties = d.ties || {};
   state.parties = d.parties;
   state.palette = d.palette;
   state.regional = d.regional || {};
@@ -593,6 +625,11 @@ function renderLegend() {
         const p = state.parties[i] || { name: '?', color: '#888' };
         return `<div class="row"><span class="sw" style="background:${p.color}"></span>${p.name}<span class="n">${n}</span></div>`;
       }).join('');
+    const nTies = Object.keys(state.ties || {}).length;
+    if (nTies) {
+      leg.innerHTML += `<div class="row"><span class="sw tie"></span>${LANG === 'ca'
+        ? 'Empat en escons al capdavant (franges)' : 'Empate en escaños en cabeza (franjas)'}<span class="n">${nTies}</span></div>`;
+    }
   } else {
     // En mode d'un sol partit la llegenda ha de ser una escala, no un recompte.
     const p = state.parties[state.colourBy];
