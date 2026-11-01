@@ -39,6 +39,11 @@ elections:
     # del CIS compten 10 vegades més. Només "CIS": no les reestimacions
     # d'altres cases amb dades del CIS ("CIS (Target Point)"...).
     pollster_weights: {CIS: 10}
+    # Sondeigs interns de partits que Wikipedia posa amb el nom del mitja que
+    # els publica (si l'"institut" es el mateix partit, ja els treu
+    # is_party_poll). Coincidencia exacta de casa + data de fi del camp.
+    #   The Objective 27/10: sondeig intern de Vox (The Objective, 01/11/2026).
+    party_polls: [{pollster: "The Objective", fieldwork_end: "2026-10-27"}]
     # Partits que a aquesta eleccio van DINS d'un altre. Es sumen enquesta per
     # enquesta abans de fer la mitjana. Nomes aqui: a les autonomiques i les
     # municipals es presenten sols.

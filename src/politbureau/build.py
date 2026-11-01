@@ -54,12 +54,15 @@ def load_polls(conn, election_id, scope_code=None):
     # es sumen DINS de cada enquesta, abans de fer la mitjana. Sumar-los despres,
     # amb mitjanes fetes per separat, comptaria malament les enquestes que nomes
     # en pregunten un.
-    merge = next((e.get("merge") or {} for e in _config()["elections"]
-                  if e["id"] == election_id), {})
+    cfg = next((e for e in _config()["elections"] if e["id"] == election_id), {})
+    merge = cfg.get("merge") or {}
+    hidden = {(p["pollster"], str(p["fieldwork_end"])) for p in cfg.get("party_polls") or []}
     weights = pollster_weights(election_id)
     polls: dict[int, dict] = {}
     for r in rows:
         if is_party_poll(r["pollster"], r["country"]):
+            continue
+        if ((r["pollster"] or "").strip(), r["fieldwork_end"]) in hidden:
             continue
         entry = polls.setdefault(r["id"], {
             "pollster": (r["pollster"] or "").strip(),
