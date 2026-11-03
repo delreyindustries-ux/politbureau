@@ -462,6 +462,11 @@ _order:
 # espai que si: es projecten sobre la base d'aquell espai en lloc de rebre la
 # seva quota estatal uniforme a tot arreu.
 _family:
+  # Eslovaquia: OLaNO es presenta ara com a "Slovensko"; l'Alianca Hongaresa
+  # surt a la base del 2023 enllacada a "Alliance".
+  SK:
+    "?SLOVAKIA": "?OLANOANDFRIENDS"
+    "?HUNGARIANALLIANCE": "?ALLIANCE"
   FR:
     HOR: ENS          # Philippe es projecta sobre el vot de Macron del 2022
     DEBOUT: LFI       # Ruffin, sobre el de Melenchon

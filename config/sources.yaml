@@ -347,7 +347,9 @@ elections:
   # fer, o les enquestes de la propera son escenaris amb candidats hipotetics
   # (Txequia 2028). Quan n'hi hagi, s'afegeixen com eu-cz.
   - {id: eu-at, group: europa, country: AT, scope: national, label: "Àustria — Consell Nacional",
-     page: "Next Austrian legislative election", pub: {es: austria, ca: austria, name_es: Austria, name_ca: Àustria}}
+     page: "Next Austrian legislative election", pub: {es: austria, ca: austria, name_es: Austria, name_ca: Àustria},
+     departments: {geo: "at/units.json", base: "at/base.json", units_es: "estados federados",
+                   units_ca: "estats federats", base_es: "las legislativas de 2024", base_ca: "les legislatives del 2024"}}
   - {id: eu-be, group: europa, country: BE, scope: national, label: "Bèlgica — Cambra de Representants", national: false,
      page: "Opinion polling for the 2029 Belgian elections",
      pub: {es: belgica, ca: belgica, name_es: Bélgica, name_ca: Bèlgica}}
@@ -363,7 +365,9 @@ elections:
   - {id: eu-ee, group: europa, country: EE, scope: national, label: "Estònia — Riigikogu",
      page: "Opinion polling for the next Estonian parliamentary election", pub: {es: estonia, ca: estonia, name_es: Estonia, name_ca: Estònia}}
   - {id: eu-fi, group: europa, country: FI, scope: national, label: "Finlàndia — Eduskunta",
-     page: "Opinion polling for the 2027 Finnish parliamentary election", pub: {es: finlandia, ca: finlandia, name_es: Finlandia, name_ca: Finlàndia}}
+     page: "Opinion polling for the 2027 Finnish parliamentary election", pub: {es: finlandia, ca: finlandia, name_es: Finlandia, name_ca: Finlàndia},
+     departments: {geo: "fi/units.json", base: "fi/base.json", units_es: "circunscripciones",
+                   units_ca: "circumscripcions", base_es: "las legislativas de 2023", base_ca: "les legislatives del 2023"}}
   - {id: eu-de, group: europa, country: DE, scope: national, label: "Alemanya — Bundestag",
      page: "Opinion polling for the next German federal election", pub: {es: alemania, ca: alemanya, name_es: Alemania, name_ca: Alemanya},
      departments: {geo: "de/laender.json", base: "de/bundestag-2025.json", units_es: "estados federados",
@@ -390,7 +394,9 @@ elections:
   - {id: eu-ro, group: europa, country: RO, scope: national, label: "Romania — Parlament",
      page: "Next Romanian parliamentary election", pub: {es: rumania, ca: romania, name_es: Rumanía, name_ca: Romania}}
   - {id: eu-sk, group: europa, country: SK, scope: national, label: "Eslovàquia — Consell Nacional",
-     page: "Opinion polling for the next Slovak parliamentary election", pub: {es: eslovaquia, ca: eslovaquia, name_es: Eslovaquia, name_ca: Eslovàquia}}
+     page: "Opinion polling for the next Slovak parliamentary election", pub: {es: eslovaquia, ca: eslovaquia, name_es: Eslovaquia, name_ca: Eslovàquia},
+     departments: {geo: "sk/units.json", base: "sk/base.json", units_es: "regiones",
+                   units_ca: "regions", base_es: "las legislativas de 2023", base_ca: "les legislatives del 2023"}}
   - {id: eu-si, group: europa, country: SI, scope: national, label: "Eslovènia — Assemblea Nacional",
      page: "Opinion polling for the next Slovenian parliamentary election", pub: {es: eslovenia, ca: eslovenia, name_es: Eslovenia, name_ca: Eslovènia}}
   - {id: eu-se, group: europa, country: SE, scope: national, label: "Suècia — Riksdag",
@@ -401,7 +407,9 @@ elections:
      departments: {geo: "gb/regions.json", base: "gb/ge-2024.json", units_es: "naciones y regiones",
                    units_ca: "nacions i regions", base_es: "las generales de 2024", base_ca: "les generals del 2024"}}
   - {id: eu-no, group: europa, country: "NO", scope: national, label: "Noruega — Storting",
-     page: "2029 Norwegian parliamentary election", pub: {es: noruega, ca: noruega, name_es: Noruega, name_ca: Noruega}}
+     page: "2029 Norwegian parliamentary election", pub: {es: noruega, ca: noruega, name_es: Noruega, name_ca: Noruega},
+     departments: {geo: "no/units.json", base: "no/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
   - {id: eu-is, group: europa, country: IS, scope: national, label: "Islàndia — Althing",
      page: "Next Icelandic parliamentary election", pub: {es: islandia, ca: islandia, name_es: Islandia, name_ca: Islàndia}}
   - {id: eu-me, group: europa, country: ME, scope: national, label: "Montenegro — Parlament",
@@ -432,7 +440,9 @@ elections:
      pub: {es: nueva-zelanda, ca: nova-zelanda, name_es: Nueva Zelanda, name_ca: Nova Zelanda, map: "554"}}
   - {id: w-jp, group: mon, country: JP, scope: national, label: "Japó — Cambra de Representants",
      page: "Opinion polling for the next Japanese general election",
-     pub: {es: japon, ca: japo, name_es: Japón, name_ca: Japó, of_ca: "del Japó", map: "392"}}
+     pub: {es: japon, ca: japo, name_es: Japón, name_ca: Japó, of_ca: "del Japó", map: "392"},
+     departments: {geo: "jp/units.json", base: "jp/base.json", units_es: "prefecturas",
+                   units_ca: "prefectures", base_es: "las generales de 2026", base_ca: "les generals del 2026"}}
   - {id: w-kr, group: mon, country: KR, scope: national, label: "Corea del Sud — Presidencials 2030", display: candidates,
      page: "2030 South Korean presidential election",
      pub: {es: corea-del-sur, ca: corea-del-sud, name_es: Corea del Sur, name_ca: Corea del Sud, map: "410"}}

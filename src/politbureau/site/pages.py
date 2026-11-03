@@ -618,6 +618,12 @@ def _departments(election, national, polled=None):
                          "color": None, "alpha": 1})
             continue
         proj = seatlib.proportional_swing(b, now, base["national"], family=family)
+        # Els partits de la base que avui ja no surten a les enquestes (fusionats,
+        # rebatejats o desapareguts) es treuen: si no, es quedarien congelats al seu
+        # resultat i el seu vot es comptaria dues vegades amb el del seu successor.
+        proj = {p: s for p, s in proj.items() if p in now or p == "OTHER"}
+        tot = sum(proj.values()) or 1
+        proj = {p: s * 100 / tot for p, s in proj.items()}
         top = sorted(((p, s) for p, s in proj.items() if p in meta and p != "OTHER"),
                      key=lambda x: -x[1])[:3]
         if not top:

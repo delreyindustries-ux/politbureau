@@ -133,6 +133,86 @@ SPECS = {
     },
 }
 
+# Paisos amb la base llegida de l'article de Wikipedia de l'ultima eleccio
+# (geo/wikiresults.py, CC BY-SA 4.0). `units`: {codi: (nom a la taula de
+# Wikipedia, [noms a Natural Earth], nom que es mostra)}.
+_JP = ["Aichi", "Akita", "Aomori", "Chiba", "Ehime", "Fukui", "Fukuoka", "Fukushima", "Gifu",
+       "Gunma", "Hiroshima", "Hokkaidō", "Hyōgo", "Ibaraki", "Ishikawa", "Iwate", "Kagawa",
+       "Kagoshima", "Kanagawa", "Kumamoto", "Kyōto", "Kōchi", "Mie", "Miyagi", "Miyazaki",
+       "Nagano", "Nagasaki", "Nara", "Niigata", "Okayama", "Okinawa", "Saga", "Saitama", "Shiga",
+       "Shimane", "Shizuoka", "Tochigi", "Tokushima", "Tokyo", "Tottori", "Toyama", "Wakayama",
+       "Yamagata", "Yamaguchi", "Yamanashi", "Ōita", "Ōsaka"]
+_NO = ["Østfold", "Akershus", "Oslo", "Hedmark", "Oppland", "Buskerud", "Vestfold", "Telemark",
+       "Aust-Agder", "Vest-Agder", "Rogaland", "Hordaland", "Sogn og Fjordane", "Møre og Romsdal",
+       "Sør-Trøndelag", "Nord-Trøndelag", "Nordland", "Troms", "Finnmark"]
+
+
+def _ascii(s):
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
+
+
+WIKI = {
+    "AT": {"adm0": "AUT", "dir": "at", "bbox": (9.4, 17.3, 46.3, 49.1),
+           "page": "2024 Austrian legislative election", "match": "results by state",
+           "label": "Nationalratswahl 2024",
+           "units": {"B": ("Burgenland", ["Burgenland"], "Burgenland"),
+                     "K": ("Carinthia", ["Kärnten"], "Kärnten"),
+                     "NO": ("Lower Austria", ["Niederösterreich"], "Niederösterreich"),
+                     "OO": ("Upper Austria", ["Oberösterreich"], "Oberösterreich"),
+                     "S": ("Salzburg", ["Salzburg"], "Salzburg"),
+                     "ST": ("Styria", ["Steiermark"], "Steiermark"),
+                     "T": ("Tyrol", ["Tirol"], "Tirol"),
+                     "V": ("Vorarlberg", ["Vorarlberg"], "Vorarlberg"),
+                     "W": ("Vienna", ["Wien"], "Wien")}},
+    "SK": {"adm0": "SVK", "dir": "sk", "bbox": (16.8, 22.6, 47.7, 49.65),
+           "page": "2023 Slovak parliamentary election", "match": "by region",
+           "units": {"BA": ("Bratislava Region", ["Bratislavský"], "Bratislava"),
+                     "TT": ("Trnava Region", ["Trnavský"], "Trnava"),
+                     "TN": ("Trenčín Region", ["Trenciansky"], "Trenčín"),
+                     "NR": ("Nitra Region", ["Nitriansky"], "Nitra"),
+                     "ZA": ("Žilina Region", ["Žilinský"], "Žilina"),
+                     "BB": ("Banská Bystrica Region", ["Banskobystrický"], "Banská Bystrica"),
+                     "PO": ("Prešov Region", ["Prešov"], "Prešov"),
+                     "KE": ("Košice Region", ["Košický"], "Košice")}},
+    "NO": {"adm0": "NOR", "dir": "no", "bbox": (4.4, 31.3, 57.9, 71.3),
+           "page": "2025 Norwegian parliamentary election", "match": "results by constituency",
+           "units": {_ascii(n).upper().replace(" ", "")[:6]: (n, [n], n) for n in _NO}},
+    "FI": {"adm0": "FIN", "dir": "fi", "bbox": (20.4, 31.7, 59.7, 70.1),
+           "page": "2023 Finnish parliamentary election", "match": "by electoral district",
+           # Les circumscripcions agrupen regions. Hel.sinki es una circumscripcio
+           # dins de la regio d'Uusimaa: el mapa pinta Uusimaa amb la resta de la
+           # regio i Hel.sinki surt nomes a la taula.
+           "units": {"UUS": ("Uusimaa", ["Uusimaa"], "Uusimaa"),
+                     "VS": ("Varsinais-Suomi", ["Finland Proper"], "Varsinais-Suomi"),
+                     "SAT": ("Satakunta", ["Satakunta"], "Satakunta"),
+                     "HAM": ("Häme", ["Tavastia Proper", "Päijät-Häme"], "Häme"),
+                     "PIR": ("Pirkanmaa", ["Pirkanmaa"], "Pirkanmaa"),
+                     "KS": ("Southeast Finland", ["Kymenlaakso", "South Karelia"], "Kaakkois-Suomi"),
+                     "SK": ("Savo-Karelia", ["North Karelia", "Northern Savonia", "Southern Savonia"],
+                            "Savo-Karjala"),
+                     "VAA": ("Vaasa", ["Ostrobothnia", "Southern Ostrobothnia", "Central Ostrobothnia"],
+                             "Vaasa"),
+                     "KSU": ("Central Finland", ["Central Finland"], "Keski-Suomi"),
+                     "OUL": ("Oulu", ["Northern Ostrobothnia", "Kainuu"], "Oulu"),
+                     "LAP": ("Lapland", ["Lapland"], "Lappi")}},
+    "JP": {"adm0": "JPN", "dir": "jp", "bbox": (128.0, 146.2, 30.0, 45.6),
+           "page": "2026 Japanese general election", "match": "by prefecture",
+           # Okinawa queda fora del marc: el mapa el deixa de banda, la taula no.
+           "units": {_ascii(n).upper()[:4] + str(i): (_ascii(n), [n], _ascii(n))
+                     for i, n in enumerate(_JP)}},
+}
+
+
+def _wiki_spec(country):
+    w = WIKI[country]
+    codes = {ne: code for code, (_wn, nes, _dn) in w["units"].items() for ne in nes}
+    names = {ne: w["units"][code][2] for ne, code in codes.items()}
+    return {"adm0": w["adm0"], "group": "name", "dir": w["dir"], "unit_file": "units.json",
+            "bbox": w["bbox"], "base_file": "base.json", "loader": "wiki", "codes": codes,
+            "names": names, "wiki": w,
+            "source": f"Wikipedia, «{w['page']}» (CC BY-SA 4.0)"}
+
 
 def _clean(v):
     if not isinstance(v, str):
@@ -288,8 +368,24 @@ def _load_au(spec):
     return deps, valid, nat["all"]
 
 
+def _load_wiki(spec):
+    from .wikiresults import region_table
+    w = spec["wiki"]
+    rows, total, _title = region_table(w["page"], w["match"], w["cc"])
+    by_name = {_ascii(k).lower(): v for k, v in rows.items()}
+    deps = {}
+    for code, (wiki_name, _nes, _dn) in w["units"].items():
+        got = by_name.get(_ascii(wiki_name).lower())
+        if got:
+            deps[code] = got
+    return deps, {}, total
+
+
 def baseline(spec, conn):
     """{territori: {partit: %}} i el total estatal de l'eleccio de base."""
+    if spec.get("loader") == "wiki":
+        deps, valid, national = _load_wiki(spec)
+        return {"national": national, "dep": deps, "valid": valid, "source": spec["source"]}
     loaders = {"de": _load_de, "gb": _load_gb, "nl": _load_nl, "au": _load_au}
     if spec.get("loader") in loaders:
         deps, valid, national = loaders[spec["loader"]](spec)
@@ -310,7 +406,11 @@ def baseline(spec, conn):
 
 
 def build(country: str, admin1: Path):
-    spec = SPECS[country]
+    if country in WIKI:
+        WIKI[country]["cc"] = country
+        spec = _wiki_spec(country)
+    else:
+        spec = SPECS[country]
     out = ROOT / "web" / spec["dir"]
     out.mkdir(parents=True, exist_ok=True)
     geo = geometry(spec, admin1)
