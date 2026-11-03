@@ -25,7 +25,7 @@ _COUNTRY_TOTALS = {"austria", "norway", "czech republic", "poland", "portugal", 
                    "denmark", "romania", "croatia", "slovenia", "bulgaria", "lithuania",
                    "new zealand", "ireland", "estonia", "hungary", "greece", "mexico"}
 # Columnes que no son partits pero que el lector de capcaleres deixa passar.
-_NOT_PARTY = re.compile(r"TOTAL|VALID|TURNOUT|ELECTORATE|SEATS|INVALID|BLANK")
+_NOT_PARTY = re.compile(r"TOTAL|VALID|TURNOUT|ELECTORATE|SEATS|INVALID|BLANK|QUOTA|SPOILED")
 
 
 def _pct(text):

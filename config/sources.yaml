@@ -385,7 +385,9 @@ elections:
      departments: {geo: "hu/units.json", base: "hu/base.json", units_es: "condados",
                    units_ca: "comtats", base_es: "las legislativas de 2026", base_ca: "les legislatives del 2026"}}
   - {id: eu-ie, group: europa, country: IE, scope: national, label: "Irlanda — Dáil",
-     page: "Next Irish general election", pub: {es: irlanda, ca: irlanda, name_es: Irlanda, name_ca: Irlanda}}
+     page: "Next Irish general election", pub: {es: irlanda, ca: irlanda, name_es: Irlanda, name_ca: Irlanda},
+     departments: {geo: "ie/units.json", base: "ie/base.json", units_es: "condados",
+                   units_ca: "comtats", base_es: "las generales de 2024", base_ca: "les generals del 2024"}}
   - {id: eu-lt, group: europa, country: LT, scope: national, label: "Lituània — Seimas",
      page: "2028 Lithuanian parliamentary election", pub: {es: lituania, ca: lituania, name_es: Lituania, name_ca: Lituània}}
   - {id: eu-lu, group: europa, country: LU, scope: national, label: "Luxemburg — Cambra de Diputats",
