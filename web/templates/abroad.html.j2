@@ -69,6 +69,39 @@
     premiar les coalicions, i això aquí no es modela.{% endif %}</p>
 {% endif %}
 
+{% if d.depmap %}
+  <h2 id="departements">{{ 'Por departamentos' if es else 'Per departaments' }}</h2>
+  <p class="note">{% if es %}<b>Esto es una estimación, no una encuesta.</b> No hay encuestas por
+    departamento: la media de hoy se proyecta sobre el voto real de cada departamento en la primera
+    vuelta de {{ d.depmap.base_year }}, con el mismo método que los municipios de España. Pasa el
+    cursor por un departamento para ver los tres primeros.{% else %}<b>Això és una estimació, no una
+    enquesta.</b> No hi ha enquestes per departament: la mitjana d'avui es projecta sobre el vot real
+    de cada departament a la primera volta del {{ d.depmap.base_year }}, amb el mateix mètode que els
+    municipis d'Espanya. Passa el cursor per un departament per veure'n els tres primers.{% endif %}</p>
+  <figure class="depmap">
+    <svg viewBox="0 0 {{ d.depmap.w }} {{ d.depmap.h }}" role="img"
+         aria-label="{{ 'Mapa de los departamentos de Francia' if es else 'Mapa dels departaments de França' }}">
+    {% for g in d.depmap.deps %}
+      <path d="{{ g.d }}" fill="{{ g.color }}" fill-opacity="{{ g.alpha }}"><title>{{ g.name }} ({{ g.code }}){% for r in g.rows %}&#10;{{ r.name }}: {{ fmt(r.share) }} %{% endfor %}</title></path>
+    {% endfor %}
+    </svg>
+    <figcaption><span>{{ 'Color: quién va primero; intensidad: con qué porcentaje.' if es else 'Color: qui va primer; intensitat: amb quin percentatge.' }}</span>{% for n, c, k in d.depmap.leaders %}<span><i class="sw" style="background:{{ c }}"></i>{{ n }}: {{ k }} {{ 'departamentos' if es else 'departaments' }}</span>{% endfor %}</figcaption>
+  </figure>
+  <details class="deptable">
+    <summary>{{ 'Ver los 96 departamentos' if es else 'Veure els 96 departaments' }}</summary>
+    <div class="tablewrap">
+    <table class="results part">
+      <thead><tr><th>{{ 'Departamento' if es else 'Departament' }}</th><th>{{ 'Primero' if es else 'Primer' }}</th><th>{{ 'Segundo' if es else 'Segon' }}</th><th>{{ 'Tercero' if es else 'Tercer' }}</th></tr></thead>
+      <tbody>
+      {% for g in d.depmap.deps %}
+      <tr><td>{{ g.code }} · {{ g.name }}</td>{% for r in g.rows %}<td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }} {{ fmt(r.share) }} %</td>{% endfor %}</tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </details>
+{% endif %}
+
   <h2>{{ 'Las encuestas que entran en la media' if es else 'Les enquestes que entren a la mitjana' }}</h2>
   <div class="tablewrap">
   <table class="results part">

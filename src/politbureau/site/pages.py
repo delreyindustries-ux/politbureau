@@ -581,6 +581,45 @@ def abroad_regions():
     return load_sources().get("regions") or {}
 
 
+def _departments(election, national):
+    """Intencio de vot per departament (Franca): la mitjana d'avui projectada
+    sobre el resultat de l'eleccio de base amb el swing proporcional, el mateix
+    metode que els municipis espanyols. None si l'eleccio no en te."""
+    cfg = election.get("departments")
+    if not cfg:
+        return None
+    from ..model import seats as seatlib
+    try:
+        geo = json.loads((WEB / cfg["geo"]).read_text(encoding="utf-8"))
+        base = json.loads((WEB / cfg["base"]).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    now = {a["code"]: a["share"] for a in national["avg"]}
+    meta = {a["code"]: a for a in national["avg"]}
+    family = parties.families().get(election["country"]) or {}
+    deps = []
+    for code, shape in sorted(geo["dep"].items()):
+        b = base["dep"].get(code)
+        if not b:
+            continue
+        proj = seatlib.proportional_swing(b, now, base["national"], family=family)
+        top = sorted(((p, s) for p, s in proj.items() if p in meta and p != "OTHER"),
+                     key=lambda x: -x[1])[:3]
+        if not top:
+            continue
+        rows = [{"name": meta[p]["person"] or meta[p]["name"], "color": meta[p]["color"],
+                 "share": s} for p, s in top]
+        # Intensitat segons el % del primer: amb el 25 % es veu clar, amb el 50 % ple.
+        alpha = round(min(1.0, max(0.3, (rows[0]["share"] - 15) / 35)), 2)
+        deps.append({"code": code, "name": shape["n"], "d": shape["d"], "rows": rows,
+                     "color": rows[0]["color"], "alpha": alpha})
+    leaders = {}
+    for d in deps:
+        leaders.setdefault(d["rows"][0]["name"], [d["rows"][0]["color"], 0])[1] += 1
+    return {"w": geo["w"], "h": geo["h"], "deps": deps, "base_year": 2022,
+            "leaders": sorted(([n, c, k] for n, (c, k) in leaders.items()), key=lambda x: -x[2])}
+
+
 def abroad_data(conn, eid):
     """Mitjana estatal, regions, escons (si n'hi ha) i enquestes en joc d'una
     eleccio. None si no hi ha res a mostrar: llavors la pagina no s'escriu ni
@@ -612,7 +651,8 @@ def abroad_data(conn, eid):
         return None
     pub = election["pub"]
     base = national or {"avg": [], "order": [], "polls": [], "seats": False, "seat_total": 0}
-    return {**base, "national": bool(national), "regions": regions,
+    depmap = _departments(election, national) if national else None
+    return {**base, "national": bool(national), "regions": regions, "depmap": depmap,
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],
             "presidential": election.get("display") == "candidates",

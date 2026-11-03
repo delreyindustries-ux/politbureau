@@ -264,6 +264,9 @@ elections:
     # als ultims 90 dies); els del 2022, del fitxer oficial de resultats.
     display: candidates
     pub: {es: francia, ca: franca, name_es: Francia, name_ca: França}
+    # Intencio de vot per departament (03/11/2026): swing proporcional de la
+    # mitjana d'avui sobre la primera volta del 2022 (web/fr/, geo/france.py).
+    departments: {geo: "fr/departements.json", base: "fr/presidentielle-2022.json"}
     baseline:
       election: "presidentielle-2022-t1"
       date: "2022-04-10"
