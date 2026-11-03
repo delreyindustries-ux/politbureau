@@ -282,3 +282,4 @@ figure.depmap path:hover{stroke:var(--ink);stroke-width:1.6}
 figure.depmap figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--dim);margin-top:8px}
 figure.depmap figcaption .sw{display:inline-block}
 details.deptable summary{cursor:pointer;color:var(--accent);margin:4px 0 10px}
+figure.depmap path.nodata{fill:var(--line)}

@@ -601,6 +601,10 @@ def _departments(election, national):
     for code, shape in sorted(geo["dep"].items()):
         b = base["dep"].get(code)
         if not b:
+            # Territori sense resultat a la base (la Vall d'Aosta te un sistema
+            # propi): es dibuixa en gris perque el mapa no tingui un forat.
+            deps.append({"code": code, "name": shape["n"], "d": shape["d"], "rows": [],
+                         "color": None, "alpha": 1})
             continue
         proj = seatlib.proportional_swing(b, now, base["national"], family=family)
         top = sorted(((p, s) for p, s in proj.items() if p in meta and p != "OTHER"),
@@ -615,8 +619,12 @@ def _departments(election, national):
                      "color": rows[0]["color"], "alpha": alpha})
     leaders = {}
     for d in deps:
-        leaders.setdefault(d["rows"][0]["name"], [d["rows"][0]["color"], 0])[1] += 1
-    return {"w": geo["w"], "h": geo["h"], "deps": deps, "base_year": 2022,
+        if d["rows"]:
+            leaders.setdefault(d["rows"][0]["name"], [d["rows"][0]["color"], 0])[1] += 1
+    return {"w": geo["w"], "h": geo["h"], "deps": deps,
+            "units": {"es": cfg.get("units_es", "departamentos"), "ca": cfg.get("units_ca", "departaments")},
+            "base_label": {"es": cfg.get("base_es", "la primera vuelta de 2022"),
+                           "ca": cfg.get("base_ca", "la primera volta del 2022")},
             "leaders": sorted(([n, c, k] for n, (c, k) in leaders.items()), key=lambda x: -x[2])}
 
 

@@ -289,6 +289,10 @@ elections:
     page: "Opinion_polling_for_the_next_Italian_general_election"
     baseline: {election: "politiche-2022", date: "2022-09-25"}
     pub: {es: italia, ca: italia, name_es: Italia, name_ca: Itàlia}
+    # Intencio de vot per regio (03/11/2026): swing sobre les generals del 2022
+    # (geo/subnational.py, web/it/). La Vall d'Aosta te un sistema propi: en gris.
+    departments: {geo: "it/regioni.json", base: "it/politiche-2022.json", units_es: regiones,
+                  units_ca: regions, base_es: "las generales de 2022", base_ca: "les generals del 2022"}
     chamber:
       name: "Camera dei Deputati"
       seats: 400
