@@ -479,7 +479,9 @@ elections:
      pub: {es: indonesia, ca: indonesia, name_es: Indonesia, name_ca: Indonèsia, map: "360"}}
   - {id: w-th, group: mon, country: TH, scope: national, label: "Tailàndia — Cambra de Representants",
      page: "Next Thai general election",
-     pub: {es: tailandia, ca: tailandia, name_es: Tailandia, name_ca: Tailàndia, map: "764"}}
+     pub: {es: tailandia, ca: tailandia, name_es: Tailandia, name_ca: Tailàndia, map: "764"},
+     departments: {geo: "th/units.json", base: "th/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "las generales de 2026", base_ca: "les generals del 2026"}}
 
 
 # ---------- REGIONS (demanat el 03/11/2026) ----------

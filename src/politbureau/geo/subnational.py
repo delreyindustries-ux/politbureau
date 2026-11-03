@@ -147,6 +147,23 @@ _NO = ["Østfold", "Akershus", "Oslo", "Hedmark", "Oppland", "Buskerud", "Vestfo
        "Aust-Agder", "Vest-Agder", "Rogaland", "Hordaland", "Sogn og Fjordane", "Møre og Romsdal",
        "Sør-Trøndelag", "Nord-Trøndelag", "Nordland", "Troms", "Finnmark"]
 
+_TH = ['Amnat Charoen', 'Ang Thong', 'Bangkok Metropolis', 'Bueng Kan', 'Buri Ram',
+       'Chachoengsao', 'Chai Nat', 'Chaiyaphum', 'Chanthaburi', 'Chiang Mai', 'Chiang Rai',
+       'Chon Buri', 'Chumphon', 'Kalasin', 'Kamphaeng Phet', 'Kanchanaburi', 'Khon Kaen',
+       'Krabi', 'Lampang', 'Lamphun', 'Loei', 'Lop Buri', 'Mae Hong Son', 'Maha Sarakham',
+       'Mukdahan', 'Nakhon Nayok', 'Nakhon Pathom', 'Nakhon Phanom', 'Nakhon Ratchasima',
+       'Nakhon Sawan', 'Nakhon Si Thammarat', 'Nan', 'Narathiwat', 'Nong Bua Lam Phu',
+       'Nong Khai', 'Nonthaburi', 'Pathum Thani', 'Pattani', 'Phangnga', 'Phatthalung', 'Phayao',
+       'Phetchabun', 'Phetchaburi', 'Phichit', 'Phitsanulok', 'Phra Nakhon Si Ayutthaya',
+       'Phrae', 'Phuket', 'Prachin Buri', 'Prachuap Khiri Khan', 'Ranong', 'Ratchaburi',
+       'Rayong', 'Roi Et', 'Sa Kaeo', 'Sakon Nakhon', 'Samut Prakan', 'Samut Sakhon',
+       'Samut Songkhram', 'Saraburi', 'Satun', 'Si Sa Ket', 'Sing Buri', 'Songkhla', 'Sukhothai',
+       'Suphan Buri', 'Surat Thani', 'Surin', 'Tak', 'Trang', 'Trat', 'Ubon Ratchathani',
+       'Udon Thani', 'Uthai Thani', 'Uttaradit', 'Yala', 'Yasothon']
+# Natural Earth -> taula de Wikipedia, on la grafia no coincideix.
+_TH_WIKI = {"Bangkok Metropolis": "Bangkok", "Buri Ram": "Buriram", "Chon Buri": "Chonburi",
+            "Lop Buri": "Lopburi", "Nong Bua Lam Phu": "Nong Bua Lamphu", "Phangnga": "Phang Nga",
+            "Prachin Buri": "Prachinburi", "Si Sa Ket": "Sisaket"}
 
 def _ascii(s):
     import unicodedata
@@ -388,6 +405,11 @@ WIKI = {
                      "W": ("Waterford", ["Waterford"], "Waterford"),
                      "WX": (["Wexford", "Wicklow–Wexford"], ["Wexford"], "Wexford"),
                      "WW": (["Wicklow", "Wicklow–Wexford"], ["Wicklow"], "Wicklow")}},
+    "TH": {"adm0": "THA", "dir": "th", "bbox": (97.3, 105.7, 5.6, 20.5),
+           "page": "2026 Thai general election", "match": "party-list vote by province",
+           # El vot de llista (el que es comparable amb les enquestes), no el de districte.
+           "units": {_ascii(n).upper().replace(" ", "")[:4] + str(i):
+                     (_TH_WIKI.get(n, n), [n], _TH_WIKI.get(n, n)) for i, n in enumerate(_TH)}},
 }
 
 
