@@ -402,7 +402,7 @@ def sitemaps(cfg, urls):
                                    for k in ("map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
         if cfg.get("_abroad"):
             elections = abroad_elections()
-            entries += [europe_url(lang)] + [abroad_url(elections[e], lang)
+            entries += [world_url(lang)] + [abroad_url(elections[e], lang)
                                              for e in cfg["_abroad"]]
         entries += sorted(u[lang] for u in urls.values() if lang in u)
         body = "\n".join(
@@ -439,7 +439,7 @@ def assets(data, urls):
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
     for name in ("site.css", "site.js", "map.js", "map.css", "coalition.js", "seccions.js",
-                 "favicon.svg"):
+                 "world.js", "world.json", "favicon.svg"):
         src = WEB / name
         if src.exists():
             shutil.copy2(src, out / name)
@@ -486,8 +486,25 @@ def abroad_url(election, lang):
     return f"/es/encuestas-{pub['es']}/" if lang == "es" else f"/ca/enquestes-{pub['ca']}/"
 
 
-def europe_url(lang):
-    return "/es/encuestas-europa/" if lang == "es" else "/ca/enquestes-europa/"
+def world_url(lang):
+    """La porta d'entrada de totes les enquestes: el mapamundi (03/11/2026)."""
+    return "/es/encuestas/" if lang == "es" else "/ca/enquestes/"
+
+
+def _spain(conn, lang):
+    """Espanya al mapamundi: la mateixa estimacio de la portada, amb enllac al mapa."""
+    rows = conn.execute(
+        """SELECT party, share FROM aggregate WHERE election_id = ? AND scope_code = ''
+           ORDER BY share DESC LIMIT 2""", (ELECTION,)).fetchall()
+    if not rows:
+        return None
+    n = conn.execute("""SELECT COUNT(DISTINCT pollster), MAX(fieldwork_end) FROM poll
+                        WHERE election_id = ?""", (ELECTION,)).fetchone()
+    first, second = ({**parties.meta(r["party"], "ES", ELECTION), "share": r["share"],
+                      "person": None} for r in rows)
+    return {"code": "ES", "name": "España" if lang == "es" else "Espanya",
+            "url": i18n.page_url("map", lang), "presidential": False,
+            "first": first, "second": second, "n": None, "last": n[1], "spain": True}
 
 
 def _candidates(conn, election_id):
@@ -624,22 +641,37 @@ def abroad_pages(env, cfg, conn):
             write(DIST / canonical.strip("/") / "index.html", html)
         done.append((eid, data))
     if done:
+        elections = abroad_elections()
         for lang in i18n.LANGS:
-            canonical = europe_url(lang)
-            view = [{"name": d["name"][lang], "url": d["urls"][lang],
-                     "presidential": d["presidential"], "first": d["avg"][0],
-                     "second": d["avg"][1] if len(d["avg"]) > 1 else None,
+            canonical = world_url(lang)
+            view = [{"code": elections[eid]["country"], "name": d["name"][lang],
+                     "url": d["urls"][lang], "presidential": d["presidential"],
+                     "first": d["avg"][0], "second": d["avg"][1] if len(d["avg"]) > 1 else None,
                      "n": len(d["polls"]), "last": d["polls"][0]["end"]}
-                    for _, d in sorted(done, key=lambda x: parties.slug(x[1]["name"][lang]))]
+                    for eid, d in done]
+            spain = _spain(conn, lang)
+            if spain:
+                view.append(spain)
+            view.sort(key=lambda r: parties.slug(r["name"]))
+            # El que el mapa necessita de cada pais, en JSON dins de la pagina.
+            mapdata = {r["code"]: {
+                "name": r["name"], "url": r["url"], "color": r["first"]["color"],
+                "first": f'{r["first"]["person"] or r["first"]["name"]} {_fmt(r["first"]["share"])} %',
+                "second": (f'{r["second"]["person"] or r["second"]["name"]} '
+                           f'{_fmt(r["second"]["share"])} %') if r["second"] else ""}
+                for r in view}
             html = render_page(
-                env, cfg, "europe.html.j2", lang, canonical,
-                {lg: europe_url(lg) for lg in i18n.LANGS},
-                ("Encuestas electorales de Europa, país a país" if lang == "es"
-                 else "Enquestes electorals d'Europa, país a país"),
-                (f"La media de las encuestas de {len(view)} países europeos: quién va primero, "
-                 "con qué porcentaje y cuándo se hizo la última encuesta." if lang == "es" else
-                 f"La mitjana de les enquestes de {len(view)} països europeus: qui va primer, "
-                 "amb quin percentatge i quan es va fer l'última enquesta."),
-                rows=view, fmt=_fmt, fdate=_fdate)
+                env, cfg, "world.html.j2", lang, canonical,
+                {lg: world_url(lg) for lg in i18n.LANGS},
+                ("Mapa mundial de encuestas electorales" if lang == "es"
+                 else "Mapa mundial d'enquestes electorals"),
+                (f"Mapa interactivo con la media de las encuestas de {len(view)} países: quién "
+                 "va primero en cada uno y con qué porcentaje. Pulsa un país para ver todas "
+                 "sus encuestas." if lang == "es" else
+                 f"Mapa interactiu amb la mitjana de les enquestes de {len(view)} països: qui "
+                 "va primer a cadascun i amb quin percentatge. Prem un país per veure'n totes "
+                 "les enquestes."),
+                rows=view, fmt=_fmt, fdate=_fdate,
+                mapdata=json.dumps(mapdata, ensure_ascii=False).replace("</", "<\\/"))
             write(DIST / canonical.strip("/") / "index.html", html)
     return [eid for eid, _ in done]

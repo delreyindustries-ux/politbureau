@@ -45,7 +45,7 @@ T = {
     "nav_method": {"es": "Metodología", "ca": "Metodologia"},
     "nav_participation": {"es": "Participación 29N", "ca": "Participació 29N"},
     "nav_strongholds": {"es": "Feudos progresistas", "ca": "Feus progressistes"},
-    "nav_europe": {"es": "Europa", "ca": "Europa"},
+    "nav_polls": {"es": "Encuestas del mundo", "ca": "Enquestes del món"},
     "nav_legal": {"es": "Aviso legal", "ca": "Avís legal"},
     "nav_privacy": {"es": "Privacidad", "ca": "Privadesa"},
     "nav_cookies": {"es": "Cookies", "ca": "Galetes"},

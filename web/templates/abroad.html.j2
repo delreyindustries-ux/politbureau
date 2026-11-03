@@ -3,7 +3,7 @@
 {% set es = lang == 'es' %}
 {% set name = d.name[lang] %}
 <article class="doc wide">
-  <p class="note"><a href="{{ root }}{{ 'es/encuestas-europa' if es else 'ca/enquestes-europa' }}/">{{ '← Todas las encuestas de Europa' if es else "← Totes les enquestes d'Europa" }}</a></p>
+  <p class="note"><a href="{{ root }}{{ 'es/encuestas' if es else 'ca/enquestes' }}/">{{ '← Mapa mundial de encuestas' if es else "← Mapa mundial d'enquestes" }}</a></p>
 {% if d.presidential %}
   <h1>{{ ('Encuestas ' if es else 'Enquestes ') ~ d.of[lang] }}</h1>
   <p class="lede">{% if es %}Próximas elecciones presidenciales, primera vuelta. La media de todas

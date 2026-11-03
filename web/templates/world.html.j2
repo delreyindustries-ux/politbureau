@@ -1,0 +1,66 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide">
+  <h1>{{ 'Mapa mundial de encuestas' if es else "Mapa mundial d'enquestes" }}</h1>
+  <p class="lede">{% if es %}La media de las encuestas de las próximas elecciones de
+    {{ rows | length }} países. Cada país va del color del partido o candidato que encabeza su
+    media. Pulsa uno para ver el detalle y todas sus encuestas.{% else %}La mitjana de les
+    enquestes de les properes eleccions de {{ rows | length }} països. Cada país va del color del
+    partit o candidat que encapçala la seva mitjana. Prem-ne un per veure'n el detall i totes les
+    enquestes.{% endif %}</p>
+
+  <div id="pbworld" class="worldmap" data-empty="{{ 'Sin encuestas publicadas' if es else 'Sense enquestes publicades' }}">
+    <div class="wbtns">
+      <button type="button" data-z="in" aria-label="{{ 'Acercar' if es else 'Apropa' }}">+</button>
+      <button type="button" data-z="out" aria-label="{{ 'Alejar' if es else 'Allunya' }}">−</button>
+      <button type="button" data-z="europe">{{ 'Europa' }}</button>
+      <button type="button" data-z="world">{{ 'Mundo' if es else 'Món' }}</button>
+    </div>
+    <div class="wtip" hidden></div>
+    <noscript><p class="note">{{ 'El mapa necesita JavaScript; la lista de países está debajo.' if es else 'El mapa necessita JavaScript; la llista de països és a sota.' }}</p></noscript>
+  </div>
+  <script type="application/json" id="pbworld-data">{{ mapdata | safe }}</script>
+
+  <h2>{{ 'Todos los países' if es else 'Tots els països' }}</h2>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>País</th>
+      <th>{{ 'Primero' if es else 'Primer' }}</th>
+      <th>{{ 'Segundo' if es else 'Segon' }}</th>
+      <th class="n">{{ 'Encuestas' if es else 'Enquestes' }}</th>
+      <th class="n">{{ 'Última' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in rows %}
+    <tr>
+      <td><a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a>{% if r.presidential %} <span class="fine">({{ 'presidenciales' if es else 'presidencials' }})</span>{% endif %}{% if r.spain %} <span class="fine">({{ 'estimación municipio a municipio' if es else 'estimació municipi a municipi' }})</span>{% endif %}</td>
+      <td><span class="sw" style="background:{{ r.first.color }}"></span>{{ r.first.person or r.first.name }} {{ fmt(r.first.share) }} %</td>
+      <td>{% if r.second %}<span class="sw" style="background:{{ r.second.color }}"></span>{{ r.second.person or r.second.name }} {{ fmt(r.second.share) }} %{% else %}—{% endif %}</td>
+      <td class="n">{{ r.n if r.n else '—' }}</td>
+      <td class="n">{{ fdate(r.last) }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+{% if es %}
+  <p class="note">Solo hay color en los países con encuestas de los últimos 90 días. Faltan, entre
+    otros, Bélgica (sus encuestas van por regiones y no hay media nacional) y los países que
+    acaban de votar y aún no tienen encuestas de las próximas elecciones.</p>
+{% else %}
+  <p class="note">Només tenen color els països amb enquestes dels últims 90 dies. En falten, entre
+    d'altres, Bèlgica (les seves enquestes van per regions i no hi ha mitjana estatal) i els
+    països que acaben de votar i encara no tenen enquestes de les properes eleccions.</p>
+{% endif %}
+  <p class="fine">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'recopilaciones de encuestas de' if es else "recopilacions d'enquestes de" }}
+    <a href="https://en.wikipedia.org/" rel="noopener" target="_blank">Wikipedia</a> (CC BY-SA 4.0);
+    {{ 'fronteras' if es else 'fronteres' }}: <a href="https://www.naturalearthdata.com/" rel="noopener" target="_blank">Natural Earth</a>
+    ({{ 'dominio público' if es else 'domini públic' }}).</p>
+</article>
+{% endblock %}
+{% block scripts %}
+<script src="{{ root }}assets/world.js" defer></script>
+{% endblock %}
