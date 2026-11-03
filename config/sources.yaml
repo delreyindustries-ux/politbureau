@@ -333,14 +333,17 @@ elections:
   # i la web en mostra el nom de la capcalera i el color que hi posa Wikipedia.
   # `group: europa` hi afegeix les seccions i exclusions de runner.EUROPA_*.
   # `pub`: adreca i nom a la web.
-  # Fora, a 03/11/2026: Belgica (les enquestes van per regions, no hi ha mitjana
-  # estatal), Xipre, Letonia, Malta, Serbia i Bosnia (acaben de votar i encara
+  # Belgica (03/11/2026): nomes per regions, `national: false` i `regions:` mes avall.
+  # Fora, a 03/11/2026: Xipre, Letonia, Malta, Serbia i Bosnia (acaben de votar i encara
   # no hi ha pagina de la propera), Suissa, Macedonia del Nord, Albania i
   # Kosovo (sense taula d'enquestes), i totes les presidencials: o s'acaben de
   # fer, o les enquestes de la propera son escenaris amb candidats hipotetics
   # (Txequia 2028). Quan n'hi hagi, s'afegeixen com eu-cz.
   - {id: eu-at, group: europa, country: AT, scope: national, label: "Àustria — Consell Nacional",
      page: "Next Austrian legislative election", pub: {es: austria, ca: austria, name_es: Austria, name_ca: Àustria}}
+  - {id: eu-be, group: europa, country: BE, scope: national, label: "Bèlgica — Cambra de Representants", national: false,
+     page: "Opinion polling for the 2029 Belgian elections",
+     pub: {es: belgica, ca: belgica, name_es: Bélgica, name_ca: Bèlgica}}
   - {id: eu-bg, group: europa, country: BG, scope: national, label: "Bulgària — Assemblea Nacional",
      page: "Next Bulgarian parliamentary election", pub: {es: bulgaria, ca: bulgaria, name_es: Bulgaria, name_ca: Bulgària}}
   - {id: eu-hr, group: europa, country: HR, scope: national, label: "Croàcia — Sabor",
@@ -436,6 +439,37 @@ elections:
      page: "Next Thai general election",
      pub: {es: tailandia, ca: tailandia, name_es: Tailandia, name_ca: Tailàndia, map: "764"}}
 
+
+# ---------- REGIONS (demanat el 03/11/2026) ----------
+# Enquestes per regio de les eleccions estrangeres que en tenen a Wikipedia.
+# `match`: tros del titol de la seccio de la pagina de l'eleccio; `page`: una
+# pagina propia de la regio (Escocia). `geo`: camps de Natural Earth admin-1
+# (10m) que fan la regio al globus (web/world.json, geo/world.py).
+# Nomes surten les regions amb enquestes dels ultims 90 dies.
+regions:
+  eu-gb:
+    - {key: SCT, name_es: Escocia, name_ca: Escòcia, geo: {adm0_a3: GBR, geonunit: Scotland},
+       page: "Opinion polling in Scotland for the next United Kingdom general election"}
+    - {key: WLS, name_es: Gales, name_ca: Gal·les, match: "wales", geo: {adm0_a3: GBR, geonunit: Wales}}
+    - {key: LDN, name_es: Londres, name_ca: Londres, match: "london", geo: {adm0_a3: GBR, region: Greater London}}
+  eu-be:
+    # Belgica no te partits estatals: no hi ha mitjana del pais, nomes per regio.
+    - {key: VLG, name_es: Flandes, name_ca: Flandes, match: "flanders", geo: {adm0_a3: BEL, region: Flemish}}
+    - {key: WAL, name_es: Valonia, name_ca: Valònia, match: "wallonia", geo: {adm0_a3: BEL, region: Walloon}}
+    - {key: BRU, name_es: Bruselas, name_ca: Brussel·les, match: "brussels", geo: {adm0_a3: BEL, region: Capital Region}}
+  eu-de:
+    - {key: BY, name_es: Baviera, name_ca: Baviera, match: "bavaria", geo: {adm0_a3: DEU, name: Bayern}}
+    - {key: MV, name_es: Mecklemburgo-Pomerania Occidental, name_ca: Mecklemburg-Pomerània Occidental,
+       match: "mecklenburg", geo: {adm0_a3: DEU, name: Mecklenburg-Vorpommern}}
+    - {key: NW, name_es: Renania del Norte-Westfalia, name_ca: Rin del Nord-Westfàlia,
+       match: "north rhine", geo: {adm0_a3: DEU, name: Nordrhein-Westfalen}}
+  w-ca:
+    - {key: QC, name_es: Quebec, name_ca: Quebec, match: "quebec", geo: {adm0_a3: CAN, name: Québec}}
+    - {key: "ON", name_es: Ontario, name_ca: Ontàrio, match: "ontario", geo: {adm0_a3: CAN, name: Ontario}}
+    - {key: MB, name_es: Manitoba, name_ca: Manitoba, match: "manitoba", geo: {adm0_a3: CAN, name: Manitoba}}
+    - {key: AB, name_es: Alberta, name_ca: Alberta, match: "alberta", geo: {adm0_a3: CAN, name: Alberta}}
+    - {key: BC, name_es: Columbia Británica, name_ca: Colúmbia Britànica, match: "british columbia",
+       geo: {adm0_a3: CAN, name: British Columbia}}
 
 # ---------- GEOMETRIES ----------
 # es-atlas i us-atlas venen ja com a TopoJSON quantitzat i lleuger.

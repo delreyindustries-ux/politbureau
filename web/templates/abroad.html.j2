@@ -16,6 +16,13 @@
     {{ 'generals' if d.general else 'legislatives' }}. La mitjana de totes les enquestes publicades,
     partit a partit.{% endif %}</p>
 {% endif %}
+{% if not d.national %}
+  <p class="note">{% if es %}<b>No hay media nacional.</b> En {{ name }} los partidos solo se presentan
+    en una de las regiones, y las encuestas se hacen región por región. Las tres medias están más
+    abajo.{% else %}<b>No hi ha mitjana estatal.</b> A {{ name }} els partits només es presenten a una
+    de les regions, i les enquestes es fan regió per regió. Les tres mitjanes són més avall.{% endif %}</p>
+{% endif %}
+{% if d.national %}
 
   <div class="facts">
     <span><b>{{ d.polls | length }}</b> {{ 'encuestas en la media, una por instituto' if es else 'enquestes a la mitjana, una per institut' }}</span>
@@ -83,6 +90,34 @@
     </tbody>
   </table>
   </div>
+{% endif %}
+
+{% if d.regions %}
+  <h2 id="regions">{{ 'Por regiones' if es else 'Per regions' }}</h2>
+  <p class="note">{% if es %}Solo las regiones con encuestas propias de los últimos 90 días. Cada media
+    se hace con las mismas reglas que la nacional.{% else %}Només les regions amb enquestes pròpies
+    dels últims 90 dies. Cada mitjana es fa amb les mateixes regles que l'estatal.{% endif %}</p>
+  <div class="regions">
+  {% for g in d.regions %}
+  <section class="region">
+    <h3>{{ g.name[lang] }}</h3>
+    <p class="fine">{{ g.polls | length }} {{ ('encuesta' if g.polls | length == 1 else 'encuestas') if es else ('enquesta' if g.polls | length == 1 else 'enquestes') }}
+      · {{ 'la más reciente' if es else 'la més recent' }} {{ fdate(g.polls[0].end) }}
+      ({{ g.polls[0].pollster }})</p>
+    <table class="results">
+      <tbody>
+      {% for r in g.avg[:8] %}
+      <tr>
+        <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.person or r.name }}</td>
+        <td class="n">{{ fmt(r.share) }} %</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endfor %}
+  </div>
+{% endif %}
 
 {% if es %}
   <h2>Cómo se calcula</h2>

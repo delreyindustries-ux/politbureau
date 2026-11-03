@@ -266,3 +266,10 @@ table.part .down{color:#d2463c}
 .wtip b{display:block;margin-bottom:2px}
 .worldmap.failed::after{content:"";}
 @media (max-width:640px){ .worldmap{aspect-ratio:5/4} .wbtns button{height:30px;padding:0 8px} }
+
+/* Regions a la pagina d'un pais estranger */
+.regions{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:6px 0 22px}
+.region{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel)}
+.region h3{margin:0 0 2px;font-size:16px}
+.region table.results{font-size:14px;margin:6px 0 0}
+.region table.results td{padding:5px 4px}

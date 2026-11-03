@@ -57,7 +57,10 @@
         }
         return { cl: cl, sl: sl, cp: cp, sp: sp, n: n };
       });
-      feats.push({ c: f.c, n: f.n, info: data[f.c] || null, rings: rings, path: null });
+      var info = data[f.c] || null;
+      // Una regio sense enquestes propies no es dibuixa: ja hi es el seu pais.
+      if (f.c.indexOf("-") > 0 && !info) return;
+      feats.push({ c: f.c, n: f.n, info: info, rings: rings, path: null, region: f.c.indexOf("-") > 0 });
     });
     // Els paisos amb dades, al final: es dibuixen per sobre i es proven primer.
     feats.sort(function (a, b) { return (a.info ? 1 : 0) - (b.info ? 1 : 0); });
@@ -127,8 +130,15 @@
       if (!any) continue;
       ctx.fillStyle = f.info ? f.info.color : C.land;
       ctx.fill(path, "evenodd");
-      ctx.strokeStyle = f === hover ? C.ink : C.edge;
-      ctx.lineWidth = f === hover ? 1.6 : (f.info ? 0.8 : 0.5);
+      if (f === hover) {
+        ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6;
+      } else if (f.region) {
+        // Una regio son diverses provincies: la vora del seu propi color amaga
+        // les fronteres internes (les de Flandes, les dels comtats escocesos).
+        ctx.strokeStyle = f.info ? f.info.color : C.land; ctx.lineWidth = 0.6;
+      } else {
+        ctx.strokeStyle = C.edge; ctx.lineWidth = f.info ? 0.8 : 0.5;
+      }
       ctx.stroke(path);
     }
     // Ombra suau a la vora per donar volum.

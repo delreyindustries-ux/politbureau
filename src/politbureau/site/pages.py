@@ -528,26 +528,20 @@ def _short(label):
     return re.sub(r"\s*\([^)]*\)\s*$", "", label or "").strip()
 
 
-def abroad_data(conn, eid):
-    """Mitjana, escons (si n'hi ha) i enquestes en joc d'una eleccio. None si no
-    hi ha mitjana: llavors la pagina no s'escriu ni s'enllaca."""
+def _average(conn, eid, scope_code, country, names, persons, colors, chamber=None):
+    """Mitjana i enquestes en joc d'un ambit (estatal: scope_code "", o una regio).
+    None si no hi ha cap enquesta dels ultims 90 dies."""
     from ..build import load_polls
-    election = abroad_elections()[eid]
-    # Un cop passat el dia de la votacio (`date`), les enquestes ja no parlen de
-    # cap eleccio futura: la pagina no es publica fins que hi hagi la propera.
-    if election.get("date") and dt.date.today() > dt.date.fromisoformat(str(election["date"])):
-        return None
-    country = election["country"]
     rows = [r for r in conn.execute(
         """SELECT party, share, lo, hi, n_polls FROM aggregate
-           WHERE election_id = ? AND (scope_code IS NULL OR scope_code = '')
-           ORDER BY share DESC""", (eid,))
+           WHERE election_id = ? AND COALESCE(scope_code, '') = ?
+           ORDER BY share DESC""", (eid, scope_code))
         if r["share"] is not None and r["share"] >= 0.1
         and not (r["party"].startswith("?") and country in ("FR", "IT"))]
     if not rows:
         return None
     today = dt.date.today()
-    used = [p for p in load_polls(conn, eid)
+    used = [p for p in load_polls(conn, eid, scope_code or None)
             if p["fieldwork_end"]
             and (today - dt.date.fromisoformat(p["fieldwork_end"])).days <= 90
             and not (p["sample_size"] and p["sample_size"] < 300)]
@@ -556,20 +550,11 @@ def abroad_data(conn, eid):
     # Escons d'Italia: proporcional estatal amb la mitjana, calculat aqui mateix.
     # Aixi la publicacio no ha de fer `build --country IT`, que baixaria cada
     # hora el resultat del 2022 municipi a municipi per a un mapa que la web no te.
-    chamber = election.get("chamber") or {}
     seats = {}
-    if chamber.get("method") == "proportional":
+    if chamber and chamber.get("method") == "proportional":
         from ..model import seats as seatlib
         shares = {r["party"]: r["share"] for r in rows if r["party"] != "OTHER"}
         seats = {p: n for p, n in seatlib.dhondt(shares, chamber["seats"], 0.03).items() if n}
-    names = _candidates(conn, eid)
-    persons = dict(names) if election.get("display") == "candidates" else {}
-    persons.pop("OTHER", None)
-    try:
-        colors = dict(conn.execute("SELECT party, color FROM party_style WHERE election_id = ?",
-                                   (eid,)).fetchall())
-    except Exception:                     # base antiga sense la taula
-        colors = {}
     avg = []
     for r in rows:
         meta = parties.meta(r["party"], country, eid)
@@ -581,16 +566,53 @@ def abroad_data(conn, eid):
                     "lo": r["lo"], "hi": r["hi"], "n": r["n_polls"],
                     "seats": seats.get(r["party"])})
     order = [a["code"] for a in avg if a["code"] != "OTHER"][:6]
-
     used.sort(key=lambda p: p["fieldwork_end"], reverse=True)
     polls = [{"pollster": p["pollster"], "end": p["fieldwork_end"],
               "sample": p["sample_size"],
               "values": [(p["results"].get(c) or (None,))[0] for c in order]}
              for p in used]
-    pub = election["pub"]
     return {"avg": avg, "order": [next(a for a in avg if a["code"] == c) for c in order],
             "polls": polls, "seats": bool(seats),
-            "seat_total": sum(seats.values()) if seats else 0,
+            "seat_total": sum(seats.values()) if seats else 0}
+
+
+def abroad_regions():
+    """{eleccio: [regio, ...]} de `regions:` a sources.yaml."""
+    return load_sources().get("regions") or {}
+
+
+def abroad_data(conn, eid):
+    """Mitjana estatal, regions, escons (si n'hi ha) i enquestes en joc d'una
+    eleccio. None si no hi ha res a mostrar: llavors la pagina no s'escriu ni
+    s'enllaca."""
+    election = abroad_elections()[eid]
+    # Un cop passat el dia de la votacio (`date`), les enquestes ja no parlen de
+    # cap eleccio futura: la pagina no es publica fins que hi hagi la propera.
+    if election.get("date") and dt.date.today() > dt.date.fromisoformat(str(election["date"])):
+        return None
+    country = election["country"]
+    names = _candidates(conn, eid)
+    persons = dict(names) if election.get("display") == "candidates" else {}
+    persons.pop("OTHER", None)
+    try:
+        colors = dict(conn.execute("SELECT party, color FROM party_style WHERE election_id = ?",
+                                   (eid,)).fetchall())
+    except Exception:                     # base antiga sense la taula
+        colors = {}
+    national = (_average(conn, eid, "", country, names, persons, colors, election.get("chamber"))
+                if election.get("national", True) else None)
+    regions = []
+    for reg in abroad_regions().get(eid, []):
+        got = _average(conn, eid, str(reg["key"]), country, names, persons, colors)
+        if got:
+            regions.append({**got, "key": str(reg["key"]),
+                            "name": {"es": reg["name_es"], "ca": reg["name_ca"]},
+                            "map": f"{election['pub'].get('map') or country}-{reg['key']}"})
+    if not national and not regions:
+        return None
+    pub = election["pub"]
+    base = national or {"avg": [], "order": [], "polls": [], "seats": False, "seat_total": 0}
+    return {**base, "national": bool(national), "regions": regions,
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],
             "presidential": election.get("display") == "candidates",
@@ -651,37 +673,52 @@ def abroad_pages(env, cfg, conn):
         elections = abroad_elections()
         for lang in i18n.LANGS:
             canonical = world_url(lang)
-            view = [{"code": elections[eid]["pub"].get("map") or elections[eid]["country"], "name": d["name"][lang],
-                     "url": d["urls"][lang], "presidential": d["presidential"],
-                     "first": d["avg"][0], "second": d["avg"][1] if len(d["avg"]) > 1 else None,
-                     "n": len(d["polls"]), "last": d["polls"][0]["end"]}
-                    for eid, d in done]
+            view, regional = [], []
+            for eid, d in done:
+                code = elections[eid]["pub"].get("map") or elections[eid]["country"]
+                base = {"code": code, "url": d["urls"][lang], "presidential": d["presidential"]}
+                if d["national"]:
+                    view.append({**base, "name": d["name"][lang], "first": d["avg"][0],
+                                 "second": d["avg"][1] if len(d["avg"]) > 1 else None,
+                                 "n": len(d["polls"]), "last": d["polls"][0]["end"]})
+                for reg in d["regions"]:
+                    row = {**base, "code": reg["map"], "url": d["urls"][lang] + "#regions",
+                           "name": f'{d["name"][lang]} · {reg["name"][lang]}',
+                           "region": reg["name"][lang], "first": reg["avg"][0],
+                           "second": reg["avg"][1] if len(reg["avg"]) > 1 else None,
+                           "n": len(reg["polls"]), "last": reg["polls"][0]["end"]}
+                    regional.append(row)
+                    # Belgica no te mitjana estatal: a la taula hi surten les regions.
+                    if not d["national"]:
+                        view.append(row)
             spain = _spain(conn, lang)
             if spain:
                 view.append(spain)
             # El que el mapa necessita de cada pais, en JSON dins de la pagina. Si
             # un pais te legislatives i presidencials, el mapa pinta la primera
             # que surt a sources.yaml (les legislatives); la taula les porta totes.
+            # Les regions (Escocia, Flandes...) es pinten per sobre del seu pais.
             mapdata = {}
-            for r in view:
+            for r in view + regional:
                 mapdata.setdefault(r["code"], {
                     "name": r["name"], "url": r["url"], "color": r["first"]["color"],
                     "first": f'{r["first"]["person"] or r["first"]["name"]} {_fmt(r["first"]["share"])} %',
                     "second": (f'{r["second"]["person"] or r["second"]["name"]} '
                                f'{_fmt(r["second"]["share"])} %') if r["second"] else ""})
             view.sort(key=lambda r: (parties.slug(r["name"]), r["presidential"]))
+            ncountries = len({elections[eid]["country"] for eid, _ in done}) + (1 if spain else 0)
             html = render_page(
                 env, cfg, "world.html.j2", lang, canonical,
                 {lg: world_url(lg) for lg in i18n.LANGS},
                 ("Mapa mundial de encuestas electorales" if lang == "es"
                  else "Mapa mundial d'enquestes electorals"),
-                (f"Mapa interactivo con la media de las encuestas de {len(view)} países: quién "
+                (f"Mapa interactivo con la media de las encuestas de {ncountries} países: quién "
                  "va primero en cada uno y con qué porcentaje. Pulsa un país para ver todas "
                  "sus encuestas." if lang == "es" else
-                 f"Mapa interactiu amb la mitjana de les enquestes de {len(view)} països: qui "
+                 f"Mapa interactiu amb la mitjana de les enquestes de {ncountries} països: qui "
                  "va primer a cadascun i amb quin percentatge. Prem un país per veure'n totes "
                  "les enquestes."),
-                rows=view, fmt=_fmt, fdate=_fdate,
+                rows=view, fmt=_fmt, fdate=_fdate, ncountries=ncountries,
                 mapdata=json.dumps(mapdata, ensure_ascii=False).replace("</", "<\\/"))
             write(DIST / canonical.strip("/") / "index.html", html)
     return [eid for eid, _ in done]

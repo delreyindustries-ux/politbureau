@@ -31,6 +31,12 @@ EUROPA_DENY = ("by state", "by region", "regional", "sub-national", "subnational
 
 
 WORLD = ("europa", "mon")      # grups d'eleccions estrangeres (03/11/2026)
+# Regions: el que no es intencio de vot de la regio. Escocia porta, a mes de les
+# enquestes escoceses, les submostres escoceses d'enquestes de tot el Regne Unit
+# (centenars de persones) i projeccions MRP: fora.
+REGION_DENY = ("hypothetical", "seat", "projection", "second round", "run-off", "runoff",
+               "scenario", "leadership", "approval", "preferred", "sub-sample", "subsample",
+               "mrp", "constituenc", "electorate", "chancellor")
 
 
 def load_config():
@@ -71,7 +77,7 @@ def store(conn, election, country, scope, scope_code, scope_name, page, polls):
 
 
 def read_page(conn, session, election_id, country, scope, page_name,
-              scope_code=None, scope_name=None, sections=(), deny=()):
+              scope_code=None, scope_name=None, sections=(), deny=(), match=None):
     try:
         page = wk.fetch(page_name, session)
     except Exception as exc:                      # noqa: BLE001
@@ -90,6 +96,11 @@ def read_page(conn, session, election_id, country, scope, page_name,
     # "Poll results"...): l'eleccio en pot afegir de permeses i de prohibides.
     tables = wk.poll_tables(soup, wk.DEFAULT_SECTIONS + tuple(sections),
                             wk.DENIED_SECTIONS + tuple(deny))
+    if match:
+        # Una regio dins de la pagina de l'eleccio ("wales > sub-national poll
+        # results"): mana el nom de la regio, no la llista de seccions permeses.
+        tables = [(t, s, y) for t, s, y in wk.poll_tables(soup, (), wk.DENIED_SECTIONS + tuple(deny))
+                  if match in s]
     for i, (table, _section, year) in enumerate(tables):
         # La mateixa regla que per a una pagina caiguda, aplicada a cada taula:
         # una taula mal formada fa perdre aquella taula, no la pagina ni la resta
@@ -163,13 +174,24 @@ def run(conn, only=None):
             summary.append((eid, "VEDA ELECTORAL: no es llegeix res", 0))
             continue
 
-        n, unk = read_page(conn, session, eid, country, scope, election["page"],
-                           sections=tuple(election.get("sections") or ())
-                           + (EUROPA_SECTIONS if election.get("group") in WORLD else ()),
-                           deny=tuple(election.get("deny_sections") or ())
-                           + (EUROPA_DENY if election.get("group") in WORLD else ()))
-        unmapped.update(unk)
-        summary.append((eid, election["page"], n))
+        if election.get("national", True):
+            n, unk = read_page(conn, session, eid, country, scope, election["page"],
+                               sections=tuple(election.get("sections") or ())
+                               + (EUROPA_SECTIONS if election.get("group") in WORLD else ()),
+                               deny=tuple(election.get("deny_sections") or ())
+                               + (EUROPA_DENY if election.get("group") in WORLD else ()))
+            unmapped.update(unk)
+            summary.append((eid, election["page"], n))
+
+        # Regions de les eleccions estrangeres (`regions:` a sources.yaml).
+        for reg in (cfg.get("regions") or {}).get(eid, []):
+            n4, unk4 = read_page(conn, session, eid, country, "region",
+                                 reg.get("page") or election["page"],
+                                 scope_code=reg["key"], scope_name=reg["name_ca"],
+                                 sections=EUROPA_SECTIONS, deny=REGION_DENY,
+                                 match=reg.get("match"))
+            unmapped.update(unk4)
+            summary.append((eid, f"  {reg['key']} {reg.get('page') or reg.get('match')}", n4))
 
         for extra in election.get("regional_pages", []):
             region = extra.split("(")[-1].rstrip(")").replace("_", " ") if "(" in extra else None
