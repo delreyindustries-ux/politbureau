@@ -380,7 +380,9 @@ elections:
      page: "Next Luxembourg general election", pub: {es: luxemburgo, ca: luxemburg, name_es: Luxemburgo, name_ca: Luxemburg}}
   - {id: eu-nl, group: europa, country: NL, scope: national, label: "Països Baixos — Tweede Kamer",
      page: "Next Dutch general election", pub: {es: paises-bajos, ca: paisos-baixos, name_es: Países Bajos, name_ca: Països Baixos,
-          of_es: "de los Países Bajos", of_ca: "dels Països Baixos"}}
+          of_es: "de los Países Bajos", of_ca: "dels Països Baixos"},
+     departments: {geo: "nl/provincies.json", base: "nl/tk-2025.json", units_es: provincias,
+                   units_ca: províncies, base_es: "las generales de 2025", base_ca: "les generals del 2025"}}
   - {id: eu-pl, group: europa, country: PL, scope: national, label: "Polònia — Sejm",
      page: "Opinion polling for the next Polish parliamentary election", pub: {es: polonia, ca: polonia, name_es: Polonia, name_ca: Polònia}}
   - {id: eu-pt, group: europa, country: PT, scope: national, label: "Portugal — Assemblea de la República",
@@ -421,7 +423,10 @@ elections:
      pub: {es: canada, ca: canada, name_es: Canadá, name_ca: Canadà, of_es: "de Canadá", of_ca: "del Canadà", map: "124"}}
   - {id: w-au, group: mon, country: AU, scope: national, label: "Austràlia — Cambra de Representants",
      page: "Opinion polling for the next Australian federal election",
-     pub: {es: australia, ca: australia, name_es: Australia, name_ca: Austràlia, map: "036"}}
+     pub: {es: australia, ca: australia, name_es: Australia, name_ca: Austràlia, map: "036"},
+     departments: {geo: "au/states.json", base: "au/house-2025.json", units_es: "estados y territorios",
+                   units_ca: "estats i territoris", base_es: "las federales de 2025 (primeras preferencias)",
+                   base_ca: "les federals del 2025 (primeres preferències)"}}
   - {id: w-nz, group: mon, country: NZ, scope: national, label: "Nova Zelanda — Parlament", date: 2026-11-07,
      page: "Opinion polling for the 2026 New Zealand general election",
      pub: {es: nueva-zelanda, ca: nova-zelanda, name_es: Nueva Zelanda, name_ca: Nova Zelanda, map: "554"}}

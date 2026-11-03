@@ -93,6 +93,44 @@ SPECS = {
                     "LD": "?LIBERALDEMOCRATS", "Green": "?GREENPARTIESINTHEUNITEDKINGDOM",
                     "SNP": "?SCOTTISHNATIONALPARTY", "PC": "?PLAIDCYMRU"},
     },
+    # Paisos Baixos: Tweede Kamer 2025 per provincia. TK2025_uitslag.csv de la
+    # Kiesraad (data.overheid.nl, CC0), baixat el 03/11/2026 a data/raw/nl/.
+    "NL": {
+        "adm0": "NLD", "group": "name", "dir": "nl", "unit_file": "provincies.json",
+        "bbox": (3.2, 7.3, 50.7, 53.6),
+        "base_file": "tk-2025.json", "loader": "nl",
+        "source": "Kiesraad, via data.overheid.nl (CC0)",
+        "codes": {"Groningen": "P20", "Friesland": "P21", "Drenthe": "P22", "Overijssel": "P23",
+                  "Flevoland": "P24", "Gelderland": "P25", "Utrecht": "P26", "Noord-Holland": "P27",
+                  "Zuid-Holland": "P28", "Zeeland": "P29", "Noord-Brabant": "P30", "Limburg": "P31"},
+        "names": {"Friesland": "Fryslân"},
+        "parties": {"D66": "?DEMOCRATS66", "PVV (Partij voor de Vrijheid)": "?PARTYFORFREEDOM",
+                    "VVD": "?PEOPLESPARTYFORFREEDOMANDDEMOCRACY",
+                    # GroenLinks-PvdA es ara Progressief Nederland: la seva base.
+                    "GROENLINKS / Partij van de Arbeid (PvdA)": "?PROGRESSIEFNEDERLAND",
+                    "CDA": "?CHRISTIANDEMOCRATICAPPEAL", "JA21": "?JA21",
+                    "Forum voor Democratie": "?FORUMFORDEMOCRACY", "BBB": "?FARMERCITIZENMOVEMENT",
+                    "DENK": "?DENK", "Staatkundig Gereformeerde Partij (SGP)": "?REFORMEDPOLITICALPARTY",
+                    "Partij voor de Dieren": "?PARTYFORTHEANIMALS", "ChristenUnie": "?CHRISTIANUNION",
+                    "SP (Socialistische Partij)": "?SOCIALISTPARTY", "50PLUS": "?50PLUS",
+                    "Volt": "?VOLTNETHERLANDS"},
+    },
+    # Australia: Cambra de Representants 2025, primeres preferencies per estat.
+    # Fitxer de l'AEC (CC BY 4.0), baixat el 03/11/2026 a data/raw/au/. La LNP de
+    # Queensland i el CLP del Territori del Nord, amb els liberals.
+    "AU": {
+        "adm0": "AUS", "group": "name", "dir": "au", "unit_file": "states.json",
+        "bbox": (112.5, 154.0, -44.0, -9.8),
+        "base_file": "house-2025.json", "loader": "au",
+        "source": "Australian Electoral Commission (CC BY 4.0)",
+        "codes": {"New South Wales": "NSW", "Victoria": "VIC", "Queensland": "QLD",
+                  "Western Australia": "WA", "South Australia": "SA", "Tasmania": "TAS",
+                  "Australian Capital Territory": "ACT", "Northern Territory": "NT"},
+        "parties": {"ALP": "?AUSTRALIANLABORPARTY", "LP": "?LIBERALPARTYOFAUSTRALIA",
+                    "LNP": "?LIBERALPARTYOFAUSTRALIA", "CLP": "?LIBERALPARTYOFAUSTRALIA",
+                    "NP": "?NATIONALPARTYOFAUSTRALIA", "GRN": "?AUSTRALIANGREENS",
+                    "ON": "?ONENATION"},
+    },
 }
 
 
@@ -214,10 +252,47 @@ def _load_gb(spec):
     return deps, valid, nat["all"]
 
 
+def _load_nl(spec):
+    import csv
+    path = ROOT / "data" / "raw" / "nl" / "x" / "TK2025_uitslag.csv"
+    votes, national = {}, {}
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        for row in csv.DictReader(fh, delimiter=";"):
+            if row["VeldType"] != "LijstAantalStemmen":
+                continue
+            code, n = row["RegioCode"], int(row["Waarde"] or 0)
+            party = spec["parties"].get(row["LijstNaam"], "OTHER")
+            if code.startswith("P") and code != "P99":
+                votes.setdefault(code, {}).setdefault(party, 0)
+                votes[code][party] += n
+            elif code.startswith("L"):
+                national[party] = national.get(party, 0) + n
+    deps, valid = _shares(votes)
+    nat, _ = _shares({"all": national})
+    return deps, valid, nat["all"]
+
+
+def _load_au(spec):
+    import csv
+    path = ROOT / "data" / "raw" / "au" / "HouseFirstPrefsByStateByPartyDownload-31496.csv"
+    lines = path.read_text(encoding="utf-8-sig").splitlines()[1:]      # la 1a es un titol
+    votes, national = {}, {}
+    for row in csv.DictReader(lines):
+        n = int(row["TotalVotes"] or 0)
+        party = spec["parties"].get(row["PartyAb"], "OTHER")
+        votes.setdefault(row["StateAb"], {}).setdefault(party, 0)
+        votes[row["StateAb"]][party] += n
+        national[party] = national.get(party, 0) + n
+    deps, valid = _shares(votes)
+    nat, _ = _shares({"all": national})
+    return deps, valid, nat["all"]
+
+
 def baseline(spec, conn):
     """{territori: {partit: %}} i el total estatal de l'eleccio de base."""
-    if spec.get("loader") in ("de", "gb"):
-        deps, valid, national = {"de": _load_de, "gb": _load_gb}[spec["loader"]](spec)
+    loaders = {"de": _load_de, "gb": _load_gb, "nl": _load_nl, "au": _load_au}
+    if spec.get("loader") in loaders:
+        deps, valid, national = loaders[spec["loader"]](spec)
         return {"national": national, "dep": deps, "valid": valid, "source": spec["source"]}
     deps, valid = {}, {}
     for code, party, v, val in conn.execute(
