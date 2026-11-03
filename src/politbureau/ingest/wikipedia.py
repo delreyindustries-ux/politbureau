@@ -451,6 +451,16 @@ def parse_table(table, country, anchor_year):
     party_cols, unknown, header_row = header_parties(table, country)
     if not party_cols:
         return [], unknown
+    legacy = country in parties._SUBSTRING_COUNTRIES
+    if not legacy:
+        # Austràlia: la mateixa taula porta el vot directe i el "two-party
+        # preferred" (ALP 52 / L-NP 48), amb les mateixes sigles a sota d'un
+        # grup "2PP". Sumar-los donava un ALP del 75 %. Fora les columnes d'aquests grups.
+        grp = grid(table)
+        party_cols = {c: p for c, p in party_cols.items() if not any(
+            c < len(grp[r]) and grp[r][c] is not None
+            and re.search(r"2pp|two[- ]party|tpp|preferred", cell_text(grp[r][c]), re.I)
+            for r in range(header_row))}
 
     rows = grid(table)
     # grid() replica les cel.les amb rowspan a totes les files que ocupen, aixi que
@@ -554,6 +564,8 @@ def parse_table(table, country, anchor_year):
             # oberta deixa diversos republicans a la general, el senador Dan S.
             # Sullivan (46%) quedava tapat pel 2% d'un homonim, Dan J. Sullivan,
             # i el model llegia "republicans 4%" en un estat republica.
+            if code in poll.results and not legacy:
+                continue           # resta del mon: una sigla repetida no se suma
             if code in poll.results:
                 s0, lo0, hi0 = poll.results[code]
                 share = s0 + share

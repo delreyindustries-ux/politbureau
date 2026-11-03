@@ -19,7 +19,7 @@ def _elections_of(countries):
     wanted = {c.upper() for c in countries}
     # "EUROPA": totes les eleccions marcades `group: europa` (resta d'Europa).
     return [e["id"] for e in load_config()["elections"]
-            if e["country"] in wanted or ("EUROPA" in wanted and e.get("group") == "europa")]
+            if e["country"] in wanted or (e.get("group") or "").upper() in wanted]
 
 
 def cmd_ingest(args):

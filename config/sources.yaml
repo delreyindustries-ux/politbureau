@@ -393,6 +393,49 @@ elections:
   - {id: eu-md, group: europa, country: MD, scope: national, label: "Moldàvia — Parlament",
      page: "Next Moldovan parliamentary election", pub: {es: moldavia, ca: moldavia, name_es: Moldavia, name_ca: Moldàvia}}
 
+  # ---------- RESTA DEL MON (des del 03/11/2026) ----------
+  # Demanat per l'Alfonso: "fes afegint els paissos de tot el mon". Mateix sistema
+  # que Europa (`group: mon`). `pub.map`: codi ISO numeric del mapamundi (web/world.json).
+  # `date`: dia de la votacio; passat aquest dia, la pagina deixa de publicar-se.
+  # Fora a 03/11/2026: EUA i Brasil (decisio seva: nomes eina local), Russia
+  # (exclosa des del principi), Israel (va votar el 27/10), Peru i Colombia (van
+  # votar el 2026), Ucraina (sense eleccions convocades per la llei marcial),
+  # Palestina i Veneçuela (sense data i enquestes d'escenaris), Turquia, l'India,
+  # Taiwan, Sud-africa, Xile i la resta (sense enquestes dels ultims 90 dies a Wikipedia).
+  - {id: w-ca, group: mon, country: CA, scope: national, label: "Canadà — Cambra dels Comuns",
+     page: "Opinion polling for the 46th Canadian federal election",
+     pub: {es: canada, ca: canada, name_es: Canadá, name_ca: Canadà, of_es: "de Canadá", of_ca: "del Canadà", map: "124"}}
+  - {id: w-au, group: mon, country: AU, scope: national, label: "Austràlia — Cambra de Representants",
+     page: "Opinion polling for the next Australian federal election",
+     pub: {es: australia, ca: australia, name_es: Australia, name_ca: Austràlia, map: "036"}}
+  - {id: w-nz, group: mon, country: NZ, scope: national, label: "Nova Zelanda — Parlament", date: 2026-11-07,
+     page: "Opinion polling for the 2026 New Zealand general election",
+     pub: {es: nueva-zelanda, ca: nova-zelanda, name_es: Nueva Zelanda, name_ca: Nova Zelanda, map: "554"}}
+  - {id: w-jp, group: mon, country: JP, scope: national, label: "Japó — Cambra de Representants",
+     page: "Opinion polling for the next Japanese general election",
+     pub: {es: japon, ca: japo, name_es: Japón, name_ca: Japó, of_ca: "del Japó", map: "392"}}
+  - {id: w-kr, group: mon, country: KR, scope: national, label: "Corea del Sud — Presidencials 2030", display: candidates,
+     page: "2030 South Korean presidential election",
+     pub: {es: corea-del-sur, ca: corea-del-sud, name_es: Corea del Sur, name_ca: Corea del Sud, map: "410"}}
+  - {id: w-mx, group: mon, country: MX, scope: national, label: "Mèxic — Cambra de Diputats 2027",
+     page: "Opinion polling for the 2027 Mexican legislative election",
+     pub: {es: mexico, ca: mexic, name_es: México, name_ca: Mèxic, map: "484"}}
+  - {id: w-ar, group: mon, country: AR, scope: national, label: "Argentina — Generals 2027", kind: general, date: 2027-10-24,
+     page: "2027 Argentine general election", deny_sections: ["by candidate"],
+     pub: {es: argentina, ca: argentina, name_es: Argentina, name_ca: Argentina, of_ca: "de l'Argentina", map: "032"}}
+  - {id: w-gt, group: mon, country: GT, scope: national, label: "Guatemala — Presidencials 2027", display: candidates,
+     page: "2027 Guatemalan general election",
+     pub: {es: guatemala, ca: guatemala, name_es: Guatemala, name_ca: Guatemala, map: "320"}}
+  - {id: w-ph, group: mon, country: PH, scope: national, label: "Filipines — Presidencials 2028", display: candidates,
+     page: "Opinion polling for the 2028 Philippine presidential election",
+     pub: {es: filipinas, ca: filipines, name_es: Filipinas, name_ca: Filipines, of_ca: "de les Filipines", map: "608"}}
+  - {id: w-id, group: mon, country: ID, scope: national, label: "Indonèsia — Presidencials 2029", display: candidates,
+     page: "Opinion polling for the 2029 Indonesian presidential election",
+     pub: {es: indonesia, ca: indonesia, name_es: Indonesia, name_ca: Indonèsia, map: "360"}}
+  - {id: w-th, group: mon, country: TH, scope: national, label: "Tailàndia — Cambra de Representants",
+     page: "Next Thai general election",
+     pub: {es: tailandia, ca: tailandia, name_es: Tailandia, name_ca: Tailàndia, map: "764"}}
+
 
 # ---------- GEOMETRIES ----------
 # es-atlas i us-atlas venen ja com a TopoJSON quantitzat i lleuger.

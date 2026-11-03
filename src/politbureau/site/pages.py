@@ -533,6 +533,10 @@ def abroad_data(conn, eid):
     hi ha mitjana: llavors la pagina no s'escriu ni s'enllaca."""
     from ..build import load_polls
     election = abroad_elections()[eid]
+    # Un cop passat el dia de la votacio (`date`), les enquestes ja no parlen de
+    # cap eleccio futura: la pagina no es publica fins que hi hagi la propera.
+    if election.get("date") and dt.date.today() > dt.date.fromisoformat(str(election["date"])):
+        return None
     country = election["country"]
     rows = [r for r in conn.execute(
         """SELECT party, share, lo, hi, n_polls FROM aggregate
@@ -590,6 +594,7 @@ def abroad_data(conn, eid):
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],
             "presidential": election.get("display") == "candidates",
+            "general": election.get("kind") == "general",
             "name": {"es": pub["name_es"], "ca": pub["name_ca"]},
             # "del Regne Unit", "dels Països Baixos": quan el nom porta article.
             "of": {"es": pub.get("of_es") or f"de {pub['name_es']}",
@@ -614,12 +619,14 @@ def de(name):
 def _titles(data, lang):
     name, of = data["name"][lang], data["of"][lang]
     if lang == "es":
-        kind = "elecciones presidenciales" if data["presidential"] else "elecciones legislativas"
+        kind = ("elecciones presidenciales" if data["presidential"] else
+                "elecciones generales" if data["general"] else "elecciones legislativas")
         what = "candidato a candidato" if data["presidential"] else "partido a partido"
         return (f"Encuestas {of} · {kind}",
                 f"Media de las encuestas de las próximas {kind} {of}, {what}, "
                 "con todos los sondeos que entran.")
-    kind = "eleccions presidencials" if data["presidential"] else "eleccions legislatives"
+    kind = ("eleccions presidencials" if data["presidential"] else
+            "eleccions generals" if data["general"] else "eleccions legislatives")
     what = "candidat a candidat" if data["presidential"] else "partit a partit"
     return (f"Enquestes {of} · {kind}",
             f"Mitjana de les enquestes de les properes {kind} {of}, {what}, "
@@ -644,7 +651,7 @@ def abroad_pages(env, cfg, conn):
         elections = abroad_elections()
         for lang in i18n.LANGS:
             canonical = world_url(lang)
-            view = [{"code": elections[eid]["country"], "name": d["name"][lang],
+            view = [{"code": elections[eid]["pub"].get("map") or elections[eid]["country"], "name": d["name"][lang],
                      "url": d["urls"][lang], "presidential": d["presidential"],
                      "first": d["avg"][0], "second": d["avg"][1] if len(d["avg"]) > 1 else None,
                      "n": len(d["polls"]), "last": d["polls"][0]["end"]}
@@ -652,14 +659,17 @@ def abroad_pages(env, cfg, conn):
             spain = _spain(conn, lang)
             if spain:
                 view.append(spain)
-            view.sort(key=lambda r: parties.slug(r["name"]))
-            # El que el mapa necessita de cada pais, en JSON dins de la pagina.
-            mapdata = {r["code"]: {
-                "name": r["name"], "url": r["url"], "color": r["first"]["color"],
-                "first": f'{r["first"]["person"] or r["first"]["name"]} {_fmt(r["first"]["share"])} %',
-                "second": (f'{r["second"]["person"] or r["second"]["name"]} '
-                           f'{_fmt(r["second"]["share"])} %') if r["second"] else ""}
-                for r in view}
+            # El que el mapa necessita de cada pais, en JSON dins de la pagina. Si
+            # un pais te legislatives i presidencials, el mapa pinta la primera
+            # que surt a sources.yaml (les legislatives); la taula les porta totes.
+            mapdata = {}
+            for r in view:
+                mapdata.setdefault(r["code"], {
+                    "name": r["name"], "url": r["url"], "color": r["first"]["color"],
+                    "first": f'{r["first"]["person"] or r["first"]["name"]} {_fmt(r["first"]["share"])} %',
+                    "second": (f'{r["second"]["person"] or r["second"]["name"]} '
+                               f'{_fmt(r["second"]["share"])} %') if r["second"] else ""})
+            view.sort(key=lambda r: (parties.slug(r["name"]), r["presidential"]))
             html = render_page(
                 env, cfg, "world.html.j2", lang, canonical,
                 {lg: world_url(lg) for lg in i18n.LANGS},

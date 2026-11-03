@@ -11,9 +11,10 @@
     primera volta. La mitjana de totes les enquestes publicades, candidat a candidat.{% endif %}</p>
 {% else %}
   <h1>{{ ('Encuestas ' if es else 'Enquestes ') ~ d.of[lang] }}</h1>
-  <p class="lede">{% if es %}Próximas elecciones legislativas. La media de todas las encuestas
-    publicadas, partido a partido.{% else %}Properes eleccions legislatives. La mitjana de totes
-    les enquestes publicades, partit a partit.{% endif %}</p>
+  <p class="lede">{% if es %}Próximas elecciones {{ 'generales' if d.general else 'legislativas' }}.
+    La media de todas las encuestas publicadas, partido a partido.{% else %}Properes eleccions
+    {{ 'generals' if d.general else 'legislatives' }}. La mitjana de totes les enquestes publicades,
+    partit a partit.{% endif %}</p>
 {% endif %}
 
   <div class="facts">

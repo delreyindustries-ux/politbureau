@@ -50,7 +50,9 @@ _ITALY_ONLY = {"cdx", "csx", "coalition", "centre-right", "centre-left"}
 # Columnes de les taules europees que no son partits: metode de l'enquesta,
 # abstencio ("Abs."), indecisos, blancs.
 _EUROPE_NON_PARTY = ("abs", "abs.", "method", "mode", "undecided", "don't know", "dont know",
-                     "invalid", "blank", "none", "neither", "no one", "would not vote")
+                     "invalid", "blank", "none", "neither", "no one", "would not vote",
+                     "unsure", "not sure", "will not vote", "no answer",
+                     "other", "other candidates", "polling organisation", "polling organization")
 # Sumes de blocs (Finlandia, Suecia...): "Gov." i "Opp." no son partits.
 _BLOCS = {"gov", "gov.", "govt", "govt.", "opp", "opp.", "government", "opposition",
           "blue", "red", "blue bloc", "red bloc", "red-green", "red-greens", "tido parties",

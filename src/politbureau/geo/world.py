@@ -109,6 +109,8 @@ def build(src: Path, out: Path):
     doc = {"w": WIDTH, "h": height, "f": features,
            # Caixa inicial: Europa, que es on hi ha les enquestes (x0, y0, x1, y1).
            "europe": [*equal_earth(-25, 72), *equal_earth(45, 34)],
+           # Vista inicial: el mon habitat, sense els pols (de 80 N a 58 S).
+           "world": [0, equal_earth(0, 80)[1], WIDTH, equal_earth(0, -58)[1]],
            "source": "Natural Earth via world-atlas 2.0.2 (domini public)"}
     Path(out).write_text(json.dumps(doc, separators=(",", ":"), ensure_ascii=False),
                          encoding="utf-8")

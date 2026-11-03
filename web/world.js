@@ -14,7 +14,7 @@
   var data = JSON.parse(raw.textContent);
   var NS = "http://www.w3.org/2000/svg";
   var tip = box.querySelector(".wtip");
-  var svg, view, full, europe;
+  var svg, view, full, europe, world;
 
   fetch(window.PB.root + "assets/world.json")
     .then(function (r) { return r.json(); })
@@ -29,8 +29,9 @@
 
   function draw(w) {
     full = [0, 0, w.w, w.h];
-    var e = w.europe;
+    var e = w.europe, m = w.world || [0, 0, w.w, w.h];
     europe = [e[0], e[1], e[2] - e[0], e[3] - e[1]];
+    world = [m[0], m[1], m[2] - m[0], m[3] - m[1]];
     svg = el("svg", { role: "img", "aria-label": box.querySelector("[data-z=world]").textContent });
     var g = el("g", {});
     w.f.forEach(function (f) {
@@ -54,7 +55,7 @@
     });
     svg.appendChild(g);
     box.insertBefore(svg, box.firstChild);
-    set(fit(europe));
+    set(fit(world));
     wire();
   }
 
@@ -92,7 +93,7 @@
         var z = b.getAttribute("data-z");
         if (z === "in") zoom(0.66);
         else if (z === "out") zoom(1.5);
-        else set(fit(z === "world" ? full : europe));
+        else set(fit(z === "world" ? world : europe));
       });
     });
     svg.addEventListener("wheel", function (ev) {

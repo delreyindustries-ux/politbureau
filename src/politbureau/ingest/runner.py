@@ -25,7 +25,12 @@ EUROPA_DENY = ("by state", "by region", "regional", "sub-national", "subnational
                "constituenc", "by county", "by district", "seat", "chancellor",
                "coalition polls", "age group", "pollster bias", "acceptability",
                "other polls", "cdu and csu", "england", "scotland", "wales", "london",
-               "hypothetical", "second round", "run-off", "runoff")
+               "hypothetical", "second round", "run-off", "runoff",
+               # Austràlia i Canadà: enquestes d'un sol districte i projeccions d'escons.
+               "electorate", "projection", "riding", "by province")
+
+
+WORLD = ("europa", "mon")      # grups d'eleccions estrangeres (03/11/2026)
 
 
 def load_config():
@@ -160,9 +165,9 @@ def run(conn, only=None):
 
         n, unk = read_page(conn, session, eid, country, scope, election["page"],
                            sections=tuple(election.get("sections") or ())
-                           + (EUROPA_SECTIONS if election.get("group") == "europa" else ()),
+                           + (EUROPA_SECTIONS if election.get("group") in WORLD else ()),
                            deny=tuple(election.get("deny_sections") or ())
-                           + (EUROPA_DENY if election.get("group") == "europa" else ()))
+                           + (EUROPA_DENY if election.get("group") in WORLD else ()))
         unmapped.update(unk)
         summary.append((eid, election["page"], n))
 

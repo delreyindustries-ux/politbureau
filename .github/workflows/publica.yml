@@ -61,11 +61,11 @@ jobs:
       # mapa. La mitjana la fa el `build --country ES` de sota (aggregate_all
       # agafa totes les enquestes de la base). Si Wikipedia falla, la web es
       # publica igual sense aquestes pagines.
-      - name: Enquestes de Franca, Italia i resta d'Europa
+      - name: Enquestes de la resta d'Europa i del mon
         continue-on-error: true
         run: |
           export PYTHONPATH=src
-          python -m politbureau ingest --country FR IT EUROPA
+          python -m politbureau ingest --country FR IT EUROPA MON
 
       - name: Recalcula i genera el lloc
         run: |
