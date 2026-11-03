@@ -359,11 +359,15 @@ elections:
      page: "Opinion polling for the next Croatian parliamentary election", sections: ["party standings"],
      pub: {es: croacia, ca: croacia, name_es: Croacia, name_ca: Croàcia}}
   - {id: eu-cz, group: europa, country: CZ, scope: national, label: "Txèquia — Cambra de Diputats",
-     page: "Next Czech parliamentary election", pub: {es: chequia, ca: txequia, name_es: Chequia, name_ca: Txèquia}}
+     page: "Next Czech parliamentary election", pub: {es: chequia, ca: txequia, name_es: Chequia, name_ca: Txèquia},
+     departments: {geo: "cz/units.json", base: "cz/base.json", units_es: "regiones",
+                   units_ca: "regions", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
   - {id: eu-dk, group: europa, country: DK, scope: national, label: "Dinamarca — Folketing",
      page: "Next Danish general election", pub: {es: dinamarca, ca: dinamarca, name_es: Dinamarca, name_ca: Dinamarca}}
   - {id: eu-ee, group: europa, country: EE, scope: national, label: "Estònia — Riigikogu",
-     page: "Opinion polling for the next Estonian parliamentary election", pub: {es: estonia, ca: estonia, name_es: Estonia, name_ca: Estònia}}
+     page: "Opinion polling for the next Estonian parliamentary election", pub: {es: estonia, ca: estonia, name_es: Estonia, name_ca: Estònia},
+     departments: {geo: "ee/units.json", base: "ee/base.json", units_es: "condados",
+                   units_ca: "comtats", base_es: "las legislativas de 2023", base_ca: "les legislatives del 2023"}}
   - {id: eu-fi, group: europa, country: FI, scope: national, label: "Finlàndia — Eduskunta",
      page: "Opinion polling for the 2027 Finnish parliamentary election", pub: {es: finlandia, ca: finlandia, name_es: Finlandia, name_ca: Finlàndia},
      departments: {geo: "fi/units.json", base: "fi/base.json", units_es: "circunscripciones",
@@ -373,9 +377,13 @@ elections:
      departments: {geo: "de/laender.json", base: "de/bundestag-2025.json", units_es: "estados federados",
                    units_ca: "estats federats", base_es: "las federales de 2025", base_ca: "les federals del 2025"}}
   - {id: eu-gr, group: europa, country: GR, scope: national, label: "Grècia — Parlament",
-     page: "Opinion polling for the next Greek parliamentary election", pub: {es: grecia, ca: grecia, name_es: Grecia, name_ca: Grècia}}
+     page: "Opinion polling for the next Greek parliamentary election", pub: {es: grecia, ca: grecia, name_es: Grecia, name_ca: Grècia},
+     departments: {geo: "gr/units.json", base: "gr/base.json", units_es: "regiones",
+                   units_ca: "regions", base_es: "las legislativas de junio de 2023", base_ca: "les legislatives del juny del 2023"}}
   - {id: eu-hu, group: europa, country: HU, scope: national, label: "Hongria — Assemblea Nacional",
-     page: "Opinion polling for the 2030 Hungarian parliamentary election", pub: {es: hungria, ca: hongria, name_es: Hungría, name_ca: Hongria}}
+     page: "Opinion polling for the 2030 Hungarian parliamentary election", pub: {es: hungria, ca: hongria, name_es: Hungría, name_ca: Hongria},
+     departments: {geo: "hu/units.json", base: "hu/base.json", units_es: "condados",
+                   units_ca: "comtats", base_es: "las legislativas de 2026", base_ca: "les legislatives del 2026"}}
   - {id: eu-ie, group: europa, country: IE, scope: national, label: "Irlanda — Dáil",
      page: "Next Irish general election", pub: {es: irlanda, ca: irlanda, name_es: Irlanda, name_ca: Irlanda}}
   - {id: eu-lt, group: europa, country: LT, scope: national, label: "Lituània — Seimas",
@@ -388,9 +396,13 @@ elections:
      departments: {geo: "nl/provincies.json", base: "nl/tk-2025.json", units_es: provincias,
                    units_ca: províncies, base_es: "las generales de 2025", base_ca: "les generals del 2025"}}
   - {id: eu-pl, group: europa, country: PL, scope: national, label: "Polònia — Sejm",
-     page: "Opinion polling for the next Polish parliamentary election", pub: {es: polonia, ca: polonia, name_es: Polonia, name_ca: Polònia}}
+     page: "Opinion polling for the next Polish parliamentary election", pub: {es: polonia, ca: polonia, name_es: Polonia, name_ca: Polònia},
+     departments: {geo: "pl/units.json", base: "pl/base.json", units_es: "voivodatos",
+                   units_ca: "voivodats", base_es: "las legislativas de 2023", base_ca: "les legislatives del 2023"}}
   - {id: eu-pt, group: europa, country: PT, scope: national, label: "Portugal — Assemblea de la República",
-     page: "Opinion polling for the next Portuguese legislative election", pub: {es: portugal, ca: portugal, name_es: Portugal, name_ca: Portugal}}
+     page: "Opinion polling for the next Portuguese legislative election", pub: {es: portugal, ca: portugal, name_es: Portugal, name_ca: Portugal},
+     departments: {geo: "pt/units.json", base: "pt/base.json", units_es: "distritos",
+                   units_ca: "districtes", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
   - {id: eu-ro, group: europa, country: RO, scope: national, label: "Romania — Parlament",
      page: "Next Romanian parliamentary election", pub: {es: rumania, ca: romania, name_es: Rumanía, name_ca: Romania}}
   - {id: eu-sk, group: europa, country: SK, scope: national, label: "Eslovàquia — Consell Nacional",
@@ -400,7 +412,9 @@ elections:
   - {id: eu-si, group: europa, country: SI, scope: national, label: "Eslovènia — Assemblea Nacional",
      page: "Opinion polling for the next Slovenian parliamentary election", pub: {es: eslovenia, ca: eslovenia, name_es: Eslovenia, name_ca: Eslovènia}}
   - {id: eu-se, group: europa, country: SE, scope: national, label: "Suècia — Riksdag",
-     page: "2030 Swedish general election", pub: {es: suecia, ca: suecia, name_es: Suecia, name_ca: Suècia}}
+     page: "2030 Swedish general election", pub: {es: suecia, ca: suecia, name_es: Suecia, name_ca: Suècia},
+     departments: {geo: "se/units.json", base: "se/base.json", units_es: "condados",
+                   units_ca: "comtats", base_es: "las generales de 2026", base_ca: "les generals del 2026"}}
   - {id: eu-gb, group: europa, country: GB, scope: national, label: "Regne Unit — Cambra dels Comuns",
      page: "Opinion polling for the next United Kingdom general election", pub: {es: reino-unido, ca: regne-unit, name_es: Reino Unido, name_ca: Regne Unit,
           of_es: "del Reino Unido", of_ca: "del Regne Unit"},

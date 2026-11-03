@@ -20,6 +20,12 @@ from ..ingest import wikipedia as wk
 
 _NUM = re.compile(r"^\s*(\d{1,2}(?:[.,]\d+)?)\s*%?\s*$")
 _TOTAL = re.compile(r"^(total|overall|national|nationwide|country|all|sum)\b", re.I)
+# La fila del total de vegades porta el nom del pais.
+_COUNTRY_TOTALS = {"austria", "norway", "czech republic", "poland", "portugal", "sweden",
+                   "denmark", "romania", "croatia", "slovenia", "bulgaria", "lithuania",
+                   "new zealand", "ireland", "estonia", "hungary", "greece", "mexico"}
+# Columnes que no son partits pero que el lector de capcaleres deixa passar.
+_NOT_PARTY = re.compile(r"TOTAL|VALID|TURNOUT|ELECTORATE|SEATS|INVALID|BLANK")
 
 
 def _pct(text):
@@ -40,6 +46,8 @@ def region_table(page, match, country, session=None):
             continue
         first = {}
         for col, code in sorted(party_cols.items()):
+            if _NOT_PARTY.search(code):
+                continue
             first.setdefault(code, col)               # la primera columna de cada sigla: el %
         rows, total = {}, None
         for cells in wk.grid(table)[header_row + 1:]:
@@ -56,7 +64,7 @@ def region_table(page, match, country, session=None):
                         shares[code] = v
             if len(shares) < 2:
                 continue
-            if _TOTAL.match(name) or name.lower() in ("austria", "norway", "czech republic"):
+            if _TOTAL.match(name) or name.lower() in _COUNTRY_TOTALS:
                 total = shares
             else:
                 rows[name] = shares

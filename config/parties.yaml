@@ -467,6 +467,26 @@ _family:
   SK:
     "?SLOVAKIA": "?OLANOANDFRIENDS"
     "?HUNGARIANALLIANCE": "?ALLIANCE"
+  # Polonia: la Tercera Via del 2023 s'ha separat en PSL i Polonia 2050; Raho i
+  # la Confederacio de la Corona surten de la Confederacio, i Esquerra Unida
+  # (Razem) de l'Esquerra.
+  PL:
+    "?POLISHPEOPLESPARTY": "?THIRDWAY"
+    "?POLAND2050": "?THIRDWAY"
+    "?CONFEDERATIONOFTHEPOLISHCROWN": "?CONFEDERATIONLIBERTYANDINDEPENDENCE"
+    "?LEFTTOGETHER": "?THELEFT"
+  # Txequia: Spolu (ODS, KDU-CSL i TOP 09) es va presentar juntament el 2025 i
+  # les enquestes ara en donen cada partit per separat.
+  CZ:
+    "?ODS": "?SPOLU"
+    "?KDUCSL": "?SPOLU"
+    "?TOP09": "?SPOLU"
+  # Grecia: l'Alianca d'Esquerres de Tsipras (ELAS), la Nova Esquerra i el
+  # Moviment per la Democracia surten de SYRIZA.
+  GR:
+    "?GREEKLEFTALLIANCE": "?SYRIZA"
+    "?NEWLEFT": "?SYRIZA"
+    "?MOVEMENTFORDEMOCRACY": "?SYRIZA"
   FR:
     HOR: ENS          # Philippe es projecta sobre el vot de Macron del 2022
     DEBOUT: LFI       # Ruffin, sobre el de Melenchon

@@ -14,6 +14,7 @@ Us: python -m politbureau.geo.subnational IT data/geo/world/admin1/ne_10m_admin_
 from __future__ import annotations
 
 import json
+import re
 import math
 import sqlite3
 import sys
@@ -201,6 +202,154 @@ WIKI = {
            # Okinawa queda fora del marc: el mapa el deixa de banda, la taula no.
            "units": {_ascii(n).upper()[:4] + str(i): (_ascii(n), [n], _ascii(n))
                      for i, n in enumerate(_JP)}},
+    "PL": {"adm0": "POL", "dir": "pl", "bbox": (14.1, 24.2, 49.0, 54.9),
+           "page": "2023 Polish parliamentary election", "match": "by constituency",
+           # 41 circumscripcions del Sejm agrupades en els 16 voivodats.
+           "units": {"DS": (["Legnica", "Wałbrzych", "Wrocław"], ["Lower Silesian"], "Dolnośląskie"),
+                     "KP": (["Bydgoszcz", "Toruń"], ["Kuyavian-Pomeranian"], "Kujawsko-Pomorskie"),
+                     "LU": (["Lublin", "Chełm"], ["Lublin"], "Lubelskie"),
+                     "LB": (["Zielona Góra"], ["Lubusz"], "Lubuskie"),
+                     "LD": (["Łódź", "Piotrków Trybunalski", "Sieradz"], ["Łódź"], "Łódzkie"),
+                     "MA": (["Kraków I", "Kraków II", "Nowy Sącz", "Tarnów"], ["Lesser Poland"],
+                            "Małopolskie"),
+                     "MZ": (["Płock", "Radom", "Siedlce", "Warsaw I", "Warsaw II"], ["Masovian"],
+                            "Mazowieckie"),
+                     "OP": (["Opole"], ["Opole"], "Opolskie"),
+                     "PK": (["Krosno", "Rzeszów"], ["Subcarpathian"], "Podkarpackie"),
+                     "PD": (["Białystok"], ["Podlachian"], "Podlaskie"),
+                     "PM": (["Gdańsk", "Słupsk"], ["Pomeranian"], "Pomorskie"),
+                     "SL": (["Bielsko-Biała I", "Bielsko-Biała II", "Częstochowa", "Katowice I",
+                             "Katowice II", "Katowice III"], ["Silesian"], "Śląskie"),
+                     "SK": (["Kielce"], ["Świętokrzyskie"], "Świętokrzyskie"),
+                     "WN": (["Elbląg", "Olsztyn"], ["Warmian-Masurian"], "Warmińsko-Mazurskie"),
+                     "WP": (["Kalisz", "Konin", "Piła", "Poznań"], ["Greater Poland"], "Wielkopolskie"),
+                     "ZP": (["Koszalin", "Szczecin"], ["West Pomeranian"], "Zachodniopomorskie")}},
+    "PT": {"adm0": "PRT", "dir": "pt", "bbox": (-9.6, -6.1, 36.9, 42.2),
+           "page": "2025 Portuguese legislative election", "match": "distribution by constituency",
+           # Les enquestes fan servir les sigles; la taula de resultats, el nom sencer.
+           "alias": {"?DEMOCRATICALLIANCE": "?AD", "?CHEGA": "?CH", "?SOCIALISTPARTY": "?PS",
+                     "?LIBERALINITIATIVE": "?IL", "?DEMOCRATICUNITYCOALITION": "?CDU",
+                     "?LEFTBLOC": "?BE", "?PEOPLEANIMALSNATURE": "?PAN"},
+           # Acores i Madeira queden fora del marc: surten a la taula, no al mapa.
+           "units": {_ascii(ne).upper().replace(" ", "")[:6]: (w, [ne], {"Azores": "Açores"}.get(ne, ne)) for w, ne in [
+               ("Aveiro", "Aveiro"), ("Beja", "Beja"), ("Braga", "Braga"), ("Bragança", "Bragança"),
+               ("Castelo Branco", "Castelo Branco"), ("Coimbra", "Coimbra"), ("Évora", "Évora"),
+               ("Faro", "Faro"), ("Guarda", "Guarda"), ("Leiria", "Leiria"), ("Lisbon", "Lisboa"),
+               ("Portalegre", "Portalegre"), ("Porto", "Porto"), ("Santarém", "Santarém"),
+               ("Setúbal", "Setúbal"), ("Viana do Castelo", "Viana do Castelo"),
+               ("Vila Real", "Vila Real"), ("Viseu", "Viseu"), ("Azores", "Azores"),
+               ("Madeira", "Madeira")]}},
+    "SE": {"adm0": "SWE", "dir": "se", "bbox": (10.9, 24.2, 55.3, 69.1),
+           "page": "2026 Swedish general election", "match": "results by constituency",
+           "alias": {"?SOCIALDEMOCRATS": "?SWEDISHSOCIALDEMOCRATICPARTY"},
+           # Estocolm, Escania i Västra Götaland tenen mes d'una circumscripcio.
+           "units": {"AB": (["Stockholm Municipality", "Stockholm County"], ["Stockholm"], "Stockholm"),
+                     "C": ("Uppsala", ["Uppsala"], "Uppsala"),
+                     "D": ("Södermanland", ["Södermanland"], "Södermanland"),
+                     "E": ("Östergötland", ["Östergötland"], "Östergötland"),
+                     "F": ("Jönköping", ["Jönköping"], "Jönköping"),
+                     "G": ("Kronoberg", ["Kronoberg"], "Kronoberg"),
+                     "H": ("Kalmar", ["Kalmar"], "Kalmar"),
+                     "I": ("Gotland", ["Gotland"], "Gotland"),
+                     "K": ("Blekinge", ["Blekinge"], "Blekinge"),
+                     "M": (["Malmö Municipality", "Skåne W", "Skåne S", "Skåne NE"], ["Skåne"], "Skåne"),
+                     "N": ("Halland", ["Halland"], "Halland"),
+                     "O": (["Göteborg Municipality", "Västra Götaland W", "Västra Götaland N",
+                            "Västra Götaland S", "Västra Götaland E"], ["Västra Götaland"],
+                           "Västra Götaland"),
+                     "S": ("Värmland", ["Värmland"], "Värmland"),
+                     "T": ("Örebro", ["Orebro"], "Örebro"),
+                     "U": ("Västmanland", ["Västmanland"], "Västmanland"),
+                     "W": ("Dalarna", ["Dalarna"], "Dalarna"),
+                     "X": ("Gävleborg", ["Gävleborg"], "Gävleborg"),
+                     "Y": ("Västernorrland", ["Västernorrland"], "Västernorrland"),
+                     "Z": ("Jämtland", ["Jämtland"], "Jämtland"),
+                     "AC": ("Västerbotten", ["Västerbotten"], "Västerbotten"),
+                     "BD": ("Norrbotten", ["Norrbotten"], "Norrbotten")}},
+    "CZ": {"adm0": "CZE", "dir": "cz", "bbox": (12.0, 18.9, 48.5, 51.1),
+           "page": "2025 Czech parliamentary election", "match": "results by region",
+           "alias": {"?ANO2011": "?ANO", "?MAYORSANDINDEPENDENTS": "?STAN",
+                     "?CZECHPIRATEPARTY": "?PIRATI", "?FREEDOMANDDIRECTDEMOCRACY": "?SPD"},
+           "units": {"PHA": ("Prague", ["Prague"], "Praha"),
+                     "STC": ("Central Bohemia", ["Středočeský"], "Středočeský"),
+                     "JHC": ("South Bohemia", ["Jihočeský"], "Jihočeský"),
+                     "PLK": ("Plzeň", ["Plzeňský"], "Plzeňský"),
+                     "KVK": ("Karlovy Vary", ["Karlovarský"], "Karlovarský"),
+                     "ULK": ("Ústí nad Labem", ["Ústecký"], "Ústecký"),
+                     "LBK": ("Liberec", ["Liberecký"], "Liberecký"),
+                     "HKK": ("Hradec Králové", ["Královéhradecký"], "Královéhradecký"),
+                     "PAK": ("Pardubice", ["Pardubický"], "Pardubický"),
+                     "VYS": ("Vysočina", ["Vysočina"], "Vysočina"),
+                     "JHM": ("South Moravia", ["Jihomoravský"], "Jihomoravský"),
+                     "OLK": ("Olomouc", ["Olomoucký"], "Olomoucký"),
+                     "ZLK": ("Zlín", ["Zlínský"], "Zlínský"),
+                     "MSK": ("Moravia-Silesia", ["Moravskoslezský"], "Moravskoslezský")}},
+    "HU": {"adm0": "HUN", "dir": "hu", "bbox": (16.1, 22.9, 45.7, 48.6),
+           "page": "2026 Hungarian parliamentary election",
+           "match": "party list results by county",
+           "alias": {"?TISZAPARTY": "?TISZA", "?DEMOCRATICCOALITION": "?DK",
+                     "?HUNGARIANTWOTAILEDDOGPARTY": "?MKKP"},
+           # Natural Earth separa les ciutats amb rang de comtat: van amb el seu comtat.
+           "units": {"BK": ("Bács-Kiskun", ["Bács-Kiskun", "Kecskemét"], "Bács-Kiskun"),
+                     "BA": ("Baranya", ["Baranya", "Pécs"], "Baranya"),
+                     "BE": ("Békés", ["Békés", "Békéscsaba"], "Békés"),
+                     "BZ": ("Borsod–Abaúj–Zemplén", ["Borsod-Abaúj-Zemplén", "Miskolc"],
+                            "Borsod-Abaúj-Zemplén"),
+                     "BU": ("Budapest", ["Budapest"], "Budapest"),
+                     "CS": ("Csongrád-Csanád", ["Csongrád", "Szeged", "Hódmezôvásárhely"],
+                            "Csongrád-Csanád"),
+                     "FE": ("Fejér", ["Fejér", "Székesfehérvár", "Dunaújváros"], "Fejér"),
+                     "GS": ("Győr–Moson–Sopron", ["Gyor-Moson-Sopron", "Gyôr", "Sopron"],
+                            "Győr-Moson-Sopron"),
+                     "HB": ("Hajdú–Bihar", ["Hajdú-Bihar", "Debrecen"], "Hajdú-Bihar"),
+                     "HE": ("Heves", ["Heves", "Eger"], "Heves"),
+                     "JN": ("Jász–Nagykun–Szolnok", ["Jász-Nagykun-Szolnok", "Szolnok"],
+                            "Jász-Nagykun-Szolnok"),
+                     "KE": ("Komárom-Esztergom", ["Komárom-Esztergom", "Tatabánya"],
+                            "Komárom-Esztergom"),
+                     "NO": ("Nógrád", ["Nógrád", "Salgótarján"], "Nógrád"),
+                     "PE": ("Pest", ["Pest", "Érd"], "Pest"),
+                     "SO": ("Somogy", ["Somogy", "Kaposvár"], "Somogy"),
+                     "SZ": ("Szabolcs-Szatmár-Bereg", ["Szabolcs-Szatmár-Bereg", "Nyíregyháza"],
+                            "Szabolcs-Szatmár-Bereg"),
+                     "TO": ("Tolna", ["Tolna", "Szekszárd"], "Tolna"),
+                     "VA": ("Vas", ["Vas", "Szombathely"], "Vas"),
+                     "VE": ("Veszprém", ["Veszprém"], "Veszprém"),
+                     "ZA": ("Zala", ["Zala", "Zalaegerszeg", "Nagykanizsa"], "Zala")}},
+    "GR": {"adm0": "GRC", "dir": "gr", "bbox": (19.3, 29.7, 34.7, 41.8),
+           "page": "June 2023 Greek legislative election", "match": "by region",
+           "alias": {"?ND": "?NEWDEMOCRACY", "?PASOK": "?PASOKMOVEMENTFORCHANGE",
+                     "?KKE": "?COMMUNISTPARTYOFGREECE", "?EL": "?GREEKSOLUTION",
+                     "?PE": "?COURSEOFFREEDOM"},
+           "units": {"ATT": ("Attica", ["Attiki"], "Attiki"),
+                     "STE": ("Central Greece", ["Stereá Elláda"], "Sterea Ellada"),
+                     "KMA": ("Central Macedonia", ["Kentriki Makedonia"], "Kentriki Makedonia"),
+                     "KRI": ("Crete", ["Kriti"], "Kriti"),
+                     "AMT": ("Eastern Macedonia and Thrace", ["Anatoliki Makedonia kai Thraki"],
+                             "Anatoliki Makedonia kai Thraki"),
+                     "IPE": ("Epirus", ["Ipeiros"], "Ipeiros"),
+                     "ION": ("Ionian Islands", ["Ionioi Nisoi"], "Ionioi Nisoi"),
+                     "VAI": ("North Aegean", ["Voreio Aigaio"], "Voreio Aigaio"),
+                     "PEL": ("Peloponnese", ["Peloponnisos"], "Peloponnisos"),
+                     "NAI": ("South Aegean", ["Notio Aigaio"], "Notio Aigaio"),
+                     "THE": ("Thessaly", ["Thessalia"], "Thessalia"),
+                     "DEL": ("Western Greece", ["Dytiki Ellada"], "Dytiki Ellada"),
+                     "DMA": ("Western Macedonia", ["Dytiki Makedonia"], "Dytiki Makedonia")}},
+    "EE": {"adm0": "EST", "dir": "ee", "bbox": (21.7, 28.3, 57.5, 59.75),
+           "page": "2023 Estonian parliamentary election", "match": "results by constituency",
+           # 12 circumscripcions sobre 15 comtats. Harju (amb Tallinn) fa la mitjana
+           # de les tres de Tallinn i la de la resta de Harju i Rapla; Tartu, la del
+           # comtat i la de la ciutat.
+           "units": {"HAR": (["No. 1", "No. 2", "No. 3", "No. 4"], ["Harju"], "Harjumaa"),
+                     "RAP": ("No. 4", ["Rapla"], "Raplamaa"),
+                     "LSH": ("No. 5", ["Hiiu", "Lääne", "Saare"], "Hiiu-, Lääne- ja Saaremaa"),
+                     "LVI": ("No. 6", ["Lääne-Viru"], "Lääne-Virumaa"),
+                     "IVI": ("No. 7", ["Ida-Viru"], "Ida-Virumaa"),
+                     "JVI": ("No. 8", ["Järva", "Viljandi"], "Järva- ja Viljandimaa"),
+                     "JOG": ("No. 9", ["Jõgeva"], "Jõgevamaa"),
+                     "TAR": (["No. 9", "No. 10"], ["Tartu"], "Tartumaa"),
+                     "VVP": ("No. 11", ["Võru", "Valga", "Põlva"], "Võru-, Valga- ja Põlvamaa"),
+                     "PAR": ("No. 12", ["Pärnu"], "Pärnumaa")}},
 }
 
 
@@ -372,13 +521,31 @@ def _load_wiki(spec):
     from .wikiresults import region_table
     w = spec["wiki"]
     rows, total, _title = region_table(w["page"], w["match"], w["cc"])
-    by_name = {_ascii(k).lower(): v for k, v in rows.items()}
+    alias = w.get("alias") or {}
+
+    def rename(shares):
+        out = {}
+        for p, v in (shares or {}).items():
+            out[alias.get(p, p)] = out.get(alias.get(p, p), 0) + v
+        return out
+
+    by_name = {}
+    for k, v in rows.items():
+        key = _ascii(k).lower()
+        by_name[key] = v
+        # Polonia numera les circumscripcions: "19 – Warsaw I".
+        by_name.setdefault(re.sub(r"^\d+\s*[-–]\s*", "", key), v)
     deps = {}
     for code, (wiki_name, _nes, _dn) in w["units"].items():
-        got = by_name.get(_ascii(wiki_name).lower())
-        if got:
-            deps[code] = got
-    return deps, {}, total
+        names = wiki_name if isinstance(wiki_name, (list, tuple)) else [wiki_name]
+        got = [by_name[_ascii(n).lower()] for n in names if _ascii(n).lower() in by_name]
+        if not got:
+            continue
+        # Territoris amb mes d'una circumscripcio (Escania, Varsovia...): la taula
+        # nomes porta %, no vots, aixi que es fa la mitjana simple.
+        parties = {p for g in got for p in g}
+        deps[code] = rename({p: round(sum(g.get(p, 0) for g in got) / len(got), 2) for p in parties})
+    return deps, {}, rename(total) if total else None
 
 
 def baseline(spec, conn):
