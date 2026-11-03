@@ -74,15 +74,16 @@
   <h2 id="departements">{{ ('Por ' if es else 'Per ') ~ units }}</h2>
   <p class="note">{% if es %}<b>Esto es una estimación, no una encuesta.</b> No hay encuestas por
     {{ units }}: la media de hoy se proyecta sobre el voto real de cada uno en {{ d.depmap.base_label.es }},
-    con el mismo método que los municipios de España. Pasa el cursor por el mapa para ver los tres
-    primeros.{% else %}<b>Això és una estimació, no una enquesta.</b> No hi ha enquestes per {{ units }}:
+    con el mismo método que los municipios de España. Donde hay encuestas propias (las de la sección
+    «Por regiones»), mandan ellas. Pasa el cursor por el mapa para ver los tres primeros.{% else %}<b>Això és una estimació, no una enquesta.</b> No hi ha enquestes per {{ units }}:
     la mitjana d'avui es projecta sobre el vot real de cadascun a {{ d.depmap.base_label.ca }}, amb el
-    mateix mètode que els municipis d'Espanya. Passa el cursor pel mapa per veure'n els tres primers.{% endif %}</p>
+    mateix mètode que els municipis d'Espanya. On hi ha enquestes pròpies (les de la secció «Per
+    regions»), manen elles. Passa el cursor pel mapa per veure'n els tres primers.{% endif %}</p>
   <figure class="depmap">
     <svg viewBox="0 0 {{ d.depmap.w }} {{ d.depmap.h }}" role="img"
          aria-label="{{ ('Mapa: ' ~ units ~ ' ' ~ d.of.es) if es else ('Mapa: ' ~ units ~ ' ' ~ d.of.ca) }}">
     {% for g in d.depmap.deps %}
-      <path d="{{ g.d }}" {% if g.color %}fill="{{ g.color }}" fill-opacity="{{ g.alpha }}"{% else %}class="nodata"{% endif %}><title>{{ g.name }}{% for r in g.rows %}&#10;{{ r.name }}: {{ fmt(r.share) }} %{% else %}&#10;{{ 'Sin datos de base' if es else 'Sense dades de base' }}{% endfor %}</title></path>
+      <path d="{{ g.d }}" {% if g.color %}fill="{{ g.color }}" fill-opacity="{{ g.alpha }}"{% else %}class="nodata"{% endif %}><title>{{ g.name }}{% if g.polled %} · {{ 'encuestas propias' if es else 'enquestes pròpies' }}{% endif %}{% for r in g.rows %}&#10;{{ r.name }}: {{ fmt(r.share) }} %{% else %}&#10;{{ 'Sin datos de base' if es else 'Sense dades de base' }}{% endfor %}</title></path>
     {% endfor %}
     </svg>
     <figcaption><span>{{ 'Color: quién va primero; intensidad: con qué porcentaje.' if es else 'Color: qui va primer; intensitat: amb quin percentatge.' }}</span>{% for n, c, k in d.depmap.leaders %}<span><i class="sw" style="background:{{ c }}"></i>{{ n }}: {{ k }}</span>{% endfor %}</figcaption>
@@ -94,7 +95,7 @@
       <thead><tr><th>{{ 'Territorio' if es else 'Territori' }}</th><th>{{ 'Primero' if es else 'Primer' }}</th><th>{{ 'Segundo' if es else 'Segon' }}</th><th>{{ 'Tercero' if es else 'Tercer' }}</th></tr></thead>
       <tbody>
       {% for g in d.depmap.deps if g.rows %}
-      <tr><td>{{ g.name }}</td>{% for r in g.rows %}<td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }} {{ fmt(r.share) }} %</td>{% endfor %}</tr>
+      <tr><td>{{ g.name }}{% if g.polled %} <span class="fine">({{ 'encuestas' if es else 'enquestes' }})</span>{% endif %}</td>{% for r in g.rows %}<td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }} {{ fmt(r.share) }} %</td>{% endfor %}</tr>
       {% endfor %}
       </tbody>
     </table>

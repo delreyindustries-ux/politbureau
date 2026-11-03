@@ -581,7 +581,7 @@ def abroad_regions():
     return load_sources().get("regions") or {}
 
 
-def _departments(election, national):
+def _departments(election, national, polled=None):
     """Intencio de vot per departament (Franca): la mitjana d'avui projectada
     sobre el resultat de l'eleccio de base amb el swing proporcional, el mateix
     metode que els municipis espanyols. None si l'eleccio no en te."""
@@ -598,7 +598,18 @@ def _departments(election, national):
     meta = {a["code"]: a for a in national["avg"]}
     family = parties.families().get(election["country"]) or {}
     deps = []
+    polled = polled or {}
     for code, shape in sorted(geo["dep"].items()):
+        if code in polled:
+            # Aquest territori te enquestes propies (Escocia, Gal.les, Baviera...):
+            # manen sobre l'estimacio, com a la seccio "Per regions".
+            avg = [a for a in polled[code]["avg"] if a["code"] != "OTHER"][:3]
+            rows = [{"name": a["person"] or a["name"], "color": a["color"], "share": a["share"]}
+                    for a in avg]
+            alpha = round(min(1.0, max(0.3, (rows[0]["share"] - 15) / 35)), 2)
+            deps.append({"code": code, "name": shape["n"], "d": shape["d"], "rows": rows,
+                         "color": rows[0]["color"], "alpha": alpha, "polled": True})
+            continue
         b = base["dep"].get(code)
         if not b:
             # Territori sense resultat a la base (la Vall d'Aosta te un sistema
@@ -652,14 +663,15 @@ def abroad_data(conn, eid):
     for reg in abroad_regions().get(eid, []):
         got = _average(conn, eid, str(reg["key"]), country, names, persons, colors)
         if got:
-            regions.append({**got, "key": str(reg["key"]),
+            regions.append({**got, "key": str(reg["key"]), "unit": reg.get("unit"),
                             "name": {"es": reg["name_es"], "ca": reg["name_ca"]},
                             "map": f"{election['pub'].get('map') or country}-{reg['key']}"})
     if not national and not regions:
         return None
     pub = election["pub"]
     base = national or {"avg": [], "order": [], "polls": [], "seats": False, "seat_total": 0}
-    depmap = _departments(election, national) if national else None
+    depmap = (_departments(election, national,
+                           {str(r.get("unit") or r["key"]): r for r in regions}) if national else None)
     return {**base, "national": bool(national), "regions": regions, "depmap": depmap,
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],

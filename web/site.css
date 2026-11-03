@@ -276,7 +276,7 @@ table.part .down{color:#d2463c}
 
 /* Mapa de departaments (Franca) */
 figure.depmap{margin:8px 0 14px;max-width:620px}
-figure.depmap svg{display:block;width:100%;height:auto;background:var(--panel);border-radius:10px}
+figure.depmap svg{display:block;width:100%;height:auto;max-height:680px;background:var(--panel);border-radius:10px}
 figure.depmap path{stroke:var(--bg);stroke-width:.8;stroke-linejoin:round}
 figure.depmap path:hover{stroke:var(--ink);stroke-width:1.6}
 figure.depmap figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--dim);margin-top:8px}

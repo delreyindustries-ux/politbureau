@@ -44,6 +44,55 @@ SPECS = {
         },
         "names": {"Apulia": "Puglia", "Sicily": "Sicilia"},
     },
+    # Alemanya: Bundestag 2025, segon vot per Land. Fitxer kerg2.csv de la
+    # Bundeswahlleiterin (Datenlizenz Deutschland - Namensnennung 2.0), baixat
+    # el 03/11/2026 a data/raw/de/ amb el permis de l'Alfonso.
+    "DE": {
+        "adm0": "DEU", "group": "name", "dir": "de", "unit_file": "laender.json",
+        "bbox": (5.6, 15.3, 47.2, 55.1),
+        "base_file": "bundestag-2025.json", "loader": "de",
+        "source": "Die Bundeswahlleiterin, Wiesbaden 2025 (dl-de/by-2-0)",
+        "codes": {
+            "Schleswig-Holstein": "01", "Hamburg": "02", "Niedersachsen": "03", "Bremen": "04",
+            "Nordrhein-Westfalen": "05", "Hessen": "06", "Rheinland-Pfalz": "07",
+            "Baden-Württemberg": "08", "Bayern": "09", "Saarland": "10", "Berlin": "11",
+            "Brandenburg": "12", "Mecklenburg-Vorpommern": "13", "Sachsen": "14",
+            "Sachsen-Anhalt": "15", "Thüringen": "16",
+        },
+        # Sigles de la Bundeswahlleiterin -> codis de les enquestes (eu-de).
+        "parties": {"CDU": "?CDUCSU", "CSU": "?CDUCSU", "SPD": "?SOCIALDEMOCRATICPARTYOFGERMANY",
+                    "AfD": "?ALTERNATIVEFORGERMANY", "GRÜNE": "?ALLIANCE90THEGREENS",
+                    "Die Linke": "?THELEFT", "FDP": "?FREEDEMOCRATICPARTY",
+                    "BSW": "?SAHRAWAGENKNECHTALLIANCE"},
+    },
+    # Regne Unit: generals del 2024 per nacio i per regio anglesa. Fitxer
+    # candidacies.csv de la House of Commons Library (Open Parliament Licence v3),
+    # baixat el 03/11/2026 a data/raw/gb/. Irlanda del Nord en gris: els seus
+    # partits (DUP, Sinn Fein...) no surten a les enquestes de Gran Bretanya.
+    "GB": {
+        "adm0": "GBR", "group": "gb", "dir": "gb", "unit_file": "regions.json",
+        "bbox": (-8.3, 2.0, 49.8, 60.9),
+        "base_file": "ge-2024.json", "loader": "gb",
+        "source": "House of Commons Library (Open Parliament Licence v3.0)",
+        "codes": {
+            "Scotland": "SCT", "Wales": "WLS", "Northern Ireland": "NIR",
+            "Greater London": "LDN", "North West": "NW", "North East": "NE",
+            "Yorkshire and the Humber": "YH", "East Midlands": "EM", "West Midlands": "WM",
+            "East": "EE", "South East": "SE", "South West": "SW",
+        },
+        "names": {"Scotland": "Escòcia", "Wales": "Gal·les", "Northern Ireland": "Irlanda del Nord",
+                  "Greater London": "Londres", "North West": "North West", "North East": "North East",
+                  "Yorkshire and the Humber": "Yorkshire and the Humber",
+                  "East Midlands": "East Midlands", "West Midlands": "West Midlands",
+                  "East": "East of England", "South East": "South East", "South West": "South West"},
+        "csv_regions": {"London": "LDN", "North West": "NW", "North East": "NE",
+                        "Yorkshire and The Humber": "YH", "East Midlands": "EM",
+                        "West Midlands": "WM", "East of England": "EE", "South East": "SE",
+                        "South West": "SW"},
+        "parties": {"Lab": "?LABOURPARTY", "Con": "?CONSERVATIVEPARTY", "RUK": "?REFORMUK",
+                    "LD": "?LIBERALDEMOCRATS", "Green": "?GREENPARTIESINTHEUNITEDKINGDOM",
+                    "SNP": "?SCOTTISHNATIONALPARTY", "PC": "?PLAIDCYMRU"},
+    },
 }
 
 
@@ -90,20 +139,86 @@ def geometry(spec, admin1: Path):
     rows = _dbf(Path(str(admin1) + ".dbf").read_bytes())
     shapes = _shp(Path(str(admin1) + ".shp").read_bytes())
     xy, height = _projector(spec["bbox"])
+    lon0, lon1, lat0, lat1 = spec["bbox"]
+
+    def inside(ring):
+        # Illots fora del marc (Rockall, a 300 km d'Escocia) estiraven el mapa.
+        return any(lon0 <= x <= lon1 and lat0 <= y <= lat1 for x, y in ring)
+
     rings = {}
     for row, shape in zip(rows, shapes):
         if _clean(row.get("adm0_a3")) != spec["adm0"]:
             continue
-        key = _clean(row.get(spec["group"]))
+        if spec["group"] == "gb":
+            # Escocia, Gal.les i Irlanda del Nord senceres; Anglaterra per regions.
+            nation = _clean(row.get("geonunit"))
+            key = _clean(row.get("region")) if nation == "England" else nation
+        else:
+            key = _clean(row.get(spec["group"]))
         code = spec["codes"].get(key)
         if code:
-            rings.setdefault(code, {"n": spec.get("names", {}).get(key, key), "r": []})["r"] += shape
+            rings.setdefault(code, {"n": spec.get("names", {}).get(key, key), "r": []})["r"] += [
+                r for r in shape if inside(r)]
     out = {code: {"n": v["n"], "d": _path(v["r"], xy)} for code, v in rings.items()}
     return {"w": WIDTH, "h": height, "dep": out}
 
 
+def _shares(votes):
+    """{territori: {partit: vots}} -> ({territori: {partit: %}}, {territori: valids})."""
+    valid = {u: sum(v.values()) for u, v in votes.items()}
+    return ({u: {p: round(100 * n / valid[u], 3) for p, n in v.items()} for u, v in votes.items()},
+            valid)
+
+
+def _load_de(spec):
+    import csv
+    path = ROOT / "data" / "raw" / "de" / "btw25_kerg2.csv"
+    rows = list(csv.reader(path.read_text(encoding="utf-8-sig").splitlines(), delimiter=";"))
+    head = next(i for i, r in enumerate(rows) if r and r[0] == "Wahlart")
+    cols = {name: i for i, name in enumerate(rows[head])}
+    votes, national = {}, {}
+    for r in rows[head + 1:]:
+        if len(r) < len(cols) or r[cols["Gruppenart"]] != "Partei" or r[cols["Stimme"]] != "2":
+            continue
+        n = int(r[cols["Anzahl"]] or 0)
+        party = spec["parties"].get(r[cols["Gruppenname"]], "OTHER")
+        kind, num = r[cols["Gebietsart"]], r[cols["Gebietsnummer"]]
+        if kind == "Land":
+            votes.setdefault(num, {}).setdefault(party, 0)
+            votes[num][party] += n
+        elif kind == "Bund":
+            national[party] = national.get(party, 0) + n
+    deps, valid = _shares(votes)
+    nat, _ = _shares({"all": national})
+    return deps, valid, nat["all"]
+
+
+def _load_gb(spec):
+    import csv
+    path = ROOT / "data" / "raw" / "gb" / "ge2024_candidacies.csv"
+    votes, national = {}, {}
+    nations = {"Scotland": "SCT", "Wales": "WLS", "Northern Ireland": "NIR"}
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        for row in csv.DictReader(fh):
+            unit = nations.get(row["Country name"]) or spec["csv_regions"].get(row["English region name"])
+            if not unit:
+                continue
+            n = int(row["Candidate vote count"] or 0)
+            party = spec["parties"].get(row["Main party abbreviation"], "OTHER")
+            if unit != "NIR":
+                votes.setdefault(unit, {}).setdefault(party, 0)
+                votes[unit][party] += n
+            national[party] = national.get(party, 0) + n
+    deps, valid = _shares(votes)
+    nat, _ = _shares({"all": national})
+    return deps, valid, nat["all"]
+
+
 def baseline(spec, conn):
     """{territori: {partit: %}} i el total estatal de l'eleccio de base."""
+    if spec.get("loader") in ("de", "gb"):
+        deps, valid, national = {"de": _load_de, "gb": _load_gb}[spec["loader"]](spec)
+        return {"national": national, "dep": deps, "valid": valid, "source": spec["source"]}
     deps, valid = {}, {}
     for code, party, v, val in conn.execute(
             """SELECT code, party, votes, valid_votes FROM election_result

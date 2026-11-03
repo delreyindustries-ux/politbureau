@@ -365,7 +365,9 @@ elections:
   - {id: eu-fi, group: europa, country: FI, scope: national, label: "Finlàndia — Eduskunta",
      page: "Opinion polling for the 2027 Finnish parliamentary election", pub: {es: finlandia, ca: finlandia, name_es: Finlandia, name_ca: Finlàndia}}
   - {id: eu-de, group: europa, country: DE, scope: national, label: "Alemanya — Bundestag",
-     page: "Opinion polling for the next German federal election", pub: {es: alemania, ca: alemanya, name_es: Alemania, name_ca: Alemanya}}
+     page: "Opinion polling for the next German federal election", pub: {es: alemania, ca: alemanya, name_es: Alemania, name_ca: Alemanya},
+     departments: {geo: "de/laender.json", base: "de/bundestag-2025.json", units_es: "estados federados",
+                   units_ca: "estats federats", base_es: "las federales de 2025", base_ca: "les federals del 2025"}}
   - {id: eu-gr, group: europa, country: GR, scope: national, label: "Grècia — Parlament",
      page: "Opinion polling for the next Greek parliamentary election", pub: {es: grecia, ca: grecia, name_es: Grecia, name_ca: Grècia}}
   - {id: eu-hu, group: europa, country: HU, scope: national, label: "Hongria — Assemblea Nacional",
@@ -393,7 +395,9 @@ elections:
      page: "2030 Swedish general election", pub: {es: suecia, ca: suecia, name_es: Suecia, name_ca: Suècia}}
   - {id: eu-gb, group: europa, country: GB, scope: national, label: "Regne Unit — Cambra dels Comuns",
      page: "Opinion polling for the next United Kingdom general election", pub: {es: reino-unido, ca: regne-unit, name_es: Reino Unido, name_ca: Regne Unit,
-          of_es: "del Reino Unido", of_ca: "del Regne Unit"}}
+          of_es: "del Reino Unido", of_ca: "del Regne Unit"},
+     departments: {geo: "gb/regions.json", base: "gb/ge-2024.json", units_es: "naciones y regiones",
+                   units_ca: "nacions i regions", base_es: "las generales de 2024", base_ca: "les generals del 2024"}}
   - {id: eu-no, group: europa, country: "NO", scope: national, label: "Noruega — Storting",
      page: "2029 Norwegian parliamentary election", pub: {es: noruega, ca: noruega, name_es: Noruega, name_ca: Noruega}}
   - {id: eu-is, group: europa, country: IS, scope: national, label: "Islàndia — Althing",
@@ -465,10 +469,10 @@ regions:
     - {key: WAL, name_es: Valonia, name_ca: Valònia, match: "wallonia", geo: {adm0_a3: BEL, region: Walloon}}
     - {key: BRU, name_es: Bruselas, name_ca: Brussel·les, match: "brussels", geo: {adm0_a3: BEL, region: Capital Region}}
   eu-de:
-    - {key: BY, name_es: Baviera, name_ca: Baviera, match: "bavaria", geo: {adm0_a3: DEU, name: Bayern}}
-    - {key: MV, name_es: Mecklemburgo-Pomerania Occidental, name_ca: Mecklemburg-Pomerània Occidental,
+    - {key: BY, unit: "09", name_es: Baviera, name_ca: Baviera, match: "bavaria", geo: {adm0_a3: DEU, name: Bayern}}
+    - {key: MV, unit: "13", name_es: Mecklemburgo-Pomerania Occidental, name_ca: Mecklemburg-Pomerània Occidental,
        match: "mecklenburg", geo: {adm0_a3: DEU, name: Mecklenburg-Vorpommern}}
-    - {key: NW, name_es: Renania del Norte-Westfalia, name_ca: Rin del Nord-Westfàlia,
+    - {key: NW, unit: "05", name_es: Renania del Norte-Westfalia, name_ca: Rin del Nord-Westfàlia,
        match: "north rhine", geo: {adm0_a3: DEU, name: Nordrhein-Westfalen}}
   w-ca:
     - {key: QC, name_es: Quebec, name_ca: Quebec, match: "quebec", geo: {adm0_a3: CAN, name: Québec}}
