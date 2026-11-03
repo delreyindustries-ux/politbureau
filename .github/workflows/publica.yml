@@ -57,15 +57,15 @@ jobs:
           export PYTHONPATH=src
           python -m politbureau ingest --country ES
 
-      # Franca i Italia (des del 03/11/2026): nomes la mitjana d'enquestes, sense
+      # Franca, Italia i resta d'Europa (des del 03/11/2026): nomes la mitjana, sense
       # mapa. La mitjana la fa el `build --country ES` de sota (aggregate_all
       # agafa totes les enquestes de la base). Si Wikipedia falla, la web es
       # publica igual sense aquestes pagines.
-      - name: Enquestes de Franca i Italia
+      - name: Enquestes de Franca, Italia i resta d'Europa
         continue-on-error: true
         run: |
           export PYTHONPATH=src
-          python -m politbureau ingest --country FR IT
+          python -m politbureau ingest --country FR IT EUROPA
 
       - name: Recalcula i genera el lloc
         run: |

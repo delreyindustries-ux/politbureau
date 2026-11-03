@@ -16,6 +16,18 @@ ROOT = Path(__file__).resolve().parents[3]
 SOURCES = ROOT / "config" / "sources.yaml"
 
 
+# Resta d'Europa (group: europa): cada Wikipedia titula a la seva manera la
+# seccio d'enquestes, i moltes hi pengen taules per regio, d'escons o
+# d'escenaris que no son intencio de vot estatal.
+EUROPA_SECTIONS = ("opinion polls", "opinion poll", "poll results", "polling results",
+                   "polls", "vote share", "party standings")
+EUROPA_DENY = ("by state", "by region", "regional", "sub-national", "subnational",
+               "constituenc", "by county", "by district", "seat", "chancellor",
+               "coalition polls", "age group", "pollster bias", "acceptability",
+               "other polls", "cdu and csu", "england", "scotland", "wales", "london",
+               "hypothetical", "second round", "run-off", "runoff")
+
+
 def load_config():
     with SOURCES.open(encoding="utf-8") as fh:
         return yaml.safe_load(fh)
@@ -54,7 +66,7 @@ def store(conn, election, country, scope, scope_code, scope_name, page, polls):
 
 
 def read_page(conn, session, election_id, country, scope, page_name,
-              scope_code=None, scope_name=None):
+              scope_code=None, scope_name=None, sections=(), deny=()):
     try:
         page = wk.fetch(page_name, session)
     except Exception as exc:                      # noqa: BLE001
@@ -69,7 +81,11 @@ def read_page(conn, session, election_id, country, scope, page_name,
     soup = BeautifulSoup(page["html"], "lxml")
     this_year = dt.date.today().year
     polls, unknown = [], set()
-    for i, (table, _section, year) in enumerate(wk.poll_tables(soup)):
+    # Cada Wikipedia titula les seccions a la seva manera ("Party standings",
+    # "Poll results"...): l'eleccio en pot afegir de permeses i de prohibides.
+    tables = wk.poll_tables(soup, wk.DEFAULT_SECTIONS + tuple(sections),
+                            wk.DENIED_SECTIONS + tuple(deny))
+    for i, (table, _section, year) in enumerate(tables):
         # La mateixa regla que per a una pagina caiguda, aplicada a cada taula:
         # una taula mal formada fa perdre aquella taula, no la pagina ni la resta
         # de la descarrega. El 02/10/2026 un `rowspan="2""` d'un estat americà
@@ -84,6 +100,15 @@ def read_page(conn, session, election_id, country, scope, page_name,
         polls += got
         unknown.update(unk)
     n = store(conn, election_id, country, scope, scope_code, scope_name, page, polls)
+    colors = {}
+    for poll in polls:
+        colors.update(poll.colors)
+    if colors:
+        conn.execute("""CREATE TABLE IF NOT EXISTS party_style (election_id TEXT NOT NULL,
+            party TEXT NOT NULL, color TEXT NOT NULL, PRIMARY KEY (election_id, party))""")
+        conn.executemany("INSERT OR REPLACE INTO party_style VALUES (?,?,?)",
+                         [(election_id, code, c) for code, c in colors.items()])
+        conn.commit()
     db.log_ingest(conn, election_id, page["url"], "ok", n,
                   {"parsed": len(polls), "new": n, "unmapped": sorted(unknown)[:40]})
     return n, sorted(unknown)
@@ -133,7 +158,11 @@ def run(conn, only=None):
             summary.append((eid, "VEDA ELECTORAL: no es llegeix res", 0))
             continue
 
-        n, unk = read_page(conn, session, eid, country, scope, election["page"])
+        n, unk = read_page(conn, session, eid, country, scope, election["page"],
+                           sections=tuple(election.get("sections") or ())
+                           + (EUROPA_SECTIONS if election.get("group") == "europa" else ()),
+                           deny=tuple(election.get("deny_sections") or ())
+                           + (EUROPA_DENY if election.get("group") == "europa" else ()))
         unmapped.update(unk)
         summary.append((eid, election["page"], n))
 

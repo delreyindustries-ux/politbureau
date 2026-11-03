@@ -135,7 +135,7 @@ def run(clean=True):
     # Franca i Italia: nomes si tenen mitjana. Es decideix abans de res perque
     # el menu de TOTES les pagines hi enllaca, i un enllac a una pagina que no
     # s'escriu tombaria la revisio.
-    cfg["_abroad"] = [k for k in pagemod.ABROAD if pagemod.abroad_data(conn, k)]
+    cfg["_abroad"] = [e for e in pagemod.abroad_elections() if pagemod.abroad_data(conn, e)]
 
     print("2/6  Fitxes de territori")
     written = territory_pages(env, cfg, data, urls, prov_region)
@@ -155,8 +155,9 @@ def run(clean=True):
     pagemod.method_page(env, cfg, site_stats(conn))
     n_part = pagemod.participation_page(env, cfg, urls)
     pagemod.strongholds_page(env, cfg, urls)
-    for key in pagemod.abroad_pages(env, cfg, conn):
-        print(f"     enquestes: {key}")
+    abroad = pagemod.abroad_pages(env, cfg, conn)
+    if abroad:
+        print(f"     enquestes d'Europa: {len(abroad)} ({', '.join(abroad)})")
     if n_part:
         print(f"     participacio: {n_part} municipis")
     pagemod.legal_pages(env, cfg)

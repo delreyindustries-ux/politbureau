@@ -263,6 +263,7 @@ elections:
     # Els de l'estimacio surten de les enquestes (el mes preguntat de cada linia
     # als ultims 90 dies); els del 2022, del fitxer oficial de resultats.
     display: candidates
+    pub: {es: francia, ca: franca, name_es: Francia, name_ca: França}
     baseline:
       election: "presidentielle-2022-t1"
       date: "2022-04-10"
@@ -284,6 +285,7 @@ elections:
     scope: national
     page: "Opinion_polling_for_the_next_Italian_general_election"
     baseline: {election: "politiche-2022", date: "2022-09-25"}
+    pub: {es: italia, ca: italia, name_es: Italia, name_ca: Itàlia}
     chamber:
       name: "Camera dei Deputati"
       seats: 400
@@ -323,6 +325,71 @@ elections:
     discover:
       pattern: "^2026_(?!.*lieutenant)(.+)_gubernatorial_election$"
     optional: true
+
+  # ---------- RESTA D'EUROPA (des del 03/11/2026) ----------
+  # Demanat per l'Alfonso: UE + resta d'Europa occidental i Balcans, legislatives
+  # i presidencials. Nomes la mitjana estatal a la web (pagines.abroad_*), sense
+  # mapa. Els partits NO son al cataleg: es desen amb codi provisional ("?...")
+  # i la web en mostra el nom de la capcalera i el color que hi posa Wikipedia.
+  # `group: europa` hi afegeix les seccions i exclusions de runner.EUROPA_*.
+  # `pub`: adreca i nom a la web.
+  # Fora, a 03/11/2026: Belgica (les enquestes van per regions, no hi ha mitjana
+  # estatal), Xipre, Letonia, Malta, Serbia i Bosnia (acaben de votar i encara
+  # no hi ha pagina de la propera), Suissa, Macedonia del Nord, Albania i
+  # Kosovo (sense taula d'enquestes), i totes les presidencials: o s'acaben de
+  # fer, o les enquestes de la propera son escenaris amb candidats hipotetics
+  # (Txequia 2028). Quan n'hi hagi, s'afegeixen com eu-cz.
+  - {id: eu-at, group: europa, country: AT, scope: national, label: "Àustria — Consell Nacional",
+     page: "Next Austrian legislative election", pub: {es: austria, ca: austria, name_es: Austria, name_ca: Àustria}}
+  - {id: eu-bg, group: europa, country: BG, scope: national, label: "Bulgària — Assemblea Nacional",
+     page: "Next Bulgarian parliamentary election", pub: {es: bulgaria, ca: bulgaria, name_es: Bulgaria, name_ca: Bulgària}}
+  - {id: eu-hr, group: europa, country: HR, scope: national, label: "Croàcia — Sabor",
+     page: "Opinion polling for the next Croatian parliamentary election", sections: ["party standings"],
+     pub: {es: croacia, ca: croacia, name_es: Croacia, name_ca: Croàcia}}
+  - {id: eu-cz, group: europa, country: CZ, scope: national, label: "Txèquia — Cambra de Diputats",
+     page: "Next Czech parliamentary election", pub: {es: chequia, ca: txequia, name_es: Chequia, name_ca: Txèquia}}
+  - {id: eu-dk, group: europa, country: DK, scope: national, label: "Dinamarca — Folketing",
+     page: "Next Danish general election", pub: {es: dinamarca, ca: dinamarca, name_es: Dinamarca, name_ca: Dinamarca}}
+  - {id: eu-ee, group: europa, country: EE, scope: national, label: "Estònia — Riigikogu",
+     page: "Opinion polling for the next Estonian parliamentary election", pub: {es: estonia, ca: estonia, name_es: Estonia, name_ca: Estònia}}
+  - {id: eu-fi, group: europa, country: FI, scope: national, label: "Finlàndia — Eduskunta",
+     page: "Opinion polling for the 2027 Finnish parliamentary election", pub: {es: finlandia, ca: finlandia, name_es: Finlandia, name_ca: Finlàndia}}
+  - {id: eu-de, group: europa, country: DE, scope: national, label: "Alemanya — Bundestag",
+     page: "Opinion polling for the next German federal election", pub: {es: alemania, ca: alemanya, name_es: Alemania, name_ca: Alemanya}}
+  - {id: eu-gr, group: europa, country: GR, scope: national, label: "Grècia — Parlament",
+     page: "Opinion polling for the next Greek parliamentary election", pub: {es: grecia, ca: grecia, name_es: Grecia, name_ca: Grècia}}
+  - {id: eu-hu, group: europa, country: HU, scope: national, label: "Hongria — Assemblea Nacional",
+     page: "Opinion polling for the 2030 Hungarian parliamentary election", pub: {es: hungria, ca: hongria, name_es: Hungría, name_ca: Hongria}}
+  - {id: eu-ie, group: europa, country: IE, scope: national, label: "Irlanda — Dáil",
+     page: "Next Irish general election", pub: {es: irlanda, ca: irlanda, name_es: Irlanda, name_ca: Irlanda}}
+  - {id: eu-lt, group: europa, country: LT, scope: national, label: "Lituània — Seimas",
+     page: "2028 Lithuanian parliamentary election", pub: {es: lituania, ca: lituania, name_es: Lituania, name_ca: Lituània}}
+  - {id: eu-lu, group: europa, country: LU, scope: national, label: "Luxemburg — Cambra de Diputats",
+     page: "Next Luxembourg general election", pub: {es: luxemburgo, ca: luxemburg, name_es: Luxemburgo, name_ca: Luxemburg}}
+  - {id: eu-nl, group: europa, country: NL, scope: national, label: "Països Baixos — Tweede Kamer",
+     page: "Next Dutch general election", pub: {es: paises-bajos, ca: paisos-baixos, name_es: Países Bajos, name_ca: Països Baixos}}
+  - {id: eu-pl, group: europa, country: PL, scope: national, label: "Polònia — Sejm",
+     page: "Opinion polling for the next Polish parliamentary election", pub: {es: polonia, ca: polonia, name_es: Polonia, name_ca: Polònia}}
+  - {id: eu-pt, group: europa, country: PT, scope: national, label: "Portugal — Assemblea de la República",
+     page: "Opinion polling for the next Portuguese legislative election", pub: {es: portugal, ca: portugal, name_es: Portugal, name_ca: Portugal}}
+  - {id: eu-ro, group: europa, country: RO, scope: national, label: "Romania — Parlament",
+     page: "Next Romanian parliamentary election", pub: {es: rumania, ca: romania, name_es: Rumanía, name_ca: Romania}}
+  - {id: eu-sk, group: europa, country: SK, scope: national, label: "Eslovàquia — Consell Nacional",
+     page: "Opinion polling for the next Slovak parliamentary election", pub: {es: eslovaquia, ca: eslovaquia, name_es: Eslovaquia, name_ca: Eslovàquia}}
+  - {id: eu-si, group: europa, country: SI, scope: national, label: "Eslovènia — Assemblea Nacional",
+     page: "Opinion polling for the next Slovenian parliamentary election", pub: {es: eslovenia, ca: eslovenia, name_es: Eslovenia, name_ca: Eslovènia}}
+  - {id: eu-se, group: europa, country: SE, scope: national, label: "Suècia — Riksdag",
+     page: "2030 Swedish general election", pub: {es: suecia, ca: suecia, name_es: Suecia, name_ca: Suècia}}
+  - {id: eu-gb, group: europa, country: GB, scope: national, label: "Regne Unit — Cambra dels Comuns",
+     page: "Opinion polling for the next United Kingdom general election", pub: {es: reino-unido, ca: regne-unit, name_es: Reino Unido, name_ca: Regne Unit}}
+  - {id: eu-no, group: europa, country: "NO", scope: national, label: "Noruega — Storting",
+     page: "2029 Norwegian parliamentary election", pub: {es: noruega, ca: noruega, name_es: Noruega, name_ca: Noruega}}
+  - {id: eu-is, group: europa, country: IS, scope: national, label: "Islàndia — Althing",
+     page: "Next Icelandic parliamentary election", pub: {es: islandia, ca: islandia, name_es: Islandia, name_ca: Islàndia}}
+  - {id: eu-me, group: europa, country: ME, scope: national, label: "Montenegro — Parlament",
+     page: "Next Montenegrin parliamentary election", pub: {es: montenegro, ca: montenegro, name_es: Montenegro, name_ca: Montenegro}}
+  - {id: eu-md, group: europa, country: MD, scope: national, label: "Moldàvia — Parlament",
+     page: "Next Moldovan parliamentary election", pub: {es: moldavia, ca: moldavia, name_es: Moldavia, name_ca: Moldàvia}}
 
 
 # ---------- GEOMETRIES ----------

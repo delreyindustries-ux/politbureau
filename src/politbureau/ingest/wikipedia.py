@@ -88,6 +88,9 @@ class Poll:
     # codi -> com es deia la columna ("Marine Le Pen"). A les presidencials es
     # vota una persona, i el nom del partit no diu qui: cal conservar-lo.
     labels: dict = field(default_factory=dict)
+    # codi -> color de la franja de la capcalera ("#E4003B"). Els partits
+    # d'altres paisos no son al cataleg: sense aixo sortirien tots en gris.
+    colors: dict = field(default_factory=dict)
 
 
 # --------------------------------------------------------------------------- xarxa
@@ -342,6 +345,9 @@ def _parties_in_row(cells, country):
     for col, cell in enumerate(cells):
         if cell is None:
             continue
+        if country not in parties._SUBSTRING_COUNTRIES and parties.is_noise(
+                cell.get_text(" ", strip=True)):
+            continue
         link, img, abbr = cell.find("a"), cell.find("img"), cell.find("abbr")
         for label in (abbr.get("title") if abbr else None,
                       link.get("title") if link else None,
@@ -358,7 +364,7 @@ def _parties_in_row(cells, country):
     return mapping, unknown
 
 
-def header_parties(table, country, max_header_rows=3):
+def header_parties(table, country, max_header_rows=None):
     """{index_columna: codi_partit} llegint title/alt dels logotips.
 
     Wikipedia sovint parteix la capcalera en dues files: la primera nomes agrupa
@@ -369,6 +375,10 @@ def header_parties(table, country, max_header_rows=3):
     if not rows:
         return {}, [], 0
     best, best_unknown, best_row, best_score = {}, [], 0, (-1, -1)
+    # A Noruega la fila de sigles es la quarta ("Polling execution" / "Parties"
+    # / blocs / sigles): a la resta d'Europa se'n miren cinc.
+    if max_header_rows is None:
+        max_header_rows = 3 if country in parties._SUBSTRING_COUNTRIES else 5
     for i, row in enumerate(rows[:max_header_rows]):
         filled = [c for c in row if c is not None]
         if not filled:
@@ -387,6 +397,31 @@ def header_parties(table, country, max_header_rows=3):
         if score > best_score:
             best, best_unknown, best_row, best_score = mapping, unknown, i, score
     return best, best_unknown, best_row
+
+
+_BG = re.compile(r"background(?:-color)?\s*:\s*(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})(?![0-9a-fA-F])")
+
+
+def header_colors(rows, header_row, party_cols):
+    """{codi: "#rrggbb"} de la franja de color sota (o sobre) les sigles.
+
+    Les taules d'enquestes de Wikipedia pinten cada partit amb una cel.la buida
+    de color a la fila de sota del logotip; algunes pinten la mateixa cel.la.
+    """
+    out = {}
+    for r in (header_row + 1, header_row, header_row - 1):
+        if not 0 <= r < len(rows):
+            continue
+        for col, code in party_cols.items():
+            if code in out or col >= len(rows[r]) or rows[r][col] is None:
+                continue
+            cell = rows[r][col]
+            if r != header_row and cell_text(cell):
+                continue
+            m = _BG.search(cell.get("style") or "")
+            if m:
+                out[code] = m.group(1).upper()
+    return out
 
 
 def _best_date_col(data_rows, header_text, party_cols, anchor_year):
@@ -447,6 +482,11 @@ def parse_table(table, country, anchor_year):
 
     polls = []
     year, previous_end = anchor_year, None
+    colors = header_colors(rows, header_row, party_cols)
+    # La franja de color ocupa una fila propia: no es una enquesta.
+    if header_row + 1 < len(rows) and all(
+            c is None or not cell_text(c) for c in rows[header_row + 1]):
+        data_rows = data_rows[1:]
 
     for cells in data_rows:
         if len(cells) < 4:                     # separadors i files d'esdeveniments
@@ -500,6 +540,13 @@ def parse_table(table, country, anchor_year):
             seen_cells.add(id(cells[col]))
             share, lo, hi = parse_cell(cell_text(cells[col]))
             name = cell_text(rows[header_row][col]).strip() if col < len(rows[header_row]) else ""
+            if not name and col < len(rows[header_row]) and rows[header_row][col] is not None:
+                # Capcalera nomes amb logotip (Txequia, Hongria, Portugal): el nom
+                # es al text alternatiu de la imatge o al titol de l'enllac.
+                hc = rows[header_row][col]
+                img, link = hc.find("img"), hc.find("a")
+                name = ((img.get("alt") if img else "") or (link.get("title") if link else "")
+                        or "").strip()
             if share is None:
                 continue
             # Dos candidats del mateix partit a la mateixa enquesta se SUMEN.
@@ -519,5 +566,6 @@ def parse_table(table, country, anchor_year):
         # Una enquesta amb el vot d'un sol partit no es una estimacio de vot:
         # gairebe sempre es una fila nomes d'escons mal llegida. Fora.
         if len(poll.results) >= 2:
+            poll.colors = {c: v for c, v in colors.items() if c in poll.results}
             polls.append(poll)
     return polls, unknown

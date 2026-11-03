@@ -42,6 +42,15 @@ CREATE TABLE IF NOT EXISTS poll_result (
     PRIMARY KEY (poll_id, party)
 );
 
+-- Color de cada partit tal com el pinta Wikipedia a la capcalera de la taula.
+-- Nomes per als partits que no son al cataleg (resta d'Europa, 03/11/2026).
+CREATE TABLE IF NOT EXISTS party_style (
+    election_id TEXT NOT NULL,
+    party       TEXT NOT NULL,
+    color       TEXT NOT NULL,
+    PRIMARY KEY (election_id, party)
+);
+
 -- Resultats electorals REALS. Aquesta és la capa "dada verificada" del mapa
 -- i alhora la base sobre la qual s'aplica el swing de les enquestes.
 CREATE TABLE IF NOT EXISTS election_result (

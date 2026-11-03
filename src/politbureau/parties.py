@@ -44,6 +44,21 @@ _NON_PARTY_SUBSTRINGS = (
     # "Generic Opponent" arriba com a "opponent": resolve() treu "generic " abans.
     "rcv round", "opponent", "someone else", "not ranked",
 )
+# Els paisos on el filtre de sota funciona per trossos de paraula, com sempre.
+_SUBSTRING_COUNTRIES = {"ES", "FR", "IT", "US", "BR"}
+_ITALY_ONLY = {"cdx", "csx", "coalition", "centre-right", "centre-left"}
+# Columnes de les taules europees que no son partits: metode de l'enquesta,
+# abstencio ("Abs."), indecisos, blancs.
+_EUROPE_NON_PARTY = ("abs", "abs.", "method", "mode", "undecided", "don't know", "dont know",
+                     "invalid", "blank", "none", "neither", "no one", "would not vote")
+# Sumes de blocs (Finlandia, Suecia...): "Gov." i "Opp." no son partits.
+_BLOCS = {"gov", "gov.", "govt", "govt.", "opp", "opp.", "government", "opposition",
+          "blue", "red", "blue bloc", "red bloc", "red-green", "red-greens", "tido parties",
+          "tido", "bloc", "blocs", "sup.", "parties", "polling execution", "client",
+          "responses", "resp.", "o/i", "o i", "others/independents", "others independents", "lead"}
+# Trossos del filtre de sempre que a Europa son sigles de partit: "Ref" (Reform
+# UK, Partit Reformista estonià), "Linke", "Danmarksdemokraterne".
+_EUROPE_KEEP = {"ref", "link", "mark"}
 
 # Als EUA la capçalera és el nom del candidat amb el partit entre parèntesis.
 # Això ens estalvia un diccionari de centenars de noms.
@@ -96,6 +111,16 @@ def _catalog() -> dict:
     return catalog
 
 
+def is_noise(label: str) -> bool:
+    """Per a la resta d'Europa: el text visible de la capcalera diu que la
+    columna no es cap partit ("Others", "Lead", "Gov.")? L'enllac de "Others"
+    porta sovint a "Llista de partits de...", que es llegiria com un partit."""
+    key = slug(label)
+    return bool(key) and (key in _BLOCS or key in _non_party() or any(
+        re.search(rf"(?<![\w]){re.escape(frag)}s?(?![\w])", key)
+        for frag in _NON_PARTY_SUBSTRINGS + _EUROPE_NON_PARTY if frag not in _ITALY_ONLY and frag not in _EUROPE_KEEP))
+
+
 def resolve(label: str, country: str) -> tuple[str | None, bool]:
     """Retorna (codi, conegut). Si no el reconeix, inventa un codi provisional
     perquè la dada no es perdi, i marca conegut=False perquè l'ingest ho registri."""
@@ -126,7 +151,15 @@ def resolve(label: str, country: str) -> tuple[str | None, bool]:
         return _candidates()[country][key], True
     if key in _non_party():
         return None, True
-    if any(frag in key for frag in _NON_PARTY_SUBSTRINGS):
+    if country in _SUBSTRING_COUNTRIES:
+        if any(frag in key for frag in _NON_PARTY_SUBSTRINGS):
+            return None, True
+    # Resta d'Europa (03/11/2026): paraula sencera i sense les coalicions
+    # italianes. Per trossos, "ref" es menjava Reform UK, "mark" els Demòcrates
+    # de Dinamarca i "coalition" la Coalicio Civica polonesa, el primer partit.
+    elif key in _BLOCS or any(re.search(rf"(?<![\w]){re.escape(frag)}s?(?![\w])", key)
+                              for frag in _NON_PARTY_SUBSTRINGS + _EUROPE_NON_PARTY
+                              if frag not in _ITALY_ONLY and frag not in _EUROPE_KEEP):
         return None, True
     # Xarxa de seguretat: xifres, percentatges i mides de mostra no són partits.
     if not re.search(r"[a-z]{2}", key) or re.fullmatch(r"[\d\s.,%-]+", raw.strip()):
@@ -141,7 +174,11 @@ def resolve(label: str, country: str) -> tuple[str | None, bool]:
     for fragment, code in _contains().get(country, {}).items():
         if fragment in key or fragment in loose:
             return code, True
-    provisional = re.sub(r"[^A-Z0-9]", "", key.upper())[:12] or "UNK"
+    # 12 lletres basten per als paisos de sempre; a la resta d'Europa "Social
+    # Democratic Party of Croatia" i "Social Democrats (Croatia)" quedarien amb
+    # el mateix codi i se sumarien. Alli, 40.
+    width = 12 if country in _SUBSTRING_COUNTRIES else 40
+    provisional = re.sub(r"[^A-Z0-9]", "", key.upper())[:width] or "UNK"
     return f"?{provisional}", False
 
 

@@ -17,7 +17,9 @@ def _elections_of(countries):
     """Els id de sources.yaml que pertanyen a aquests paisos."""
     from .ingest.runner import load_config
     wanted = {c.upper() for c in countries}
-    return [e["id"] for e in load_config()["elections"] if e["country"] in wanted]
+    # "EUROPA": totes les eleccions marcades `group: europa` (resta d'Europa).
+    return [e["id"] for e in load_config()["elections"]
+            if e["country"] in wanted or ("EUROPA" in wanted and e.get("group") == "europa")]
 
 
 def cmd_ingest(args):

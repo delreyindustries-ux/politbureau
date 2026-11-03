@@ -1,30 +1,38 @@
 {% extends "base.html.j2" %}
 {% block content %}
 {% set es = lang == 'es' %}
-{% set fr = country == 'france' %}
+{% set name = d.name[lang] %}
 <article class="doc wide">
-{% if fr %}
-  <h1>{{ 'Encuestas de Francia' if es else 'Enquestes de França' }}</h1>
-  <p class="lede">{% if es %}Presidenciales de 2027, primera vuelta. La media de todas las
-    encuestas publicadas, candidato a candidato.{% else %}Presidencials del 2027, primera volta.
-    La mitjana de totes les enquestes publicades, candidat a candidat.{% endif %}</p>
+  <p class="note"><a href="{{ root }}{{ 'es/encuestas-europa' if es else 'ca/enquestes-europa' }}/">{{ '← Todas las encuestas de Europa' if es else "← Totes les enquestes d'Europa" }}</a></p>
+{% if d.presidential %}
+  <h1>{{ ('Encuestas de ' ~ name) if es else ('Enquestes ' ~ de(name)) }}</h1>
+  <p class="lede">{% if es %}Próximas elecciones presidenciales, primera vuelta. La media de todas
+    las encuestas publicadas, candidato a candidato.{% else %}Properes eleccions presidencials,
+    primera volta. La mitjana de totes les enquestes publicades, candidat a candidat.{% endif %}</p>
 {% else %}
-  <h1>{{ 'Encuestas de Italia' if es else "Enquestes d'Itàlia" }}</h1>
-  <p class="lede">{% if es %}Próximas elecciones generales, Cámara de Diputados. La media de
-    todas las encuestas publicadas, partido a partido.{% else %}Properes eleccions generals,
-    Cambra de Diputats. La mitjana de totes les enquestes publicades, partit a partit.{% endif %}</p>
+  <h1>{{ ('Encuestas de ' ~ name) if es else ('Enquestes ' ~ de(name)) }}</h1>
+  <p class="lede">{% if es %}Próximas elecciones legislativas. La media de todas las encuestas
+    publicadas, partido a partido.{% else %}Properes eleccions legislatives. La mitjana de totes
+    les enquestes publicades, partit a partit.{% endif %}</p>
 {% endif %}
 
   <div class="facts">
     <span><b>{{ d.polls | length }}</b> {{ 'encuestas en la media, una por instituto' if es else 'enquestes a la mitjana, una per institut' }}</span>
     <span><b>{{ d.total_polls | thousands }}</b> {{ 'encuestas recogidas' if es else 'enquestes recollides' }}</span>
-    {% if d.polls %}<span><b>{{ fdate(d.polls[0].end) }}</b> {{ 'la más reciente' if es else 'la més recent' }}</span>{% endif %}
+    <span><b>{{ fdate(d.polls[0].end) }}</b> {{ 'la más reciente' if es else 'la més recent' }}</span>
   </div>
+{% if d.polls | length < 3 %}
+  <p class="note">{% if es %}<b>Pocas encuestas.</b> La media se apoya en {{ d.polls | length }}
+    {{ 'encuesta' if d.polls | length == 1 else 'encuestas' }} de los últimos 90 días: tómala con
+    precaución.{% else %}<b>Poques enquestes.</b> La mitjana es basa en {{ d.polls | length }}
+    {{ 'enquesta' if d.polls | length == 1 else 'enquestes' }} dels últims 90 dies: pren-la amb
+    precaució.{% endif %}</p>
+{% endif %}
 
   <div class="tablewrap">
   <table class="results">
     <thead><tr>
-      <th>{{ ('Candidato' if es else 'Candidat') if fr else ('Partido' if es else 'Partit') }}</th>
+      <th>{{ ('Candidato' if es else 'Candidat') if d.presidential else ('Partido' if es else 'Partit') }}</th>
       <th class="n">{{ 'Media' if es else 'Mitjana' }}</th>
       <th class="n">{{ 'Horquilla entre institutos' if es else 'Forquilla entre instituts' }}</th>
       {% if d.seats %}<th class="n">{{ 'Escaños (orientativo)' if es else 'Escons (orientatiu)' }}</th>{% endif %}
@@ -82,10 +90,11 @@
       mitad cada 14 días y crece con la raíz cuadrada de la muestra, con un tope.</li>
     <li>Se descartan las de más de 90 días y las de menos de 300 entrevistas.</li>
     <li>La horquilla no es un margen de error: mide cuánto discrepan los institutos entre sí.</li>
-    {% if fr %}<li>Cada línea lleva el candidato por el que más preguntan las encuestas de los
-      últimos 90 días. Si los institutos cambian de nombre, la página cambia sola.</li>{% endif %}
-    <li>Para Francia e Italia solo se publica la media nacional: no hay mapa ni estimación por
-      municipio, como sí la hay para España.</li>
+    <li>Los nombres y colores de los partidos son los de la tabla de Wikipedia.</li>
+    {% if d.presidential %}<li>Cada línea lleva el candidato por el que más preguntan las encuestas
+      de los últimos 90 días. Si los institutos cambian de nombre, la página cambia sola.</li>{% endif %}
+    <li>Fuera de España solo se publica la media nacional: no hay mapa ni estimación por
+      municipio.</li>
   </ul>
 {% else %}
   <h2>Com es calcula</h2>
@@ -94,10 +103,11 @@
       meitat cada 14 dies i creix amb l'arrel quadrada de la mostra, amb un límit.</li>
     <li>Es descarten les de més de 90 dies i les de menys de 300 entrevistes.</li>
     <li>La forquilla no és un marge d'error: mesura quant discrepen els instituts entre ells.</li>
-    {% if fr %}<li>Cada línia porta el candidat pel qual més pregunten les enquestes dels últims
-      90 dies. Si els instituts canvien de nom, la pàgina canvia sola.</li>{% endif %}
-    <li>Per a França i Itàlia només es publica la mitjana estatal: no hi ha mapa ni estimació per
-      municipi, com sí que n'hi ha per a Espanya.</li>
+    <li>Els noms i els colors dels partits són els de la taula de Wikipedia.</li>
+    {% if d.presidential %}<li>Cada línia porta el candidat pel qual més pregunten les enquestes dels
+      últims 90 dies. Si els instituts canvien de nom, la pàgina canvia sola.</li>{% endif %}
+    <li>Fora d'Espanya només es publica la mitjana estatal: no hi ha mapa ni estimació per
+      municipi.</li>
   </ul>
 {% endif %}
   <p class="fine">{{ 'Fuente' if es else 'Font' }}:

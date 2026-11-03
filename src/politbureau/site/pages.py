@@ -4,6 +4,7 @@ from __future__ import annotations
 import datetime as dt
 import gzip
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -398,8 +399,11 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("map", "participation", "strongholds", "method", "legal", "privacy", "cookies",
-                                             *(cfg.get("_abroad") or []))]
+                                   for k in ("map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
+        if cfg.get("_abroad"):
+            elections = abroad_elections()
+            entries += [europe_url(lang)] + [abroad_url(elections[e], lang)
+                                             for e in cfg["_abroad"]]
         entries += sorted(u[lang] for u in urls.values() if lang in u)
         body = "\n".join(
             f"  <url><loc>{base}{u}</loc><lastmod>{today}</lastmod>"
@@ -467,15 +471,23 @@ def assets(data, urls):
     return len(index)
 
 
-# Enquestes d'altres paisos (demanat el 03/11/2026). Nomes la mitjana estatal i
-# les enquestes que hi entren: per a Franca i Italia no hi ha mapa ni fitxes de
-# municipi a la web, aixo es queda a l'eina local.
-ABROAD = {
-    "france": {"election": "fr-pres-2027", "country": "FR",
-               "page": "Opinion_polling_for_the_2027_French_presidential_election"},
-    "italy": {"election": "it-general", "country": "IT",
-              "page": "Opinion_polling_for_the_next_Italian_general_election"},
-}
+# Enquestes d'altres paisos: Franca i Italia (03/11/2026) i, el mateix dia, la
+# resta d'Europa. Nomes la mitjana estatal i les enquestes que hi entren: cap
+# mapa ni fitxa de municipi. Les eleccions que es publiquen son les que porten
+# `pub` a sources.yaml (adreca i nom del pais en cada idioma).
+
+def abroad_elections():
+    """{id: config} de les eleccions estrangeres amb pagina, en l'ordre de sources.yaml."""
+    return {e["id"]: e for e in load_sources()["elections"] if e.get("pub")}
+
+
+def abroad_url(election, lang):
+    pub = election["pub"]
+    return f"/es/encuestas-{pub['es']}/" if lang == "es" else f"/ca/enquestes-{pub['ca']}/"
+
+
+def europe_url(lang):
+    return "/es/encuestas-europa/" if lang == "es" else "/ca/enquestes-europa/"
 
 
 def _candidates(conn, election_id):
@@ -493,91 +505,138 @@ def _candidates(conn, election_id):
     return best
 
 
-def abroad_data(conn, key):
-    """Mitjana, escons (si n'hi ha) i enquestes en joc d'un pais. None si no
+def _short(label):
+    """"Social Democrats (Denmark)" -> "Social Democrats": la desambiguacio de
+    Wikipedia no fa falta dins de la pagina del mateix pais."""
+    return re.sub(r"\s*\([^)]*\)\s*$", "", label or "").strip()
+
+
+def abroad_data(conn, eid):
+    """Mitjana, escons (si n'hi ha) i enquestes en joc d'una eleccio. None si no
     hi ha mitjana: llavors la pagina no s'escriu ni s'enllaca."""
     from ..build import load_polls
-    info = ABROAD[key]
-    eid, country = info["election"], info["country"]
+    election = abroad_elections()[eid]
+    country = election["country"]
     rows = [r for r in conn.execute(
         """SELECT party, share, lo, hi, n_polls FROM aggregate
            WHERE election_id = ? AND (scope_code IS NULL OR scope_code = '')
-           ORDER BY share DESC""", (eid,)) if not r["party"].startswith("?")]
+           ORDER BY share DESC""", (eid,))
+        if r["share"] is not None and r["share"] >= 0.1
+        and not (r["party"].startswith("?") and country in ("FR", "IT"))]
     if not rows:
         return None
-    # Escons d'Italia: proporcional estatal amb la mitjana, calculat aqui mateix.
-    # Aixi la publicacio no ha de fer `build --country IT`, que baixaria cada
-    # hora el resultat del 2022 municipi a municipi per a un mapa que la web no te.
-    chamber = next((e.get("chamber") for e in load_sources()["elections"]
-                    if e["id"] == eid), None) or {}
-    seats = {}
-    if chamber.get("method") == "proportional":
-        from ..model import seats as seatlib
-        shares = {r["party"]: r["share"] for r in rows if r["party"] != "OTHER"}
-        seats = {p: n for p, n in seatlib.dhondt(shares, chamber["seats"], 0.03).items() if n}
-    names = _candidates(conn, eid) if country == "FR" else {}
-    names.pop("OTHER", None)
-    avg = []
-    for r in rows:
-        meta = parties.meta(r["party"], country, eid)
-        avg.append({**meta, "person": names.get(r["party"]), "share": r["share"],
-                    "lo": r["lo"], "hi": r["hi"], "n": r["n_polls"],
-                    "seats": seats.get(r["party"])})
-    order = [a["code"] for a in avg if a["code"] != "OTHER"][:6]
-
     today = dt.date.today()
     used = [p for p in load_polls(conn, eid)
             if p["fieldwork_end"]
             and (today - dt.date.fromisoformat(p["fieldwork_end"])).days <= 90
             and not (p["sample_size"] and p["sample_size"] < 300)]
+    if not used:
+        return None
+    # Escons d'Italia: proporcional estatal amb la mitjana, calculat aqui mateix.
+    # Aixi la publicacio no ha de fer `build --country IT`, que baixaria cada
+    # hora el resultat del 2022 municipi a municipi per a un mapa que la web no te.
+    chamber = election.get("chamber") or {}
+    seats = {}
+    if chamber.get("method") == "proportional":
+        from ..model import seats as seatlib
+        shares = {r["party"]: r["share"] for r in rows if r["party"] != "OTHER"}
+        seats = {p: n for p, n in seatlib.dhondt(shares, chamber["seats"], 0.03).items() if n}
+    names = _candidates(conn, eid)
+    persons = dict(names) if election.get("display") == "candidates" else {}
+    persons.pop("OTHER", None)
+    try:
+        colors = dict(conn.execute("SELECT party, color FROM party_style WHERE election_id = ?",
+                                   (eid,)).fetchall())
+    except Exception:                     # base antiga sense la taula
+        colors = {}
+    avg = []
+    for r in rows:
+        meta = parties.meta(r["party"], country, eid)
+        if r["party"].startswith("?"):
+            # Partit fora del cataleg: el nom de la capcalera i el color de Wikipedia.
+            meta = {**meta, "name": _short(names.get(r["party"])) or meta["name"],
+                    "color": colors.get(r["party"], meta["color"])}
+        avg.append({**meta, "person": persons.get(r["party"]), "share": r["share"],
+                    "lo": r["lo"], "hi": r["hi"], "n": r["n_polls"],
+                    "seats": seats.get(r["party"])})
+    order = [a["code"] for a in avg if a["code"] != "OTHER"][:6]
+
     used.sort(key=lambda p: p["fieldwork_end"], reverse=True)
     polls = [{"pollster": p["pollster"], "end": p["fieldwork_end"],
               "sample": p["sample_size"],
               "values": [(p["results"].get(c) or (None,))[0] for c in order]}
              for p in used]
+    pub = election["pub"]
     return {"avg": avg, "order": [next(a for a in avg if a["code"] == c) for c in order],
             "polls": polls, "seats": bool(seats),
             "seat_total": sum(seats.values()) if seats else 0,
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],
-            "wiki": "https://en.wikipedia.org/wiki/" + info["page"]}
+            "presidential": election.get("display") == "candidates",
+            "name": {"es": pub["name_es"], "ca": pub["name_ca"]},
+            "urls": {lg: abroad_url(election, lg) for lg in i18n.LANGS},
+            "wiki": "https://en.wikipedia.org/wiki/" + election["page"].replace(" ", "_")}
+
+
+def _fmt(v):
+    return "—" if v is None else f"{v:.1f}".replace(".", ",")
+
+
+def _fdate(s):
+    return dt.date.fromisoformat(s).strftime("%d/%m/%Y") if s else "—"
+
+
+def de(name):
+    """"de França", "d'Itàlia": la preposicio catalana davant del nom del pais."""
+    return f"d'{name}" if name[:1].lower() in "aeiouàèéíòóúh" else f"de {name}"
+
+
+def _titles(data, lang):
+    name = data["name"][lang]
+    if lang == "es":
+        kind = "elecciones presidenciales" if data["presidential"] else "elecciones legislativas"
+        what = "candidato a candidato" if data["presidential"] else "partido a partido"
+        return (f"Encuestas de {name} · {kind}",
+                f"Media de las encuestas de las próximas {kind} de {name}, {what}, "
+                "con todos los sondeos que entran.")
+    kind = "eleccions presidencials" if data["presidential"] else "eleccions legislatives"
+    what = "candidat a candidat" if data["presidential"] else "partit a partit"
+    return (f"Enquestes {de(name)} · {kind}",
+            f"Mitjana de les enquestes de les properes {kind} {de(name)}, {what}, "
+            "amb tots els sondeigs que hi entren.")
 
 
 def abroad_pages(env, cfg, conn):
-    """Una pagina per pais amb enquestes. Retorna les claus escrites."""
-    def fmt(v):
-        return "—" if v is None else f"{v:.1f}".replace(".", ",")
-
-    def fdate(s):
-        return dt.date.fromisoformat(s).strftime("%d/%m/%Y") if s else "—"
-
-    titles = {
-        "france": {"es": ("Encuestas de Francia · presidenciales de 2027",
-                          "Media de las encuestas para la primera vuelta de las presidenciales "
-                          "francesas de 2027, candidato a candidato, con todos los sondeos que entran."),
-                   "ca": ("Enquestes de França · presidencials del 2027",
-                          "Mitjana de les enquestes per a la primera volta de les presidencials "
-                          "franceses del 2027, candidat a candidat, amb tots els sondeigs que hi entren.")},
-        "italy": {"es": ("Encuestas de Italia · elecciones generales",
-                         "Media de las encuestas para la Cámara de Diputados de Italia, partido a "
-                         "partido, con un reparto orientativo de los 400 escaños."),
-                  "ca": ("Enquestes d'Itàlia · eleccions generals",
-                         "Mitjana de les enquestes per a la Cambra de Diputats d'Itàlia, partit a "
-                         "partit, amb un repartiment orientatiu dels 400 escons.")},
-    }
+    """Una pagina per eleccio estrangera i l'index d'Europa. Retorna els id escrits."""
     done = []
-    for key in ABROAD:
-        data = abroad_data(conn, key)
+    for eid in cfg.get("_abroad") or []:
+        data = abroad_data(conn, eid)
         if not data:
-            print(f"     AVIS: {key} sense mitjana, no es publica")
             continue
         for lang in i18n.LANGS:
-            canonical = i18n.page_url(key, lang)
-            title, description = titles[key][lang]
-            html = render_page(
-                env, cfg, "abroad.html.j2", lang, canonical,
-                {lg: i18n.page_url(key, lg) for lg in i18n.LANGS},
-                title, description, country=key, d=data, fmt=fmt, fdate=fdate)
+            title, description = _titles(data, lang)
+            canonical = data["urls"][lang]
+            html = render_page(env, cfg, "abroad.html.j2", lang, canonical, data["urls"],
+                               title, description, d=data, fmt=_fmt, fdate=_fdate, de=de)
             write(DIST / canonical.strip("/") / "index.html", html)
-        done.append(key)
-    return done
+        done.append((eid, data))
+    if done:
+        for lang in i18n.LANGS:
+            canonical = europe_url(lang)
+            view = [{"name": d["name"][lang], "url": d["urls"][lang],
+                     "presidential": d["presidential"], "first": d["avg"][0],
+                     "second": d["avg"][1] if len(d["avg"]) > 1 else None,
+                     "n": len(d["polls"]), "last": d["polls"][0]["end"]}
+                    for _, d in sorted(done, key=lambda x: parties.slug(x[1]["name"][lang]))]
+            html = render_page(
+                env, cfg, "europe.html.j2", lang, canonical,
+                {lg: europe_url(lg) for lg in i18n.LANGS},
+                ("Encuestas electorales de Europa, país a país" if lang == "es"
+                 else "Enquestes electorals d'Europa, país a país"),
+                (f"La media de las encuestas de {len(view)} países europeos: quién va primero, "
+                 "con qué porcentaje y cuándo se hizo la última encuesta." if lang == "es" else
+                 f"La mitjana de les enquestes de {len(view)} països europeus: qui va primer, "
+                 "amb quin percentatge i quan es va fer l'última enquesta."),
+                rows=view, fmt=_fmt, fdate=_fdate)
+            write(DIST / canonical.strip("/") / "index.html", html)
+    return [eid for eid, _ in done]
