@@ -47,15 +47,25 @@ jobs:
         run: |
           export PYTHONPATH=src
           python -m politbureau init
-          # politbureau.es es nomes Espanya. Italia, Franca i els EUA viuen a
-          # l'eina local: aqui no es baixen les seves geometries (50 MB) ni es
-          # rasquen les seves enquestes, i una fallada seva no atura la web.
+          # El mapa de politbureau.es es nomes Espanya: aqui no es baixen les
+          # geometries de Franca, Italia i els EUA (50 MB). De Franca i Italia
+          # nomes es publiquen les enquestes (pas de mes avall).
           python -m politbureau geo --only ES
 
       - name: Llegeix les enquestes noves
         run: |
           export PYTHONPATH=src
           python -m politbureau ingest --country ES
+
+      # Franca i Italia (des del 03/11/2026): nomes la mitjana d'enquestes, sense
+      # mapa. La mitjana la fa el `build --country ES` de sota (aggregate_all
+      # agafa totes les enquestes de la base). Si Wikipedia falla, la web es
+      # publica igual sense aquestes pagines.
+      - name: Enquestes de Franca i Italia
+        continue-on-error: true
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau ingest --country FR IT
 
       - name: Recalcula i genera el lloc
         run: |

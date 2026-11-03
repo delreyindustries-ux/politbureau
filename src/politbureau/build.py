@@ -648,7 +648,10 @@ def project_seats_proportional(conn, election_id, chamber_seats, threshold=0.03)
     de dir. Serveix per veure l'ordre de magnitud, no per encertar l'escon.
     """
     result = drop_not_standing(election_id, agg.aggregate(load_polls(conn, election_id)))
-    shares = {p: v["share"] for p, v in result.items() if not p.startswith("?")}
+    # "OTHER" son molts partits petits sumats: no es una llista i no pot treure
+    # escons (abans se n'emportava 18 a Italia).
+    shares = {p: v["share"] for p, v in result.items()
+              if not p.startswith("?") and p != "OTHER"}
     if not shares:
         return 0
     got = seatlib.dhondt(shares, chamber_seats, threshold)

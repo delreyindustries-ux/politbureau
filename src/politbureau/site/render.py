@@ -69,6 +69,7 @@ def render_page(env, cfg, template, lang, canonical, alternates, title,
         t=lambda key: i18n.t(key, lang),
         page=lambda key: i18n.page_for(key, lang),
         ad=lambda name: Markup(ad_block(cfg, name, lang)),
+        abroad=cfg.get("_abroad") or [],
         **ctx)
 
 

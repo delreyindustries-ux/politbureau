@@ -171,7 +171,8 @@ ul.children li{font-size:14px;padding:3px 0}
   h1{font-size:24px}
   main{padding:18px 14px 40px}
   header.top{gap:10px;padding:9px 14px}
-  header.top nav{order:3;width:100%}
+  header.top nav{order:3;width:100%;flex-wrap:wrap;row-gap:6px}
+  header.top nav a{white-space:nowrap}
   .find{order:2}
 }
 

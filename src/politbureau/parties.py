@@ -152,7 +152,9 @@ def _display() -> dict:
     "Frente Amplio", pero el resultat del 2023 i les altres eleccions segueixen
     dient-se Sumar perque es el nom amb que es van presentar."""
     from .ingest.runner import load_config   # aqui per no fer una importacio circular
-    return {e["id"]: e.get("display") or {} for e in load_config()["elections"]}
+    # A França `display` es "candidates" (que es mostra), no un diccionari de noms.
+    return {e["id"]: e["display"] if isinstance(e.get("display"), dict) else {}
+            for e in load_config()["elections"]}
 
 
 @lru_cache(maxsize=1)
