@@ -625,6 +625,49 @@ def abroad_data(conn, eid):
             "wiki": "https://en.wikipedia.org/wiki/" + election["page"].replace(" ", "_")}
 
 
+def _calendar():
+    """data/next_elections.json (`politbureau calendari`), o res si no hi es."""
+    path = ROOT / "data" / "next_elections.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _country_names():
+    """{codi del globus: {"es", "ca"}}: noms dels paisos de Wikidata (CC0)."""
+    path = ROOT / "config" / "country_names.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+_MONTHS = {
+    "es": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
+           "septiembre", "octubre", "noviembre", "diciembre"],
+    "ca": ["gener", "febrer", "març", "abril", "maig", "juny", "juliol", "agost",
+           "setembre", "octubre", "novembre", "desembre"],
+}
+_EN = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+
+def _when(text, lang):
+    """"24 Aug 2027" -> "24 d'agost del 2027" / "24 de agosto de 2027"."""
+    if not text:
+        return None
+    parts = text.split()
+    year = parts[-1]
+    if len(parts) == 1:
+        return year
+    month = _MONTHS[lang][_EN.index(parts[-2][:3].lower())]
+    day = parts[0] if len(parts) == 3 else None
+    if lang == "es":
+        return f"{day} de {month} de {year}" if day else f"{month} de {year}"
+    de_m = f"d'{month}" if month[0] in "ao" else f"de {month}"
+    return f"{day} {de_m} del {year}" if day else f"{month} del {year}"
+
+
 def _fmt(v):
     return "—" if v is None else f"{v:.1f}".replace(".", ",")
 
@@ -705,6 +748,20 @@ def abroad_pages(env, cfg, conn):
                     "first": f'{r["first"]["person"] or r["first"]["name"]} {_fmt(r["first"]["share"])} %',
                     "second": (f'{r["second"]["person"] or r["second"]["name"]} '
                                f'{_fmt(r["second"]["share"])} %') if r["second"] else ""})
+            # La resta de paisos (03/11/2026): els que fan eleccions, amb la data de
+            # les properes; els que no, amb el seu nom i prou.
+            calendar = []
+            for code, info in _calendar().items():
+                name = (_country_names().get(code) or {}).get(lang) or info["en"]
+                leg, pres = _when(info.get("leg"), lang), _when(info.get("pres"), lang)
+                url = (mapdata.get(code) or {}).get("url")
+                calendar.append({"name": name, "leg": leg, "pres": pres, "url": url})
+                if code not in mapdata:
+                    mapdata[code] = ({"name": name, "nopoll": True, "leg": leg, "pres": pres}
+                                     if leg or pres else {"name": name, "noelection": True})
+            for code, names in _country_names().items():
+                mapdata.setdefault(code, {"name": names[lang]})
+            calendar.sort(key=lambda r: parties.slug(r["name"]))
             view.sort(key=lambda r: (parties.slug(r["name"]), r["presidential"]))
             ncountries = len({elections[eid]["country"] for eid, _ in done}) + (1 if spain else 0)
             html = render_page(
@@ -718,7 +775,8 @@ def abroad_pages(env, cfg, conn):
                  f"Mapa interactiu amb la mitjana de les enquestes de {ncountries} països: qui "
                  "va primer a cadascun i amb quin percentatge. Prem un país per veure'n totes "
                  "les enquestes."),
-                rows=view, fmt=_fmt, fdate=_fdate, ncountries=ncountries,
+                rows=view, fmt=_fmt, fdate=_fdate, ncountries=ncountries, calendar=calendar,
+                nelections=sum(1 for r in calendar if r["leg"] or r["pres"]),
                 mapdata=json.dumps(mapdata, ensure_ascii=False).replace("</", "<\\/"))
             write(DIST / canonical.strip("/") / "index.html", html)
     return [eid for eid, _ in done]

@@ -66,6 +66,8 @@ jobs:
         run: |
           export PYTHONPATH=src
           python -m politbureau ingest --country FR IT EUROPA MON
+          # Properes eleccions de tots els paisos (globus): una sola pagina.
+          python -m politbureau calendari
 
       - name: Recalcula i genera el lloc
         run: |

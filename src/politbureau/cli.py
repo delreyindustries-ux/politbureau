@@ -22,6 +22,14 @@ def _elections_of(countries):
             if e["country"] in wanted or (e.get("group") or "").upper() in wanted]
 
 
+def cmd_calendari(args):
+    from .ingest import calendar
+    n, missing = calendar.run()
+    print(f"properes eleccions: {n} paisos -> data/next_elections.json")
+    if missing:
+        print("sense contorn al globus:", ", ".join(missing))
+
+
 def cmd_ingest(args):
     from .ingest import runner
     conn = db.connect()
@@ -93,6 +101,9 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     sub.add_parser("init", help="crea la base de dades").set_defaults(func=cmd_init)
+
+    sub.add_parser("calendari", help="properes eleccions de tots els paisos (Wikipedia)"
+                   ).set_defaults(func=cmd_calendari)
 
     p = sub.add_parser("ingest", help="baixa i guarda les enquestes")
     p.add_argument("--only", nargs="*", help="nomes aquestes eleccions (id de sources.yaml)")

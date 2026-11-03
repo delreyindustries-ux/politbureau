@@ -34,6 +34,8 @@
   function v(name, fallback) { return (css.getPropertyValue(name) || "").trim() || fallback; }
   var C = {
     land: v("--line", "#262b38"), edge: v("--bg", "#0f1116"), ink: v("--ink", "#e8ebf2"),
+    // Fan eleccions pero no tenen enquestes: un gris mes clar que la resta.
+    vote: "#4a5872",
     sea0: "#1d3b63", sea1: "#0b1a30", glow: "rgba(110,170,255,0.35)"
   };
 
@@ -128,7 +130,8 @@
       }
       f.path = any ? path : null;
       if (!any) continue;
-      ctx.fillStyle = f.info ? f.info.color : C.land;
+      var has = f.info && f.info.color;
+      ctx.fillStyle = has ? f.info.color : (f.info && f.info.nopoll ? C.vote : C.land);
       ctx.fill(path, "evenodd");
       if (f === hover) {
         ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6;
@@ -137,7 +140,7 @@
         // les fronteres internes (les de Flandes, les dels comtats escocesos).
         ctx.strokeStyle = f.info ? f.info.color : C.land; ctx.lineWidth = 0.6;
       } else {
-        ctx.strokeStyle = C.edge; ctx.lineWidth = f.info ? 0.8 : 0.5;
+        ctx.strokeStyle = C.edge; ctx.lineWidth = has ? 0.8 : 0.5;
       }
       ctx.stroke(path);
     }
@@ -261,7 +264,7 @@
     canvas.addEventListener("click", function (ev) {
       if (moved) { moved = false; return; }
       var f = hit(ev);
-      if (f && f.info) window.location.href = window.PB.root + f.info.url.replace(/^\//, "");
+      if (f && f.info && f.info.url) window.location.href = window.PB.root + f.info.url.replace(/^\//, "");
     });
     window.addEventListener("resize", resize);
 
@@ -287,7 +290,7 @@
   function hoverAt(ev) {
     var f = hit(ev);
     if (f !== hover) { hover = f; dirty = true; }
-    canvas.style.cursor = f && f.info ? "pointer" : "grab";
+    canvas.style.cursor = f && f.info && f.info.url ? "pointer" : "grab";
     if (!f) { hide(); return; }
     show(ev, f.info || { name: f.n });
   }
@@ -297,7 +300,11 @@
     var b = document.createElement("b");
     b.textContent = info.name;
     tip.appendChild(b);
-    var lines = info.first ? [info.first, info.second] : [box.getAttribute("data-empty")];
+    var lines = info.first ? [info.first, info.second]
+      : info.noelection ? [box.getAttribute("data-noelection")]
+      : [box.getAttribute("data-empty"),
+         info.leg ? box.getAttribute("data-leg") + ": " + info.leg : "",
+         info.pres ? box.getAttribute("data-pres") + ": " + info.pres : ""];
     lines.forEach(function (t) {
       if (!t) return;
       var d = document.createElement("div");

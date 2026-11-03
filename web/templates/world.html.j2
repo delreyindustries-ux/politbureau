@@ -12,6 +12,8 @@
     amb la roda o pessigant, i prem un país per veure'n el detall i totes les enquestes.{% endif %}</p>
 
   <div id="pbworld" class="worldmap" data-empty="{{ 'Sin encuestas publicadas' if es else 'Sense enquestes publicades' }}"
+       data-leg="{{ 'Legislativas' if es else 'Legislatives' }}" data-pres="{{ 'Presidenciales' if es else 'Presidencials' }}"
+       data-noelection="{{ 'Sin elecciones nacionales previstas' if es else 'Sense eleccions nacionals previstes' }}"
        data-label="{{ 'Globo terráqueo con el partido que encabeza las encuestas en cada país' if es else 'Globus terraqüi amb el partit que encapçala les enquestes a cada país' }}">
     <div class="wbtns">
       <button type="button" data-z="in" aria-label="{{ 'Acercar' if es else 'Apropa' }}">+</button>
@@ -48,6 +50,35 @@
   </table>
   </div>
 
+{% if calendar %}
+  <h2>{{ 'Próximas elecciones en todos los países' if es else 'Properes eleccions a tots els països' }}</h2>
+  <p class="note">{% if es %}{{ nelections }} países celebran elecciones nacionales. En el globo, los
+    que no tienen encuestas publicadas van en gris claro; al pasar por encima se ve cuándo votan.
+    Los que no celebran elecciones nacionales van en gris oscuro.{% else %}{{ nelections }} països fan
+    eleccions nacionals. Al globus, els que no tenen enquestes publicades van en gris clar; en passar-hi
+    per sobre es veu quan voten. Els que no fan eleccions nacionals van en gris fosc.{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>País</th>
+      <th>{{ 'Legislativas' if es else 'Legislatives' }}</th>
+      <th>{{ 'Presidenciales' if es else 'Presidencials' }}</th>
+      <th>{{ 'Encuestas' if es else 'Enquestes' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in calendar %}
+    <tr>
+      <td>{{ r.name }}</td>
+      <td>{{ r.leg or '—' }}</td>
+      <td>{{ r.pres or '—' }}</td>
+      <td>{% if r.url %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ 'Ver' if es else 'Veure' }}</a>{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endif %}
+
 {% if es %}
   <p class="note">Solo hay color en los países con encuestas de los últimos 90 días. Faltan, entre
     otros, Bélgica (sus encuestas van por regiones y no hay media nacional) y los países que
@@ -59,6 +90,8 @@
 {% endif %}
   <p class="fine">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'recopilaciones de encuestas de' if es else "recopilacions d'enquestes de" }}
     <a href="https://en.wikipedia.org/" rel="noopener" target="_blank">Wikipedia</a> (CC BY-SA 4.0);
+    {{ 'calendario' if es else 'calendari' }}: <a href="https://en.wikipedia.org/wiki/List_of_next_general_elections" rel="noopener" target="_blank">Wikipedia, List of next general elections</a>;
+    {{ 'nombres de los países' if es else 'noms dels països' }}: <a href="https://www.wikidata.org/" rel="noopener" target="_blank">Wikidata</a> (CC0);
     {{ 'fronteras' if es else 'fronteres' }}: <a href="https://www.naturalearthdata.com/" rel="noopener" target="_blank">Natural Earth</a>
     ({{ 'dominio público' if es else 'domini públic' }}).</p>
 </article>
