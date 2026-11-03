@@ -367,7 +367,8 @@ elections:
   - {id: eu-lu, group: europa, country: LU, scope: national, label: "Luxemburg — Cambra de Diputats",
      page: "Next Luxembourg general election", pub: {es: luxemburgo, ca: luxemburg, name_es: Luxemburgo, name_ca: Luxemburg}}
   - {id: eu-nl, group: europa, country: NL, scope: national, label: "Països Baixos — Tweede Kamer",
-     page: "Next Dutch general election", pub: {es: paises-bajos, ca: paisos-baixos, name_es: Países Bajos, name_ca: Països Baixos}}
+     page: "Next Dutch general election", pub: {es: paises-bajos, ca: paisos-baixos, name_es: Países Bajos, name_ca: Països Baixos,
+          of_es: "de los Países Bajos", of_ca: "dels Països Baixos"}}
   - {id: eu-pl, group: europa, country: PL, scope: national, label: "Polònia — Sejm",
      page: "Opinion polling for the next Polish parliamentary election", pub: {es: polonia, ca: polonia, name_es: Polonia, name_ca: Polònia}}
   - {id: eu-pt, group: europa, country: PT, scope: national, label: "Portugal — Assemblea de la República",
@@ -381,7 +382,8 @@ elections:
   - {id: eu-se, group: europa, country: SE, scope: national, label: "Suècia — Riksdag",
      page: "2030 Swedish general election", pub: {es: suecia, ca: suecia, name_es: Suecia, name_ca: Suècia}}
   - {id: eu-gb, group: europa, country: GB, scope: national, label: "Regne Unit — Cambra dels Comuns",
-     page: "Opinion polling for the next United Kingdom general election", pub: {es: reino-unido, ca: regne-unit, name_es: Reino Unido, name_ca: Regne Unit}}
+     page: "Opinion polling for the next United Kingdom general election", pub: {es: reino-unido, ca: regne-unit, name_es: Reino Unido, name_ca: Regne Unit,
+          of_es: "del Reino Unido", of_ca: "del Regne Unit"}}
   - {id: eu-no, group: europa, country: "NO", scope: national, label: "Noruega — Storting",
      page: "2029 Norwegian parliamentary election", pub: {es: noruega, ca: noruega, name_es: Noruega, name_ca: Noruega}}
   - {id: eu-is, group: europa, country: IS, scope: national, label: "Islàndia — Althing",

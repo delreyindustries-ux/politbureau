@@ -5,12 +5,12 @@
 <article class="doc wide">
   <p class="note"><a href="{{ root }}{{ 'es/encuestas-europa' if es else 'ca/enquestes-europa' }}/">{{ '← Todas las encuestas de Europa' if es else "← Totes les enquestes d'Europa" }}</a></p>
 {% if d.presidential %}
-  <h1>{{ ('Encuestas de ' ~ name) if es else ('Enquestes ' ~ de(name)) }}</h1>
+  <h1>{{ ('Encuestas ' if es else 'Enquestes ') ~ d.of[lang] }}</h1>
   <p class="lede">{% if es %}Próximas elecciones presidenciales, primera vuelta. La media de todas
     las encuestas publicadas, candidato a candidato.{% else %}Properes eleccions presidencials,
     primera volta. La mitjana de totes les enquestes publicades, candidat a candidat.{% endif %}</p>
 {% else %}
-  <h1>{{ ('Encuestas de ' ~ name) if es else ('Enquestes ' ~ de(name)) }}</h1>
+  <h1>{{ ('Encuestas ' if es else 'Enquestes ') ~ d.of[lang] }}</h1>
   <p class="lede">{% if es %}Próximas elecciones legislativas. La media de todas las encuestas
     publicadas, partido a partido.{% else %}Properes eleccions legislatives. La mitjana de totes
     les enquestes publicades, partit a partit.{% endif %}</p>

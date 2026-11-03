@@ -574,6 +574,9 @@ def abroad_data(conn, eid):
                                         (eid,)).fetchone()[0],
             "presidential": election.get("display") == "candidates",
             "name": {"es": pub["name_es"], "ca": pub["name_ca"]},
+            # "del Regne Unit", "dels Països Baixos": quan el nom porta article.
+            "of": {"es": pub.get("of_es") or f"de {pub['name_es']}",
+                   "ca": pub.get("of_ca") or de(pub["name_ca"])},
             "urls": {lg: abroad_url(election, lg) for lg in i18n.LANGS},
             "wiki": "https://en.wikipedia.org/wiki/" + election["page"].replace(" ", "_")}
 
@@ -592,17 +595,17 @@ def de(name):
 
 
 def _titles(data, lang):
-    name = data["name"][lang]
+    name, of = data["name"][lang], data["of"][lang]
     if lang == "es":
         kind = "elecciones presidenciales" if data["presidential"] else "elecciones legislativas"
         what = "candidato a candidato" if data["presidential"] else "partido a partido"
-        return (f"Encuestas de {name} · {kind}",
-                f"Media de las encuestas de las próximas {kind} de {name}, {what}, "
+        return (f"Encuestas {of} · {kind}",
+                f"Media de las encuestas de las próximas {kind} {of}, {what}, "
                 "con todos los sondeos que entran.")
     kind = "eleccions presidencials" if data["presidential"] else "eleccions legislatives"
     what = "candidat a candidat" if data["presidential"] else "partit a partit"
-    return (f"Enquestes {de(name)} · {kind}",
-            f"Mitjana de les enquestes de les properes {kind} {de(name)}, {what}, "
+    return (f"Enquestes {of} · {kind}",
+            f"Mitjana de les enquestes de les properes {kind} {of}, {what}, "
             "amb tots els sondeigs que hi entren.")
 
 
