@@ -498,6 +498,50 @@ _family:
     "?NATIONALALTERNATIVEMOVEMENT": "?ALTERNATIVE"
     "?PARTYOFDEVELOPMENTANDCONSOLIDATIONOFMOLD": "?ALTERNATIVE"
     "?COMMONACTIONPARTYCIVILCONGRESS": "?ALTERNATIVE"
+  # Croacia: el 2024 hi van anar coalicions que ara les enquestes donen partit per
+  # partit. Rius de Justicia: SDP, Centar, HSS; Nasa Hrvatska: IDS, NPS...;
+  # HDZ amb HSU i HNS; el DP amb Llei i Justicia; Most amb els Sobiranistes.
+  HR:
+    "?SOCIALDEMOCRATICPARTYOFCROATIA": "?RIVERSOFJUSTICE"
+    "?CENTRE": "?RIVERSOFJUSTICE"
+    "?CROATIANPEASANTPARTY": "?RIVERSOFJUSTICE"
+    "?ISTRIANDEMOCRATICASSEMBLY": "?OURCROATIA"
+    "?INDEPENDENTPLATFORMOFTHENORTH": "?OURCROATIA"
+    "?CROATIANPARTYOFPENSIONERS": "?CROATIANDEMOCRATICUNION"
+    "?CROATIANPEOPLESPARTYLIBERALDEMOCRATS": "?CROATIANDEMOCRATICUNION"
+    "?LAWANDJUSTICE": "?HOMELANDMOVEMENT"
+    "?CROATIANSOVEREIGNISTS": "?THEBRIDGE"
+  # Eslovenia: Levica i Vesna van juntes el 2026.
+  SI:
+    "?THELEFT": "?LEVICAANDVESNA"
+    "?VESNAGREENPARTY": "?LEVICAANDVESNA"
+  # Presidencials: cada candidat nou es projecta sobre el mapa del candidat del seu
+  # espai a l'eleccio de base. Corea 2025: Lee Jae-myung (DPK; Cho Kuk li va
+  # donar suport) i Kim Moon-soo (PPP; Han Dong-hoon, ara independent, en venia).
+  KR:
+    "?JUNGCHUNGRAE": "?LEEJAEMYUNG"
+    "?KIMMINSEOK": "?LEEJAEMYUNG"
+    "?KIMDONGYEON": "?LEEJAEMYUNG"
+    "?CHOKUK": "?LEEJAEMYUNG"
+    "?JANGDONGHYEOK": "?KIMMOONSOO"
+    "?OHSEHOON": "?KIMMOONSOO"
+    "?HANDONGHOON": "?KIMMOONSOO"
+  # Indonesia 2024: Gibran (company de Prabowo), Dedi Mulyadi (Gerindra) i AHY
+  # (Demokrat, de la coalicio de Prabowo).
+  ID:
+    "?GIBRANRAKABUMINGRAKA": "?PRABOWOSUBIANTO"
+    "?DEDIMULYADI": "?PRABOWOSUBIANTO"
+    "?AGUSHARIMURTIYUDHOYONO": "?PRABOWOSUBIANTO"
+  # Filipines 2022: la candidatura Marcos-Duterte (Sara Duterte, Bong Go, Robin
+  # Padilla, Martin Romualdez) i la de Robredo (Pangilinan, Hontiveros, Bam Aquino).
+  PH:
+    "?SARADUTERTE": "?BONGBONGMARCOS"
+    "?BONGGO": "?BONGBONGMARCOS"
+    "?ROBINPADILLA": "?BONGBONGMARCOS"
+    "?MARTINROMUALDEZ": "?BONGBONGMARCOS"
+    "?FRANCISPANGILINAN": "?LENIROBREDO"
+    "?RISAHONTIVEROS": "?LENIROBREDO"
+    "?BAMAQUINO": "?LENIROBREDO"
   FR:
     HOR: ENS          # Philippe es projecta sobre el vot de Macron del 2022
     DEBOUT: LFI       # Ruffin, sobre el de Melenchon

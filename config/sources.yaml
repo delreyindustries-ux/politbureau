@@ -357,7 +357,9 @@ elections:
      page: "Next Bulgarian parliamentary election", pub: {es: bulgaria, ca: bulgaria, name_es: Bulgaria, name_ca: Bulgària}}
   - {id: eu-hr, group: europa, country: HR, scope: national, label: "Croàcia — Sabor",
      page: "Opinion polling for the next Croatian parliamentary election", sections: ["party standings"],
-     pub: {es: croacia, ca: croacia, name_es: Croacia, name_ca: Croàcia}}
+     pub: {es: croacia, ca: croacia, name_es: Croacia, name_ca: Croàcia},
+     departments: {geo: "hr/units.json", base: "hr/base.json", units_es: "condados",
+                   units_ca: "comtats", base_es: "las legislativas de 2024", base_ca: "les legislatives del 2024"}}
   - {id: eu-cz, group: europa, country: CZ, scope: national, label: "Txèquia — Cambra de Diputats",
      page: "Next Czech parliamentary election", pub: {es: chequia, ca: txequia, name_es: Chequia, name_ca: Txèquia},
      departments: {geo: "cz/units.json", base: "cz/base.json", units_es: "regiones",
@@ -414,7 +416,9 @@ elections:
      departments: {geo: "sk/units.json", base: "sk/base.json", units_es: "regiones",
                    units_ca: "regions", base_es: "las legislativas de 2023", base_ca: "les legislatives del 2023"}}
   - {id: eu-si, group: europa, country: SI, scope: national, label: "Eslovènia — Assemblea Nacional",
-     page: "Opinion polling for the next Slovenian parliamentary election", pub: {es: eslovenia, ca: eslovenia, name_es: Eslovenia, name_ca: Eslovènia}}
+     page: "Opinion polling for the next Slovenian parliamentary election", pub: {es: eslovenia, ca: eslovenia, name_es: Eslovenia, name_ca: Eslovènia},
+     departments: {geo: "si/units.json", base: "si/base.json", units_es: "circunscripciones",
+                   units_ca: "circumscripcions", base_es: "las legislativas de 2026", base_ca: "les legislatives del 2026"}}
   - {id: eu-se, group: europa, country: SE, scope: national, label: "Suècia — Riksdag",
      page: "2030 Swedish general election", pub: {es: suecia, ca: suecia, name_es: Suecia, name_ca: Suècia},
      departments: {geo: "se/units.json", base: "se/base.json", units_es: "condados",
@@ -450,7 +454,9 @@ elections:
   # Taiwan, Sud-africa, Xile i la resta (sense enquestes dels ultims 90 dies a Wikipedia).
   - {id: w-ca, group: mon, country: CA, scope: national, label: "Canadà — Cambra dels Comuns",
      page: "Opinion polling for the 46th Canadian federal election",
-     pub: {es: canada, ca: canada, name_es: Canadá, name_ca: Canadà, of_es: "de Canadá", of_ca: "del Canadà", map: "124"}}
+     pub: {es: canada, ca: canada, name_es: Canadá, name_ca: Canadà, of_es: "de Canadá", of_ca: "del Canadà", map: "124"},
+     departments: {geo: "can/units.json", base: "can/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "las federales de 2025", base_ca: "les federals del 2025"}}
   - {id: w-au, group: mon, country: AU, scope: national, label: "Austràlia — Cambra de Representants",
      page: "Opinion polling for the next Australian federal election",
      pub: {es: australia, ca: australia, name_es: Australia, name_ca: Austràlia, map: "036"},
@@ -467,7 +473,9 @@ elections:
                    units_ca: "prefectures", base_es: "las generales de 2026", base_ca: "les generals del 2026"}}
   - {id: w-kr, group: mon, country: KR, scope: national, label: "Corea del Sud — Presidencials 2030", display: candidates,
      page: "2030 South Korean presidential election",
-     pub: {es: corea-del-sur, ca: corea-del-sud, name_es: Corea del Sur, name_ca: Corea del Sud, map: "410"}}
+     pub: {es: corea-del-sur, ca: corea-del-sud, name_es: Corea del Sur, name_ca: Corea del Sud, map: "410"},
+     departments: {geo: "kr/units.json", base: "kr/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "las presidenciales de 2025", base_ca: "les presidencials del 2025"}}
   - {id: w-mx, group: mon, country: MX, scope: national, label: "Mèxic — Cambra de Diputats 2027",
      page: "Opinion polling for the 2027 Mexican legislative election",
      pub: {es: mexico, ca: mexic, name_es: México, name_ca: Mèxic, map: "484"}}
@@ -476,13 +484,19 @@ elections:
      pub: {es: argentina, ca: argentina, name_es: Argentina, name_ca: Argentina, of_ca: "de l'Argentina", map: "032"}}
   - {id: w-gt, group: mon, country: GT, scope: national, label: "Guatemala — Presidencials 2027", display: candidates,
      page: "2027 Guatemalan general election",
-     pub: {es: guatemala, ca: guatemala, name_es: Guatemala, name_ca: Guatemala, map: "320"}}
+     pub: {es: guatemala, ca: guatemala, name_es: Guatemala, name_ca: Guatemala, map: "320"},
+     departments: {geo: "gt/units.json", base: "gt/base.json", units_es: "departamentos",
+                   units_ca: "departaments", base_es: "la primera vuelta de 2023", base_ca: "la primera volta del 2023"}}
   - {id: w-ph, group: mon, country: PH, scope: national, label: "Filipines — Presidencials 2028", display: candidates,
      page: "Opinion polling for the 2028 Philippine presidential election",
-     pub: {es: filipinas, ca: filipines, name_es: Filipinas, name_ca: Filipines, of_ca: "de les Filipines", map: "608"}}
+     pub: {es: filipinas, ca: filipines, name_es: Filipinas, name_ca: Filipines, of_ca: "de les Filipines", map: "608"},
+     departments: {geo: "ph/units.json", base: "ph/base.json", units_es: "regiones",
+                   units_ca: "regions", base_es: "las presidenciales de 2022", base_ca: "les presidencials del 2022"}}
   - {id: w-id, group: mon, country: ID, scope: national, label: "Indonèsia — Presidencials 2029", display: candidates,
      page: "Opinion polling for the 2029 Indonesian presidential election",
-     pub: {es: indonesia, ca: indonesia, name_es: Indonesia, name_ca: Indonèsia, map: "360"}}
+     pub: {es: indonesia, ca: indonesia, name_es: Indonesia, name_ca: Indonèsia, map: "360"},
+     departments: {geo: "id/units.json", base: "id/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "las presidenciales de 2024", base_ca: "les presidencials del 2024"}}
   - {id: w-th, group: mon, country: TH, scope: national, label: "Tailàndia — Cambra de Representants",
      page: "Next Thai general election",
      pub: {es: tailandia, ca: tailandia, name_es: Tailandia, name_ca: Tailàndia, map: "764"},

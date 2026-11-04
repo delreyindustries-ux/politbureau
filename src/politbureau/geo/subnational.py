@@ -171,6 +171,44 @@ _MD = ['Briceni', 'Edineţ', 'Rîşcani', 'Glodeni', 'Făleşti', 'Ungheni', 'Ni
        'Sîngerei']
 # Grafia romanesa amb coma a sota per als noms que es mostren.
 _MD_SHOW = str.maketrans("şţŞŢ", "șțȘȚ")
+# Municipis de Natural Earth per circumscripcio (articles «... (National Assembly
+# constituency)» de Wikipedia). Ljubljana i Ivancna Gorica en tenen dues.
+_SI = {
+    "KR": ['Bled', 'Bohinj', 'Cerklje na Gorenjskem', 'Cerkno', 'Gorenja vas-Poljane', 'Idrija',
+           'Jesenice', 'Jezersko', 'Kamnik', 'Komenda', 'Kranj', 'Kranjska Gora', 'Naklo',
+           'Preddvor', 'Radovljica', 'Tržič', 'Šenčur', 'Škofja Loka', 'Železniki', 'Žiri',
+           'Žirovnica'],
+    "PO": ['Ajdovščina', 'Bovec', 'Brda', 'Divaca', 'Hrpelje-Kozina', 'Ilirska Bistrica',
+           'Izola', 'Kanal', 'Kobarid', 'Komen', 'Koper', 'Miren-Kostanjevica', 'Nova Goriška',
+           'Piran', 'Pivka', 'Postojna', 'Sežana', 'Tolmin', 'Vipava', 'Šempeter-Vrtojba'],
+    "LC": ['Bloke', 'Borovnica', 'Brezovica', 'Cerknica', 'Dobrova-Polhov Gradec', 'Horjul',
+           'Ig', 'Logatec', 'Loška dolina', 'Medvode', 'Velike Lašče', 'Vodice', 'Vrhnika',
+           'Škofljica'],
+    "LB": ['Dobrepolje', 'Dol pri Ljubljani', 'Domžale', 'Grosuplje', 'Kocevje', 'Kostel',
+           'Loški Potok', 'Lukovica', 'Mengeš', 'Moravce', 'Ribnica', 'Sodražica', 'Trzin'],
+    "CE": ['Braslovce', 'Celje', 'Dobje', 'Dobrna', 'Dravograd', 'Gornji Grad', 'Ljubno', 'Luce',
+           'Mežica', 'Mislinja', 'Mozirje', 'Muta', 'Nazarje', 'Podvelka', 'Polzela', 'Prebold',
+           'Prevalje', 'Radlje ob Dravi', 'Ravne na Koroškem', 'Ribnica na Pohorju',
+           'Slovenj Gradec', 'Solcava', 'Tabor', 'Velenje', 'Vojnik', 'Vransko', 'Vuzenica',
+           'Črna na Koroškem', 'Šentjur pri Celju', 'Šmartno ob Paki', 'Šoštanj', 'Štore',
+           'Žalec'],
+    "NM": ['Brežice', 'Crnomelj', 'Dolenjske Toplice', 'Hrastnik', 'Krsko', 'Krško', 'Laško',
+           'Litija', 'Metlika', 'Mirna Pec', 'Novo Mesto', 'Radece', 'Semic', 'Sevnica',
+           'Trbovlje', 'Trebnje', 'Zasavska', 'Šentjernej', 'Škocjan', 'Šmartno in Litiji',
+           'Žužemberk'],
+    "MB": ['Bistrica ob Sotli', 'Duplek', 'Hoce-Slivnica', 'Kozje', 'Lovrenc na Pohorju',
+           'Maribor', 'Miklavž na Dravskem polju', 'Oplotnica', 'Podcetrtek', 'Race-Fram',
+           'Rogatec', 'Rogaška Slatina', 'Ruše', 'Selnica ob Dravi', 'Slovenska Bistrica',
+           'Slovenske Konjice', 'Starše', 'Vitanje', 'Zrece', 'Šmarje pri Jelšah'],
+    "PT": ['Apace', 'Beltinci', 'Benedikt', 'Cankova', 'Cerkvenjak', 'Destrnik', 'Dobrovnik',
+           'Dornava', 'Gorišnica', 'Gornja Radgona', 'Gornji Petrovci', 'Grad', 'Hajdina',
+           'Hodoš', 'Juršinci', 'Kidricevo', 'Kobilje', 'Križevci', 'Kungota', 'Kuzma', 'Lenart',
+           'Lendava', 'Ljutomer', 'Majšperk', 'Markovci', 'Moravske Toplice', 'Murska Sobota',
+           'Odranci', 'Ormož', 'Pesnica', 'Podlehnik', 'Ptuj', 'Puconci', 'Radenci', 'Razkrižje',
+           'Rogašovci', 'Sveta Ana', 'Sveti Andraž v Slovenskih Goricah', 'Sveti Jurij',
+           'Trnovska vas', 'Turnišče', 'Velika Polana', 'Veržej', 'Videm', 'Zavrc', 'Črenšovci',
+           'Šalovci', 'Šentilj', 'Žetale'],
+}
 
 def _ascii(s):
     import unicodedata
@@ -459,6 +497,179 @@ WIKI = {
            "units": {"LUX": (["Centre", "South"], ["Luxembourg"], "Zentrum a Süden"),
                      "DIE": ("North", ["Diekirch"], "Norden"),
                      "GRE": ("East", ["Grevenmacher"], "Osten")}},
+    "HR": {"adm0": "HRV", "dir": "hr", "bbox": (13.4, 19.5, 42.35, 46.6),
+           "page": "2024 Croatian parliamentary election", "match": "results by constituency",
+           # Les circumscripcions (llei del 2023) creuen comtats: cada comtat va a la
+           # circumscripcio que en te la major part; Zagreb, el seu comtat, Split i
+           # Koprivnica, que se les reparteixen, fan la mitjana.
+           "units": {"ZG": (["I", "II", "VI"], ["Grad Zagreb"], "Grad Zagreb"),
+                     "ZGZ": (["I", "II", "VI"], ["Zagrebacka"], "Zagrebačka"),
+                     "KZ": ("III", ["Krapinsko-Zagorska"], "Krapinsko-zagorska"),
+                     "VZ": ("III", ["Varaždinska"], "Varaždinska"),
+                     "ME": ("III", ["Medimurska"], "Međimurska"),
+                     "BB": ("II", ["Bjelovarsko-bilogorska"], "Bjelovarsko-bilogorska"),
+                     "KK": (["II", "IV"], ["Koprivničko-Križevačka"], "Koprivničko-križevačka"),
+                     "OB": ("IV", ["Osjecko-Baranjska"], "Osječko-baranjska"),
+                     "VP": ("IV", ["Viroviticko-Podravska"], "Virovitičko-podravska"),
+                     "VS": ("V", ["Vukovarsko-Srijemska"], "Vukovarsko-srijemska"),
+                     # Natural Earth hi te dos poligons amb aquest nom (l'altre es Pozega).
+                     "BP": ("V", ["Brodsko-Posavska"], "Brodsko-posavska i Požeško-slavonska"),
+                     "SM": ("VII", ["Sisacko-Moslavacka"], "Sisačko-moslavačka"),
+                     "KA": ("VII", ["Karlovacka"], "Karlovačka"),
+                     "LS": ("VII", ["Licko-Senjska"], "Ličko-senjska"),
+                     "PG": ("VIII", ["Primorsko-Goranska"], "Primorsko-goranska"),
+                     "IS": ("VIII", ["Istarska"], "Istarska"),
+                     "ZD": ("IX", ["Zadarska"], "Zadarska"),
+                     "SK": ("IX", ["Šibensko-Kninska"], "Šibensko-kninska"),
+                     "SD": (["IX", "X"], ["Splitsko-Dalmatinska"], "Splitsko-dalmatinska"),
+                     "DN": ("X", ["Dubrovacko-Neretvanska"], "Dubrovačko-neretvanska")}},
+    "SI": {"adm0": "SVN", "dir": "si", "bbox": (13.35, 16.65, 45.4, 46.9),
+           "page": "2026 Slovenian parliamentary election", "match": "constituency results",
+           "pick": "last",
+           "alias": {"?SLOVENSKADEMOKRATSKASTRANKA": "?SLOVENIANDEMOCRATICPARTY"},
+           "units": {**{code: (name, _SI[code], name.replace("Mesto", "mesto"))
+                        for code, name in (("KR", "Kranj"), ("PO", "Postojna"),
+                                           ("LC", "Ljubljana Center"), ("LB", "Ljubljana Bežigrad"),
+                                           ("CE", "Celje"), ("NM", "Novo Mesto"),
+                                           ("MB", "Maribor"), ("PT", "Ptuj"))},
+                     "LJ": (["Ljubljana Center", "Ljubljana Bežigrad"], ["Ljubljana"], "Ljubljana"),
+                     "IG": (["Ljubljana Bežigrad", "Novo Mesto"], ["Ivancna Gorica"], "Ivančna Gorica")}},
+    "CA": {"adm0": "CAN", "dir": "can", "bbox": (-141.0, -52.6, 41.7, 70.0),
+           "page": "2025 Canadian federal election", "match": "results by province",
+           "transposed": True, "simplify": 1.5,
+           "units": {"BC": ("BC", ["British Columbia"], "British Columbia"),
+                     "AB": ("AB", ["Alberta"], "Alberta"),
+                     "SK": ("SK", ["Saskatchewan"], "Saskatchewan"),
+                     "MB": ("MB", ["Manitoba"], "Manitoba"),
+                     "ON": ("ON", ["Ontario"], "Ontario"),
+                     "QC": ("QC", ["Québec"], "Québec"),
+                     "NB": ("NB", ["New Brunswick"], "New Brunswick"),
+                     "NS": ("NS", ["Nova Scotia"], "Nova Scotia"),
+                     "PE": ("PE", ["Prince Edward Island"], "Prince Edward Island"),
+                     "NL": ("NL", ["Newfoundland and Labrador"], "Newfoundland and Labrador"),
+                     "YT": ("YT", ["Yukon"], "Yukon"),
+                     "NT": ("NT", ["Northwest Territories"], "Northwest Territories"),
+                     "NU": ("NU", ["Nunavut"], "Nunavut")}},
+    "KR": {"adm0": "KOR", "dir": "kr", "bbox": (124.6, 131.0, 33.1, 38.7),
+           "page": "2025 South Korean presidential election", "match": "by province and city",
+           "pick": "last",
+           "units": {
+                     "SSEO": ("Seoul", ["Seoul"], "Seoul"),
+                     "BBUS": ("Busan", ["Busan"], "Busan"),
+                     "DDAE": ("Daegu", ["Daegu"], "Daegu"),
+                     "IINC": ("Incheon", ["Incheon"], "Incheon"),
+                     "GGWA": ("Gwangju", ["Gwangju"], "Gwangju"),
+                     "DDJE": ("Daejeon", ["Daejeon"], "Daejeon"),
+                     "UULS": ("Ulsan", ["Ulsan"], "Ulsan"),
+                     "SSEJ": ("Sejong", ["Sejong"], "Sejong"),
+                     "GGYE": ("Gyeonggi", ["Gyeonggi"], "Gyeonggi"),
+                     "GGAN": ("Gangwon", ["Gangwon"], "Gangwon"),
+                     "NCCHU": ("North Chungcheong", ["North Chungcheong"], "North Chungcheong"),
+                     "SCCHU": ("South Chungcheong", ["South Chungcheong"], "South Chungcheong"),
+                     "NJJEO": ("North Jeolla", ["North Jeolla"], "North Jeolla"),
+                     "SJJEO": ("South Jeolla", ["South Jeolla"], "South Jeolla"),
+                     "NGGYE": ("North Gyeongsang", ["North Gyeongsang"], "North Gyeongsang"),
+                     "SGGYE": ("South Gyeongsang", ["South Gyeongsang"], "South Gyeongsang"),
+                     "JJEJ": ("Jeju", ["Jeju"], "Jeju")}},
+    "ID": {"adm0": "IDN", "dir": "id", "bbox": (95.0, 141.1, -11.1, 6.1),
+           "page": "2024 Indonesian presidential election", "match": "by province", "pick": "last",
+           "name_col": 1,
+           "alias": {"?ANIESBASWEDANINDEPENDENT": "?ANIESBASWEDAN",
+                     "?PRABOWOSUBIANTOGERINDRA": "?PRABOWOSUBIANTO",
+                     "?GANJARPRANOWOPDIP": "?GANJARPRANOWO"},
+           # Natural Earth porta les 33 provincies d'abans del 2022: Papua, Papua Barat
+           # i Kalimantan Timur fan la mitjana de les provincies que en van sortir.
+           "units": {
+                     "A0": ("Aceh", ["Aceh"], "Aceh"),
+                     "SU1": ("North Sumatra", ["Sumatera Utara"], "Sumatera Utara"),
+                     "SB2": ("West Sumatra", ["Sumatera Barat"], "Sumatera Barat"),
+                     "R3": ("Riau", ["Riau"], "Riau"),
+                     "J4": ("Jambi", ["Jambi"], "Jambi"),
+                     "SS5": ("South Sumatra", ["Sumatera Selatan"], "Sumatera Selatan"),
+                     "B6": ("Bengkulu", ["Bengkulu"], "Bengkulu"),
+                     "L7": ("Lampung", ["Lampung"], "Lampung"),
+                     "BB8": ("Bangka Belitung", ["Bangka-Belitung"], "Bangka Belitung"),
+                     "KR9": ("Riau Islands", ["Kepulauan Riau"], "Kepulauan Riau"),
+                     "B10": ("Banten", ["Banten"], "Banten"),
+                     "JR11": ("Jakarta", ["Jakarta Raya"], "Jakarta"),
+                     "JB12": ("West Java", ["Jawa Barat"], "Jawa Barat"),
+                     "JT13": ("Central Java", ["Jawa Tengah"], "Jawa Tengah"),
+                     "Y14": ("Yogyakarta", ["Yogyakarta"], "Yogyakarta"),
+                     "JT15": ("East Java", ["Jawa Timur"], "Jawa Timur"),
+                     "KB16": ("West Kalimantan", ["Kalimantan Barat"], "Kalimantan Barat"),
+                     "KT17": ("Central Kalimantan", ["Kalimantan Tengah"], "Kalimantan Tengah"),
+                     "KS18": ("South Kalimantan", ["Kalimantan Selatan"], "Kalimantan Selatan"),
+                     "KT19": (["East Kalimantan", "North Kalimantan"], ["Kalimantan Timur"], "Kalimantan Timur"),
+                     "B20": ("Bali", ["Bali"], "Bali"),
+                     "NTB21": ("West Nusa Tenggara", ["Nusa Tenggara Barat"], "Nusa Tenggara Barat"),
+                     "NTT22": ("East Nusa Tenggara", ["Nusa Tenggara Timur"], "Nusa Tenggara Timur"),
+                     "SU23": ("North Sulawesi", ["Sulawesi Utara"], "Sulawesi Utara"),
+                     "G24": ("Gorontalo", ["Gorontalo"], "Gorontalo"),
+                     "ST25": ("Central Sulawesi", ["Sulawesi Tengah"], "Sulawesi Tengah"),
+                     "ST26": ("Southeast Sulawesi", ["Sulawesi Tenggara"], "Sulawesi Tenggara"),
+                     "SB27": ("West Sulawesi", ["Sulawesi Barat"], "Sulawesi Barat"),
+                     "SS28": ("South Sulawesi", ["Sulawesi Selatan"], "Sulawesi Selatan"),
+                     "M29": ("Maluku", ["Maluku"], "Maluku"),
+                     "MU30": ("North Maluku", ["Maluku Utara"], "Maluku Utara"),
+                     "P31": (["Papua", "Central Papua", "Highland Papua", "South Papua"], ["Papua"], "Papua"),
+                     "PB32": (["West Papua", "Southwest Papua"], ["Papua Barat"], "Papua Barat")}},
+    "PH": {"adm0": "PHL", "dir": "ph", "bbox": (116.9, 126.7, 4.5, 21.2),
+           "page": "2022 Philippine presidential election",
+           "match": "result by island group and region", "nth": 1, "pick": "last",
+           # Les provincies de Natural Earth s'agrupen per la seva regio (17).
+           "group": "region",
+           "units": {
+                     "I": ("I", ["Ilocos (Region I)"], "Ilocos"),
+                     "CAR": ("CAR", ["Cordillera Administrative Region (CAR)"], "Cordillera"),
+                     "II": ("II", ["Cagayan Valley (Region II)"], "Cagayan Valley"),
+                     "III": ("III", ["Central Luzon (Region III)"], "Central Luzon"),
+                     "NCR": ("NCR", ["National Capital Region"], "Metro Manila"),
+                     "IVA": ("IV-A", ["CALABARZON (Region IV-A)"], "Calabarzon"),
+                     "IVB": ("IV-B", ["MIMAROPA (Region IV-B)"], "Mimaropa"),
+                     "V": ("V", ["Bicol (Region V)"], "Bicol"),
+                     "VI": ("VI", ["Western Visayas (Region VI)"], "Western Visayas"),
+                     "VII": ("VII", ["Central Visayas (Region VII)"], "Central Visayas"),
+                     "VIII": ("VIII", ["Eastern Visayas (Region VIII)"], "Eastern Visayas"),
+                     "IX": ("IX", ["Zamboanga Peninsula (Region IX)"], "Zamboanga Peninsula"),
+                     "X": ("X", ["Northern Mindanao (Region X)"], "Northern Mindanao"),
+                     "XI": ("XI", ["Davao (Region XI)"], "Davao"),
+                     "XII": ("XII", ["SOCCSKSARGEN (Region XII)"], "Soccsksargen"),
+                     "XIII": ("XIII", ["Dinagat Islands (Region XIII)"], "Caraga"),
+                     "BARMM": ("BARMM", ["Autonomous Region in Muslim Mindanao (ARMM)"], "Bangsamoro")}},
+    "GT": {"adm0": "GTM", "dir": "gt", "bbox": (-92.3, -88.2, 13.7, 17.85),
+           "page": "Elecciones generales de Guatemala de 2023", "lang": "es",
+           "match": "resultados por departamento", "columns": True,
+           # Primera volta, % sobre el vot valid (taula de resultats de l'article angles).
+           # Els departaments van sobre els vots emesos: el swing es reescala dins de
+           # cada departament, aixi que la base diferent no hi pesa.
+           "national": {"?SANDRATORRES": 21.10, "?BERNARDOAREVALO": 15.51,
+                        "?MANUELCONDEORELLANA": 10.37, "?ARMANDOCASTILLO": 9.44,
+                        "?EDMONDMULET": 8.78, "?ZURYRIOS": 8.70, "?MANUELVILLACORTA": 5.62,
+                        "?GIOVANNIREYES": 3.37, "?HUGOPENA": 0.94},
+           "units": {
+                     "JUT0": ("Jutiapa", ["Jutiapa"], "Jutiapa"),
+                     "CHI1": ("Chiquimula", ["Chiquimula"], "Chiquimula"),
+                     "PET2": ("Petén", ["Petén"], "Petén"),
+                     "SAN3": ("San Marcos", ["San Marcos"], "San Marcos"),
+                     "HUE4": ("Huehuetenango", ["Huehuetenango"], "Huehuetenango"),
+                     "QUI5": ("Quiché", ["Quiché"], "Quiché"),
+                     "ALT6": ("Alta Verapaz", ["Alta Verapaz"], "Alta Verapaz"),
+                     "IZA7": ("Izabal", ["Izabal"], "Izabal"),
+                     "ZAC8": ("Zacapa", ["Zacapa"], "Zacapa"),
+                     "RET9": ("Retalhuleu", ["Retalhuleu"], "Retalhuleu"),
+                     "SUC10": ("Suchitepéquez", ["Suchitepéquez"], "Suchitepéquez"),
+                     "ESC11": ("Escuintla", ["Escuintla"], "Escuintla"),
+                     "SAN12": ("Santa Rosa", ["Santa Rosa"], "Santa Rosa"),
+                     "CHI13": ("Chimaltenango", ["Chimaltenango"], "Chimaltenango"),
+                     "SAC14": ("Sacatepéquez", ["Sacatepéquez"], "Sacatepéquez"),
+                     "JAL15": ("Jalapa", ["Jalapa"], "Jalapa"),
+                     "EL 16": ("El Progreso", ["El Progreso"], "El Progreso"),
+                     "SOL17": ("Sololá", ["Sololá"], "Sololá"),
+                     "BAJ18": ("Baja Verapaz", ["Baja Verapaz"], "Baja Verapaz"),
+                     "TOT19": ("Totonicapán", ["Totonicapán"], "Totonicapán"),
+                     "QUE": ("Quetzaltenango", ["Quezaltenango"], "Quetzaltenango"),
+                     # La capital (Distrito Central) i la resta del departament.
+                     "GUA": (["Distrito Central", "Guatemala"], ["Guatemala"], "Guatemala")}},
 }
 
 
@@ -466,8 +677,11 @@ def _wiki_spec(country):
     w = WIKI[country]
     codes = {ne: code for code, (_wn, nes, _dn) in w["units"].items() for ne in nes}
     names = {ne: w["units"][code][2] for ne, code in codes.items()}
-    return {"adm0": w["adm0"], "group": "name", "dir": w["dir"], "unit_file": "units.json",
+    # `group`: el camp de Natural Earth que s'agrupa (Filipines: "region").
+    return {"adm0": w["adm0"], "group": w.get("group", "name"), "dir": w["dir"],
+            "unit_file": "units.json",
             "bbox": w["bbox"], "base_file": "base.json", "loader": "wiki", "codes": codes,
+            "simplify": w.get("simplify", 0.0),
             "names": names, "wiki": w,
             "source": f"Wikipedia, «{w['page']}» (CC BY-SA 4.0)"}
 
@@ -492,15 +706,21 @@ def _projector(bbox):
     return xy, round((lat1 - lat0) * scale, 1)
 
 
-def _path(rings, xy):
+def _path(rings, xy, tol=0.0):
+    """`tol` (pixels): salta els punts massa a prop de l'anterior i els illots
+    mes petits que aixo. Sense, l'arxipelag artic del Canada pesava 500 KB."""
     parts = []
     for ring in rings:
         pts = []
         for lon, lat in ring:
             p = xy(lon, lat)
-            if not pts or p != pts[-1]:
+            if not pts or (p != pts[-1] if not tol else
+                           abs(p[0] - pts[-1][0]) + abs(p[1] - pts[-1][1]) >= tol):
                 pts.append(p)
         if len(set(pts)) < 3:
+            continue
+        if tol and (max(x for x, _ in pts) - min(x for x, _ in pts) < 2 * tol
+                    and max(y for _, y in pts) - min(y for _, y in pts) < 2 * tol):
             continue
         x0, y0 = pts[0]
         seg = [f"M{x0:g} {y0:g}l"]
@@ -535,7 +755,8 @@ def geometry(spec, admin1: Path):
         if code:
             rings.setdefault(code, {"n": spec.get("names", {}).get(key, key), "r": []})["r"] += [
                 r for r in shape if inside(r)]
-    out = {code: {"n": v["n"], "d": _path(v["r"], xy)} for code, v in rings.items()}
+    out = {code: {"n": v["n"], "d": _path(v["r"], xy, spec.get("simplify", 0.0))}
+           for code, v in rings.items()}
     return {"w": WIDTH, "h": height, "dep": out}
 
 
@@ -629,7 +850,10 @@ def _load_au(spec):
 def _load_wiki(spec):
     from .wikiresults import region_table
     w = spec["wiki"]
-    rows, total, _title = region_table(w["page"], w["match"], w["cc"], pick=w.get("pick", "first"))
+    rows, total, _title = region_table(w["page"], w["match"], w["cc"], pick=w.get("pick", "first"),
+                                       transposed=w.get("transposed", False),
+                                       lang=w.get("lang", "en"), name_col=w.get("name_col", 0),
+                                       columns=w.get("columns", False), nth=w.get("nth", 0))
     alias = w.get("alias") or {}
 
     def rename(shares):

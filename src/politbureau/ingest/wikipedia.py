@@ -99,7 +99,7 @@ MIN_INTERVAL = 0.35        # segons entre peticions: Wikipedia demana no atropel
 _last_call = 0.0
 
 
-def _throttled_get(session, params, tries=4):
+def _throttled_get(session, params, tries=4, api=None):
     """Peticio educada: espaia les crides i respecta el Retry-After d'un 429.
 
     Descarregar 35 pagines d'estat seguides fa que la API talli amb un 429. La
@@ -111,7 +111,8 @@ def _throttled_get(session, params, tries=4):
         gap = time.monotonic() - _last_call
         if gap < MIN_INTERVAL:
             time.sleep(MIN_INTERVAL - gap)
-        resp = session.get(API, params=params, headers={"User-Agent": USER_AGENT}, timeout=60)
+        resp = session.get(api or API, params=params, headers={"User-Agent": USER_AGENT},
+                           timeout=60)
         _last_call = time.monotonic()
         if resp.status_code not in (429, 503):
             resp.raise_for_status()
@@ -123,12 +124,16 @@ def _throttled_get(session, params, tries=4):
     return resp
 
 
-def fetch(page: str, session: requests.Session | None = None) -> dict | None:
-    """Retorna {html, url, revid, title} o None si la pagina no existeix."""
+def fetch(page: str, session: requests.Session | None = None, lang: str = "en") -> dict | None:
+    """Retorna {html, url, revid, title} o None si la pagina no existeix.
+
+    `lang`: per als resultats per territori que nomes son a una altra Viquipedia
+    (Guatemala, a la castellana). Les enquestes es llegeixen sempre de l'anglesa."""
     session = session or requests.Session()
     resp = _throttled_get(session, {
         "action": "parse", "page": page, "prop": "text|revid",
-        "format": "json", "formatversion": "2", "redirects": "1"})
+        "format": "json", "formatversion": "2", "redirects": "1"},
+        api=f"https://{lang}.wikipedia.org/w/api.php")
     payload = resp.json()
     if "error" in payload:
         return None
@@ -138,7 +143,7 @@ def fetch(page: str, session: requests.Session | None = None) -> dict | None:
         "html": parsed["text"],
         "revid": parsed.get("revid"),
         "title": title,
-        "url": "https://en.wikipedia.org/wiki/" + title.replace(" ", "_"),
+        "url": f"https://{lang}.wikipedia.org/wiki/" + title.replace(" ", "_"),
     }
 
 
