@@ -52,7 +52,10 @@ _ITALY_ONLY = {"cdx", "csx", "coalition", "centre-right", "centre-left"}
 _EUROPE_NON_PARTY = ("abs", "abs.", "method", "mode", "undecided", "don't know", "dont know",
                      "invalid", "blank", "none", "neither", "no one", "would not vote",
                      "unsure", "not sure", "will not vote", "no answer",
-                     "other", "other candidates", "polling organisation", "polling organization")
+                     "other", "other candidates", "polling organisation", "polling organization",
+                     # Viquipedies francesa i turca (Suissa i Turquia, 04/11/2026).
+                     "autres", "institut", "echantillon", "diger", "fark", "tarih",
+                     "anket sirketi", "orneklem")
 # Sumes de blocs (Finlandia, Suecia...): "Gov." i "Opp." no son partits.
 _BLOCS = {"gov", "gov.", "govt", "govt.", "opp", "opp.", "government", "opposition",
           "blue", "red", "blue bloc", "red bloc", "red-green", "red-greens", "tido parties",

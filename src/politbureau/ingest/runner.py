@@ -77,9 +77,10 @@ def store(conn, election, country, scope, scope_code, scope_name, page, polls):
 
 
 def read_page(conn, session, election_id, country, scope, page_name,
-              scope_code=None, scope_name=None, sections=(), deny=(), match=None):
+              scope_code=None, scope_name=None, sections=(), deny=(), match=None, lang="en"):
     try:
-        page = wk.fetch(page_name, session)
+        # `lang`: les enquestes que nomes son a una altra Viquipedia (Suissa, Turquia).
+        page = wk.fetch(page_name, session, lang=lang)
     except Exception as exc:                      # noqa: BLE001
         # Una pagina caiguda o un tall de xarxa no pot fer perdre les altres
         # trenta que ja s'havien llegit be.
@@ -179,7 +180,8 @@ def run(conn, only=None):
                                sections=tuple(election.get("sections") or ())
                                + (EUROPA_SECTIONS if election.get("group") in WORLD else ()),
                                deny=tuple(election.get("deny_sections") or ())
-                               + (EUROPA_DENY if election.get("group") in WORLD else ()))
+                               + (EUROPA_DENY if election.get("group") in WORLD else ()),
+                               lang=election.get("lang", "en"))
             unmapped.update(unk)
             summary.append((eid, election["page"], n))
 

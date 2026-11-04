@@ -755,7 +755,8 @@ def abroad_data(conn, eid):
             "of": {"es": pub.get("of_es") or f"de {pub['name_es']}",
                    "ca": pub.get("of_ca") or de(pub["name_ca"])},
             "urls": {lg: abroad_url(election, lg) for lg in i18n.LANGS},
-            "wiki": "https://en.wikipedia.org/wiki/" + election["page"].replace(" ", "_")}
+            "wiki": (f"https://{election.get('lang', 'en')}.wikipedia.org/wiki/"
+                     + election["page"].replace(" ", "_"))}
 
 
 def _calendar():

@@ -23,12 +23,15 @@ _TOTAL = re.compile(r"^(total|overall|national|nationwide|country|all|sum)\b", r
 # La fila del total de vegades porta el nom del pais.
 _COUNTRY_TOTALS = {"austria", "norway", "czech republic", "poland", "portugal", "sweden",
                    "denmark", "romania", "croatia", "slovenia", "bulgaria", "lithuania",
-                   "new zealand", "ireland", "estonia", "hungary", "greece", "mexico"}
+                   "new zealand", "ireland", "estonia", "hungary", "greece", "mexico",
+                   "türkiye toplamı"}
 # Columnes que no son partits pero que el lector de capcaleres deixa passar.
 _NOT_PARTY = re.compile(r"TOTAL|VALID|TURNOUT|ELECTORATE|SEATS|INVALID|BLANK|QUOTA|SPOILED|"
                         r"NROFVOTES|NUMBEROFVOTES|"
                         # Viquipedia castellana (Guatemala): vots valids, nuls, en blanc...
-                        r"^\?VOTOS|PARTICIPACI|ABSTENCI|^\?NULOS|NOREGISTRADOS")
+                        r"^\?VOTOS|PARTICIPACI|ABSTENCI|^\?NULOS|NOREGISTRADOS|"
+                        # Viquipedia turca: diputats (MV), vots valids, circumscripcio.
+                        r"^\?MV$|MILLETVEKILI|GECERLIOY|SECIMCEVRESI")
 
 
 def _pct(text):
@@ -96,7 +99,7 @@ def _by_columns(table, country):
 
 
 def region_table(page, match, country, session=None, pick="first", transposed=False,
-                 lang="en", name_col=0, columns=False, nth=0):
+                 lang="en", name_col=0, columns=False, nth=0, offset=0):
     got = wk.fetch(page, session, lang=lang)
     if not got:
         raise RuntimeError(f"no existeix: {page}")
@@ -137,6 +140,9 @@ def region_table(page, match, country, session=None, pick="first", transposed=Fa
                 first[code] = col                     # "vots | %" (Luxemburg): l'ultima
             else:
                 first.setdefault(code, col)           # la primera columna de cada sigla: el %
+        # Turquia: "vots | % | diputats" i nomes la primera porta el codi: el % es
+        # a `offset` columnes.
+        first = {code: col + offset for code, col in first.items()}
         rows, total = {}, None
         for cells in wk.grid(table)[header_row + 1:]:
             if not cells or len(cells) <= name_col or cells[name_col] is None:

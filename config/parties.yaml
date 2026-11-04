@@ -570,6 +570,10 @@ _family:
     "?DEMOCRATICUNIONOFHUNGARIANSINROMANIA": "?HUNORKELEMEN"
     "?SOSROMANIA": "?CALINGEORGESCU"
     "?PARTYOFYOUNGPEOPLE": "?CALINGEORGESCU"
+  # Turquia: el Yeni Parti el va fundar Ozgur Ozel el 24/07/2026 amb 91 diputats
+  # del CHP, despres que la justicia anul.les la seva direccio: sobre el CHP del 2023.
+  TR:
+    "?YENIPARTI": "?CUMHURIYETHALKPARTISI"
   FR:
     HOR: ENS          # Philippe es projecta sobre el vot de Macron del 2022
     DEBOUT: LFI       # Ruffin, sobre el de Melenchon

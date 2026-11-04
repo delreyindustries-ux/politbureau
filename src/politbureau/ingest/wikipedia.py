@@ -72,6 +72,22 @@ MONTHS = {m.lower(): i for i, m in enumerate(
     ["January", "February", "March", "April", "May", "June", "July",
      "August", "September", "October", "November", "December"], start=1)}
 MONTHS.update({m[:3]: i for m, i in list(MONTHS.items())})
+# Les enquestes que nomes son a una altra Viquipedia (04/11/2026): Suissa a la
+# francesa ("7 - 19 octobre 2026") i Turquia a la turca ("29 Eyl-4 Eki").
+_OTHER_MONTHS = {
+    "fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+           "septembre", "octobre", "novembre", "décembre"],
+    "de": ["januar", "februar", "märz", "april", "mai", "juni", "juli", "august",
+           "september", "oktober", "november", "dezember"],
+    "tr": ["ocak", "şubat", "mart", "nisan", "mayıs", "haziran", "temmuz", "ağustos",
+           "eylül", "ekim", "kasım", "aralık"],
+}
+for _names in _OTHER_MONTHS.values():
+    for _i, _m in enumerate(_names, start=1):
+        MONTHS.setdefault(_m, _i)
+        MONTHS.setdefault(_m[:3], _i)
+MONTHS.update({"janv": 1, "févr": 2, "avr": 4, "juil": 7, "sept": 9, "déc": 12, "okt": 10,
+               "dez": 12, "mär": 3})
 
 DASHES = dict.fromkeys(map(ord, "‐‑‒–—―−"), "-")
 

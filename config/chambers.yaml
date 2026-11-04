@@ -35,3 +35,8 @@ eu-pt: {name: Assembleia da República, seats: 230, method: dhondt, threshold: 0
 eu-fi: {name: Eduskunta, seats: 200, method: dhondt, threshold: 0.0, districts: true}
 eu-hr: {name: Sabor, seats: 140, total: 151, method: dhondt, threshold: 0.05, districts: true}
 eu-lu: {name: Chambre des Députés, seats: 60, method: dhondt, threshold: 0.0, districts: true}
+eu-ch: {name: Conseil national, seats: 200, method: dhondt, threshold: 0.0, districts: true}
+# Turquia: el llindar del 7 % es de l'alianca, no del partit; aqui es per partit.
+eu-tr: {name: Gran Assemblea Nacional, seats: 600, method: dhondt, threshold: 0.07, districts: true,
+        note_es: "El umbral del 7 % se aplica a las alianzas: un partido aliado (el MHP con el AKP) puede entrar por debajo, y eso aquí no se modela.",
+        note_ca: "El llindar del 7 % s'aplica a les aliances: un partit aliat (el MHP amb l'AKP) pot entrar-hi per sota, i això aquí no es modela."}

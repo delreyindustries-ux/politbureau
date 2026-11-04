@@ -447,6 +447,19 @@ elections:
                    units_ca: "circumscripcions", base_es: "las legislativas de 2024", base_ca: "les legislatives del 2024"}}
   - {id: eu-me, group: europa, country: ME, scope: national, label: "Montenegro — Parlament",
      page: "Next Montenegrin parliamentary election", pub: {es: montenegro, ca: montenegro, name_es: Montenegro, name_ca: Montenegro}}
+  # Suissa i Turquia (04/11/2026): les seves enquestes no son a la Viquipedia
+  # anglesa. `lang` les llegeix de la francesa i de la turca.
+  - {id: eu-ch, group: europa, country: CH, scope: national, label: "Suïssa — Consell Nacional",
+     page: "Élections fédérales suisses de 2027", lang: fr, sections: ["sondages"],
+     pub: {es: suiza, ca: suissa, name_es: Suiza, name_ca: Suïssa},
+     departments: {geo: "ch/units.json", base: "ch/base.json", units_es: "cantones",
+                   units_ca: "cantons", base_es: "las federales de 2023", base_ca: "les federals del 2023"}}
+  - {id: eu-tr, group: europa, country: TR, scope: national, label: "Turquia — Gran Assemblea Nacional",
+     page: "Bir sonraki Türkiye genel seçimleri için yapılan anketler", lang: tr, kind: general,
+     sections: ["parti anketleri"], deny_sections: ["ortalamalar"],
+     pub: {es: turquia, ca: turquia, name_es: Turquía, name_ca: Turquia},
+     departments: {geo: "tr/units.json", base: "tr/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "las legislativas de 2023", base_ca: "les legislatives del 2023"}}
   - {id: eu-md, group: europa, country: MD, scope: national, label: "Moldàvia — Parlament",
      page: "Next Moldovan parliamentary election", pub: {es: moldavia, ca: moldavia, name_es: Moldavia, name_ca: Moldàvia},
      departments: {geo: "md/units.json", base: "md/base.json", units_es: "distritos",
