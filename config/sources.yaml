@@ -528,6 +528,24 @@ elections:
      departments: {geo: "tw/units.json", base: "tw/base.json", units_es: "condados y ciudades",
                    units_ca: "comtats i ciutats", base_es: "las legislativas de 2024 (voto de lista)",
                    base_ca: "les legislatives del 2024 (vot de llista)"}}
+  # Mes paisos (04/11/2026), d'un escombrat de totes les pagines d'enquestes de
+  # Wikipedia. Gambia te enquestes recents; El Salvador, Sud-africa i Georgia
+  # en tenen pero de fa mes de 90 dies: les pagines sortiran soles quan n'hi
+  # hagi de noves. Fora: Israel, Letonia, Serbia, Malta, Kazakhstan (ja han
+  # votat), Albania (nomes enquestes de Tirana), Palestina, Veneçuela i Ucraina.
+  - {id: w-gm, group: mon, country: GM, scope: national, label: "Gàmbia — Presidencials 2026", display: candidates,
+     page: "2026 Gambian presidential election", date: 2026-12-05,
+     pub: {es: gambia, ca: gambia, name_es: Gambia, name_ca: Gàmbia, of_ca: "de Gàmbia", map: "270"}}
+  - {id: w-sv, group: mon, country: SV, scope: national, label: "El Salvador — Assemblea Legislativa",
+     page: "Opinion polling for the 2027 Salvadoran elections", date: 2027-02-28,
+     deny_sections: ["department-level", "re-election", "presidential"],
+     pub: {es: el-salvador, ca: el-salvador, name_es: El Salvador, name_ca: El Salvador, of_ca: "d'El Salvador", map: "222"}}
+  - {id: w-za, group: mon, country: ZA, scope: national, label: "Sud-àfrica — Assemblea Nacional",
+     page: "Next South African general election",
+     pub: {es: sudafrica, ca: sud-africa, name_es: Sudáfrica, name_ca: Sud-àfrica, of_ca: "de Sud-àfrica", map: "710"}}
+  - {id: w-ge, group: mon, country: GE, scope: national, label: "Geòrgia — Parlament",
+     page: "Next Georgian parliamentary election",
+     pub: {es: georgia, ca: georgia, name_es: Georgia, name_ca: Geòrgia, of_ca: "de Geòrgia", map: "268"}}
   - {id: w-in, group: mon, country: IN, scope: national, label: "Índia — Lok Sabha", kind: general,
      page: "Opinion polling for the next Indian general election",
      force_sections: ["seats and vote share projections"],
