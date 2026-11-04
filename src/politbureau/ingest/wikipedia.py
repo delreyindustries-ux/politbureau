@@ -236,6 +236,13 @@ def parse_fieldwork(text, anchor_year):
     parts = [p for p in text.split("-") if p.strip()]
     if not parts:
         return None, None
+    # "August 2026" (India Today - CVoter publica el mes, no el dia): tot el mes.
+    if len(parts) == 1 and not re.search(r"\d", parts[0]):
+        _d, month = _day_month(parts[0])
+        if month:
+            import calendar
+            last = calendar.monthrange(year, month)[1]
+            return dt.date(year, month, 1).isoformat(), dt.date(year, month, last).isoformat()
     end_day, end_month = _day_month(parts[-1])
     start_day, start_month = _day_month(parts[0]) if len(parts) >= 2 else (end_day, end_month)
 
@@ -288,7 +295,7 @@ def _section_of(table):
     return " > ".join(heading_chain(table)).lower()
 
 
-def poll_tables(soup, allowed=DEFAULT_SECTIONS, denied=DENIED_SECTIONS):
+def poll_tables(soup, allowed=DEFAULT_SECTIONS, denied=DENIED_SECTIONS, force=()):
     """Cedeix (taula, seccio, any_o_None).
 
     A Wikipedia les taules d'enquestes es parteixen per anys, i l'any es un
@@ -297,9 +304,12 @@ def poll_tables(soup, allowed=DEFAULT_SECTIONS, denied=DENIED_SECTIONS):
     for table in soup.select("table.wikitable"):
         chain = heading_chain(table)
         section = " > ".join(chain).lower()
-        if allowed and not any(a in section for a in allowed):
+        forced = any(f in section for f in force)
+        if allowed and not any(a in section for a in allowed) and not forced:
             continue
-        if denied and any(d in section for d in denied):
+        # `force`: una seccio que el filtre trauria pero que es intencio de vot
+        # (India: "seats and vote share projections" porta nomes el % de vot).
+        if denied and any(d in section for d in denied) and not forced:
             continue
         # Les mitjanes d'altres agregadors (RealClearPolitics, 270toWin...) surten
         # DINS de la seccio "General election", aixi que el filtre per seccio no

@@ -518,6 +518,21 @@ elections:
      pub: {es: filipinas, ca: filipines, name_es: Filipinas, name_ca: Filipines, of_ca: "de les Filipines", map: "608"},
      departments: {geo: "ph/units.json", base: "ph/base.json", units_es: "regiones",
                    units_ca: "regions", base_es: "las presidenciales de 2022", base_ca: "les presidencials del 2022"}}
+  # Taiwan i l'India (04/11/2026). Taiwan: les enquestes del Yuan Legislatiu
+  # (la pagina surt quan n'hi hagi dels ultims 90 dies; l'ultima es del desembre
+  # del 2025). L'India: aliances (NDA, INDIA) d'India Today - CVoter, sense mapa
+  # per estats: Wikipedia nomes porta els escons del 2024 per estat, no el vot.
+  - {id: w-tw, group: mon, country: TW, scope: national, label: "Taiwan — Yuan Legislatiu",
+     page: "2028 Taiwanese legislative election",
+     pub: {es: taiwan, ca: taiwan, name_es: Taiwán, name_ca: Taiwan, map: "158"},
+     departments: {geo: "tw/units.json", base: "tw/base.json", units_es: "condados y ciudades",
+                   units_ca: "comtats i ciutats", base_es: "las legislativas de 2024 (voto de lista)",
+                   base_ca: "les legislatives del 2024 (vot de llista)"}}
+  - {id: w-in, group: mon, country: IN, scope: national, label: "Índia — Lok Sabha", kind: general,
+     page: "Opinion polling for the next Indian general election",
+     force_sections: ["seats and vote share projections"],
+     deny_sections: ["prime minister", "by state"],
+     pub: {es: india, ca: india, name_es: India, name_ca: Índia, of_ca: "de l'Índia", map: "356"}}
   - {id: w-id, group: mon, country: ID, scope: national, label: "Indonèsia — Presidencials 2029", display: candidates,
      page: "Opinion polling for the 2029 Indonesian presidential election",
      pub: {es: indonesia, ca: indonesia, name_es: Indonesia, name_ca: Indonèsia, map: "360"},

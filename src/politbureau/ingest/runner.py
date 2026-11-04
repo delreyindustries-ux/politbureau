@@ -77,7 +77,8 @@ def store(conn, election, country, scope, scope_code, scope_name, page, polls):
 
 
 def read_page(conn, session, election_id, country, scope, page_name,
-              scope_code=None, scope_name=None, sections=(), deny=(), match=None, lang="en"):
+              scope_code=None, scope_name=None, sections=(), deny=(), match=None, lang="en",
+              force=()):
     try:
         # `lang`: les enquestes que nomes son a una altra Viquipedia (Suissa, Turquia).
         page = wk.fetch(page_name, session, lang=lang)
@@ -96,7 +97,7 @@ def read_page(conn, session, election_id, country, scope, page_name,
     # Cada Wikipedia titula les seccions a la seva manera ("Party standings",
     # "Poll results"...): l'eleccio en pot afegir de permeses i de prohibides.
     tables = wk.poll_tables(soup, wk.DEFAULT_SECTIONS + tuple(sections),
-                            wk.DENIED_SECTIONS + tuple(deny))
+                            wk.DENIED_SECTIONS + tuple(deny), force=tuple(force))
     if match:
         # Una regio dins de la pagina de l'eleccio ("wales > sub-national poll
         # results"): mana el nom de la regio, no la llista de seccions permeses.
@@ -181,7 +182,8 @@ def run(conn, only=None):
                                + (EUROPA_SECTIONS if election.get("group") in WORLD else ()),
                                deny=tuple(election.get("deny_sections") or ())
                                + (EUROPA_DENY if election.get("group") in WORLD else ()),
-                               lang=election.get("lang", "en"))
+                               lang=election.get("lang", "en"),
+                               force=election.get("force_sections") or ())
             unmapped.update(unk)
             summary.append((eid, election["page"], n))
 

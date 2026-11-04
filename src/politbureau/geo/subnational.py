@@ -963,6 +963,35 @@ WIKI = {
                      "T78": ("Çanakkale", ["Çanakkale"], "Çanakkale"),
                      "T79": ("Çankırı", ["Çankiri"], "Çankırı"),
                      "T80": ("Çorum", ["Çorum"], "Çorum")}},
+    # Taiwan: vot de llista (el que mesuren les enquestes) per comtat i ciutat.
+    # Lienchiang (Matsu) no es a Natural Earth.
+    "TW": {"adm0": "TWN", "dir": "tw", "bbox": (118.1, 122.1, 21.85, 25.35),
+           "page": "2024 Taiwanese legislative election", "match": "by national-at-large",
+           "pick": "last",
+           "national": {"?DEMOCRATICPROGRESSIVEPARTY": 36.16, "?KUOMINTANG": 34.58,
+                        "?TAIWANPEOPLESPARTY": 22.07},
+           "units": {
+                     "W00": ("Taipei", ["Taipei City"], "Taipei"),
+                     "W01": ("New Taipei City", ["New Taipei City"], "New Taipei City"),
+                     "W02": ("Keelung", ["Keelung City"], "Keelung"),
+                     "W03": ("Yilan County", ["Yilan"], "Yilan County"),
+                     "W04": ("Taoyuan City", ["Taoyuan"], "Taoyuan City"),
+                     "W05": ("Hsinchu County", ["Hsinchu"], "Hsinchu County"),
+                     "W06": ("Hsinchu City", ["Hsinchu City"], "Hsinchu City"),
+                     "W07": ("Miaoli County", ["Miaoli"], "Miaoli County"),
+                     "W08": ("Taichung City", ["Taichung City"], "Taichung City"),
+                     "W09": ("Changhua County", ["Changhua"], "Changhua County"),
+                     "W10": ("Nantou County", ["Nantou"], "Nantou County"),
+                     "W11": ("Yunlin County", ["Yunlin"], "Yunlin County"),
+                     "W12": ("Chiayi County", ["Chiayi"], "Chiayi County"),
+                     "W13": ("Chiayi City", ["Chiayi City"], "Chiayi City"),
+                     "W14": ("Tainan City", ["Tainan City"], "Tainan City"),
+                     "W15": ("Kaohsiung City", ["Kaohsiung City"], "Kaohsiung City"),
+                     "W16": ("Pingtung County", ["Pingtung"], "Pingtung County"),
+                     "W17": ("Taitung County", ["Taitung"], "Taitung County"),
+                     "W18": ("Hualien County", ["Hualien"], "Hualien County"),
+                     "W19": ("Penghu County", ["Penghu"], "Penghu County"),
+                     "W20": ("Kinmen County", ["Kinmen"], "Kinmen County")}},
 }
 
 
