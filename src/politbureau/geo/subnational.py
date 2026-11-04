@@ -164,6 +164,13 @@ _TH = ['Amnat Charoen', 'Ang Thong', 'Bangkok Metropolis', 'Bueng Kan', 'Buri Ra
 _TH_WIKI = {"Bangkok Metropolis": "Bangkok", "Buri Ram": "Buriram", "Chon Buri": "Chonburi",
             "Lop Buri": "Lopburi", "Nong Bua Lam Phu": "Nong Bua Lamphu", "Phangnga": "Phang Nga",
             "Prachin Buri": "Prachinburi", "Si Sa Ket": "Sisaket"}
+_MD = ['Briceni', 'Edineţ', 'Rîşcani', 'Glodeni', 'Făleşti', 'Ungheni', 'Nisporeni', 'Hîncesti',
+       'Leova', 'Cantemir', 'Cahul', 'Ocniţa', 'Donduseni', 'Soroca', 'Rezina', 'Ștefan Vodă',
+       'Causeni', 'Cimişlia', 'Basarabeasca', 'Taraclia', 'Criuleni', 'Străşeni', 'Anenii Noi',
+       'Orhei', 'Teleneşti', 'Şoldăneşti', 'Floreşti', 'Ialoveni', 'Călărași', 'Drochia',
+       'Sîngerei']
+# Grafia romanesa amb coma a sota per als noms que es mostren.
+_MD_SHOW = str.maketrans("şţŞŢ", "șțȘȚ")
 
 def _ascii(s):
     import unicodedata
@@ -410,6 +417,48 @@ WIKI = {
            # El vot de llista (el que es comparable amb les enquestes), no el de districte.
            "units": {_ascii(n).upper().replace(" ", "")[:4] + str(i):
                      (_TH_WIKI.get(n, n), [n], _TH_WIKI.get(n, n)) for i, n in enumerate(_TH)}},
+    "IS": {"adm0": "ISL", "dir": "is", "bbox": (-24.6, -13.4, 63.2, 66.6),
+           "page": "2024 Icelandic parliamentary election", "match": "by constituency",
+           # La taula per circumscripcio no porta total: el de la taula de resultats.
+           "national": {"?SOCIALDEMOCRATICALLIANCE": 20.75, "?INDEPENDENCEPARTY": 19.36,
+                        "?VIREISN": 15.82, "?PEOPLESPARTY": 13.78, "?CENTREPARTY": 12.10,
+                        "?PROGRESSIVEPARTY": 7.80, "?SOCIALISTPARTYOFICELAND": 3.96,
+                        "?PIRATEPARTY": 3.02, "?LEFTGREENMOVEMENT": 2.34},
+           # 6 circumscripcions sobre 9 regions: Reykjavik fa la mitjana de les dues
+           # seves, i la resta de l'area de la capital es la circumscripcio Sud-oest.
+           "units": {"RVK": (["Reykjavík North", "Reykjavík South"], ["Reykjavík"], "Reykjavík"),
+                     "SV": ("Southwest", ["Höfuðborgarsvæði"], "Suðvestur"),
+                     "SU": ("South", ["Suðurnes", "Suðurland"], "Suður"),
+                     "NV": ("Northwest", ["Vesturland", "Vestfirðir", "Norðurland vestra"],
+                            "Norðvestur"),
+                     "NA": ("Northeast", ["Norðurland eystra", "Austurland"], "Norðaustur")}},
+    "MD": {"adm0": "MDA", "dir": "md", "bbox": (26.6, 30.2, 45.4, 48.5),
+           "page": "2025 Moldovan parliamentary election",
+           "match": "results by administrative-territorial units",
+           "units": {**{_ascii(n).upper().replace(" ", "")[:4] + str(i): (n, [n], n.translate(_MD_SHOW))
+                        for i, n in enumerate(_MD)},
+                     "CHI": ("Chișinău Municipality", ["Chişinău"], "Chișinău"),
+                     "BAL": ("Bălți Municipality", ["Bălţi"], "Bălți"),
+                     "GAG": ("UTA Gagauzia", ["Comrat"], "Găgăuzia"),
+                     # Els vots de Transnistria (a col.legis de la riba dreta) en una sola unitat.
+                     "TRN": ("Left Bank of the Dniester",
+                             ["Transnistria", "Stîngă Nistrului", "Camenca", "Grigoriopol", "Bender"],
+                             "Transnistria")}},
+    "LU": {"adm0": "LUX", "dir": "lu", "bbox": (5.7, 6.55, 49.4, 50.2),
+           "page": "2023 Luxembourg general election", "match": "votes by constituency",
+           "pick": "last",
+           # Total ponderat (un elector, un vot): el que es comparable amb les enquestes.
+           # Dins d'una circumscripcio el % brut i el ponderat son el mateix.
+           "national": {"?CHRISTIANSOCIALPEOPLESPARTY": 29.80, "?LUXEMBOURGSOCIALISTWORKERSPARTY": 18.18,
+                        "?DEMOCRATICPARTY": 19.13, "?ALTERNATIVEDEMOCRATICREFORMPARTY": 9.54,
+                        "?THEGREENS": 8.32, "?PIRATEPARTYLUXEMBOURG": 6.66, "?THELEFT": 3.64,
+                        "?FOKUS": 2.57, "?LIBERTEFRAIHEET": 1.23, "?COMMUNISTPARTYOFLUXEMBOURG": 0.54,
+                        "?THECONSERVATIVES": 0.21, "?VOLTLUXEMBOURG": 0.17},
+           # 3 districtes de Natural Earth: Diekirch es la circumscripcio Nord,
+           # Grevenmacher l'Est, i el districte de Luxemburg aplega Centre i Sud.
+           "units": {"LUX": (["Centre", "South"], ["Luxembourg"], "Zentrum a Süden"),
+                     "DIE": ("North", ["Diekirch"], "Norden"),
+                     "GRE": ("East", ["Grevenmacher"], "Osten")}},
 }
 
 
@@ -580,7 +629,7 @@ def _load_au(spec):
 def _load_wiki(spec):
     from .wikiresults import region_table
     w = spec["wiki"]
-    rows, total, _title = region_table(w["page"], w["match"], w["cc"])
+    rows, total, _title = region_table(w["page"], w["match"], w["cc"], pick=w.get("pick", "first"))
     alias = w.get("alias") or {}
 
     def rename(shares):
@@ -605,6 +654,8 @@ def _load_wiki(spec):
         # nomes porta %, no vots, aixi que es fa la mitjana simple.
         parties = {p for g in got for p in g}
         deps[code] = rename({p: round(sum(g.get(p, 0) for g in got) / len(got), 2) for p in parties})
+    if not total:
+        total = w.get("national")
     return deps, {}, rename(total) if total else None
 
 

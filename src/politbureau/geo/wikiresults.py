@@ -25,7 +25,8 @@ _COUNTRY_TOTALS = {"austria", "norway", "czech republic", "poland", "portugal", 
                    "denmark", "romania", "croatia", "slovenia", "bulgaria", "lithuania",
                    "new zealand", "ireland", "estonia", "hungary", "greece", "mexico"}
 # Columnes que no son partits pero que el lector de capcaleres deixa passar.
-_NOT_PARTY = re.compile(r"TOTAL|VALID|TURNOUT|ELECTORATE|SEATS|INVALID|BLANK|QUOTA|SPOILED")
+_NOT_PARTY = re.compile(r"TOTAL|VALID|TURNOUT|ELECTORATE|SEATS|INVALID|BLANK|QUOTA|SPOILED|"
+                        r"NROFVOTES|NUMBEROFVOTES")
 
 
 def _pct(text):
@@ -33,7 +34,7 @@ def _pct(text):
     return float(m.group(1).replace(",", ".")) if m else None
 
 
-def region_table(page, match, country, session=None):
+def region_table(page, match, country, session=None, pick="first"):
     got = wk.fetch(page, session)
     if not got:
         raise RuntimeError(f"no existeix: {page}")
@@ -48,7 +49,10 @@ def region_table(page, match, country, session=None):
         for col, code in sorted(party_cols.items()):
             if _NOT_PARTY.search(code):
                 continue
-            first.setdefault(code, col)               # la primera columna de cada sigla: el %
+            if pick == "last":
+                first[code] = col                     # "vots | %" (Luxemburg): l'ultima
+            else:
+                first.setdefault(code, col)           # la primera columna de cada sigla: el %
         rows, total = {}, None
         for cells in wk.grid(table)[header_row + 1:]:
             if not cells or cells[0] is None:

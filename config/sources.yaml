@@ -391,7 +391,9 @@ elections:
   - {id: eu-lt, group: europa, country: LT, scope: national, label: "Lituània — Seimas",
      page: "2028 Lithuanian parliamentary election", pub: {es: lituania, ca: lituania, name_es: Lituania, name_ca: Lituània}}
   - {id: eu-lu, group: europa, country: LU, scope: national, label: "Luxemburg — Cambra de Diputats",
-     page: "Next Luxembourg general election", pub: {es: luxemburgo, ca: luxemburg, name_es: Luxemburgo, name_ca: Luxemburg}}
+     page: "Next Luxembourg general election", pub: {es: luxemburgo, ca: luxemburg, name_es: Luxemburgo, name_ca: Luxemburg},
+     departments: {geo: "lu/units.json", base: "lu/base.json", units_es: "circunscripciones",
+                   units_ca: "circumscripcions", base_es: "las legislativas de 2023", base_ca: "les legislatives del 2023"}}
   - {id: eu-nl, group: europa, country: NL, scope: national, label: "Països Baixos — Tweede Kamer",
      page: "Next Dutch general election", pub: {es: paises-bajos, ca: paisos-baixos, name_es: Países Bajos, name_ca: Països Baixos,
           of_es: "de los Países Bajos", of_ca: "dels Països Baixos"},
@@ -427,11 +429,15 @@ elections:
      departments: {geo: "no/units.json", base: "no/base.json", units_es: "provincias",
                    units_ca: "províncies", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
   - {id: eu-is, group: europa, country: IS, scope: national, label: "Islàndia — Althing",
-     page: "Next Icelandic parliamentary election", pub: {es: islandia, ca: islandia, name_es: Islandia, name_ca: Islàndia}}
+     page: "Next Icelandic parliamentary election", pub: {es: islandia, ca: islandia, name_es: Islandia, name_ca: Islàndia},
+     departments: {geo: "is/units.json", base: "is/base.json", units_es: "circunscripciones",
+                   units_ca: "circumscripcions", base_es: "las legislativas de 2024", base_ca: "les legislatives del 2024"}}
   - {id: eu-me, group: europa, country: ME, scope: national, label: "Montenegro — Parlament",
      page: "Next Montenegrin parliamentary election", pub: {es: montenegro, ca: montenegro, name_es: Montenegro, name_ca: Montenegro}}
   - {id: eu-md, group: europa, country: MD, scope: national, label: "Moldàvia — Parlament",
-     page: "Next Moldovan parliamentary election", pub: {es: moldavia, ca: moldavia, name_es: Moldavia, name_ca: Moldàvia}}
+     page: "Next Moldovan parliamentary election", pub: {es: moldavia, ca: moldavia, name_es: Moldavia, name_ca: Moldàvia},
+     departments: {geo: "md/units.json", base: "md/base.json", units_es: "distritos",
+                   units_ca: "districtes", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
 
   # ---------- RESTA DEL MON (des del 03/11/2026) ----------
   # Demanat per l'Alfonso: "fes afegint els paissos de tot el mon". Mateix sistema

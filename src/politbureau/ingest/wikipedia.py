@@ -400,6 +400,7 @@ def header_parties(table, country, max_header_rows=None):
 
 
 _BG = re.compile(r"background(?:-color)?\s*:\s*(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})(?![0-9a-fA-F])")
+_BGCOLOR = re.compile(r"\s*(#[0-9a-fA-F]{6})(?![0-9a-fA-F])")
 
 
 def header_colors(rows, header_row, party_cols):
@@ -409,7 +410,9 @@ def header_colors(rows, header_row, party_cols):
     de color a la fila de sota del logotip; algunes pinten la mateixa cel.la.
     """
     out = {}
-    for r in (header_row + 1, header_row, header_row - 1):
+    # Dues files per sota quan hi ha una subcapcalera entre les sigles i la franja
+    # (Moldavia, 04/11/2026: un "PS" sota "Altres" desplacava els colors avall).
+    for r in (header_row + 1, header_row, header_row - 1, header_row + 2):
         if not 0 <= r < len(rows):
             continue
         for col, code in party_cols.items():
@@ -418,7 +421,8 @@ def header_colors(rows, header_row, party_cols):
             cell = rows[r][col]
             if r != header_row and cell_text(cell):
                 continue
-            m = _BG.search(cell.get("style") or "")
+            # Algunes taules (Luxemburg) encara fan servir l'atribut antic `bgcolor`.
+            m = _BG.search(cell.get("style") or "") or _BGCOLOR.match(cell.get("bgcolor") or "")
             if m:
                 out[code] = m.group(1).upper()
     return out
