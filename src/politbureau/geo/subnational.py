@@ -96,6 +96,22 @@ SPECS = {
     },
     # Paisos Baixos: Tweede Kamer 2025 per provincia. TK2025_uitslag.csv de la
     # Kiesraad (data.overheid.nl, CC0), baixat el 03/11/2026 a data/raw/nl/.
+    "DK": {
+        "adm0": "DNK", "group": "name", "dir": "dk", "unit_file": "units.json",
+        "bbox": (7.9, 15.3, 54.5, 57.8),
+        "base_file": "base.json", "loader": "dk",
+        "source": "Danmarks Statistik, taula FVKOM (CC BY 4.0)",
+        "codes": {"Hovedstaden": "84", "Sjaælland": "85", "Syddanmark": "83", "Midtjylland": "82",
+                  "Nordjylland": "81"},
+        "names": {"Sjaælland": "Sjælland"},
+        # Lletra de llista -> codi de les enquestes. La resta (D, E, K, P, Q i
+        # independents) va a OTHER.
+        "parties": {"A": "?SOCIALDEMOCRATS", "B": "?DANISHSOCIALLIBERALPARTY",
+                    "C": "?CONSERVATIVEPEOPLESPARTY", "F": "?GREENLEFT", "H": "?CITIZENSPARTY",
+                    "I": "?LIBERALALLIANCE", "M": "?MODERATES", "O": "?DANISHPEOPLESPARTY",
+                    "V": "?VENSTRE", "Æ": "?DENMARKDEMOCRATS", "Ø": "?REDGREENALLIANCE",
+                    "Å": "?THEALTERNATIVE"},
+    },
     "NL": {
         "adm0": "NLD", "group": "name", "dir": "nl", "unit_file": "provincies.json",
         "bbox": (3.2, 7.3, 50.7, 53.6),
@@ -670,6 +686,160 @@ WIKI = {
                      "QUE": ("Quetzaltenango", ["Quezaltenango"], "Quetzaltenango"),
                      # La capital (Distrito Central) i la resta del departament.
                      "GUA": (["Distrito Central", "Guatemala"], ["Guatemala"], "Guatemala")}},
+    # Generals 2027: la base es la primera volta presidencial del 2023; cada
+    # partit d'avui es projecta sobre el candidat del seu espai (parties.yaml).
+    "AR": {"adm0": "ARG", "dir": "ar", "bbox": (-73.6, -53.6, -55.1, -21.7),
+           "page": "2023 Argentine general election", "match": "results by province, first round",
+           "pick": "last",
+           "units": {
+                     "A00": ("Buenos Aires", ["Buenos Aires"], "Buenos Aires"),
+                     "A01": ("Catamarca", ["Catamarca"], "Catamarca"),
+                     "A02": ("Chaco", ["Chaco"], "Chaco"),
+                     "A03": ("Chubut", ["Chubut"], "Chubut"),
+                     "A04": ("Córdoba", ["Córdoba"], "Córdoba"),
+                     "A05": ("Corrientes", ["Corrientes"], "Corrientes"),
+                     "A06": ("Entre Ríos", ["Entre Ríos"], "Entre Ríos"),
+                     "A07": ("Formosa", ["Formosa"], "Formosa"),
+                     "A08": ("Jujuy", ["Jujuy"], "Jujuy"),
+                     "A09": ("La Pampa", ["La Pampa"], "La Pampa"),
+                     "A10": ("La Rioja", ["La Rioja"], "La Rioja"),
+                     "A11": ("Mendoza", ["Mendoza"], "Mendoza"),
+                     "A12": ("Misiones", ["Misiones"], "Misiones"),
+                     "A13": ("Neuquén", ["Neuquén"], "Neuquén"),
+                     "A14": ("Río Negro", ["Río Negro"], "Río Negro"),
+                     "A15": ("Salta", ["Salta"], "Salta"),
+                     "A16": ("San Juan", ["San Juan"], "San Juan"),
+                     "A17": ("San Luis", ["San Luis"], "San Luis"),
+                     "A18": ("Santa Cruz", ["Santa Cruz"], "Santa Cruz"),
+                     "A19": ("Santa Fe", ["Santa Fe"], "Santa Fe"),
+                     "A20": ("Santiago del Estero", ["Santiago del Estero"], "Santiago del Estero"),
+                     "A21": ("Tierra del Fuego", ["Tierra del Fuego"], "Tierra del Fuego"),
+                     "A22": ("Tucumán", ["Tucumán"], "Tucumán"),
+                     "CABA": ("Buenos Aires City", ["Ciudad de Buenos Aires"], "Ciudad de Buenos Aires")}},
+    # Les enquestes son de la Cambra 2027, pero no hi ha taula per estat dels
+    # diputats del 2024: la base son les presidencials del mateix dia (Viquipedia
+    # castellana), amb cada partit sobre la candidata de la seva coalicio.
+    "MX": {"adm0": "MEX", "dir": "mx", "bbox": (-118.5, -86.6, 14.5, 32.8),
+           "page": "Elecciones federales de México de 2024", "lang": "es", "match": "por estado",
+           "pick": "last",
+           "units": {
+                     "M00": ("Aguascalientes", ["Aguascalientes"], "Aguascalientes"),
+                     "M01": ("Baja California", ["Baja California"], "Baja California"),
+                     "M02": ("Baja California Sur", ["Baja California Sur"], "Baja California Sur"),
+                     "M03": ("Campeche", ["Campeche"], "Campeche"),
+                     "M04": ("Coahuila", ["Coahuila"], "Coahuila"),
+                     "M05": ("Colima", ["Colima"], "Colima"),
+                     "M06": ("Chiapas", ["Chiapas"], "Chiapas"),
+                     "M07": ("Chihuahua", ["Chihuahua"], "Chihuahua"),
+                     "M08": ("Durango", ["Durango"], "Durango"),
+                     "M09": ("Guanajuato", ["Guanajuato"], "Guanajuato"),
+                     "M10": ("Guerrero", ["Guerrero"], "Guerrero"),
+                     "M11": ("Hidalgo", ["Hidalgo"], "Hidalgo"),
+                     "M12": ("Jalisco", ["Jalisco"], "Jalisco"),
+                     "M13": ("Michoacán", ["Michoacán"], "Michoacán"),
+                     "M14": ("Morelos", ["Morelos"], "Morelos"),
+                     "M15": ("Nayarit", ["Nayarit"], "Nayarit"),
+                     "M16": ("Nuevo León", ["Nuevo León"], "Nuevo León"),
+                     "M17": ("Oaxaca", ["Oaxaca"], "Oaxaca"),
+                     "M18": ("Puebla", ["Puebla"], "Puebla"),
+                     "M19": ("Querétaro", ["Querétaro"], "Querétaro"),
+                     "M20": ("Quintana Roo", ["Quintana Roo"], "Quintana Roo"),
+                     "M21": ("San Luis Potosí", ["San Luis Potosí"], "San Luis Potosí"),
+                     "M22": ("Sinaloa", ["Sinaloa"], "Sinaloa"),
+                     "M23": ("Sonora", ["Sonora"], "Sonora"),
+                     "M24": ("Tabasco", ["Tabasco"], "Tabasco"),
+                     "M25": ("Tamaulipas", ["Tamaulipas"], "Tamaulipas"),
+                     "M26": ("Tlaxcala", ["Tlaxcala"], "Tlaxcala"),
+                     "M27": ("Veracruz", ["Veracruz"], "Veracruz"),
+                     "M28": ("Yucatán", ["Yucatán"], "Yucatán"),
+                     "M29": ("Zacatecas", ["Zacatecas"], "Zacatecas"),
+                     "CDMX": ("Ciudad de México", ["Distrito Federal"], "Ciudad de México"),
+                     "MEX": ("Estado de México", ["México"], "Estado de México")}},
+    # Belgica: les 11 circumscripcions de la Cambra son les 10 provincies i
+    # Brussel.les. Viquipedia francesa, taula resum per circumscripcio.
+    "BE": {"adm0": "BEL", "dir": "be", "bbox": (2.5, 6.45, 49.45, 51.55),
+           "page": "Élections législatives fédérales belges de 2024", "lang": "fr",
+           "match": "résumé", "columns": True,
+           "alias": {"?NIEUWVLAAMSEALLIANTIE": "?NEWFLEMISHALLIANCE",
+                     "?MOUVEMENTREFORMATEUR": "?REFORMISTMOVEMENT",
+                     "?PARTIDUTRAVAILDEBELGIQUE": "?WORKERSPARTYOFBELGIUM",
+                     "?PARTISOCIALISTE": "?SOCIALISTPARTY",
+                     "?CHRISTENDEMOCRATISCHENVLAAMS": "?CHRISTIANDEMOCRATICANDFLEMISH",
+                     # Open VLD es diu Anders des del 2025.
+                     "?OPENVLAAMSELIBERALENENDEMOCRATEN": "?ANDERS",
+                     "?DEMOCRATEFEDERALISTEINDEPENDANT": "?DEFI", "?AUTRES": "OTHER"},
+           # Resultat del 2024 a cada regio (taules «Flandre» i «Wallonie» de l'article).
+           "regions": {"VLG": {"?NIEUWVLAAMSEALLIANTIE": 25.56, "?VLAAMSBELANG": 21.81,
+                               "?VOORUIT": 13.02, "?CHRISTENDEMOCRATISCHENVLAAMS": 12.81,
+                               "?OPENVLAAMSELIBERALENENDEMOCRATEN": 8.75,
+                               "?PARTIDUTRAVAILDEBELGIQUE": 8.16, "?GROEN": 7.46},
+                       "WAL": {"?MOUVEMENTREFORMATEUR": 28.21, "?PARTISOCIALISTE": 21.98,
+                               "?LESENGAGES": 20.01, "?PARTIDUTRAVAILDEBELGIQUE": 11.64,
+                               "?ECOLO": 6.89, "?DEMOCRATEFEDERALISTEINDEPENDANT": 2.36,
+                               "?NIEUWVLAAMSEALLIANTIE": 1.93}},
+           "by_region": {"ANT": "VLG", "VBR": "VLG", "WVL": "VLG", "OVL": "VLG", "LIM": "VLG",
+                         "WBR": "WAL", "HAI": "WAL", "LIE": "WAL", "LUX": "WAL", "NAM": "WAL"},
+           # Brussel.les te enquestes propies (regio BRU): es mostren tal qual.
+           "units": {"BRU": ("Bruxelles", ["Brussels"], "Bruxelles / Brussel"),
+                     "ANT": ("Anvers", ["Antwerp"], "Antwerpen"),
+                     "VBR": ("Brabant fl.", ["Flemish Brabant"], "Vlaams-Brabant"),
+                     "WVL": ("Flandre occ.", ["West Flanders"], "West-Vlaanderen"),
+                     "OVL": ("Flandre or.", ["East Flanders"], "Oost-Vlaanderen"),
+                     "LIM": ("Limbourg", ["Limburg"], "Limburg"),
+                     "WBR": ("Brabant wa.", ["Walloon Brabant"], "Brabant wallon"),
+                     "HAI": ("Hainaut", ["Hainaut"], "Hainaut"),
+                     "LIE": ("Liège", ["Liege"], "Liège"),
+                     "LUX": ("Luxembourg", ["Luxembourg"], "Luxembourg"),
+                     "NAM": ("Namur", ["Namur"], "Namur")}},
+    # Legislatives 2028: no hi ha taula per comtat de les legislatives del 2024 amb
+    # llicencia clara; la base es la primera volta presidencial del 24/11/2024
+    # (anul.lada despres, pero els vots per comtat son reals), amb un candidat per
+    # partit gran. Cada partit es projecta sobre el seu candidat (parties.yaml).
+    "RO": {"adm0": "ROU", "dir": "ro", "bbox": (20.2, 29.8, 43.6, 48.3),
+           "page": "2024 Romanian presidential election", "match": "by county", "pick": "last",
+           "units": {
+                     "ALBA": ("Alba", ["Alba"], "Alba"),
+                     "ARAD": ("Arad", ["Arad"], "Arad"),
+                     "ARGES": ("Argeș", ["Arges"], "Argeș"),
+                     "BACAU": ("Bacău", ["Bacau"], "Bacău"),
+                     "BIHOR": ("Bihor", ["Bihor"], "Bihor"),
+                     "BISTR": ("Bistrița-Năsăud", ["Bistrita-Nasaud"], "Bistrița-Năsăud"),
+                     "BOTOS": ("Botoșani", ["Botosani"], "Botoșani"),
+                     "BRAIL": ("Brăila", ["Braila"], "Brăila"),
+                     "BRASO": ("Brașov", ["Brasov"], "Brașov"),
+                     "BUCHA": ("Bucharest", ["Bucharest"], "Bucharest"),
+                     "BUZAU": ("Buzău", ["Buzau"], "Buzău"),
+                     "CALAR": ("Călărași", ["Calarasi"], "Călărași"),
+                     "CARAS": ("Caraș-Severin", ["Caras-Severin"], "Caraș-Severin"),
+                     "CLUJ": ("Cluj", ["Cluj"], "Cluj"),
+                     "CONST": ("Constanța", ["Constanta"], "Constanța"),
+                     "COVAS": ("Covasna", ["Covasna"], "Covasna"),
+                     "DOLJ": ("Dolj", ["Dolj"], "Dolj"),
+                     "DAMBO": ("Dâmbovița", ["Dâmbovita"], "Dâmbovița"),
+                     "GALAT": ("Galați", ["Galati"], "Galați"),
+                     "GIURG": ("Giurgiu", ["Giurgiu"], "Giurgiu"),
+                     "GORJ": ("Gorj", ["Gorj"], "Gorj"),
+                     "HARGH": ("Harghita", ["Harghita"], "Harghita"),
+                     "HUNED": ("Hunedoara", ["Hunedoara"], "Hunedoara"),
+                     "IALOM": ("Ialomița", ["Ialomita"], "Ialomița"),
+                     "IASI": ("Iași", ["Iasi"], "Iași"),
+                     "ILFOV": ("Ilfov", ["Ilfov"], "Ilfov"),
+                     "MARAM": ("Maramureș", ["Maramures"], "Maramureș"),
+                     "MEHED": ("Mehedinți", ["Mehedinti"], "Mehedinți"),
+                     "MURES": ("Mureș", ["Mures"], "Mureș"),
+                     "NEAMT": ("Neamț", ["Neamt"], "Neamț"),
+                     "OLT": ("Olt", ["Olt"], "Olt"),
+                     "PRAHO": ("Prahova", ["Prahova"], "Prahova"),
+                     "SALAJ": ("Sălaj", ["Salaj"], "Sălaj"),
+                     "SATUM": ("Satu Mare", ["Satu Mare"], "Satu Mare"),
+                     "SIBIU": ("Sibiu", ["Sibiu"], "Sibiu"),
+                     "SUCEA": ("Suceava", ["Suceava"], "Suceava"),
+                     "TELEO": ("Teleorman", ["Teleorman"], "Teleorman"),
+                     "TIMIS": ("Timiș", ["Timis"], "Timiș"),
+                     "TULCE": ("Tulcea", ["Tulcea"], "Tulcea"),
+                     "VASLU": ("Vaslui", ["Vaslui"], "Vaslui"),
+                     "VRANC": ("Vrancea", ["Vrancea"], "Vrancea"),
+                     "VALCE": ("Vâlcea", ["Vâlcea"], "Vâlcea")}},
 }
 
 
@@ -811,6 +981,50 @@ def _load_gb(spec):
     return deps, valid, nat["all"]
 
 
+def _load_dk(spec):
+    """Vots per municipi del 2026 (FVKOM) sumats per regio. La regio de cada
+    municipi surt de la llista de municipis de Wikipedia (codi LAU i regio)."""
+    import csv
+    from bs4 import BeautifulSoup
+    from ..ingest import wikipedia as wk
+    soup = BeautifulSoup(wk.fetch("List of municipalities of Denmark")["html"], "lxml")
+    region_of = {}
+    regions = {"Capital": "84", "Zealand": "85", "South": "83", "Central": "82", "North": "81"}
+    for row in wk.grid(soup.select("table.wikitable")[0])[1:]:
+        # "Bornholm (merged 2003)": fora el parentesi.
+        name = re.sub(r"\s*\(.*\)", "", wk.cell_text(row[1]))
+        reg = wk.cell_text(row[-1])
+        code = next((c for k, c in regions.items() if reg.startswith(k)), None)
+        if code:
+            region_of[name] = code
+    # Grafia de DST diferent de la de Wikipedia.
+    region_of["Vesthimmerlands"] = region_of.get("Vesthimmerland")
+    region_of["Nordfyns"] = region_of.get("Nordfyn")
+    region_of["Christiansø"] = "84"           # no es municipi: l'administra l'Estat, a l'est de Bornholm
+    path = ROOT / "data" / "raw" / "dk" / "fvkom_2026.csv"
+    votes, national, missing = {}, {}, set()
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        for row in csv.DictReader(fh, delimiter=";"):
+            label = row["VALRES"]
+            m = re.match(r"^(\w)\. ", label)
+            if not m and label != "Independent candidates":
+                continue
+            party = spec["parties"].get(m.group(1), "OTHER") if m else "OTHER"
+            n = int(row["INDHOLD"] or 0) if row["INDHOLD"].strip().isdigit() else 0
+            code = region_of.get(row["OMRÅDE"])
+            if not code:
+                missing.add(row["OMRÅDE"])
+                continue
+            votes.setdefault(code, {}).setdefault(party, 0)
+            votes[code][party] += n
+            national[party] = national.get(party, 0) + n
+    if missing:
+        raise RuntimeError(f"municipis sense regio: {sorted(missing)}")
+    deps, valid = _shares(votes)
+    nat, _ = _shares({"all": national})
+    return deps, valid, nat["all"]
+
+
 def _load_nl(spec):
     import csv
     path = ROOT / "data" / "raw" / "nl" / "x" / "TK2025_uitslag.csv"
@@ -887,8 +1101,16 @@ def baseline(spec, conn):
     """{territori: {partit: %}} i el total estatal de l'eleccio de base."""
     if spec.get("loader") == "wiki":
         deps, valid, national = _load_wiki(spec)
-        return {"national": national, "dep": deps, "valid": valid, "source": spec["source"]}
-    loaders = {"de": _load_de, "gb": _load_gb, "nl": _load_nl, "au": _load_au}
+        out = {"national": national, "dep": deps, "valid": valid, "source": spec["source"]}
+        w = spec["wiki"]
+        if w.get("regions"):
+            # Belgica: resultat de cada regio i regio de cada unitat (mode regional).
+            alias = w.get("alias") or {}
+            out["regions"] = {k: {alias.get(p, p): v for p, v in r.items()}
+                              for k, r in w["regions"].items()}
+            out["by_region"] = w["by_region"]
+        return out
+    loaders = {"de": _load_de, "gb": _load_gb, "nl": _load_nl, "au": _load_au, "dk": _load_dk}
     if spec.get("loader") in loaders:
         deps, valid, national = loaders[spec["loader"]](spec)
         return {"national": national, "dep": deps, "valid": valid, "source": spec["source"]}

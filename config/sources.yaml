@@ -352,7 +352,9 @@ elections:
                    units_ca: "estats federats", base_es: "las legislativas de 2024", base_ca: "les legislatives del 2024"}}
   - {id: eu-be, group: europa, country: BE, scope: national, label: "Bèlgica — Cambra de Representants", national: false,
      page: "Opinion polling for the 2029 Belgian elections",
-     pub: {es: belgica, ca: belgica, name_es: Bélgica, name_ca: Bèlgica}}
+     pub: {es: belgica, ca: belgica, name_es: Bélgica, name_ca: Bèlgica},
+     departments: {geo: "be/units.json", base: "be/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "las federales de 2024", base_ca: "les federals del 2024", regional: true}}
   - {id: eu-bg, group: europa, country: BG, scope: national, label: "Bulgària — Assemblea Nacional",
      page: "Next Bulgarian parliamentary election", pub: {es: bulgaria, ca: bulgaria, name_es: Bulgaria, name_ca: Bulgària}}
   - {id: eu-hr, group: europa, country: HR, scope: national, label: "Croàcia — Sabor",
@@ -365,7 +367,9 @@ elections:
      departments: {geo: "cz/units.json", base: "cz/base.json", units_es: "regiones",
                    units_ca: "regions", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
   - {id: eu-dk, group: europa, country: DK, scope: national, label: "Dinamarca — Folketing",
-     page: "Next Danish general election", pub: {es: dinamarca, ca: dinamarca, name_es: Dinamarca, name_ca: Dinamarca}}
+     page: "Next Danish general election", pub: {es: dinamarca, ca: dinamarca, name_es: Dinamarca, name_ca: Dinamarca},
+     departments: {geo: "dk/units.json", base: "dk/base.json", units_es: "regiones",
+                   units_ca: "regions", base_es: "las generales de 2026", base_ca: "les generals del 2026"}}
   - {id: eu-ee, group: europa, country: EE, scope: national, label: "Estònia — Riigikogu",
      page: "Opinion polling for the next Estonian parliamentary election", pub: {es: estonia, ca: estonia, name_es: Estonia, name_ca: Estònia},
      departments: {geo: "ee/units.json", base: "ee/base.json", units_es: "condados",
@@ -410,7 +414,9 @@ elections:
      departments: {geo: "pt/units.json", base: "pt/base.json", units_es: "distritos",
                    units_ca: "districtes", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
   - {id: eu-ro, group: europa, country: RO, scope: national, label: "Romania — Parlament",
-     page: "Next Romanian parliamentary election", pub: {es: rumania, ca: romania, name_es: Rumanía, name_ca: Romania}}
+     page: "Next Romanian parliamentary election", pub: {es: rumania, ca: romania, name_es: Rumanía, name_ca: Romania},
+     departments: {geo: "ro/units.json", base: "ro/base.json", units_es: "distritos",
+                   units_ca: "comtats", base_es: "la primera vuelta presidencial de 2024", base_ca: "la primera volta presidencial del 2024"}}
   - {id: eu-sk, group: europa, country: SK, scope: national, label: "Eslovàquia — Consell Nacional",
      page: "Opinion polling for the next Slovak parliamentary election", pub: {es: eslovaquia, ca: eslovaquia, name_es: Eslovaquia, name_ca: Eslovàquia},
      departments: {geo: "sk/units.json", base: "sk/base.json", units_es: "regiones",
@@ -478,10 +484,14 @@ elections:
                    units_ca: "províncies", base_es: "las presidenciales de 2025", base_ca: "les presidencials del 2025"}}
   - {id: w-mx, group: mon, country: MX, scope: national, label: "Mèxic — Cambra de Diputats 2027",
      page: "Opinion polling for the 2027 Mexican legislative election",
-     pub: {es: mexico, ca: mexic, name_es: México, name_ca: Mèxic, map: "484"}}
+     pub: {es: mexico, ca: mexic, name_es: México, name_ca: Mèxic, map: "484"},
+     departments: {geo: "mx/units.json", base: "mx/base.json", units_es: "estados",
+                   units_ca: "estats", base_es: "las presidenciales de 2024", base_ca: "les presidencials del 2024"}}
   - {id: w-ar, group: mon, country: AR, scope: national, label: "Argentina — Generals 2027", kind: general, date: 2027-10-24,
      page: "2027 Argentine general election", deny_sections: ["by candidate"],
-     pub: {es: argentina, ca: argentina, name_es: Argentina, name_ca: Argentina, of_ca: "de l'Argentina", map: "032"}}
+     pub: {es: argentina, ca: argentina, name_es: Argentina, name_ca: Argentina, of_ca: "de l'Argentina", map: "032"},
+     departments: {geo: "ar/units.json", base: "ar/base.json", units_es: "provincias",
+                   units_ca: "províncies", base_es: "la primera vuelta presidencial de 2023", base_ca: "la primera volta presidencial del 2023"}}
   - {id: w-gt, group: mon, country: GT, scope: national, label: "Guatemala — Presidencials 2027", display: candidates,
      page: "2027 Guatemalan general election",
      pub: {es: guatemala, ca: guatemala, name_es: Guatemala, name_ca: Guatemala, map: "320"},

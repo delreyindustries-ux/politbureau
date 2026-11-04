@@ -69,15 +69,21 @@
     premiar les coalicions, i això aquí no es modela.{% endif %}</p>
 {% endif %}
 
+{% endif %}
+
+{# El mapa per territoris fora del bloc estatal: Belgica no te mitjana estatal
+   pero si mapa (cada provincia amb la mitjana de la seva regio). #}
 {% if d.depmap %}
   {% set units = d.depmap.units[lang] %}
   <h2 id="departements">{{ ('Por ' if es else 'Per ') ~ units }}</h2>
   <p class="note">{% if es %}<b>Esto es una estimación, no una encuesta.</b> No hay encuestas por
     {{ units }}: la media de hoy se proyecta sobre el voto real de cada uno en {{ d.depmap.base_label.es }},
-    con el mismo método que los municipios de España. Donde hay encuestas propias (las de la sección
+    con el mismo método que los municipios de España.{% if d.depmap.regional %} No hay media
+    nacional: cada uno se proyecta con la media de su región.{% endif %} Donde hay encuestas propias (las de la sección
     «Por regiones»), mandan ellas. Pasa el cursor por el mapa para ver los tres primeros.{% else %}<b>Això és una estimació, no una enquesta.</b> No hi ha enquestes per {{ units }}:
     la mitjana d'avui es projecta sobre el vot real de cadascun a {{ d.depmap.base_label.ca }}, amb el
-    mateix mètode que els municipis d'Espanya. On hi ha enquestes pròpies (les de la secció «Per
+    mateix mètode que els municipis d'Espanya.{% if d.depmap.regional %} No hi ha mitjana
+    estatal: cadascun es projecta amb la mitjana de la seva regió.{% endif %} On hi ha enquestes pròpies (les de la secció «Per
     regions»), manen elles. Passa el cursor pel mapa per veure'n els tres primers.{% endif %}</p>
   <figure class="depmap">
     <svg viewBox="0 0 {{ d.depmap.w }} {{ d.depmap.h }}" role="img"
@@ -103,6 +109,7 @@
   </details>
 {% endif %}
 
+{% if d.national %}
   <h2>{{ 'Las encuestas que entran en la media' if es else 'Les enquestes que entren a la mitjana' }}</h2>
   <div class="tablewrap">
   <table class="results part">

@@ -594,8 +594,11 @@ def _departments(election, national, polled=None):
         base = json.loads((WEB / cfg["base"]).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
-    now = {a["code"]: a["share"] for a in national["avg"]}
-    meta = {a["code"]: a for a in national["avg"]}
+    now = {a["code"]: a["share"] for a in national["avg"]} if national else {}
+    meta = {a["code"]: a for a in national["avg"]} if national else {}
+    # Belgica: sense mitjana estatal. Cada provincia es projecta amb la mitjana de
+    # la seva regio i el resultat regional de l'eleccio de base.
+    by_region = base.get("by_region") or {}
     family = parties.families().get(election["country"]) or {}
     deps = []
     polled = polled or {}
@@ -617,18 +620,28 @@ def _departments(election, national, polled=None):
             deps.append({"code": code, "name": shape["n"], "d": shape["d"], "rows": [],
                          "color": None, "alpha": 1})
             continue
-        proj = seatlib.proportional_swing(b, now, base["national"], family=family)
+        u_now, u_meta, u_before = now, meta, base["national"]
+        reg = by_region.get(code)
+        if reg:
+            if reg not in polled or reg not in (base.get("regions") or {}):
+                continue
+            u_now = {a["code"]: a["share"] for a in polled[reg]["avg"]}
+            u_meta = {a["code"]: a for a in polled[reg]["avg"]}
+            u_before = base["regions"][reg]
+        if not u_before:
+            continue
+        proj = seatlib.proportional_swing(b, u_now, u_before, family=family)
         # Els partits de la base que avui ja no surten a les enquestes (fusionats,
         # rebatejats o desapareguts) es treuen: si no, es quedarien congelats al seu
         # resultat i el seu vot es comptaria dues vegades amb el del seu successor.
-        proj = {p: s for p, s in proj.items() if p in now or p == "OTHER"}
+        proj = {p: s for p, s in proj.items() if p in u_now or p == "OTHER"}
         tot = sum(proj.values()) or 1
         proj = {p: s * 100 / tot for p, s in proj.items()}
-        top = sorted(((p, s) for p, s in proj.items() if p in meta and p != "OTHER"),
+        top = sorted(((p, s) for p, s in proj.items() if p in u_meta and p != "OTHER"),
                      key=lambda x: -x[1])[:3]
         if not top:
             continue
-        rows = [{"name": meta[p]["person"] or meta[p]["name"], "color": meta[p]["color"],
+        rows = [{"name": u_meta[p]["person"] or u_meta[p]["name"], "color": u_meta[p]["color"],
                  "share": s} for p, s in top]
         # Intensitat segons el % del primer: amb el 25 % es veu clar, amb el 50 % ple.
         alpha = round(min(1.0, max(0.3, (rows[0]["share"] - 15) / 35)), 2)
@@ -638,7 +651,7 @@ def _departments(election, national, polled=None):
     for d in deps:
         if d["rows"]:
             leaders.setdefault(d["rows"][0]["name"], [d["rows"][0]["color"], 0])[1] += 1
-    return {"w": geo["w"], "h": geo["h"], "deps": deps,
+    return {"w": geo["w"], "h": geo["h"], "deps": deps, "regional": bool(by_region),
             "units": {"es": cfg.get("units_es", "departamentos"), "ca": cfg.get("units_ca", "departaments")},
             "base_label": {"es": cfg.get("base_es", "la primera vuelta de 2022"),
                            "ca": cfg.get("base_ca", "la primera volta del 2022")},
@@ -676,8 +689,10 @@ def abroad_data(conn, eid):
         return None
     pub = election["pub"]
     base = national or {"avg": [], "order": [], "polls": [], "seats": False, "seat_total": 0}
+    regional = (election.get("departments") or {}).get("regional")
     depmap = (_departments(election, national,
-                           {str(r.get("unit") or r["key"]): r for r in regions}) if national else None)
+                           {str(r.get("unit") or r["key"]): r for r in regions})
+              if national or (regional and regions) else None)
     return {**base, "national": bool(national), "regions": regions, "depmap": depmap,
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],

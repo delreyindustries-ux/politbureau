@@ -542,6 +542,34 @@ _family:
     "?FRANCISPANGILINAN": "?LENIROBREDO"
     "?RISAHONTIVEROS": "?LENIROBREDO"
     "?BAMAQUINO": "?LENIROBREDO"
+  # Argentina (base: presidencials 2023): LLA sobre Milei, Fuerza Patria sobre
+  # Massa, Provincias Unidas sobre Schiaretti, PRO i UCR sobre Bullrich, FIT sobre Bregman.
+  AR:
+    "?LALIBERTADAVANZA": "?JAVIERMILEI"
+    "?HOMELANDFORCE": "?SERGIOMASSA"
+    "?UNITEDPROVINCES": "?JUANSCHIARETTI"
+    "?REPUBLICANPROPOSAL": "?PATRICIABULLRICH"
+    "?RADICALCIVICUNION": "?PATRICIABULLRICH"
+    "?WORKERSLEFTFRONT": "?MYRIAMBREGMAN"
+  # Mexic (base: presidencials 2024): Morena, PT i PVEM sobre Sheinbaum; PAN i PRI
+  # sobre Galvez; MC sobre Maynez.
+  MX:
+    "?MORENA": "?CLAUDIASHEINBAUM"
+    "?LABORPARTY": "?CLAUDIASHEINBAUM"
+    "?ECOLOGISTGREENPARTYOFMEXICO": "?CLAUDIASHEINBAUM"
+    "?NATIONALACTIONPARTY": "?XOCHITLGALVEZ"
+    "?INSTITUTIONALREVOLUTIONARYPARTY": "?XOCHITLGALVEZ"
+    "?CITIZENSMOVEMENT": "?JORGEALVAREZMAYNEZ"
+  # Romania (base: primera volta presidencial del 2024): cada partit sobre el seu
+  # candidat. SOS i POT sobre Georgescu, l'espai que van recollir.
+  RO:
+    "?SOCIALDEMOCRATICPARTY": "?MARCELCIOLACU"
+    "?NATIONALLIBERALPARTY": "?NICOLAECIUCA"
+    "?ALLIANCEFORTHEUNIONOFROMANIANS": "?GEORGESIMION"
+    "?SAVEROMANIAUNION": "?ELENALASCONI"
+    "?DEMOCRATICUNIONOFHUNGARIANSINROMANIA": "?HUNORKELEMEN"
+    "?SOSROMANIA": "?CALINGEORGESCU"
+    "?PARTYOFYOUNGPEOPLE": "?CALINGEORGESCU"
   FR:
     HOR: ENS          # Philippe es projecta sobre el vot de Macron del 2022
     DEBOUT: LFI       # Ruffin, sobre el de Melenchon

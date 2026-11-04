@@ -28,7 +28,7 @@ _COUNTRY_TOTALS = {"austria", "norway", "czech republic", "poland", "portugal", 
 _NOT_PARTY = re.compile(r"TOTAL|VALID|TURNOUT|ELECTORATE|SEATS|INVALID|BLANK|QUOTA|SPOILED|"
                         r"NROFVOTES|NUMBEROFVOTES|"
                         # Viquipedia castellana (Guatemala): vots valids, nuls, en blanc...
-                        r"^\?VOTOS|PARTICIPACI|ABSTENCI")
+                        r"^\?VOTOS|PARTICIPACI|ABSTENCI|^\?NULOS|NOREGISTRADOS")
 
 
 def _pct(text):
@@ -69,19 +69,30 @@ def _by_columns(table, country):
     (Guatemala, Viquipedia castellana). Nomes es llegeixen les cel.les amb "%"."""
     cells = wk.grid(table)
     head = [wk.cell_text(c) if c is not None else "" for c in cells[0]]
-    rows = {}
+    # Belgica (Viquipedia francesa): el "%" es a la segona fila de capcalera.
+    sub = [wk.cell_text(c) if c is not None else "" for c in cells[1]] if len(cells) > 1 else []
+    rows, total = {}, {}
     for row in cells[1:]:
         found, _unk = wk._parties_in_row([c for c in row[:2] if c is not None][-1:], country)
         if not found:
             continue
         code = next(iter(found.values()))
+        if _NOT_PARTY.search(code):
+            continue
         for col in range(2, min(len(row), len(head))):
-            if row[col] is None or "%" not in wk.cell_text(row[col]):
+            if row[col] is None:
                 continue
-            v = _pct(wk.cell_text(row[col]))
-            if v is not None and head[col] and not _NOT_PARTY.search(code):
+            text = wk.cell_text(row[col])
+            if "%" not in text and not (col < len(sub) and sub[col] == "%"):
+                continue
+            v = _pct(text)
+            if v is None or not head[col]:
+                continue
+            if _TOTAL.match(head[col]):
+                total.setdefault(code, v)
+            else:
                 rows.setdefault(head[col], {})[code] = v
-    return rows
+    return rows, total
 
 
 def region_table(page, match, country, session=None, pick="first", transposed=False,
@@ -92,13 +103,15 @@ def region_table(page, match, country, session=None, pick="first", transposed=Fa
     soup = BeautifulSoup(got["html"], "lxml")
     if columns:
         # Els territoris venen repartits en diverses taules de la mateixa seccio.
-        merged = {}
+        merged, total = {}, {}
         for table in soup.select("table.wikitable"):
             if match in wk._section_of(table):
-                for name, shares in _by_columns(table, country).items():
+                got_rows, got_total = _by_columns(table, country)
+                for name, shares in got_rows.items():
                     merged.setdefault(name, {}).update(shares)
+                total.update(got_total)
         if merged:
-            return merged, None, got["title"]
+            return merged, total or None, got["title"]
         raise RuntimeError(f"cap taula «{match}» a {page}")
     seen = 0
     for table in soup.select("table.wikitable"):
