@@ -34,6 +34,53 @@ def dhondt(votes: dict, seats: int, threshold: float = 0.03) -> dict:
     return result
 
 
+def apportion(shares: dict, seats: int, method: str = "dhondt", threshold: float = 0.0,
+              first_divisor: float = 1.0, bonus: str | None = None) -> dict:
+    """Repartiment estatal d'una cambra a partir dels % de les enquestes.
+
+    A diferencia de `dhondt`, el llindar es compara amb el % real (sobre el total),
+    no amb la suma dels partits que es reparteixen: sense "altres" la suma no fa
+    100 i un partit del 4,8 % passava un llindar del 5 %.
+
+    `method`: "dhondt", "sainte_lague" (divisors 1, 3, 5... amb el primer
+    canviat per `first_divisor`: 1,2 a Suecia, 1,4 a Noruega), "hare" o "droop"
+    (resta mes gran; "droop" es la quota Hagenbach-Bischoff, vots / (escons + 1)).
+    `bonus="gr"`: la prima grega al primer partit (20 escons amb el 25 %, un mes
+    per cada mig punt, fins a 50 amb el 40 %).
+    """
+    result = {p: 0 for p in shares}
+    running = {p: s for p, s in shares.items() if s >= threshold * 100}
+    if not running or seats <= 0:
+        return result
+    if bonus == "gr":
+        top = max(running, key=running.get)
+        if running[top] >= 25:
+            extra = min(50, 20 + int((min(running[top], 40) - 25) / 0.5))
+            result[top] += extra
+            seats -= extra
+    if method in ("hare", "droop"):
+        total = sum(running.values())
+        quota = total / seats if method == "hare" else total / (seats + 1)
+        got = {p: int(v // quota) for p, v in running.items()}
+        left = seats - sum(got.values())
+        for p in sorted(running, key=lambda p: -(running[p] / quota - got[p]))[:max(left, 0)]:
+            got[p] += 1
+        for p, n in got.items():
+            result[p] += n
+        return result
+    won = {p: 0 for p in running}
+    for _ in range(seats):
+        if method == "sainte_lague":
+            w = max(running, key=lambda p: (running[p] / (first_divisor if won[p] == 0
+                                                          else 2 * won[p] + 1), running[p]))
+        else:
+            w = max(running, key=lambda p: (running[p] / (won[p] + 1), running[p]))
+        won[w] += 1
+    for p, n in won.items():
+        result[p] += n
+    return result
+
+
 # El swing es una divisio, i dividir per un numero minuscul fa esclatar el
 # resultat. Adelante Andalucia va treure el 0,037% estatal el 2023 i les
 # enquestes li donen l'1%: el factor surt 26,8 i el model l'acabava fent

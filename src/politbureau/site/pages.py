@@ -8,6 +8,8 @@ import re
 import shutil
 from pathlib import Path
 
+import yaml
+
 from .. import parties, veda
 from ..ingest.runner import load_config as load_sources
 from ..geo import fetch as geo
@@ -404,6 +406,7 @@ def sitemaps(cfg, urls):
             elections = abroad_elections()
             entries += [world_url(lang)] + [abroad_url(elections[e], lang)
                                              for e in cfg["_abroad"]]
+        entries += sorted((cfg.get("_abroad_units") or {}).get(lang, []))
         entries += sorted(u[lang] for u in urls.values() if lang in u)
         body = "\n".join(
             f"  <url><loc>{base}{u}</loc><lastmod>{today}</lastmod>"
@@ -477,8 +480,18 @@ def assets(data, urls):
 # `pub` a sources.yaml (adreca i nom del pais en cada idioma).
 
 def abroad_elections():
-    """{id: config} de les eleccions estrangeres amb pagina, en l'ordre de sources.yaml."""
-    return {e["id"]: e for e in load_sources()["elections"] if e.get("pub")}
+    """{id: config} de les eleccions estrangeres amb pagina, en l'ordre de sources.yaml.
+    Les cambres per als escons orientatius venen de config/chambers.yaml."""
+    try:
+        chambers = yaml.safe_load((ROOT / "config" / "chambers.yaml").read_text(encoding="utf-8"))
+    except OSError:
+        chambers = {}
+    out = {}
+    for e in load_sources()["elections"]:
+        if e.get("pub"):
+            chamber = e.get("chamber") or (chambers or {}).get(e["id"])
+            out[e["id"]] = {**e, "chamber": chamber} if chamber else e
+    return out
 
 
 def abroad_url(election, lang):
@@ -551,10 +564,14 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
     # Aixi la publicacio no ha de fer `build --country IT`, que baixaria cada
     # hora el resultat del 2022 municipi a municipi per a un mapa que la web no te.
     seats = {}
-    if chamber and chamber.get("method") == "proportional":
+    if chamber and chamber.get("method") in ("proportional", "dhondt", "sainte_lague", "hare",
+                                             "droop"):
         from ..model import seats as seatlib
         shares = {r["party"]: r["share"] for r in rows if r["party"] != "OTHER"}
-        seats = {p: n for p, n in seatlib.dhondt(shares, chamber["seats"], 0.03).items() if n}
+        method = "dhondt" if chamber["method"] == "proportional" else chamber["method"]
+        seats = {p: n for p, n in seatlib.apportion(
+            shares, chamber["seats"], method, chamber.get("threshold", 0.03),
+            chamber.get("first_divisor", 1.0), chamber.get("bonus")).items() if n}
     avg = []
     for r in rows:
         meta = parties.meta(r["party"], country, eid)
@@ -573,7 +590,9 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
              for p in used]
     return {"avg": avg, "order": [next(a for a in avg if a["code"] == c) for c in order],
             "polls": polls, "seats": bool(seats),
-            "seat_total": sum(seats.values()) if seats else 0}
+            "seat_total": sum(seats.values()) if seats else 0,
+            "chamber": chamber if seats else None,
+            "majority": ((chamber.get("total") or chamber["seats"]) // 2 + 1) if seats else 0}
 
 
 def abroad_regions():
@@ -606,11 +625,12 @@ def _departments(election, national, polled=None):
         if code in polled:
             # Aquest territori te enquestes propies (Escocia, Gal.les, Baviera...):
             # manen sobre l'estimacio, com a la seccio "Per regions".
-            avg = [a for a in polled[code]["avg"] if a["code"] != "OTHER"][:3]
+            avg = [a for a in polled[code]["avg"] if a["code"] != "OTHER"]
             rows = [{"name": a["person"] or a["name"], "color": a["color"], "share": a["share"]}
                     for a in avg]
             alpha = round(min(1.0, max(0.3, (rows[0]["share"] - 15) / 35)), 2)
-            deps.append({"code": code, "name": shape["n"], "d": shape["d"], "rows": rows,
+            deps.append({"code": code, "name": shape["n"], "d": shape["d"], "rows": rows[:3],
+                         "full": [{**r, "base": None} for r in rows],
                          "color": rows[0]["color"], "alpha": alpha, "polled": True})
             continue
         b = base["dep"].get(code)
@@ -637,20 +657,35 @@ def _departments(election, national, polled=None):
         proj = {p: s for p, s in proj.items() if p in u_now or p == "OTHER"}
         tot = sum(proj.values()) or 1
         proj = {p: s * 100 / tot for p, s in proj.items()}
-        top = sorted(((p, s) for p, s in proj.items() if p in u_meta and p != "OTHER"),
-                     key=lambda x: -x[1])[:3]
-        if not top:
+        ranked = sorted(((p, s) for p, s in proj.items() if p in u_meta and p != "OTHER"),
+                        key=lambda x: -x[1])
+        if not ranked:
             continue
-        rows = [{"name": u_meta[p]["person"] or u_meta[p]["name"], "color": u_meta[p]["color"],
-                 "share": s} for p, s in top]
+        # La fitxa del territori: tots els partits, amb el que va treure cadascun a
+        # l'eleccio de base. Si un partit no s'hi presentava, el del seu espai
+        # (`via`): Han Dong-hoon porta el vot de Kim Moon-soo del 2025.
+        full = []
+        for p, s in ranked:
+            before, via = b.get(p), False
+            if before is None and family.get(p) in b:
+                before, via = b[family[p]], True
+            full.append({"name": u_meta[p]["person"] or u_meta[p]["name"],
+                         "color": u_meta[p]["color"], "share": s, "base": before, "via": via})
+        rows = full[:3]
         # Intensitat segons el % del primer: amb el 25 % es veu clar, amb el 50 % ple.
         alpha = round(min(1.0, max(0.3, (rows[0]["share"] - 15) / 35)), 2)
         deps.append({"code": code, "name": shape["n"], "d": shape["d"], "rows": rows,
-                     "color": rows[0]["color"], "alpha": alpha})
-    leaders = {}
+                     "full": full, "color": rows[0]["color"], "alpha": alpha})
+    leaders, taken = {}, set()
     for d in deps:
         if d["rows"]:
             leaders.setdefault(d["rows"][0]["name"], [d["rows"][0]["color"], 0])[1] += 1
+            # Adreca de la fitxa, unica dins del pais.
+            slug = parties.slug(d["name"]) or d["code"].lower()
+            if slug in taken:
+                slug = f"{slug}-{d['code'].lower()}"
+            taken.add(slug)
+            d["slug"] = slug
     return {"w": geo["w"], "h": geo["h"], "deps": deps, "regional": bool(by_region),
             "units": {"es": cfg.get("units_es", "departamentos"), "ca": cfg.get("units_ca", "departaments")},
             "base_label": {"es": cfg.get("base_es", "la primera vuelta de 2022"),
@@ -693,6 +728,23 @@ def abroad_data(conn, eid):
     depmap = (_departments(election, national,
                            {str(r.get("unit") or r["key"]): r for r in regions})
               if national or (regional and regions) else None)
+    for g in (depmap or {}).get("deps", []):
+        if g.get("slug"):
+            g["url"] = {lg: abroad_url(election, lg) + g["slug"] + "/" for lg in i18n.LANGS}
+    if depmap:
+        # On es mes fort cada partit: els tres territoris on l'estimacio li dona
+        # mes vot. L'equivalent dels feus d'Espanya, per als sis primers partits.
+        best = {}
+        for g in depmap["deps"]:
+            for r in g.get("full") or []:
+                best.setdefault(r["name"], {"color": r["color"], "top": []})["top"].append(
+                    {"name": g["name"], "url": g.get("url"), "share": r["share"]})
+        order = [a["person"] or a["name"] for a in (national or {}).get("avg", [])
+                 if a["code"] != "OTHER"] or list(best)
+        depmap["strongholds"] = [
+            {"name": n, "color": best[n]["color"],
+             "top": sorted(best[n]["top"], key=lambda x: -x["share"])[:3]}
+            for n in order[:6] if n in best and len(best[n]["top"]) >= 3]
     return {**base, "national": bool(national), "regions": regions, "depmap": depmap,
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],
@@ -779,6 +831,21 @@ def _titles(data, lang):
             "amb tots els sondeigs que hi entren.")
 
 
+def _unit_titles(data, g, lang):
+    """Titol i descripcio de la fitxa d'un territori estranger."""
+    of, units = data["of"][lang], data["depmap"]["units"][lang]
+    first = g["rows"][0]
+    if lang == "es":
+        return (f"{g['name']}: estimación de voto · Encuestas {of}",
+                f"Estimación de voto en {g['name']} para las próximas elecciones {of}: "
+                f"{first['name']} va primero con un {_fmt(first['share'])} %. "
+                f"Comparada con {data['depmap']['base_label']['es']}.")
+    return (f"{g['name']}: estimació de vot · Enquestes {of}",
+            f"Estimació de vot a {g['name']} per a les properes eleccions {of}: "
+            f"{first['name']} va primer amb un {_fmt(first['share'])} %. "
+            f"Comparada amb {data['depmap']['base_label']['ca']}.")
+
+
 def abroad_pages(env, cfg, conn):
     """Una pagina per eleccio estrangera i l'index d'Europa. Retorna els id escrits."""
     done = []
@@ -792,6 +859,14 @@ def abroad_pages(env, cfg, conn):
             html = render_page(env, cfg, "abroad.html.j2", lang, canonical, data["urls"],
                                title, description, d=data, fmt=_fmt, fdate=_fdate, de=de)
             write(DIST / canonical.strip("/") / "index.html", html)
+            for g in (data["depmap"] or {}).get("deps", []):
+                if not g.get("url"):
+                    continue
+                t, desc = _unit_titles(data, g, lang)
+                html = render_page(env, cfg, "abroad_unit.html.j2", lang, g["url"][lang], g["url"],
+                                   t, desc, d=data, u=g, fmt=_fmt, fdate=_fdate, de=de)
+                write(DIST / g["url"][lang].strip("/") / "index.html", html)
+                cfg.setdefault("_abroad_units", {}).setdefault(lang, []).append(g["url"][lang])
         done.append((eid, data))
     if done:
         elections = abroad_elections()

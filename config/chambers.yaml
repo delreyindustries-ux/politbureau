@@ -1,0 +1,37 @@
+# Cambres dels parlaments estrangers per als escons orientatius (04/11/2026).
+#
+# Un repartiment ESTATAL amb la mitjana de les enquestes, el llindar real i el
+# metode real del pais. Es un ordre de magnitud: on la llei reparteix per
+# circumscripcions (`districts: true`) els partits petits hi surten afavorits.
+# Escons, llindars i metodes: seccio "Electoral system" de l'article de
+# Wikipedia de l'ultima eleccio de cada pais (consultada el 04/11/2026).
+#
+# `seats`: els que es reparteixen; `total`: la cambra sencera (la majoria es
+# calcula sobre aquesta) quan hi ha escons que no es modelen (minories,
+# exterior, Feroe i Groenlandia).
+#
+# Sense escons: sistemes majoritaris o mixtos (Regne Unit, Franca, Canada,
+# Australia, Japo, Hongria, Lituania, Mexic, Tailandia), vot unic transferible
+# (Irlanda) i Belgica (sense mitjana estatal).
+
+eu-nl: {name: Tweede Kamer, seats: 150, method: dhondt, threshold: 0.00667}
+eu-sk: {name: Národná rada, seats: 150, method: droop, threshold: 0.05}
+eu-at: {name: Nationalrat, seats: 183, method: dhondt, threshold: 0.04, districts: true}
+eu-se: {name: Riksdag, seats: 349, method: sainte_lague, first_divisor: 1.2, threshold: 0.04}
+eu-dk: {name: Folketing, seats: 175, total: 179, method: hare, threshold: 0.02}
+eu-cz: {name: Poslanecká sněmovna, seats: 200, method: droop, threshold: 0.05, districts: true}
+eu-ee: {name: Riigikogu, seats: 101, method: dhondt, threshold: 0.05}
+eu-si: {name: Državni zbor, seats: 88, total: 90, method: dhondt, threshold: 0.04}
+eu-md: {name: Parlament, seats: 101, method: dhondt, threshold: 0.05}
+eu-no: {name: Storting, seats: 169, method: sainte_lague, first_divisor: 1.4, threshold: 0.04, districts: true}
+eu-de: {name: Bundestag, seats: 630, method: sainte_lague, threshold: 0.05}
+eu-me: {name: Skupština, seats: 81, method: dhondt, threshold: 0.03}
+eu-is: {name: Alþingi, seats: 63, method: dhondt, threshold: 0.05, districts: true}
+eu-bg: {name: Narodno sabranie, seats: 240, method: hare, threshold: 0.04}
+eu-ro: {name: Camera Deputaților, seats: 313, total: 331, method: dhondt, threshold: 0.05}
+eu-gr: {name: Vouli, seats: 300, method: hare, threshold: 0.03, bonus: gr}
+eu-pl: {name: Sejm, seats: 460, method: dhondt, threshold: 0.05, districts: true}
+eu-pt: {name: Assembleia da República, seats: 230, method: dhondt, threshold: 0.0, districts: true}
+eu-fi: {name: Eduskunta, seats: 200, method: dhondt, threshold: 0.0, districts: true}
+eu-hr: {name: Sabor, seats: 140, total: 151, method: dhondt, threshold: 0.05, districts: true}
+eu-lu: {name: Chambre des Députés, seats: 60, method: dhondt, threshold: 0.0, districts: true}

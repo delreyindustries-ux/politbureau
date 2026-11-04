@@ -297,6 +297,9 @@ elections:
       name: "Camera dei Deputati"
       seats: 400
       method: proportional
+      threshold: 0.03
+      note_es: "La ley electoral italiana (el Rosatellum) elige un 37% de los diputados en distritos uninominales, que suelen premiar a las coaliciones, y eso aquí no se modela."
+      note_ca: "La llei electoral italiana (el Rosatellum) tria un 37% dels diputats en districtes uninominals, que acostumen a premiar les coalicions, i això aquí no es modela."
       # Avis honest: el Rosatellum reparteix un 37% dels escons en districtes
       # uninominals, i aixo no es modela. El grafic dona l'ordre de magnitud,
       # no l'escon exacte, i ho ha de dir a la pantalla.

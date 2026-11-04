@@ -59,14 +59,51 @@
   </div>
 
 {% if d.seats %}
+  {% set c = d.chamber %}
+  {% set m = c.method if c.method != 'proportional' else 'dhondt' %}
+  {% set thr = fmt((c.threshold if c.threshold is not none else 0.03) * 100) %}
   <p class="note">{% if es %}<b>Los escaños son solo un orden de magnitud.</b> Se reparten los
-    {{ d.seat_total }} escaños de forma proporcional a escala nacional, con un umbral del 3%.
-    La ley electoral italiana (el <i>Rosatellum</i>) elige un 37% de los diputados en distritos
-    uninominales, que suelen premiar a las coaliciones, y eso aquí no se modela.{% else %}<b>Els
-    escons només són un ordre de magnitud.</b> Es reparteixen els {{ d.seat_total }} escons de manera
-    proporcional a escala estatal, amb un llindar del 3%. La llei electoral italiana (el
-    <i>Rosatellum</i>) tria un 37% dels diputats en districtes uninominals, que acostumen a
-    premiar les coalicions, i això aquí no es modela.{% endif %}</p>
+    {{ c.seats }} escaños {{ ('de ' ~ c.total ~ ' ') if c.total }}de {{ c.name }} a escala nacional
+    con {{ {'dhondt': 'el método D\'Hondt', 'sainte_lague': 'el método Sainte-Laguë' ~ (' modificado (primer divisor ' ~ fmt(c.first_divisor) ~ ')' if c.first_divisor and c.first_divisor != 1 else ''), 'hare': 'el resto mayor (cuota Hare)', 'droop': 'el resto mayor (cuota Hagenbach-Bischoff)'}[m] }}{% if c.threshold %} y un umbral del {{ thr }} %{% endif %}{% if c.bonus == 'gr' %}, más la prima de 20 a 50 escaños para el primer partido{% endif %}.
+    {% if c.districts %}La ley los reparte circunscripción a circunscripción, y eso favorece a los
+    partidos grandes: aquí los pequeños salen favorecidos.{% endif %} La mayoría absoluta es de
+    {{ d.majority }}.{% if c.note_es %} {{ c.note_es }}{% endif %}{% else %}<b>Els escons només són un
+    ordre de magnitud.</b> Es reparteixen els {{ c.seats }} escons {{ ('dels ' ~ c.total ~ ' ') if c.total }}de {{ c.name }}
+    a escala estatal amb {{ {'dhondt': 'el mètode D\'Hondt', 'sainte_lague': 'el mètode Sainte-Laguë' ~ (' modificat (primer divisor ' ~ fmt(c.first_divisor) ~ ')' if c.first_divisor and c.first_divisor != 1 else ''), 'hare': 'la resta més gran (quota Hare)', 'droop': 'la resta més gran (quota Hagenbach-Bischoff)'}[m] }}{% if c.threshold %} i un llindar del {{ thr }} %{% endif %}{% if c.bonus == 'gr' %}, més la prima de 20 a 50 escons per al primer partit{% endif %}.
+    {% if c.districts %}La llei els reparteix circumscripció per circumscripció, i això afavoreix els
+    partits grans: aquí els petits hi surten afavorits.{% endif %} La majoria absoluta és de
+    {{ d.majority }}.{% if c.note_ca %} {{ c.note_ca }}{% endif %}{% endif %}</p>
+
+  <section class="coal" data-majority="{{ d.majority }}"
+           data-yes="{{ 'Mayoría absoluta' if es else 'Majoria absoluta' }}"
+           data-no="{{ 'Faltan' if es else 'Falten' }}"
+           data-seats="{{ 'escaños' if es else 'escons' }}">
+    <h2>{{ 'Calculadora de mayorías' if es else 'Calculadora de majories' }}</h2>
+    <p class="note">{% if es %}Marca los partidos de una posible coalición y mira si suman los
+      {{ d.majority }} escaños de la mayoría absoluta.{% else %}Marca els partits d'una possible
+      coalició i mira si sumen els {{ d.majority }} escons de la majoria absoluta.{% endif %}</p>
+    <ul class="coal-list">
+    {% for r in d.avg if r.seats %}
+      <li><label><input type="checkbox" data-seats="{{ r.seats }}"><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }} <b>{{ r.seats }}</b></label></li>
+    {% endfor %}
+    </ul>
+    <p class="coal-out" aria-live="polite"></p>
+  </section>
+  <script>
+  document.querySelectorAll('.coal').forEach(function (box) {
+    var need = +box.dataset.majority, out = box.querySelector('.coal-out');
+    function update() {
+      var sum = 0;
+      box.querySelectorAll('input:checked').forEach(function (i) { sum += +i.dataset.seats; });
+      out.textContent = sum + ' ' + box.dataset.seats + ' · ' + (sum >= need
+        ? box.dataset.yes + ' (+' + (sum - need) + ')'
+        : box.dataset.no + ' ' + (need - sum));
+      out.className = 'coal-out ' + (sum >= need ? 'ok' : 'ko');
+    }
+    box.addEventListener('change', update);
+    update();
+  });
+  </script>
 {% endif %}
 
 {% endif %}
@@ -89,7 +126,7 @@
     <svg viewBox="0 0 {{ d.depmap.w }} {{ d.depmap.h }}" role="img"
          aria-label="{{ ('Mapa: ' ~ units ~ ' ' ~ d.of.es) if es else ('Mapa: ' ~ units ~ ' ' ~ d.of.ca) }}">
     {% for g in d.depmap.deps %}
-      <path d="{{ g.d }}" {% if g.color %}fill="{{ g.color }}" fill-opacity="{{ g.alpha }}"{% else %}class="nodata"{% endif %}><title>{{ g.name }}{% if g.polled %} · {{ 'encuestas propias' if es else 'enquestes pròpies' }}{% endif %}{% for r in g.rows %}&#10;{{ r.name }}: {{ fmt(r.share) }} %{% else %}&#10;{{ 'Sin datos de base' if es else 'Sense dades de base' }}{% endfor %}</title></path>
+      {% if g.url %}<a href="{{ root }}{{ g.url[lang].lstrip('/') }}">{% endif %}<path d="{{ g.d }}" {% if g.color %}fill="{{ g.color }}" fill-opacity="{{ g.alpha }}"{% else %}class="nodata"{% endif %}><title>{{ g.name }}{% if g.polled %} · {{ 'encuestas propias' if es else 'enquestes pròpies' }}{% endif %}{% for r in g.rows %}&#10;{{ r.name }}: {{ fmt(r.share) }} %{% else %}&#10;{{ 'Sin datos de base' if es else 'Sense dades de base' }}{% endfor %}</title></path>{% if g.url %}</a>{% endif %}
     {% endfor %}
     </svg>
     <figcaption><span>{{ 'Color: quién va primero; intensidad: con qué porcentaje.' if es else 'Color: qui va primer; intensitat: amb quin percentatge.' }}</span>{% for n, c, k in d.depmap.leaders %}<span><i class="sw" style="background:{{ c }}"></i>{{ n }}: {{ k }}</span>{% endfor %}</figcaption>
@@ -101,12 +138,31 @@
       <thead><tr><th>{{ 'Territorio' if es else 'Territori' }}</th><th>{{ 'Primero' if es else 'Primer' }}</th><th>{{ 'Segundo' if es else 'Segon' }}</th><th>{{ 'Tercero' if es else 'Tercer' }}</th></tr></thead>
       <tbody>
       {% for g in d.depmap.deps if g.rows %}
-      <tr><td>{{ g.name }}{% if g.polled %} <span class="fine">({{ 'encuestas' if es else 'enquestes' }})</span>{% endif %}</td>{% for r in g.rows %}<td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }} {{ fmt(r.share) }} %</td>{% endfor %}</tr>
+      <tr><td>{% if g.url %}<a href="{{ root }}{{ g.url[lang].lstrip('/') }}">{{ g.name }}</a>{% else %}{{ g.name }}{% endif %}{% if g.polled %} <span class="fine">({{ 'encuestas' if es else 'enquestes' }})</span>{% endif %}</td>{% for r in g.rows %}<td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }} {{ fmt(r.share) }} %</td>{% endfor %}</tr>
       {% endfor %}
       </tbody>
     </table>
     </div>
   </details>
+
+{% if d.depmap.strongholds %}
+  <h2>{{ 'Dónde es más fuerte cada partido' if es else 'On és més fort cada partit' }}</h2>
+  <p class="note">{% if es %}Los tres {{ units }} donde la estimación de hoy da más voto a cada uno
+    de los primeros partidos.{% else %}Els tres {{ units }} on l'estimació d'avui dona més vot a cada
+    un dels primers partits.{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr><th>{{ ('Candidato' if es else 'Candidat') if d.presidential else ('Partido' if es else 'Partit') }}</th>
+      <th>1.º</th><th>2.º</th><th>3.º</th></tr></thead>
+    <tbody>
+    {% for s in d.depmap.strongholds %}
+    <tr><td><span class="sw" style="background:{{ s.color }}"></span>{{ s.name }}</td>
+      {% for t in s.top %}<td>{% if t.url %}<a href="{{ root }}{{ t.url[lang].lstrip('/') }}">{{ t.name }}</a>{% else %}{{ t.name }}{% endif %} {{ fmt(t.share) }} %</td>{% endfor %}</tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endif %}
 {% endif %}
 
 {% if d.national %}

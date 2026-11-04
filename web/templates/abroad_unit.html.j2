@@ -1,0 +1,63 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% set units = d.depmap.units[lang] %}
+{% set base_label = d.depmap.base_label[lang] %}
+<article class="doc wide">
+  <p class="note"><a href="{{ root }}{{ d.urls[lang].lstrip('/') }}">{{ ('← Encuestas ' if es else '← Enquestes ') ~ d.of[lang] }}</a></p>
+  <h1>{{ u.name }}</h1>
+  <p class="lede">{% if es %}Estimación de voto en {{ u.name }} para las próximas elecciones
+    {{ 'presidenciales' if d.presidential else ('generales' if d.general else 'legislativas') }} {{ d.of.es }}.{% else %}Estimació de vot a {{ u.name }} per a les properes eleccions
+    {{ 'presidencials' if d.presidential else ('generals' if d.general else 'legislatives') }} {{ d.of.ca }}.{% endif %}</p>
+{% if u.polled %}
+  <p class="note">{% if es %}<b>Este territorio tiene encuestas propias.</b> Lo que sigue es su media,
+    con las mismas reglas que la nacional, no una estimación.{% else %}<b>Aquest territori té enquestes
+    pròpies.</b> El que segueix n'és la mitjana, amb les mateixes regles que l'estatal, no una estimació.{% endif %}</p>
+{% else %}
+  <p class="note">{% if es %}<b>Esto es una estimación, no una encuesta.</b> No hay encuestas en
+    {{ u.name }}: la media {{ 'de la región' if d.depmap.regional else 'nacional' }} de hoy se proyecta
+    sobre el voto real de {{ u.name }} en {{ base_label }} (swing proporcional), el mismo método que
+    los municipios de España.{% else %}<b>Això és una estimació, no una enquesta.</b> No hi ha enquestes a
+    {{ u.name }}: la mitjana {{ 'de la regió' if d.depmap.regional else 'estatal' }} d'avui es projecta
+    sobre el vot real de {{ u.name }} a {{ base_label }} (swing proporcional), el mateix mètode que
+    els municipis d'Espanya.{% endif %}</p>
+{% endif %}
+
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr>
+      <th>{{ ('Candidato' if es else 'Candidat') if d.presidential else ('Partido' if es else 'Partit') }}</th>
+      <th class="n">{{ ('Media hoy' if es else "Mitjana d'avui") if u.polled else ('Estimación hoy' if es else "Estimació d'avui") }}</th>
+      {% if not u.polled %}<th class="n">{{ base_label[:1] | upper }}{{ base_label[1:] }}</th>
+      <th class="n">{{ 'Diferencia' if es else 'Diferència' }}</th>{% endif %}
+    </tr></thead>
+    <tbody>
+    {% set ns = namespace(via=false) %}
+    {% for r in u.full %}
+    <tr>
+      <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+      <td class="n"><b>{{ fmt(r.share) }} %</b></td>
+      {% if not u.polled %}
+      <td class="n">{% if r.base is not none %}{{ fmt(r.base) }} %{% if r.via %}{% set ns.via = true %} †{% endif %}{% else %}—{% endif %}</td>
+      <td class="n">{% if r.base is not none and not r.via %}{{ '+' if r.share >= r.base else '' }}{{ fmt(r.share - r.base) }}{% else %}—{% endif %}</td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% if ns.via %}
+  <p class="note fine">{% if es %}† No se presentaba: es el resultado del {{ 'candidato' if d.presidential else 'partido' }} de su espacio,
+    sobre el que se proyecta.{% else %}† No s'hi presentava: és el resultat del {{ 'candidat' if d.presidential else 'partit' }} del seu espai,
+    sobre el qual es projecta.{% endif %}</p>
+{% endif %}
+  <p class="note fine">{% if es %}Faltan los partidos pequeños que las encuestas agrupan en «otros»,
+    por eso la columna no suma 100.{% else %}Hi falten els partits petits que les enquestes agrupen a «altres»,
+    per això la columna no suma 100.{% endif %}</p>
+
+  <h2>{{ ('Otros ' if es else 'Altres ') ~ units }}</h2>
+  <p class="siblings">
+  {% for g in d.depmap.deps if g.url and g.code != u.code %}<a href="{{ root }}{{ g.url[lang].lstrip('/') }}"><span class="sw" style="background:{{ g.color }}"></span>{{ g.name }}</a>{{ ' · ' if not loop.last }}{% endfor %}
+  </p>
+</article>
+{% endblock %}

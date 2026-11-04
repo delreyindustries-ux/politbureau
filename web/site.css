@@ -283,3 +283,10 @@ figure.depmap figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px
 figure.depmap figcaption .sw{display:inline-block}
 details.deptable summary{cursor:pointer;color:var(--accent);margin:4px 0 10px}
 figure.depmap path.nodata{fill:var(--line)}
+
+/* Calculadora de majories de les pagines estrangeres (04/11/2026) */
+.coal-list { list-style: none; padding: 0; margin: .5rem 0; display: flex; flex-wrap: wrap; gap: .4rem .9rem; }
+.coal-list label { cursor: pointer; display: inline-flex; align-items: center; gap: .35rem; }
+.coal-out { font-weight: 600; margin: .4rem 0 1.2rem; }
+.coal-out.ok { color: #2e9d5b; }
+.coal-out.ko { color: #c0563b; }
