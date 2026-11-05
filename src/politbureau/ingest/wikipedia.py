@@ -81,6 +81,9 @@ _OTHER_MONTHS = {
            "september", "oktober", "november", "dezember"],
     "tr": ["ocak", "şubat", "mart", "nisan", "mayıs", "haziran", "temmuz", "ağustos",
            "eylül", "ekim", "kasım", "aralık"],
+    # Islandia (05/11/2026): "1. nóvember 2026".
+    "is": ["janúar", "febrúar", "mars", "apríl", "maí", "júní", "júlí", "ágúst",
+           "september", "október", "nóvember", "desember"],
 }
 for _names in _OTHER_MONTHS.values():
     for _i, _m in enumerate(_names, start=1):

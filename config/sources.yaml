@@ -442,7 +442,10 @@ elections:
      departments: {geo: "no/units.json", base: "no/base.json", units_es: "provincias",
                    units_ca: "províncies", base_es: "las legislativas de 2025", base_ca: "les legislatives del 2025"}}
   - {id: eu-is, group: europa, country: IS, scope: national, label: "Islàndia — Althing",
-     page: "Next Icelandic parliamentary election", pub: {es: islandia, ca: islandia, name_es: Islandia, name_ca: Islàndia},
+     # La Viquipedia anglesa es va aturar al juny del 2026; la islandesa porta el
+     # Gallup i la Maskina de cada mes (05/11/2026).
+     page: "Næstu alþingiskosningar", lang: is, sections: ["skoðanakannanir"],
+     pub: {es: islandia, ca: islandia, name_es: Islandia, name_ca: Islàndia},
      departments: {geo: "is/units.json", base: "is/base.json", units_es: "circunscripciones",
                    units_ca: "circumscripcions", base_es: "las legislativas de 2024", base_ca: "les legislatives del 2024"}}
   - {id: eu-me, group: europa, country: ME, scope: national, label: "Montenegro — Parlament",

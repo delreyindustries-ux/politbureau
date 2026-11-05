@@ -55,7 +55,9 @@ _EUROPE_NON_PARTY = ("abs", "abs.", "method", "mode", "undecided", "don't know",
                      "other", "other candidates", "polling organisation", "polling organization",
                      # Viquipedies francesa i turca (Suissa i Turquia, 04/11/2026).
                      "autres", "institut", "echantillon", "diger", "fark", "tarih",
-                     "anket sirketi", "orneklem", "polling agency", "date published")
+                     "anket sirketi", "orneklem", "polling agency", "date published",
+                     # Viquipedia islandesa (05/11/2026).
+                     "fyrirtæki", "siðasti dagur", "urtak", "svarhlutfall", "aðrir", "forskot")
 # Sumes de blocs (Finlandia, Suecia...): "Gov." i "Opp." no son partits.
 _BLOCS = {"gov", "gov.", "govt", "govt.", "opp", "opp.", "government", "opposition",
           "blue", "red", "blue bloc", "red bloc", "red-green", "red-greens", "tido parties",

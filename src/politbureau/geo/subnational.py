@@ -473,6 +473,14 @@ WIKI = {
                      (_TH_WIKI.get(n, n), [n], _TH_WIKI.get(n, n)) for i, n in enumerate(_TH)}},
     "IS": {"adm0": "ISL", "dir": "is", "bbox": (-24.6, -13.4, 63.2, 66.6),
            "page": "2024 Icelandic parliamentary election", "match": "by constituency",
+           # Les enquestes son de la Viquipedia islandesa: sigles angleses -> islandeses.
+           "alias": {"?SOCIALDEMOCRATICALLIANCE": "?SAMFYLKINGIN",
+                     "?INDEPENDENCEPARTY": "?SJALFSTISFLOKKURINN", "?VIREISN": "?VIREISN",
+                     "?PEOPLESPARTY": "?FLOKKURFOLKSINS", "?CENTREPARTY": "?MIFLOKKURINN",
+                     "?PROGRESSIVEPARTY": "?FRAMSOKNARFLOKKURINN",
+                     "?SOCIALISTPARTYOFICELAND": "?SOSIALISTAFLOKKURISLANDS",
+                     "?PIRATEPARTY": "?PIRATAR",
+                     "?LEFTGREENMOVEMENT": "?VINSTRIHREYFINGINGRNTFRAMBO"},
            # La taula per circumscripcio no porta total: el de la taula de resultats.
            "national": {"?SOCIALDEMOCRATICALLIANCE": 20.75, "?INDEPENDENCEPARTY": 19.36,
                         "?VIREISN": 15.82, "?PEOPLESPARTY": 13.78, "?CENTREPARTY": 12.10,
