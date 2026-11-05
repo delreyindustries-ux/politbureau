@@ -549,6 +549,21 @@ elections:
   - {id: w-ge, group: mon, country: GE, scope: national, label: "Geòrgia — Parlament",
      page: "Next Georgian parliamentary election",
      pub: {es: georgia, ca: georgia, name_es: Georgia, name_ca: Geòrgia, of_ca: "de Geòrgia", map: "268"}}
+  # 05/11/2026: Ucraina (presidencials; no hi ha data per la llei marcial; les
+  # legislatives barregen llistes hipotetiques de persones i no s'hi posen),
+  # Venecuela (presidencials sense data) i Palestina (PCPSR, un cop per trimestre;
+  # nomes la taula de tots els enquestats, no la dels decidits, que es la mateixa
+  # enquesta).
+  - {id: w-ua, group: mon, country: UA, scope: national, label: "Ucraïna — Presidencials", display: candidates,
+     page: "Opinion polling for the next Ukrainian presidential election",
+     deny_sections: ["second round", "runoff"],
+     pub: {es: ucrania, ca: ucraina, name_es: Ucrania, name_ca: Ucraïna, of_ca: "d'Ucraïna", map: "804"}}
+  - {id: w-ve, group: mon, country: VE, scope: national, label: "Veneçuela — Presidencials", display: candidates,
+     page: "Next Venezuelan presidential election", deny_sections: ["second round", "runoff"],
+     pub: {es: venezuela, ca: venecuela, name_es: Venezuela, name_ca: Veneçuela, of_ca: "de Veneçuela", map: "862"}}
+  - {id: w-ps, group: mon, country: PS, scope: national, label: "Palestina — Consell Legislatiu",
+     page: "2027 Palestinian legislative election", deny_sections: ["decided voters"],
+     pub: {es: palestina, ca: palestina, name_es: Palestina, name_ca: Palestina, of_ca: "de Palestina", map: "275"}}
   - {id: w-in, group: mon, country: IN, scope: national, label: "Índia — Lok Sabha", kind: general,
      page: "Opinion polling for the next Indian general election",
      force_sections: ["seats and vote share projections"],

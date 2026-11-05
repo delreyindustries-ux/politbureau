@@ -346,6 +346,12 @@ US:
   REP:    {name: "Republican",      color: "#CC2222", aliases: [rep, "r", republican, gop]}
   IND:    {name: "Independent",     color: "#9E9E9E", aliases: [ind, "i", independent, other, others]}
 
+# Palestina (05/11/2026): el PCPSR dona una sola xifra per a FPAP, INP, Tercera Via,
+# FDAP i PPP junts, en una cel.la que ocupa les cinc columnes; el lector la posa
+# a la primera (FPAP). Aquesta columna es, de fet, "altres".
+PS:
+  OTHER:     {name: "Altres",      color: "#9E9E9E", aliases: [other, others, pflp, "popular front for the liberation of palestine"]}
+
 # Enquestes fetes per candidat i no per sigla (Franca presidencials).
 # Ampliable: afegir-hi noms nous a mesura que apareguin a les enquestes.
 _candidates:

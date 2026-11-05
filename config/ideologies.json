@@ -6073,6 +6073,114 @@
    "qid": "Q118905408"
   }
  },
+ "PS": {
+  "?DEMOCRATICFRONTFORTHELIBERATIONOFPALESTI": {
+   "ca": {
+    "ideology": [
+     "marxisme-leninisme-maoisme",
+     "nacionalisme palestí",
+     "antisionisme"
+    ],
+    "position": "extrema esquerra"
+   },
+   "es": {
+    "ideology": [
+     "marxismo-leninismo-maoísmo",
+     "nacionalismo palestino",
+     "antisionismo"
+    ],
+    "position": "extrema izquierda"
+   },
+   "qid": "Q818618"
+  },
+  "?FATAH": {
+   "ca": {
+    "ideology": [
+     "nacionalisme palestí",
+     "secularisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "nacionalismo palestino",
+     "secularismo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q178888"
+  },
+  "?HAMAS": {
+   "ca": {
+    "ideology": [
+     "fonamentalisme islàmic",
+     "islamisme polític",
+     "antisionisme"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "fundamentalismo islámico",
+     "islamismo",
+     "antisionismo"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q38799"
+  },
+  "?PALESTINIANNATIONALINITIATIVE": {
+   "ca": {
+    "ideology": [
+     "socialisme democràtic",
+     "secularisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialismo democrático",
+     "secularismo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q2030725"
+  },
+  "?PALESTINIANPEOPLESPARTY": {
+   "ca": {
+    "ideology": [
+     "socialisme",
+     "marxisme",
+     "nacionalisme palestí"
+    ],
+    "position": "extrema esquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialismo",
+     "marxismo",
+     "nacionalismo palestino"
+    ],
+    "position": "extrema izquierda"
+   },
+   "qid": "Q1989200"
+  },
+  "?THIRDWAY": {
+   "ca": {
+    "ideology": [
+     "tercera via"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "tercera vía"
+    ],
+    "position": null
+   },
+   "qid": "Q782016"
+  }
+ },
  "PT": {
   "?AD": {
    "ca": {
@@ -7483,6 +7591,698 @@
     "position": "centrismo"
    },
    "qid": "Q66029902"
+  }
+ },
+ "UA": {
+  "?ARESTOVYCHIND": {
+   "ca": {
+    "ideology": [
+     "nacionalanarquisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "nacional-anarquismo"
+    ],
+    "position": null
+   },
+   "qid": "Q9178584",
+   "via": "Q63666332"
+  },
+  "?BILETSKYNK": {
+   "ca": {
+    "ideology": [
+     "ultranacionalisme",
+     "nacionalisme ucraïnès",
+     "nacionalisme econòmic"
+    ],
+    "position": "ultradreta"
+   },
+   "es": {
+    "ideology": [
+     "ultranacionalismo",
+     "nacionalismo ucraniano",
+     "nacionalismo económico"
+    ],
+    "position": "extrema derecha"
+   },
+   "qid": "Q27345297",
+   "via": "Q12086588"
+  },
+  "?BOYKOOPZZH": {
+   "ca": {
+    "ideology": [
+     "europeisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "europeísmo"
+    ],
+    "position": null
+   },
+   "qid": "Q111738996",
+   "via": "Q1420661"
+  },
+  "?BOYKOPZZHM": {
+   "ca": {
+    "ideology": [
+     "europeisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "europeísmo"
+    ],
+    "position": null
+   },
+   "qid": "Q111738996",
+   "via": "Q1420661"
+  },
+  "?FEDOROVIND": {
+   "ca": {
+    "ideology": [
+     "democràcia directa",
+     "europeisme",
+     "liberalisme"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "democracia directa",
+     "europeísmo",
+     "liberalismo"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q52292915",
+   "via": "Q64495543"
+  },
+  "?GONCHARENKOYES": {
+   "ca": {
+    "ideology": [
+     "conservadorisme liberal",
+     "europeisme",
+     "nacionalisme cívic"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo liberal",
+     "europeísmo",
+     "nacionalismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q4349891",
+   "via": "Q16172176"
+  },
+  "?GROYSMANUSH": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "europeisme",
+     "descentralització"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "europeísmo",
+     "descentralización"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q65200178",
+   "via": "Q4150130"
+  },
+  "?HRYTSENKOHP": {
+   "ca": {
+    "ideology": [
+     "liberalisme"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "liberalismo"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q788180",
+   "via": "Q488211"
+  },
+  "?KLITSCHKOUDAR": {
+   "ca": {
+    "ideology": [
+     "conservadorisme liberal",
+     "europeisme",
+     "nacionalisme cívic"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo liberal",
+     "europeísmo",
+     "nacionalismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q4349891",
+   "via": "Q31919"
+  },
+  "?KOSHULYNSKYISVOBODA": {
+   "ca": {
+    "ideology": [
+     "nacionalisme ucraïnès",
+     "populisme de dreta",
+     "conservadorisme nacionalista"
+    ],
+    "position": "ultradreta"
+   },
+   "es": {
+    "ideology": [
+     "nacionalismo ucraniano",
+     "populismo de derecha",
+     "conservadurismo nacionalista"
+    ],
+    "position": "extrema derecha"
+   },
+   "qid": "Q4396",
+   "via": "Q890274"
+  },
+  "?LIASHKORPOL": {
+   "ca": {
+    "ideology": [
+     "euroescepticisme",
+     "populisme",
+     "nacionalisme econòmic"
+    ],
+    "position": "sincretisme polític"
+   },
+   "es": {
+    "ideology": [
+     "euroescepticismo",
+     "populismo",
+     "nacionalismo económico"
+    ],
+    "position": "sincretismo político"
+   },
+   "qid": "Q2355317",
+   "via": "Q12119499"
+  },
+  "?MEDVEDCHUKOPZZH": {
+   "ca": {
+    "ideology": [
+     "russofília",
+     "regionalisme",
+     "euroescepticisme"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "rusofilia",
+     "regionalismo",
+     "euroescepticismo"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q4127627",
+   "via": "Q1859524"
+  },
+  "?MURAYEVNASHI": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "descentralització",
+     "conservadorisme social"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "descentralización",
+     "conservadurismo social"
+    ],
+    "position": null
+   },
+   "qid": "Q58821268",
+   "via": "Q12130808"
+  },
+  "?PALYTSIAZM": {
+   "ca": {
+    "ideology": [
+     "conservadorisme",
+     "nacionalisme cívic",
+     "liberalisme nacional"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo",
+     "nacionalismo liberal",
+     "liberalismo nacional"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q2299546",
+   "via": "Q11711558"
+  },
+  "?POROSHENKOYES": {
+   "ca": {
+    "ideology": [
+     "conservadorisme liberal",
+     "europeisme",
+     "nacionalisme cívic"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo liberal",
+     "europeísmo",
+     "nacionalismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q4349891",
+   "via": "Q58077"
+  },
+  "?PRYTULA24S": {
+   "ca": {
+    "ideology": [
+     "europeisme",
+     "liberalisme",
+     "democràcia electrònica"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "europeísmo",
+     "liberalismo",
+     "democracia digital"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q63869413",
+   "via": "Q4379252"
+  },
+  "?PRYTULAHOLOS": {
+   "ca": {
+    "ideology": [
+     "europeisme",
+     "liberalisme",
+     "democràcia electrònica"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "europeísmo",
+     "liberalismo",
+     "democracia digital"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q63869413",
+   "via": "Q4379252"
+  },
+  "?RAZUMKOVRP": {
+   "ca": {
+    "ideology": [
+     "democràcia directa",
+     "europeisme",
+     "liberalisme"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "democracia directa",
+     "europeísmo",
+     "liberalismo"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q52292915",
+   "via": "Q63184986"
+  },
+  "?RAZUMKOVSN": {
+   "ca": {
+    "ideology": [
+     "democràcia directa",
+     "europeisme",
+     "liberalisme"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "democracia directa",
+     "europeísmo",
+     "liberalismo"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q52292915",
+   "via": "Q63184986"
+  },
+  "?RUDIKHOLOS": {
+   "ca": {
+    "ideology": [
+     "europeisme",
+     "liberalisme",
+     "democràcia electrònica"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "europeísmo",
+     "liberalismo",
+     "democracia digital"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q63869413",
+   "via": "Q94633869"
+  },
+  "?SADOVYISELFRELIANCE": {
+   "ca": {
+    "ideology": [
+     "conservadorisme liberal",
+     "democràcia cristiana",
+     "europeisme"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo liberal",
+     "democracia cristiana",
+     "europeísmo"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q12139013",
+   "via": "Q2011720"
+  },
+  "?SMESHKOSICH": {
+   "ca": {
+    "ideology": [
+     "conservadorisme",
+     "nacionalisme ucraïnès",
+     "descentralització"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo",
+     "nacionalismo ucraniano",
+     "descentralización"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q15739820",
+   "via": "Q1657926"
+  },
+  "?TYAHNYBOKSVOBODA": {
+   "ca": {
+    "ideology": [
+     "nacionalisme ucraïnès"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "nacionalismo ucraniano"
+    ],
+    "position": null
+   },
+   "qid": "Q15964034",
+   "via": "Q983874"
+  },
+  "?TYMOSHENKOVOB": {
+   "ca": {
+    "ideology": [
+     "conservadorisme",
+     "atlantisme",
+     "democràcia cristiana"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo",
+     "atlantismo",
+     "democracia cristiana"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q45376",
+   "via": "Q48283"
+  },
+  "?VILKULOPOBLOK": {
+   "ca": {
+    "ideology": [
+     "socioliberalisme",
+     "regionalisme",
+     "euroescepticisme"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "socioliberalismo",
+     "regionalismo",
+     "euroescepticismo"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q61958904",
+   "via": "Q2690188"
+  },
+  "?YATSENYUKNF": {
+   "ca": {
+    "ideology": [
+     "conservadorisme nacionalista",
+     "atlantisme",
+     "europeisme"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo nacionalista",
+     "atlantismo",
+     "europeísmo"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q18015490",
+   "via": "Q471730"
+  }
+ },
+ "VE": {
+  "?DELCYRODRIGUEZ": {
+   "ca": {
+    "ideology": [
+     "socialisme del segle XXI",
+     "marxisme",
+     "anticapitalisme"
+    ],
+    "position": "esquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialismo del siglo XXI",
+     "marxismo",
+     "anticapitalismo"
+    ],
+    "position": "izquierda"
+   },
+   "qid": "Q197864",
+   "via": "Q15081116"
+  },
+  "?DIOSDADOCABELLO": {
+   "ca": {
+    "ideology": [
+     "socialisme del segle XXI",
+     "marxisme",
+     "anticapitalisme"
+    ],
+    "position": "esquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialismo del siglo XXI",
+     "marxismo",
+     "anticapitalismo"
+    ],
+    "position": "izquierda"
+   },
+   "qid": "Q197864",
+   "via": "Q1227076"
+  },
+  "?EDMUNDOGONZALEZ": {
+   "ca": {
+    "ideology": [
+     "oposició al chavisme"
+    ],
+    "position": "transversal"
+   },
+   "es": {
+    "ideology": [
+     "oposición al chavismo"
+    ],
+    "position": "partido atrapalotodo"
+   },
+   "qid": "Q108674849",
+   "via": "Q125342503"
+  },
+  "?ENRIQUEMARQUEZ": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "reformisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "reformismo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q1641259",
+   "via": "Q5833632"
+  },
+  "?HENRIQUECAPRILES": {
+   "ca": {
+    "ideology": [
+     "democràcia cristiana",
+     "socioliberalisme",
+     "humanisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "democracia cristiana",
+     "socioliberalismo",
+     "humanismo"
+    ],
+    "position": null
+   },
+   "qid": "Q8794",
+   "via": "Q8781"
+  },
+  "?JORGERODRIGUEZ": {
+   "ca": {
+    "ideology": [
+     "socialisme del segle XXI",
+     "marxisme",
+     "anticapitalisme"
+    ],
+    "position": "esquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialismo del siglo XXI",
+     "marxismo",
+     "anticapitalismo"
+    ],
+    "position": "izquierda"
+   },
+   "qid": "Q197864",
+   "via": "Q3295308"
+  },
+  "?JUANGUAIDO": {
+   "ca": {
+    "ideology": [
+     "progressisme",
+     "oposició al chavisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "progresismo",
+     "oposición al chavismo"
+    ],
+    "position": null
+   },
+   "qid": "Q1629486",
+   "via": "Q58833335"
+  },
+  "?JUANPABLOGUANIPA": {
+   "ca": {
+    "ideology": [
+     "democràcia cristiana",
+     "socioliberalisme",
+     "humanisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "democracia cristiana",
+     "socioliberalismo",
+     "humanismo"
+    ],
+    "position": null
+   },
+   "qid": "Q8794",
+   "via": "Q5951793"
+  },
+  "?LEOPOLDOLOPEZ": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "tercera via",
+     "progressisme"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "tercera vía",
+     "progresismo"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q7229748",
+   "via": "Q1672657"
+  },
+  "?MARIACORINAMACHADO": {
+   "ca": {
+    "ideology": [
+     "liberalisme"
+    ],
+    "position": "ultradreta"
+   },
+   "es": {
+    "ideology": [
+     "liberalismo"
+    ],
+    "position": "extrema derecha"
+   },
+   "qid": "Q16645762",
+   "via": "Q439564"
   }
  },
  "ZA": {

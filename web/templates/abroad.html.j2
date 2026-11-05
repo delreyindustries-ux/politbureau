@@ -49,7 +49,7 @@
     <tbody>
     {% for r in d.avg %}
     <tr>
-      <td><span class="sw" style="background:{{ r.color }}"></span>{% if r.person %}{{ r.person }} <span class="fine">({{ r.name }})</span>{% else %}{{ r.name }}{% endif %}{{ ideo(r.ideo, lang) }}</td>
+      <td><span class="sw" style="background:{{ r.color }}"></span>{% if r.person %}{{ r.person }}{% if r.name != r.person %} <span class="fine">({{ r.name }})</span>{% endif %}{% else %}{{ r.name }}{% endif %}{{ ideo(r.ideo, lang) }}</td>
       <td class="n">{{ fmt(r.share) }} %</td>
       <td class="n">{{ fmt(r.lo) }}–{{ fmt(r.hi) }}</td>
       {% if d.seats %}<td class="n">{{ r.seats if r.seats else '—' }}</td>{% endif %}
