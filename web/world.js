@@ -1,8 +1,18 @@
 /* Globus terraqui d'enquestes (03/11/2026).
  *
- * web/world.json porta les fronteres en longitud i latitud (Natural Earth). Aqui
- * es projecten amb la projeccio ortografica, la vista d'una esfera des de
- * l'espai, i es dibuixen en un <canvas> a cada gir.
+ * web/world.json porta les fronteres en longitud i latitud (Natural Earth 1:10m).
+ * Aqui es projecten amb la projeccio ortografica, la vista d'una esfera des de
+ * l'espai, i es dibuixen en un <canvas> a cada gir. Cada punt porta un nivell de
+ * detall: de lluny nomes es dibuixen els que es noten, i en apropar-se hi surten
+ * tots (05/11/2026).
+ *
+ * El relleu (web/relief.jpg, Natural Earth SR_50M) es pinta en un segon <canvas>
+ * amb WebGL, a sobre: un vel negre transparent als vessants a l'ombra i un de
+ * blanc als il·luminats, que enfosqueixen o aclareixen suaument el color de
+ * cada pais, sigui quin sigui. Si el navegador no te WebGL, el
+ * globus surt igual pero pla.
+ *
+ * Sobre el globus no hi ha cap text fins que el ratoli passa per un pais.
  *
  * Arrossegar fa girar el globus (amb inercia), la roda o el pessic apropen, i
  * els botons Europa i Mon hi volen. Al principi gira sol, a poc a poc, fins que
@@ -24,6 +34,7 @@
   canvas.setAttribute("aria-label", box.getAttribute("data-label") || "");
   box.insertBefore(canvas, box.firstChild);
   var ctx = canvas.getContext("2d");
+  var relief = makeRelief();
   var D2R = Math.PI / 180;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -35,12 +46,13 @@
   // Colors fixos: l'espai es fosc tambe amb el tema clar (abans la terra sense
   // eleccions agafava el gris de les vores del tema i amb el clar quedava blanca).
   var C = {
-    land: "#262d3d", edge: "#0b0f17", ink: "#e8ebf2",
+    land: "#2b3346", edge: "rgba(6,9,15,0.85)", ink: "#e8ebf2",
     // Fan eleccions pero no tenen enquestes: un gris mes clar que la resta.
     vote: "#4a5872",
-    sea0: "#1d3b63", sea1: "#0b1a30", glow: "rgba(110,170,255,0.35)"
+    sea0: "#1d3b63", sea1: "#0b1a30"
   };
 
+  var TOL = [0.2];
   fetch(window.PB.root + "assets/world.json")
     .then(function (r) { return r.json(); })
     .then(load)
@@ -48,25 +60,27 @@
 
   function load(w) {
     var q = w.q;
+    TOL = w.t || TOL;
     w.f.forEach(function (f) {
-      var rings = f.r.map(function (r) {
+      var rings = f.r.map(function (r, j) {
         var n = r.length / 2, x = 0, y = 0;
         var cl = new Float64Array(n), sl = new Float64Array(n),
-            cp = new Float64Array(n), sp = new Float64Array(n);
+            cp = new Float64Array(n), sp = new Float64Array(n), lv = new Uint8Array(n);
+        var ls = f.l ? f.l[j] : "";
         for (var i = 0; i < n; i++) {
+          lv[i] = ls ? ls.charCodeAt(i) - 48 : 0;
           x += r[2 * i]; y += r[2 * i + 1];
           var la = x / q * D2R, ph = y / q * D2R;
           cl[i] = Math.cos(la); sl[i] = Math.sin(la);
           cp[i] = Math.cos(ph); sp[i] = Math.sin(ph);
         }
-        return { cl: cl, sl: sl, cp: cp, sp: sp, n: n };
+        return { cl: cl, sl: sl, cp: cp, sp: sp, lv: lv, n: n };
       });
       var info = data[f.c] || null;
       // Una regio sense enquestes propies no es dibuixa: ja hi es el seu pais.
       if (f.c.indexOf("-") > 0 && !info) return;
-      var feat = { c: f.c, n: f.n, info: info, rings: rings, path: null, region: f.c.indexOf("-") > 0 };
-      if (info && info.lead) centre(feat);
-      feats.push(feat);
+      feats.push({ c: f.c, n: f.n, info: info, rings: rings, path: null,
+                   region: f.c.indexOf("-") > 0 });
     });
     // Els paisos amb dades, al final: es dibuixen per sobre i es proven primer.
     feats.sort(function (a, b) { return (a.info ? 1 : 0) - (b.info ? 1 : 0); });
@@ -75,32 +89,12 @@
     requestAnimationFrame(frame);
   }
 
-  /* Centre (vector unitari mitja de l'anell mes llarg) i radi angular del pais:
-   * les etiquetes nomes surten quan el pais es prou gran a la pantalla. */
-  function centre(f) {
-    var big = f.rings[0];
-    f.rings.forEach(function (r) { if (r.n > big.n) big = r; });
-    var X = 0, Y = 0, Z = 0, i;
-    for (i = 0; i < big.n; i++) {
-      X += big.cp[i] * big.cl[i]; Y += big.cp[i] * big.sl[i]; Z += big.sp[i];
-    }
-    var m = Math.hypot(X, Y, Z) || 1;
-    X /= m; Y /= m; Z /= m;
-    var minDot = 1;
-    for (i = 0; i < big.n; i++) {
-      var d = big.cp[i] * big.cl[i] * X + big.cp[i] * big.sl[i] * Y + big.sp[i] * Z;
-      if (d < minDot) minDot = d;
-    }
-    var la = Math.atan2(Y, X), ph = Math.asin(Z);
-    f.ctr = { cl: Math.cos(la), sl: Math.sin(la), cp: Math.cos(ph), sp: Math.sin(ph),
-              ang: Math.acos(Math.max(-1, Math.min(1, minDot))) };
-  }
-
   function resize() {
     dpr = window.devicePixelRatio || 1;
     W = box.clientWidth; H = box.clientHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    if (relief) relief.size(canvas.width, canvas.height, W, H);
     dirty = true;
   }
 
@@ -115,17 +109,16 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
-    // Atmosfera i mar.
-    var g = ctx.createRadialGradient(cx, cy, R * 0.98, cx, cy, R * 1.12);
-    g.addColorStop(0, C.glow); g.addColorStop(1, "rgba(110,170,255,0)");
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(cx, cy, R * 1.12, 0, 2 * Math.PI); ctx.fill();
+    // El mar, sense halo ni linia a la vora (05/11/2026).
     var s = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R);
     s.addColorStop(0, C.sea0); s.addColorStop(1, C.sea1);
     ctx.fillStyle = s;
     ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.fill();
 
-    graticule(cL, sL, cP, sP);
+    // Quins nivells de detall es dibuixen: els que canvien la forma mes de mig
+    // pixel a la mida actual del globus.
+    var allow = 0.5 / (R * D2R), L = 1;
+    for (var t = 1; t < TOL.length; t++) if (TOL[t - 1] > allow) L = t + 1;
 
     ctx.lineJoin = "round";
     for (var k = 0; k < feats.length; k++) {
@@ -139,6 +132,7 @@
         }
         if (!vis) continue;
         for (i = 0; i < n; i++) {
+          if (r.lv[i] >= L) continue;                       // detall que no es nota
           var cosd = r.cl[i] * cL + r.sl[i] * sL;          // cos(lon - lon0)
           var sind = r.sl[i] * cL - r.cl[i] * sL;          // sin(lon - lon0)
           var x = r.cp[i] * sind;
@@ -165,88 +159,106 @@
         // les fronteres internes (les de Flandes, les dels comtats escocesos).
         ctx.strokeStyle = f.info ? f.info.color : C.land; ctx.lineWidth = 0.6;
       } else {
-        ctx.strokeStyle = C.edge; ctx.lineWidth = has ? 0.8 : 0.5;
+        // Totes les fronteres es veuen, tambe entre dos paisos del mateix color
+        // (el Marroc i el Sahara Occidental, per exemple).
+        ctx.strokeStyle = C.edge; ctx.lineWidth = 0.7;
       }
       ctx.stroke(path);
     }
     // Ombra suau a la vora per donar volum.
-    var sh = ctx.createRadialGradient(cx, cy, R * 0.75, cx, cy, R);
-    sh.addColorStop(0, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(0,0,0,0.35)");
+    var sh = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R);
+    sh.addColorStop(0, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(0,0,0,0.3)");
     ctx.fillStyle = sh;
     ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.fill();
-    labels(cL, sL, cP, sP);
+    if (relief) relief.draw(cx * dpr, cy * dpr, R * dpr, lon0 * D2R, lat0 * D2R);
   }
 
-  /* Nom del pais i qui va primer, damunt dels paisos que es veuen prou grans.
-   * Primer els mes grans; una etiqueta que en trepitja una altra no es dibuixa. */
-  function labels(cL, sL, cP, sP) {
-    var list = [];
-    feats.forEach(function (f) {
-      if (!f.ctr || !f.path) return;
-      var c = f.ctr, cosd = c.cl * cL + c.sl * sL;
-      var depth = sP * c.sp + cP * c.cp * cosd;
-      if (depth < 0.35) return;                       // massa a prop de l'horitzo
-      var size = Math.sin(Math.min(c.ang, 1.2)) * R * depth;
-      if (size < 16) return;
-      var x = cx + c.cp * (c.sl * cL - c.cl * sL) * R;
-      var y = cy - (cP * c.sp - sP * c.cp * cosd) * R;
-      list.push({ f: f, x: x, y: y, size: size });
-    });
-    list.sort(function (a, b) { return b.size - a.size; });
-    var boxes = [];
-    ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.lineJoin = "round";
-    list.forEach(function (l) {
-      var full = l.size >= 30;
-      var name = l.f.info.name.split(" · ").pop();
-      var line2 = l.f.info.lead + " " + l.f.info.pct + " %";
-      ctx.font = "600 12px system-ui, sans-serif";
-      var w = Math.max(ctx.measureText(name).width, full ? ctx.measureText(line2).width : 0) + 6;
-      var h = full ? 30 : 15;
-      var bx = { x0: l.x - w / 2, x1: l.x + w / 2, y0: l.y - h / 2, y1: l.y + h / 2 };
-      for (var i = 0; i < boxes.length; i++) {
-        var o = boxes[i];
-        if (bx.x0 < o.x1 && bx.x1 > o.x0 && bx.y0 < o.y1 && bx.y1 > o.y0) return;
+  /* Relleu: un segon canvas amb WebGL, a sobre del primer i sense rebre clics.
+   * Per a cada pixel del disc es desfa la projeccio ortografica (pixel -> lon,
+   * lat) i es llegeix la textura equirectangular del relleu. El gris 128 es el
+   * pla (transparent); per sota, ombra; per sobre, llum. */
+  function makeRelief() {
+    var c = document.createElement("canvas");
+    c.className = "wrelief";
+    c.setAttribute("aria-hidden", "true");
+    var gl = null;
+    try { gl = c.getContext("webgl", { alpha: true, premultipliedAlpha: true, antialias: false }); }
+    catch (e) { gl = null; }
+    if (!gl) return null;
+    var vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
+    var fs = [
+      "#ifdef GL_FRAGMENT_PRECISION_HIGH",
+      "precision highp float;",
+      "#else",
+      "precision mediump float;",
+      "#endif",
+      "uniform vec3 uC;",          // centre x, centre y (des de baix), radi (pixels)
+      "uniform vec3 uV;",          // lon0, cos lat0, sin lat0
+      "uniform vec2 uK;",          // intensitat de l'ombra i de la llum
+      "uniform sampler2D uT;",
+      "const float PI = 3.14159265;",
+      "void main(){",
+      "  vec2 q = (gl_FragCoord.xy - uC.xy) / uC.z;",       // y cap amunt
+      "  float rr = dot(q, q);",
+      "  if (rr >= 1.) { gl_FragColor = vec4(0.); return; }",
+      "  float z = sqrt(1. - rr);",
+      "  float lat = asin(clamp(q.y * uV.y + z * uV.z, -1., 1.));",
+      "  float lon = uV.x + atan(q.x, z * uV.y - q.y * uV.z);",
+      "  float g = texture2D(uT, vec2(fract(lon / (2. * PI) + .5), .5 - lat / PI)).r;",
+      // A la vora el relleu s'esvaeix: alli els pixels son molt estirats.
+      "  float d = (g - .5) * 2. * (1. - smoothstep(.85, 1., rr));",
+      "  gl_FragColor = d < 0. ? vec4(0., 0., 0., -d * uK.x) : vec4(vec3(d * uK.y), d * uK.y);",
+      "}"].join("\n");
+    function sh(type, src) {
+      var o = gl.createShader(type);
+      gl.shaderSource(o, src); gl.compileShader(o);
+      return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null;
+    }
+    var v = sh(gl.VERTEX_SHADER, vs), f = sh(gl.FRAGMENT_SHADER, fs);
+    if (!v || !f) return null;
+    var prog = gl.createProgram();
+    gl.attachShader(prog, v); gl.attachShader(prog, f); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+    gl.useProgram(prog);
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    var ap = gl.getAttribLocation(prog, "p");
+    gl.enableVertexAttribArray(ap);
+    gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
+    var uC = gl.getUniformLocation(prog, "uC"), uV = gl.getUniformLocation(prog, "uV"),
+        uK = gl.getUniformLocation(prog, "uK");
+    var ready = false;
+    var img = new Image();
+    img.onload = function () {
+      var tex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, gl.LUMINANCE, gl.UNSIGNED_BYTE, img);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      ready = true; dirty = true;
+    };
+    img.src = window.PB.root + "assets/relief.jpg";
+    canvas.parentNode.insertBefore(c, canvas.nextSibling);
+    return {
+      size: function (w, h, cw, ch) {
+        c.width = w; c.height = h;
+        c.style.width = cw + "px"; c.style.height = ch + "px";
+        gl.viewport(0, 0, w, h);
+      },
+      draw: function (x, y, r, lon, lat) {
+        if (!ready) return;
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform3f(uC, x, c.height - y, r);
+        gl.uniform3f(uV, lon, Math.cos(lat), Math.sin(lat));
+        gl.uniform2f(uK, 0.42, 0.8);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       }
-      boxes.push(bx);
-      ctx.lineWidth = 3; ctx.strokeStyle = "rgba(5,8,14,0.85)"; ctx.fillStyle = "#fff";
-      var y1 = full ? l.y - 7 : l.y;
-      ctx.strokeText(name, l.x, y1); ctx.fillText(name, l.x, y1);
-      if (full) {
-        ctx.font = "500 11px system-ui, sans-serif";
-        ctx.fillStyle = "#dfe5f1";
-        ctx.strokeText(line2, l.x, l.y + 8); ctx.fillText(line2, l.x, l.y + 8);
-      }
-    });
-  }
-
-  function graticule(cL, sL, cP, sP) {
-    ctx.strokeStyle = "rgba(255,255,255,0.07)";
-    ctx.lineWidth = 0.6;
-    ctx.beginPath();
-    function line(points) {
-      var pen = false;
-      points.forEach(function (p) {
-        var la = p[0] * D2R, ph = p[1] * D2R;
-        var cl = Math.cos(la), sl = Math.sin(la), cp = Math.cos(ph), sp = Math.sin(ph);
-        var cosd = cl * cL + sl * sL, sind = sl * cL - cl * sL;
-        if (sP * sp + cP * cp * cosd < 0) { pen = false; return; }
-        var px = cx + cp * sind * R, py = cy - (cP * sp - sP * cp * cosd) * R;
-        if (pen) ctx.lineTo(px, py); else ctx.moveTo(px, py);
-        pen = true;
-      });
-    }
-    var lo, la, pts;
-    for (lo = -180; lo < 180; lo += 30) {
-      pts = [];
-      for (la = -80; la <= 80; la += 4) pts.push([lo, la]);
-      line(pts);
-    }
-    for (la = -60; la <= 60; la += 30) {
-      pts = [];
-      for (lo = -180; lo <= 180; lo += 4) pts.push([lo, la]);
-      line(pts);
-    }
-    ctx.stroke();
+    };
   }
 
   var dragging = false, moved = false, last = null, pts = {}, pinch = null;
@@ -315,6 +327,7 @@
       if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
       if (!moved) return;
       // Graus per pixel: un radi del globus son 90 graus.
+      if (!R) return;                                  // encara no dibuixat
       var k = 90 / R;
       lon0 -= dx * k; lat0 = Math.max(-85, Math.min(85, lat0 + dy * k));
       if (!card.hidden) closeCard();

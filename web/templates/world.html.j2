@@ -21,13 +21,7 @@
       </div>
     </div>
     <div class="wbottom">
-    <div class="wlegend" aria-hidden="true">
-      <span><i class="wl-lead"></i>{{ 'Color de quien va primero' if es else 'Color de qui va primer' }}</span>
-      <span><i class="wl-vote"></i>{{ 'Vota, sin encuestas' if es else 'Vota, sense enquestes' }}</span>
-      <span><i class="wl-none"></i>{{ 'Sin elecciones previstas' if es else 'Sense eleccions previstes' }}</span>
-    </div>
     <div class="wlinks">
-      <p class="whint" aria-hidden="true"><span class="h-mouse">{{ 'Arrastra para girar · rueda para acercar' if es else 'Arrossega per girar · roda per apropar' }}</span><span class="h-touch">{{ 'Arrastra para girar · pellizca para acercar · toca un país' if es else 'Arrossega per girar · pessiga per apropar · toca un país' }}</span></p>
       <a href="{{ root }}{{ lang }}/{{ page('countries') }}/">{{ 'Lista de países y calendario' if es else 'Llista de països i calendari' }} →</a>
       <a class="wlang" href="{{ root }}{{ other_lang_url.lstrip('/') }}">{{ t('other_lang') }}</a>
     </div>

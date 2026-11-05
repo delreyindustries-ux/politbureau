@@ -261,10 +261,12 @@ body.bare main{margin:0;padding:0;max-width:none}
 .whead .facts{margin:12px 0 14px}
 .worldmap{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;
   background:radial-gradient(ellipse at 50% 48%,#16203a 0%,#070a12 70%);
-  touch-action:none;user-select:none;color:#e8ebf2;overflow:hidden;
+  touch-action:none;user-select:none;color:#e8ebf2;overflow:hidden;isolation:isolate;
   --wb:rgba(10,14,24,.72);--wl:rgba(255,255,255,.14)}
 .worldmap canvas{display:block;cursor:grab}
 .worldmap canvas:active{cursor:grabbing}
+/* El relleu, a sobre del globus (world.js). */
+.worldmap canvas.wrelief{position:absolute;left:0;top:0;pointer-events:none}
 .wtop{position:absolute;z-index:2;top:max(12px,env(safe-area-inset-top));left:14px;right:14px;
   display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
   pointer-events:none}
@@ -279,22 +281,12 @@ body.bare main{margin:0;padding:0;max-width:none}
 .wbottom{position:absolute;z-index:2;left:14px;right:14px;bottom:max(12px,env(safe-area-inset-bottom));
   display:flex;align-items:flex-end;justify-content:space-between;gap:10px;pointer-events:none}
 .wbottom > *{pointer-events:auto}
-.wlegend{display:flex;flex-direction:column;gap:4px;pointer-events:none !important;
-  background:var(--wb);border:1px solid var(--wl);border-radius:10px;padding:8px 10px;
-  font-size:12px;color:#c3cad8;backdrop-filter:blur(6px)}
-.wlegend span{display:flex;align-items:center;gap:7px}
-.wlegend i{width:16px;height:10px;border-radius:3px;display:inline-block}
-.wl-lead{background:linear-gradient(90deg,#e30613 0 25%,#1d84ce 25% 50%,#63be21 50% 75%,#f2a900 75%)}
-.wl-vote{background:#4a5872}
-.wl-none{background:#262d3d;outline:1px solid rgba(255,255,255,.12)}
-.wlinks{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.wbottom{justify-content:flex-end}
+.wlinks{display:flex;flex-direction:row;align-items:center;gap:6px}
 .wlinks a{background:var(--wb);border:1px solid var(--wl);border-radius:8px;padding:6px 11px;
   font-size:13px;color:#cfe0ff;backdrop-filter:blur(6px)}
 .wlinks a:hover{border-color:#7aa7ff}
-.whint{margin:0 0 2px;font-size:12px;color:#8b94a8;text-shadow:0 1px 2px #000;pointer-events:none}
-.whint .h-touch{display:none}
-@media (hover:none){ .whint .h-touch{display:inline} .whint .h-mouse{display:none}
-  .wbtns [data-z=in],.wbtns [data-z=out]{display:none} }
+@media (hover:none){ .wbtns [data-z=in],.wbtns [data-z=out]{display:none} }
 .wnojs{position:absolute;top:45%;left:0;right:0;text-align:center;color:#c3cad8}
 .wtip{position:absolute;z-index:3;pointer-events:none;background:rgba(12,16,26,.94);color:#e8ebf2;
   border:1px solid var(--wl);border-radius:10px;padding:8px 11px;font-size:13px;
@@ -317,11 +309,8 @@ body.bare main{margin:0;padding:0;max-width:none}
   .wtop{left:10px;right:10px}
   .wbrand{font-size:15px;padding:6px 10px}
   .wbtns button{height:30px;padding:0 9px;font-size:12px}
-  .wbottom{left:10px;right:10px;flex-direction:column-reverse;align-items:stretch;gap:6px}
-  .wlinks{flex-direction:row;justify-content:space-between;align-items:center}
-  .whint{display:none}
-  .wlegend{flex-direction:row;flex-wrap:wrap;gap:3px 10px;font-size:10.5px;padding:5px 8px}
-  .wlegend i{width:12px;height:8px}
+  .wbottom{left:10px;right:10px}
+  .wlinks{flex:1;justify-content:space-between}
   .whead .facts{gap:6px}
   .whead .facts span{font-size:12px;padding:5px 9px}
   .whead .facts b{font-size:13px}

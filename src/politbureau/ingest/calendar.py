@@ -36,7 +36,7 @@ ALIASES = {
     "Dominican Republic": "Dominican Rep.", "Saint Kitts and Nevis": "St. Kitts and Nevis",
     "Saint Vincent and the Grenadines": "St. Vin. and Gren.",
     "United States": "United States of America", "Bosnia and Herzegovina": "Bosnia and Herz.",
-    "Czech Republic": "Czechia", "North Macedonia": "Macedonia", "Vatican City": "Vatican",
+    "Czech Republic": "Czechia", "Vatican City": "Vatican",
     "Marshall Islands": "Marshall Is.", "Solomon Islands": "Solomon Is.", "Cook Islands": "Cook Is.",
     "Northern Cyprus": "N. Cyprus",
 }

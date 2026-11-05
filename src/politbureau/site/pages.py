@@ -458,7 +458,7 @@ def assets(data, urls):
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
     for name in ("site.css", "site.js", "map.js", "map.css", "coalition.js", "seccions.js",
-                 "world.js", "world.json", "favicon.svg"):
+                 "world.js", "world.json", "relief.jpg", "favicon.svg"):
         src = WEB / name
         if src.exists():
             shutil.copy2(src, out / name)
