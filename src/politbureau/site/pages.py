@@ -563,7 +563,7 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
     # Escons d'Italia: proporcional estatal amb la mitjana, calculat aqui mateix.
     # Aixi la publicacio no ha de fer `build --country IT`, que baixaria cada
     # hora el resultat del 2022 municipi a municipi per a un mapa que la web no te.
-    seats = {}
+    seats, margins = {}, None
     if chamber and chamber.get("method") in ("proportional", "dhondt", "sainte_lague", "hare",
                                              "droop"):
         from ..model import seats as seatlib
@@ -572,6 +572,8 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
         seats = {p: n for p, n in seatlib.apportion(
             shares, chamber["seats"], method, chamber.get("threshold", 0.03),
             chamber.get("first_divisor", 1.0), chamber.get("bonus")).items() if n}
+        margins = seatlib.margins(shares, chamber["seats"], method, chamber.get("threshold", 0.03),
+                                  chamber.get("first_divisor", 1.0), chamber.get("bonus"))
     avg = []
     for r in rows:
         meta = parties.meta(r["party"], country, eid)
@@ -582,6 +584,20 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
         avg.append({**meta, "person": persons.get(r["party"]), "share": r["share"],
                     "lo": r["lo"], "hi": r["hi"], "n": r["n_polls"],
                     "seats": seats.get(r["party"])})
+    if margins and seats:
+        by = {a["code"]: a for a in avg}
+
+        def _p(code):
+            a = by.get(code) or {}
+            return {"name": a.get("name", code), "color": a.get("color", "#999")}
+        margins = {
+            "won": [{**_p(p), "n": n, "divisor": d, "quotient": q} for n, p, d, q in margins["won"]],
+            "next": [{**_p(p), "divisor": d, "quotient": q, "need": need}
+                     for p, d, q, need in margins["next"]],
+            "cutoff": margins["cutoff"],
+            "out": [{**_p(p), "share": s, "short": sh} for p, s, sh in margins["out"]]}
+    else:
+        margins = None
     order = [a["code"] for a in avg if a["code"] != "OTHER"][:6]
     used.sort(key=lambda p: p["fieldwork_end"], reverse=True)
     polls = [{"pollster": p["pollster"], "end": p["fieldwork_end"],
@@ -591,7 +607,7 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
     return {"avg": avg, "order": [next(a for a in avg if a["code"] == c) for c in order],
             "polls": polls, "seats": bool(seats),
             "seat_total": sum(seats.values()) if seats else 0,
-            "chamber": chamber if seats else None,
+            "chamber": chamber if seats else None, "margins": margins,
             "majority": ((chamber.get("total") or chamber["seats"]) // 2 + 1) if seats else 0}
 
 

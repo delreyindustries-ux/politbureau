@@ -74,6 +74,64 @@
     partits grans: aquí els petits hi surten afavorits.{% endif %} La majoria absoluta és de
     {{ d.majority }}.{% if c.note_ca %} {{ c.note_ca }}{% endif %}{% endif %}</p>
 
+{% set mg = d.margins %}
+{# Nomes cambres petites: amb 600 escons tots els quocients queden a 0,1 punts. #}
+{% if mg and mg.won and d.chamber.seats <= 120 %}
+  <section>
+    <h2>{{ 'Escaños en juego' if es else 'Escons en joc' }}</h2>
+    <p class="note">{% if es %}Los últimos escaños del reparto y los partidos que se quedan más cerca
+      del siguiente, con el cociente de cada uno (su media dividida por el divisor que le toca). Los
+      puntos que faltan son los que debería subir cada partido para pasar por delante del último
+      escaño si los demás no se movieran.{% else %}Els últims escons del repartiment i els partits que
+      es queden més a prop del següent, amb el quocient de cadascun (la seva mitjana dividida pel
+      divisor que li toca). Els punts que falten són els que hauria de pujar cada partit per passar
+      per davant de l'últim escó si els altres no es moguessin.{% endif %}</p>
+    <ol class="hondt" style="counter-reset:s {{ mg.won[0].n - 1 }}">
+      {%- for w in mg.won %}
+      <li class="{{ 'last' if loop.last }}">
+        <span class="sw" style="background:{{ w.color }}"></span>
+        <span class="p">{{ w.name }}</span>
+        <span class="d">÷{{ ('%g'|format(w.divisor))|replace('.', ',') }}</span>
+        <span class="q">{{ ('%.3f'|format(w.quotient))|replace('.', ',') }}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+    <p class="cut">{{ 'último escaño repartido' if es else 'últim escó repartit' }} · {{ ('%.3f'|format(mg.cutoff))|replace('.', ',') }}</p>
+    <ol class="hondt miss">
+      {%- for n in mg.next %}
+      <li>
+        <span class="sw" style="background:{{ n.color }}"></span>
+        <span class="p">{{ n.name }}</span>
+        <span class="d">÷{{ ('%g'|format(n.divisor))|replace('.', ',') }}</span>
+        <span class="q">{{ ('%.3f'|format(n.quotient))|replace('.', ',') }}</span>
+        <span class="need">{{ 'le faltan' if es else 'li falten' }} {{ fmt(n.need) if n.need >= 0.1 else ('%.2f'|format([n.need, 0.01]|max))|replace('.', ',') }} {{ 'puntos' if es else 'punts' }}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </section>
+{% endif %}
+{% if mg and mg.out %}
+  <section>
+    <h2>{{ 'Por debajo del umbral' if es else 'Per sota del llindar' }}</h2>
+    <p class="note">{% if es %}Partidos que hoy no llegarían al {{ thr }} % y se quedarían sin
+      escaño en el reparto nacional.{% else %}Partits que avui no arribarien al {{ thr }} % i es
+      quedarien sense escó al repartiment estatal.{% endif %}</p>
+    <div class="tablewrap">
+    <table class="results">
+      <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="n">{{ 'Media' if es else 'Mitjana' }}</th>
+        <th class="n">{{ 'Le faltan' if es else 'Li falten' }}</th></tr></thead>
+      <tbody>
+      {%- for o in mg.out %}
+      <tr><td><span class="sw" style="background:{{ o.color }}"></span>{{ o.name }}</td>
+        <td class="n">{{ fmt(o.share) }} %</td>
+        <td class="n">{{ fmt(o.short if o.short > 0.05 else 0.05) }} {{ 'puntos' if es else 'punts' }}</td></tr>
+      {%- endfor %}
+      </tbody>
+    </table>
+    </div>
+  </section>
+{% endif %}
+
   <section class="coal" data-majority="{{ d.majority }}"
            data-yes="{{ 'Mayoría absoluta' if es else 'Majoria absoluta' }}"
            data-no="{{ 'Faltan' if es else 'Falten' }}"

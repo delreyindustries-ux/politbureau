@@ -81,6 +81,45 @@ def apportion(shares: dict, seats: int, method: str = "dhondt", threshold: float
     return result
 
 
+def margins(shares: dict, seats: int, method: str = "dhondt", threshold: float = 0.0,
+            first_divisor: float = 1.0, bonus: str | None = None, k: int = 5) -> dict | None:
+    """Els escons en joc d'un repartiment estatal (com "Escons en joc" a Espanya).
+
+    `won`: els `k` ultims escons repartits (numero d'esco, partit, divisor, quocient).
+    `next`: els `k` quocients seguents mes alts, amb els punts que li falten a
+    cada partit per superar el quocient de l'ultim esco (sense moure els altres).
+    `out`: partits per sota del llindar i els punts que els falten.
+    None amb els metodes de resta mes gran, que no tenen divisors.
+    """
+    out = sorted(((p, s, threshold * 100 - s) for p, s in shares.items()
+                  if threshold and 0.5 <= s < threshold * 100), key=lambda x: -x[1])
+    if method not in ("dhondt", "sainte_lague"):
+        return {"won": [], "next": [], "cutoff": None, "out": out} if out else None
+    running = {p: s for p, s in shares.items() if s >= threshold * 100}
+    if not running or seats <= 0:
+        return None
+    if bonus == "gr":
+        top = max(running, key=running.get)
+        if running[top] >= 25:
+            seats -= min(50, 20 + int((min(running[top], 40) - 25) / 0.5))
+
+    def div(n):
+        if method == "sainte_lague":
+            return first_divisor if n == 0 else 2 * n + 1
+        return n + 1
+
+    won, log = {p: 0 for p in running}, []
+    for i in range(seats):
+        w = max(running, key=lambda p: (running[p] / div(won[p]), running[p]))
+        log.append((i + 1, w, div(won[w]), running[w] / div(won[w])))
+        won[w] += 1
+    cutoff = log[-1][3]
+    nxt = sorted(((p, div(won[p]), running[p] / div(won[p]),
+                   cutoff * div(won[p]) - running[p]) for p in running),
+                 key=lambda x: -x[2])[:k]
+    return {"won": log[-k:], "next": nxt, "cutoff": cutoff, "out": out}
+
+
 # El swing es una divisio, i dividir per un numero minuscul fa esclatar el
 # resultat. Adelante Andalucia va treure el 0,037% estatal el 2023 i les
 # enquestes li donen l'1%: el factor surt 26,8 i el model l'acabava fent
