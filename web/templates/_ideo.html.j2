@@ -1,0 +1,8 @@
+{# Posicio i ideologies d'un partit (Wikidata, config/ideologies.json), sota el nom. #}
+{% macro ideo(x, lang) -%}
+{%- set i = x[lang] if x else none -%}
+{%- if i and (i.position or i.ideology) -%}
+{%- set txt = (i.position ~ (' · ' if i.ideology else '') if i.position else '') ~ (i.ideology | join(', ')) -%}
+<span class="ideo">{{ txt[:1] | upper }}{{ txt[1:] }}</span>
+{%- endif -%}
+{%- endmacro %}

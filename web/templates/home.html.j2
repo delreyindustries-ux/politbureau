@@ -1,5 +1,6 @@
 {% extends "base.html.j2" %}
 {% block content %}
+{% from "_ideo.html.j2" import ideo %}
 <section class="hero">
   <h1>{{ site_name }}</h1>
   <p class="lede">{{ t('site_tagline') }}</p>
@@ -29,7 +30,7 @@
     <tbody>
     {% for h in highlights %}
       <tr>
-        <td><span class="sw" style="background:{{ h.color }}"></span>{{ h.name }}</td>
+        <td><span class="sw" style="background:{{ h.color }}"></span>{{ h.name }}{{ ideo(h.ideo, lang) }}</td>
         <td class="n">{{ h.share | pct }}</td>
         <td class="n">{{ h.seats if h.seats else '·' }}</td>
       </tr>
@@ -37,6 +38,7 @@
     </tbody>
   </table>
   <p class="warn">{{ t('estimate_warning') | safe }}</p>
+  <p class="note">{{ 'Posición e ideología de cada partido: ' if lang == 'es' else 'Posició i ideologia de cada partit: ' }}<a href="https://www.wikidata.org" rel="noopener">Wikidata</a> (CC0).</p>
 </section>
 {% endif %}
 

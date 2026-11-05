@@ -59,7 +59,7 @@ def summary_highlights(cfg):
            WHERE election_id = ? AND scope_code = '' ORDER BY share DESC LIMIT 10""",
         (ELECTION,)).fetchall()
     return [{**parties.meta(r["party"], "ES", ELECTION), "share": r["share"],
-             "seats": seats.get(r["party"])} for r in rows if r["share"] >= 0.5]
+             "seats": seats.get(r["party"]), "ideo": parties.ideology(r["party"], "ES")} for r in rows if r["share"] >= 0.5]
 
 
 def site_stats(conn):

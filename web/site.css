@@ -85,6 +85,8 @@ table.results .n{text-align:right;font-variant-numeric:tabular-nums;
 table.results tbody tr:first-child td{font-weight:600}
 .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;
   vertical-align:baseline}
+/* ideologia del partit (Wikidata) sota el nom */
+.ideo{display:block;margin:2px 0 0 18px;font-size:12px;line-height:1.35;color:var(--dim);font-weight:400}
 .up{color:var(--up)}
 .dn{color:var(--dn)}
 

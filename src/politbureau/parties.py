@@ -234,6 +234,22 @@ def meta(code: str, country: str, election: str | None = None, region: str | Non
 
 
 @lru_cache(maxsize=1)
+def _ideologies() -> dict:
+    p = ROOT / "config" / "ideologies.json"
+    if not p.exists():
+        return {}
+    import json
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def ideology(code: str, country: str) -> dict | None:
+    """{"es": {"position", "ideology"}, "ca": {...}, "qid"} de Wikidata, o None.
+
+    Ve de config/ideologies.json (`politbureau ideologia`)."""
+    return _ideologies().get(country, {}).get(code)
+
+
+@lru_cache(maxsize=1)
 def _order() -> dict:
     with CONFIG.open(encoding="utf-8") as fh:
         raw = yaml.safe_load(fh) or {}

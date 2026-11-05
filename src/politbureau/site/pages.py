@@ -583,7 +583,8 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
                     "color": colors.get(r["party"], meta["color"])}
         avg.append({**meta, "person": persons.get(r["party"]), "share": r["share"],
                     "lo": r["lo"], "hi": r["hi"], "n": r["n_polls"],
-                    "seats": seats.get(r["party"])})
+                    "seats": seats.get(r["party"]),
+                    "ideo": parties.ideology(r["party"], country)})
     if margins and seats:
         by = {a["code"]: a for a in avg}
 

@@ -2,6 +2,7 @@
 {% block content %}
 {% set es = lang == 'es' %}
 {% set name = d.name[lang] %}
+{% from "_ideo.html.j2" import ideo %}
 <article class="doc wide">
   <p class="note"><a href="{{ root }}{{ 'es/encuestas' if es else 'ca/enquestes' }}/">{{ '← Mapa mundial de encuestas' if es else "← Mapa mundial d'enquestes" }}</a></p>
 {% if d.presidential %}
@@ -48,7 +49,7 @@
     <tbody>
     {% for r in d.avg %}
     <tr>
-      <td><span class="sw" style="background:{{ r.color }}"></span>{% if r.person %}{{ r.person }} <span class="fine">({{ r.name }})</span>{% else %}{{ r.name }}{% endif %}</td>
+      <td><span class="sw" style="background:{{ r.color }}"></span>{% if r.person %}{{ r.person }} <span class="fine">({{ r.name }})</span>{% else %}{{ r.name }}{% endif %}{{ ideo(r.ideo, lang) }}</td>
       <td class="n">{{ fmt(r.share) }} %</td>
       <td class="n">{{ fmt(r.lo) }}–{{ fmt(r.hi) }}</td>
       {% if d.seats %}<td class="n">{{ r.seats if r.seats else '—' }}</td>{% endif %}
@@ -263,7 +264,7 @@
       <tbody>
       {% for r in g.avg[:8] %}
       <tr>
-        <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.person or r.name }}</td>
+        <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.person or r.name }}{{ ideo(r.ideo, lang) }}</td>
         <td class="n">{{ fmt(r.share) }} %</td>
       </tr>
       {% endfor %}
@@ -281,11 +282,13 @@
       mitad cada 14 días y crece con la raíz cuadrada de la muestra, con un tope.</li>
     <li>Se descartan las de más de 90 días y las de menos de 300 entrevistas.</li>
     <li>La horquilla no es un margen de error: mide cuánto discrepan los institutos entre sí.</li>
-    <li>Los nombres y colores de los partidos son los de la tabla de Wikipedia.</li>
+    <li>Los nombres y colores de los partidos son los de la tabla de Wikipedia. La posición y la
+      ideología de cada uno son las de <a href="https://www.wikidata.org" rel="noopener">Wikidata</a>
+      (dominio público, CC0): se muestran como mucho tres ideologías.</li>
     {% if d.presidential %}<li>Cada línea lleva el candidato por el que más preguntan las encuestas
       de los últimos 90 días. Si los institutos cambian de nombre, la página cambia sola.</li>{% endif %}
-    <li>Fuera de España solo se publica la media nacional: no hay mapa ni estimación por
-      municipio.</li>
+    <li>Fuera de España no hay estimación por municipio. Donde hay mapa por territorios, cada uno
+      parte de su resultado en las últimas elecciones y se mueve como la media nacional.</li>
   </ul>
 {% else %}
   <h2>Com es calcula</h2>
@@ -294,11 +297,13 @@
       meitat cada 14 dies i creix amb l'arrel quadrada de la mostra, amb un límit.</li>
     <li>Es descarten les de més de 90 dies i les de menys de 300 entrevistes.</li>
     <li>La forquilla no és un marge d'error: mesura quant discrepen els instituts entre ells.</li>
-    <li>Els noms i els colors dels partits són els de la taula de Wikipedia.</li>
+    <li>Els noms i els colors dels partits són els de la taula de Wikipedia. La posició i la
+      ideologia de cadascun són les de <a href="https://www.wikidata.org" rel="noopener">Wikidata</a>
+      (domini públic, CC0): se'n mostren com a màxim tres ideologies.</li>
     {% if d.presidential %}<li>Cada línia porta el candidat pel qual més pregunten les enquestes dels
       últims 90 dies. Si els instituts canvien de nom, la pàgina canvia sola.</li>{% endif %}
-    <li>Fora d'Espanya només es publica la mitjana estatal: no hi ha mapa ni estimació per
-      municipi.</li>
+    <li>Fora d'Espanya no hi ha estimació per municipi. On hi ha mapa per territoris, cadascun
+      parteix del seu resultat a les últimes eleccions i es mou com la mitjana estatal.</li>
   </ul>
 {% endif %}
   <p class="fine">{{ 'Fuente' if es else 'Font' }}:

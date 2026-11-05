@@ -30,6 +30,13 @@ def cmd_calendari(args):
         print("sense contorn al globus:", ", ".join(missing))
 
 
+def cmd_ideologia(args):
+    from .ingest import ideology
+    data = ideology.write(only=set(args.only) if args.only else None)
+    n = sum(len(v) for v in data.values())
+    print(f"ideologies: {n} partits de {len(data)} paisos -> config/ideologies.json")
+
+
 def cmd_ingest(args):
     from .ingest import runner
     conn = db.connect()
@@ -104,6 +111,10 @@ def main(argv=None):
 
     sub.add_parser("calendari", help="properes eleccions de tots els paisos (Wikipedia)"
                    ).set_defaults(func=cmd_calendari)
+
+    p = sub.add_parser("ideologia", help="ideologia i posicio dels partits (Wikidata, CC0)")
+    p.add_argument("--only", nargs="*", help="codis de pais (ES, DE...)")
+    p.set_defaults(func=cmd_ideologia)
 
     p = sub.add_parser("ingest", help="baixa i guarda les enquestes")
     p.add_argument("--only", nargs="*", help="nomes aquestes eleccions (id de sources.yaml)")
