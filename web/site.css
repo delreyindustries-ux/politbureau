@@ -252,22 +252,84 @@ table.part .down{color:#d2463c}
 
 /* ------------------------------------------------ mapamundi d'enquestes */
 /* Globus en 3D (world.js): l'espai sempre fosc, tambe amb el tema clar. */
-.worldmap{position:relative;aspect-ratio:16/10;max-height:620px;width:100%;margin:8px 0 26px;
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;
-  background:radial-gradient(ellipse at 50% 45%,#141b2b 0%,#06080d 75%);
-  touch-action:none;user-select:none}
+.whead .lede{max-width:760px}
+.whead .facts{margin:12px 0 14px}
+.worldmap{position:relative;aspect-ratio:16/10;max-height:640px;width:100%;margin:6px 0 26px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 45%,#16203a 0%,#070a12 72%);
+  touch-action:none;user-select:none;color:#e8ebf2;
+  --wb:rgba(10,14,24,.78);--wl:rgba(255,255,255,.14)}
 .worldmap canvas{display:block;cursor:grab}
 .worldmap canvas:active{cursor:grabbing}
-.wbtns{position:absolute;top:10px;right:10px;display:flex;gap:6px;z-index:2}
-.wbtns button{background:var(--bg);color:var(--ink);border:1px solid var(--line);
-  border-radius:8px;min-width:34px;height:32px;padding:0 10px;font-size:14px;cursor:pointer}
-.wbtns button:hover{border-color:var(--accent)}
-.wtip{position:absolute;z-index:3;pointer-events:none;background:var(--bg);color:var(--ink);
-  border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px;
-  line-height:1.45;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:240px}
-.wtip b{display:block;margin-bottom:2px}
+.wbtns{position:absolute;top:10px;right:10px;display:flex;flex-wrap:wrap;justify-content:flex-end;
+  gap:6px;z-index:2;max-width:calc(100% - 20px)}
+.wbtns button{background:var(--wb);color:#e8ebf2;border:1px solid var(--wl);backdrop-filter:blur(6px);
+  border-radius:8px;min-width:34px;height:32px;padding:0 10px;font-size:13px;cursor:pointer}
+.wbtns button:hover,.wbtns button:focus-visible{border-color:#7aa7ff;outline:none}
+.wlegend{position:absolute;left:10px;bottom:10px;z-index:2;display:flex;flex-direction:column;gap:4px;
+  background:var(--wb);border:1px solid var(--wl);border-radius:10px;padding:8px 10px;
+  font-size:12px;color:#c3cad8;backdrop-filter:blur(6px);pointer-events:none}
+.wlegend span{display:flex;align-items:center;gap:7px}
+.wlegend i{width:16px;height:10px;border-radius:3px;display:inline-block}
+.wl-lead{background:linear-gradient(90deg,#e30613 0 25%,#1d84ce 25% 50%,#63be21 50% 75%,#f2a900 75%)}
+.wl-vote{background:#4a5872}
+.wl-none{background:#262d3d;outline:1px solid rgba(255,255,255,.12)}
+.whint{position:absolute;right:12px;bottom:10px;margin:0;z-index:2;font-size:12px;color:#8b94a8;
+  pointer-events:none;text-shadow:0 1px 2px #000}
+.whint .h-touch{display:none}
+@media (hover:none){ .whint .h-touch{display:inline} .whint .h-mouse{display:none} }
+.wtip{position:absolute;z-index:3;pointer-events:none;background:rgba(12,16,26,.94);color:#e8ebf2;
+  border:1px solid var(--wl);border-radius:10px;padding:8px 11px;font-size:13px;
+  line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:260px}
+.wtip b,.wcard b{display:block;margin-bottom:3px;font-size:14px}
+.wtip .sw,.wcard .sw{margin-right:6px}
+.wtip .meta,.wcard .meta{color:#8b94a8;font-size:12px;margin-top:3px}
+.wcard{position:absolute;z-index:4;left:50%;bottom:12px;transform:translateX(-50%);
+  width:min(320px,calc(100% - 24px));background:rgba(12,16,26,.96);color:#e8ebf2;
+  border:1px solid var(--wl);border-radius:12px;padding:12px 14px 12px;font-size:14px;
+  line-height:1.5;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.wcard .go{display:block;margin-top:10px;text-align:center;background:#5b8def;color:#0c1220;
+  font-weight:600;border-radius:8px;padding:8px 10px}
+.wcard .x{position:absolute;top:6px;right:8px;background:none;border:0;color:#8b94a8;
+  font-size:20px;line-height:1;cursor:pointer;padding:4px}
+.worldmap.carded .wlegend{display:none}
 .worldmap.failed::after{content:"";}
-@media (max-width:640px){ .worldmap{aspect-ratio:5/4} .wbtns button{height:30px;padding:0 8px} }
+@media (max-width:640px){
+  .worldmap{aspect-ratio:1/1;border-radius:12px}
+  .wbtns button{height:30px;padding:0 8px;font-size:12px}
+  .wlegend{flex-direction:row;flex-wrap:wrap;gap:3px 10px;font-size:10.5px;padding:5px 8px;
+    bottom:6px;left:6px;right:6px}
+  .wlegend i{width:12px;height:8px}
+  .whead .facts{gap:6px}
+  .whead .facts span{font-size:12px;padding:5px 9px}
+  .whead .facts b{font-size:13px}
+  .whint{display:none}
+}
+
+/* Properes eleccions: targetes amb el compte enrere */
+ol.soon{list-style:none;margin:8px 0 28px;padding:0;display:grid;gap:10px;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+ol.soon li{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden}
+ol.soon li::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--lead,var(--line))}
+ol.soon li > a, ol.soon li > time{color:inherit}
+ol.soon a{display:block;color:var(--ink)}
+ol.soon a:hover{background:color-mix(in srgb, var(--accent) 8%, transparent)}
+ol.soon li > a, ol.soon li:not(:has(a)){padding:10px 12px 11px 16px}
+ol.soon time{display:block;font-size:13px;color:var(--dim)}
+ol.soon time b{font:700 22px var(--mono);color:var(--ink);margin-right:3px}
+ol.soon .when{display:block;font-size:12px;color:var(--accent);margin:1px 0 6px}
+ol.soon strong{display:block;font-size:15px}
+ol.soon .kind{display:block;font-size:12px;color:var(--faint);margin-bottom:6px}
+ol.soon .lead{display:block;font-size:13px;color:var(--dim)}
+ol.soon .lead.none{color:var(--faint);font-style:italic}
+@media (max-width:640px){
+  ol.soon{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:minmax(160px,62%);
+    overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+  ol.soon li{scroll-snap-align:start}
+}
+details.cal summary{cursor:pointer;color:var(--accent);margin:6px 0 10px;font-size:14px}
 
 /* Regions a la pagina d'un pais estranger */
 .regions{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:6px 0 22px}

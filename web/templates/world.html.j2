@@ -2,29 +2,63 @@
 {% block content %}
 {% set es = lang == 'es' %}
 <article class="doc wide">
-  <h1>{{ 'Mapa mundial de encuestas' if es else "Mapa mundial d'enquestes" }}</h1>
-  <p class="lede">{% if es %}La media de las encuestas de las próximas elecciones de
-    {{ ncountries }} países. Cada país va del color del partido o candidato que encabeza su
-    media. Arrastra para girar el globo, acerca con la rueda o pellizcando, y pulsa un país para
-    ver el detalle y todas sus encuestas.{% else %}La mitjana de les
-    enquestes de les properes eleccions de {{ ncountries }} països. Cada país va del color del
-    partit o candidat que encapçala la seva mitjana. Arrossega per fer girar el globus, apropa't
-    amb la roda o pessigant, i prem un país per veure'n el detall i totes les enquestes.{% endif %}</p>
+  <header class="whead">
+    <h1>{{ 'Encuestas electorales de todo el mundo' if es else "Enquestes electorals de tot el món" }}</h1>
+    <p class="lede">{% if es %}La media de las encuestas de las próximas elecciones en
+      {{ ncountries }} países, actualizada cada día. Cada país lleva el color de quien encabeza su
+      media.{% else %}La mitjana de les enquestes de les properes eleccions a {{ ncountries }}
+      països, actualitzada cada dia. Cada país porta el color de qui encapçala la seva
+      mitjana.{% endif %}</p>
+    <div class="facts">
+      <span><b>{{ ncountries }}</b>{{ 'países con encuestas' if es else 'països amb enquestes' }}</span>
+      {% if npolls %}<span><b>{{ npolls }}</b>{{ 'encuestas en las medias' if es else 'enquestes a les mitjanes' }}</span>{% endif %}
+      {% if nsoon %}<span><b>{{ nsoon }}</b>{{ 'países votan en los próximos 4 meses' if es else 'països voten els pròxims 4 mesos' }}</span>{% endif %}
+    </div>
+  </header>
 
   <div id="pbworld" class="worldmap" data-empty="{{ 'Sin encuestas publicadas' if es else 'Sense enquestes publicades' }}"
        data-leg="{{ 'Legislativas' if es else 'Legislatives' }}" data-pres="{{ 'Presidenciales' if es else 'Presidencials' }}"
        data-noelection="{{ 'Sin elecciones nacionales previstas' if es else 'Sense eleccions nacionals previstes' }}"
+       data-polls="{{ 'encuestas' if es else 'enquestes' }}"
+       data-open="{{ 'Ver las encuestas' if es else 'Veure les enquestes' }}"
+       data-click="{{ 'Pulsa para ver las encuestas' if es else 'Clica per veure les enquestes' }}"
        data-label="{{ 'Globo terráqueo con el partido que encabeza las encuestas en cada país' if es else 'Globus terraqüi amb el partit que encapçala les enquestes a cada país' }}">
     <div class="wbtns">
       <button type="button" data-z="in" aria-label="{{ 'Acercar' if es else 'Apropa' }}">+</button>
       <button type="button" data-z="out" aria-label="{{ 'Alejar' if es else 'Allunya' }}">−</button>
-      <button type="button" data-z="europe">{{ 'Europa' }}</button>
+      <button type="button" data-z="europe">Europa</button>
+      <button type="button" data-z="americas">{{ 'América' if es else 'Amèrica' }}</button>
+      <button type="button" data-z="asia">{{ 'Asia' if es else 'Àsia' }}</button>
       <button type="button" data-z="world">{{ 'Mundo' if es else 'Món' }}</button>
     </div>
+    <div class="wlegend" aria-hidden="true">
+      <span><i class="wl-lead"></i>{{ 'Color de quien va primero' if es else 'Color de qui va primer' }}</span>
+      <span><i class="wl-vote"></i>{{ 'Vota, sin encuestas' if es else 'Vota, sense enquestes' }}</span>
+      <span><i class="wl-none"></i>{{ 'Sin elecciones previstas' if es else 'Sense eleccions previstes' }}</span>
+    </div>
+    <p class="whint" aria-hidden="true"><span class="h-mouse">{{ 'Arrastra para girar · rueda para acercar' if es else 'Arrossega per girar · roda per apropar' }}</span><span class="h-touch">{{ 'Arrastra para girar · pellizca para acercar · toca un país' if es else 'Arrossega per girar · pessiga per apropar · toca un país' }}</span></p>
     <div class="wtip" hidden></div>
+    <div class="wcard" hidden></div>
     <noscript><p class="note">{{ 'El mapa necesita JavaScript; la lista de países está debajo.' if es else 'El mapa necessita JavaScript; la llista de països és a sota.' }}</p></noscript>
   </div>
   <script type="application/json" id="pbworld-data">{{ mapdata | safe }}</script>
+
+{% if upcoming %}
+  <h2>{{ 'Próximas elecciones' if es else 'Properes eleccions' }}</h2>
+  <ol class="soon">
+  {% for u in upcoming %}
+    <li{% if u.lead %} style="--lead:{{ u.lead.color }}"{% endif %}>
+      {% if u.url %}<a href="{{ root }}{{ u.url.lstrip('/') }}">{% endif %}
+      <time datetime="{{ u.date }}"><b>{{ u.day }}</b> {{ u.month }}</time>
+      <span class="when">{% if u.days == 0 %}{{ 'hoy' if es else 'avui' }}{% elif u.days == 1 %}{{ 'mañana' if es else 'demà' }}{% else %}{{ 'en ' ~ u.days ~ ' días' if es else "d'aquí a " ~ u.days ~ ' dies' }}{% endif %}</span>
+      <strong>{{ u.name }}</strong>
+      <span class="kind">{% for k in u.kinds %}{{ (('legislativas' if es else 'legislatives') if k == 'leg' else ('presidenciales' if es else 'presidencials')) }}{{ ' · ' if not loop.last }}{% endfor %}</span>
+      {% if u.lead %}<span class="lead"><span class="sw" style="background:{{ u.lead.color }}"></span>{{ u.lead.name }} {{ u.lead.pct }} %</span>{% else %}<span class="lead none">{{ 'sin encuestas' if es else 'sense enquestes' }}</span>{% endif %}
+      {% if u.url %}</a>{% endif %}
+    </li>
+  {% endfor %}
+  </ol>
+{% endif %}
 
   <h2>{{ 'Todos los países' if es else 'Tots els països' }}</h2>
   <div class="tablewrap">
@@ -51,12 +85,14 @@
   </div>
 
 {% if calendar %}
-  <h2>{{ 'Próximas elecciones en todos los países' if es else 'Properes eleccions a tots els països' }}</h2>
+  <h2>{{ 'Calendario electoral de todos los países' if es else 'Calendari electoral de tots els països' }}</h2>
   <p class="note">{% if es %}{{ nelections }} países celebran elecciones nacionales. En el globo, los
     que no tienen encuestas publicadas van en gris claro; al pasar por encima se ve cuándo votan.
     Los que no celebran elecciones nacionales van en gris oscuro.{% else %}{{ nelections }} països fan
     eleccions nacionals. Al globus, els que no tenen enquestes publicades van en gris clar; en passar-hi
     per sobre es veu quan voten. Els que no fan eleccions nacionals van en gris fosc.{% endif %}</p>
+  <details class="cal">
+  <summary>{{ ('Ver los ' ~ calendar|length ~ ' países') if es else ('Mostra els ' ~ calendar|length ~ ' països') }}</summary>
   <div class="tablewrap">
   <table class="results part">
     <thead><tr>
@@ -77,6 +113,7 @@
     </tbody>
   </table>
   </div>
+  </details>
 {% endif %}
 
 {% if es %}

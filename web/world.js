@@ -18,6 +18,7 @@
   if (!box || !raw) return;
   var data = JSON.parse(raw.textContent);
   var tip = box.querySelector(".wtip");
+  var card = box.querySelector(".wcard");
   var canvas = document.createElement("canvas");
   canvas.setAttribute("role", "img");
   canvas.setAttribute("aria-label", box.getAttribute("data-label") || "");
@@ -27,13 +28,15 @@
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Estat de la camera: centre del globus (lon, lat) i zoom (1 = globus sencer).
-  var lon0 = -20, lat0 = 25, zoom = 1;
+  // Al principi, Europa i l'Atlantic: hi ha la majoria de paisos amb enquestes.
+  var lon0 = 2, lat0 = 30, zoom = 1;
   var feats = [], W = 0, H = 0, dpr = 1, R = 0, cx = 0, cy = 0;
-  var spinning = !reduce, vel = 0, flight = null, hover = null, dirty = true;
-  var css = getComputedStyle(document.documentElement);
-  function v(name, fallback) { return (css.getPropertyValue(name) || "").trim() || fallback; }
+  var spinning = !reduce, vel = 0, flight = null, hover = null, picked = null, dirty = true;
+  var lastPointer = "mouse";
+  // Colors fixos: l'espai es fosc tambe amb el tema clar (abans la terra sense
+  // eleccions agafava el gris de les vores del tema i amb el clar quedava blanca).
   var C = {
-    land: v("--line", "#262b38"), edge: v("--bg", "#0f1116"), ink: v("--ink", "#e8ebf2"),
+    land: "#262d3d", edge: "#0b0f17", ink: "#e8ebf2",
     // Fan eleccions pero no tenen enquestes: un gris mes clar que la resta.
     vote: "#4a5872",
     sea0: "#1d3b63", sea1: "#0b1a30", glow: "rgba(110,170,255,0.35)"
@@ -62,13 +65,36 @@
       var info = data[f.c] || null;
       // Una regio sense enquestes propies no es dibuixa: ja hi es el seu pais.
       if (f.c.indexOf("-") > 0 && !info) return;
-      feats.push({ c: f.c, n: f.n, info: info, rings: rings, path: null, region: f.c.indexOf("-") > 0 });
+      var feat = { c: f.c, n: f.n, info: info, rings: rings, path: null, region: f.c.indexOf("-") > 0 };
+      if (info && info.lead) centre(feat);
+      feats.push(feat);
     });
     // Els paisos amb dades, al final: es dibuixen per sobre i es proven primer.
     feats.sort(function (a, b) { return (a.info ? 1 : 0) - (b.info ? 1 : 0); });
     resize();
     wire();
     requestAnimationFrame(frame);
+  }
+
+  /* Centre (vector unitari mitja de l'anell mes llarg) i radi angular del pais:
+   * les etiquetes nomes surten quan el pais es prou gran a la pantalla. */
+  function centre(f) {
+    var big = f.rings[0];
+    f.rings.forEach(function (r) { if (r.n > big.n) big = r; });
+    var X = 0, Y = 0, Z = 0, i;
+    for (i = 0; i < big.n; i++) {
+      X += big.cp[i] * big.cl[i]; Y += big.cp[i] * big.sl[i]; Z += big.sp[i];
+    }
+    var m = Math.hypot(X, Y, Z) || 1;
+    X /= m; Y /= m; Z /= m;
+    var minDot = 1;
+    for (i = 0; i < big.n; i++) {
+      var d = big.cp[i] * big.cl[i] * X + big.cp[i] * big.sl[i] * Y + big.sp[i] * Z;
+      if (d < minDot) minDot = d;
+    }
+    var la = Math.atan2(Y, X), ph = Math.asin(Z);
+    f.ctr = { cl: Math.cos(la), sl: Math.sin(la), cp: Math.cos(ph), sp: Math.sin(ph),
+              ang: Math.acos(Math.max(-1, Math.min(1, minDot))) };
   }
 
   function resize() {
@@ -133,7 +159,7 @@
       var has = f.info && f.info.color;
       ctx.fillStyle = has ? f.info.color : (f.info && f.info.nopoll ? C.vote : C.land);
       ctx.fill(path, "evenodd");
-      if (f === hover) {
+      if (f === hover || f === picked) {
         ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6;
       } else if (f.region) {
         // Una regio son diverses provincies: la vora del seu propi color amaga
@@ -149,6 +175,49 @@
     sh.addColorStop(0, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(0,0,0,0.35)");
     ctx.fillStyle = sh;
     ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.fill();
+    labels(cL, sL, cP, sP);
+  }
+
+  /* Nom del pais i qui va primer, damunt dels paisos que es veuen prou grans.
+   * Primer els mes grans; una etiqueta que en trepitja una altra no es dibuixa. */
+  function labels(cL, sL, cP, sP) {
+    var list = [];
+    feats.forEach(function (f) {
+      if (!f.ctr || !f.path) return;
+      var c = f.ctr, cosd = c.cl * cL + c.sl * sL;
+      var depth = sP * c.sp + cP * c.cp * cosd;
+      if (depth < 0.35) return;                       // massa a prop de l'horitzo
+      var size = Math.sin(Math.min(c.ang, 1.2)) * R * depth;
+      if (size < 16) return;
+      var x = cx + c.cp * (c.sl * cL - c.cl * sL) * R;
+      var y = cy - (cP * c.sp - sP * c.cp * cosd) * R;
+      list.push({ f: f, x: x, y: y, size: size });
+    });
+    list.sort(function (a, b) { return b.size - a.size; });
+    var boxes = [];
+    ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.lineJoin = "round";
+    list.forEach(function (l) {
+      var full = l.size >= 30;
+      var name = l.f.info.name.split(" · ").pop();
+      var line2 = l.f.info.lead + " " + l.f.info.pct + " %";
+      ctx.font = "600 12px system-ui, sans-serif";
+      var w = Math.max(ctx.measureText(name).width, full ? ctx.measureText(line2).width : 0) + 6;
+      var h = full ? 30 : 15;
+      var bx = { x0: l.x - w / 2, x1: l.x + w / 2, y0: l.y - h / 2, y1: l.y + h / 2 };
+      for (var i = 0; i < boxes.length; i++) {
+        var o = boxes[i];
+        if (bx.x0 < o.x1 && bx.x1 > o.x0 && bx.y0 < o.y1 && bx.y1 > o.y0) return;
+      }
+      boxes.push(bx);
+      ctx.lineWidth = 3; ctx.strokeStyle = "rgba(5,8,14,0.85)"; ctx.fillStyle = "#fff";
+      var y1 = full ? l.y - 7 : l.y;
+      ctx.strokeText(name, l.x, y1); ctx.fillText(name, l.x, y1);
+      if (full) {
+        ctx.font = "500 11px system-ui, sans-serif";
+        ctx.fillStyle = "#dfe5f1";
+        ctx.strokeText(line2, l.x, l.y + 8); ctx.fillText(line2, l.x, l.y + 8);
+      }
+    });
   }
 
   function graticule(cL, sL, cP, sP) {
@@ -220,7 +289,9 @@
         if (z === "in") { stop(); setZoom(zoom * 1.5); }
         else if (z === "out") { stop(); setZoom(zoom / 1.5); }
         else if (z === "europe") fly(12, 50, 3.2);
-        else fly(-20, 25, 1);
+        else if (z === "americas") fly(-78, 12, 1.5);
+        else if (z === "asia") fly(108, 22, 1.6);
+        else fly(2, 30, 1);
       });
     });
     canvas.addEventListener("wheel", function (ev) {
@@ -230,6 +301,7 @@
 
     canvas.addEventListener("pointerdown", function (ev) {
       stop(); vel = 0;
+      lastPointer = ev.pointerType || "mouse";
       pts[ev.pointerId] = [ev.clientX, ev.clientY];
       dragging = true; moved = false; last = [ev.clientX, ev.clientY];
       if (Object.keys(pts).length === 2) pinch = spread();
@@ -247,6 +319,7 @@
       // Graus per pixel: un radi del globus son 90 graus.
       var k = 90 / R;
       lon0 -= dx * k; lat0 = Math.max(-85, Math.min(85, lat0 + dy * k));
+      if (!card.hidden) closeCard();
       vel = dx * k * 0.6;
       last = [ev.clientX, ev.clientY];
       dirty = true; hide();
@@ -261,10 +334,19 @@
     canvas.addEventListener("pointerleave", function () {
       if (!dragging) { hover = null; hide(); dirty = true; }
     });
+    // Amb ratoli, clicar un pais l'obre. Amb el dit no hi ha "passar per sobre":
+    // el primer toc ensenya la fitxa del pais, i la fitxa porta l'enllac.
     canvas.addEventListener("click", function (ev) {
       if (moved) { moved = false; return; }
       var f = hit(ev);
-      if (f && f.info && f.info.url) window.location.href = window.PB.root + f.info.url.replace(/^\//, "");
+      if (lastPointer === "mouse" && f && f.info && f.info.url) {
+        window.location.href = window.PB.root + f.info.url.replace(/^\//, "");
+        return;
+      }
+      if (f) openCard(f); else closeCard();
+    });
+    card.addEventListener("click", function (ev) {
+      if (ev.target.classList.contains("x")) closeCard();
     });
     window.addEventListener("resize", resize);
 
@@ -295,22 +377,73 @@
     show(ev, f.info || { name: f.n });
   }
 
-  function show(ev, info) {
-    tip.textContent = "";
+  /* El contingut de la bafarada i de la fitxa: nom, primer i segon amb el seu
+   * color, i quantes enquestes hi ha; o quan vota, si no n'hi ha cap. */
+  function fill(el, info) {
+    el.textContent = "";
     var b = document.createElement("b");
     b.textContent = info.name;
-    tip.appendChild(b);
-    var lines = info.first ? [info.first, info.second]
-      : info.noelection ? [box.getAttribute("data-noelection")]
-      : [box.getAttribute("data-empty"),
-         info.leg ? box.getAttribute("data-leg") + ": " + info.leg : "",
-         info.pres ? box.getAttribute("data-pres") + ": " + info.pres : ""];
-    lines.forEach(function (t) {
-      if (!t) return;
+    el.appendChild(b);
+    function row(text, color) {
+      if (!text) return;
       var d = document.createElement("div");
-      d.textContent = t;
-      tip.appendChild(d);
-    });
+      if (color) {
+        var sw = document.createElement("span");
+        sw.className = "sw"; sw.style.background = color;
+        d.appendChild(sw);
+      }
+      d.appendChild(document.createTextNode(text));
+      el.appendChild(d);
+    }
+    function meta(text) {
+      var d = document.createElement("div");
+      d.className = "meta"; d.textContent = text; el.appendChild(d);
+    }
+    if (info.first) {
+      row(info.first, info.color);
+      row(info.second, info.c2);
+      var m = [];
+      if (info.pres) m.push(box.getAttribute("data-pres"));
+      if (info.n) m.push(info.n + " " + box.getAttribute("data-polls"));
+      if (m.length) meta(m.join(" · "));
+    } else if (info.noelection) {
+      row(box.getAttribute("data-noelection"));
+    } else {
+      row(box.getAttribute("data-empty"));
+      row(info.leg ? box.getAttribute("data-leg") + ": " + info.leg : "");
+      row(info.pres ? box.getAttribute("data-pres") + ": " + info.pres : "");
+    }
+  }
+
+  function openCard(f) {
+    hide();
+    picked = f; dirty = true;
+    var info = f.info || { name: f.n };
+    fill(card, info);
+    var x = document.createElement("button");
+    x.type = "button"; x.className = "x"; x.setAttribute("aria-label", "×"); x.textContent = "×";
+    card.appendChild(x);
+    if (info.url) {
+      var a = document.createElement("a");
+      a.className = "go"; a.href = window.PB.root + info.url.replace(/^\//, "");
+      a.textContent = box.getAttribute("data-open") + " →";
+      card.appendChild(a);
+    }
+    card.hidden = false;
+    box.classList.add("carded");
+  }
+
+  function closeCard() {
+    card.hidden = true; box.classList.remove("carded");
+    if (picked) { picked = null; dirty = true; }
+  }
+
+  function show(ev, info) {
+    fill(tip, info);
+    if (info.url) {
+      var d = document.createElement("div");
+      d.className = "meta"; d.textContent = box.getAttribute("data-click"); tip.appendChild(d);
+    }
     tip.hidden = false;
     var r = box.getBoundingClientRect();
     var x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;

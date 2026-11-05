@@ -819,6 +819,17 @@ _MONTHS = {
 _EN = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 
 
+def _date_of(text):
+    """"24 Aug 2027" -> date; None si nomes hi ha el mes o l'any."""
+    parts = (text or "").split()
+    if len(parts) != 3 or parts[1][:3].lower() not in _EN:
+        return None
+    try:
+        return dt.date(int(parts[2]), _EN.index(parts[1][:3].lower()) + 1, int(parts[0]))
+    except ValueError:
+        return None
+
+
 def _when(text, lang):
     """"24 Aug 2027" -> "24 d'agost del 2027" / "24 de agosto de 2027"."""
     if not text:
@@ -935,17 +946,42 @@ def abroad_pages(env, cfg, conn):
             for r in view + regional:
                 mapdata.setdefault(r["code"], {
                     "name": r["name"], "url": r["url"], "color": r["first"]["color"],
+                    # Per a les etiquetes i la fitxa del globus: qui va primer (nom
+                    # curt i %), el color del segon i quantes enquestes hi entren.
+                    "lead": r["first"]["person"] or r["first"]["name"],
+                    "pct": _fmt(r["first"]["share"]),
+                    "c2": r["second"]["color"] if r["second"] else None,
+                    "n": r.get("n"), "pres": bool(r.get("presidential")),
                     "first": f'{r["first"]["person"] or r["first"]["name"]} {_fmt(r["first"]["share"])} %',
                     "second": (f'{r["second"]["person"] or r["second"]["name"]} '
                                f'{_fmt(r["second"]["share"])} %') if r["second"] else ""})
             # La resta de paisos (03/11/2026): els que fan eleccions, amb la data de
             # les properes; els que no, amb el seu nom i prou.
-            calendar = []
+            calendar, upcoming = [], {}
+            today = dt.date.today()
             for code, info in _calendar().items():
                 name = (_country_names().get(code) or {}).get(lang) or info["en"]
                 leg, pres = _when(info.get("leg"), lang), _when(info.get("pres"), lang)
                 url = (mapdata.get(code) or {}).get("url")
                 calendar.append({"name": name, "leg": leg, "pres": pres, "url": url})
+                # Les properes cites (120 dies) amb dia conegut, per a la franja de
+                # sota del globus. Legislatives i presidencials el mateix dia, juntes.
+                for kind in ("leg", "pres"):
+                    day = _date_of(info.get(kind))
+                    if not day or not 0 <= (day - today).days <= 120:
+                        continue
+                    card = upcoming.setdefault((day, code), {
+                        "date": day.isoformat(), "day": day.day, "days": (day - today).days,
+                        "month": _MONTHS[lang][day.month - 1], "name": name, "url": None,
+                        "kinds": [], "lead": None})
+                    card["kinds"].append(kind)
+                    # El primer de les enquestes, nomes si son d'aquesta mateixa
+                    # eleccio: el president suis l'elegeix el Parlament el 9/12, i
+                    # les enquestes de Suissa son de les legislatives.
+                    m = mapdata.get(code) or {}
+                    if m.get("lead") and m.get("pres") == (kind == "pres"):
+                        card["url"] = url
+                        card["lead"] = {"name": m["lead"], "pct": m["pct"], "color": m["color"]}
                 if code not in mapdata:
                     mapdata[code] = ({"name": name, "nopoll": True, "leg": leg, "pres": pres}
                                      if leg or pres else {"name": name, "noelection": True})
@@ -966,6 +1002,9 @@ def abroad_pages(env, cfg, conn):
                  "va primer a cadascun i amb quin percentatge. Prem un país per veure'n totes "
                  "les enquestes."),
                 rows=view, fmt=_fmt, fdate=_fdate, ncountries=ncountries, calendar=calendar,
+                upcoming=[upcoming[k] for k in sorted(upcoming)][:10],
+                npolls=sum(r["n"] or 0 for r in view),
+                nsoon=len({c for _d, c in upcoming}),
                 nelections=sum(1 for r in calendar if r["leg"] or r["pres"]),
                 mapdata=json.dumps(mapdata, ensure_ascii=False).replace("</", "<\\/"))
             write(DIST / canonical.strip("/") / "index.html", html)
