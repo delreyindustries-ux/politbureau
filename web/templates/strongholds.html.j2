@@ -2,6 +2,8 @@
 {% block content %}
 <article class="doc wide">
 {% if lang == 'es' %}
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
   <h1>Los {{ rows | length }} feudos progresistas</h1>
   <p class="lede">Los municipios que más han votado a la izquierda de forma sostenida: la media
   de su voto a la izquierda en las elecciones generales de 2016, abril de 2019, noviembre de
@@ -9,6 +11,8 @@
   <p class="note">El 29N, la participación de estos municipios se sigue hora a hora en
     <a href="{{ root }}{{ lang }}/{{ page('participation') }}/">Participación 29N</a>.</p>
 {% else %}
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
   <h1>Els {{ rows | length }} feus progressistes</h1>
   <p class="lede">Els municipis que més han votat l'esquerra de manera sostinguda: la mitjana
   del seu vot a l'esquerra a les eleccions generals del 2016, l'abril del 2019, el novembre del

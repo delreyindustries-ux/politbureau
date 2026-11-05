@@ -2,12 +2,16 @@
 {% block content %}
 <article class="doc wide">
 {% if lang == 'es' %}
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
   <h1>Participación en los feudos progresistas</h1>
   <p class="lede">Los {{ rows | length }} municipios que más han votado a la izquierda en las
   últimas cuatro elecciones generales, ordenados de más a menos electores. El 29 de noviembre
   esta tabla se actualiza con cada dato de participación del Ministerio del Interior
   (14:00, 18:00 y escrutinio) y se compara con la misma hora de 2023.</p>
 {% else %}
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
   <h1>Participació als feus progressistes</h1>
   <p class="lede">Els {{ rows | length }} municipis que més han votat l'esquerra a les darreres
   quatre eleccions generals, ordenats de més a menys electors. El 29 de novembre aquesta taula

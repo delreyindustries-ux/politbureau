@@ -4,7 +4,8 @@
 <article class="territory">
 
   <nav class="crumbs">
-    <a href="{{ root }}{{ lang }}/">{{ site_name }}</a>
+    <a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a>
     {%- for c in crumbs %} <span>›</span> <a href="{{ c.url }}">{{ c.name }}</a>{% endfor %}
   </nav>
 

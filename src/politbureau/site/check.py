@@ -93,8 +93,9 @@ def run() -> int:
         canon = CANON.search(html)
         heads = H1.findall(html)
 
-        # L'index de l'arrel es una redireccio amb noindex: no li cal descripcio.
-        if rel == "index.html":
+        # Les redireccions (l'index de l'arrel i, des del 05/11/2026, l'antiga
+        # adreca del mapamundi) porten noindex: no els cal descripcio ni h1.
+        if rel == "index.html" or 'http-equiv="refresh"' in html:
             continue
         if not title or not desc or not canon:
             missing_meta.append(rel)

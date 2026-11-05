@@ -4,7 +4,7 @@
 {% set name = d.name[lang] %}
 {% from "_ideo.html.j2" import ideo %}
 <article class="doc wide">
-  <p class="note"><a href="{{ root }}{{ 'es/encuestas' if es else 'ca/enquestes' }}/">{{ '← Mapa mundial de encuestas' if es else "← Mapa mundial d'enquestes" }}</a></p>
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
 {% if d.presidential %}
   <h1>{{ ('Encuestas ' if es else 'Enquestes ') ~ d.of[lang] }}</h1>
   <p class="lede">{% if es %}Próximas elecciones presidenciales, primera vuelta. La media de todas

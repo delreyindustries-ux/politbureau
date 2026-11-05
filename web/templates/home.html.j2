@@ -2,7 +2,8 @@
 {% block content %}
 {% from "_ideo.html.j2" import ideo %}
 <section class="hero">
-  <h1>{{ site_name }}</h1>
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
+  <h1>{{ t('nav_spain') }}</h1>
   <p class="lede">{{ t('site_tagline') }}</p>
   <p>{{ t('site_description') }}</p>
   {%- if notice %}

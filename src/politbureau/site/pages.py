@@ -364,10 +364,10 @@ def home_page(env, cfg, data, urls, highlights):
     general = next((e for e in load_sources()["elections"] if e["id"] == "es-general"), None)
     notice = {"veda": "notice_veda", "peu_urna_obert": "notice_exit_polls"}.get(veda.status(general))
     for lang in i18n.LANGS:
-        canonical = f"/{lang}/"
+        canonical = i18n.page_url("spain", lang)
         html = render_page(
             env, cfg, "home.html.j2", lang, canonical,
-            {lg: f"/{lg}/" for lg in i18n.LANGS},
+            {lg: i18n.page_url("spain", lg) for lg in i18n.LANGS},
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
             highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
@@ -376,7 +376,10 @@ def home_page(env, cfg, data, urls, highlights):
                 for c in sorted(data["names"]["region"],
                                 key=lambda c: data["names"]["region"].get(c, ""))
                 if ("region", c) in urls])
-        write(DIST / lang / "index.html", html)
+        write(DIST / canonical.strip("/") / "index.html", html)
+        # L'antiga adreca del mapamundi (/ca/enquestes/) envia a la nova portada.
+        old = "encuestas" if lang == "es" else "enquestes"
+        write(DIST / lang / old / "index.html", _redirect(f"/{lang}/", cfg))
 
     # L'arrel envia a l'idioma per defecte. Es una redireccio de client perque un
     # allotjament estatic no pot fer un 301 de servidor. L'adreca es RELATIVA:
@@ -393,6 +396,20 @@ def home_page(env, cfg, data, urls, highlights):
           f'<body><p><a href="./{default}/">Polit Bureau</a></p></body></html>')
 
 
+def _redirect(target, cfg):
+    """Pagina que envia a una altra adreca (un allotjament estatic no fa 301).
+    L'adreca relativa a l'arrel: GitHub Pages pot servir des d'un subdirectori."""
+    base = cfg["site"]["base_url"].rstrip("/")
+    depth = 2
+    rel = "../" * depth + target.lstrip("/")
+    return ('<!doctype html><html><head><meta charset="utf-8">'
+            f'<meta http-equiv="refresh" content="0; url={rel}">'
+            f'<link rel="canonical" href="{base}{target}">'
+            '<title>Polit Bureau</title>'
+            '<meta name="robots" content="noindex,follow"></head>'
+            f'<body><p><a href="{rel}">Polit Bureau</a></p></body></html>')
+
+
 def sitemaps(cfg, urls):
     """Un sitemap per idioma mes un index. El limit son 50.000 URL per fitxer i
     aqui n'hi ha unes vuit mil per idioma, aixi que cap no es queda a prop."""
@@ -401,11 +418,10 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
         if cfg.get("_abroad"):
             elections = abroad_elections()
-            entries += [world_url(lang)] + [abroad_url(elections[e], lang)
-                                             for e in cfg["_abroad"]]
+            entries += [abroad_url(elections[e], lang) for e in cfg["_abroad"]]
         entries += sorted((cfg.get("_abroad_units") or {}).get(lang, []))
         entries += sorted(u[lang] for u in urls.values() if lang in u)
         body = "\n".join(
@@ -500,8 +516,8 @@ def abroad_url(election, lang):
 
 
 def world_url(lang):
-    """La porta d'entrada de totes les enquestes: el mapamundi (03/11/2026)."""
-    return "/es/encuestas/" if lang == "es" else "/ca/enquestes/"
+    """La porta d'entrada de tot el lloc: el mapamundi (portada des del 05/11/2026)."""
+    return f"/{lang}/"
 
 
 def _spain(conn, lang):
@@ -516,7 +532,7 @@ def _spain(conn, lang):
     first, second = ({**parties.meta(r["party"], "ES", ELECTION), "share": r["share"],
                       "person": None} for r in rows)
     return {"code": "ES", "name": "España" if lang == "es" else "Espanya",
-            "url": i18n.page_url("map", lang), "presidential": False,
+            "url": i18n.page_url("spain", lang), "presidential": False,
             "first": first, "second": second, "n": None, "last": n[1], "spain": True}
 
 
@@ -941,8 +957,8 @@ def abroad_pages(env, cfg, conn):
             html = render_page(
                 env, cfg, "world.html.j2", lang, canonical,
                 {lg: world_url(lg) for lg in i18n.LANGS},
-                ("Mapa mundial de encuestas electorales" if lang == "es"
-                 else "Mapa mundial d'enquestes electorals"),
+                (f"{cfg['site']['name']} · Mapa mundial de encuestas electorales" if lang == "es"
+                 else f"{cfg['site']['name']} · Mapa mundial d'enquestes electorals"),
                 (f"Mapa interactivo con la media de las encuestas de {ncountries} países: quién "
                  "va primero en cada uno y con qué porcentaje. Pulsa un país para ver todas "
                  "sus encuestas." if lang == "es" else

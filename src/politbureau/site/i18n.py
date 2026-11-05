@@ -21,6 +21,8 @@ PATHS = {
 # Les pagines fixes. Tambe en l'idioma de cadascuna: una adreca /ca/privacidad/
 # en una pagina en catala queda com un pedac, i els cercadors llegeixen l'URL.
 PAGES = {
+    # La portada d'Espanya: des del 05/11/2026 l'arrel de cada idioma es el mapamundi.
+    "spain":   {"es": "espana", "ca": "espanya"},
     "map":     {"es": "mapa", "ca": "mapa"},
     "method":  {"es": "metodologia", "ca": "metodologia"},
     "participation": {"es": "participacion", "ca": "participacio"},
@@ -45,7 +47,9 @@ T = {
     "nav_method": {"es": "Metodología", "ca": "Metodologia"},
     "nav_participation": {"es": "Participación 29N", "ca": "Participació 29N"},
     "nav_strongholds": {"es": "Feudos progresistas", "ca": "Feus progressistes"},
-    "nav_polls": {"es": "Encuestas del mundo", "ca": "Enquestes del món"},
+    "nav_polls": {"es": "Mundo", "ca": "Món"},
+    "nav_spain": {"es": "España", "ca": "Espanya"},
+    "world": {"es": "Mundo", "ca": "Món"},
     "nav_legal": {"es": "Aviso legal", "ca": "Avís legal"},
     "nav_privacy": {"es": "Privacidad", "ca": "Privadesa"},
     "nav_cookies": {"es": "Cookies", "ca": "Galetes"},

@@ -33,12 +33,11 @@
     <span class="dot"></span><strong>{{ site_name }}</strong>
   </a>
   <nav>
+    <a href="{{ root }}{{ lang }}/">{{ t('nav_polls') }}</a>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a>
     <a href="{{ root }}{{ lang }}/{{ page('map') }}/">{{ t('nav_map') }}</a>
     <a href="{{ root }}{{ lang }}/{{ page('participation') }}/">{{ t('nav_participation') }}</a>
     <a href="{{ root }}{{ lang }}/{{ page('strongholds') }}/">{{ t('nav_strongholds') }}</a>
-    {%- if abroad %}
-    <a href="{{ root }}{{ 'es/encuestas' if lang == 'es' else 'ca/enquestes' }}/">{{ t('nav_polls') }}</a>
-    {%- endif %}
     <a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ t('nav_method') }}</a>
   </nav>
   <form class="find" role="search" onsubmit="return pbSearch(event)">

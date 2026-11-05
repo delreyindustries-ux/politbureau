@@ -4,7 +4,8 @@
 {% set units = d.depmap.units[lang] %}
 {% set base_label = d.depmap.base_label[lang] %}
 <article class="doc wide">
-  <p class="note"><a href="{{ root }}{{ d.urls[lang].lstrip('/') }}">{{ ('← Encuestas ' if es else '← Enquestes ') ~ d.of[lang] }}</a></p>
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ d.urls[lang].lstrip('/') }}">{{ d.name[lang] }}</a></nav>
   <h1>{{ u.name }}</h1>
   <p class="lede">{% if es %}Estimación de voto en {{ u.name }} para las próximas elecciones
     {{ 'presidenciales' if d.presidential else ('generales' if d.general else 'legislativas') }} {{ d.of.es }}.{% else %}Estimació de vot a {{ u.name }} per a les properes eleccions
