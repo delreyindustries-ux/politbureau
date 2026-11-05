@@ -32,7 +32,6 @@
   var lon0 = 2, lat0 = 30, zoom = 1;
   var feats = [], W = 0, H = 0, dpr = 1, R = 0, cx = 0, cy = 0;
   var spinning = !reduce, vel = 0, flight = null, hover = null, picked = null, dirty = true;
-  var lastPointer = "mouse";
   // Colors fixos: l'espai es fosc tambe amb el tema clar (abans la terra sense
   // eleccions agafava el gris de les vores del tema i amb el clar quedava blanca).
   var C = {
@@ -301,7 +300,6 @@
 
     canvas.addEventListener("pointerdown", function (ev) {
       stop(); vel = 0;
-      lastPointer = ev.pointerType || "mouse";
       pts[ev.pointerId] = [ev.clientX, ev.clientY];
       dragging = true; moved = false; last = [ev.clientX, ev.clientY];
       if (Object.keys(pts).length === 2) pinch = spread();
@@ -334,12 +332,13 @@
     canvas.addEventListener("pointerleave", function () {
       if (!dragging) { hover = null; hide(); dirty = true; }
     });
-    // Amb ratoli, clicar un pais l'obre. Amb el dit no hi ha "passar per sobre":
-    // el primer toc ensenya la fitxa del pais, i la fitxa porta l'enllac.
+    // Clicar (o tocar) un pais amb enquestes porta a la seva pagina: el lloc
+    // comenca al globus (05/11/2026). Un pais sense enquestes ensenya una fitxa
+    // amb quan vota, perque amb el dit no hi ha "passar per sobre".
     canvas.addEventListener("click", function (ev) {
       if (moved) { moved = false; return; }
       var f = hit(ev);
-      if (lastPointer === "mouse" && f && f.info && f.info.url) {
+      if (f && f.info && f.info.url) {
         window.location.href = window.PB.root + f.info.url.replace(/^\//, "");
         return;
       }

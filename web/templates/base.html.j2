@@ -26,7 +26,8 @@
 {%- endif %}
 {%- block head %}{% endblock %}
 </head>
-<body>
+<body{% if bare %} class="bare"{% endif %}>
+{%- if not bare %}
 
 <header class="top">
   <a class="brand" href="{{ root }}{{ lang }}/">
@@ -47,11 +48,13 @@
   </form>
   <a class="lang" href="{{ root }}{{ other_lang_url.lstrip('/') }}">{{ t('other_lang') }}</a>
 </header>
+{%- endif %}
 
 <main>
 {%- block content %}{% endblock %}
 </main>
 
+{%- if not bare %}
 <footer class="foot">
   <div class="cols">
     <div>
@@ -71,6 +74,7 @@
   </div>
   <p class="tiny">{{ t('updated') }} {{ built_on }}</p>
 </footer>
+{%- endif %}
 
 <div id="pbcookie" hidden>
   <div>

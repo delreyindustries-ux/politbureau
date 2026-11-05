@@ -23,6 +23,9 @@ PATHS = {
 PAGES = {
     # La portada d'Espanya: des del 05/11/2026 l'arrel de cada idioma es el mapamundi.
     "spain":   {"es": "espana", "ca": "espanya"},
+    # La llista de paisos, les properes eleccions i el calendari: el que hi havia
+    # sota el globus abans que la portada fos nomes el globus (05/11/2026).
+    "countries": {"es": "paises", "ca": "paisos"},
     "map":     {"es": "mapa", "ca": "mapa"},
     "method":  {"es": "metodologia", "ca": "metodologia"},
     "participation": {"es": "participacion", "ca": "participacio"},

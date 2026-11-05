@@ -418,7 +418,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
         if cfg.get("_abroad"):
             elections = abroad_elections()
             entries += [abroad_url(elections[e], lang) for e in cfg["_abroad"]]
@@ -990,6 +990,25 @@ def abroad_pages(env, cfg, conn):
             calendar.sort(key=lambda r: parties.slug(r["name"]))
             view.sort(key=lambda r: (parties.slug(r["name"]), r["presidential"]))
             ncountries = len({elections[eid]["country"] for eid, _ in done}) + (1 if spain else 0)
+            ctx = dict(
+                rows=view, fmt=_fmt, fdate=_fdate, ncountries=ncountries, calendar=calendar,
+                upcoming=[upcoming[k] for k in sorted(upcoming)][:10],
+                npolls=sum(r["n"] or 0 for r in view),
+                nsoon=len({c for _d, c in upcoming}),
+                nelections=sum(1 for r in calendar if r["leg"] or r["pres"]),
+                mapdata=json.dumps(mapdata, ensure_ascii=False).replace("</", "<\\/"))
+            # La llista de paisos, les properes eleccions i el calendari, a part:
+            # la portada es nomes el globus (05/11/2026).
+            listing = i18n.page_url("countries", lang)
+            write(DIST / listing.strip("/") / "index.html", render_page(
+                env, cfg, "countries.html.j2", lang, listing,
+                {lg: i18n.page_url("countries", lg) for lg in i18n.LANGS},
+                ("Encuestas de todos los países y calendario electoral" if lang == "es"
+                 else "Enquestes de tots els països i calendari electoral"),
+                (f"La media de las encuestas de {ncountries} países, quién va primero en cada "
+                 "uno y las próximas elecciones de todo el mundo." if lang == "es" else
+                 f"La mitjana de les enquestes de {ncountries} països, qui va primer a cadascun "
+                 "i les properes eleccions de tot el món."), **ctx))
             html = render_page(
                 env, cfg, "world.html.j2", lang, canonical,
                 {lg: world_url(lg) for lg in i18n.LANGS},
@@ -1001,11 +1020,6 @@ def abroad_pages(env, cfg, conn):
                  f"Mapa interactiu amb la mitjana de les enquestes de {ncountries} països: qui "
                  "va primer a cadascun i amb quin percentatge. Prem un país per veure'n totes "
                  "les enquestes."),
-                rows=view, fmt=_fmt, fdate=_fdate, ncountries=ncountries, calendar=calendar,
-                upcoming=[upcoming[k] for k in sorted(upcoming)][:10],
-                npolls=sum(r["n"] or 0 for r in view),
-                nsoon=len({c for _d, c in upcoming}),
-                nelections=sum(1 for r in calendar if r["leg"] or r["pres"]),
-                mapdata=json.dumps(mapdata, ensure_ascii=False).replace("</", "<\\/"))
+                bare=True, **ctx)
             write(DIST / canonical.strip("/") / "index.html", html)
     return [eid for eid, _ in done]

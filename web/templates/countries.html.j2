@@ -1,0 +1,109 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide">
+  <header class="whead">
+    <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
+    <h1>{{ 'Todos los países' if es else 'Tots els països' }}</h1>
+    <p class="lede">{% if es %}La media de las encuestas de las próximas elecciones en
+      {{ ncountries }} países, actualizada cada día, y el calendario electoral de todo el
+      mundo.{% else %}La mitjana de les enquestes de les properes eleccions a {{ ncountries }}
+      països, actualitzada cada dia, i el calendari electoral de tot el món.{% endif %}</p>
+    <div class="facts">
+      <span><b>{{ ncountries }}</b>{{ 'países con encuestas' if es else 'països amb enquestes' }}</span>
+      {% if npolls %}<span><b>{{ npolls }}</b>{{ 'encuestas en las medias' if es else 'enquestes a les mitjanes' }}</span>{% endif %}
+      {% if nsoon %}<span><b>{{ nsoon }}</b>{{ 'países votan en los próximos 4 meses' if es else 'països voten els pròxims 4 mesos' }}</span>{% endif %}
+    </div>
+  </header>
+
+
+{% if upcoming %}
+  <h2>{{ 'Próximas elecciones' if es else 'Properes eleccions' }}</h2>
+  <ol class="soon">
+  {% for u in upcoming %}
+    <li{% if u.lead %} style="--lead:{{ u.lead.color }}"{% endif %}>
+      {% if u.url %}<a href="{{ root }}{{ u.url.lstrip('/') }}">{% endif %}
+      <time datetime="{{ u.date }}"><b>{{ u.day }}</b> {{ u.month }}</time>
+      <span class="when">{% if u.days == 0 %}{{ 'hoy' if es else 'avui' }}{% elif u.days == 1 %}{{ 'mañana' if es else 'demà' }}{% else %}{{ 'en ' ~ u.days ~ ' días' if es else "d'aquí a " ~ u.days ~ ' dies' }}{% endif %}</span>
+      <strong>{{ u.name }}</strong>
+      <span class="kind">{% for k in u.kinds %}{{ (('legislativas' if es else 'legislatives') if k == 'leg' else ('presidenciales' if es else 'presidencials')) }}{{ ' · ' if not loop.last }}{% endfor %}</span>
+      {% if u.lead %}<span class="lead"><span class="sw" style="background:{{ u.lead.color }}"></span>{{ u.lead.name }} {{ u.lead.pct }} %</span>{% else %}<span class="lead none">{{ 'sin encuestas' if es else 'sense enquestes' }}</span>{% endif %}
+      {% if u.url %}</a>{% endif %}
+    </li>
+  {% endfor %}
+  </ol>
+{% endif %}
+
+  <h2>{{ 'Las medias, país a país' if es else 'Les mitjanes, país a país' }}</h2>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>País</th>
+      <th>{{ 'Primero' if es else 'Primer' }}</th>
+      <th>{{ 'Segundo' if es else 'Segon' }}</th>
+      <th class="n">{{ 'Encuestas' if es else 'Enquestes' }}</th>
+      <th class="n">{{ 'Última' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in rows %}
+    <tr>
+      <td><a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a>{% if r.presidential %} <span class="fine">({{ 'presidenciales' if es else 'presidencials' }})</span>{% endif %}{% if r.spain %} <span class="fine">({{ 'estimación municipio a municipio' if es else 'estimació municipi a municipi' }})</span>{% endif %}</td>
+      <td><span class="sw" style="background:{{ r.first.color }}"></span>{{ r.first.person or r.first.name }} {{ fmt(r.first.share) }} %</td>
+      <td>{% if r.second %}<span class="sw" style="background:{{ r.second.color }}"></span>{{ r.second.person or r.second.name }} {{ fmt(r.second.share) }} %{% else %}—{% endif %}</td>
+      <td class="n">{{ r.n if r.n else '—' }}</td>
+      <td class="n">{{ fdate(r.last) }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+{% if calendar %}
+  <h2>{{ 'Calendario electoral de todos los países' if es else 'Calendari electoral de tots els països' }}</h2>
+  <p class="note">{% if es %}{{ nelections }} países celebran elecciones nacionales. En el globo, los
+    que no tienen encuestas publicadas van en gris claro; al pasar por encima se ve cuándo votan.
+    Los que no celebran elecciones nacionales van en gris oscuro.{% else %}{{ nelections }} països fan
+    eleccions nacionals. Al globus, els que no tenen enquestes publicades van en gris clar; en passar-hi
+    per sobre es veu quan voten. Els que no fan eleccions nacionals van en gris fosc.{% endif %}</p>
+  <details class="cal">
+  <summary>{{ ('Ver los ' ~ calendar|length ~ ' países') if es else ('Mostra els ' ~ calendar|length ~ ' països') }}</summary>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>País</th>
+      <th>{{ 'Legislativas' if es else 'Legislatives' }}</th>
+      <th>{{ 'Presidenciales' if es else 'Presidencials' }}</th>
+      <th>{{ 'Encuestas' if es else 'Enquestes' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in calendar %}
+    <tr>
+      <td>{{ r.name }}</td>
+      <td>{{ r.leg or '—' }}</td>
+      <td>{{ r.pres or '—' }}</td>
+      <td>{% if r.url %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ 'Ver' if es else 'Veure' }}</a>{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  </details>
+{% endif %}
+
+{% if es %}
+  <p class="note">Solo hay color en los países con encuestas de los últimos 90 días. Faltan, entre
+    otros, Bélgica (sus encuestas van por regiones y no hay media nacional) y los países que
+    acaban de votar y aún no tienen encuestas de las próximas elecciones.</p>
+{% else %}
+  <p class="note">Només tenen color els països amb enquestes dels últims 90 dies. En falten, entre
+    d'altres, Bèlgica (les seves enquestes van per regions i no hi ha mitjana estatal) i els
+    països que acaben de votar i encara no tenen enquestes de les properes eleccions.</p>
+{% endif %}
+  <p class="fine">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'recopilaciones de encuestas de' if es else "recopilacions d'enquestes de" }}
+    <a href="https://en.wikipedia.org/" rel="noopener" target="_blank">Wikipedia</a> (CC BY-SA 4.0);
+    {{ 'calendario' if es else 'calendari' }}: <a href="https://en.wikipedia.org/wiki/List_of_next_general_elections" rel="noopener" target="_blank">Wikipedia, List of next general elections</a>;
+    {{ 'nombres de los países' if es else 'noms dels països' }}: <a href="https://www.wikidata.org/" rel="noopener" target="_blank">Wikidata</a> (CC0);
+    {{ 'fronteras' if es else 'fronteres' }}: <a href="https://www.naturalearthdata.com/" rel="noopener" target="_blank">Natural Earth</a>
+    ({{ 'dominio público' if es else 'domini públic' }}).</p>
+</article>
+{% endblock %}
