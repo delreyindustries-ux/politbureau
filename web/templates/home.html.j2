@@ -51,4 +51,29 @@
   {% for r in regions %}<li><a href="{{ r.url }}">{{ r.name }}</a></li>{% endfor %}
   </ul>
 </section>
+{% if subs %}
+<section class="doc">
+  <h2 id="subnacionals">{{ 'Elecciones autonómicas y municipales' if lang == 'es' else 'Eleccions autonòmiques i municipals' }}</h2>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>{{ 'Elección' if lang == 'es' else 'Elecció' }}</th>
+      <th>{{ 'Primero' if lang == 'es' else 'Primer' }}</th>
+      <th class="n">{{ 'Encuestas' if lang == 'es' else 'Enquestes' }}</th>
+      <th class="n">{{ 'Última' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for c in subs %}
+    <tr>
+      <td><a href="{{ root }}{{ c.urls[lang].lstrip('/') }}">{{ c.names[lang] }}</a> <span class="fine">({{ c.kind[lang] }})</span></td>
+      <td>{% if c.first %}<span class="sw" style="background:{{ c.first.color }}"></span>{{ c.first.person or c.first.name }} {{ fmt(c.first.share) }} %{% else %}—{% endif %}</td>
+      <td class="n">{{ c.n }}</td>
+      <td class="n">{{ fdate(c.last) if c.last else '—' }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endif %}
 {% endblock %}

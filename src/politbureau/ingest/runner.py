@@ -30,7 +30,16 @@ EUROPA_DENY = ("by state", "by region", "regional", "sub-national", "subnational
                "electorate", "projection", "riding", "by province")
 
 
-WORLD = ("europa", "mon")      # grups d'eleccions estrangeres (03/11/2026)
+WORLD = ("europa", "mon", "sub")   # grups d'eleccions estrangeres (03/11/2026)
+# `group: sub` (06/11/2026): eleccions regionals i municipals. La seva pagina ja es
+# d'una regio o una ciutat: les seccions amb el nom de la regio no s'han de treure.
+SUB_KEEP = ("regional", "sub-national", "subnational", "england", "scotland", "wales",
+            "london", "by region", "by district")
+# I el que en una regional no es vot als partits: el president, l'alcalde o el
+# primer ministre preferit (taules amb noms de persones en comptes de partits).
+SUB_DENY = ("preferred", "leader", "president", "premier", "minister-president",
+            "first minister", "mayor", "approval", "satisfaction", "scenario", "two-party",
+            "two party", "2pp")
 # Regions: el que no es intencio de vot de la regio. Escocia porta, a mes de les
 # enquestes escoceses, les submostres escoceses d'enquestes de tot el Regne Unit
 # (centenars de persones) i projeccions MRP: fora.
@@ -181,7 +190,12 @@ def run(conn, only=None):
                                sections=tuple(election.get("sections") or ())
                                + (EUROPA_SECTIONS if election.get("group") in WORLD else ()),
                                deny=tuple(election.get("deny_sections") or ())
-                               + (EUROPA_DENY if election.get("group") in WORLD else ()),
+                               + (tuple(x for x in EUROPA_DENY
+                                        if election.get("group") != "sub" or x not in SUB_KEEP)
+                                  if election.get("group") in WORLD else ())
+                               + (tuple(x for x in SUB_DENY if election.get("kind") != "mayoral"
+                                        or x != "mayor")
+                                  if election.get("group") == "sub" else ()),
                                lang=election.get("lang", "en"),
                                force=election.get("force_sections") or ())
             unmapped.update(unk)

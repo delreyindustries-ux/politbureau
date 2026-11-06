@@ -556,8 +556,14 @@ def parse_table(table, country, anchor_year):
 
         date_text = cell_text(cells[date_col]) if len(cells) > date_col else ""
         start, end = parse_fieldwork(date_text, year)
-        if end and previous_end and end > previous_end:
-            year -= 1                          # la taula baixa en el temps: hem creuat l'any
+        # La taula baixa en el temps: si una data surt molt per davant de l'anterior,
+        # hem creuat l'any (de "5 Jan" a "20 Dec"). Nomes si el salt es de mes de
+        # 90 dies: dues files una mica desordenades ("26-29 Oct" i a sota "19 Oct-1
+        # Nov") no son un canvi d'any, i abans enviaven tota la resta de la taula a
+        # l'any anterior (Victoria, 06/11/2026).
+        if end and previous_end and (dt.date.fromisoformat(end)
+                                     - dt.date.fromisoformat(previous_end)).days > 90:
+            year -= 1
             start, end = parse_fieldwork(date_text, year)
         if end:
             previous_end = end

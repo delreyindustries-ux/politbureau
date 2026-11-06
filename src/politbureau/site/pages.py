@@ -363,6 +363,18 @@ def home_page(env, cfg, data, urls, highlights):
     # Avis de veda electoral o de sondeigs a peu d'urna (generals, veda.py).
     general = next((e for e in load_sources()["elections"] if e["id"] == "es-general"), None)
     notice = {"veda": "notice_veda", "peu_urna_obert": "notice_exit_polls"}.get(veda.status(general))
+    # Les autonomiques i municipals amb pagina propia (`parent: spain`, 06/11/2026).
+    elections = abroad_elections()
+    subs = []
+    if cfg.get("_abroad"):
+        from .. import db
+        conn = db.connect()
+        for eid in cfg["_abroad"]:
+            if elections[eid].get("parent") == "spain":
+                d = abroad_data(conn, eid)
+                if d:
+                    subs.append(sub_card(d))
+        subs.sort(key=lambda c: parties.slug(c["names"]["ca"]))
     for lang in i18n.LANGS:
         canonical = i18n.page_url("spain", lang)
         html = render_page(
@@ -371,7 +383,7 @@ def home_page(env, cfg, data, urls, highlights):
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
             highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
-            notice=notice, regions=[
+            notice=notice, subs=subs, fmt=_fmt, fdate=_fdate, regions=[
                 {"name": data["names"]["region"].get(c, c), "url": urls[("region", c)][lang]}
                 for c in sorted(data["names"]["region"],
                                 key=lambda c: data["names"]["region"].get(c, ""))
@@ -595,7 +607,9 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
         meta = parties.meta(r["party"], country, eid)
         if r["party"].startswith("?"):
             # Partit fora del cataleg: el nom de la capcalera i el color de Wikipedia.
-            meta = {**meta, "name": _short(names.get(r["party"])) or meta["name"],
+            # Llevat que sources.yaml en fixi el nom (`display`): "SF N" -> "Sinn Féin".
+            fixed = parties._display().get(eid, {}).get(r["party"])
+            meta = {**meta, "name": fixed or _short(names.get(r["party"])) or meta["name"],
                     "color": colors.get(r["party"], meta["color"])}
         avg.append({**meta, "person": persons.get(r["party"]), "share": r["share"],
                     "lo": r["lo"], "hi": r["hi"], "n": r["n_polls"],
@@ -783,6 +797,11 @@ def abroad_data(conn, eid):
                                         (eid,)).fetchone()[0],
             "presidential": election.get("display") == "candidates",
             "general": election.get("kind") == "general",
+            # Eleccions regionals i municipals (`group: sub`, 06/11/2026): la pagina
+            # penja del pais (`parent`) i porta el tipus d'eleccio al titol.
+            "sub": election.get("group") == "sub",
+            "parent": election.get("parent"),
+            "kind": sub_kind(election),
             "name": {"es": pub["name_es"], "ca": pub["name_ca"]},
             # "del Regne Unit", "dels Països Baixos": quan el nom porta article.
             "of": {"es": pub.get("of_es") or f"de {pub['name_es']}",
@@ -859,8 +878,42 @@ def de(name):
     return f"d'{name}" if name[:1].lower() in "aeiouàèéíòóúh" else f"de {name}"
 
 
+SUB_KINDS = {
+    "regional": {"es": "elecciones regionales", "ca": "eleccions regionals"},
+    "state": {"es": "elecciones estatales", "ca": "eleccions estatals"},
+    "provincial": {"es": "elecciones provinciales", "ca": "eleccions provincials"},
+    "autonomic": {"es": "elecciones autonómicas", "ca": "eleccions autonòmiques"},
+    "municipal": {"es": "elecciones municipales", "ca": "eleccions municipals"},
+    "mayoral": {"es": "elecciones a la alcaldía", "ca": "eleccions a l'alcaldia"},
+    "local": {"es": "elecciones locales", "ca": "eleccions locals"},
+}
+
+
+def sub_kind(election):
+    """{es, ca}: el tipus d'una eleccio regional o municipal ("eleccions
+    regionals"), o None si es estatal. `pub.kind_es`/`kind_ca` el poden precisar
+    ("eleccions al Parlament d'Escòcia")."""
+    if election.get("group") != "sub":
+        return None
+    pub = election["pub"]
+    base = SUB_KINDS.get(election.get("kind") or "regional", SUB_KINDS["regional"])
+    return {"es": pub.get("kind_es") or base["es"], "ca": pub.get("kind_ca") or base["ca"]}
+
+
 def _titles(data, lang):
     name, of = data["name"][lang], data["of"][lang]
+    if data.get("sub"):
+        kind = data["kind"][lang]
+        what = (("candidato a candidato" if lang == "es" else "candidat a candidat")
+                if data["presidential"] else
+                ("partido a partido" if lang == "es" else "partit a partit"))
+        if lang == "es":
+            return (f"Encuestas {of} · {kind}",
+                    f"Media de las encuestas de las próximas {kind} {of}, {what}, "
+                    "con todos los sondeos que entran.")
+        return (f"Enquestes {of} · {kind}",
+                f"Mitjana de les enquestes de les properes {kind} {of}, {what}, "
+                "amb tots els sondeigs que hi entren.")
     if lang == "es":
         kind = ("elecciones presidenciales" if data["presidential"] else
                 "elecciones generales" if data["general"] else "elecciones legislativas")
@@ -891,13 +944,45 @@ def _unit_titles(data, g, lang):
             f"Comparada amb {data['depmap']['base_label']['ca']}.")
 
 
+def sub_card(d):
+    """El resum d'una eleccio regional o municipal per a les llistes."""
+    return {"kind": d["kind"], "first": d["avg"][0] if d["avg"] else None,
+            "second": d["avg"][1] if len(d["avg"]) > 1 else None,
+            "n": len(d["polls"]), "last": d["polls"][0]["end"] if d["polls"] else None,
+            "urls": d["urls"], "names": d["name"]}
+
+
+def link_subs(done):
+    """Enllaca cada eleccio regional o municipal amb el seu pais (`parent`): la
+    pagina del pais en porta la llista (`subs`) i la de l'eleccio, el cami
+    de tornada (`up`). `parent: spain` torna a la pagina d'Espanya."""
+    by_id = dict(done)
+    for _eid, d in done:
+        d.setdefault("subs", [])
+    for _eid, d in done:
+        if not d["sub"]:
+            continue
+        parent = d["parent"]
+        if parent == "spain":
+            d["up"] = {lg: i18n.page_url("spain", lg) for lg in i18n.LANGS}
+            d["up_name"] = {"es": "España", "ca": "Espanya"}
+        elif parent in by_id:
+            d["up"] = by_id[parent]["urls"]
+            d["up_name"] = by_id[parent]["name"]
+            by_id[parent]["subs"].append(sub_card(d))
+    for _eid, d in done:
+        d["subs"].sort(key=lambda c: parties.slug(c["names"]["ca"]))
+
+
 def abroad_pages(env, cfg, conn):
     """Una pagina per eleccio estrangera i l'index d'Europa. Retorna els id escrits."""
     done = []
     for eid in cfg.get("_abroad") or []:
         data = abroad_data(conn, eid)
-        if not data:
-            continue
+        if data:
+            done.append((eid, data))
+    link_subs(done)
+    for eid, data in done:
         for lang in i18n.LANGS:
             title, description = _titles(data, lang)
             canonical = data["urls"][lang]
@@ -912,12 +997,19 @@ def abroad_pages(env, cfg, conn):
                                    t, desc, d=data, u=g, fmt=_fmt, fdate=_fdate, de=de)
                 write(DIST / g["url"][lang].strip("/") / "index.html", html)
                 cfg.setdefault("_abroad_units", {}).setdefault(lang, []).append(g["url"][lang])
-        done.append((eid, data))
+    subs = [(eid, d) for eid, d in done if d["sub"]]
+    done_all, done = done, [(eid, d) for eid, d in done if not d["sub"]]
     if done:
         elections = abroad_elections()
         for lang in i18n.LANGS:
             canonical = world_url(lang)
             view, regional = [], []
+            # Les regionals i municipals no pinten el globus (el pais el pinta la
+            # seva eleccio estatal): van en una taula a part de la llista de paisos.
+            subrows = sorted(({**c, "parent_name": d["up_name"][lang] if d.get("up_name") else "",
+                               "name": d["name"][lang], "url": d["urls"][lang]}
+                              for _e, d in subs for c in [sub_card(d)]),
+                             key=lambda r: (parties.slug(r["parent_name"]), parties.slug(r["name"])))
             for eid, d in done:
                 code = elections[eid]["pub"].get("map") or elections[eid]["country"]
                 base = {"code": code, "url": d["urls"][lang], "presidential": d["presidential"]}
@@ -991,7 +1083,8 @@ def abroad_pages(env, cfg, conn):
             view.sort(key=lambda r: (parties.slug(r["name"]), r["presidential"]))
             ncountries = len({elections[eid]["country"] for eid, _ in done}) + (1 if spain else 0)
             ctx = dict(
-                rows=view, fmt=_fmt, fdate=_fdate, ncountries=ncountries, calendar=calendar,
+                rows=view, subrows=subrows, fmt=_fmt, fdate=_fdate, ncountries=ncountries,
+                calendar=calendar,
                 upcoming=[upcoming[k] for k in sorted(upcoming)][:10],
                 npolls=sum(r["n"] or 0 for r in view),
                 nsoon=len({c for _d, c in upcoming}),
@@ -1022,4 +1115,4 @@ def abroad_pages(env, cfg, conn):
                  "les enquestes."),
                 bare=True, **ctx)
             write(DIST / canonical.strip("/") / "index.html", html)
-    return [eid for eid, _ in done]
+    return [eid for eid, _ in done_all]

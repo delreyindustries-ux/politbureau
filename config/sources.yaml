@@ -580,6 +580,134 @@ elections:
      departments: {geo: "th/units.json", base: "th/base.json", units_es: "provincias",
                    units_ca: "províncies", base_es: "las generales de 2026", base_ca: "les generals del 2026"}}
 
+  # ---------- REGIONALS I MUNICIPALS (des del 06/11/2026) ----------
+  # Demanat per l'Alfonso: "ves afegint enquestes municipals i regionals a tots
+  # els paisos". `group: sub`: cada eleccio te pagina propia, la del pais (`parent`:
+  # id de la seva eleccio estatal, o `spain`) n'enllaca la llista, i no pinten el
+  # globus. `kind`: regional, state, provincial, autonomic, municipal, mayoral o
+  # local (el text del titol; `pub.kind_es`/`kind_ca` el precisen). Fora: EUA,
+  # Brasil i Russia, com a les estatals.
+  - {id: sub-es-ct, group: sub, parent: spain, country: ES, scope: national, kind: autonomic,
+     label: "Catalunya — Parlament", page: "Next Catalan regional election",
+     display: {PSOE: PSC},
+     pub: {es: cataluna, ca: catalunya, name_es: Cataluña, name_ca: Catalunya,
+           kind_es: "elecciones al Parlamento de Cataluña", kind_ca: "eleccions al Parlament de Catalunya"}}
+  - {id: sub-de-nw, group: sub, parent: eu-de, country: DE, scope: national, kind: state,
+     label: "Rin del Nord-Westfàlia — Landtag", page: "2027 North Rhine-Westphalia state election",
+     pub: {es: renania-del-norte-westfalia, ca: rin-del-nord-westfalia,
+           name_es: Renania del Norte-Westfalia, name_ca: Rin del Nord-Westfàlia,
+           kind_es: "elecciones al Landtag", kind_ca: "eleccions al Landtag"}}
+  - {id: sub-au-vic, group: sub, parent: w-au, country: AU, scope: national, kind: state, date: 2026-11-28,
+     label: "Victòria — Parlament", page: "Opinion polling for the 2026 Victorian state election",
+     pub: {es: victoria, ca: victoria, name_es: Victoria, name_ca: Victòria,
+           kind_es: "elecciones estatales", kind_ca: "eleccions estatals"}}
+  # Espanya: autonomiques (sense data, les que encara no estan convocades).
+  - {id: sub-es-vc, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, display: {PSOE: PSPV, SUMAR: "Compromís"},
+     label: "Comunitat Valenciana", page: "Next Valencian regional election",
+     pub: {es: comunidad-valenciana, ca: comunitat-valenciana, name_es: "Comunidad Valenciana", name_ca: "Comunitat Valenciana", of_es: "de la Comunidad Valenciana", of_ca: "de la Comunitat Valenciana"}}
+  - {id: sub-es-an, group: sub, parent: spain, country: ES, scope: national, kind: autonomic,
+     label: "Andalusia", page: "Next Andalusian regional election",
+     pub: {es: andalucia, ca: andalusia, name_es: "Andalucía", name_ca: "Andalusia"}}
+  - {id: sub-es-ar, group: sub, parent: spain, country: ES, scope: national, kind: autonomic,
+     label: "Aragó", page: "Next Aragonese regional election",
+     pub: {es: aragon, ca: arago, name_es: "Aragón", name_ca: "Aragó"}}
+  - {id: sub-es-ga, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, display: {PSOE: PSdeG},
+     label: "Galícia", page: "Next Galician regional election",
+     pub: {es: galicia, ca: galicia, name_es: "Galicia", name_ca: "Galícia"}}
+  - {id: sub-es-as, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "Astúries", page: "2027 Asturian regional election",
+     pub: {es: asturias, ca: asturies, name_es: "Asturias", name_ca: "Astúries"}}
+  - {id: sub-es-cm, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "Castella-la Manxa", page: "2027 Castilian-Manchegan regional election",
+     pub: {es: castilla-la-mancha, ca: castella-la-manxa, name_es: "Castilla-La Mancha", name_ca: "Castella-la Manxa"}}
+  - {id: sub-es-mc, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "Regió de Múrcia", page: "2027 Murcian regional election",
+     pub: {es: region-de-murcia, ca: regio-de-murcia, name_es: "Región de Murcia", name_ca: "Regió de Múrcia", of_es: "de la Región de Murcia", of_ca: "de la Regió de Múrcia"}}
+  - {id: sub-es-nc, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23, display: {PSOE: PSN},
+     label: "Navarra", page: "2027 Navarrese regional election",
+     pub: {es: navarra, ca: navarra, name_es: "Navarra", name_ca: "Navarra"}}
+  - {id: sub-es-ri, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "La Rioja", page: "2027 Riojan regional election",
+     pub: {es: la-rioja, ca: la-rioja, name_es: "La Rioja", name_ca: "La Rioja"}}
+  - {id: sub-es-ce, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "Ceuta", page: "2027 Ceuta Assembly election",
+     pub: {es: ceuta, ca: ceuta, name_es: "Ceuta", name_ca: "Ceuta",
+           kind_es: "elecciones a la Asamblea de Ceuta", kind_ca: "eleccions a l'Assemblea de Ceuta"}}
+  # Espanya: municipals del 23/05/2027.
+  - {id: sub-es-bcn, group: sub, parent: spain, country: ES, scope: national, kind: municipal, date: 2027-05-23, display: {PSOE: PSC},
+     label: "Barcelona", page: "2027 Barcelona municipal election",
+     pub: {es: barcelona, ca: barcelona, name_es: "Barcelona", name_ca: "Barcelona"}}
+  - {id: sub-es-vlc, group: sub, parent: spain, country: ES, scope: national, kind: municipal, date: 2027-05-23, display: {PSOE: PSPV, SUMAR: "Compromís"},
+     label: "València", page: "2027 Valencia municipal election",
+     pub: {es: valencia, ca: valencia, name_es: "Valencia", name_ca: "València"}}
+  - {id: sub-es-zgz, group: sub, parent: spain, country: ES, scope: national, kind: municipal, date: 2027-05-23,
+     label: "Saragossa", page: "2027 Zaragoza municipal election",
+     pub: {es: zaragoza, ca: saragossa, name_es: "Zaragoza", name_ca: "Saragossa"}}
+  # Alemanya: Landtag dels estats federats.
+  - {id: sub-de-ni, group: sub, parent: eu-de, country: DE, scope: national, kind: state,
+     label: "Baixa Saxònia", page: "2027 Lower Saxony state election",
+     pub: {es: baja-sajonia, ca: baixa-saxonia, name_es: "Baja Sajonia", name_ca: "Baixa Saxònia",
+           kind_es: "elecciones al Landtag", kind_ca: "eleccions al Landtag"}}
+  - {id: sub-de-sl, group: sub, parent: eu-de, country: DE, scope: national, kind: state, date: 2027-04-18,
+     label: "Saarland", page: "2027 Saarland state election",
+     pub: {es: sarre, ca: saarland, name_es: "Sarre", name_ca: "Saarland", of_es: "del Sarre", of_ca: "del Saarland",
+           kind_es: "elecciones al Landtag", kind_ca: "eleccions al Landtag"}}
+  - {id: sub-de-by, group: sub, parent: eu-de, country: DE, scope: national, kind: state,
+     label: "Baviera", page: "2028 Bavarian state election",
+     pub: {es: baviera, ca: baviera, name_es: "Baviera", name_ca: "Baviera",
+           kind_es: "elecciones al Landtag", kind_ca: "eleccions al Landtag"}}
+  - {id: sub-de-bb, group: sub, parent: eu-de, country: DE, scope: national, kind: state,
+     label: "Brandenburg", page: "Next Brandenburg state election",
+     pub: {es: brandeburgo, ca: brandenburg, name_es: "Brandeburgo", name_ca: "Brandenburg",
+           kind_es: "elecciones al Landtag", kind_ca: "eleccions al Landtag"}}
+  - {id: sub-de-he, group: sub, parent: eu-de, country: DE, scope: national, kind: state,
+     label: "Hessen", page: "Next Hessian state election",
+     pub: {es: hesse, ca: hessen, name_es: "Hesse", name_ca: "Hessen",
+           kind_es: "elecciones al Landtag", kind_ca: "eleccions al Landtag"}}
+  # Regne Unit.
+  # "?CROSSCOMMUNITYVOTE": la suma dels partits unionistes (columna "U"), no un partit.
+  - {id: sub-gb-nir, group: sub, parent: eu-gb, country: GB, scope: national, kind: regional, drop: ["?CROSSCOMMUNITYVOTE"],
+     # Wikipedia posa la designacio (N, U, O) enganxada a la sigla: "SF N".
+     display: {"?SINNFEIN": "Sinn Féin", "?DEMOCRATICUNIONISTPARTY": DUP, "?ULSTERUNIONISTPARTY": UUP,
+               "?TRADITIONALUNIONISTVOICE": TUV, "?ALLIANCEPARTYOFNORTHERNIRELAND": Alliance,
+               "?SOCIALDEMOCRATICANDLABOURPARTY": SDLP, "?GREENPARTYNORTHERNIRELAND": Green,
+               "?AONTU": "Aontú", "?PEOPLEBEFOREPROFIT": PBP},
+     label: "Irlanda del Nord", page: "Next Northern Ireland Assembly election",
+     pub: {es: irlanda-del-norte, ca: irlanda-del-nord, name_es: "Irlanda del Norte", name_ca: "Irlanda del Nord",
+           kind_es: "elecciones a la Asamblea de Irlanda del Norte", kind_ca: "eleccions a l'Assemblea d'Irlanda del Nord"}}
+  # Australia: estats.
+  - {id: sub-au-nsw, group: sub, parent: w-au, country: AU, scope: national, kind: state, date: 2027-03-27,
+     label: "Nova Gal·les del Sud", page: "Opinion polling for the 2027 New South Wales state election",
+     pub: {es: nueva-gales-del-sur, ca: nova-gales-del-sud, name_es: "Nueva Gales del Sur", name_ca: "Nova Gal·les del Sud"}}
+  - {id: sub-au-qld, group: sub, parent: w-au, country: AU, scope: national, kind: state,
+     label: "Queensland", page: "Opinion polling for the 2028 Queensland state election",
+     pub: {es: queensland, ca: queensland, name_es: "Queensland", name_ca: "Queensland"}}
+  - {id: sub-au-tas, group: sub, parent: w-au, country: AU, scope: national, kind: state,
+     label: "Tasmània", page: "Next Tasmanian state election",
+     pub: {es: tasmania, ca: tasmania, name_es: "Tasmania", name_ca: "Tasmània"}}
+  - {id: sub-au-wa, group: sub, parent: w-au, country: AU, scope: national, kind: state,
+     label: "Austràlia Occidental", page: "2029 Western Australian state election",
+     pub: {es: australia-occidental, ca: australia-occidental, name_es: "Australia Occidental", name_ca: "Austràlia Occidental"}}
+  # "Oth." enllaca a la llista de partits d'Australia: son els altres.
+  - {id: sub-au-sa, group: sub, parent: w-au, country: AU, scope: national, kind: state,
+     merge: {"?LISTOFPOLITICALPARTIESINAUSTRALIA": OTHER},
+     label: "Austràlia Meridional", page: "2030 South Australian state election",
+     pub: {es: australia-meridional, ca: australia-meridional, name_es: "Australia Meridional", name_ca: "Austràlia Meridional"}}
+  # India: assemblees dels estats del 2027.
+  - {id: sub-in-pb, group: sub, parent: w-in, country: IN, scope: national, kind: state,
+     label: "Panjab", page: "2027 Punjab Legislative Assembly election",
+     pub: {es: punyab, ca: panjab, name_es: "Punyab", name_ca: "Panjab"}}
+  - {id: sub-in-up, group: sub, parent: w-in, country: IN, scope: national, kind: state,
+     label: "Uttar Pradesh", page: "2027 Uttar Pradesh Legislative Assembly election",
+     pub: {es: uttar-pradesh, ca: uttar-pradesh, name_es: "Uttar Pradesh", name_ca: "Uttar Pradesh"}}
+  - {id: sub-in-uk, group: sub, parent: w-in, country: IN, scope: national, kind: state,
+     label: "Uttarakhand", page: "2027 Uttarakhand Legislative Assembly election",
+     pub: {es: uttarakhand, ca: uttarakhand, name_es: "Uttarakhand", name_ca: "Uttarakhand"}}
+  # Taiwan: alcaldia de Taipei (28/11/2026), candidat a candidat.
+  - {id: sub-tw-tpe, group: sub, parent: w-tw, country: TW, scope: national, kind: mayoral, date: 2026-11-28, display: candidates,
+     label: "Taipei", page: "2026 Taipei City local election",
+     pub: {es: taipei, ca: taipei, name_es: "Taipéi", name_ca: "Taipei"}}
+
 
 # ---------- REGIONS (demanat el 03/11/2026) ----------
 # Enquestes per regio de les eleccions estrangeres que en tenen a Wikipedia.

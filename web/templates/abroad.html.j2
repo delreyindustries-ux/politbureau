@@ -4,8 +4,14 @@
 {% set name = d.name[lang] %}
 {% from "_ideo.html.j2" import ideo %}
 <article class="doc wide">
-  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
-{% if d.presidential %}
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a>{% if d.up %} › <a href="{{ root }}{{ d.up[lang].lstrip('/') }}">{{ d.up_name[lang] }}</a>{% endif %}</nav>
+{% if d.sub %}
+  <h1>{{ ('Encuestas ' if es else 'Enquestes ') ~ d.of[lang] }}</h1>
+  <p class="lede">{% if es %}Próximas {{ d.kind.es }}{% if d.presidential %}, primera vuelta{% endif %}.
+    La media de todas las encuestas publicadas, {{ 'candidato a candidato' if d.presidential else 'partido a partido' }}.{% else %}Properes
+    {{ d.kind.ca }}{% if d.presidential %}, primera volta{% endif %}. La mitjana de totes les enquestes publicades,
+    {{ 'candidat a candidat' if d.presidential else 'partit a partit' }}.{% endif %}</p>
+{% elif d.presidential %}
   <h1>{{ ('Encuestas ' if es else 'Enquestes ') ~ d.of[lang] }}</h1>
   <p class="lede">{% if es %}Próximas elecciones presidenciales, primera vuelta. La media de todas
     las encuestas publicadas, candidato a candidato.{% else %}Properes eleccions presidencials,
@@ -275,6 +281,32 @@
   </div>
 {% endif %}
 
+{% if d.subs %}
+  <h2 id="subnacionals">{{ 'Elecciones regionales y municipales' if es else 'Eleccions regionals i municipals' }}</h2>
+  <p class="note">{% if es %}Las que tienen encuestas de los últimos 90 días, cada una con su página.{% else %}Les que
+    tenen enquestes dels últims 90 dies, cadascuna amb la seva pàgina.{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>{{ 'Elección' if es else 'Elecció' }}</th>
+      <th>{{ 'Primero' if es else 'Primer' }}</th>
+      <th class="n">{{ 'Encuestas' if es else 'Enquestes' }}</th>
+      <th class="n">{{ 'Última' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for c in d.subs %}
+    <tr>
+      <td><a href="{{ root }}{{ c.urls[lang].lstrip('/') }}">{{ c.names[lang] }}</a> <span class="fine">({{ c.kind[lang] }})</span></td>
+      <td>{% if c.first %}<span class="sw" style="background:{{ c.first.color }}"></span>{{ c.first.person or c.first.name }} {{ fmt(c.first.share) }} %{% else %}—{% endif %}</td>
+      <td class="n">{{ c.n }}</td>
+      <td class="n">{{ fdate(c.last) if c.last else '—' }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endif %}
+
 {% if es %}
   <h2>Cómo se calcula</h2>
   <ul>
@@ -287,8 +319,8 @@
       (dominio público, CC0): se muestran como mucho tres ideologías.</li>
     {% if d.presidential %}<li>Cada línea lleva el candidato por el que más preguntan las encuestas
       de los últimos 90 días. Si los institutos cambian de nombre, la página cambia sola.</li>{% endif %}
-    <li>Fuera de España no hay estimación por municipio. Donde hay mapa por territorios, cada uno
-      parte de su resultado en las últimas elecciones y se mueve como la media nacional.</li>
+    {% if not d.sub %}<li>Fuera de España no hay estimación por municipio. Donde hay mapa por territorios, cada uno
+      parte de su resultado en las últimas elecciones y se mueve como la media nacional.</li>{% endif %}
   </ul>
 {% else %}
   <h2>Com es calcula</h2>
@@ -302,8 +334,8 @@
       (domini públic, CC0): se'n mostren com a màxim tres ideologies.</li>
     {% if d.presidential %}<li>Cada línia porta el candidat pel qual més pregunten les enquestes dels
       últims 90 dies. Si els instituts canvien de nom, la pàgina canvia sola.</li>{% endif %}
-    <li>Fora d'Espanya no hi ha estimació per municipi. On hi ha mapa per territoris, cadascun
-      parteix del seu resultat a les últimes eleccions i es mou com la mitjana estatal.</li>
+    {% if not d.sub %}<li>Fora d'Espanya no hi ha estimació per municipi. On hi ha mapa per territoris, cadascun
+      parteix del seu resultat a les últimes eleccions i es mou com la mitjana estatal.</li>{% endif %}
   </ul>
 {% endif %}
   <p class="fine">{{ 'Fuente' if es else 'Font' }}:

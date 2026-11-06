@@ -56,6 +56,9 @@ def load_polls(conn, election_id, scope_code=None):
     # en pregunten un.
     cfg = next((e for e in _config()["elections"] if e["id"] == election_id), {})
     merge = cfg.get("merge") or {}
+    # Columnes que no son cap partit (`drop`): la suma d'un bloc, com el "vot
+    # unionista" d'Irlanda del Nord, comptaria dues vegades els seus partits.
+    drop = set(cfg.get("drop") or [])
     hidden = {(p["pollster"], str(p["fieldwork_end"])) for p in cfg.get("party_polls") or []}
     weights = pollster_weights(election_id)
     polls: dict[int, dict] = {}
@@ -63,6 +66,8 @@ def load_polls(conn, election_id, scope_code=None):
         if is_party_poll(r["pollster"], r["country"]):
             continue
         if ((r["pollster"] or "").strip(), r["fieldwork_end"]) in hidden:
+            continue
+        if r["party"] in drop:
             continue
         entry = polls.setdefault(r["id"], {
             "pollster": (r["pollster"] or "").strip(),

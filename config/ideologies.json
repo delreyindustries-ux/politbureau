@@ -174,6 +174,23 @@
   }
  },
  "AU": {
+  "?ANIMALJUSTICEPARTY": {
+   "ca": {
+    "ideology": [
+     "drets dels animals",
+     "benestar dels animals"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "derechos de los animales",
+     "bienestar de los animales"
+    ],
+    "position": null
+   },
+   "qid": "Q4764830"
+  },
   "?AUSTRALIANGREENS": {
    "ca": {
     "ideology": [
@@ -208,6 +225,100 @@
    },
    "qid": "Q216082"
   },
+  "?BRIDGETARCHER": {
+   "ca": {
+    "ideology": [
+     "conservadorisme",
+     "liberalisme",
+     "conservadorisme liberal"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo",
+     "liberalismo",
+     "conservadurismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q241149",
+   "via": "Q64225996"
+  },
+  "?ERICABETZ": {
+   "ca": {
+    "ideology": [
+     "conservadorisme",
+     "liberalisme",
+     "conservadorisme liberal"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo",
+     "liberalismo",
+     "conservadurismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q241149",
+   "via": "Q964840"
+  },
+  "?FAMILYFIRSTPARTY": {
+   "ca": {
+    "ideology": [
+     "dreta cristiana"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "derecha cristiana"
+    ],
+    "position": null
+   },
+   "qid": "Q108044567"
+  },
+  "?GUYBARNETT": {
+   "ca": {
+    "ideology": [
+     "conservadorisme",
+     "liberalisme",
+     "conservadorisme liberal"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo",
+     "liberalismo",
+     "conservadurismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q241149",
+   "via": "Q5622071"
+  },
+  "?KATTERSAUSTRALIANPARTY": {
+   "ca": {
+    "ideology": [
+     "conservadorisme social",
+     "nacionalisme econòmic",
+     "regionalisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "conservadurismo social",
+     "nacionalismo económico",
+     "regionalismo"
+    ],
+    "position": null
+   },
+   "qid": "Q6378340"
+  },
   "?LIBERALNATIONALCOALITION": {
    "ca": {
     "ideology": [
@@ -226,6 +337,19 @@
     "position": "centroderecha"
    },
    "qid": "Q1065320"
+  },
+  "?LIBERALNATIONALPARTYOFQUEENSLAND": {
+   "ca": {
+    "ideology": [
+     "conservadorisme a Austràlia"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [],
+    "position": null
+   },
+   "qid": "Q1822905"
   },
   "?LIBERALPARTYOFAUSTRALIA": {
    "ca": {
@@ -246,6 +370,25 @@
    },
    "qid": "Q241149"
   },
+  "?LIBERTARIANPARTY": {
+   "ca": {
+    "ideology": [
+     "liberalisme clàssic",
+     "llibertarisme de dreta",
+     "principi de no-intervenció"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "liberalismo clásico",
+     "libertarismo de derecha",
+     "principio de no intervención"
+    ],
+    "position": null
+   },
+   "qid": "Q6540624"
+  },
   "?NATIONALPARTYOFAUSTRALIA": {
    "ca": {
     "ideology": [
@@ -263,6 +406,21 @@
    },
    "qid": "Q946040"
   },
+  "?NEWSOUTHWALESGREENS": {
+   "ca": {
+    "ideology": [
+     "política verda"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "política verde"
+    ],
+    "position": null
+   },
+   "qid": "Q5604424"
+  },
   "?ONENATION": {
    "ca": {
     "ideology": [
@@ -279,6 +437,235 @@
     "position": "derecha"
    },
    "qid": "Q1585274"
+  },
+  "?ONENATIONTASMANIA": {
+   "ca": {
+    "ideology": [
+     "nacionalisme australià",
+     "populisme de dreta"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "nacionalismo australiano",
+     "populismo de derecha"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q1585274"
+  },
+  "?PAULINEHANSONSONENATIONSOUTHAUSTRALIA": {
+   "ca": {
+    "ideology": [
+     "nacionalisme australià",
+     "populisme de dreta"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "nacionalismo australiano",
+     "populismo de derecha"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q1585274"
+  },
+  "?PAULINEHANSONSONENATIONVICTORIA": {
+   "ca": {
+    "ideology": [
+     "nacionalisme australià",
+     "populisme de dreta"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "nacionalismo australiano",
+     "populismo de derecha"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q1585274"
+  },
+  "?QUEENSLANDGREENS": {
+   "ca": {
+    "ideology": [
+     "política verda"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "política verde"
+    ],
+    "position": null
+   },
+   "qid": "Q7270946"
+  },
+  "?ROSALIEWOODRUFF": {
+   "ca": {
+    "ideology": [
+     "política verda"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "política verde"
+    ],
+    "position": null
+   },
+   "qid": "Q1796243",
+   "via": "Q21062247"
+  },
+  "?SHOOTERSFISHERSANDFARMERSPARTY": {
+   "ca": {
+    "ideology": [
+     "dret a posseir armes",
+     "populisme de dreta",
+     "agrarisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "derecho a poseer armas",
+     "populismo de derecha",
+     "agrarismo"
+    ],
+    "position": null
+   },
+   "qid": "Q2002421"
+  },
+  "?SOUTHAUSTRALIANGREENS": {
+   "ca": {
+    "ideology": [
+     "ecologisme",
+     "política verda"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "ecologismo",
+     "política verde"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q5604428"
+  },
+  "?SOUTHAUSTRALIANLABORPARTY": {
+   "ca": {
+    "ideology": [
+     "socialisme",
+     "socialdemocràcia"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialismo",
+     "socialdemocracia"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q21003570"
+  },
+  "?SOUTHAUSTRALIANLIBERALPARTY": {
+   "ca": {
+    "ideology": [
+     "liberalisme",
+     "conservadorisme"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "liberalismo",
+     "conservadurismo"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q23198434"
+  },
+  "?TASMANIANGREENS": {
+   "ca": {
+    "ideology": [
+     "política verda"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "política verde"
+    ],
+    "position": null
+   },
+   "qid": "Q1796243"
+  },
+  "?TASMANIANNATIONALPARTY": {
+   "ca": {
+    "ideology": [
+     "agrarisme",
+     "conservadorisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "agrarismo",
+     "conservadurismo"
+    ],
+    "position": null
+   },
+   "qid": "Q55624789"
+  },
+  "?VICTORIANGREENS": {
+   "ca": {
+    "ideology": [
+     "política verda"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "política verde"
+    ],
+    "position": null
+   },
+   "qid": "Q4824226"
+  },
+  "?VICTORIANLABORPARTY": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q25210911"
+  },
+  "?WESTERNAUSTRALIANNATIONALPARTY": {
+   "ca": {
+    "ideology": [
+     "agrarisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "agrarismo"
+    ],
+    "position": null
+   },
+   "qid": "Q6974821"
   }
  },
  "BG": {
@@ -1099,6 +1486,26 @@
   }
  },
  "DE": {
+  "?ACHIMPOST": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "antifeixisme",
+     "europeisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "antifascismo",
+     "europeísmo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q49768",
+   "via": "Q340448"
+  },
   "?ALLIANCE90THEGREENS": {
    "ca": {
     "ideology": [
@@ -1137,6 +1544,78 @@
    },
    "qid": "Q6721203"
   },
+  "?ANKEREHLINGER": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "antifeixisme",
+     "europeisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "antifascismo",
+     "europeísmo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q49768",
+   "via": "Q556844"
+  },
+  "?BAVARIAPARTY": {
+   "ca": {
+    "ideology": [
+     "separatisme",
+     "nacionalisme bavarès"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "separatismo",
+     "nacionalismo bávaro"
+    ],
+    "position": null
+   },
+   "qid": "Q255857"
+  },
+  "?BRANDENBURGUNITEDCIVICMOVEMENTSFREEVOTER": {
+   "ca": {
+    "ideology": [
+     "regionalisme"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "regionalismo"
+    ],
+    "position": null
+   },
+   "qid": "Q897913"
+  },
+  "?CARSTENBECKER": {
+   "ca": {
+    "ideology": [
+     "euroescepticisme",
+     "conservadorisme nacionalista",
+     "populisme de dreta"
+    ],
+    "position": "ultradreta"
+   },
+   "es": {
+    "ideology": [
+     "euroescepticismo",
+     "conservadurismo nacionalista",
+     "populismo de derecha"
+    ],
+    "position": "extrema derecha"
+   },
+   "qid": "Q6721203",
+   "via": "Q111607272"
+  },
   "?CDUCSU": {
    "ca": {
     "ideology": [
@@ -1151,6 +1630,44 @@
     "position": "centroderecha"
    },
    "qid": "Q708725"
+  },
+  "?CHRISTIANDEMOCRATICUNIONOFGERMANY": {
+   "ca": {
+    "ideology": [
+     "democràcia cristiana",
+     "conservadorisme",
+     "conservadorisme liberal"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "democracia cristiana",
+     "conservadurismo",
+     "conservadurismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q49762"
+  },
+  "?CHRISTIANSOCIALUNIONINBAVARIA": {
+   "ca": {
+    "ideology": [
+     "democràcia cristiana",
+     "regionalisme",
+     "conservadorisme social"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "democracia cristiana",
+     "regionalismo",
+     "conservadurismo social"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q49763"
   },
   "?FREEDEMOCRATICPARTY": {
    "ca": {
@@ -1168,6 +1685,122 @@
     "position": "centroderecha"
    },
    "qid": "Q13124"
+  },
+  "?FREEVOTERS": {
+   "ca": {
+    "ideology": [
+     "liberalisme conservador",
+     "conservadorisme cultural",
+     "descentralització"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "liberalismo conservador",
+     "conservadurismo cultural",
+     "descentralización"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q327389"
+  },
+  "?FREEVOTERSOFBAVARIA": {
+   "ca": {
+    "ideology": [
+     "regionalisme",
+     "liberalisme conservador"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "regionalismo",
+     "liberalismo conservador"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q1231839"
+  },
+  "?HENDRIKWUST": {
+   "ca": {
+    "ideology": [
+     "democràcia cristiana",
+     "conservadorisme",
+     "conservadorisme liberal"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "democracia cristiana",
+     "conservadurismo",
+     "conservadurismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q49762",
+   "via": "Q1387541"
+  },
+  "?MARTINVINCENTZ": {
+   "ca": {
+    "ideology": [
+     "euroescepticisme",
+     "conservadorisme nacionalista",
+     "populisme de dreta"
+    ],
+    "position": "ultradreta"
+   },
+   "es": {
+    "ideology": [
+     "euroescepticismo",
+     "conservadurismo nacionalista",
+     "populismo de derecha"
+    ],
+    "position": "extrema derecha"
+   },
+   "qid": "Q6721203",
+   "via": "Q29959870"
+  },
+  "?MONANEUBAUR": {
+   "ca": {
+    "ideology": [
+     "política verda",
+     "socioliberalisme",
+     "feminisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "política verde",
+     "socioliberalismo",
+     "feminismo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q49766",
+   "via": "Q17325220"
+  },
+  "?SARAHPHILIPP": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "antifeixisme",
+     "europeisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "antifascismo",
+     "europeísmo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q49768",
+   "via": "Q2224454"
   },
   "?SOCIALDEMOCRATICPARTYOFGERMANY": {
    "ca": {
@@ -1188,6 +1821,26 @@
    },
    "qid": "Q49768"
   },
+  "?STEPHANTOSCANI": {
+   "ca": {
+    "ideology": [
+     "democràcia cristiana",
+     "conservadorisme",
+     "conservadorisme liberal"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "democracia cristiana",
+     "conservadurismo",
+     "conservadurismo liberal"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q49762",
+   "via": "Q105663"
+  },
   "?THELEFT": {
    "ca": {
     "ideology": [
@@ -1206,6 +1859,26 @@
     "position": "izquierda"
    },
    "qid": "Q49764"
+  },
+  "?THOMASKUTSCHATY": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "antifeixisme",
+     "europeisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "antifascismo",
+     "europeísmo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q49768",
+   "via": "Q1562553"
   }
  },
  "DK": {
@@ -2287,6 +2960,43 @@
   }
  },
  "GB": {
+  "?ALLIANCEPARTYOFNORTHERNIRELAND": {
+   "ca": {
+    "ideology": [
+     "liberalisme",
+     "no sectari",
+     "europeisme"
+    ],
+    "position": "centrisme"
+   },
+   "es": {
+    "ideology": [
+     "liberalismo",
+     "europeísmo"
+    ],
+    "position": "centrismo"
+   },
+   "qid": "Q244927"
+  },
+  "?AONTU": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "conservadorisme social",
+     "republicanisme irlandès"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "conservadurismo social",
+     "republicanismo irlandés"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q61090509"
+  },
   "?CONSERVATIVEPARTY": {
    "ca": {
     "ideology": [
@@ -2305,6 +3015,40 @@
     "position": "centroderecha"
    },
    "qid": "Q9626"
+  },
+  "?DEMOCRATICUNIONISTPARTY": {
+   "ca": {
+    "ideology": [
+     "unionisme al Regne Unit",
+     "nacionalisme britànic",
+     "conservadorisme nacionalista"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "unionismo en el Reino Unido",
+     "nacionalismo británico",
+     "conservadurismo nacionalista"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q215519"
+  },
+  "?GREENPARTYNORTHERNIRELAND": {
+   "ca": {
+    "ideology": [
+     "política verda"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "política verde"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q1096979"
   },
   "?LABOURPARTY": {
    "ca": {
@@ -2341,6 +3085,23 @@
     "position": "centroizquierda"
    },
    "qid": "Q9624"
+  },
+  "?PEOPLEBEFOREPROFIT": {
+   "ca": {
+    "ideology": [
+     "socialisme",
+     "trotskisme"
+    ],
+    "position": "esquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialismo",
+     "trotskismo"
+    ],
+    "position": "izquierda"
+   },
+   "qid": "Q3545406"
   },
   "?PLAIDCYMRU": {
    "ca": {
@@ -2417,6 +3178,80 @@
     "position": "centroizquierda"
    },
    "qid": "Q10658"
+  },
+  "?SINNFEIN": {
+   "ca": {
+    "ideology": [
+     "republicanisme irlandès",
+     "republicanisme",
+     "nacionalisme d'esquerres"
+    ],
+    "position": "esquerra"
+   },
+   "es": {
+    "ideology": [
+     "republicanismo irlandés",
+     "republicanismo",
+     "nacionalismo de izquierda"
+    ],
+    "position": "izquierda"
+   },
+   "qid": "Q76382"
+  },
+  "?SOCIALDEMOCRATICANDLABOURPARTY": {
+   "ca": {
+    "ideology": [
+     "socialdemocràcia",
+     "nacionalisme irlandès",
+     "irlanda Unida"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "socialdemocracia",
+     "nacionalismo irlandés",
+     "irlanda Unida"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q175443"
+  },
+  "?TRADITIONALUNIONISTVOICE": {
+   "ca": {
+    "ideology": [
+     "unionisme",
+     "conservadorisme nacionalista",
+     "euroescepticisme"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "unionismo en Irlanda",
+     "conservadurismo nacionalista",
+     "euroescepticismo"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q985076"
+  },
+  "?ULSTERUNIONISTPARTY": {
+   "ca": {
+    "ideology": [
+     "unionisme",
+     "conservadorisme"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "unionismo en Irlanda",
+     "conservadurismo"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q841045"
   }
  },
  "GE": {
@@ -3441,6 +4276,65 @@
     "position": "centroizquierda"
    },
    "qid": "Q20682633"
+  }
+ },
+ "IN": {
+  "?BAHUJANSAMAJPARTY": {
+   "ca": {
+    "ideology": [
+     "secularisme",
+     "socialdemocràcia",
+     "socialisme democràtic"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "secularismo",
+     "socialdemocracia",
+     "socialismo democrático"
+    ],
+    "position": null
+   },
+   "qid": "Q803681"
+  },
+  "?BHARATIYAJANATAPARTY": {
+   "ca": {
+    "ideology": [
+     "nacionalisme cultural",
+     "nacionalisme hindú",
+     "hindutva"
+    ],
+    "position": "dreta"
+   },
+   "es": {
+    "ideology": [
+     "nacionalismo cultural",
+     "nacionalismo hindú",
+     "hindutva"
+    ],
+    "position": "derecha"
+   },
+   "qid": "Q10230"
+  },
+  "?INDIANNATIONALCONGRESS": {
+   "ca": {
+    "ideology": [
+     "tercera via",
+     "secularisme",
+     "nacionalisme cívic"
+    ],
+    "position": null
+   },
+   "es": {
+    "ideology": [
+     "tercera vía",
+     "secularismo",
+     "nacionalismo liberal"
+    ],
+    "position": null
+   },
+   "qid": "Q10225"
   }
  },
  "IS": {
@@ -7539,6 +8433,26 @@
   }
  },
  "TW": {
+  "?CHIANGWANAN": {
+   "ca": {
+    "ideology": [
+     "tres principis del poble",
+     "nacionalisme xinès",
+     "conservadorisme paternalista"
+    ],
+    "position": "centredreta"
+   },
+   "es": {
+    "ideology": [
+     "tres Principios del Pueblo",
+     "nacionalismo chino",
+     "socialismo de derecha"
+    ],
+    "position": "centroderecha"
+   },
+   "qid": "Q31113",
+   "via": "Q15920021"
+  },
   "?DEMOCRATICPROGRESSIVEPARTY": {
    "ca": {
     "ideology": [
@@ -7576,6 +8490,26 @@
     "position": "centroderecha"
    },
    "qid": "Q31113"
+  },
+  "?PUMASHEN": {
+   "ca": {
+    "ideology": [
+     "liberalisme",
+     "progressisme",
+     "anticomunisme"
+    ],
+    "position": "centreesquerra"
+   },
+   "es": {
+    "ideology": [
+     "liberalismo",
+     "progresismo",
+     "anticomunismo"
+    ],
+    "position": "centroizquierda"
+   },
+   "qid": "Q903822",
+   "via": "Q96156873"
   },
   "?TAIWANPEOPLESPARTY": {
    "ca": {

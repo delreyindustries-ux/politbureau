@@ -58,6 +58,7 @@ jobs:
           python -m politbureau ingest --country ES
 
       # Franca, Italia i resta d'Europa (des del 03/11/2026): nomes la mitjana, sense
+      # mapa. SUB (06/11/2026): eleccions regionals i municipals de tots els paisos.
       # mapa. La mitjana la fa el `build --country ES` de sota (aggregate_all
       # agafa totes les enquestes de la base). Si Wikipedia falla, la web es
       # publica igual sense aquestes pagines.
@@ -65,7 +66,7 @@ jobs:
         continue-on-error: true
         run: |
           export PYTHONPATH=src
-          python -m politbureau ingest --country FR IT EUROPA MON
+          python -m politbureau ingest --country FR IT EUROPA MON SUB
           # Properes eleccions de tots els paisos (globus): una sola pagina.
           python -m politbureau calendari
 

@@ -58,6 +58,35 @@
   </table>
   </div>
 
+{% if subrows %}
+  <h2 id="subnacionals">{{ 'Elecciones regionales y municipales' if es else 'Eleccions regionals i municipals' }}</h2>
+  <p class="note">{% if es %}Parlamentos regionales, estados federados, ayuntamientos y alcaldías con
+    encuestas de los últimos 90 días.{% else %}Parlaments regionals, estats federats, ajuntaments i alcaldies
+    amb enquestes dels últims 90 dies.{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>{{ 'Elección' if es else 'Elecció' }}</th>
+      <th>{{ 'Primero' if es else 'Primer' }}</th>
+      <th>{{ 'Segundo' if es else 'Segon' }}</th>
+      <th class="n">{{ 'Encuestas' if es else 'Enquestes' }}</th>
+      <th class="n">{{ 'Última' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in subrows %}
+    <tr>
+      <td>{% if r.parent_name %}{{ r.parent_name }} · {% endif %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a> <span class="fine">({{ r.kind[lang] }})</span></td>
+      <td>{% if r.first %}<span class="sw" style="background:{{ r.first.color }}"></span>{{ r.first.person or r.first.name }} {{ fmt(r.first.share) }} %{% else %}—{% endif %}</td>
+      <td>{% if r.second %}<span class="sw" style="background:{{ r.second.color }}"></span>{{ r.second.person or r.second.name }} {{ fmt(r.second.share) }} %{% else %}—{% endif %}</td>
+      <td class="n">{{ r.n }}</td>
+      <td class="n">{{ fdate(r.last) if r.last else '—' }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endif %}
+
 {% if calendar %}
   <h2>{{ 'Calendario electoral de todos los países' if es else 'Calendari electoral de tots els països' }}</h2>
   <p class="note">{% if es %}{{ nelections }} países celebran elecciones nacionales. En el globo, los
