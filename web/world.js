@@ -35,6 +35,13 @@
   box.insertBefore(canvas, box.firstChild);
   var ctx = canvas.getContext("2d");
   var relief = makeRelief();
+  // Fronteres, ressaltat i ombra de la vora, per sobre de les banderes i el relleu
+  // (06/11/2026): el canvas de sota nomes pinta el mar i la terra.
+  var lines = document.createElement("canvas");
+  lines.className = "wlines";
+  lines.setAttribute("aria-hidden", "true");
+  box.insertBefore(lines, (relief && relief.el ? relief.el : canvas).nextSibling);
+  var ltx = lines.getContext("2d");
   var D2R = Math.PI / 180;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -94,6 +101,8 @@
     W = box.clientWidth; H = box.clientHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    lines.width = canvas.width; lines.height = canvas.height;
+    lines.style.width = W + "px"; lines.style.height = H + "px";
     if (relief) relief.size(canvas.width, canvas.height, W, H);
     dirty = true;
   }
@@ -108,6 +117,8 @@
     var cP = Math.cos(lat0 * D2R), sP = Math.sin(lat0 * D2R);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
+    ltx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ltx.clearRect(0, 0, W, H);
 
     // El mar, sense halo ni linia a la vora (05/11/2026).
     var s = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R);
@@ -120,7 +131,7 @@
     var allow = 0.5 / (R * D2R), L = 1;
     for (var t = 1; t < TOL.length; t++) if (TOL[t - 1] > allow) L = t + 1;
 
-    ctx.lineJoin = "round";
+    ltx.lineJoin = "round";
     for (var k = 0; k < feats.length; k++) {
       var f = feats[k], path = new Path2D(), any = false;
       for (var j = 0; j < f.rings.length; j++) {
@@ -149,27 +160,31 @@
       }
       f.path = any ? path : null;
       if (!any) continue;
-      var has = f.info && f.info.color;
-      ctx.fillStyle = has ? f.info.color : (f.info && f.info.nopoll ? C.vote : C.land);
-      ctx.fill(path, "evenodd");
+      // Cada pais porta la seva bandera (textura del relleu, a sobre): aqui nomes
+      // la terra en gris, que es veu on no n'hi ha (Xipre del Nord, Somalilandia).
+      // Sense WebGL no hi ha banderes: llavors, el color de qui va primer, com abans.
+      if (!relief) {
+        ctx.fillStyle = f.info && f.info.color ? f.info.color : (f.info && f.info.nopoll ? C.vote : C.land);
+        ctx.fill(path, "evenodd");
+      } else if (!f.region) { ctx.fillStyle = C.land; ctx.fill(path, "evenodd"); }
       if (f === hover || f === picked) {
-        ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6;
+        ltx.strokeStyle = C.ink; ltx.lineWidth = 1.8;
       } else if (f.region) {
-        // Una regio son diverses provincies: la vora del seu propi color amaga
-        // les fronteres internes (les de Flandes, les dels comtats escocesos).
-        ctx.strokeStyle = f.info ? f.info.color : C.land; ctx.lineWidth = 0.6;
+        continue;            // Escocia, Baviera...: la bandera i la vora son del pais
       } else {
-        // Totes les fronteres es veuen, tambe entre dos paisos del mateix color
-        // (el Marroc i el Sahara Occidental, per exemple).
-        ctx.strokeStyle = C.edge; ctx.lineWidth = 0.7;
+        ltx.strokeStyle = C.edge; ltx.lineWidth = 0.7;
       }
-      ctx.stroke(path);
+      ltx.stroke(path);
     }
+    // El ressaltat, per sobre de les fronteres veines.
+    [hover, picked].forEach(function (f) {
+      if (f && f.path) { ltx.strokeStyle = C.ink; ltx.lineWidth = 1.8; ltx.stroke(f.path); }
+    });
     // Ombra suau a la vora per donar volum.
-    var sh = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R);
+    var sh = ltx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R);
     sh.addColorStop(0, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(0,0,0,0.3)");
-    ctx.fillStyle = sh;
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.fill();
+    ltx.fillStyle = sh;
+    ltx.beginPath(); ltx.arc(cx, cy, R, 0, 2 * Math.PI); ltx.fill();
     if (relief) relief.draw(cx * dpr, cy * dpr, R * dpr, lon0 * D2R, lat0 * D2R);
   }
 
@@ -196,6 +211,7 @@
       "uniform vec3 uV;",          // lon0, cos lat0, sin lat0
       "uniform vec2 uK;",          // intensitat de l'ombra i de la llum
       "uniform sampler2D uT;",
+      "uniform sampler2D uF;",     // banderes (RGBA, equirectangular com el relleu)
       "const float PI = 3.14159265;",
       "void main(){",
       "  vec2 q = (gl_FragCoord.xy - uC.xy) / uC.z;",       // y cap amunt
@@ -204,10 +220,15 @@
       "  float z = sqrt(1. - rr);",
       "  float lat = asin(clamp(q.y * uV.y + z * uV.z, -1., 1.));",
       "  float lon = uV.x + atan(q.x, z * uV.y - q.y * uV.z);",
-      "  float g = texture2D(uT, vec2(fract(lon / (2. * PI) + .5), .5 - lat / PI)).r;",
+      "  vec2 uv = vec2(fract(lon / (2. * PI) + .5), .5 - lat / PI);",
+      "  float g = texture2D(uT, uv).r;",
+      "  vec4 fl = texture2D(uF, uv);",
       // A la vora el relleu s'esvaeix: alli els pixels son molt estirats.
       "  float d = (g - .5) * 2. * (1. - smoothstep(.85, 1., rr));",
-      "  gl_FragColor = d < 0. ? vec4(0., 0., 0., -d * uK.x) : vec4(vec3(d * uK.y), d * uK.y);",
+      // Vel del relleu (negre o blanc, premultiplicat) sobre la bandera.
+      "  vec4 v = d < 0. ? vec4(0., 0., 0., -d * uK.x) : vec4(vec3(d * uK.y), d * uK.y);",
+      "  vec4 b = vec4(fl.rgb * fl.a, fl.a);",
+      "  gl_FragColor = v + b * (1. - v.a);",
       "}"].join("\n");
     function sh(type, src) {
       var o = gl.createShader(type);
@@ -228,6 +249,33 @@
     gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
     var uC = gl.getUniformLocation(prog, "uC"), uV = gl.getUniformLocation(prog, "uV"),
         uK = gl.getUniformLocation(prog, "uK");
+    gl.uniform1i(gl.getUniformLocation(prog, "uT"), 0);
+    gl.uniform1i(gl.getUniformLocation(prog, "uF"), 1);
+    gl.activeTexture(gl.TEXTURE1);
+    var ftex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, ftex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+    gl.activeTexture(gl.TEXTURE0);
+    var fimg = new Image();
+    fimg.onload = function () {
+      // Els mobils mes vells no carreguen textures de 8192: es redueix a la meitat.
+      var src = fimg, max = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+      if (max < fimg.width) {
+        src = document.createElement("canvas");
+        src.width = max; src.height = max / 2;
+        src.getContext("2d").drawImage(fimg, 0, 0, max, max / 2);
+      }
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, ftex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.activeTexture(gl.TEXTURE0);
+      dirty = true;
+    };
     var ready = false;
     var img = new Image();
     img.onload = function () {
@@ -242,8 +290,10 @@
       ready = true; dirty = true;
     };
     img.src = window.PB.root + "assets/relief.jpg";
+    fimg.src = window.PB.root + "assets/flags.webp";
     canvas.parentNode.insertBefore(c, canvas.nextSibling);
     return {
+      el: c,
       size: function (w, h, cw, ch) {
         c.width = w; c.height = h;
         c.style.width = cw + "px"; c.style.height = ch + "px";

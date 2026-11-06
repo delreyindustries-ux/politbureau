@@ -89,11 +89,11 @@
 
 {% if calendar %}
   <h2>{{ 'Calendario electoral de todos los países' if es else 'Calendari electoral de tots els països' }}</h2>
-  <p class="note">{% if es %}{{ nelections }} países celebran elecciones nacionales. En el globo, los
-    que no tienen encuestas publicadas van en gris claro; al pasar por encima se ve cuándo votan.
-    Los que no celebran elecciones nacionales van en gris oscuro.{% else %}{{ nelections }} països fan
-    eleccions nacionals. Al globus, els que no tenen enquestes publicades van en gris clar; en passar-hi
-    per sobre es veu quan voten. Els que no fan eleccions nacionals van en gris fosc.{% endif %}</p>
+  <p class="note">{% if es %}{{ nelections }} países celebran elecciones nacionales. En el globo cada
+    país lleva su bandera: al pasar por encima se ve quién va primero en las encuestas o, si no hay,
+    cuándo vota.{% else %}{{ nelections }} països fan eleccions nacionals. Al globus cada país porta la
+    seva bandera: en passar-hi per sobre es veu qui va primer a les enquestes o, si no n'hi ha, quan
+    vota.{% endif %}</p>
   <details class="cal">
   <summary>{{ ('Ver los ' ~ calendar|length ~ ' países') if es else ('Mostra els ' ~ calendar|length ~ ' països') }}</summary>
   <div class="tablewrap">
@@ -133,6 +133,7 @@
     {{ 'calendario' if es else 'calendari' }}: <a href="https://en.wikipedia.org/wiki/List_of_next_general_elections" rel="noopener" target="_blank">Wikipedia, List of next general elections</a>;
     {{ 'nombres de los países' if es else 'noms dels països' }}: <a href="https://www.wikidata.org/" rel="noopener" target="_blank">Wikidata</a> (CC0);
     {{ 'fronteras y relieve del globo' if es else 'fronteres i relleu del globus' }}: <a href="https://www.naturalearthdata.com/" rel="noopener" target="_blank">Natural Earth</a>
-    ({{ 'escala 1:10 millones y relieve sombreado 1:50 millones; dominio público' if es else 'escala 1:10 milions i relleu ombrejat 1:50 milions; domini públic' }}).</p>
+    ({{ 'escala 1:10 millones y relieve sombreado 1:50 millones; dominio público' if es else 'escala 1:10 milions i relleu ombrejat 1:50 milions; domini públic' }});
+    {{ 'banderas' if es else 'banderes' }}: <a href="https://github.com/lipis/flag-icons" rel="noopener" target="_blank">flag-icons</a> (MIT).</p>
 </article>
 {% endblock %}

@@ -266,7 +266,7 @@ body.bare main{margin:0;padding:0;max-width:none}
 .worldmap canvas{display:block;cursor:grab}
 .worldmap canvas:active{cursor:grabbing}
 /* El relleu, a sobre del globus (world.js). */
-.worldmap canvas.wrelief{position:absolute;left:0;top:0;pointer-events:none}
+.worldmap canvas.wrelief,.worldmap canvas.wlines{position:absolute;left:0;top:0;pointer-events:none}
 .wtop{position:absolute;z-index:2;top:max(12px,env(safe-area-inset-top));left:14px;right:14px;
   display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
   pointer-events:none}

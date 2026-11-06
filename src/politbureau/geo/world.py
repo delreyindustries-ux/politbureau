@@ -260,9 +260,106 @@ def relief(src: Path, out: Path, width: int = 4096):
     return im.size, Path(out).stat().st_size
 
 
+def _groups(rings):
+    """Agrupa els anells d'un pais en trossos propers: cada grup porta la seva
+    bandera. Aixi la Guaiana Francesa o Hawaii no estiren la bandera de tot el
+    pais d'un oceà a l'altre, i un arxipelag (Indonesia) en porta una de sola."""
+    info = []
+    for r in rings:
+        lo = [x for x, _ in r]; la = [y for _, y in r]
+        area = abs(sum(r[i][0] * r[i - 1][1] - r[i - 1][0] * r[i][1] for i in range(len(r)))) / 2
+        area *= math.cos(math.radians((min(la) + max(la)) / 2))
+        info.append({"bb": [min(lo), min(la), max(lo), max(la)], "area": area, "r": r})
+    info.sort(key=lambda g: -g["area"])
+    groups = []
+    for g in info:
+        cx, cy = (g["bb"][0] + g["bb"][2]) / 2, (g["bb"][1] + g["bb"][3]) / 2
+        for gr in groups:
+            bb = gr["bb"]
+            gx, gy = (bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2
+            if math.hypot((cx - gx) * math.cos(math.radians(gy)), cy - gy) < 18:
+                gr["rings"].append(g["r"])
+                gr["bb"] = [min(bb[0], g["bb"][0]), min(bb[1], g["bb"][1]),
+                            max(bb[2], g["bb"][2]), max(bb[3], g["bb"][3])]
+                break
+        else:
+            groups.append({"bb": list(g["bb"]), "rings": [g["r"]]})
+    return groups
+
+
+def flags(world: Path, pngs: Path, out: Path, ne: Path, width: int = 8192):
+    """Mapamundi de banderes (06/11/2026): cada pais pintat amb la seva bandera,
+    estirada sobre el seu territori, en projeccio equirectangular com el relleu.
+    El globus la llegeix com a textura i hi aplica l'ombra del relleu a sobre.
+
+    Banderes: flag-icons (MIT, github.com/lipis/flag-icons), passades a PNG amb
+    scripts/flags.mjs. Contorns: el mateix web/world.json (Natural Earth 1:10m).
+    Fora de les terres, transparent; un pais sense bandera (Xipre del Nord,
+    Somalilandia...) tambe, i el globus el deixa en gris.
+    """
+    import numpy as np
+    from PIL import Image, ImageDraw
+    from .seccions import _dbf
+    w = json.loads(Path(world).read_text(encoding="utf-8"))
+    # El codi de dues lletres de cada pais, pel nom (world.json porta el numeric
+    # fora d'Europa): ISO_A2_EH de Natural Earth, que tambe en dona a Kosovo (XK)
+    # i al Sahara Occidental (EH).
+    a2 = {}
+    for row in _dbf(Path(str(ne) + ".dbf").read_bytes()):
+        code = _clean(row.get("ISO_A2_EH") or "")
+        if code and code != "-99":
+            a2[_clean(row["NAME"])] = code
+    q, h = w["q"], width // 2
+    sx, sy = width / 360.0, h / 180.0
+    canvas = np.zeros((h, width, 4), dtype=np.uint8)
+    done, missing = 0, []
+    for f in w["f"]:
+        code = f["c"]
+        if "-" in code:                    # regions (Escocia...): ja hi es el pais
+            continue
+        src = Path(pngs) / f"{a2.get(f['n'], code).lower()}.png"
+        if not src.exists():
+            missing.append(code)
+            continue
+        rings = []
+        for r in f["r"]:
+            x = y = 0
+            pts = []
+            for i in range(0, len(r), 2):
+                x += r[i]; y += r[i + 1]
+                pts.append((x / q, y / q))
+            rings.append(pts)
+        flag = Image.open(src).convert("RGBA")
+        for g in _groups(rings):
+            x0, y0, x1, y1 = g["bb"]
+            px0, px1 = int(math.floor((x0 + 180) * sx)), int(math.ceil((x1 + 180) * sx))
+            py0, py1 = int(math.floor((90 - y1) * sy)), int(math.ceil((90 - y0) * sy))
+            pw, ph = max(px1 - px0, 1), max(py1 - py0, 1)
+            # Anells amb forats (Lesotho dins de Sud-africa): paritat, com al canvas.
+            mask = np.zeros((ph, pw), dtype=bool)
+            for r in g["rings"]:
+                m = Image.new("1", (pw, ph), 0)
+                ImageDraw.Draw(m).polygon([((lon + 180) * sx - px0, (90 - lat) * sy - py0)
+                                           for lon, lat in r], fill=1)
+                mask ^= np.array(m, dtype=bool)
+            tile = np.array(flag.resize((pw, ph), Image.LANCZOS))
+            ys, xs = np.nonzero(mask)
+            yy, xx = ys + py0, (xs + px0) % width
+            ok = (yy >= 0) & (yy < h)
+            canvas[yy[ok], xx[ok]] = tile[ys[ok], xs[ok]]
+        done += 1
+    img = Image.fromarray(canvas, "RGBA")
+    img.save(out, "WEBP", quality=88, method=6)
+    return done, missing, img.size, Path(out).stat().st_size
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "relief":
         print(relief(Path(sys.argv[2]), Path(sys.argv[3])))
+    elif sys.argv[1] == "flags":
+        # python -m politbureau.geo.world flags web/world.json <pngs> web/flags.webp \
+        #     data/geo/world/ne10/ne_10m_admin_0_countries
+        print(flags(Path(sys.argv[2]), Path(sys.argv[3]), Path(sys.argv[4]), Path(sys.argv[5])))
     else:
         print(build(Path(sys.argv[1]), Path(sys.argv[2]),
                     Path(sys.argv[3]) if len(sys.argv) > 3 else None))
