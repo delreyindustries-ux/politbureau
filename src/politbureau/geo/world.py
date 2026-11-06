@@ -260,6 +260,9 @@ def relief(src: Path, out: Path, width: int = 4096):
     return im.size, Path(out).stat().st_size
 
 
+GAP = 2.0      # graus: mes lluny, una illa porta la seva propia bandera
+
+
 def _groups(rings):
     """Agrupa els anells d'un pais en trossos propers: cada grup porta la seva
     bandera. Aixi la Guaiana Francesa o Hawaii no estiren la bandera de tot el
@@ -272,18 +275,28 @@ def _groups(rings):
         info.append({"bb": [min(lo), min(la), max(lo), max(la)], "area": area, "r": r})
     info.sort(key=lambda g: -g["area"])
     groups = []
+    def gap(a, b):
+        """Distancia entre dos rectangles (0 si es toquen), en graus de meridia."""
+        dx = max(b[0] - a[2], a[0] - b[2], 0)
+        dy = max(b[1] - a[3], a[1] - b[3], 0)
+        lat = math.radians((max(a[1], b[1]) + min(a[3], b[3])) / 2)
+        return math.hypot(dx * math.cos(lat), dy)
+
     for g in info:
-        cx, cy = (g["bb"][0] + g["bb"][2]) / 2, (g["bb"][1] + g["bb"][3]) / 2
         for gr in groups:
-            bb = gr["bb"]
-            gx, gy = (bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2
-            if math.hypot((cx - gx) * math.cos(math.radians(gy)), cy - gy) < 18:
+            # Un tros s'afegeix a un grup si queda a prop d'algun dels seus anells.
+            # Abans es mirava la distancia entre centres (18 graus) i les Canaries,
+            # les Açores o Svalbard entraven al rectangle del pais: a la peninsula
+            # nomes hi quedava un tros de la bandera (06/11/2026).
+            if min(gap(b, g["bb"]) for b in gr["bbs"]) < GAP:
                 gr["rings"].append(g["r"])
+                gr["bbs"].append(g["bb"])
+                bb = gr["bb"]
                 gr["bb"] = [min(bb[0], g["bb"][0]), min(bb[1], g["bb"][1]),
                             max(bb[2], g["bb"][2]), max(bb[3], g["bb"][3])]
                 break
         else:
-            groups.append({"bb": list(g["bb"]), "rings": [g["r"]]})
+            groups.append({"bb": list(g["bb"]), "rings": [g["r"]], "bbs": [g["bb"]]})
     return groups
 
 
