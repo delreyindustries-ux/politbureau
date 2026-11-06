@@ -222,7 +222,12 @@
       "  float lon = uV.x + atan(q.x, z * uV.y - q.y * uV.z);",
       "  vec2 uv = vec2(fract(lon / (2. * PI) + .5), .5 - lat / PI);",
       "  float g = texture2D(uT, uv).r;",
-      "  vec4 fl = texture2D(uF, uv);",
+      // Banderes difuminades (06/11/2026): un nivell de mipmap mes borros, una mica
+      // menys saturades i amb el gris de la terra que s'hi transparenta.
+      "  vec4 fl = texture2D(uF, uv, 1.2);",
+      "  float lum = dot(fl.rgb, vec3(.299, .587, .114));",
+      "  fl.rgb = mix(vec3(lum), fl.rgb, .72);",
+      "  fl.a *= .78;",
       // A la vora el relleu s'esvaeix: alli els pixels son molt estirats.
       "  float d = (g - .5) * 2. * (1. - smoothstep(.85, 1., rr));",
       // Vel del relleu (negre o blanc, premultiplicat) sobre la bandera.
