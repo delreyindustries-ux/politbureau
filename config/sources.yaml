@@ -703,6 +703,11 @@ elections:
   - {id: sub-in-uk, group: sub, parent: w-in, country: IN, scope: national, kind: state,
      label: "Uttarakhand", page: "2027 Uttarakhand Legislative Assembly election",
      pub: {es: uttarakhand, ca: uttarakhand, name_es: "Uttarakhand", name_ca: "Uttarakhand"}}
+  # Moldavia: Gagausia (15/11/2026), governador (Başkan), candidat a candidat.
+  - {id: sub-md-gag, group: sub, parent: eu-md, country: MD, scope: national, kind: regional, date: 2026-11-15,
+     display: candidates, label: "Gagaúsia", page: "2026 Gagauz general election",
+     pub: {es: gagauzia, ca: gagausia, name_es: "Gagauzia", name_ca: "Gagaúsia",
+           kind_es: "elecciones a gobernador de Gagauzia", kind_ca: "eleccions a governador de Gagaúsia"}}
   # Taiwan: alcaldia de Taipei (28/11/2026), candidat a candidat.
   - {id: sub-tw-tpe, group: sub, parent: w-tw, country: TW, scope: national, kind: mayoral, date: 2026-11-28, display: candidates,
      label: "Taipei", page: "2026 Taipei City local election",
