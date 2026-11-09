@@ -735,6 +735,7 @@ def _departments(election, national, polled=None):
             taken.add(slug)
             d["slug"] = slug
     return {"w": geo["w"], "h": geo["h"], "deps": deps, "regional": bool(by_region),
+            "insets": geo.get("insets") or [],
             "units": {"es": cfg.get("units_es", "departamentos"), "ca": cfg.get("units_ca", "departaments")},
             "base_label": {"es": cfg.get("base_es", "la primera vuelta de 2022"),
                            "ca": cfg.get("base_ca", "la primera volta del 2022")},

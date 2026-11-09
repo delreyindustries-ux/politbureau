@@ -362,6 +362,8 @@ figure.depmap figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px
 figure.depmap figcaption .sw{display:inline-block}
 details.deptable summary{cursor:pointer;color:var(--accent);margin:4px 0 10px}
 figure.depmap path.nodata{fill:var(--line)}
+figure.depmap rect.inset{fill:none;stroke:var(--line);stroke-width:1.2}
+figure.depmap text.inset-l{fill:var(--dim);font-size:16px;text-anchor:middle;pointer-events:none}
 
 /* Calculadora de majories de les pagines estrangeres (04/11/2026) */
 .coal-list { list-style: none; padding: 0; margin: .5rem 0; display: flex; flex-wrap: wrap; gap: .4rem .9rem; }

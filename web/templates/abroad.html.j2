@@ -190,6 +190,10 @@
   <figure class="depmap">
     <svg viewBox="0 0 {{ d.depmap.w }} {{ d.depmap.h }}" role="img"
          aria-label="{{ ('Mapa: ' ~ units ~ ' ' ~ d.of.es) if es else ('Mapa: ' ~ units ~ ' ' ~ d.of.ca) }}">
+    {% for f in d.depmap.insets %}
+      <rect class="inset" x="{{ f.x }}" y="{{ f.y }}" width="{{ f.w }}" height="{{ f.h }}" rx="8"/>
+      <text class="inset-l" x="{{ f.x + f.w / 2 }}" y="{{ f.y + f.h - 10 }}">{{ f.t }}</text>
+    {% endfor %}
     {% for g in d.depmap.deps %}
       {% if g.url %}<a href="{{ root }}{{ g.url[lang].lstrip('/') }}">{% endif %}<path d="{{ g.d }}" {% if g.color %}fill="{{ g.color }}" fill-opacity="{{ g.alpha }}"{% else %}class="nodata"{% endif %}><title>{{ g.name }}{% if g.polled %} · {{ 'encuestas propias' if es else 'enquestes pròpies' }}{% endif %}{% for r in g.rows %}&#10;{{ r.name }}: {{ fmt(r.share) }} %{% else %}&#10;{{ 'Sin datos de base' if es else 'Sense dades de base' }}{% endfor %}</title></path>{% if g.url %}</a>{% endif %}
     {% endfor %}
