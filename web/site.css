@@ -364,3 +364,18 @@ figure.depmap path.nodata{fill:var(--line)}
 .coal-out { font-weight: 600; margin: .4rem 0 1.2rem; }
 .coal-out.ok { color: #2e9d5b; }
 .coal-out.ko { color: #c0563b; }
+
+/* ---------------------------------------------- valoracio dels lideres (08/11/2026) */
+.leaders h3{margin:18px 0 2px;font-size:16px}
+.leaders table.results tbody tr:first-child td{font-weight:400}
+.leaders td.up{color:var(--up)}
+.leaders td.dn{color:var(--dn)}
+.leaders th.bar,.leaders td.bar{width:28%;min-width:90px}
+.leaders .lb{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--line)}
+.leaders .lb i{display:block;height:100%}
+.leaders .lb i.y{background:var(--up)}
+.leaders .lb i.n{background:var(--dn);margin-left:auto}
+.leaders .lb i.v{background:var(--accent)}
+.leaders p.fine{margin:0 0 6px;font-size:13px;color:var(--faint)}
+.leaders p.fine a{color:var(--dim)}
+@media (max-width:560px){.leaders th.bar,.leaders td.bar{display:none}}

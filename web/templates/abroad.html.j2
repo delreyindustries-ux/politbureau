@@ -230,6 +230,9 @@
 {% endif %}
 {% endif %}
 
+{% set leaders = d.leaders %}
+{% include "_leaders.html.j2" %}
+
 {% if d.national %}
   <h2>{{ 'Las encuestas que entran en la media' if es else 'Les enquestes que entren a la mitjana' }}</h2>
   <div class="tablewrap">

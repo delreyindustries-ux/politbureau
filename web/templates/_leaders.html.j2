@@ -1,0 +1,56 @@
+{# Valoracio dels lideres (08/11/2026). `leaders`: blocs de pages.leaders_view(). #}
+{% if leaders %}
+{% set es = lang == 'es' %}
+<h2 id="lideres">{{ 'Valoración de los líderes' if es else 'Valoració dels líders' }}</h2>
+<p class="note">{% if es %}La última encuesta de cada instituto de los últimos 120 días; la más
+  reciente pesa más. Fuente: las tablas de Wikipedia, que recogen lo que publica cada
+  instituto.{% else %}La darrera enquesta de cada institut dels últims 120 dies; la més recent
+  pesa més. Font: les taules de Wikipedia, que recullen el que publica cada institut.{% endif %}</p>
+{% for b in leaders %}
+<section class="leaders">
+  <h3>{{ b.title[lang] }}</h3>
+  <div class="tablewrap">
+  <table class="results part lead-{{ b.metric }}">
+    <thead><tr>
+      <th>{{ 'Quién' if es else 'Qui' }}</th>
+      {% if b.metric == 'approval' %}
+      <th class="n">{{ 'Aprueba' if es else 'Aprova' }}</th>
+      <th class="n">{{ 'Desaprueba' if es else 'Desaprova' }}</th>
+      <th class="n">{{ 'Saldo' }}</th>
+      <th class="bar" aria-hidden="true"></th>
+      {% elif b.metric == 'score' %}
+      <th class="n">{{ 'Nota' }}</th>
+      <th class="bar" aria-hidden="true"></th>
+      {% else %}
+      <th class="n">%</th>
+      <th class="bar" aria-hidden="true"></th>
+      {% endif %}
+      <th class="n">{{ 'Encuestas' if es else 'Enquestes' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in b.rows %}
+    <tr>
+      <td>{{ r.name[lang] }}</td>
+      {% if b.metric == 'approval' %}
+      <td class="n">{{ fmt(r.yes) }} %</td>
+      <td class="n">{{ fmt(r.no) }} %</td>
+      <td class="n {{ 'up' if r.net > 0.05 else ('dn' if r.net < -0.05 else '') }}">{{ '+' if r.net > 0.05 }}{{ fmt(r.net) }}</td>
+      <td class="bar"><span class="lb"><i class="y" style="width:{{ '%.1f'|format(r.yes) }}%"></i><i class="n" style="width:{{ '%.1f'|format(r.no) }}%"></i></span></td>
+      {% elif b.metric == 'score' %}
+      <td class="n">{{ fmt(r.value) }}</td>
+      <td class="bar"><span class="lb"><i class="v" style="width:{{ '%.1f'|format(r.value * 10) }}%"></i></span></td>
+      {% else %}
+      <td class="n">{{ fmt(r.value) }} %</td>
+      <td class="bar"><span class="lb"><i class="v" style="width:{{ '%.1f'|format(r.value) }}%"></i></span></td>
+      {% endif %}
+      <td class="n" title="{{ r.pollsters | join(', ') }}">{{ r.n }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{{ 'Última encuesta' if es else 'Darrera enquesta' }}: {{ fdate(b.last) }} ·
+    {{ b.pollsters | join(', ') }} · <a href="{{ b.source }}" rel="noopener">Wikipedia</a></p>
+</section>
+{% endfor %}
+{% endif %}

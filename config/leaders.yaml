@@ -1,0 +1,271 @@
+# Valoracio dels lideres (08/11/2026). Ho llegeix src/politbureau/ingest/leaders.py
+# i ho pinta la pagina de cada pais (`election`: l'id de sources.yaml, o `spain`).
+#
+# Cada bloc es una taula de la pagina:
+#   metric: approval  -> aprova / desaprova / saldo, per persona o govern
+#           share     -> percentatge (primer ministre preferit, opinio favorable)
+#           score     -> nota de 0 a 10
+#   tables: les seccions de Wikipedia que el formen (`section` es un tros del cami
+#           de titols, en minuscules). `subject` dona nom a la persona o al govern
+#           quan la taula nomes porta "Approve / Disapprove".
+#   rename: noms curts de la capcalera ("Magyar") -> nom sencer.
+# Les enquestes de mes de 120 dies no compten: un lider que ja no ho es desapareix sol.
+
+leaders:
+  - id: ld-es
+    country: ES
+    election: spain
+    page: Leadership opinion polling for the 2026 Spanish general election
+    rename:
+      Feijóo PP: "Alberto Núñez Feijóo (PP)"
+      Sánchez PSOE: "Pedro Sánchez (PSOE)"
+      Abascal Vox: "Santiago Abascal (Vox)"
+      Díaz Sumar: "Yolanda Díaz (Sumar)"
+      Colau FA: "Ada Colau (FA)"
+      Montero Podemos: "Irene Montero (Podemos)"
+      Belarra Podemos: "Ione Belarra (Podemos)"
+      Alvise SALF: "Alvise Pérez (SALF)"
+      Rufián ERC: "Gabriel Rufián (ERC)"
+      Ayuso PP: "Isabel Díaz Ayuso (PP)"
+    blocks:
+      - key: score
+        metric: score
+        title: {ca: "Nota dels líders (de 0 a 10)", es: "Valoración de los líderes (de 0 a 10)"}
+        tables: [{section: "leader ratings"}]
+      - key: approval
+        metric: approval
+        tables: [{section: "approval ratings"}]
+      - key: preferred
+        metric: share
+        title: {ca: "President del Govern preferit", es: "Presidente del Gobierno preferido"}
+        tables: [{section: "all candidates > preferred prime minister"}]
+
+  - id: ld-fr
+    country: FR
+    election: fr-pres-2027
+    page: Opinion polling on the Emmanuel Macron presidency
+    blocks:
+      - key: approval
+        metric: approval
+        title: {ca: "Aprovació del president i del primer ministre",
+                es: "Aprobación del presidente y del primer ministro"}
+        tables: [{section: "macron and lecornu"}]
+
+  - id: ld-it
+    country: IT
+    election: it-general
+    page: Opinion polling for the next Italian general election
+    rename: {Meloni: "Giorgia Meloni", Schlein: "Elly Schlein"}
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "giorgia meloni approval rating", deny: ["aggregation"], subject: "Giorgia Meloni"}
+          - {section: "government approval rating", deny: ["aggregation"],
+             subject: {ca: "Govern Meloni", es: "Gobierno Meloni"}}
+      - key: preferred
+        metric: share
+        title: {ca: "Primera ministra preferida (Meloni o Schlein)",
+                es: "Primera ministra preferida (Meloni o Schlein)"}
+        tables: [{section: "meloni vs. schlein > preferred prime minister"}]
+
+  - id: ld-de
+    country: DE
+    election: eu-de
+    page: Opinion polling for the next German federal election
+    rename: {Merz Union: "Friedrich Merz (CDU/CSU)", Weidel AfD: "Alice Weidel (AfD)",
+             Klingbeil SPD: "Lars Klingbeil (SPD)"}
+    blocks:
+      - key: preferred
+        metric: share
+        title: {ca: "Canceller preferit", es: "Canciller preferido"}
+        tables: [{section: "merz vs. weidel > chancellor polling"}]
+
+  - id: ld-gb
+    country: GB
+    election: eu-gb
+    page: Leadership approval opinion polling for the next United Kingdom general election
+    blocks:
+      - key: approval
+        metric: approval
+        title: {ca: "Valoració dels líders", es: "Valoración de los líderes"}
+        tables: [{section: "leadership approval", deny: ["hypothetical"]}]
+
+  - id: ld-pt
+    country: PT
+    election: eu-pt
+    page: Opinion polling for the next Portuguese legislative election
+    rename: {"Luís Montenegro's cabinet": {ca: "Govern Montenegro", es: "Gobierno Montenegro"}}
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "polling", page: "Opinion polling on the António José Seguro presidency"}
+          - {section: "cabinet approval/disapproval ratings",
+             subject: {ca: "Govern Montenegro", es: "Gobierno Montenegro"}}
+          - {section: "party leaders' approval/disapproval ratings"}
+
+  - id: ld-pl
+    country: PL
+    election: eu-pl
+    page: Opinion polling for the next Polish parliamentary election
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "presidentkarol nawrocki > government approval", subject: "Karol Nawrocki"}
+          - {section: "prime ministerdonald tusk > government approval", subject: "Donald Tusk"}
+          - {section: "third tusk government > government approval",
+             subject: {ca: "Govern Tusk", es: "Gobierno Tusk"}}
+
+  - id: ld-hu
+    country: HU
+    election: eu-hu
+    page: Opinion polling for the 2030 Hungarian parliamentary election
+    blocks:
+      - key: approval
+        metric: approval
+        title: {ca: "Apte per ser primer ministre", es: "Apto para ser primer ministro"}
+        rename: {Magyar: "Péter Magyar", "Orbán": "Viktor Orbán"}
+        tables: [{section: "suitability as prime minister"}]
+
+  - id: ld-ro
+    country: RO
+    election: eu-ro
+    page: Next Romanian parliamentary election
+    blocks:
+      - key: favourable
+        metric: share
+        title: {ca: "Opinió favorable dels polítics", es: "Opinión favorable de los políticos"}
+        tables: [{section: "politician approval ratings"}]
+
+  - id: ld-si
+    country: SI
+    election: eu-si
+    page: Opinion polling for the next Slovenian parliamentary election
+    rename: {"Janez Janša's cabinet": {ca: "Govern Janša", es: "Gobierno Janša"}}
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "cabinet approval/disapproval ratings",
+             subject: {ca: "Govern Janša", es: "Gobierno Janša"}}
+
+  - id: ld-ca
+    country: CA
+    election: w-ca
+    page: Opinion polling for the 46th Canadian federal election
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "government approval polls", subject: {ca: "Govern Carney", es: "Gobierno Carney"}}
+      - key: preferred
+        metric: share
+        title: {ca: "Primer ministre preferit", es: "Primer ministro preferido"}
+        tables: [{section: "leadership polls", deny: ["conservative leader"]}]
+
+  - id: ld-au
+    country: AU
+    election: w-au
+    page: Leadership approval opinion polling for the next Australian federal election
+    rename: {Albanese: "Anthony Albanese", Taylor: "Angus Taylor", Hanson: "Pauline Hanson",
+             Ley: "Sussan Ley", Shoebridge: "David Shoebridge"}
+    blocks:
+      - key: approval
+        metric: approval
+        title: {ca: "Valoració dels líders", es: "Valoración de los líderes"}
+        tables: [{section: "leadership approval", deny: ["party", "individual"]}]
+      - key: preferred
+        metric: share
+        title: {ca: "Primer ministre preferit", es: "Primer ministro preferido"}
+        tables: [{section: "preferred prime minister"}]
+
+  - id: ld-nz
+    country: NZ
+    election: w-nz
+    page: Opinion polling for the 2026 New Zealand general election
+    rename: {Luxon: "Christopher Luxon", Hipkins: "Chris Hipkins", Swarbrick: "Chlöe Swarbrick",
+             Seymour: "David Seymour", Peters: "Winston Peters"}
+    blocks:
+      - key: approval
+        metric: approval
+        title: {ca: "Valoració dels líders", es: "Valoración de los líderes"}
+        tables: [{section: "leadership approval rating"}]
+      - key: preferred
+        metric: share
+        title: {ca: "Primer ministre preferit", es: "Primer ministro preferido"}
+        tables: [{section: "preferred prime minister polling table"}]
+
+  - id: ld-jp
+    country: JP
+    election: w-jp
+    page: Opinion polling for the next Japanese general election
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "cabinet approval/disapproval ratings",
+             subject: {ca: "Govern Takaichi", es: "Gobierno Takaichi"}}
+      - key: preferred
+        metric: share
+        title: {ca: "Primer ministre preferit", es: "Primer ministro preferido"}
+        tables: [{section: "preferred prime minister"}]
+
+  - id: ld-kr
+    country: KR
+    election: w-kr
+    page: Opinion polling on the Lee Jae Myung presidency
+    blocks:
+      - key: approval
+        metric: approval
+        tables: [{section: "", subject: "Lee Jae-myung"}]
+
+  - id: ld-tw
+    country: TW
+    election: w-tw
+    page: 2028 Taiwanese legislative election
+    blocks:
+      - key: approval
+        metric: approval
+        tables: [{section: "approval rating"}]
+
+  - id: ld-ph
+    country: PH
+    election: w-ph
+    page: Opinion polling on the Bongbong Marcos presidency
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "approval ratings of bongbong marcos", deny: ["by pollster"],
+             subject: "Bongbong Marcos"}
+
+  - id: ld-id
+    country: ID
+    election: w-id
+    page: Opinion polling for the 2029 Indonesian presidential election
+    blocks:
+      - key: approval
+        metric: approval
+        tables:
+          - {section: "government approval polls",
+             subject: {ca: "Govern Prabowo", es: "Gobierno Prabowo"}}
+
+  - id: ld-mx
+    country: MX
+    election: w-mx
+    page: Opinion polling on the Sheinbaum presidency
+    blocks:
+      - key: approval
+        metric: approval
+        tables: [{section: "presidential approval", subject: "Claudia Sheinbaum"}]
+
+  - id: ld-sv
+    country: SV
+    election: w-sv
+    page: Opinion polling on the Nayib Bukele presidency
+    blocks:
+      - key: approval
+        metric: approval
+        tables: [{section: "presidential approval rating", subject: "Nayib Bukele"}]

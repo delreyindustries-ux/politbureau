@@ -70,6 +70,14 @@ jobs:
           # Properes eleccions de tots els paisos (globus): una sola pagina.
           python -m politbureau calendari
 
+      # Valoracio dels lideres (08/11/2026): aprovacio, nota i preferit per governar.
+      # Si falla, les pagines surten igual, sense aquest apartat.
+      - name: Valoracio dels lideres
+        continue-on-error: true
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau liders
+
       - name: Recalcula i genera el lloc
         run: |
           export PYTHONPATH=src

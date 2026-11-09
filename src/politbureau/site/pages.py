@@ -366,8 +366,9 @@ def home_page(env, cfg, data, urls, highlights):
     # Les autonomiques i municipals amb pagina propia (`parent: spain`, 06/11/2026).
     elections = abroad_elections()
     subs = []
+    from .. import db
+    leaders = leaders_view(db.connect(), "spain")
     if cfg.get("_abroad"):
-        from .. import db
         conn = db.connect()
         for eid in cfg["_abroad"]:
             if elections[eid].get("parent") == "spain":
@@ -383,7 +384,7 @@ def home_page(env, cfg, data, urls, highlights):
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
             highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
-            notice=notice, subs=subs, fmt=_fmt, fdate=_fdate, regions=[
+            notice=notice, subs=subs, leaders=leaders, fmt=_fmt, fdate=_fdate, regions=[
                 {"name": data["names"]["region"].get(c, c), "url": urls[("region", c)][lang]}
                 for c in sorted(data["names"]["region"],
                                 key=lambda c: data["names"]["region"].get(c, ""))
@@ -740,6 +741,48 @@ def _departments(election, national, polled=None):
             "leaders": sorted(([n, c, k] for n, (c, k) in leaders.items()), key=lambda x: -x[2])}
 
 
+# Valoracio dels lideres (08/11/2026): config/leaders.yaml + ingest/leaders.py.
+_LEADER_TITLES = {
+    "approval": {"ca": "Aprovació", "es": "Aprobación"},
+    "share": {"ca": "Preferit per governar", "es": "Preferido para gobernar"},
+    "score": {"ca": "Nota dels líders (de 0 a 10)", "es": "Valoración de los líderes (de 0 a 10)"},
+}
+
+
+def leaders_view(conn, key):
+    """Blocs de valoracio dels lideres de la pagina `key` (id d'eleccio o "spain")."""
+    from ..ingest import leaders as ld
+    try:
+        cfg = ld.load_config()
+    except FileNotFoundError:
+        return []
+    out = []
+    for entry in cfg.get("leaders") or []:
+        if entry.get("election") != key:
+            continue
+        es_names = ld.names_es(entry)
+        for block in entry["blocks"]:
+            rows = ld.averages(conn, entry["id"], block["key"])
+            if block["metric"] == "approval":
+                rows = [r for r in rows if r["net"] is not None]
+            else:
+                rows = [r for r in rows if r["value"] is not None]
+                rows.sort(key=lambda r: -r["value"])
+            if not rows:
+                continue
+            src = conn.execute("SELECT source_url FROM leader_poll WHERE entry = ? AND block = ? "
+                               "ORDER BY fieldwork_end DESC LIMIT 1",
+                               (entry["id"], block["key"])).fetchone()
+            for r in rows:
+                r["name"] = {"ca": r["subject"], "es": es_names.get(r["subject"], r["subject"])}
+            out.append({"key": block["key"], "metric": block["metric"],
+                        "title": block.get("title") or _LEADER_TITLES[block["metric"]],
+                        "rows": rows, "last": max(r["last"] for r in rows),
+                        "pollsters": sorted({p for r in rows for p in r["pollsters"]}),
+                        "source": src[0] if src else None})
+    return out
+
+
 def abroad_data(conn, eid):
     """Mitjana estatal, regions, escons (si n'hi ha) i enquestes en joc d'una
     eleccio. None si no hi ha res a mostrar: llavors la pagina no s'escriu ni
@@ -807,6 +850,7 @@ def abroad_data(conn, eid):
             "of": {"es": pub.get("of_es") or f"de {pub['name_es']}",
                    "ca": pub.get("of_ca") or de(pub["name_ca"])},
             "urls": {lg: abroad_url(election, lg) for lg in i18n.LANGS},
+            "leaders": leaders_view(conn, eid),
             "wiki": (f"https://{election.get('lang', 'en')}.wikipedia.org/wiki/"
                      + election["page"].replace(" ", "_"))}
 

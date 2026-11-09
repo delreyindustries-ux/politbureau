@@ -59,6 +59,14 @@ def cmd_ingest(args):
             print("   -", label)
 
 
+def cmd_liders(args):
+    from .ingest import leaders
+    conn = db.connect()
+    db.init(conn)
+    for entry, block, n in leaders.run(conn, only=set(args.only) if args.only else None):
+        print(f"{entry:<8} {block:<12} {n:>6}")
+
+
 def cmd_build(args):
     from . import build
     conn = db.connect()
@@ -120,6 +128,10 @@ def main(argv=None):
     p.add_argument("--only", nargs="*", help="nomes aquestes eleccions (id de sources.yaml)")
     p.add_argument("--country", nargs="*", help="nomes aquests paisos (ES FR IT US)")
     p.set_defaults(func=cmd_ingest)
+
+    p = sub.add_parser("liders", help="valoracio dels lideres (config/leaders.yaml)")
+    p.add_argument("--only", nargs="*", help="nomes aquestes entrades o paisos (ld-es, GB...)")
+    p.set_defaults(func=cmd_liders)
 
     p = sub.add_parser("geo", help="baixa les geometries dels mapes")
     p.add_argument("--only", nargs="*", help="nomes aquests paisos (ES FR IT US)")
