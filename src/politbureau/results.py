@@ -320,13 +320,14 @@ def parliament_view(conn, iso: str) -> dict | None:
     if p:
         for i, r in enumerate(x for x in p["rows"] if x["seats"]):
             code, _ = parties.resolve(r["name"], iso)
-            rows.append({"name": r["name"], "seats": r["seats"], "pct": r["pct"],
+            rows.append({"name": r["name"], "code": code, "seats": r["seats"], "pct": r["pct"],
                          "prev": r["prev"], "color": _color(conn, code, i, iso)})
         rest = int(p["seats_total"]) - sum(r["seats"] for r in rows)
         if rest > 0:
             rows.append({"name": None, "seats": rest, "pct": None, "prev": None, "color": "#9E9E9E"})
     total = int(p["seats_total"]) if p else 0
     return {"rows": rows, "total": total, "majority": total // 2 + 1 if total else None,
+            "iso": iso,
             "date": p["date"] if p else None,
             "url": ("https://en.wikipedia.org/wiki/" + p["title"]) if p else None,
             "head": head}

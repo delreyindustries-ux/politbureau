@@ -67,6 +67,9 @@
 
 {% if d.seats %}
   {% set c = d.chamber %}
+  {% from "_chamber.html.j2" import chamber %}
+  {{ chamber(d.iso, d.avg, d.iso, d.majority, c.seats, lang, 'seats',
+             ('Escaños orientativos: ' if es else 'Escons orientatius: ') ~ c.name) }}
   {% set m = c.method if c.method != 'proportional' else 'dhondt' %}
   {% set thr = fmt((c.threshold if c.threshold is not none else 0.03) * 100) %}
   <p class="note">{% if es %}<b>Los escaños son solo un orden de magnitud.</b> Se reparten los

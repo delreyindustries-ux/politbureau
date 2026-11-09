@@ -458,6 +458,13 @@ def home_page(env, cfg, data, urls, highlights):
     subs = []
     from .. import db
     leaders = leaders_view(db.connect(), "spain")
+    # El Congres sencer per a l'hemicicle (cambra.js): tots els partits amb escons,
+    # no nomes els deu de la taula.
+    congress = [{**parties.meta(p, "ES", ELECTION), "code": p, "seats": n}
+                for p, n in db.connect().execute(
+                    """SELECT party, seats FROM seat_projection
+                       WHERE election_id = ? AND level = 'chamber' AND seats > 0
+                       ORDER BY seats DESC""", (ELECTION,))]
     if cfg.get("_abroad"):
         conn = db.connect()
         for eid in cfg["_abroad"]:
@@ -474,7 +481,8 @@ def home_page(env, cfg, data, urls, highlights):
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
             highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
-            notice=notice, subs=subs, leaders=leaders, fmt=_fmt, fdate=_fdate, regions=[
+            notice=notice, subs=subs, leaders=leaders, congress=congress,
+            fmt=_fmt, fdate=_fdate, regions=[
                 {"name": data["names"]["region"].get(c, c), "url": urls[("region", c)][lang]}
                 for c in sorted(data["names"]["region"],
                                 key=lambda c: data["names"]["region"].get(c, ""))
@@ -560,7 +568,7 @@ def assets(data, urls):
     """Copia el CSS i el JS i escriu les dades que necessita el mapa interactiu."""
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
-    for name in ("site.css", "site.js", "map.js", "map.css", "coalition.js", "seccions.js",
+    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js",
                  "world.js", "world.json", "relief.jpg", "flags.webp", "favicon.svg"):
         src = WEB / name
         if src.exists():
@@ -929,6 +937,7 @@ def abroad_data(conn, eid):
              "top": sorted(best[n]["top"], key=lambda x: -x["share"])[:3]}
             for n in order[:6] if n in best and len(best[n]["top"]) >= 3]
     return {**base, "national": bool(national), "regions": regions, "depmap": depmap,
+            "iso": country,
             "total_polls": conn.execute("SELECT COUNT(*) FROM poll WHERE election_id = ?",
                                         (eid,)).fetchone()[0],
             "presidential": election.get("display") == "candidates",

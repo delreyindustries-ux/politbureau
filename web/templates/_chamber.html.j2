@@ -1,0 +1,11 @@
+{# Cambra animada (09/11/2026): cambra.js hi dibuixa l'edifici i els escons.
+   Sense JavaScript queda la barra. Les plantilles .j2 no s'escapen soles: data-g porta | e. `b`: "es-congreso", "es-senado" o ISO. #}
+{% macro chamber(b, rows, country, majority, total, lang, key='seats', label='') %}
+<figure class="chamber" data-b="{{ b }}" data-l="{{ lang }}" data-m="{{ majority or 0 }}" data-t="{{ total or 0 }}"
+        data-g="{{ rows | chamber_json(country, key) | e }}"{% if label %} aria-label="{{ label }}"{% endif %}>
+  <div class="seatbar" role="img" aria-label="{{ label }}">
+    {%- for r in rows if r[key] %}<i style="flex:{{ r[key] }};background:{{ r.color }}" title="{{ r.person or r.name or ('Otros' if lang == 'es' else 'Altres') }}: {{ r[key] }}"></i>{% endfor %}
+    {%- if majority and total %}<span class="maj" style="left:{{ '%.2f'|format(100 * majority / total) }}%"></span>{% endif %}
+  </div>
+</figure>
+{% endmacro %}

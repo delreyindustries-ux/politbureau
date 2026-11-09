@@ -755,11 +755,16 @@ function hemicycle(groups, total, majority) {
              stroke="#e7eaf3" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>
        <text x="${cx + 5}" y="${cy - R * 1.06 + 10}" fill="#98a0b5" font-size="10">majoria ${majority}</text>`
     : '';
-  return `<svg class="hemi" viewBox="0 0 ${W} ${H}">${circles}${line}
+  const svg = `<svg class="hemi" viewBox="0 0 ${W} ${H}">${circles}${line}
     <text x="${cx}" y="${cy - 4}" text-anchor="middle" fill="#e7eaf3"
           font-size="19" font-weight="600">${total}</text>
     <text x="${cx}" y="${cy + 10}" text-anchor="middle" fill="#666f88" font-size="9">escons</text>
   </svg>`;
+  // Amb cambra.js, el Palau de les Corts animat; el SVG de sempre queda de reserva.
+  const g = JSON.stringify(groups.filter((x) => x.seats).map((x) => ({ n: x.name, c: x.color, s: x.seats, p: null })))
+    .replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  return `<figure class="chamber" data-b="es-congreso" data-l="${LANG}" data-m="${majority || 0}"
+    data-t="${total}" data-g="${g}">${svg}</figure>`;
 }
 
 function seatTable(groups, majority) {
@@ -803,6 +808,7 @@ async function loadSeats(id) {
       : d.method === 'proportional'
       ? 'Repartiment proporcional estatal amb llindar del 3%.'
       : "Cada estat elegeix un senador: se l'emporta el més votat."}</p>`;
+  if (window.PBChamber) window.PBChamber.scan(el);
 }
 
 /* ---------------------------------------------------------- controls */

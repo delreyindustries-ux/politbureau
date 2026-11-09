@@ -34,7 +34,32 @@ def make_env():
     env.filters["thousands"] = thousands
     env.filters["pct"] = pct
     env.filters["title_name"] = title_name
+    env.filters["chamber_json"] = chamber_json
     return env
+
+
+# Posicio de Wikidata -> eix esquerra-dreta, per ordenar els escons de
+# l'hemicicle (cambra.js). Les que no son a l'eix queden sense posicio.
+_POSITION = {"extrema izquierda": -3, "izquierda radical": -2.5, "izquierda": -2,
+             "centroizquierda": -1, "centrismo": 0, "centroderecha": 1, "derecha": 2,
+             "extrema derecha": 3}
+
+
+def chamber_json(rows, country="", key="seats"):
+    """Els grups d'una cambra per a <figure class="chamber">: nom, color, escons
+    i posicio ideologica."""
+    out = []
+    for r in rows or []:
+        n = r.get(key) or 0
+        if not n:
+            continue
+        ideo = r.get("ideo")
+        if ideo is None and r.get("code") and country:
+            ideo = parties.ideology(r["code"], country)
+        pos = _POSITION.get(((ideo or {}).get("es") or {}).get("position"))
+        out.append({"n": r.get("person") or r.get("name") or "", "c": r.get("color") or "#9E9E9E",
+                    "s": int(n), "p": pos})
+    return json.dumps(out, ensure_ascii=False)
 
 
 _PARTICLES = {"de", "del", "la", "las", "los", "i", "y", "e", "da", "das", "dos"}

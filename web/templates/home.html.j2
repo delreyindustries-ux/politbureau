@@ -22,6 +22,11 @@
 {% if highlights %}
 <section class="doc">
   <h2>{{ t('estimate_today') }}</h2>
+  {% if congress %}
+  {% from "_chamber.html.j2" import chamber %}
+  {{ chamber('es-congreso', congress, 'ES', 176, 350, lang, 'seats',
+             'Congreso de los Diputados: estimación de hoy' if lang == 'es' else "Congrés dels Diputats: estimació d'avui") }}
+  {% endif %}
   <table class="results">
     <thead><tr>
       <th>{{ t('party') }}</th>

@@ -6,10 +6,9 @@
   <p class="lede small">{{ 'Jefe del Gobierno' if es else 'Cap del Govern' }}: <b>{{ pl.head.name }}</b>{% if pl.head.party %} ({{ pl.head.party }}){% endif %}.</p>
   {% endif %}
   {% if pl.rows %}
-  <div class="seatbar" role="img" aria-label="{{ 'Escaños por partido' if es else 'Escons per partit' }}">
-    {% for r in pl.rows %}<i style="flex:{{ r.seats }};background:{{ r.color }}" title="{{ r.name or ('Otros' if es else 'Altres') }}: {{ r.seats }}"></i>{% endfor %}
-    <span class="maj" style="left:{{ '%.2f'|format(100 * pl.majority / pl.total) }}%"></span>
-  </div>
+  {% from "_chamber.html.j2" import chamber %}
+  {{ chamber(pl.iso, pl.rows, pl.iso, pl.majority, pl.total, lang, 'seats',
+             'Escaños por partido' if es else 'Escons per partit') }}
   <div class="tablewrap">
   <table class="results part">
     <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="n">%</th>

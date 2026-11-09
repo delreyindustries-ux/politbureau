@@ -24,10 +24,9 @@
     <span><b>{{ v.changed }}</b> {{ 'circunscripciones cambian respecto a 2023' if es else 'circumscripcions canvien respecte del 2023' }}</span>
   </div>
 
-  <div class="seatbar" role="img" aria-label="{{ 'Reparto estimado del Senado' if es else 'Repartiment estimat del Senat' }}">
-    {% for r in v.rows if r.total %}<i style="flex:{{ r.total }};background:{{ r.color }}" title="{{ r.name }}: {{ r.total }}"></i>{% endfor %}
-    <span class="maj" style="left:{{ '%.2f'|format(100 * v.majority / v.house) }}%"></span>
-  </div>
+  {% from "_chamber.html.j2" import chamber %}
+  {{ chamber('es-senado', v.rows, 'ES', v.majority, v.house, lang, 'total',
+             'Reparto estimado del Senado' if es else 'Repartiment estimat del Senat') }}
 
   <div class="tablewrap">
   <table class="results part">
