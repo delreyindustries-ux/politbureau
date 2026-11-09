@@ -126,6 +126,11 @@ ul.deps .pt{font-size:13px;color:var(--dim)}
 ul.deps .tag{font:11px var(--mono);padding:2px 7px;border-radius:4px;
   background:color-mix(in srgb, var(--up) 20%, transparent);color:var(--up)}
 ul.deps .tag.out{background:color-mix(in srgb, var(--dn) 20%, transparent);color:var(--dn)}
+ul.deps .tag.same{background:color-mix(in srgb, var(--dim) 16%, transparent);color:var(--dim)}
+ul.deps small{color:var(--faint);font-size:12px}
+ol.hondt .who{flex:1;min-width:0;font-size:13px;color:var(--ink);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:560px){ol.hondt .p{min-width:0;flex:0 1 auto}ol.hondt .who{flex-basis:100%;order:5;padding-left:34px}ol.hondt li{flex-wrap:wrap}}
 
 /* llistes de territoris */
 ul.children{list-style:none;margin:8px 0;padding:0;

@@ -822,6 +822,13 @@ def _load_spain(conn):
         db.log_ingest(conn, "congreso-2023", None, "error", 0, f"{type(exc).__name__}: {exc}")
         out.append(("congreso-2023 (diputats)", 0, f"ERROR {type(exc).__name__}: {exc}"))
 
+    # Llistes proclamades per al 29N (BOE 03/11/2026, data/llistes/congreso-2026.csv).
+    from .ingest import candidatures
+    try:
+        out.append(("congreso-2026 (llistes)", 52, f"{candidatures.store(conn)} candidats titulars"))
+    except Exception as exc:                           # noqa: BLE001
+        out.append(("congreso-2026 (llistes)", 0, f"AVIS {type(exc).__name__}: {exc}"))
+
 
     return out
 

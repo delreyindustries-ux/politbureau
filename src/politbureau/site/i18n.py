@@ -222,6 +222,22 @@ T = {
         "ca": "Vots que no van triar ningu en aquesta circumscripcio el {year}: "
               "{count} candidatures, {votes} vots, el {share} del vot valid."},
     "deputies_elected": {"es": "Diputados electos", "ca": "Diputats electes"},
+    "deputies_projected": {"es": "Quién entraría con la estimación de hoy",
+                           "ca": "Qui entraria amb l'estimació d'avui"},
+    "deputies_projected_lede": {
+        "es": "Con las listas proclamadas para el 29 de noviembre (BOE del 3 de noviembre "
+              "de 2026). Las listas son cerradas: el escaño número k de un partido es para "
+              "el número k de su lista.",
+        "ca": "Amb les llistes proclamades per al 29 de novembre (BOE del 3 de novembre "
+              "del 2026). Les llistes són tancades: l'escó número k d'un partit és per al "
+              "número k de la seva llista."},
+    "repeats": {"es": "repite", "ca": "repeteix"},
+    "new_deputy": {"es": "nuevo", "ca": "nou"},
+    "seats_named_note": {
+        "es": "Al lado de cada escaño, quién lo ocuparía según las listas proclamadas "
+              "(BOE del 3 de noviembre de 2026).",
+        "ca": "Al costat de cada escó, qui l'ocuparia segons les llistes proclamades "
+              "(BOE del 3 de novembre del 2026)."},
     "with_estimate": {"es": "Con la estimación de hoy", "ca": "Amb l'estimació d'avui"},
     "enters": {"es": "entra", "ca": "entra"},
     "leaves": {"es": "sale", "ca": "surt"},
@@ -243,6 +259,14 @@ T = {
               "municipals: ningú no enquesta aquest municipi. La xifra parteix del "
               "resultat real i hi aplica el desplaçament de vot que marquen les "
               "enquestes d'àmbit estatal.",
+    },
+    "deputies_warning_2026": {
+        "es": "Los nombres son reales, pero los escaños son una estimación: si un partido "
+              "saca un escaño más o menos, entra o se queda fuera el siguiente de la lista. "
+              "«Repite» quiere decir que ya salió elegido en esta provincia en 2023.",
+        "ca": "Els noms són reals, però els escons són una estimació: si un partit treu un "
+              "escó més o menys, entra o es queda fora el següent de la llista. «Repeteix» "
+              "vol dir que ja va sortir escollit en aquesta província el 2023.",
     },
     "deputies_warning": {
         "es": "Los nombres de la estimación suponen que los partidos repetirían "

@@ -24,7 +24,22 @@ def make_env():
                       trim_blocks=True, lstrip_blocks=True)
     env.filters["thousands"] = thousands
     env.filters["pct"] = pct
+    env.filters["title_name"] = title_name
     return env
+
+
+_PARTICLES = {"de", "del", "la", "las", "los", "i", "y", "e", "da", "das", "dos"}
+
+
+def title_name(name):
+    """Infoelectoral escriu alguns noms del 2023 en majuscules ("MERITXELL BATET
+    LAMAÑA"): els passa a "Meritxell Batet Lamaña". La resta, tal qual."""
+    if not name or name.upper() != name:
+        return name
+    words = []
+    for i, w in enumerate(name.lower().split()):
+        words.append(w if (i and w in _PARTICLES) else "-".join(x[:1].upper() + x[1:] for x in w.split("-")))
+    return " ".join(words)
 
 
 def ad_block(cfg, name, lang):

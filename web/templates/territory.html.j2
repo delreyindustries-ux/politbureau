@@ -109,10 +109,14 @@
         <span class="sw" style="background:{{ w.color }}"></span>
         <span class="p">{{ w.name }}</span>
         <span class="d">÷{{ w.divisor }}</span>
+        {%- if w.who %}<span class="who">{{ w.who.name }}</span>{% endif %}
         <span class="q">{{ ('%.2f'|format(w.quotient))|replace('.', ',') }}</span>
       </li>
       {%- endfor %}
     </ol>
+    {%- if dhondt.named %}
+    <p class="fine">{{ t('seats_named_note') }}</p>
+    {%- endif %}
     <p class="cut">{{ t('last_seat') }} · {{ ('%.2f'|format(dhondt.cutoff))|replace('.', ',') }}</p>
     <ol class="hondt miss">
       {%- for n in dhondt.next %}
@@ -120,6 +124,7 @@
         <span class="sw" style="background:{{ n.color }}"></span>
         <span class="p">{{ n.name }}</span>
         <span class="d">÷{{ n.divisor }}</span>
+        {%- if n.who %}<span class="who">{{ n.who.name }}</span>{% endif %}
         <span class="q">{{ ('%.2f'|format(n.quotient))|replace('.', ',') }}</span>
         <span class="need">{{ t('needs') }} {{ n.needed_votes | thousands }} {{ t('votes') | lower }}</span>
       </li>
@@ -134,16 +139,32 @@
 
 
   {%- if deputies %}
+  {%- if deputies.new_lists and deputies.projected %}
+  <section id="diputats">
+    <h2>{{ t('deputies_projected') }}</h2>
+    <p>{{ t('deputies_projected_lede') }}</p>
+    <ul class="deps">
+      {%- for p in deputies.projected %}
+      <li><span class="sw" style="background:{{ p.color }}"></span>
+          <span class="nm">{{ p.name }}{% if p.affiliation %} <small>({{ p.affiliation }})</small>{% endif %}</span>
+          {%- if p.repeats %}<span class="tag same">{{ t('repeats') }}</span>{% else %}<span class="tag in">{{ t('new_deputy') }}</span>{% endif %}
+          <span class="pt">{{ p.party_name }} · {{ p.position }}</span></li>
+      {%- endfor %}
+    </ul>
+    <p class="warn">{{ t('deputies_warning_2026') }}</p>
+  </section>
+  {%- endif %}
+  {%- if deputies.real %}
   <section>
     <h2>{{ t('deputies_elected') }} · {{ baseline_year }}</h2>
     <ul class="deps">
       {%- for p in deputies.real %}
       <li><span class="sw" style="background:{{ p.color }}"></span>
-          <span class="nm">{{ p.name }}</span>
+          <span class="nm">{{ p.name | title_name }}</span>
           <span class="pt">{{ p.party_name }}</span></li>
       {%- endfor %}
     </ul>
-    {%- if deputies.changes %}
+    {%- if deputies.changes and not deputies.new_lists %}
     <h3>{{ t('with_estimate') }}</h3>
     <ul class="deps">
       {%- for p, kind in deputies.changes %}
@@ -156,6 +177,7 @@
     <p class="warn">{{ t('deputies_warning') }}</p>
     {%- endif %}
   </section>
+  {%- endif %}
   {%- endif %}
 
   {%- if districts %}

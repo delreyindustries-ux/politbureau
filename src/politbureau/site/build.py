@@ -139,6 +139,10 @@ def gather(conn) -> dict:
                WHERE election = ? ORDER BY province, party, position""", (BASELINE,)):
         deputies.setdefault(r["province"], []).append(dict(r))
 
+    # Llistes proclamades per al 29N (BOE 03/11/2026): qui ocupa cada escó.
+    from ..ingest import candidatures
+    lists = candidatures.lists()
+
     # Meses electorals (cens, participacio del 23J i estimacio per al 29N).
     # Sense el ZIP per meses d'Interior el lloc es genera igual, sense taula.
     from .. import mesas as mesalib
@@ -150,7 +154,7 @@ def gather(conn) -> dict:
     return {"names": names, "region_of": table, "real": real, "meta": meta,
             "proj": proj, "magnitude": magnitude, "magnitude_real": magnitude_real,
             "seats_real": seats_real,
-            "seats_proj": seats_proj, "deputies": deputies, "mesas": mesas}
+            "seats_proj": seats_proj, "deputies": deputies, "lists": lists, "mesas": mesas}
 
 
 def region_code(data, level, code):
@@ -480,13 +484,23 @@ def dhondt_for(data, code):
         return None
     to_votes = lambda pts: int(round(pts * valid / 100)) if valid else 0   # noqa: E731
     region = region_code(data, "province", code)
+    # Llistes tancades: l'escó k-esim d'un partit es per al numero k de la llista.
+    lists = data.get("lists", {}).get(code, {})
+
+    def who(party, k):
+        names = lists.get(party) or []
+        return names[k - 1] if 0 < k <= len(names) else None
+
     return {
         "cutoff": table["cutoff"],
         "won": [{**parties.meta(w["party"], "ES", ELECTION, region), "divisor": w["divisor"],
-                 "quotient": w["quotient"]} for w in table["won"]],
+                 "quotient": w["quotient"], "who": who(w["party"], w["divisor"])}
+                for w in table["won"]],
         "next": [{**parties.meta(n["party"], "ES", ELECTION, region), "divisor": n["divisor"],
-                  "quotient": n["quotient"], "needed_votes": to_votes(n["needed"])}
+                  "quotient": n["quotient"], "needed_votes": to_votes(n["needed"]),
+                  "who": who(n["party"], n["divisor"])}
                  for n in table["next"][:3]],
+        "named": bool(lists),
     }
 
 
@@ -581,9 +595,21 @@ def simulator_for(data, level, code):
             "psoe": parties.position("PSOE", "ES")}
 
 
+def _fold_name(name):
+    import unicodedata
+    s = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()
+    return " ".join(w for w in s.replace("-", " ").split() if w not in ("i", "y", "de", "del", "la"))
+
+
 def deputies_for(data, code):
-    members = data["deputies"].get(code)
-    if not members:
+    """Qui va sortir el 2023 i qui entraria avui.
+
+    Des del 09/11/2026 els noms de l'estimacio surten de les llistes
+    proclamades per al 29N (BOE 03/11/2026), no de les del 2023: el numero k de
+    cada llista ocupa l'escó k que el partit guanya a la provincia."""
+    members = data["deputies"].get(code) or []
+    lists = data.get("lists", {}).get(code, {})
+    if not members and not lists:
         return None
     by_party = {}
     for m in members:
@@ -594,17 +620,25 @@ def deputies_for(data, code):
     def row(m, party):
         info = parties.meta(party, "ES", ELECTION, region)
         return {"color": info["color"], "party_name": info["name"], "name": m["name"],
-                "code": party, "position": m["position"]}
+                "code": party, "position": m["position"],
+                "affiliation": m.get("affiliation") or ""}
 
     real = [row(m, p) for p, ms in by_party.items() for m in ms if m["elected"]]
-    proj_seats = data["seats_proj"].get(code, {})
-    projected = [row(m, p) for p, ms in by_party.items()
-                 for m in ms[:proj_seats.get(p, 0)]]
     real.sort(key=lambda d: (parties.position(d["code"], "ES"), d["position"]))
+    proj_seats = data["seats_proj"].get(code, {})
+    if lists:
+        source = lists
+    else:                                   # sense llistes noves: les del 2023
+        source = by_party
+    projected = [row(m, p) for p, ms in source.items() for m in ms[:proj_seats.get(p, 0)]]
+    projected.sort(key=lambda d: (parties.position(d["code"], "ES"), d["position"]))
 
-    real_names = {d["name"] for d in real}
-    proj_names = {d["name"] for d in projected}
-    changes = [(d, "in") for d in projected if d["name"] not in real_names]
-    changes += [(d, "out") for d in real if d["name"] not in proj_names]
+    real_names = {_fold_name(d["name"]) for d in real}
+    for d in projected:
+        d["repeats"] = _fold_name(d["name"]) in real_names
+    proj_names = {_fold_name(d["name"]) for d in projected}
+    changes = [(d, "in") for d in projected if _fold_name(d["name"]) not in real_names]
+    changes += [(d, "out") for d in real if _fold_name(d["name"]) not in proj_names]
     changes.sort(key=lambda kv: (kv[1], parties.position(kv[0]["code"], "ES")))
-    return {"real": real, "changes": changes}
+    return {"real": real, "changes": changes, "projected": projected,
+            "new_lists": bool(lists)}
