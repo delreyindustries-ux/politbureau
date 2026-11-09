@@ -62,7 +62,7 @@ NOT_A_SUBJECT = re.compile(
     r"sample.*|mean|average|place|indifferent|decent|n/?a|party leaders|"
     r"do not know|right direction|wrong direction|nobody|not sure|neutral|"
     r"polling.*|fieldwork.*|date.*|pollster.*|poll source|area polled|segment polled|"
-    r"not.*|.*/ ?ud ?/.*)$", re.I)
+    r"not\b.*|.*/ ?ud ?/.*)$", re.I)
 NUM = re.compile(r"^[+\-–−]?\s*\d")
 
 

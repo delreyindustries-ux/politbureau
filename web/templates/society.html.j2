@@ -1,0 +1,60 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
+{% macro dd(x) %}{% if x >= 0.05 %}+{{ n1(x) }}{% elif x <= -0.05 %}−{{ n1(-x) }}{% else %}={% endif %}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+{% if es %}
+  <h1>Cómo vota cada tipo de municipio</h1>
+  <p class="lede">La estimación de voto para el 29 de noviembre, y el cambio respecto al voto real
+    de 2023, en los municipios grandes y pequeños, ricos y pobres, jóvenes y envejecidos, con más o
+    menos población extranjera y con más o menos paro.</p>
+{% else %}
+  <h1>Com vota cada tipus de municipi</h1>
+  <p class="lede">L'estimació de vot per al 29 de novembre, i el canvi respecte del vot real del
+    2023, als municipis grans i petits, rics i pobres, joves i envellits, amb més o menys població
+    estrangera i amb més o menys atur.</p>
+{% endif %}
+
+  <p class="note">{% if es %}Cada grupo pesa sus municipios por los votos válidos de 2023: Madrid
+    pesa más que un pueblo de 200 habitantes. Salvo el tamaño, los grupos son quintiles: cinco
+    grupos con el mismo número de votantes, ordenados de menos a más. Entre paréntesis, el cambio
+    en puntos respecto a 2023. Es una descripción de municipios, no de personas: que los municipios
+    con más paro voten más a un partido no quiere decir que lo voten los parados.{% else %}Cada
+    grup pesa els seus municipis pels vots vàlids del 2023: Madrid pesa més que un poble de 200
+    habitants. Llevat de la mida, els grups són quintils: cinc grups amb el mateix nombre de
+    votants, ordenats de menys a més. Entre parèntesis, el canvi en punts respecte del 2023. És una
+    descripció de municipis, no de persones: que els municipis amb més atur votin més un partit no
+    vol dir que el votin els aturats.{% endif %}</p>
+
+{% for d in dims %}
+  <h2>{{ d.title }}</h2>
+  <div class="tablewrap">
+  <table class="results part society">
+    <thead><tr>
+      <th>{{ 'Grupo' if es else 'Grup' }}</th>
+      <th class="n">{{ 'Municipios' if es else 'Municipis' }}</th>
+      {% for p in parties %}<th class="n"><span class="sw" style="background:{{ p.color }}"></span>{{ p.name }}</th>{% endfor %}
+      <th class="n">{{ 'Otros' if es else 'Altres' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in d.rows %}
+    <tr><td>{{ r.label }}</td><td class="n">{{ r.n | thousands }}</td>
+      {% for c in r.cells %}<td class="n">{{ n1(c.now) }} <small class="{{ 'up' if c.d >= 0.05 else ('dn' if c.d <= -0.05 else '') }}">({{ dd(c.d) }})</small></td>{% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endfor %}
+
+  <h2>{{ 'Fuentes' if es else 'Fonts' }}</h2>
+  <ul class="plain fine">
+    <li>INE, {{ 'Atlas de Distribución de Renta de los Hogares' if es else 'Atles de Distribució de Renda de les Llars' }}: {{ 'indicadores demográficos' if es else 'indicadors demogràfics' }} {{ year }} ({{ 'población, edad media y población extranjera' if es else 'població, edat mitjana i població estrangera' }}) {{ 'y renta neta por persona' if es else 'i renda neta per persona' }} 2023.</li>
+    <li>SEPE, {{ 'paro registrado por municipios' if es else 'atur registrat per municipis' }}, {{ month }} ({{ 'datos abiertos' if es else 'dades obertes' }}). {{ 'El porcentaje es sobre la población de 18 a 64 años: no es la tasa de paro de la EPA, que no existe por municipio.' if es else "El percentatge és sobre la població de 18 a 64 anys: no és la taxa d'atur de l'EPA, que no existeix per municipi." }}</li>
+    <li>{{ 'Ministerio del Interior, resultados de las generales de 2023; y la estimación de voto de esta web' if es else "Ministeri de l'Interior, resultats de les generals del 2023; i l'estimació de vot d'aquesta web" }} (<a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ t('nav_method') }}</a>).</li>
+  </ul>
+</article>
+{% endblock %}

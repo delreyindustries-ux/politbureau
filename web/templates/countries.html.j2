@@ -94,6 +94,8 @@
   </div>
 {% endif %}
 
+{% include "_recent.html.j2" %}
+
 {% if subrows %}
   <h2 id="subnacionals">{{ 'Elecciones regionales y municipales' if es else 'Eleccions regionals i municipals' }}</h2>
   <p class="note">{% if es %}Parlamentos regionales, estados federados, ayuntamientos y alcaldías con

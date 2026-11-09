@@ -38,7 +38,7 @@ JUNTA_ALIAS = {"alicante": "03", "alacant": "03", "valencia": "46", "castellon":
                "orense": "32"}
 
 _HEADER = re.compile(r"^\s*(\d+)\.\s*(.+?)\s*$")
-_SIGLA = re.compile(r"\(([^()]*)\)\s*\.?\s*$")
+_SIGLA = re.compile(r"[(\[]((?:[^()\[\]]|\([^()]*\))*)[)\]]\s*\.?\s*$")
 _CAND = re.compile(r"^\s*(\d+)\s*\.\s*(.+?)\s*\.?\s*$")
 
 
@@ -48,14 +48,15 @@ def _fold(s: str) -> str:
 
 
 _AFFIL_WORDS = re.compile(r"independ|frente|front|partido|partit|izquierda|movimiento|"
-                          r"recortes|sumar|bildu|geroa|podem|compromis|verds?", re.I)
+                          r"recortes|sumar|bildu|geroa|podem|compromis|senado|progres|verds?\b", re.I)
 
 
 def _split_affiliation(text: str):
     """"Nom Cognom (Izquierda Unida)" -> ("Nom Cognom", "Izquierda Unida").
     A les llistes de coalicio el BOE diu de quin partit es cada candidat; un
     sobrenom al final ("(Chiqui)") no es cap partit i es queda al nom."""
-    m = re.search(r"\s*\(([^()]+)\)\s*$", text)
+    m = (re.search(r"\s*\(((?:[^()]|\([^()]*\))+)\)\s*$", text)
+         or re.search(r"\s*\[([^\[\]]+)\]\s*$", text))
     if m:
         inner = m.group(1).strip()
         if inner.upper() == inner or _AFFIL_WORDS.search(inner):
@@ -77,21 +78,31 @@ def province_codes():
 def download(force: bool = False) -> Path:
     if BOE_XML.exists() and not force:
         return BOE_XML
-    import urllib.request
+    import requests
     BOE_XML.parent.mkdir(parents=True, exist_ok=True)
-    req = urllib.request.Request(BOE_URL, headers={"User-Agent": "politbureau"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        BOE_XML.write_bytes(r.read())
+    resp = requests.get(BOE_URL, headers={"User-Agent": "politbureau"}, timeout=60)
+    resp.raise_for_status()
+    BOE_XML.write_bytes(resp.content)
     return BOE_XML
 
 
-def parse(path: Path | None = None):
-    """Llistes del Congres: dicts amb province, order (ordre al BOE), list_name,
-    sigla, position, name. Una mateixa Junta pot sortir mes d'un cop (correccions
-    o capçaleres repetides): mana l'ultima aparicio de cada llista."""
+# Circumscripcions insulars del Senat (LOREG art. 165.2, reformat per la LO 2/2026:
+# Eivissa i Formentera ja no van juntes).
+ISLANDS = {"mallorca": "07-MA", "menorca": "07-ME", "eivissa": "07-EI", "ibiza": "07-EI",
+           "formentera": "07-FO", "gran canaria": "35-GC", "lanzarote": "35-LZ",
+           "fuerteventura": "35-FV", "tenerife": "38-TF", "la palma": "38-LP",
+           "la gomera": "38-LG", "el hierro": "38-EH"}
+
+
+def parse(path: Path | None = None, chamber: str = "congreso"):
+    """Llistes del Congres (o del Senat, `chamber="senado"`): dicts amb province
+    (al Senat, la circumscripcio: codi de provincia o d'illa, "07-MA"), order
+    (ordre al BOE), list_name, sigla, position, name. Una mateixa Junta pot sortir
+    mes d'un cop (correccions o capçaleres repetides): mana l'ultima aparicio."""
     root = ET.parse(path or download()).getroot()
     codes = province_codes()
     province = section = None
+    junta = None
     lst = None
     suplents = False
     lists: dict = {}
@@ -102,18 +113,24 @@ def parse(path: Path | None = None):
             continue
         if cls == "centro_negrita" and text.upper().startswith("JUNTA ELECTORAL"):
             name = re.sub(r"^JUNTA ELECTORAL( PROVINCIAL)? DE\s+", "", text, flags=re.I)
-            province = codes.get(_fold(name))
+            province = junta = codes.get(_fold(name))
             if province is None:
                 raise ValueError(f"Junta sense codi de provincia: {text!r}")
             section, lst = None, None
+            continue
+        if cls == "centro_negrita" and _fold(text).startswith("circunscripcion electoral"):
+            isl = _fold(text.split(":", 1)[-1])
+            if isl not in ISLANDS:
+                raise ValueError(f"Illa desconeguda: {text!r}")
+            province, lst = ISLANDS[isl], None
             continue
         if cls == "centro_cursiva":
             up = _fold(text)
             section = "congreso" if up.startswith("congreso") else (
                 "senado" if up.startswith("senado") else section)
-            lst = None
+            province, lst = junta, None
             continue
-        if section != "congreso" or province is None:
+        if section != chamber or province is None:
             continue
         if cls == "centro_redonda":
             m = _HEADER.match(text)
@@ -140,6 +157,9 @@ def parse(path: Path | None = None):
         m = _CAND.match(text)
         if m and int(m.group(1)) == len(lst["members"]) + 1:
             lst["members"].append(_split_affiliation(m.group(2).strip().rstrip(".")))
+        elif not m and chamber == "senado" and cls.startswith("parrafo"):
+            # Al Senat la Junta de Valladolid no numera els candidats.
+            lst["members"].append(_split_affiliation(text.strip().rstrip(".")))
     out = []
     for lst in lists.values():
         for i, (name, aff) in enumerate(lst["members"], 1):
@@ -187,7 +207,7 @@ def write_csv(path: Path = CSV):
     rows = parse()
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(["province", "order", "sigla", "list_name", "party", "position", "name",
                     "affiliation"])
         for r in rows:

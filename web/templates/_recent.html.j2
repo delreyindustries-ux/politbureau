@@ -1,0 +1,36 @@
+{# Eleccions dels darrers 120 dies a tot el mon (09/11/2026). `recent`: results.recent_view(). #}
+{% if recent %}
+{% set es = lang == 'es' %}
+  <h2 id="resultats">{{ 'Elecciones de los últimos meses' if es else 'Eleccions dels darrers mesos' }}</h2>
+  <p class="note">{% if es %}Las elecciones nacionales de los últimos 120 días en todo el mundo y
+    sus resultados. Donde había media de encuestas en esta web, al lado sale la media final y el
+    error (resultado menos media).{% else %}Les eleccions nacionals dels darrers 120 dies a tot el
+    món i els seus resultats. On hi havia mitjana d'enquestes en aquest web, al costat hi surt la
+    mitjana final i l'error (resultat menys mitjana).{% endif %}</p>
+{% for e in recent %}
+  <section class="recent">
+    <h3>{{ e.country[lang] or e.iso }} · {{ ('presidenciales' if es else 'presidencials') if e.kind == 'pres' else ('legislativas' if es else 'legislatives') }} · {{ fdate(e.date) }}</h3>
+    <div class="tablewrap">
+    <table class="results part">
+      <thead><tr>
+        <th>{{ ('Candidato' if es else 'Candidat') if e.kind == 'pres' else ('Partido' if es else 'Partit') }}</th>
+        <th class="n">%</th>
+        {% if e.seats %}<th class="n">{{ 'Escaños' if es else 'Escons' }}</th><th class="n">{{ 'Antes' if es else 'Abans' }}</th>{% endif %}
+        {% if e.polled %}<th class="n">{{ 'Media final' if es else 'Mitjana final' }}</th><th class="n">Error</th>{% endif %}
+      </tr></thead>
+      <tbody>
+      {% for r in e.rows %}
+      <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}{% if r.party %} <span class="fine">({{ r.party }})</span>{% endif %}</td>
+        <td class="n">{{ fmt(r.pct) if r.pct is not none else '—' }}</td>
+        {% if e.seats %}<td class="n"><b>{{ r.seats if r.seats is not none else '—' }}</b></td><td class="n">{{ r.prev if r.prev is not none else '—' }}</td>{% endif %}
+        {% if e.polled %}<td class="n">{{ fmt(r.poll) if r.poll is not none else '—' }}</td>
+          <td class="n {{ 'up' if r.err is not none and r.err >= 0.5 else ('dn' if r.err is not none and r.err <= -0.5 else '') }}">{% if r.err is not none %}{{ '+' if r.err > 0 }}{{ fmt(r.err) }}{% else %}—{% endif %}</td>{% endif %}
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="fine">{% if e.gov %}{{ e.gov_title or ('Gobierno' if es else 'Govern') }}: {{ e.gov }} · {% endif %}<a href="{{ e.url }}" rel="noopener">Wikipedia</a></p>
+  </section>
+{% endfor %}
+{% endif %}

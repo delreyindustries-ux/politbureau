@@ -155,6 +155,8 @@ def run(clean=True):
     pagemod.method_page(env, cfg, site_stats(conn))
     n_part = pagemod.participation_page(env, cfg, urls)
     pagemod.strongholds_page(env, cfg, urls)
+    pagemod.senate_page(env, cfg, urls, data.get("senate"))
+    pagemod.society_page(env, cfg, conn)
     abroad = pagemod.abroad_pages(env, cfg, conn)
     if abroad:
         print(f"     enquestes d'Europa: {len(abroad)} ({', '.join(abroad)})")

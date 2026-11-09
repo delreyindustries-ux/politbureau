@@ -1,0 +1,33 @@
+{# Parlament actual i cap de govern (09/11/2026). `pl`: results.parliament_view(). #}
+{% if pl %}
+{% set es = lang == 'es' %}
+  <h2 id="parlament">{{ 'El Parlamento de hoy' if es else "El Parlament d'avui" }}</h2>
+  {% if pl.head %}
+  <p class="lede small">{{ 'Jefe del Gobierno' if es else 'Cap del Govern' }}: <b>{{ pl.head.name }}</b>{% if pl.head.party %} ({{ pl.head.party }}){% endif %}.</p>
+  {% endif %}
+  {% if pl.rows %}
+  <div class="seatbar" role="img" aria-label="{{ 'Escaños por partido' if es else 'Escons per partit' }}">
+    {% for r in pl.rows %}<i style="flex:{{ r.seats }};background:{{ r.color }}" title="{{ r.name or ('Otros' if es else 'Altres') }}: {{ r.seats }}"></i>{% endfor %}
+    <span class="maj" style="left:{{ '%.2f'|format(100 * pl.majority / pl.total) }}%"></span>
+  </div>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="n">%</th>
+      <th class="n">{{ 'Escaños' if es else 'Escons' }}</th><th class="n">{{ 'Antes' if es else 'Abans' }}</th></tr></thead>
+    <tbody>
+    {% for r in pl.rows %}
+    <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name or ('Otros' if es else 'Altres') }}</td>
+      <td class="n">{{ fmt(r.pct) if r.pct is not none else '—' }}</td>
+      <td class="n"><b>{{ r.seats }}</b></td><td class="n">{{ r.prev if r.prev is not none else '—' }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{% if es %}Los escaños que salieron de las elecciones del {{ fdate(pl.date) }}
+    ({{ pl.total }} en total; la mayoría absoluta es {{ pl.majority }}). Puede haber cambiado
+    después por escisiones o cambios de grupo.{% else %}Els escons que van sortir de les eleccions
+    del {{ fdate(pl.date) }} ({{ pl.total }} en total; la majoria absoluta és {{ pl.majority }}). Pot
+    haver canviat després per escissions o canvis de grup.{% endif %}
+    <a href="{{ pl.url }}" rel="noopener">Wikipedia</a>{% if pl.head %} · {{ 'Jefe del Gobierno' if es else 'Cap del Govern' }}: Wikidata{% endif %}.</p>
+  {% endif %}
+{% endif %}

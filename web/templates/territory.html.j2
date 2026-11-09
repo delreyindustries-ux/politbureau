@@ -13,11 +13,21 @@
   <p class="lede">{{ lede }}</p>
 
   <div class="facts">
-    {%- if area.census %}<span><b>{{ area.census | thousands }}</b> {{ t('census') }}</span>{% endif %}
+    {%- if area.census %}<span><b>{{ area.census | thousands }}</b> {{ t('census') }}{% if area.census_split and area.census_split.cera %}<small class="cera">{{ area.census_split.cer | thousands }} {{ t('census_cer') }} · {{ area.census_split.cera | thousands }} {{ t('census_cera') }}</small>{% endif %}</span>{% endif %}
     {%- if area.valid_votes %}<span><b>{{ area.valid_votes | thousands }}</b> {{ t('valid_votes') }}</span>{% endif %}
     {%- if renda %}<span><b>{{ renda | thousands }}</b> {{ t('renda') }}</span>{% endif %}
     {%- if magnitude %}<span><b>{{ magnitude }}</b> {{ t('seats_title') | lower }}</span>{% endif %}
   </div>
+  {%- if social %}
+  <div class="facts social">
+    {%- if social.poblacio %}<span><b>{{ social.poblacio | int | thousands }}</b> {{ t('soc_pop') }} {{ social.any | int }}</span>{% endif %}
+    {%- if social.edat %}<span><b>{{ ('%.1f'|format(social.edat))|replace('.', ',') }}</b> {{ t('soc_age') }}</span>{% endif %}
+    {%- if social.pct65 is not none %}<span><b>{{ ('%.1f'|format(social.pct65))|replace('.', ',') }} %</b> {{ t('soc_65') }}</span>{% endif %}
+    {%- if social.pct_estr is not none %}<span><b>{{ ('%.1f'|format(social.pct_estr))|replace('.', ',') }} %</b> {{ t('soc_foreign') }}</span>{% endif %}
+    {%- if social.atur is not none %}<span><b>{{ social.atur | int | thousands }}</b> {{ t('soc_unemp') }} ({{ social.month }}){% if social.pct_atur is not none %}<small class="cera">{{ ('%.1f'|format(social.pct_atur))|replace('.', ',') }} % {{ t('soc_unemp_pct') }}</small>{% endif %}</span>{% endif %}
+    <a class="more" href="{{ root }}{{ lang }}/{{ page('society') }}/">{{ t('soc_link') }}</a>
+  </div>
+  {%- endif %}
 
   {{ ad('territory_top') }}
 
@@ -179,6 +189,8 @@
   </section>
   {%- endif %}
   {%- endif %}
+
+{% include "_senate_province.html.j2" %}
 
   {%- if districts %}
   <section>

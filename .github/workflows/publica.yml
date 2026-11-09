@@ -78,6 +78,14 @@ jobs:
           export PYTHONPATH=src
           python -m politbureau liders
 
+      # Resultats recents i composicio dels parlaments (09/11/2026). Si falla, es
+      # fa servir la copia de data/resultats/darreres.json del repositori.
+      - name: Resultats recents i parlaments
+        continue-on-error: true
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau resultats
+
       - name: Recalcula i genera el lloc
         run: |
           export PYTHONPATH=src

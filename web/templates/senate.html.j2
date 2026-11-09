@@ -1,0 +1,124 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+{% if es %}
+  <h1>El Senado el 29N</h1>
+  <p class="lede">Quién ganaría cada uno de los {{ v.elected }} escaños que se eligen el 29 de
+    noviembre, con la estimación de voto de hoy y las candidaturas proclamadas (BOE del 3 de
+    noviembre de 2026).</p>
+{% else %}
+  <h1>El Senat el 29N</h1>
+  <p class="lede">Qui guanyaria cadascun dels {{ v.elected }} escons que s'escullen el 29 de
+    novembre, amb l'estimació de vot d'avui i les candidatures proclamades (BOE del 3 de
+    novembre del 2026).</p>
+{% endif %}
+
+  <div class="facts">
+    <span><b>{{ v.elected }}</b> {{ 'senadores electos' if es else 'senadors electes' }}</span>
+    <span><b>{{ v.designated }}</b> {{ 'designados por los parlamentos autonómicos' if es else 'designats pels parlaments autonòmics' }}</span>
+    <span><b>{{ v.majority }}</b> {{ 'mayoría absoluta' if es else 'majoria absoluta' }} ({{ v.house }})</span>
+    <span><b>{{ v.changed }}</b> {{ 'circunscripciones cambian respecto a 2023' if es else 'circumscripcions canvien respecte del 2023' }}</span>
+  </div>
+
+  <div class="seatbar" role="img" aria-label="{{ 'Reparto estimado del Senado' if es else 'Repartiment estimat del Senat' }}">
+    {% for r in v.rows if r.total %}<i style="flex:{{ r.total }};background:{{ r.color }}" title="{{ r.name }}: {{ r.total }}"></i>{% endfor %}
+    <span class="maj" style="left:{{ '%.2f'|format(100 * v.majority / v.house) }}%"></span>
+  </div>
+
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>Candidatura</th>
+      <th class="n">{{ 'Electos 29N' if es else 'Electes 29N' }}</th>
+      <th class="n">{{ 'Electos 2023' if es else 'Electes 2023' }}</th>
+      <th class="n">{{ 'Designados' if es else 'Designats' }}</th>
+      <th class="n">Total</th>
+    </tr></thead>
+    <tbody>
+    {% for r in v.rows if r.total or r.before %}
+    <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+      <td class="n"><b>{{ r.now }}</b></td><td class="n">{{ r.before }}</td>
+      <td class="n">{{ r.designated }}</td><td class="n"><b>{{ r.total }}</b></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+{% if es %}
+  <p class="note"><b>Cómo se calcula.</b> En el Senado cada elector vota a personas: hasta 3 en
+    las provincias (que eligen 4), 2 en Gran Canaria, Mallorca, Tenerife, Ceuta y Melilla, y 1 en
+    las demás islas. Salen los más votados. Si se vota por partido, la primera candidatura de
+    una provincia saca 3 senadores y la segunda 1. A cada candidatura se le da el porcentaje que
+    la estimación del Congreso da a los partidos que la forman: <b>Senado de Progreso</b> (PSOE,
+    IU y Movimiento Sumar, con Compromís, CHA o Más Madrid según el territorio) suma el PSOE y
+    el Frente Amplio. Los nombres son los de las candidaturas proclamadas, en el orden del BOE:
+    quién de una misma lista sale primero depende del voto personal, que ninguna encuesta mide.</p>
+  <p class="warn">Es una estimación, no un resultado. En el Senado hay voto cruzado (electores
+    que votan a personas de partidos distintos), y con márgenes de pocos puntos un escaño puede
+    cambiar de manos. En La Gomera y El Hierro ganaron en 2023 partidos insulares (ASG y AHI)
+    que ninguna encuesta mide: se mantiene su escaño. Los {{ v.designated }} designados son los
+    de hoy: dependen de los parlamentos autonómicos, no del 29N. Ibiza y Formentera eligen
+    desde 2026 un senador cada una (Ley Orgánica 2/2026): en total, {{ v.elected }} electos.</p>
+{% else %}
+  <p class="note"><b>Com es calcula.</b> Al Senat cada elector vota persones: fins a 3 a les
+    províncies (que n'escullen 4), 2 a Gran Canària, Mallorca, Tenerife, Ceuta i Melilla, i 1 a
+    la resta d'illes. Surten els més votats. Si es vota per partit, la primera candidatura d'una
+    província treu 3 senadors i la segona 1. A cada candidatura se li dona el percentatge que
+    l'estimació del Congrés dona als partits que la formen: <b>Senado de Progreso</b> (PSOE, IU i
+    Movimiento Sumar, amb Compromís, CHA o Más Madrid segons el territori) suma el PSOE i el
+    Frente Amplio. Els noms són els de les candidatures proclamades, en l'ordre del BOE: qui
+    d'una mateixa llista surt primer depèn del vot personal, que cap enquesta no mesura.</p>
+  <p class="warn">És una estimació, no un resultat. Al Senat hi ha vot creuat (electors que
+    voten persones de partits diferents), i amb marges de pocs punts un escó pot canviar de mans.
+    A La Gomera i El Hierro hi van guanyar el 2023 partits insulars (ASG i AHI) que cap enquesta no
+    mesura: se'ls manté l'escó. Els {{ v.designated }} designats són els d'avui: depenen dels
+    parlaments autonòmics, no del 29N. Eivissa i Formentera escullen des del 2026 un senador
+    cadascuna (Llei orgànica 2/2026): en total, {{ v.elected }} electes.</p>
+{% endif %}
+
+{% if v.close %}
+  <h2>{{ 'Los escaños más ajustados' if es else 'Els escons més ajustats' }}</h2>
+  <ul class="plain">
+  {% for c in v.close %}
+    <li><b>{{ c.name[lang] }}</b>: {{ 'el último escaño se decide por' if es else "l'últim escó es decideix per" }} {{ n1(c.margin) }} {{ 'puntos' if es else 'punts' }}.</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+  <h2>{{ 'Circunscripción a circunscripción' if es else 'Circumscripció a circumscripció' }}</h2>
+  <div class="tablewrap">
+  <table class="results part senate">
+    <thead><tr>
+      <th>{{ 'Circunscripción' if es else 'Circumscripció' }}</th>
+      <th>{{ 'Quién saldría' if es else 'Qui sortiria' }}</th>
+      <th class="n">{{ 'Margen' if es else 'Marge' }}</th>
+      <th>2023</th>
+    </tr></thead>
+    <tbody>
+    {% for c in consts %}
+    <tr{% if c.changed %} class="chg"{% endif %}>
+      <td>{% if c.url %}<a href="{{ root }}{{ c.url.lstrip('/') }}">{{ c.name[lang] }}</a>{% else %}{{ c.name[lang] }}{% endif %} <span class="fine">{{ c.seats }}</span></td>
+      <td>{% for e in c.elected %}<span class="sen"><span class="sw" style="background:{{ e.color }}"></span>{{ e.person }}</span>{% endfor %}
+        {% if c.held %}<span class="fine">({{ 'se mantiene el de 2023' if es else 'es manté el del 2023' }})</span>{% endif %}</td>
+      <td class="n">{% if c.margin is not none %}{{ n1(c.margin) }}{% else %}—{% endif %}</td>
+      <td>{% if c.merged_2023 %}<span class="fine">{{ 'Ibiza y Formentera juntas' if es else 'Eivissa i Formentera juntes' }}</span>{% else %}{% for b in c.before %}<span class="sw" style="background:{{ b.color }}" title="{{ b.name }}"></span>{{ b.n }} {% endfor %}{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{{ 'Margen: puntos entre la candidatura que se lleva el último escaño y la primera que se queda fuera. Con una raya a la izquierda, las circunscripciones donde el reparto cambia respecto a 2023.' if es else "Marge: punts entre la candidatura que s'endú l'últim escó i la primera que es queda fora. Amb una ratlla a l'esquerra, les circumscripcions on el repartiment canvia respecte del 2023." }}</p>
+
+  <h2>{{ 'Fuentes' if es else 'Fonts' }}</h2>
+  <ul class="plain fine">
+    <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-23103" rel="noopener">BOE-A-2026-23103</a>: {{ 'candidaturas proclamadas (3/11/2026)' if es else 'candidatures proclamades (3/11/2026)' }}.</li>
+    <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-1985-11672" rel="noopener">{{ 'Ley Orgánica del Régimen Electoral General' if es else 'Llei orgànica del règim electoral general' }}</a>, art. 165 {{ 'y' if es else 'i' }} 166.</li>
+    <li><a href="https://es.wikipedia.org/wiki/Anexo:Senadores_de_la_XV_legislatura_de_Espa%C3%B1a" rel="noopener">Anexo:Senadores de la XV legislatura de España</a> (Wikipedia, CC BY-SA 4.0): {{ 'composición actual y electos en 2023' if es else 'composició actual i electes del 2023' }}.</li>
+    <li>{{ 'La estimación de voto del Congreso de esta web' if es else "L'estimació de vot del Congrés d'aquesta web" }} (<a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ t('nav_method') }}</a>).</li>
+  </ul>
+</article>
+{% endblock %}

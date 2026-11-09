@@ -67,6 +67,15 @@ def cmd_liders(args):
         print(f"{entry:<8} {block:<12} {n:>6}")
 
 
+def cmd_resultats(args):
+    from . import results
+    out = results.build(results.our_countries())
+    print(f"eleccions recents: {len(out['recent'])}")
+    for e in out["recent"]:
+        print(f"  {e['date']} {e['iso']} {e['title']}")
+    print(f"parlaments: {len(out['parliaments'])}, caps de govern: {len(out['heads'])}")
+
+
 def cmd_build(args):
     from . import build
     conn = db.connect()
@@ -132,6 +141,9 @@ def main(argv=None):
     p = sub.add_parser("liders", help="valoracio dels lideres (config/leaders.yaml)")
     p.add_argument("--only", nargs="*", help="nomes aquestes entrades o paisos (ld-es, GB...)")
     p.set_defaults(func=cmd_liders)
+
+    sub.add_parser("resultats", help="resultats recents i composicio dels parlaments (Wikipedia/Wikidata)"
+                   ).set_defaults(func=cmd_resultats)
 
     p = sub.add_parser("geo", help="baixa les geometries dels mapes")
     p.add_argument("--only", nargs="*", help="nomes aquests paisos (ES FR IT US)")

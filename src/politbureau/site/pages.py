@@ -315,6 +315,96 @@ def strongholds_page(env, cfg, urls):
     return len(rows)
 
 
+def senate_page(env, cfg, urls, view):
+    """El Senat del 29N: qui guanyaria cada escó amb l'estimacio d'avui (09/11/2026)."""
+    if not view:
+        return 0
+    for lang in i18n.LANGS:
+        canonical = i18n.page_url("senate", lang)
+        consts = [{**c, "url": (urls.get(("province", c["province"])) or {}).get(lang)}
+                  for c in view["constituencies"]]
+        lead = view["rows"][0]
+        html = render_page(
+            env, cfg, "senate.html.j2", lang, canonical,
+            {lg: i18n.page_url("senate", lg) for lg in i18n.LANGS},
+            ("El Senado el 29N: quién ganaría cada escaño" if lang == "es"
+             else "El Senat el 29N: qui guanyaria cada escó"),
+            (f"Estimación de los {view['elected']} senadores que se eligen el 29 de noviembre, "
+             f"provincia a provincia y con nombres: {lead['name']} {lead['now']}." if lang == "es" else
+             f"Estimació dels {view['elected']} senadors que s'escullen el 29 de novembre, "
+             f"província a província i amb noms: {lead['name']} {lead['now']}."),
+            v=view, consts=consts)
+        write(DIST / canonical.strip("/") / "index.html", html)
+    return len(view["constituencies"])
+
+
+_DIM_TITLES = {
+    "size": {"es": "Por tamaño del municipio (habitantes)", "ca": "Per mida del municipi (habitants)"},
+    "renda": {"es": "Por renta neta por persona", "ca": "Per renda neta per persona"},
+    "edat": {"es": "Por edad media", "ca": "Per edat mitjana"},
+    "estr": {"es": "Por porcentaje de población extranjera", "ca": "Per percentatge de població estrangera"},
+    "atur": {"es": "Por paro registrado (sobre la población de 18 a 64 años)",
+             "ca": "Per atur registrat (sobre la població de 18 a 64 anys)"},
+}
+
+
+def society_page(env, cfg, conn):
+    """Com vota cada tipus de municipi (09/11/2026): mida, renda, edat, estrangers i atur."""
+    from .. import social as sociallib
+    if not sociallib.load():
+        return 0
+    g = sociallib.groups(conn, parties_n=4)
+    if not g["dims"]:
+        return 0
+    meta = {p: parties.meta(p, "ES", ELECTION) for p in g["parties"]}
+    soc = sociallib.load()
+    month = next((d.get("mes_atur") for d in soc.values() if d.get("mes_atur")), None)
+    year = next((int(d["any"]) for d in soc.values() if d.get("any")), None)
+
+    def th(v):
+        return f"{int(round(v)):,}".replace(",", ".")
+
+    def label(dim, b, lang):
+        if dim == "size":
+            if b["hi"] >= 10 ** 9:
+                return ("más de " if lang == "es" else "més de ") + th(b["lo"])
+            if b["lo"] == 0:
+                return ("menos de " if lang == "es" else "menys de ") + th(b["hi"])
+            return f"{th(b['lo'])}–{th(b['hi'])}"
+        if dim == "renda":
+            return f"{th(b['lo'])}–{th(b['hi'])} €"
+        if dim == "edat":
+            return f"{b['lo']:.1f}–{b['hi']:.1f}".replace(".", ",") + (" años" if lang == "es" else " anys")
+        return f"{b['lo']:.1f}–{b['hi']:.1f} %".replace(".", ",")
+
+    for lang in i18n.LANGS:
+        canonical = i18n.page_url("society", lang)
+        dims = []
+        for dim, bins in g["dims"].items():
+            rows = []
+            for b in bins:
+                other_now = 100 - sum(b["now"].values())
+                other_before = 100 - sum(b["before"].values())
+                rows.append({"label": label(dim, b, lang), "n": b["n"], "votes": b["votes"],
+                             "cells": [{"now": b["now"][p], "d": b["now"][p] - b["before"][p]}
+                                       for p in g["parties"]]
+                             + [{"now": other_now, "d": other_now - other_before}]})
+            dims.append({"key": dim, "title": _DIM_TITLES[dim][lang], "rows": rows,
+                         "quintiles": dim != "size"})
+        html = render_page(
+            env, cfg, "society.html.j2", lang, canonical,
+            {lg: i18n.page_url("society", lg) for lg in i18n.LANGS},
+            ("Cómo vota cada tipo de municipio" if lang == "es" else "Com vota cada tipus de municipi"),
+            ("Estimación de voto para el 29N y voto real de 2023 según el tamaño, la renta, la edad, "
+             "la población extranjera y el paro de cada municipio." if lang == "es" else
+             "Estimació de vot per al 29N i vot real del 2023 segons la mida, la renda, l'edat, "
+             "la població estrangera i l'atur de cada municipi."),
+            dims=dims, parties=[meta[p] for p in g["parties"]],
+            month=sociallib.month_label(month, lang), year=year)
+        write(DIST / canonical.strip("/") / "index.html", html)
+    return len(g["dims"])
+
+
 def method_page(env, cfg, stats):
     """La metodologia sencera. Es la pagina que fa creible tota la resta."""
     for lang in i18n.LANGS:
@@ -431,7 +521,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "countries", "map", "participation", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "strongholds", "method", "legal", "privacy", "cookies")]
         if cfg.get("_abroad"):
             elections = abroad_elections()
             entries += [abroad_url(elections[e], lang) for e in cfg["_abroad"]]
@@ -854,8 +944,19 @@ def abroad_data(conn, eid):
                    "ca": pub.get("of_ca") or de(pub["name_ca"])},
             "urls": {lg: abroad_url(election, lg) for lg in i18n.LANGS},
             "leaders": leaders_view(conn, eid),
+            # Parlament actual i cap de govern (09/11/2026, results.py).
+            "parliament": (None if election.get("group") == "sub"
+                           else _parliament(conn, country)),
             "wiki": (f"https://{election.get('lang', 'en')}.wikipedia.org/wiki/"
                      + election["page"].replace(" ", "_"))}
+
+
+def _parliament(conn, country):
+    from .. import results
+    try:
+        return results.parliament_view(conn, country)
+    except Exception:                                  # noqa: BLE001
+        return None
 
 
 def _calendar():
@@ -1147,8 +1248,13 @@ def abroad_pages(env, cfg, conn):
             calendar.sort(key=lambda r: parties.slug(r["name"]))
             view.sort(key=lambda r: (parties.slug(r["name"]), r["presidential"]))
             ncountries = len({elections[eid]["country"] for eid, _ in done}) + (1 if spain else 0)
+            from .. import results as resultslib
+            try:
+                recent = resultslib.recent_view(conn, load_sources()["elections"])
+            except Exception:                          # noqa: BLE001
+                recent = []
             ctx = dict(
-                rows=view, subrows=subrows, heads=heads, fmt=_fmt, fdate=_fdate,
+                rows=view, subrows=subrows, heads=heads, fmt=_fmt, fdate=_fdate, recent=recent,
                 ncountries=ncountries,
                 calendar=calendar,
                 upcoming=[upcoming[k] for k in sorted(upcoming)][:10],

@@ -143,6 +143,14 @@ def gather(conn) -> dict:
     from ..ingest import candidatures
     lists = candidatures.lists()
 
+    # Senat (09/11/2026): la projeccio de cada circumscripcio, amb noms.
+    from .. import senate as senatelib
+    try:
+        senate = senatelib.view(conn)
+    except Exception as exc:                       # noqa: BLE001
+        print(f"     AVIS Senat: {type(exc).__name__}: {exc}")
+        senate = None
+
     # Meses electorals (cens, participacio del 23J i estimacio per al 29N).
     # Sense el ZIP per meses d'Interior el lloc es genera igual, sense taula.
     from .. import mesas as mesalib
@@ -154,7 +162,8 @@ def gather(conn) -> dict:
     return {"names": names, "region_of": table, "real": real, "meta": meta,
             "proj": proj, "magnitude": magnitude, "magnitude_real": magnitude_real,
             "seats_real": seats_real,
-            "seats_proj": seats_proj, "deputies": deputies, "lists": lists, "mesas": mesas}
+            "seats_proj": seats_proj, "deputies": deputies, "lists": lists, "mesas": mesas,
+            "senate": senate}
 
 
 def region_code(data, level, code):
@@ -599,6 +608,15 @@ def _fold_name(name):
     import unicodedata
     s = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()
     return " ".join(w for w in s.replace("-", " ").split() if w not in ("i", "y", "de", "del", "la"))
+
+
+def senate_for(data, code):
+    """Les circumscripcions del Senat d'una provincia (les illes, per separat)."""
+    v = data.get("senate")
+    if not v:
+        return None
+    consts = [c for c in v["constituencies"] if c["province"] == code]
+    return consts or None
 
 
 def deputies_for(data, code):

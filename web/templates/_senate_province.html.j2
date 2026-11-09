@@ -1,0 +1,21 @@
+{# Senat a la fitxa de provincia (09/11/2026). `senate`: senate_for(). #}
+{%- if senate %}
+  <section id="senat">
+    <h2>{{ 'Senado: quién saldría el 29N' if lang == 'es' else 'Senat: qui sortiria el 29N' }}</h2>
+    {%- for c in senate %}
+    {%- if senate | length > 1 %}
+    <h3>{{ c.name[lang] }} <span class="fine">· {{ c.seats }} {{ ('senador' if c.seats == 1 else 'senadores') if lang == 'es' else ('senador' if c.seats == 1 else 'senadors') }}</span></h3>
+    {%- endif %}
+    <ul class="deps">
+      {%- for e in c.elected %}
+      <li><span class="sw" style="background:{{ e.color }}"></span>
+          <span class="nm">{{ e.person }}</span>
+          <span class="pt">{{ e.list }}</span></li>
+      {%- endfor %}
+    </ul>
+    <p class="fine">{% if c.held %}{{ 'Partido insular sin encuestas: se mantiene el escaño de 2023.' if lang == 'es' else "Partit insular sense enquestes: es manté l'escó del 2023." }}{% elif c.margin is not none %}{{ 'El último escaño se decide por' if lang == 'es' else "L'últim escó es decideix per" }} {{ ('%.1f'|format(c.margin))|replace('.', ',') }} {{ 'puntos' if lang == 'es' else 'punts' }}.{% endif %}
+      {% if not c.merged_2023 %}{{ 'En 2023:' if lang == 'es' else 'El 2023:' }} {% for b in c.before %}{{ b.name }} {{ b.n }}{{ ', ' if not loop.last }}{% endfor %}.{% endif %}</p>
+    {%- endfor %}
+    <p class="fine"><a href="{{ root }}{{ lang }}/{{ page('senate') }}/">{{ 'Cómo se calcula y el Senado entero' if lang == 'es' else 'Com es calcula i el Senat sencer' }}</a></p>
+  </section>
+{%- endif %}
