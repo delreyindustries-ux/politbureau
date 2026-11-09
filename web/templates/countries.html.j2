@@ -58,6 +58,42 @@
   </table>
   </div>
 
+{% if heads %}
+  <h2 id="lideres">{{ 'Cómo valoran a su gobierno' if es else 'Com valoren el seu govern' }}</h2>
+  <p class="note">{% if es %}El jefe de gobierno (o el gobierno) de cada país con encuestas de aprobación de
+    los últimos 120 días, del saldo más alto al más bajo. Cada país pregunta a su manera
+    («aprueba», «opinión favorable»…): compara tendencias más que cifras exactas.{% else %}El cap de
+    govern (o el govern) de cada país amb enquestes d'aprovació dels últims 120 dies, del saldo més alt
+    al més baix. Cada país pregunta a la seva manera («aprova», «opinió favorable»…): compara
+    tendències més que xifres exactes.{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results part leaders-cmp">
+    <thead><tr>
+      <th>{{ 'País' if es else 'País' }}</th>
+      <th>{{ 'Quién' if es else 'Qui' }}</th>
+      <th class="n">{{ 'Aprueba' if es else 'Aprova' }}</th>
+      <th class="n">{{ 'Desaprueba' if es else 'Desaprova' }}</th>
+      <th class="n">Saldo</th>
+      <th class="n">{{ '30 días' if es else '30 dies' }}</th>
+      <th class="n">{{ 'Última' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for h in heads %}
+    <tr>
+      <td><a href="{{ root }}{{ h.url.lstrip('/') }}">{{ h.country }}</a></td>
+      <td>{{ h.who }}</td>
+      <td class="n">{{ fmt(h.yes) }} %</td>
+      <td class="n">{{ fmt(h.no) }} %</td>
+      <td class="n {{ 'up' if h.net > 0.05 else ('dn' if h.net < -0.05 else '') }}">{{ '+' if h.net > 0.05 }}{{ fmt(h.net) }}</td>
+      <td class="n {{ 'up' if h.delta is not none and h.delta >= 0.5 else ('dn' if h.delta is not none and h.delta <= -0.5 else '') }}">{% if h.delta is none %}—{% elif h.delta >= 0.5 %}▲ {{ fmt(h.delta) }}{% elif h.delta <= -0.5 %}▼ {{ fmt(-h.delta) }}{% else %}={% endif %}</td>
+      <td class="n">{{ fdate(h.last) }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endif %}
+
 {% if subrows %}
   <h2 id="subnacionals">{{ 'Elecciones regionales y municipales' if es else 'Eleccions regionals i municipals' }}</h2>
   <p class="note">{% if es %}Parlamentos regionales, estados federados, ayuntamientos y alcaldías con

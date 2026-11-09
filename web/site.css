@@ -368,8 +368,9 @@ figure.depmap path.nodata{fill:var(--line)}
 /* ---------------------------------------------- valoracio dels lideres (08/11/2026) */
 .leaders h3{margin:18px 0 2px;font-size:16px}
 .leaders table.results tbody tr:first-child td{font-weight:400}
-.leaders td.up{color:var(--up)}
-.leaders td.dn{color:var(--dn)}
+.leaders td.up,.leaders-cmp td.up{color:var(--up)}
+.leaders td.dn,.leaders-cmp td.dn{color:var(--dn)}
+.leaders-cmp tbody tr:first-child td{font-weight:400}
 .leaders th.bar,.leaders td.bar{width:28%;min-width:90px}
 .leaders .lb{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--line)}
 .leaders .lb i{display:block;height:100%}

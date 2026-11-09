@@ -770,6 +770,7 @@ def leaders_view(conn, key):
                 rows.sort(key=lambda r: -r["value"])
             if not rows:
                 continue
+            ld.with_trend(conn, entry["id"], block["key"], rows)
             src = conn.execute("SELECT source_url FROM leader_poll WHERE entry = ? AND block = ? "
                                "ORDER BY fieldwork_end DESC LIMIT 1",
                                (entry["id"], block["key"])).fetchone()
@@ -778,6 +779,7 @@ def leaders_view(conn, key):
             out.append({"key": block["key"], "metric": block["metric"],
                         "title": block.get("title") or _LEADER_TITLES[block["metric"]],
                         "rows": rows, "last": max(r["last"] for r in rows),
+                        "head": entry.get("head"), "country": entry["country"],
                         "pollsters": sorted({p for r in rows for p in r["pollsters"]}),
                         "source": src[0] if src else None})
     return out
@@ -1074,6 +1076,24 @@ def abroad_pages(env, cfg, conn):
             spain = _spain(conn, lang)
             if spain:
                 view.append(spain)
+            # El cap de govern de cada pais (`head` a config/leaders.yaml) amb la seva
+            # aprovacio, per comparar-los (09/11/2026).
+            heads = []
+            for name, url, blocks in (
+                    [(d["name"][lang], d["urls"][lang], d.get("leaders") or [])
+                     for _e, d in done]
+                    + ([("España" if lang == "es" else "Espanya", spain["url"],
+                         leaders_view(conn, "spain"))] if spain else [])):
+                for b in blocks:
+                    row = next((r for r in b["rows"] if b["metric"] == "approval"
+                                and b["head"] and r["subject"] == b["head"]), None)
+                    if row:
+                        heads.append({"country": name, "url": url + "#lideres",
+                                      "who": row["name"][lang], "yes": row["yes"],
+                                      "no": row["no"], "net": row["net"],
+                                      "delta": row["delta"], "last": row["last"]})
+                        break
+            heads.sort(key=lambda h: -h["net"])
             # El que el mapa necessita de cada pais, en JSON dins de la pagina. Si
             # un pais te legislatives i presidencials, el mapa pinta la primera
             # que surt a sources.yaml (les legislatives); la taula les porta totes.
@@ -1127,7 +1147,8 @@ def abroad_pages(env, cfg, conn):
             view.sort(key=lambda r: (parties.slug(r["name"]), r["presidential"]))
             ncountries = len({elections[eid]["country"] for eid, _ in done}) + (1 if spain else 0)
             ctx = dict(
-                rows=view, subrows=subrows, fmt=_fmt, fdate=_fdate, ncountries=ncountries,
+                rows=view, subrows=subrows, heads=heads, fmt=_fmt, fdate=_fdate,
+                ncountries=ncountries,
                 calendar=calendar,
                 upcoming=[upcoming[k] for k in sorted(upcoming)][:10],
                 npolls=sum(r["n"] or 0 for r in view),

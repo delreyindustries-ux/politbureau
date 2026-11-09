@@ -9,10 +9,12 @@
 #           de titols, en minuscules). `subject` dona nom a la persona o al govern
 #           quan la taula nomes porta "Approve / Disapprove".
 #   rename: noms curts de la capcalera ("Magyar") -> nom sencer.
+# `head`: el cap de govern (o el govern), per a la taula comparativa de /ca/paisos/.
 # Les enquestes de mes de 120 dies no compten: un lider que ja no ho es desapareix sol.
 
 leaders:
   - id: ld-es
+    head: "Pedro Sánchez (PSOE)"
     country: ES
     election: spain
     page: Leadership opinion polling for the 2026 Spanish general election
@@ -41,6 +43,7 @@ leaders:
         tables: [{section: "all candidates > preferred prime minister"}]
 
   - id: ld-fr
+    head: "Emmanuel Macron"
     country: FR
     election: fr-pres-2027
     page: Opinion polling on the Emmanuel Macron presidency
@@ -52,6 +55,7 @@ leaders:
         tables: [{section: "macron and lecornu"}]
 
   - id: ld-it
+    head: "Giorgia Meloni"
     country: IT
     election: it-general
     page: Opinion polling for the next Italian general election
@@ -82,6 +86,7 @@ leaders:
         tables: [{section: "merz vs. weidel > chancellor polling"}]
 
   - id: ld-gb
+    head: "Andy Burnham"
     country: GB
     election: eu-gb
     page: Leadership approval opinion polling for the next United Kingdom general election
@@ -92,6 +97,7 @@ leaders:
         tables: [{section: "leadership approval", deny: ["hypothetical"]}]
 
   - id: ld-pt
+    head: "Govern Montenegro"
     country: PT
     election: eu-pt
     page: Opinion polling for the next Portuguese legislative election
@@ -106,6 +112,7 @@ leaders:
           - {section: "party leaders' approval/disapproval ratings"}
 
   - id: ld-pl
+    head: "Donald Tusk"
     country: PL
     election: eu-pl
     page: Opinion polling for the next Polish parliamentary election
@@ -140,6 +147,7 @@ leaders:
         tables: [{section: "politician approval ratings"}]
 
   - id: ld-si
+    head: "Govern Janša"
     country: SI
     election: eu-si
     page: Opinion polling for the next Slovenian parliamentary election
@@ -152,6 +160,7 @@ leaders:
              subject: {ca: "Govern Janša", es: "Gobierno Janša"}}
 
   - id: ld-ca
+    head: "Govern Carney"
     country: CA
     election: w-ca
     page: Opinion polling for the 46th Canadian federal election
@@ -166,6 +175,7 @@ leaders:
         tables: [{section: "leadership polls", deny: ["conservative leader"]}]
 
   - id: ld-au
+    head: "Anthony Albanese"
     country: AU
     election: w-au
     page: Leadership approval opinion polling for the next Australian federal election
@@ -182,6 +192,7 @@ leaders:
         tables: [{section: "preferred prime minister"}]
 
   - id: ld-nz
+    head: "Christopher Luxon"
     country: NZ
     election: w-nz
     page: Opinion polling for the 2026 New Zealand general election
@@ -198,6 +209,7 @@ leaders:
         tables: [{section: "preferred prime minister polling table"}]
 
   - id: ld-jp
+    head: "Govern Takaichi"
     country: JP
     election: w-jp
     page: Opinion polling for the next Japanese general election
@@ -213,6 +225,7 @@ leaders:
         tables: [{section: "preferred prime minister"}]
 
   - id: ld-kr
+    head: "Lee Jae-myung"
     country: KR
     election: w-kr
     page: Opinion polling on the Lee Jae Myung presidency
@@ -222,6 +235,7 @@ leaders:
         tables: [{section: "", subject: "Lee Jae-myung"}]
 
   - id: ld-tw
+    head: "Lai Ching-te"
     country: TW
     election: w-tw
     page: 2028 Taiwanese legislative election
@@ -231,6 +245,7 @@ leaders:
         tables: [{section: "approval rating"}]
 
   - id: ld-ph
+    head: "Bongbong Marcos"
     country: PH
     election: w-ph
     page: Opinion polling on the Bongbong Marcos presidency
@@ -242,6 +257,7 @@ leaders:
              subject: "Bongbong Marcos"}
 
   - id: ld-id
+    head: "Govern Prabowo"
     country: ID
     election: w-id
     page: Opinion polling for the 2029 Indonesian presidential election
@@ -253,6 +269,7 @@ leaders:
              subject: {ca: "Govern Prabowo", es: "Gobierno Prabowo"}}
 
   - id: ld-mx
+    head: "Claudia Sheinbaum"
     country: MX
     election: w-mx
     page: Opinion polling on the Sheinbaum presidency
@@ -262,6 +279,7 @@ leaders:
         tables: [{section: "presidential approval", subject: "Claudia Sheinbaum"}]
 
   - id: ld-sv
+    head: "Nayib Bukele"
     country: SV
     election: w-sv
     page: Opinion polling on the Nayib Bukele presidency

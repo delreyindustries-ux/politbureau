@@ -3,9 +3,11 @@
 {% set es = lang == 'es' %}
 <h2 id="lideres">{{ 'Valoración de los líderes' if es else 'Valoració dels líders' }}</h2>
 <p class="note">{% if es %}La última encuesta de cada instituto de los últimos 120 días; la más
-  reciente pesa más. Fuente: las tablas de Wikipedia, que recogen lo que publica cada
+  reciente pesa más. La columna «30 días» dice cuánto ha cambiado cada instituto respecto a su encuesta de hace un mes (en puntos).
+  Fuente: las tablas de Wikipedia, que recogen lo que publica cada
   instituto.{% else %}La darrera enquesta de cada institut dels últims 120 dies; la més recent
-  pesa més. Font: les taules de Wikipedia, que recullen el que publica cada institut.{% endif %}</p>
+  pesa més. La columna «30 dies» diu quant ha canviat cada institut respecte de la seva enquesta de fa un mes (en punts).
+  Font: les taules de Wikipedia, que recullen el que publica cada institut.{% endif %}</p>
 {% for b in leaders %}
 <section class="leaders">
   <h3>{{ b.title[lang] }}</h3>
@@ -25,6 +27,7 @@
       <th class="n">%</th>
       <th class="bar" aria-hidden="true"></th>
       {% endif %}
+      <th class="n" title="{{ 'Cambio respecto a la media de hace 30 días' if es else 'Canvi respecte de la mitjana de fa 30 dies' }}">{{ '30 días' if es else '30 dies' }}</th>
       <th class="n">{{ 'Encuestas' if es else 'Enquestes' }}</th>
     </tr></thead>
     <tbody>
@@ -43,6 +46,8 @@
       <td class="n">{{ fmt(r.value) }} %</td>
       <td class="bar"><span class="lb"><i class="v" style="width:{{ '%.1f'|format(r.value) }}%"></i></span></td>
       {% endif %}
+      {% set step = 0.05 if b.metric == 'score' else 0.5 %}
+      <td title="{{ r.delta_n }} {{ 'institutos' if es else 'instituts' }}" class="n {{ 'up' if r.delta is not none and r.delta >= step else ('dn' if r.delta is not none and r.delta <= -step else '') }}">{% if r.delta is none %}—{% elif r.delta >= step %}▲ {{ fmt(r.delta) if b.metric != 'score' else ('%.2f'|format(r.delta))|replace('.', ',') }}{% elif r.delta <= -step %}▼ {{ fmt(-r.delta) if b.metric != 'score' else ('%.2f'|format(-r.delta))|replace('.', ',') }}{% else %}={% endif %}</td>
       <td class="n" title="{{ r.pollsters | join(', ') }}">{{ r.n }}</td>
     </tr>
     {% endfor %}

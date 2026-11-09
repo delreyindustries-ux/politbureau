@@ -290,9 +290,12 @@ MAX_AGE = 120       # dies: hi ha paisos on la valoracio es pregunta un cop al m
 HALF_LIFE = 14
 
 
-def averages(conn, entry_id, block, limit=8):
+def averages(conn, entry_id, block, limit=8, asof=None):
     """[{subject, yes, no, net, value, n, last, pollsters}] amb la mateixa regla que
-    la intencio de vot: la darrera enquesta de cada casa, i la que es mes nova pesa mes."""
+    la intencio de vot: la darrera enquesta de cada casa, i la que es mes nova pesa mes.
+
+    `asof`: la mitjana tal com era aquell dia (nomes amb les enquestes ja acabades),
+    per veure com ha canviat."""
     try:
         rows = conn.execute(
             "SELECT subject, pos, pollster, fieldwork_end, sample_size, yes, no, value "
@@ -300,12 +303,12 @@ def averages(conn, entry_id, block, limit=8):
             (entry_id, block)).fetchall()
     except Exception:                                  # base sense la taula
         return []
-    today = dt.date.today()
+    today = asof or dt.date.today()
     by = {}
     for r in rows:
         end = dt.date.fromisoformat(r["fieldwork_end"])
         age = (today - end).days
-        if age > MAX_AGE or age < -7:
+        if age > MAX_AGE or age < (0 if asof else -7):
             continue
         key = (r["pollster"] or "").lower()
         latest = by.setdefault(r["subject"], {"pos": r["pos"], "seen": {}})
@@ -337,3 +340,47 @@ def averages(conn, entry_id, block, limit=8):
                     "pollsters": sorted({r["pollster"] for r, _a in polls})})
     out.sort(key=lambda d: (d["pos"], -d["n"]))
     return out[:limit]
+
+
+TREND_DAYS = 30
+
+
+def with_trend(conn, entry_id, block, rows):
+    """Afegeix a cada fila `delta`: com ha canviat el saldo (o el valor) en 30 dies.
+
+    Es compara cada institut amb ell mateix: la seva darrera enquesta contra la
+    darrera que tenia fa 30 dies. Comparar les dues mitjanes enganya quan hi ha
+    pocs instituts: si el mes passat no hi era el que dona notes mes altes,
+    sembla una pujada i nomes es un canvi de qui pregunta (Espanya, 09/11/2026:
+    Sanchez +13,8 punts amb tres instituts). None si cap institut ha tornat a
+    preguntar en aquests 30 dies."""
+    today = dt.date.today()
+    cut = today - dt.timedelta(days=TREND_DAYS)
+    data = conn.execute(
+        "SELECT subject, pollster, fieldwork_end, yes, no, value FROM leader_poll "
+        "WHERE entry = ? AND block = ? AND fieldwork_end >= ? ORDER BY fieldwork_end DESC",
+        (entry_id, block, (cut - dt.timedelta(days=MAX_AGE)).isoformat())).fetchall()
+    now, before = {}, {}
+    for r in data:
+        key = (r["subject"], (r["pollster"] or "").lower())
+        end = dt.date.fromisoformat(r["fieldwork_end"])
+        if (today - end).days <= MAX_AGE:
+            now.setdefault(key, r)
+        if end <= cut:
+            before.setdefault(key, r)
+
+    def metric(r):
+        if r["yes"] is not None and r["no"] is not None:
+            return r["yes"] - r["no"]
+        return r["value"]
+    for row in rows:
+        diffs = []
+        for (subject, firm), r in now.items():
+            b = before.get((subject, firm))
+            if subject != row["subject"] or not b or r["fieldwork_end"] <= cut.isoformat():
+                continue
+            if metric(r) is not None and metric(b) is not None:
+                diffs.append(metric(r) - metric(b))
+        row["delta"] = sum(diffs) / len(diffs) if diffs else None
+        row["delta_n"] = len(diffs)
+    return rows
