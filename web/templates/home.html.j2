@@ -48,6 +48,45 @@
 </section>
 {% endif %}
 
+{% if forecast %}
+{% set es = lang == 'es' %}
+{% macro prob(x) %}{% if x < 0.01 %}&lt;1{% elif x > 0.99 %}&gt;99{% else %}{{ (x * 100) | round | int }}{% endif %}&nbsp;%{% endmacro %}
+<section class="doc forecast" id="previsio">
+  <h2>{{ 'Previsión con probabilidades' if es else 'Previsió amb probabilitats' }}</h2>
+  <p class="lede small">{% if es %}Las encuestas fallan: hemos simulado las elecciones {{ forecast.n | thousands }} veces con el error típico de las medias de encuestas, circunscripción a circunscripción.{% else %}Les enquestes s'equivoquen: hem simulat les eleccions {{ forecast.n | thousands }} vegades amb l'error típic de les mitjanes d'enquestes, circumscripció a circumscripció.{% endif %}</p>
+  <div class="facts">
+    <span><b>{{ prob(forecast.blocs.right.majority) }}</b> {{ 'PP y Vox suman mayoría absoluta' if es else 'PP i Vox sumen majoria absoluta' }}</span>
+    <span><b>{{ prob(forecast.blocs.left.majority) }}</b> {{ 'la suma que invistió a Sánchez en 2023 llega a 176' if es else 'la suma que va investir Sánchez el 2023 arriba a 176' }}</span>
+    {% for r in forecast.parties[:2] %}<span><b>{{ prob(r.first) }}</b> {{ r.name }} {{ 'primer partido' if es else 'primer partit' }}</span>{% endfor %}
+    <span><b>{{ prob(forecast.pp_alone) }}</b> {{ 'mayoría absoluta del PP solo' if es else 'majoria absoluta del PP sol' }}</span>
+  </div>
+  {% set nb = forecast.bars | length %}{% set bw = 560 / nb %}
+  {% set x0 = forecast.bars[0].x %}{% set x1 = forecast.bars[-1].x %}
+  <figure class="fchart">
+    <svg viewBox="0 0 600 170" role="img" aria-label="{{ 'Escaños de PP y Vox en las simulaciones' if es else 'Escons de PP i Vox a les simulacions' }}">
+      {% for b in forecast.bars %}<rect x="{{ '%.1f'|format(20 + (b.x - x0) / (x1 - x0 + 1) * 560) }}" y="{{ '%.1f'|format(130 - b.h * 110) }}" width="{{ '%.2f'|format([560 / (x1 - x0 + 1) - 0.6, 0.6]|max) }}" height="{{ '%.1f'|format(b.h * 110) }}" class="{{ 'maj' if b.maj else '' }}"><title>{{ b.x }}</title></rect>{% endfor %}
+      {% set mx = 20 + (forecast.majority - x0) / (x1 - x0 + 1) * 560 %}
+      {% if forecast.majority >= x0 and forecast.majority <= x1 %}<line x1="{{ '%.1f'|format(mx) }}" x2="{{ '%.1f'|format(mx) }}" y1="10" y2="134" class="ml"/><text x="{{ '%.1f'|format(mx + 4) }}" y="20">{{ 'mayoría' if es else 'majoria' }} 176</text>{% endif %}
+      <line x1="20" x2="580" y1="130.5" y2="130.5" class="ax"/>
+      <text x="20" y="150">{{ x0 }}</text><text x="580" y="150" text-anchor="end">{{ x1 }}</text>
+      <text x="300" y="164" text-anchor="middle">{{ 'escaños de PP + Vox' if es else 'escons de PP + Vox' }}</text>
+    </svg>
+    <figcaption>{{ 'Cuántas simulaciones acaban con cada número de escaños de PP y Vox. A la derecha de la raya, mayoría absoluta.' if es else "Quantes simulacions acaben amb cada nombre d'escons de PP i Vox. A la dreta de la ratlla, majoria absoluta." }}</figcaption>
+  </figure>
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr><th>{{ t('party') }}</th><th class="n">{{ 'Escaños (mediana)' if es else 'Escons (mediana)' }}</th><th class="n">{{ 'Intervalo del 80 %' if es else 'Interval del 80 %' }}</th><th class="n">{{ 'Primer partido' if es else 'Primer partit' }}</th></tr></thead>
+    <tbody>
+    {% for r in forecast.parties %}
+      <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td><td class="n"><b>{{ r.median }}</b></td><td class="n">{{ r.lo }}–{{ r.hi }}</td><td class="n">{{ prob(r.first) if r.first >= 0.005 else '—' }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="note">{% if es %}<b>Cómo se calcula.</b> En cada simulación cada partido recibe un error aleatorio respecto a la media de encuestas (una desviación de unos 3 puntos para un partido del 30 % y de 1,6 para uno del 7 %), que se lleva a cada provincia con un pequeño error propio; después se aplica la ley d'Hondt en las 52 circunscripciones. El tamaño del error es una hipótesis basada en lo que fallaron las medias en 2023; lo ajustaremos con el error real del 29N. Las sumas de bloques son aritméticas, no coaliciones anunciadas.{% else %}<b>Com es calcula.</b> A cada simulació cada partit rep un error aleatori respecte de la mitjana d'enquestes (una desviació d'uns 3 punts per a un partit del 30 % i d'1,6 per a un del 7 %), que es porta a cada província amb un petit error propi; després s'aplica la llei d'Hondt a les 52 circumscripcions. La mida de l'error és una hipòtesi basada en el que van fallar les mitjanes el 2023; l'ajustarem amb l'error real del 29N. Les sumes de blocs són aritmètiques, no coalicions anunciades.{% endif %}</p>
+</section>
+{% endif %}
+
 {% if leaders %}
 <section class="doc">
 {% include "_leaders.html.j2" %}

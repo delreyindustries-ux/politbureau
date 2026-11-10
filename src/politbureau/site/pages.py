@@ -465,6 +465,21 @@ def home_page(env, cfg, data, urls, highlights):
                     """SELECT party, seats FROM seat_projection
                        WHERE election_id = ? AND level = 'chamber' AND seats > 0
                        ORDER BY seats DESC""", (ELECTION,))]
+    # Previsio amb probabilitats (pla de ruta, 10/11/2026): 5.000 simulacions.
+    # Llavor fixa: la mateixa base dona sempre les mateixes xifres.
+    from .. import forecast as forecastlib
+    try:
+        fc = forecastlib.simulate(db.connect(), ELECTION, n=forecastlib.N_SIMS, seed=2911)
+    except Exception as exc:                          # noqa: BLE001
+        print(f"      avis: previsio no calculada ({exc})")
+        fc = None
+    if fc:
+        meta = {r["code"]: r for r in congress}
+        for r in fc["parties"]:
+            m = meta.get(r["code"]) or parties.meta(r["code"], "ES", ELECTION)
+            r.update({"name": m["name"], "color": m["color"]})
+        peak = max(c for _, c in fc["right_hist"]) or 1
+        fc["bars"] = [{"x": x, "h": c / peak, "maj": x >= fc["majority"]} for x, c in fc["right_hist"]]
     if cfg.get("_abroad"):
         conn = db.connect()
         for eid in cfg["_abroad"]:
@@ -481,7 +496,7 @@ def home_page(env, cfg, data, urls, highlights):
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
             highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
-            notice=notice, subs=subs, leaders=leaders, congress=congress,
+            notice=notice, subs=subs, leaders=leaders, congress=congress, forecast=fc,
             fmt=_fmt, fdate=_fdate, regions=[
                 {"name": data["names"]["region"].get(c, c), "url": urls[("region", c)][lang]}
                 for c in sorted(data["names"]["region"],
@@ -505,6 +520,7 @@ def home_page(env, cfg, data, urls, highlights):
           '<title>Polit Bureau</title>'
           '<meta name="robots" content="noindex,follow"></head>'
           f'<body><p><a href="./{default}/">Polit Bureau</a></p></body></html>')
+    return fc
 
 
 def _redirect(target, cfg):
@@ -529,7 +545,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "strongholds", "method", "legal", "privacy", "cookies")]
         if cfg.get("_abroad"):
             elections = abroad_elections()
             entries += [abroad_url(elections[e], lang) for e in cfg["_abroad"]]

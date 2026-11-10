@@ -150,13 +150,16 @@ def run(clean=True):
         print(f"     {skipped} territoris sense dades, exclosos de tot el lloc")
 
     print("3/6  Portada, mapa, metodologia i legals")
-    pagemod.home_page(env, cfg, data, urls, summary_highlights(cfg))
+    fc = pagemod.home_page(env, cfg, data, urls, summary_highlights(cfg))
     pagemod.map_page(env, cfg)
     pagemod.method_page(env, cfg, site_stats(conn))
     n_part = pagemod.participation_page(env, cfg, urls)
     pagemod.strongholds_page(env, cfg, urls)
     pagemod.senate_page(env, cfg, urls, data.get("senate"))
     pagemod.society_page(env, cfg, conn)
+    from . import opendata
+    n_files = opendata.opendata_page(env, cfg, conn, fc)
+    print(f"     dades obertes: {n_files} fitxers CSV a dist/dades/")
     abroad = pagemod.abroad_pages(env, cfg, conn)
     if abroad:
         print(f"     enquestes d'Europa: {len(abroad)} ({', '.join(abroad)})")

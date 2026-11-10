@@ -453,3 +453,13 @@ figure.chamber svg.fac{width:92px;flex:none;overflow:visible}
 .chamber.still *{transition:none!important;animation:none!important}
 .chamber.still .cloth,.chamber.still .tiles{transform:none}
 @media (prefers-reduced-motion: reduce){.chamber *{transition:none!important;animation:none!important}}
+
+/* ------------------------------------------- previsio amb probabilitats */
+figure.fchart{margin:10px 0 14px;max-width:640px}
+figure.fchart svg{display:block;width:100%;height:auto}
+figure.fchart rect{fill:var(--faint)}
+figure.fchart rect.maj{fill:var(--accent)}
+figure.fchart .ml{stroke:var(--ink);stroke-dasharray:3 3;opacity:.7}
+figure.fchart .ax{stroke:var(--line)}
+figure.fchart text{fill:var(--dim);font-size:11px}
+figure.fchart figcaption{font-size:13px;color:var(--dim)}

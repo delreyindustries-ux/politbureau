@@ -1,0 +1,35 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
+  <h1>{{ 'Datos abiertos' if es else 'Dades obertes' }}</h1>
+  <p class="lede">{% if es %}Todo lo que muestra Polit Bureau, en bruto y para descargar: las encuestas una a una, las medias y las estimaciones. Para comprobarlo, reutilizarlo o mejorarlo.{% else %}Tot el que mostra Polit Bureau, en brut i per descarregar: les enquestes una a una, les mitjanes i les estimacions. Per comprovar-ho, reutilitzar-ho o millorar-ho.{% endif %}</p>
+
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr>
+      <th>{{ 'Fichero' if es else 'Fitxer' }}</th>
+      <th>{{ 'Qué contiene' if es else 'Què conté' }}</th>
+      <th class="n">{{ 'Filas' if es else 'Files' }}</th>
+      <th class="n">{{ 'Tamaño' if es else 'Mida' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for f in files %}
+    <tr>
+      <td><a href="{{ root }}dades/{{ f.file }}" download>{{ f.file }}</a><br><a class="fine" href="{{ root }}dades/{{ f.file }}.gz" download>.gz</a></td>
+      <td style="white-space:normal">{{ f.desc }}</td>
+      <td class="n">{{ f.rows | thousands }}</td>
+      <td class="n">{{ f.kb | thousands }} KB</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{{ 'Actualizado el' if es else 'Actualitzat el' }} {{ today }}. {{ 'Se regeneran cada vez que se actualiza la web. Codificación UTF-8, separador coma, decimales con punto.' if es else "Es regeneren cada cop que s'actualitza la web. Codificació UTF-8, separador coma, decimals amb punt." }}</p>
+
+  <h2>{{ 'Licencia y cita' if es else 'Llicència i cita' }}</h2>
+  <p>{% if es %}Los datos se publican con licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" rel="noopener">CC BY-SA 4.0</a>, la misma que las tablas de encuestas de Wikipedia de donde salen las encuestas: puedes usarlos, también comercialmente, si citas la fuente y compartes con la misma licencia lo que hagas con ellos. Cita sugerida: «Polit Bureau (politbureau.es), datos de {{ today }}».{% else %}Les dades es publiquen amb llicència <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ca" rel="noopener">CC BY-SA 4.0</a>, la mateixa que les taules d'enquestes de la Viquipèdia d'on surten les enquestes: les pots fer servir, també comercialment, si cites la font i comparteixes amb la mateixa llicència el que en facis. Cita suggerida: «Polit Bureau (politbureau.es), dades del {{ today }}».{% endif %}</p>
+  <p class="note">{% if es %}Las encuestas son de cada instituto: el enlace de la columna «font» lleva a la tabla de Wikipedia donde se recogieron. Los resultados de base son del Ministerio del Interior. Cómo se calcula cada cifra: <a href="{{ root }}{{ lang }}/{{ page('method') }}/">metodología</a>.{% else %}Les enquestes són de cada institut: l'enllaç de la columna «font» porta a la taula de la Viquipèdia on es van recollir. Els resultats de base són del Ministeri de l'Interior. Com es calcula cada xifra: <a href="{{ root }}{{ lang }}/{{ page('method') }}/">metodologia</a>.{% endif %}</p>
+</article>
+{% endblock %}
