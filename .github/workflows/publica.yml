@@ -113,3 +113,7 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # La web ja passa dels 20.000 fitxers: amb els 10 minuts per defecte
+          # la copia de GitHub Pages no acabava (10/11/2026).
+          timeout: 1800000
