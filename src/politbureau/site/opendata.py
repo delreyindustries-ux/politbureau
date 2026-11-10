@@ -83,6 +83,17 @@ def build_files(conn, forecast=None) -> list[dict]:
                 WHERE election_id = ? AND level = 'municipality'
                 ORDER BY code, share DESC""", (ELECTION,))))))
 
+    from .. import pollsters
+    rating = pollsters.load()
+    if rating:
+        files.append(dict(key="pollsters", **_write(
+            "instituts-valoracio.csv",
+            ["eleccio", "data_eleccio", "institut", "client", "fi_camp", "mostra", "partit",
+             "enquesta", "resultat", "error_mitja_enquesta", "mes_menys"],
+            ((e["id"], e["date"], r["pollster"], r["client"] or "", r["end"], r["sample"] or "",
+              k, v, e["result"][k], r["mae"], r["plus_minus"])
+             for e in rating["elections"] for r in e["polls"] for k, v in r["shares"].items()))))
+
     if forecast:
         files.append(dict(key="forecast", **_write(
             "congres-2026-previsio.csv",
@@ -102,13 +113,83 @@ _DESC = {
               "ca": "Generals del 29N: escons estimats en total i a cada província (llei d'Hondt)."},
     "municipalities": {"es": "Generales del 29N: estimación de voto en cada uno de los municipios, por código INE.",
                        "ca": "Generals del 29N: estimació de vot a cadascun dels municipis, per codi INE."},
+    "pollsters": {"es": "Valoración de los institutos: la última encuesta de cada uno antes de las generales de 2016, 2019 y 2023 frente al resultado oficial.",
+                  "ca": "Valoració dels instituts: l'última enquesta de cadascun abans de les generals del 2016, el 2019 i el 2023 davant del resultat oficial."},
     "forecast": {"es": "Generales del 29N: previsión con probabilidades (mediana, intervalo del 80 % y probabilidad de ser primer partido).",
                  "ca": "Generals del 29N: previsió amb probabilitats (mediana, interval del 80 % i probabilitat de ser primer partit)."},
 }
 
 
+API = DIST / "api" / "v1"
+LICENCE = {"name": "CC BY-SA 4.0", "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+           "attribution": "Polit Bureau (politbureau.es)"}
+
+
+def _json(path, obj):
+    import json
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
+def build_api(conn, forecast=None) -> int:
+    """API de nomes lectura: fitxers JSON estatics a /api/v1/, regenerats amb la web.
+
+    index.json      llista d'eleccions amb l'enllac a la mitjana de cadascuna
+    mitjanes/<id>.json  mitjana per territori (minim i maxim entre instituts)
+    congres-2026.json   escons estimats (total i per provincia) i previsio
+    instituts.json      valoracio dels instituts (config/pollster_ratings.json)
+    """
+    from .. import pollsters
+
+    updated = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    meta = {"updated": updated, "licence": LICENCE}
+    counts = dict(conn.execute(
+        "SELECT election_id, COUNT(*) FROM poll GROUP BY election_id").fetchall())
+    countries = dict(conn.execute("SELECT DISTINCT election_id, country FROM poll").fetchall())
+    by: dict[str, dict] = {}
+    for r in conn.execute("""SELECT * FROM aggregate ORDER BY election_id, scope_code, share DESC"""):
+        if countries.get(r["election_id"]) in EXCLUDED or r["election_id"] not in countries:
+            continue
+        e = by.setdefault(r["election_id"], {})
+        e.setdefault(r["scope_code"] or "", []).append(
+            {"party": r["party"], "share": r["share"], "min": r["lo"], "max": r["hi"],
+             "polls": r["n_polls"]})
+    n = 0
+    for eid, scopes in by.items():
+        _json(API / "mitjanes" / f"{eid}.json",
+              {**meta, "election": eid, "country": countries[eid], "scopes": scopes})
+        n += 1
+    _json(API / "index.json", {**meta, "elections": [
+        {"id": eid, "country": countries[eid], "polls": counts.get(eid, 0),
+         "average": f"/api/v1/mitjanes/{eid}.json"} for eid in sorted(by)],
+        "congress_2026": "/api/v1/congres-2026.json", "pollsters": "/api/v1/instituts.json"})
+    seats: dict[str, dict] = {}
+    for r in conn.execute("""SELECT level, code, party, seats FROM seat_projection
+                             WHERE election_id = ? ORDER BY level, code, seats DESC""", (ELECTION,)):
+        key = "total" if r["level"] == "chamber" else r["code"]
+        seats.setdefault(key, {})[r["party"]] = r["seats"]
+    fc = None
+    if forecast:
+        fc = {"simulations": forecast["n"], "majority": forecast["majority"],
+              "blocs": {k: {"majority_probability": round(v["majority"], 4)}
+                        for k, v in forecast["blocs"].items()},
+              "parties": [{"party": r["code"], "median": r["median"], "p10": r["lo"],
+                           "p90": r["hi"], "first_probability": round(r["first"], 4)}
+                          for r in forecast["parties"]]}
+    _json(API / "congres-2026.json", {**meta, "election": ELECTION, "date": "2026-11-29",
+                                      "seats": seats, "forecast": fc})
+    rating = pollsters.load()
+    if rating:
+        _json(API / "instituts.json", {**meta, "computed": rating["computed"],
+                                       "ratings": rating["ratings"],
+                                       "elections": rating["elections"]})
+    return n + 3
+
+
 def opendata_page(env, cfg, conn, forecast=None):
     files = build_files(conn, forecast)
+    n_api = build_api(conn, forecast)
+    print(f"     api: {n_api} fitxers JSON a dist/api/v1/")
     today = dt.date.today().isoformat()
     for lang in i18n.LANGS:
         canonical = i18n.page_url("opendata", lang)

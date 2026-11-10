@@ -1,0 +1,137 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
+  <h1>{{ 'Valoración de los institutos de encuestas' if es else "Valoració dels instituts d'enquestes" }}</h1>
+  <p class="lede">{% if es %}¿Quién acierta más? Hemos comparado la última encuesta de cada instituto antes de las cuatro últimas elecciones generales con el resultado oficial.{% else %}Qui l'encerta més? Hem comparat l'última enquesta de cada institut abans de les quatre últimes eleccions generals amb el resultat oficial.{% endif %}</p>
+
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr>
+      <th>{{ 'Elección' if es else 'Elecció' }}</th>
+      <th class="n">{{ 'Institutos' if es else 'Instituts' }}</th>
+      <th class="n">{{ 'Error del instituto medio' if es else "Error de l'institut mitjà" }}</th>
+      <th class="n">{{ 'Error de la media de encuestas' if es else "Error de la mitjana d'enquestes" }}</th>
+    </tr></thead>
+    <tbody>
+    {% for e in elections %}
+    <tr>
+      <td><a href="#{{ e.id }}">{{ e.label }}</a></td>
+      <td class="n">{{ e.polls | length }}</td>
+      <td class="n">{{ fmt(e.mean_mae) }}</td>
+      <td class="n"><b>{{ fmt(e.average_mae) }}</b></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="note">{% if es %}Puntos de error medio por partido. En {{ beat }} de las {{ elections | length }} elecciones la media simple de las encuestas se equivocó menos que el instituto típico: por eso Polit Bureau publica medias y no encuestas sueltas.{% else %}Punts d'error mitjà per partit. A {{ beat }} de les {{ elections | length }} eleccions la mitjana simple de les enquestes es va equivocar menys que l'institut típic: per això Polit Bureau publica mitjanes i no enquestes soltes.{% endif %}</p>
+
+  <h2>{{ 'Clasificación' if es else 'Classificació' }}</h2>
+  <p>{% if es %}Institutos con encuesta en al menos {{ min_elections }} de las cuatro elecciones, ordenados por el «más-menos»: cuántos puntos se equivocan más (+) o menos (−) que el resto de institutos en la misma elección, de media.{% else %}Instituts amb enquesta en almenys {{ min_elections }} de les quatre eleccions, ordenats pel «més-menys»: quants punts s'equivoquen més (+) o menys (−) que la resta d'instituts a la mateixa elecció, de mitjana.{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr>
+      <th class="n">#</th>
+      <th>{{ 'Instituto' if es else 'Institut' }}</th>
+      <th>{{ 'Elecciones' if es else 'Eleccions' }}</th>
+      <th class="n">{{ 'Más-menos' if es else 'Més-menys' }}</th>
+      <th class="n">{{ 'Error medio' if es else 'Error mitjà' }}</th>
+      <th class="n">{{ 'Error en la distancia 1.º–2.º' if es else 'Error en la distància 1r–2n' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in rated %}
+    <tr>
+      <td class="n">{{ loop.index }}</td>
+      <td>{{ r.pollster }}</td>
+      <td style="white-space:normal">{{ r.labels | join(', ') }}</td>
+      <td class="n"><b>{{ signed(r.plus_minus) }}</b></td>
+      <td class="n">{{ fmt(r.mae) }}</td>
+      <td class="n">{{ fmt(r.lead) }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{% if es %}Todas las cifras en puntos porcentuales. «Distancia 1.º–2.º»: cuánto falló la ventaja del primer partido sobre el segundo (PP–PSOE en 2016 y 2023; PSOE–PP en 2019). Las diferencias pequeñas, de unas décimas, no son significativas: con cuatro elecciones, la suerte pesa.{% else %}Totes les xifres en punts percentuals. «Distància 1r–2n»: quant va fallar l'avantatge del primer partit sobre el segon (PP–PSOE el 2016 i el 2023; PSOE–PP el 2019). Les diferències petites, d'unes dècimes, no són significatives: amb quatre eleccions, la sort hi pesa.{% endif %}</p>
+
+  <h2>{{ 'Elección a elección' if es else 'Elecció a elecció' }}</h2>
+  {% for e in elections %}
+  <details id="{{ e.id }}"{% if loop.last %} open{% endif %}>
+    <summary><b>{{ e.label }}</b> · {{ e.polls | length }} {{ 'institutos' if es else 'instituts' }}</summary>
+    <div class="tablewrap">
+    <table class="results">
+      <thead><tr>
+        <th>{{ 'Instituto' if es else 'Institut' }}</th>
+        <th class="n">{{ 'Fin del campo' if es else 'Fi del camp' }}</th>
+        {% for p in e.parties %}<th class="n"><span class="sw" style="background:{{ p.color }}"></span>{{ p.name }}</th>{% endfor %}
+        <th class="n">Error</th>
+      </tr></thead>
+      <tbody>
+      <tr>
+        <td><b>{{ 'Resultado oficial' if es else 'Resultat oficial' }}</b></td>
+        <td class="n">{{ fdate(e.date) }}</td>
+        {% for p in e.parties %}<td class="n"><b>{{ fmt(e.result[p.code]) }}</b></td>{% endfor %}
+        <td class="n">—</td>
+      </tr>
+      <tr>
+        <td><i>{{ 'Media simple de las encuestas' if es else 'Mitjana simple de les enquestes' }}</i></td>
+        <td class="n"></td>
+        {% for p in e.parties %}<td class="n"><i>{{ fmt(e.average[p.code]) }}</i></td>{% endfor %}
+        <td class="n"><i>{{ fmt(e.average_mae) }}</i></td>
+      </tr>
+      {% for r in e.polls %}
+      <tr>
+        <td>{{ r.pollster }}{% if r.client and r.client != r.pollster %} <span class="fine">({{ r.client }})</span>{% endif %}</td>
+        <td class="n">{{ fdate(r.end) }}</td>
+        {% for p in e.parties %}<td class="n">{{ fmt(r.shares.get(p.code)) }}</td>{% endfor %}
+        <td class="n"><b>{{ fmt(r.mae) }}</b></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="fine">{{ 'Encuestas:' if es else 'Enquestes:' }} <a href="{{ e.source }}" rel="noopener">Wikipedia</a> (CC BY-SA 4.0). {{ 'Resultado: Ministerio del Interior, con el voto CERA.' if es else 'Resultat: Ministeri de l’Interior, amb el vot CERA.' }}</p>
+  </details>
+  {% endfor %}
+
+  {% if others %}
+  <h2>{{ 'Institutos con una sola elección' if es else 'Instituts amb una sola elecció' }}</h2>
+  <p>{{ 'Con un solo examen no hay bastante para clasificarlos.' if es else 'Amb un sol examen no n’hi ha prou per classificar-los.' }}</p>
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr>
+      <th>{{ 'Instituto' if es else 'Institut' }}</th>
+      <th>{{ 'Elección' if es else 'Elecció' }}</th>
+      <th class="n">{{ 'Más-menos' if es else 'Més-menys' }}</th>
+      <th class="n">{{ 'Error medio' if es else 'Error mitjà' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for r in others %}
+    <tr><td>{{ r.pollster }}</td><td>{{ r.labels | join(', ') }}</td><td class="n">{{ signed(r.plus_minus) }}</td><td class="n">{{ fmt(r.mae) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% endif %}
+
+  <h2>{{ 'Cómo se calcula' if es else 'Com es calcula' }}</h2>
+  <ul>
+  {% if es %}
+    <li>De cada instituto se toma su <b>última encuesta</b> con el trabajo de campo terminado en los {{ window }} días anteriores a la elección. Los sondeos a pie de urna del mismo día no cuentan, ni las encuestas internas de los partidos.</li>
+    <li>El <b>error</b> de una encuesta es la media del error absoluto, en puntos, de los partidos que sacaron al menos el {{ main_share | int }} % del voto válido. Una encuesta tiene que dar al menos cuatro de ellos.</li>
+    <li>El <b>más-menos</b> resta al error de cada instituto el error medio de todos los institutos en la misma elección, para que una elección difícil no castigue a quien solo se presentó a esa.</li>
+    <li>Unidas Podemos incluye En Comú Podem, como en las tablas de Wikipedia. Las reestimaciones de datos del CIS hechas por otro instituto cuentan para ese instituto.</li>
+    <li>La macroencuesta preelectoral del CIS suele terminar el campo más de tres semanas antes: por eso el CIS solo entra en 2023.</li>
+  {% else %}
+    <li>De cada institut es pren la seva <b>última enquesta</b> amb el treball de camp acabat els {{ window }} dies abans de l'elecció. Els sondejos a peu d'urna del mateix dia no compten, ni les enquestes internes dels partits.</li>
+    <li>L'<b>error</b> d'una enquesta és la mitjana de l'error absolut, en punts, dels partits que van treure almenys el {{ main_share | int }} % del vot vàlid. Una enquesta n'ha de donar almenys quatre.</li>
+    <li>El <b>més-menys</b> resta a l'error de cada institut l'error mitjà de tots els instituts a la mateixa elecció, perquè una elecció difícil no castigui qui només es va presentar a aquella.</li>
+    <li>Unidas Podemos inclou En Comú Podem, com a les taules de la Viquipèdia. Les reestimacions de dades del CIS fetes per un altre institut compten per a aquell institut.</li>
+    <li>La macroenquesta preelectoral del CIS sol acabar el camp més de tres setmanes abans: per això el CIS només hi entra el 2023.</li>
+  {% endif %}
+  </ul>
+  <p class="note">{% if es %}Encuestas: tablas de Wikipedia en inglés (CC BY-SA 4.0). Resultados: <a href="https://infoelectoral.interior.gob.es/" rel="noopener">Ministerio del Interior</a>. Calculado el {{ fdate(computed) }}; tras el 29N se añadirá la elección de 2026. Los datos, en <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">datos abiertos</a>.{% else %}Enquestes: taules de la Viquipèdia en anglès (CC BY-SA 4.0). Resultats: <a href="https://infoelectoral.interior.gob.es/" rel="noopener">Ministeri de l'Interior</a>. Calculat el {{ fdate(computed) }}; després del 29N s'hi afegirà l'elecció del 2026. Les dades, a <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">dades obertes</a>.{% endif %}</p>
+</article>
+{% endblock %}

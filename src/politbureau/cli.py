@@ -93,6 +93,15 @@ def cmd_site(args):
     run(clean=not args.keep)
 
 
+def cmd_instituts(args):
+    from . import pollsters
+    data = pollsters.run()
+    for e in data["elections"]:
+        print(f"{e['id']}: {len(e['polls'])} instituts, error mitja {e['mean_mae']} punts, "
+              f"mitjana d'enquestes {e['average_mae']}")
+    print(f"desat a {pollsters.OUT}")
+
+
 def cmd_check(args):
     from .site.check import run
     return run()
@@ -159,6 +168,8 @@ def main(argv=None):
     p.add_argument("--keep", action="store_true", help="no esborrar dist/ abans")
     p.set_defaults(func=cmd_site)
 
+    sub.add_parser("instituts", help="valoracio dels instituts d'enquestes (Wikipedia + Ministeri)"
+                   ).set_defaults(func=cmd_instituts)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)
 
     p = sub.add_parser("serve", help="arrenca el mapa a l'ordinador")

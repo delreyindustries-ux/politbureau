@@ -1,0 +1,1898 @@
+{
+ "computed": "2026-11-10",
+ "window_days": 21,
+ "main_share": 3.0,
+ "names": {
+  "CS": "Ciudadanos",
+  "PODEMOS": "Unidas Podemos",
+  "SUMAR": "Sumar"
+ },
+ "elections": [
+  {
+   "id": "congreso-2016",
+   "date": "2016-06-26",
+   "source": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2016_Spanish_general_election",
+   "main": [
+    "PP",
+    "PSOE",
+    "PODEMOS",
+    "CS"
+   ],
+   "result": {
+    "PP": 33.01,
+    "PSOE": 22.63,
+    "PODEMOS": 21.15,
+    "CS": 13.06
+   },
+   "average": {
+    "PP": 29.69,
+    "PSOE": 21.27,
+    "PODEMOS": 24.68,
+    "CS": 14.15
+   },
+   "average_mae": 2.33,
+   "mean_mae": 2.35,
+   "polls": [
+    {
+     "pollster": "NC Report",
+     "client": null,
+     "end": "2016-06-25",
+     "sample": null,
+     "mae": 1.09,
+     "lead": -0.48,
+     "shares": {
+      "PP": 31.9,
+      "PSOE": 22.0,
+      "PODEMOS": 23.7,
+      "CS": 13.0
+     },
+     "plus_minus": -1.26
+    },
+    {
+     "pollster": "Encuestamos",
+     "client": null,
+     "end": "2016-06-19",
+     "sample": 2400,
+     "mae": 1.58,
+     "lead": -1.78,
+     "shares": {
+      "PP": 30.6,
+      "PSOE": 22.0,
+      "PODEMOS": 23.9,
+      "CS": 13.6
+     },
+     "plus_minus": -0.77
+    },
+    {
+     "pollster": "SyM Consulting",
+     "client": "Valencia Plaza",
+     "end": "2016-06-10",
+     "sample": 1816,
+     "mae": 1.79,
+     "lead": -3.58,
+     "shares": {
+      "PP": 29.7,
+      "PSOE": 22.9,
+      "PODEMOS": 24.4,
+      "CS": 13.4
+     },
+     "plus_minus": -0.56
+    },
+    {
+     "pollster": "GAD3",
+     "client": "ABC",
+     "end": "2016-06-24",
+     "sample": 4000,
+     "mae": 1.81,
+     "lead": -1.78,
+     "shares": {
+      "PP": 30.4,
+      "PSOE": 21.8,
+      "PODEMOS": 24.8,
+      "CS": 13.2
+     },
+     "plus_minus": -0.54
+    },
+    {
+     "pollster": "JM&A",
+     "client": "Público",
+     "end": "2016-06-19",
+     "sample": null,
+     "mae": 1.83,
+     "lead": -2.68,
+     "shares": {
+      "PP": 29.8,
+      "PSOE": 22.1,
+      "PODEMOS": 23.9,
+      "CS": 13.9
+     },
+     "plus_minus": -0.52
+    },
+    {
+     "pollster": "Celeste-Tel",
+     "client": "eldiario.es",
+     "end": "2016-06-17",
+     "sample": 1100,
+     "mae": 1.93,
+     "lead": -1.68,
+     "shares": {
+      "PP": 30.5,
+      "PSOE": 21.8,
+      "PODEMOS": 25.3,
+      "CS": 13.3
+     },
+     "plus_minus": -0.42
+    },
+    {
+     "pollster": "Simple Lógica",
+     "client": null,
+     "end": "2016-06-15",
+     "sample": 1226,
+     "mae": 2.16,
+     "lead": -3.68,
+     "shares": {
+      "PP": 29.2,
+      "PSOE": 22.5,
+      "PODEMOS": 23.5,
+      "CS": 15.4
+     },
+     "plus_minus": -0.19
+    },
+    {
+     "pollster": "GIPEyOP",
+     "client": null,
+     "end": "2016-06-20",
+     "sample": 10244,
+     "mae": 2.33,
+     "lead": -3.18,
+     "shares": {
+      "PP": 27.8,
+      "PSOE": 20.6,
+      "PODEMOS": 23.0,
+      "CS": 13.3
+     },
+     "plus_minus": -0.02
+    },
+    {
+     "pollster": "GESOP",
+     "client": "El Periòdic",
+     "end": "2016-06-25",
+     "sample": 1000,
+     "mae": 2.38,
+     "lead": -3.28,
+     "shares": {
+      "PP": 28.7,
+      "PSOE": 21.6,
+      "PODEMOS": 23.9,
+      "CS": 14.5
+     },
+     "plus_minus": 0.03
+    },
+    {
+     "pollster": "Hamalgama Métrica",
+     "client": "La Provincia",
+     "end": "2016-06-17",
+     "sample": 1450,
+     "mae": 2.46,
+     "lead": -0.98,
+     "shares": {
+      "PP": 30.4,
+      "PSOE": 21.0,
+      "PODEMOS": 26.2,
+      "CS": 12.5
+     },
+     "plus_minus": 0.11
+    },
+    {
+     "pollster": "Netquest",
+     "client": "El Español",
+     "end": "2016-06-17",
+     "sample": 2000,
+     "mae": 2.46,
+     "lead": -0.38,
+     "shares": {
+      "PP": 30.4,
+      "PSOE": 20.4,
+      "PODEMOS": 24.0,
+      "CS": 15.2
+     },
+     "plus_minus": 0.11
+    },
+    {
+     "pollster": "Sigma Dos",
+     "client": "El Mundo",
+     "end": "2016-06-16",
+     "sample": 1500,
+     "mae": 2.46,
+     "lead": 0.12,
+     "shares": {
+      "PP": 30.5,
+      "PSOE": 20.0,
+      "PODEMOS": 24.8,
+      "CS": 14.1
+     },
+     "plus_minus": 0.11
+    },
+    {
+     "pollster": "Sondaxe",
+     "client": "La Voz de Galicia",
+     "end": "2016-06-09",
+     "sample": 1005,
+     "mae": 2.54,
+     "lead": -2.58,
+     "shares": {
+      "PP": 29.2,
+      "PSOE": 21.4,
+      "PODEMOS": 26.1,
+      "CS": 12.9
+     },
+     "plus_minus": 0.19
+    },
+    {
+     "pollster": "TNS Demoscopia",
+     "client": null,
+     "end": "2016-06-19",
+     "sample": 500,
+     "mae": 2.58,
+     "lead": -1.78,
+     "shares": {
+      "PP": 29.6,
+      "PSOE": 21.0,
+      "PODEMOS": 24.7,
+      "CS": 14.8
+     },
+     "plus_minus": 0.23
+    },
+    {
+     "pollster": "Redondo & Asociados",
+     "client": "Expansión",
+     "end": "2016-06-19",
+     "sample": null,
+     "mae": 2.63,
+     "lead": -2.48,
+     "shares": {
+      "PP": 29.4,
+      "PSOE": 21.5,
+      "PODEMOS": 24.9,
+      "CS": 15.1
+     },
+     "plus_minus": 0.28
+    },
+    {
+     "pollster": "Advice Strategic",
+     "client": "Europa Press",
+     "end": "2016-06-15",
+     "sample": 2500,
+     "mae": 2.81,
+     "lead": -1.28,
+     "shares": {
+      "PP": 29.6,
+      "PSOE": 20.5,
+      "PODEMOS": 25.1,
+      "CS": 14.8
+     },
+     "plus_minus": 0.46
+    },
+    {
+     "pollster": "InvyMark",
+     "client": "laSexta",
+     "end": "2016-06-19",
+     "sample": 1200,
+     "mae": 2.83,
+     "lead": -0.18,
+     "shares": {
+      "PP": 30.1,
+      "PSOE": 19.9,
+      "PODEMOS": 26.1,
+      "CS": 13.8
+     },
+     "plus_minus": 0.48
+    },
+    {
+     "pollster": "MyWord",
+     "client": "Cadena SER",
+     "end": "2016-06-16",
+     "sample": 1502,
+     "mae": 2.83,
+     "lead": -1.88,
+     "shares": {
+      "PP": 28.9,
+      "PSOE": 20.4,
+      "PODEMOS": 24.8,
+      "CS": 14.4
+     },
+     "plus_minus": 0.48
+    },
+    {
+     "pollster": "A+M",
+     "client": "20minutos",
+     "end": "2016-06-17",
+     "sample": 4000,
+     "mae": 2.86,
+     "lead": -3.28,
+     "shares": {
+      "PP": 28.8,
+      "PSOE": 21.7,
+      "PODEMOS": 24.3,
+      "CS": 16.2
+     },
+     "plus_minus": 0.51
+    },
+    {
+     "pollster": "DYM",
+     "client": "El Confidencial",
+     "end": "2016-06-15",
+     "sample": 1011,
+     "mae": 2.88,
+     "lead": -2.38,
+     "shares": {
+      "PP": 29.0,
+      "PSOE": 21.0,
+      "PODEMOS": 24.9,
+      "CS": 15.2
+     },
+     "plus_minus": 0.53
+    },
+    {
+     "pollster": "Metroscopia",
+     "client": "El País",
+     "end": "2016-06-15",
+     "sample": 1800,
+     "mae": 3.11,
+     "lead": -1.88,
+     "shares": {
+      "PP": 29.0,
+      "PSOE": 20.5,
+      "PODEMOS": 26.0,
+      "CS": 14.5
+     },
+     "plus_minus": 0.76
+    }
+   ]
+  },
+  {
+   "id": "congreso-2019a",
+   "date": "2019-04-28",
+   "source": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_April_2019_Spanish_general_election",
+   "main": [
+    "PSOE",
+    "PP",
+    "CS",
+    "PODEMOS",
+    "VOX",
+    "ERC"
+   ],
+   "result": {
+    "PSOE": 28.67,
+    "PP": 16.69,
+    "CS": 15.86,
+    "PODEMOS": 14.32,
+    "VOX": 10.26,
+    "ERC": 3.89
+   },
+   "average": {
+    "PSOE": 28.28,
+    "PP": 20.31,
+    "CS": 14.91,
+    "PODEMOS": 13.89,
+    "VOX": 11.09,
+    "ERC": 3.12
+   },
+   "average_mae": 1.17,
+   "mean_mae": 1.6,
+   "polls": [
+    {
+     "pollster": "SocioMétrica",
+     "client": "El Español",
+     "end": "2019-04-27",
+     "sample": 3600,
+     "mae": 1.02,
+     "lead": -1.98,
+     "shares": {
+      "PSOE": 27.9,
+      "PP": 17.9,
+      "CS": 16.0,
+      "PODEMOS": 16.5,
+      "VOX": 11.0,
+      "ERC": 2.8
+     },
+     "plus_minus": -0.58
+    },
+    {
+     "pollster": "DYM",
+     "client": "El Independiente",
+     "end": "2019-04-17",
+     "sample": 1025,
+     "mae": 1.03,
+     "lead": -3.38,
+     "shares": {
+      "PSOE": 29.0,
+      "PP": 20.4,
+      "CS": 15.5,
+      "PODEMOS": 13.7,
+      "VOX": 10.4
+     },
+     "plus_minus": -0.57
+    },
+    {
+     "pollster": "Metroscopia",
+     "client": "Henneo",
+     "end": "2019-04-16",
+     "sample": 4775,
+     "mae": 1.04,
+     "lead": -2.48,
+     "shares": {
+      "PSOE": 29.1,
+      "PP": 19.6,
+      "CS": 14.2,
+      "PODEMOS": 14.3,
+      "VOX": 11.1,
+      "ERC": 3.5
+     },
+     "plus_minus": -0.56
+    },
+    {
+     "pollster": "El Español",
+     "client": null,
+     "end": "2019-04-26",
+     "sample": null,
+     "mae": 1.05,
+     "lead": -2.98,
+     "shares": {
+      "PSOE": 27.0,
+      "PP": 18.0,
+      "CS": 15.0,
+      "PODEMOS": 15.0,
+      "VOX": 11.0
+     },
+     "plus_minus": -0.55
+    },
+    {
+     "pollster": "KeyData",
+     "client": "Público",
+     "end": "2019-04-22",
+     "sample": null,
+     "mae": 1.16,
+     "lead": -2.98,
+     "shares": {
+      "PSOE": 29.4,
+      "PP": 20.4,
+      "CS": 15.3,
+      "PODEMOS": 13.1,
+      "VOX": 10.4,
+      "ERC": 3.3
+     },
+     "plus_minus": -0.44
+    },
+    {
+     "pollster": "40dB",
+     "client": "El País",
+     "end": "2019-04-18",
+     "sample": 2000,
+     "mae": 1.16,
+     "lead": -0.98,
+     "shares": {
+      "PSOE": 28.8,
+      "PP": 17.8,
+      "CS": 14.1,
+      "PODEMOS": 13.2,
+      "VOX": 12.5,
+      "ERC": 3.3
+     },
+     "plus_minus": -0.44
+    },
+    {
+     "pollster": "Sigma Dos",
+     "client": "El Mundo",
+     "end": "2019-04-17",
+     "sample": 8000,
+     "mae": 1.19,
+     "lead": -1.78,
+     "shares": {
+      "PSOE": 30.3,
+      "PP": 20.1,
+      "CS": 15.0,
+      "PODEMOS": 13.2,
+      "VOX": 10.2,
+      "ERC": 3.8
+     },
+     "plus_minus": -0.41
+    },
+    {
+     "pollster": "GAD3",
+     "client": "RTVE–FORTA",
+     "end": "2019-04-27",
+     "sample": 12000,
+     "mae": 1.28,
+     "lead": -1.68,
+     "shares": {
+      "PSOE": 28.1,
+      "PP": 17.8,
+      "CS": 14.4,
+      "PODEMOS": 16.1,
+      "VOX": 12.4,
+      "ERC": 3.3
+     },
+     "plus_minus": -0.32
+    },
+    {
+     "pollster": "Sondaxe",
+     "client": "La Voz de Galicia",
+     "end": "2019-04-18",
+     "sample": 1000,
+     "mae": 1.32,
+     "lead": 0.62,
+     "shares": {
+      "PSOE": 30.9,
+      "PP": 18.3,
+      "CS": 13.8,
+      "PODEMOS": 13.6,
+      "VOX": 10.5,
+      "ERC": 2.8
+     },
+     "plus_minus": -0.28
+    },
+    {
+     "pollster": "InvyMark",
+     "client": "laSexta",
+     "end": "2019-04-19",
+     "sample": null,
+     "mae": 1.55,
+     "lead": -4.28,
+     "shares": {
+      "PSOE": 28.1,
+      "PP": 20.4,
+      "CS": 15.2,
+      "PODEMOS": 13.0,
+      "VOX": 12.7,
+      "ERC": 3.3
+     },
+     "plus_minus": -0.05
+    },
+    {
+     "pollster": "IMOP",
+     "client": "COPE",
+     "end": "2019-04-27",
+     "sample": 4200,
+     "mae": 1.81,
+     "lead": -3.48,
+     "shares": {
+      "PSOE": 26.8,
+      "PP": 18.3,
+      "CS": 14.2,
+      "PODEMOS": 16.8,
+      "VOX": 12.7,
+      "ERC": 3.1
+     },
+     "plus_minus": 0.21
+    },
+    {
+     "pollster": "ElectoPanel",
+     "client": "Electomanía",
+     "end": "2019-04-25",
+     "sample": 11000,
+     "mae": 1.88,
+     "lead": -6.88,
+     "shares": {
+      "PSOE": 25.3,
+      "PP": 20.2,
+      "CS": 15.0,
+      "PODEMOS": 14.6,
+      "VOX": 12.3,
+      "ERC": 2.7
+     },
+     "plus_minus": 0.28
+    },
+    {
+     "pollster": "Celeste-Tel",
+     "client": "eldiario.es",
+     "end": "2019-04-20",
+     "sample": 1100,
+     "mae": 1.99,
+     "lead": -6.58,
+     "shares": {
+      "PSOE": 28.9,
+      "PP": 23.5,
+      "CS": 15.1,
+      "PODEMOS": 13.5,
+      "VOX": 7.9,
+      "ERC": 2.9
+     },
+     "plus_minus": 0.39
+    },
+    {
+     "pollster": "NC Report",
+     "client": "La Razón",
+     "end": "2019-04-19",
+     "sample": 1000,
+     "mae": 2.04,
+     "lead": -7.68,
+     "shares": {
+      "PSOE": 28.1,
+      "PP": 23.8,
+      "CS": 14.9,
+      "PODEMOS": 13.0,
+      "VOX": 9.0,
+      "ERC": 2.9
+     },
+     "plus_minus": 0.44
+    },
+    {
+     "pollster": "Llorente & Cuenca",
+     "client": null,
+     "end": "2019-04-22",
+     "sample": null,
+     "mae": 2.12,
+     "lead": -5.68,
+     "shares": {
+      "PSOE": 28.3,
+      "PP": 22.0,
+      "CS": 18.9,
+      "PODEMOS": 13.8,
+      "VOX": 7.9,
+      "ERC": 2.8
+     },
+     "plus_minus": 0.52
+    },
+    {
+     "pollster": "Hamalgama Métrica",
+     "client": "Espiral21",
+     "end": "2019-04-22",
+     "sample": null,
+     "mae": 2.14,
+     "lead": -6.98,
+     "shares": {
+      "PSOE": 28.1,
+      "PP": 23.1,
+      "CS": 13.2,
+      "PODEMOS": 12.1,
+      "VOX": 10.1,
+      "ERC": 3.1
+     },
+     "plus_minus": 0.54
+    },
+    {
+     "pollster": "Demoscopia Servicios",
+     "client": "Okdiario",
+     "end": "2019-04-26",
+     "sample": null,
+     "mae": 2.4,
+     "lead": -6.48,
+     "shares": {
+      "PSOE": 27.2,
+      "PP": 21.7,
+      "CS": 15.4,
+      "PODEMOS": 12.3,
+      "VOX": 13.3
+     },
+     "plus_minus": 0.8
+    },
+    {
+     "pollster": "Top Position",
+     "client": null,
+     "end": "2019-04-15",
+     "sample": 1200,
+     "mae": 2.67,
+     "lead": -6.48,
+     "shares": {
+      "PSOE": 27.8,
+      "PP": 22.3,
+      "CS": 13.1,
+      "PODEMOS": 12.2,
+      "VOX": 14.2,
+      "ERC": 3.2
+     },
+     "plus_minus": 1.07
+    }
+   ]
+  },
+  {
+   "id": "congreso-2019n",
+   "date": "2019-11-10",
+   "source": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_November_2019_Spanish_general_election",
+   "main": [
+    "PSOE",
+    "PP",
+    "VOX",
+    "PODEMOS",
+    "CS",
+    "ERC"
+   ],
+   "result": {
+    "PSOE": 28.0,
+    "PP": 20.81,
+    "VOX": 15.08,
+    "PODEMOS": 12.86,
+    "CS": 6.8,
+    "ERC": 3.61
+   },
+   "average": {
+    "PSOE": 27.21,
+    "PP": 20.88,
+    "VOX": 13.33,
+    "PODEMOS": 12.49,
+    "CS": 8.96,
+    "ERC": 3.75
+   },
+   "average_mae": 0.88,
+   "mean_mae": 1.19,
+   "polls": [
+    {
+     "pollster": "ElectoPanel",
+     "client": "Electomanía",
+     "end": "2019-11-08",
+     "sample": 1250,
+     "mae": 0.53,
+     "lead": -0.49,
+     "shares": {
+      "PSOE": 27.1,
+      "PP": 20.4,
+      "VOX": 15.5,
+      "PODEMOS": 13.7,
+      "CS": 7.3,
+      "ERC": 3.7
+     },
+     "plus_minus": -0.66
+    },
+    {
+     "pollster": "Demoscopia Servicios",
+     "client": "ESdiario",
+     "end": "2019-11-07",
+     "sample": null,
+     "mae": 0.56,
+     "lead": -1.49,
+     "shares": {
+      "PSOE": 26.6,
+      "PP": 20.9,
+      "VOX": 15.7,
+      "PODEMOS": 13.2,
+      "CS": 7.2,
+      "ERC": 4.1
+     },
+     "plus_minus": -0.63
+    },
+    {
+     "pollster": "GAD3",
+     "client": "ABC",
+     "end": "2019-10-31",
+     "sample": 7900,
+     "mae": 0.76,
+     "lead": -1.39,
+     "shares": {
+      "PSOE": 27.4,
+      "PP": 21.6,
+      "VOX": 14.9,
+      "PODEMOS": 11.2,
+      "CS": 8.0,
+      "ERC": 3.5
+     },
+     "plus_minus": -0.43
+    },
+    {
+     "pollster": "40dB",
+     "client": "El País",
+     "end": "2019-10-29",
+     "sample": 2002,
+     "mae": 0.89,
+     "lead": -1.09,
+     "shares": {
+      "PSOE": 27.3,
+      "PP": 21.2,
+      "VOX": 13.7,
+      "PODEMOS": 12.4,
+      "CS": 8.3
+     },
+     "plus_minus": -0.3
+    },
+    {
+     "pollster": "SW Demoscopia",
+     "client": "infoLibre",
+     "end": "2019-11-02",
+     "sample": 1517,
+     "mae": 0.94,
+     "lead": 1.01,
+     "shares": {
+      "PSOE": 28.5,
+      "PP": 20.3,
+      "VOX": 13.7,
+      "PODEMOS": 12.0,
+      "CS": 8.8,
+      "ERC": 4.0
+     },
+     "plus_minus": -0.25
+    },
+    {
+     "pollster": "Sigma Dos",
+     "client": "El Mundo",
+     "end": "2019-10-31",
+     "sample": 1800,
+     "mae": 0.94,
+     "lead": 0.41,
+     "shares": {
+      "PSOE": 27.9,
+      "PP": 20.3,
+      "VOX": 13.2,
+      "PODEMOS": 13.5,
+      "CS": 8.9,
+      "ERC": 4.0
+     },
+     "plus_minus": -0.25
+    },
+    {
+     "pollster": "SocioMétrica",
+     "client": "El Español",
+     "end": "2019-11-02",
+     "sample": 1100,
+     "mae": 0.95,
+     "lead": -2.69,
+     "shares": {
+      "PSOE": 25.1,
+      "PP": 20.6,
+      "VOX": 14.3,
+      "PODEMOS": 12.9,
+      "CS": 8.5,
+      "ERC": 3.5
+     },
+     "plus_minus": -0.24
+    },
+    {
+     "pollster": "GESOP",
+     "client": "El Periòdic",
+     "end": "2019-11-09",
+     "sample": 903,
+     "mae": 1.07,
+     "lead": 0.11,
+     "shares": {
+      "PSOE": 26.7,
+      "PP": 19.4,
+      "VOX": 14.9,
+      "PODEMOS": 14.3,
+      "CS": 7.9,
+      "ERC": 2.6
+     },
+     "plus_minus": -0.12
+    },
+    {
+     "pollster": "KeyData",
+     "client": "Público",
+     "end": "2019-11-04",
+     "sample": null,
+     "mae": 1.09,
+     "lead": -0.89,
+     "shares": {
+      "PSOE": 27.4,
+      "PP": 21.1,
+      "VOX": 12.5,
+      "PODEMOS": 12.7,
+      "CS": 9.5,
+      "ERC": 3.8
+     },
+     "plus_minus": -0.1
+    },
+    {
+     "pollster": "Hamalgama Métrica",
+     "client": "Okdiario",
+     "end": "2019-10-31",
+     "sample": 1000,
+     "mae": 1.15,
+     "lead": -2.19,
+     "shares": {
+      "PSOE": 27.2,
+      "PP": 22.2,
+      "VOX": 12.8,
+      "PODEMOS": 12.7,
+      "CS": 8.8,
+      "ERC": 3.9
+     },
+     "plus_minus": -0.04
+    },
+    {
+     "pollster": "Celeste-Tel",
+     "client": "eldiario.es",
+     "end": "2019-10-31",
+     "sample": 1100,
+     "mae": 1.22,
+     "lead": -1.49,
+     "shares": {
+      "PSOE": 27.6,
+      "PP": 21.9,
+      "VOX": 12.0,
+      "PODEMOS": 12.9,
+      "CS": 9.2,
+      "ERC": 3.9
+     },
+     "plus_minus": 0.03
+    },
+    {
+     "pollster": "Ipsos",
+     "client": "Henneo",
+     "end": "2019-10-29",
+     "sample": 2000,
+     "mae": 1.32,
+     "lead": -0.59,
+     "shares": {
+      "PSOE": 26.0,
+      "PP": 19.4,
+      "VOX": 14.0,
+      "PODEMOS": 13.0,
+      "CS": 10.0,
+      "ERC": 3.5
+     },
+     "plus_minus": 0.13
+    },
+    {
+     "pollster": "Sondaxe",
+     "client": "La Voz de Galicia",
+     "end": "2019-10-31",
+     "sample": 1001,
+     "mae": 1.35,
+     "lead": -1.09,
+     "shares": {
+      "PSOE": 26.5,
+      "PP": 20.4,
+      "VOX": 12.6,
+      "PODEMOS": 12.1,
+      "CS": 9.3,
+      "ERC": 4.1
+     },
+     "plus_minus": 0.16
+    },
+    {
+     "pollster": "IMOP",
+     "client": "El Confidencial",
+     "end": "2019-11-02",
+     "sample": 1639,
+     "mae": 1.41,
+     "lead": 1.21,
+     "shares": {
+      "PSOE": 28.0,
+      "PP": 19.6,
+      "VOX": 13.9,
+      "PODEMOS": 11.5,
+      "CS": 10.1
+     },
+     "plus_minus": 0.22
+    },
+    {
+     "pollster": "NC Report",
+     "client": "La Razón",
+     "end": "2019-10-31",
+     "sample": null,
+     "mae": 1.42,
+     "lead": -2.59,
+     "shares": {
+      "PSOE": 27.3,
+      "PP": 22.7,
+      "VOX": 12.2,
+      "PODEMOS": 12.1,
+      "CS": 8.8,
+      "ERC": 3.9
+     },
+     "plus_minus": 0.23
+    },
+    {
+     "pollster": "DYM",
+     "client": "Prensa Ibérica",
+     "end": "2019-10-30",
+     "sample": 1005,
+     "mae": 1.53,
+     "lead": 0.21,
+     "shares": {
+      "PSOE": 26.8,
+      "PP": 19.4,
+      "VOX": 13.6,
+      "PODEMOS": 12.5,
+      "CS": 10.0
+     },
+     "plus_minus": 0.34
+    },
+    {
+     "pollster": "GI Internacional",
+     "client": "Diario16",
+     "end": "2019-11-03",
+     "sample": null,
+     "mae": 1.68,
+     "lead": 0.11,
+     "shares": {
+      "PSOE": 28.5,
+      "PP": 21.2,
+      "VOX": 9.5,
+      "PODEMOS": 13.2,
+      "CS": 9.5,
+      "ERC": 4.2
+     },
+     "plus_minus": 0.49
+    },
+    {
+     "pollster": "SyM Consulting",
+     "client": "EPDA",
+     "end": "2019-10-27",
+     "sample": 1923,
+     "mae": 1.74,
+     "lead": -2.29,
+     "shares": {
+      "PSOE": 27.1,
+      "PP": 22.2,
+      "VOX": 13.8,
+      "PODEMOS": 9.6,
+      "CS": 10.3,
+      "ERC": 3.5
+     },
+     "plus_minus": 0.55
+    },
+    {
+     "pollster": "InvyMark",
+     "client": "laSexta",
+     "end": "2019-10-31",
+     "sample": null,
+     "mae": 2.01,
+     "lead": -1.29,
+     "shares": {
+      "PSOE": 27.9,
+      "PP": 22.0,
+      "VOX": 10.5,
+      "PODEMOS": 11.8,
+      "CS": 9.9
+     },
+     "plus_minus": 0.82
+    }
+   ]
+  },
+  {
+   "id": "congreso-2023",
+   "date": "2023-07-23",
+   "source": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Spanish_general_election",
+   "main": [
+    "PP",
+    "PSOE",
+    "VOX",
+    "SUMAR"
+   ],
+   "result": {
+    "PP": 33.06,
+    "PSOE": 31.68,
+    "VOX": 12.38,
+    "SUMAR": 12.33
+   },
+   "average": {
+    "PP": 33.93,
+    "PSOE": 28.66,
+    "VOX": 12.85,
+    "SUMAR": 13.26
+   },
+   "average_mae": 1.32,
+   "mean_mae": 1.89,
+   "polls": [
+    {
+     "pollster": "SocioMétrica",
+     "client": "El Español",
+     "end": "2023-07-22",
+     "sample": 6000,
+     "mae": 1.33,
+     "lead": 1.93,
+     "shares": {
+      "PP": 32.4,
+      "PSOE": 29.1,
+      "VOX": 13.8,
+      "SUMAR": 13.0
+     },
+     "plus_minus": -0.56
+    },
+    {
+     "pollster": "Cluster17",
+     "client": "El Grand Continent",
+     "end": "2023-07-14",
+     "sample": null,
+     "mae": 1.45,
+     "lead": 3.33,
+     "shares": {
+      "PP": 33.6,
+      "PSOE": 28.9,
+      "VOX": 13.7,
+      "SUMAR": 13.5
+     },
+     "plus_minus": -0.44
+    },
+    {
+     "pollster": "EM-Analytics",
+     "client": "Electomanía",
+     "end": "2023-07-17",
+     "sample": 1873,
+     "mae": 1.48,
+     "lead": 4.33,
+     "shares": {
+      "PP": 34.5,
+      "PSOE": 28.8,
+      "VOX": 12.9,
+      "SUMAR": 13.4
+     },
+     "plus_minus": -0.41
+    },
+    {
+     "pollster": "Sondaxe",
+     "client": "La Voz de Galicia",
+     "end": "2023-07-16",
+     "sample": 1000,
+     "mae": 1.5,
+     "lead": 4.23,
+     "shares": {
+      "PP": 34.3,
+      "PSOE": 28.7,
+      "VOX": 12.5,
+      "SUMAR": 14.0
+     },
+     "plus_minus": -0.39
+    },
+    {
+     "pollster": "Sigma Dos",
+     "client": "RTVE–FORTA",
+     "end": "2023-07-22",
+     "sample": 17550,
+     "mae": 1.52,
+     "lead": 3.93,
+     "shares": {
+      "PP": 34.2,
+      "PSOE": 28.9,
+      "VOX": 11.2,
+      "SUMAR": 13.3
+     },
+     "plus_minus": -0.37
+    },
+    {
+     "pollster": "Top Position",
+     "client": null,
+     "end": "2023-07-06",
+     "sample": 3200,
+     "mae": 1.53,
+     "lead": 4.73,
+     "shares": {
+      "PP": 34.2,
+      "PSOE": 28.1,
+      "VOX": 13.3,
+      "SUMAR": 12.8
+     },
+     "plus_minus": -0.36
+    },
+    {
+     "pollster": "Ipsos",
+     "client": null,
+     "end": "2023-07-22",
+     "sample": null,
+     "mae": 1.54,
+     "lead": 4.43,
+     "shares": {
+      "PP": 34.4,
+      "PSOE": 28.6,
+      "VOX": 11.8,
+      "SUMAR": 13.5
+     },
+     "plus_minus": -0.35
+    },
+    {
+     "pollster": "IMOP",
+     "client": "El Confidencial",
+     "end": "2023-07-14",
+     "sample": 1843,
+     "mae": 1.56,
+     "lead": 3.33,
+     "shares": {
+      "PP": 32.9,
+      "PSOE": 28.2,
+      "VOX": 14.5,
+      "SUMAR": 12.8
+     },
+     "plus_minus": -0.33
+    },
+    {
+     "pollster": "GAD3",
+     "client": "Mediaset",
+     "end": "2023-07-22",
+     "sample": 10004,
+     "mae": 1.57,
+     "lead": 5.53,
+     "shares": {
+      "PP": 35.5,
+      "PSOE": 28.6,
+      "VOX": 12.7,
+      "SUMAR": 11.9
+     },
+     "plus_minus": -0.32
+    },
+    {
+     "pollster": "KeyData",
+     "client": "Público",
+     "end": "2023-07-17",
+     "sample": null,
+     "mae": 1.58,
+     "lead": 5.33,
+     "shares": {
+      "PP": 34.7,
+      "PSOE": 28.0,
+      "VOX": 12.9,
+      "SUMAR": 12.8
+     },
+     "plus_minus": -0.31
+    },
+    {
+     "pollster": "40dB",
+     "client": "Prisa",
+     "end": "2023-07-21",
+     "sample": 2000,
+     "mae": 1.63,
+     "lead": 0.93,
+     "shares": {
+      "PP": 31.7,
+      "PSOE": 29.4,
+      "VOX": 13.8,
+      "SUMAR": 13.8
+     },
+     "plus_minus": -0.26
+    },
+    {
+     "pollster": "GESOP",
+     "client": "Prensa Ibérica",
+     "end": "2023-07-22",
+     "sample": 1200,
+     "mae": 1.66,
+     "lead": 1.73,
+     "shares": {
+      "PP": 31.9,
+      "PSOE": 28.8,
+      "VOX": 13.1,
+      "SUMAR": 14.2
+     },
+     "plus_minus": -0.23
+    },
+    {
+     "pollster": "Opinòmetre",
+     "client": "Ara",
+     "end": "2023-07-04",
+     "sample": 1521,
+     "mae": 1.66,
+     "lead": 2.23,
+     "shares": {
+      "PP": 32.6,
+      "PSOE": 29.0,
+      "VOX": 12.7,
+      "SUMAR": 15.5
+     },
+     "plus_minus": -0.23
+    },
+    {
+     "pollster": "Metroscopia",
+     "client": null,
+     "end": "2023-07-21",
+     "sample": 3000,
+     "mae": 1.67,
+     "lead": 5.53,
+     "shares": {
+      "PP": 35.3,
+      "PSOE": 28.4,
+      "VOX": 13.1,
+      "SUMAR": 11.9
+     },
+     "plus_minus": -0.22
+    },
+    {
+     "pollster": "Simple Lógica",
+     "client": "elDiario.es",
+     "end": "2023-07-16",
+     "sample": 1600,
+     "mae": 1.73,
+     "lead": 2.23,
+     "shares": {
+      "PP": 32.2,
+      "PSOE": 28.6,
+      "VOX": 13.9,
+      "SUMAR": 13.8
+     },
+     "plus_minus": -0.16
+    },
+    {
+     "pollster": "YouGov",
+     "client": null,
+     "end": "2023-07-18",
+     "sample": null,
+     "mae": 1.76,
+     "lead": 1.63,
+     "shares": {
+      "PP": 32.0,
+      "PSOE": 29.0,
+      "VOX": 14.0,
+      "SUMAR": 14.0
+     },
+     "plus_minus": -0.13
+    },
+    {
+     "pollster": "Data10",
+     "client": "Okdiario",
+     "end": "2023-07-17",
+     "sample": 1500,
+     "mae": 1.85,
+     "lead": 7.13,
+     "shares": {
+      "PP": 36.0,
+      "PSOE": 27.5,
+      "VOX": 12.5,
+      "SUMAR": 12.5
+     },
+     "plus_minus": -0.04
+    },
+    {
+     "pollster": "DYM",
+     "client": "Henneo",
+     "end": "2023-07-13",
+     "sample": 1021,
+     "mae": 1.97,
+     "lead": 7.03,
+     "shares": {
+      "PP": 35.5,
+      "PSOE": 27.1,
+      "VOX": 12.3,
+      "SUMAR": 13.1
+     },
+     "plus_minus": 0.08
+    },
+    {
+     "pollster": "Celeste-Tel",
+     "client": "Onda Cero",
+     "end": "2023-07-12",
+     "sample": 1100,
+     "mae": 2.14,
+     "lead": 6.73,
+     "shares": {
+      "PP": 36.5,
+      "PSOE": 28.4,
+      "VOX": 11.4,
+      "SUMAR": 11.5
+     },
+     "plus_minus": 0.25
+    },
+    {
+     "pollster": "InvyMark",
+     "client": "laSexta",
+     "end": "2023-07-14",
+     "sample": null,
+     "mae": 2.15,
+     "lead": 5.83,
+     "shares": {
+      "PP": 33.5,
+      "PSOE": 26.3,
+      "VOX": 13.8,
+      "SUMAR": 13.7
+     },
+     "plus_minus": 0.26
+    },
+    {
+     "pollster": "Hamalgama Métrica",
+     "client": "Vozpópuli",
+     "end": "2023-07-13",
+     "sample": 1000,
+     "mae": 2.27,
+     "lead": 7.43,
+     "shares": {
+      "PP": 36.3,
+      "PSOE": 27.5,
+      "VOX": 13.8,
+      "SUMAR": 12.1
+     },
+     "plus_minus": 0.38
+    },
+    {
+     "pollster": "Target Point",
+     "client": "El Debate",
+     "end": "2023-07-22",
+     "sample": null,
+     "mae": 2.39,
+     "lead": 8.23,
+     "shares": {
+      "PP": 37.5,
+      "PSOE": 27.9,
+      "VOX": 11.1,
+      "SUMAR": 12.3
+     },
+     "plus_minus": 0.5
+    },
+    {
+     "pollster": "NC Report",
+     "client": "La Razón",
+     "end": "2023-07-16",
+     "sample": 1000,
+     "mae": 2.46,
+     "lead": 7.53,
+     "shares": {
+      "PP": 37.2,
+      "PSOE": 28.3,
+      "VOX": 11.1,
+      "SUMAR": 11.3
+     },
+     "plus_minus": 0.57
+    },
+    {
+     "pollster": "AtlasIntel",
+     "client": null,
+     "end": "2023-07-17",
+     "sample": 2974,
+     "mae": 3.23,
+     "lead": 0.03,
+     "shares": {
+      "PP": 30.8,
+      "PSOE": 29.4,
+      "VOX": 17.0,
+      "SUMAR": 16.1
+     },
+     "plus_minus": 1.34
+    },
+    {
+     "pollster": "CIS",
+     "client": null,
+     "end": "2023-07-22",
+     "sample": 27060,
+     "mae": 3.56,
+     "lead": -7.77,
+     "shares": {
+      "PP": 28.5,
+      "PSOE": 34.9,
+      "VOX": 8.4,
+      "SUMAR": 14.8
+     },
+     "plus_minus": 1.67
+    }
+   ]
+  }
+ ],
+ "ratings": [
+  {
+   "pollster": "SocioMétrica",
+   "n": 3,
+   "elections": [
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.1,
+   "plus_minus": -0.46,
+   "lead": 2.2
+  },
+  {
+   "pollster": "GAD3",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.35,
+   "plus_minus": -0.4,
+   "lead": 2.6
+  },
+  {
+   "pollster": "40dB",
+   "n": 3,
+   "elections": [
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.23,
+   "plus_minus": -0.33,
+   "lead": 1.0
+  },
+  {
+   "pollster": "KeyData",
+   "n": 3,
+   "elections": [
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.28,
+   "plus_minus": -0.28,
+   "lead": 3.07
+  },
+  {
+   "pollster": "Sigma Dos",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.53,
+   "plus_minus": -0.23,
+   "lead": 1.56
+  },
+  {
+   "pollster": "ElectoPanel",
+   "n": 2,
+   "elections": [
+    "congreso-2019a",
+    "congreso-2019n"
+   ],
+   "mae": 1.21,
+   "plus_minus": -0.19,
+   "lead": 3.69
+  },
+  {
+   "pollster": "Simple Lógica",
+   "n": 2,
+   "elections": [
+    "congreso-2016",
+    "congreso-2023"
+   ],
+   "mae": 1.95,
+   "plus_minus": -0.17,
+   "lead": 2.96
+  },
+  {
+   "pollster": "GESOP",
+   "n": 3,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.7,
+   "plus_minus": -0.11,
+   "lead": 1.71
+  },
+  {
+   "pollster": "Ipsos",
+   "n": 2,
+   "elections": [
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.43,
+   "plus_minus": -0.11,
+   "lead": 2.51
+  },
+  {
+   "pollster": "Sondaxe",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.68,
+   "plus_minus": -0.08,
+   "lead": 2.13
+  },
+  {
+   "pollster": "NC Report",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.75,
+   "plus_minus": -0.01,
+   "lead": 4.57
+  },
+  {
+   "pollster": "SyM Consulting",
+   "n": 2,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019n"
+   ],
+   "mae": 1.77,
+   "plus_minus": -0.01,
+   "lead": 2.94
+  },
+  {
+   "pollster": "Metroscopia",
+   "n": 3,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2023"
+   ],
+   "mae": 1.94,
+   "plus_minus": -0.01,
+   "lead": 3.3
+  },
+  {
+   "pollster": "IMOP",
+   "n": 3,
+   "elections": [
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.59,
+   "plus_minus": 0.03,
+   "lead": 2.67
+  },
+  {
+   "pollster": "Celeste-Tel",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.82,
+   "plus_minus": 0.06,
+   "lead": 4.12
+  },
+  {
+   "pollster": "Demoscopia Servicios",
+   "n": 2,
+   "elections": [
+    "congreso-2019a",
+    "congreso-2019n"
+   ],
+   "mae": 1.48,
+   "plus_minus": 0.09,
+   "lead": 3.99
+  },
+  {
+   "pollster": "DYM",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 1.85,
+   "plus_minus": 0.1,
+   "lead": 3.25
+  },
+  {
+   "pollster": "Hamalgama Métrica",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 2.0,
+   "plus_minus": 0.25,
+   "lead": 4.39
+  },
+  {
+   "pollster": "Top Position",
+   "n": 2,
+   "elections": [
+    "congreso-2019a",
+    "congreso-2023"
+   ],
+   "mae": 2.1,
+   "plus_minus": 0.36,
+   "lead": 5.61
+  },
+  {
+   "pollster": "InvyMark",
+   "n": 4,
+   "elections": [
+    "congreso-2016",
+    "congreso-2019a",
+    "congreso-2019n",
+    "congreso-2023"
+   ],
+   "mae": 2.13,
+   "plus_minus": 0.38,
+   "lead": 2.9
+  },
+  {
+   "pollster": "Encuestamos",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 1.58,
+   "plus_minus": -0.77,
+   "lead": 1.78
+  },
+  {
+   "pollster": "El Español",
+   "n": 1,
+   "elections": [
+    "congreso-2019a"
+   ],
+   "mae": 1.05,
+   "plus_minus": -0.55,
+   "lead": 2.98
+  },
+  {
+   "pollster": "JM&A",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 1.83,
+   "plus_minus": -0.52,
+   "lead": 2.68
+  },
+  {
+   "pollster": "Cluster17",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 1.45,
+   "plus_minus": -0.44,
+   "lead": 3.33
+  },
+  {
+   "pollster": "EM-Analytics",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 1.48,
+   "plus_minus": -0.41,
+   "lead": 4.33
+  },
+  {
+   "pollster": "SW Demoscopia",
+   "n": 1,
+   "elections": [
+    "congreso-2019n"
+   ],
+   "mae": 0.94,
+   "plus_minus": -0.25,
+   "lead": 1.01
+  },
+  {
+   "pollster": "Opinòmetre",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 1.66,
+   "plus_minus": -0.23,
+   "lead": 2.23
+  },
+  {
+   "pollster": "YouGov",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 1.76,
+   "plus_minus": -0.13,
+   "lead": 1.63
+  },
+  {
+   "pollster": "Data10",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 1.85,
+   "plus_minus": -0.04,
+   "lead": 7.13
+  },
+  {
+   "pollster": "GIPEyOP",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 2.33,
+   "plus_minus": -0.02,
+   "lead": 3.18
+  },
+  {
+   "pollster": "Netquest",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 2.46,
+   "plus_minus": 0.11,
+   "lead": 0.38
+  },
+  {
+   "pollster": "TNS Demoscopia",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 2.58,
+   "plus_minus": 0.23,
+   "lead": 1.78
+  },
+  {
+   "pollster": "Redondo & Asociados",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 2.63,
+   "plus_minus": 0.28,
+   "lead": 2.48
+  },
+  {
+   "pollster": "Advice Strategic",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 2.81,
+   "plus_minus": 0.46,
+   "lead": 1.28
+  },
+  {
+   "pollster": "MyWord",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 2.83,
+   "plus_minus": 0.48,
+   "lead": 1.88
+  },
+  {
+   "pollster": "GI Internacional",
+   "n": 1,
+   "elections": [
+    "congreso-2019n"
+   ],
+   "mae": 1.68,
+   "plus_minus": 0.49,
+   "lead": 0.11
+  },
+  {
+   "pollster": "Target Point",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 2.39,
+   "plus_minus": 0.5,
+   "lead": 8.23
+  },
+  {
+   "pollster": "A+M",
+   "n": 1,
+   "elections": [
+    "congreso-2016"
+   ],
+   "mae": 2.86,
+   "plus_minus": 0.51,
+   "lead": 3.28
+  },
+  {
+   "pollster": "Llorente & Cuenca",
+   "n": 1,
+   "elections": [
+    "congreso-2019a"
+   ],
+   "mae": 2.12,
+   "plus_minus": 0.52,
+   "lead": 5.68
+  },
+  {
+   "pollster": "AtlasIntel",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 3.23,
+   "plus_minus": 1.34,
+   "lead": 0.03
+  },
+  {
+   "pollster": "CIS",
+   "n": 1,
+   "elections": [
+    "congreso-2023"
+   ],
+   "mae": 3.56,
+   "plus_minus": 1.67,
+   "lead": 7.77
+  }
+ ]
+}

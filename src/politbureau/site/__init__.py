@@ -157,7 +157,9 @@ def run(clean=True):
     pagemod.strongholds_page(env, cfg, urls)
     pagemod.senate_page(env, cfg, urls, data.get("senate"))
     pagemod.society_page(env, cfg, conn)
-    from . import opendata
+    from . import opendata, rating
+    n_rated = rating.rating_page(env, cfg)
+    print(f"     valoracio d'instituts: {n_rated} instituts")
     n_files = opendata.opendata_page(env, cfg, conn, fc)
     print(f"     dades obertes: {n_files} fitxers CSV a dist/dades/")
     abroad = pagemod.abroad_pages(env, cfg, conn)
