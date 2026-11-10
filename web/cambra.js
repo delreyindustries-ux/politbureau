@@ -652,7 +652,7 @@
   const HAIR = ['#2a1d14', '#4a3222', '#1a1a1a', '#6b4a2e', '#8a8a8a', '#b8b0a4', '#3a2a1e'];
 
   const PI = Math.PI;
-  const hash = (i) => { let x = (i + 1) * 2654435761 % 4294967296; x ^= x >>> 15; return (x % 1000) / 1000; };
+  const hash = (i) => { let x = (i + 1) * 2654435761 % 4294967296; x ^= x >>> 15; return ((x >>> 0) % 1000) / 1000; };
   function mix(a, b, t) {
     const p = (h) => { h = h.replace('#', ''); if (h.length === 3) h = h.replace(/./g, '$&$&'); return [0, 2, 4].map((i) => parseInt(h.substr(i, 2), 16)); };
     const A = p(a), Bc = p(b);
@@ -685,6 +685,10 @@
       g('sky', [[0, '#fff6dc'], [0.55, '#f3e2b4'], [1, lite(st.upper, 0.1)]]) +
       g('glass', [[0, '#e8f2ff'], [1, '#b9cde6']]) +
       g('light', [[0, '#fff4d8', 0.22], [0.5, '#fff4d8', 0.04], [1, '#000', 0.12]]) +
+      g('ray', [[0, '#fff8e4', 0.2], [0.55, '#fff8e4', 0.07], [1, '#fff8e4', 0]]) +
+      g('rec', [[0, '#000', 0.55], [1, '#000', 0.2]]) +
+      `<pattern id="${u}lead" width="7" height="5" patternUnits="userSpaceOnUse"><path d="M0 2.5L3.5 0L7 2.5L3.5 5Z" fill="none" stroke="${dim(st.gold, 0.45)}" stroke-width=".35"/>` +
+      `<path d="M3.5 0L7 2.5L3.5 5L0 2.5Z" fill="${st.dome ? '#cfe0f5' : '#f6d48a'}" opacity=".25"/></pattern>` +
       `<radialGradient id="${u}vig" cx=".5" cy=".42" r=".78"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>` +
       `<radialGradient id="${u}glow"><stop offset="0" stop-color="#fff3c8" stop-opacity=".95"/><stop offset=".25" stop-color="#ffd98a" stop-opacity=".55"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>` +
       `<pattern id="${u}carpet" width="9" height="6" patternUnits="userSpaceOnUse"><rect width="9" height="6" fill="${st.floor}"/>` +
@@ -750,24 +754,96 @@
     return { pts, rows, radii, r0, geoms };
   }
 
-  // Un diputat assegut: tors del color del partit, camisa, cap i cabell.
-  function person(X, Y, w, g, k, n, ca) {
-    const tw = w * 0.86, th = w * 0.78, hr = w * 0.22, h = hash(k);
-    const skin = SKIN[Math.floor(h * SKIN.length)], hair = HAIR[Math.floor(hash(k + 7) * HAIR.length)];
+  // Un diputat assegut: americana del color del partit, amb la llum de dalt a
+  // l'esquerra (espatlla clara, costat dret a l'ombra), camisa i corbata o
+  // coll obert, coll, cara amb ombra, orelles i pentinats diferents. De prop,
+  // ulls i, alguns, ulleres. `hz`: quant es perd en la boira de la sala.
+  const HAZE = '#d9d2c4';
+  function person(X, Y, w, g, k, n, ca, hz) {
+    const h = hash(k), h2 = hash(k + 11), h3 = hash(k + 23);
+    const tw = w * 0.92, th = w * 0.8, hr = w * 0.205;
+    const fog = (c) => (hz ? mix(c, HAZE, hz) : c);
+    const body = fog(g.c);
+    const skin = fog(SKIN[Math.floor(h * SKIN.length)]);
+    // 0-1 curt, 2 clenxa, 3 llarg, 4 calb, 5 mitja melena
+    const style = Math.floor(h2 * 6);
+    const hair = fog(style === 4 && h3 > 0.5 ? '#9a948c' : HAIR[Math.floor(hash(k + 7) * HAIR.length)]);
+    const tie = style !== 3 && style !== 5;
     const s = Math.min(0.999, (k / n) * 0.9 + hash(k + 3) * 0.1);
-    let o = `<g class="mp" style="--s:${s.toFixed(3)}"><title>${esc(g.n || (ca ? 'Altres' : 'Otros'))}</title>` +
-      `<path d="M${f(X - tw / 2)} ${f(Y)}v${f(-th * 0.55)}q0 ${f(-th * 0.45)} ${f(tw * 0.3)} ${f(-th * 0.45)}h${f(tw * 0.4)}` +
-      `q${f(tw * 0.3)} 0 ${f(tw * 0.3)} ${f(th * 0.45)}v${f(th * 0.55)}Z" fill="${g.c}"/>`;
-    if (w > 4.5) {
-      o += `<path d="M${f(X - tw * 0.13)} ${f(Y - th)}L${f(X)} ${f(Y - th * 0.45)}L${f(X + tw * 0.13)} ${f(Y - th)}Z" fill="#f4f1ea"/>`;
-      if (w > 7) o += `<path d="M${f(X)} ${f(Y - th * 0.9)}l${f(-tw * 0.04)} ${f(th * 0.32)}l${f(tw * 0.04)} ${f(th * 0.12)}l${f(tw * 0.04)} ${f(-th * 0.12)}Z" fill="${dim(g.c, 0.35)}"/>`;
+    X += (h3 - 0.5) * w * 0.1;
+    const hy = Y - th - hr * 0.95, ry = hr * 1.12;
+    let o = `<g class="mp" style="--s:${s.toFixed(3)}"><title>${esc(g.n || (ca ? 'Altres' : 'Otros'))}</title>`;
+    // ombra sobre el respatller
+    if (w > 2.5) o += `<ellipse cx="${f(X + w * 0.12)}" cy="${f(Y - th * 0.55)}" rx="${f(tw * 0.56)}" ry="${f(th * 0.55)}" fill="#000" opacity=".2"/>`;
+    // cabell llarg, per darrere de les espatlles
+    if ((style === 3 || style === 5) && w > 3.5) {
+      const L = style === 3 ? th * 0.55 : th * 0.2;
+      o += `<path d="M${f(X - hr * 1.18)} ${f(hy)}a${f(hr * 1.18)} ${f(ry * 1.1)} 0 0 1 ${f(hr * 2.36)} 0v${f(ry + L)}h${f(-hr * 2.36)}Z" fill="${hair}"/>`;
     }
-    const hy = Y - th - hr * 0.75;
-    o += `<circle cx="${f(X)}" cy="${f(hy)}" r="${f(hr)}" fill="${skin}"/>`;
+    // tors i espatlles
+    o += `<path d="M${f(X - tw / 2)} ${f(Y)}V${f(Y - th * 0.52)}Q${f(X - tw / 2)} ${f(Y - th * 0.93)} ${f(X - tw * 0.2)} ${f(Y - th)}` +
+      `H${f(X + tw * 0.2)}Q${f(X + tw / 2)} ${f(Y - th * 0.93)} ${f(X + tw / 2)} ${f(Y - th * 0.52)}V${f(Y)}Z" fill="${body}"/>`;
+    if (w > 3) {
+      o += `<path d="M${f(X + tw * 0.16)} ${f(Y)}V${f(Y - th * 0.99)}H${f(X + tw * 0.2)}Q${f(X + tw / 2)} ${f(Y - th * 0.93)} ${f(X + tw / 2)} ${f(Y - th * 0.52)}V${f(Y)}Z" fill="#000" opacity=".2"/>` +
+           `<path d="M${f(X - tw * 0.46)} ${f(Y - th * 0.55)}Q${f(X - tw * 0.45)} ${f(Y - th * 0.9)} ${f(X - tw * 0.18)} ${f(Y - th * 0.96)}" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="${f(w * 0.06)}" stroke-linecap="round"/>`;
+    }
+    if (w > 4.5) {
+      // camisa: en V amb corbata, o coll obert
+      o += `<path d="M${f(X - tw * 0.15)} ${f(Y - th)}L${f(X)} ${f(Y - th * (tie ? 0.4 : 0.6))}L${f(X + tw * 0.15)} ${f(Y - th)}Z" fill="${tie ? fog('#f4f1ea') : skin}"/>`;
+      if (tie) o += `<path d="M${f(X)} ${f(Y - th * 0.94)}l${f(-tw * 0.045)} ${f(th * 0.36)}l${f(tw * 0.045)} ${f(th * 0.13)}l${f(tw * 0.045)} ${f(-th * 0.13)}Z" fill="${fog(dim(g.c, 0.45))}"/>`;
+      // solapes
+      o += `<path d="M${f(X - tw * 0.16)} ${f(Y - th * 0.99)}L${f(X - tw * 0.03)} ${f(Y - th * 0.38)}M${f(X + tw * 0.16)} ${f(Y - th * 0.99)}L${f(X + tw * 0.03)} ${f(Y - th * 0.38)}" stroke="${dim(body, 0.4)}" stroke-width="${f(w * 0.035)}" fill="none"/>`;
+    }
+    // coll i cap
+    if (w > 3) o += `<rect x="${f(X - hr * 0.42)}" y="${f(hy + ry * 0.6)}" width="${f(hr * 0.84)}" height="${f(Y - th - hy - ry * 0.55)}" fill="${dim(skin, 0.18)}"/>`;
+    if (w > 6) o += `<circle cx="${f(X - hr * 0.98)}" cy="${f(hy + ry * 0.08)}" r="${f(hr * 0.2)}" fill="${skin}"/><circle cx="${f(X + hr * 0.98)}" cy="${f(hy + ry * 0.08)}" r="${f(hr * 0.2)}" fill="${dim(skin, 0.12)}"/>`;
+    o += `<ellipse cx="${f(X)}" cy="${f(hy)}" rx="${f(hr)}" ry="${f(ry)}" fill="${skin}"/>`;
+    if (w > 4) o += `<path d="M${f(X + hr * 0.1)} ${f(hy - ry)}A${f(hr)} ${f(ry)} 0 0 1 ${f(X + hr * 0.1)} ${f(hy + ry)}Q${f(X + hr * 0.55)} ${f(hy)} ${f(X + hr * 0.1)} ${f(hy - ry)}Z" fill="#000" opacity=".13"/>`;
+    // cabell
     if (w > 3.5) {
-      o += `<path d="M${f(X - hr)} ${f(hy)}a${f(hr)} ${f(hr)} 0 0 1 ${f(2 * hr)} 0q${f(-hr * 0.4)} ${f(-hr * 0.55)} ${f(-hr)} ${f(-hr * 0.5)}q${f(-hr * 0.6)} 0 ${f(-hr)} ${f(hr * 0.5)}Z" fill="${hair}"/>`;
+      const R = hr * 1.04, top = hy - ry * 1.04;
+      if (style === 4) {
+        o += `<path d="M${f(X - R)} ${f(hy + ry * 0.1)}q${f(R * 0.05)} ${f(-ry * 0.45)} ${f(R * 0.3)} ${f(-ry * 0.55)}M${f(X + R)} ${f(hy + ry * 0.1)}q${f(-R * 0.05)} ${f(-ry * 0.45)} ${f(-R * 0.3)} ${f(-ry * 0.55)}" stroke="${hair}" stroke-width="${f(hr * 0.28)}" fill="none" stroke-linecap="round"/>` +
+             (w > 6 ? `<ellipse cx="${f(X - hr * 0.3)}" cy="${f(hy - ry * 0.62)}" rx="${f(hr * 0.25)}" ry="${f(ry * 0.12)}" fill="#fff" opacity=".3"/>` : '');
+      } else if (style === 2) {
+        o += `<path d="M${f(X - R)} ${f(hy - ry * 0.05)}A${f(R)} ${f(ry * 1.04)} 0 0 1 ${f(X + R)} ${f(hy - ry * 0.05)}Q${f(X + R * 0.2)} ${f(hy - ry * 0.75)} ${f(X - R * 0.35)} ${f(hy - ry * 0.55)}Q${f(X - R * 0.8)} ${f(hy - ry * 0.4)} ${f(X - R)} ${f(hy - ry * 0.05)}Z" fill="${hair}"/>`;
+      } else if (style === 3 || style === 5) {
+        o += `<path d="M${f(X - R * 1.06)} ${f(hy + ry * 0.5)}A${f(R * 1.06)} ${f(ry * 1.08)} 0 0 1 ${f(X + R * 1.06)} ${f(hy + ry * 0.5)}Q${f(X + R * 0.75)} ${f(hy - ry * 0.35)} ${f(X + R * 0.1)} ${f(hy - ry * 0.62)}Q${f(X - R * 0.6)} ${f(hy - ry * 0.3)} ${f(X - R * 0.8)} ${f(hy + ry * 0.5)}Z" fill="${hair}"/>`;
+      } else {
+        o += `<path d="M${f(X - R)} ${f(hy)}A${f(R)} ${f(ry * 1.04)} 0 0 1 ${f(X + R)} ${f(hy)}Q${f(X + R * 0.6)} ${f(hy - ry * 0.6)} ${f(X)} ${f(hy - ry * 0.55)}Q${f(X - R * 0.6)} ${f(hy - ry * 0.6)} ${f(X - R)} ${f(hy)}Z" fill="${hair}"/>`;
+      }
+      if (w > 6 && style !== 4) o += `<path d="M${f(X - R * 0.6)} ${f(top + ry * 0.25)}q${f(R * 0.4)} ${f(-ry * 0.2)} ${f(R * 0.8)} ${f(-ry * 0.05)}" stroke="#fff" stroke-opacity=".18" stroke-width="${f(hr * 0.15)}" fill="none"/>`;
+    }
+    // cara, nomes de prop
+    if (w > 9) {
+      const ey = hy + ry * 0.08, er = hr * 0.085;
+      o += `<circle cx="${f(X - hr * 0.36)}" cy="${f(ey)}" r="${f(er)}" fill="#2a1d14"/><circle cx="${f(X + hr * 0.36)}" cy="${f(ey)}" r="${f(er)}" fill="#2a1d14"/>` +
+           `<path d="M${f(X - hr * 0.22)} ${f(hy + ry * 0.55)}q${f(hr * 0.22)} ${f(ry * 0.1)} ${f(hr * 0.44)} 0" stroke="${dim(skin, 0.35)}" stroke-width="${f(hr * 0.07)}" fill="none"/>`;
+      if (h3 > 0.78) o += `<path d="M${f(X - hr * 0.62)} ${f(ey)}a${f(hr * 0.24)} ${f(hr * 0.2)} 0 1 0 ${f(hr * 0.48)} 0a${f(hr * 0.24)} ${f(hr * 0.2)} 0 1 0 ${f(-hr * 0.48)} 0M${f(X + hr * 0.14)} ${f(ey)}a${f(hr * 0.24)} ${f(hr * 0.2)} 0 1 0 ${f(hr * 0.48)} 0a${f(hr * 0.24)} ${f(hr * 0.2)} 0 1 0 ${f(-hr * 0.48)} 0M${f(X - hr * 0.14)} ${f(ey)}h${f(hr * 0.28)}" stroke="#222" stroke-width="${f(hr * 0.06)}" fill="none"/>`;
     }
     return o + '</g>';
+  }
+  // El que hi ha damunt de l'escó: les mans, i papers, una tauleta o un got.
+  function deskStuff(X, Y, w, g, k, n, hz) {
+    const fog = (c) => (hz ? mix(c, HAZE, hz) : c);
+    const r = hash(k + 31);
+    let o = '';
+    if (r < 0.32) o += `<path d="M${f(X - w * 0.42)} ${f(Y + w * 0.01)}l${f(w * 0.3)} ${f(-w * 0.02)}l${f(w * 0.02)} ${f(-w * 0.11)}l${f(-w * 0.3)} ${f(w * 0.02)}Z" fill="${fog('#f7f5ef')}" opacity=".95"/>`;
+    else if (r < 0.46) o += `<path d="M${f(X + w * 0.08)} ${f(Y + w * 0.01)}h${f(w * 0.34)}l${f(-w * 0.03)} ${f(-w * 0.12)}h${f(-w * 0.28)}Z" fill="#1d2026"/>` +
+                          `<path d="M${f(X + w * 0.12)} ${f(Y - w * 0.01)}h${f(w * 0.26)}l${f(-w * 0.02)} ${f(-w * 0.08)}h${f(-w * 0.22)}Z" fill="${fog('#8fb4e6')}" opacity=".85"/>`;
+    if (r > 0.9) o += `<rect x="${f(X + w * 0.36)}" y="${f(Y - w * 0.16)}" width="${f(w * 0.07)}" height="${f(w * 0.14)}" fill="#dfefff" opacity=".55"/>`;
+    if (w > 5) {
+      // les mans entren amb el diputat
+      const s = Math.min(0.999, (k / n) * 0.9 + hash(k + 3) * 0.1);
+      const sl = fog(dim(g.c, 0.15)), sk = fog(SKIN[Math.floor(hash(k) * SKIN.length)]);
+      o += `<g class="mp" style="--s:${s.toFixed(3)}">`;
+      for (const sg of [-1, 1]) {
+        o += `<ellipse cx="${f(X + sg * w * 0.24)}" cy="${f(Y - w * 0.03)}" rx="${f(w * 0.1)}" ry="${f(w * 0.06)}" fill="${sl}"/>` +
+             `<ellipse cx="${f(X + sg * w * 0.15)}" cy="${f(Y - w * 0.035)}" rx="${f(w * 0.075)}" ry="${f(w * 0.045)}" fill="${sk}"/>`;
+      }
+      o += '</g>';
+    }
+    return o;
   }
   // Cadira buida: respatller de vellut (o de pell, a la primera fila).
   const chair = (X, Y, w, hh, u, front) =>
@@ -804,6 +880,8 @@
       let d = '';
       for (let k = 0; k <= 64; k += 4) { const p = topCurve[k]; d += `M${f(p[0])} ${f(p[1])}L${f(p[0] + (VP[0] - p[0]) * 0.75)} ${f(p[1] + (VP[1] - p[1]) * 0.75)}`; }
       for (const q of [1.75, 2.05, 2.5]) d += 'M' + pts2(rowCurve(P3, RW * 0.97, q, PI, 0, 48));
+      // vitrall emplomat (lluernari) o vidre de la cupula
+      o += shape(topCurve.concat([[400, -20], [-40, -20]]), `url(#${u}lead)`, ' opacity=".8"');
       o += `<path d="${d}" fill="none" stroke="${st.dome ? '#7f95b3' : dim(st.gold, 0.25)}" stroke-width=".7" opacity=".8"/>`;
       if (st.sky) o += `<path d="${d}" fill="none" stroke="#fff" stroke-width=".25" opacity=".6"/>`;
     }
@@ -813,15 +891,26 @@
     o += stroke(rowCurve(P3, RW * 0.99, 1.47, PI, 0, 64), dim(st.upper, 0.3), 0.6);
     // Tribuna alta.
     if (st.gal2) {
-      o += band(RW * 0.985, 1.16, 1.2, dim(st.wood, 0.2));
-      for (const zz of [1.24, 1.31]) {
-        let d = '';
-        for (let k = 1; k < 40; k++) {
-          const [X, Y, s] = at(PI * (0.05 + 0.9 * k / 40), RW + (zz - 1.2) * 0.4, zz);
-          d += `M${f(X - s * 0.012)} ${f(Y)}h${f(s * 0.024)}v${f(-s * 0.03)}h${f(-s * 0.024)}Z`;
+      // La galeria alta: un fons a l'ombra amb seients i alguna persona,
+      // pilars entre els trams i la barana.
+      o += band(RW * 1.01, 1.2, 1.42, dim(st.upper, 0.7));
+      o += band(RW * 1.01, 1.36, 1.42, `url(#${u}rec)`);
+      for (const zz of [1.24, 1.3, 1.36]) {
+        let d = '', ppl = '';
+        for (let k = 1; k < 66; k++) {
+          const [X, Y, s] = at(PI * (0.03 + 0.94 * k / 66), RW + (zz - 1.2) * 0.4, zz);
+          d += `M${f(X - s * 0.011)} ${f(Y)}h${f(s * 0.022)}v${f(-s * 0.026)}q0 ${f(-s * 0.008)} ${f(-s * 0.011)} ${f(-s * 0.008)}q${f(-s * 0.011)} 0 ${f(-s * 0.011)} ${f(s * 0.008)}Z`;
+          if (hash(k * 7 + zz * 100) < 0.42) ppl += `M${f(X - s * 0.01)} ${f(Y - s * 0.004)}v${f(-s * 0.018)}q${f(s * 0.01)} ${f(-s * 0.008)} ${f(s * 0.02)} 0v${f(s * 0.018)}ZM${f(X + s * 0.007)} ${f(Y - s * 0.03)}a${f(s * 0.007)} ${f(s * 0.007)} 0 1 0 ${f(-s * 0.014)} 0a${f(s * 0.007)} ${f(s * 0.007)} 0 1 0 ${f(s * 0.014)} 0Z`;
         }
-        o += `<path d="${d}" fill="${st.seat}"/>`;
+        o += `<path d="${d}" fill="${dim(st.seat, 0.25)}"/>` + (ppl ? `<path d="${ppl}" fill="#3a3530" opacity=".85"/>` : '');
       }
+      let pier = '';
+      for (let k = 0; k <= 12; k++) {
+        const t = PI * (0.02 + 0.96 * k / 12), a = at(t - 0.012, RW * 1.0, 1.2), b = at(t + 0.012, RW * 1.0, 1.42);
+        pier += `M${f(a[0])} ${f(a[1])}H${f(b[0])}V${f(b[1])}H${f(a[0])}Z`;
+      }
+      o += `<path d="${pier}" fill="${st.upper}"/>`;
+      o += band(RW * 0.985, 1.16, 1.2, dim(st.wood, 0.2));
       o += stroke(rowCurve(P3, RW * 0.985, 1.2, PI, 0, 64), `url(#${u}gold)`, 1.4);
     }
     // Apliques entre columnes: s'encenen els primers, a les fosques.
@@ -837,13 +926,21 @@
       }
     }
     // Tribuna de convidats: dues files de cadires i la barana daurada.
+    // el fons de la tribuna, a l'ombra: sense, les cadires semblen penjades a la paret
+    o += band(RW + 0.08, 0.76, 0.99, dim(st.upper, 0.5)) + band(RW + 0.08, 0.93, 0.99, `url(#${u}rec)`);
     for (const [rr, zz] of [[RW + 0.03, 0.8], [RW + 0.06, 0.88]]) {
-      let d = '';
+      let d = '', ppl = '';
       for (let k = 1; k < 38; k++) {
         const [X, Y, s] = at(PI * (0.05 + 0.9 * k / 38), rr, zz);
         d += `M${f(X - s * 0.014)} ${f(Y)}v${f(-s * 0.03)}q0 ${f(-s * 0.012)} ${f(s * 0.014)} ${f(-s * 0.012)}q${f(s * 0.014)} 0 ${f(s * 0.014)} ${f(s * 0.012)}v${f(s * 0.03)}Z`;
+        // public i premsa: un de cada tres seients ocupat
+        if (hash(k * 13 + zz * 50) < 0.34) {
+          const c = ['#2d2f36', '#4a4038', '#6b6f78', '#7a2f2f', '#2f4a6b'][Math.floor(hash(k + zz * 9) * 5)];
+          ppl += `<path d="M${f(X - s * 0.013)} ${f(Y - s * 0.006)}v${f(-s * 0.022)}q${f(s * 0.013)} ${f(-s * 0.01)} ${f(s * 0.026)} 0v${f(s * 0.022)}Z" fill="${c}"/>` +
+                 `<circle cx="${f(X)}" cy="${f(Y - s * 0.039)}" r="${f(s * 0.008)}" fill="${SKIN[Math.floor(hash(k * 3 + zz) * SKIN.length)]}"/>`;
+        }
       }
-      o += `<path d="${d}" fill="url(#${u}vel)"/>`;
+      o += `<path d="${d}" fill="url(#${u}vel)"/>` + ppl;
     }
     const RR = RW - 0.02;
     o += band(RR, 0.66, 0.77, dim(st.wood, 0.25));
@@ -934,11 +1031,15 @@
       }
       // Cadires i diputats, del fons cap endavant.
       const inRow = order.filter((p) => p.row === row).sort((a, b) => b.d - a.d);
+      // Les files del fons es perden una mica en l'aire de la sala.
+      const hz = L.rows > 1 ? 0.16 * row / (L.rows - 1) : 0;
+      const wOf = new Map();
       for (const p of inRow) {
         const [X, Y, s] = P3(p.x, p.d, z + 0.012);
-        const w = Math.max(1.3, p.sp * s * 0.74), hh = Math.max(1.5, w * 1.12);
+        const w = Math.max(1.4, p.sp * s * 0.95), hh = Math.max(1.5, w * 1.05);
+        wOf.set(p.i, w);
         rs += chair(X, Y, w, hh, u, row === 0 && st.front);
-        rs += person(X, Y - w * 0.12, w, owner.get(p.i), rank.get(p.i), seats, ca);
+        rs += person(X, Y - w * 0.12, w, owner.get(p.i), rank.get(p.i), seats, ca, hz);
       }
       // Faristols: tapa clara, frontal amb plafons, i micros.
       const rd = r - gap * 0.42;
@@ -964,8 +1065,33 @@
         if (sm * p.sp > 10) mic += `M${f(M0[0])} ${f(M0[1])}q${f(sm * 0.006)} ${f(-sm * 0.03)} ${f(sm * 0.016)} ${f(-sm * 0.045)}`;
       }
       if (pan) rs += `<path d="${pan}" stroke="${dim(st.wood, 0.5)}" stroke-width=".5" opacity=".7"/>`;
+      // Ombra que fa el faristol sobre la grada de sota.
+      const sh = rowCurve(P3, rd, z - 0.04, span, arm, 64);
+      rs += stroke(sh, '#000', 2.6, ' opacity=".14"') + stroke(sh, '#000', 1.1, ' opacity=".2"');
+      // Mans, papers, tauletes i gots damunt del faristol.
+      const rt = rd + gap * 0.06;
+      for (const p of inRow) {
+        const [tx, ty] = rowXY(rt, p.s * rt / r, span, arm);
+        const [X, Y] = P3(tx, ty, z + 0.022);
+        rs += deskStuff(X, Y, wOf.get(p.i), owner.get(p.i), rank.get(p.i), seats, hz);
+      }
       if (mic) rs += `<path d="${mic}" fill="none" stroke="#222" stroke-width=".6" stroke-linecap="round"/>`;
+      if (hz > 0.02) {
+        const top = rowCurve(P3, r + gap * 0.25, z + 0.09, span, arm, 64);
+        const bot = rowCurve(P3, rd, z - 0.04, span, arm, 64);
+        rs += shape(top.concat(bot.reverse()), HAZE, ` opacity="${(hz * 0.35).toFixed(3)}"`);
+      }
       o += rs;
+    }
+
+    // Raigs de llum que baixen del lluernari o de la cupula, d'esquerra a dreta.
+    if (st.sky || st.dome) {
+      const y0 = P3(0, RW, 1.5)[1], y1 = P3(0, L.r0, 0)[1];
+      let rays = '';
+      for (const [x, w, dx] of [[118, 16, 46], [158, 10, 52], [196, 20, 60], [238, 12, 66]]) {
+        rays += `<path d="M${x} ${f(y0)}h${w}L${x + w + dx + w * 1.6} ${f(y1)}H${x + dx - w * 0.6}Z" fill="url(#${u}ray)"/>`;
+      }
+      o += `<g class="rays" opacity=".85">${rays}</g>`;
     }
 
     // Tribuna d'oradors i taula dels taquigrafs, al davant.
@@ -1075,7 +1201,8 @@
         const cells = b.cells.filter((cl) => cl.row === row).sort((a, cc) => cc.col - a.col);
         for (const cl of cells) {
           const [X, Y, s] = q(sg * (xr(row) + 0.03), d0 + (cl.col + 0.5) * dd, z + 0.005);
-          o += person(X, Y, Math.max(1.4, dd * s * 0.95), cl.g, cl.k, seats, ca);
+          // Als Comuns seuen colze a colze: les figures es toquen i es tapen una mica.
+          o += person(X, Y, Math.max(1.6, dd * s * 1.3), cl.g, cl.k, seats, ca, 0.28 * cl.col / ncol);
         }
         o += shape([q(x, d0 - 0.03, z), q(x, d0 + D, z), q(x, d0 + D, z - 0.075), q(x, d0 - 0.03, z - 0.075)], `url(#${u}wood)`);
       }
