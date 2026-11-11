@@ -763,7 +763,9 @@
     const h = hash(k), h2 = hash(k + 11), h3 = hash(k + 23);
     const tw = w * 0.92, th = w * 0.8, hr = w * 0.205;
     const fog = (c) => (hz ? mix(c, HAZE, hz) : c);
-    const body = fog(g.c);
+    // cada americana és d'una tela una mica diferent
+    const tv = hash(k + 41);
+    const body = fog(tv < 0.5 ? dim(g.c, (0.5 - tv) * 0.24) : lite(g.c, (tv - 0.5) * 0.16));
     const skin = fog(SKIN[Math.floor(h * SKIN.length)]);
     // 0-1 curt, 2 clenxa, 3 llarg, 4 calb, 5 mitja melena
     const style = Math.floor(h2 * 6);
@@ -794,7 +796,8 @@
       // solapes
       o += `<path d="M${f(X - tw * 0.16)} ${f(Y - th * 0.99)}L${f(X - tw * 0.03)} ${f(Y - th * 0.38)}M${f(X + tw * 0.16)} ${f(Y - th * 0.99)}L${f(X + tw * 0.03)} ${f(Y - th * 0.38)}" stroke="${dim(body, 0.4)}" stroke-width="${f(w * 0.035)}" fill="none"/>`;
     }
-    // coll i cap
+    // coll i cap: uns miren endavant, d'altres es giren cap al del costat
+    X += (hash(k + 51) - 0.5) * hr * 0.55;
     if (w > 3) o += `<rect x="${f(X - hr * 0.42)}" y="${f(hy + ry * 0.6)}" width="${f(hr * 0.84)}" height="${f(Y - th - hy - ry * 0.55)}" fill="${dim(skin, 0.18)}"/>`;
     if (w > 6) o += `<circle cx="${f(X - hr * 0.98)}" cy="${f(hy + ry * 0.08)}" r="${f(hr * 0.2)}" fill="${skin}"/><circle cx="${f(X + hr * 0.98)}" cy="${f(hy + ry * 0.08)}" r="${f(hr * 0.2)}" fill="${dim(skin, 0.12)}"/>`;
     o += `<ellipse cx="${f(X)}" cy="${f(hy)}" rx="${f(hr)}" ry="${f(ry)}" fill="${skin}"/>`;
@@ -824,7 +827,7 @@
     return o + '</g>';
   }
   // El que hi ha damunt de l'escó: les mans, i papers, una tauleta o un got.
-  function deskStuff(X, Y, w, g, k, n, hz) {
+  function deskStuff(X, Y, w, g, k, n, hz, PX, PY) {
     const fog = (c) => (hz ? mix(c, HAZE, hz) : c);
     const r = hash(k + 31);
     let o = '';
@@ -837,9 +840,15 @@
       const s = Math.min(0.999, (k / n) * 0.9 + hash(k + 3) * 0.1);
       const sl = fog(dim(g.c, 0.15)), sk = fog(SKIN[Math.floor(hash(k) * SKIN.length)]);
       o += `<g class="mp" style="--s:${s.toFixed(3)}">`;
+      const tw = w * 0.92, th = w * 0.8;
+      const hx = PX == null ? X : PX;
       for (const sg of [-1, 1]) {
-        o += `<ellipse cx="${f(X + sg * w * 0.24)}" cy="${f(Y - w * 0.03)}" rx="${f(w * 0.1)}" ry="${f(w * 0.06)}" fill="${sl}"/>` +
-             `<ellipse cx="${f(X + sg * w * 0.15)}" cy="${f(Y - w * 0.035)}" rx="${f(w * 0.075)}" ry="${f(w * 0.045)}" fill="${sk}"/>`;
+        // mans damunt del faristol, just davant del cos; el braç ve de l'espatlla
+        const ax = hx + sg * w * (0.22 + hash(k + 61 + sg) * 0.08), ay = Y - w * 0.035;
+        if (PY != null && PY - th * 0.62 < ay) {
+          o += `<path d="M${f(hx + sg * tw * 0.4)} ${f(PY - th * 0.6)}Q${f(hx + sg * tw * 0.47)} ${f((PY + ay) / 2)} ${f(ax)} ${f(ay)}" fill="none" stroke="${sl}" stroke-width="${f(w * 0.17)}" stroke-linecap="round"/>`;
+        }
+        o += `<ellipse cx="${f(ax - sg * w * 0.07)}" cy="${f(ay - w * 0.005)}" rx="${f(w * 0.07)}" ry="${f(w * 0.045)}" fill="${sk}"/>`;
       }
       o += '</g>';
     }
@@ -857,7 +866,10 @@
     const L = arcLayout(seats, span, arm, A, HA);
     let dmin = Infinity;
     for (const p of L.pts) dmin = Math.min(dmin, p.d);
-    const c = 0.55 + arm - Math.max(0, dmin) * 0.5, H = 0.95;
+    // Com un fotògraf a la tribuna de premsa, darrere i per damunt de la
+    // presidència: amb la càmera tan a prop, els extrems de les files
+    // s'obrien cap als racons i la sala semblava un rombe.
+    const c = 0.8 + arm - Math.max(0, dmin) * 0.5, H = 1.1;
     const zr = (r) => 0.06 + 0.34 * (r - L.r0) / (1 - L.r0);
     let m = 0;
     for (const p of L.pts) m = Math.max(m, Math.abs(p.x) / (p.d + c));
@@ -943,19 +955,37 @@
       o += `<path d="${d}" fill="url(#${u}vel)"/>` + ppl;
     }
     const RR = RW - 0.02;
-    o += band(RR, 0.66, 0.77, dim(st.wood, 0.25));
-    {
+    // Barana de la tribuna: plafons de fusta amb motllura daurada entre
+    // pilastres i, a dalt, el passamà entapissat; a les sales modernes, vidre.
+    const quad = (t0, t1, r, z0, z1) => [at(t0, r, z0), at(t1, r, z0), at(t1, r, z1), at(t0, r, z1)];
+    if (st.dome) {
+      o += band(RR, 0.66, 0.77, '#dcebf5', 64, ' opacity=".35"') +
+           stroke(rowCurve(P3, RR, 0.77, PI, 0, 64), '#8f9aa6', 1.6) +
+           stroke(rowCurve(P3, RR, 0.66, PI, 0, 64), '#8f9aa6', 0.8);
       let d = '';
-      const n = 70;
-      for (let k = 1; k < n; k++) {
-        const [X, Y, s] = at(PI * k / n, RR, 0.715);
-        d += `M${f(X - s * 0.016)} ${f(Y)}a${f(s * 0.016)} ${f(s * 0.03)} 0 1 0 ${f(s * 0.032)} 0a${f(s * 0.016)} ${f(s * 0.03)} 0 1 0 ${f(-s * 0.032)} 0Z`;
+      for (let k = 0; k <= 36; k++) { const a = at(PI * k / 36, RR, 0.66), b = at(PI * k / 36, RR, 0.77); d += `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`; }
+      o += `<path d="${d}" stroke="#8f9aa6" stroke-width=".5" opacity=".7"/>`;
+    } else {
+      o += band(RR, 0.655, 0.77, `url(#${u}wood)`);
+      const n = 30, pw = PI / n;
+      let pil = '', mold = '', inner = '';
+      for (let k = 0; k < n; k++) {
+        const t0 = PI * k / n, t1 = t0 + pw, e = pw * 0.07;
+        pil += shape(quad(t0 - e, t0 + e, RR * 1.002, 0.655, 0.77), dim(st.wood, 0.3));
+        const q1 = quad(t0 + e * 2.2, t1 - e * 2.2, RR, 0.672, 0.752), q2 = quad(t0 + e * 3.6, t1 - e * 3.6, RR, 0.684, 0.74);
+        mold += 'M' + pts2(q1) + 'Z';
+        inner += 'M' + pts2(q2) + 'Z';
       }
-      o += `<path d="${d}" fill="none" stroke="url(#${u}gold)" stroke-width="1.1"/>`;
+      o += pil + `<path d="${inner}" fill="${dim(st.wood, 0.18)}"/>` +
+           `<path d="${mold}" fill="none" stroke="url(#${u}gold)" stroke-width=".9"/>` +
+           `<path d="${inner}" fill="none" stroke="${lite(st.gold, 0.2)}" stroke-width=".4" opacity=".8"/>`;
+      // passamà de vellut
+      o += band(RR * 1.004, 0.77, 0.792, `url(#${u}vel)`) +
+           stroke(rowCurve(P3, RR * 1.004, 0.792, PI, 0, 64), lite(st.seat, 0.35), 0.6, ' opacity=".7"');
     }
-    o += stroke(rowCurve(P3, RR, 0.77, PI, 0, 64), `url(#${u}gold)`, 2.2) +
-         stroke(rowCurve(P3, RR, 0.66, PI, 0, 64), `url(#${u}gold)`, 1.2) +
-         stroke(rowCurve(P3, RR, 0.645, PI, 0, 64), '#000', 1.6, ' opacity=".25"');
+    o += stroke(rowCurve(P3, RR, 0.77, PI, 0, 64), `url(#${u}gold)`, 1.4) +
+         stroke(rowCurve(P3, RR, 0.655, PI, 0, 64), `url(#${u}gold)`, 1.2) +
+         stroke(rowCurve(P3, RR, 0.64, PI, 0, 64), '#000', 1.6, ' opacity=".25"');
     // Columnes estriades, amb capitell i base.
     for (let k = 0; k < ncol; k++) {
       const t = PI * (0.14 + 0.72 * k / Math.max(1, ncol - 1));
@@ -1004,6 +1034,32 @@
          stroke(rowCurve(P3, L.r0 - gap * 0.75, 0, span, arm, 64), `url(#${u}gold)`, 1) +
          stroke(rowCurve(P3, (L.r0 - gap * 0.6) * 0.55, 0, span, arm, 48), lite(st.floor, 0.25), 0.8, ' opacity=".6"');
 
+    // On s'acaben les files (als costats, a tocar de la presidència), la
+    // graderia es tanca amb un frontal esglaonat de fusta. Sense, els
+    // racons de baix quedaven buits.
+    if (span > PI - 0.01) {
+      const dE = -arm + 0.002;
+      for (const sg of [-1, 1]) {
+        const pts = [P3(sg * (L.r0 - gap * 0.6), dE, 0)];
+        let nose = [];
+        L.radii.forEach((r, i) => {
+          const z = zr(r), zi = i ? zr(L.radii[i - 1]) : 0;
+          pts.push(P3(sg * (r - gap * 0.5), dE, zi), P3(sg * (r - gap * 0.5), dE, z));
+          nose.push(P3(sg * (r - gap * 0.5), dE, zi), P3(sg * (r - gap * 0.5), dE, z), P3(sg * (r + gap * 0.5), dE, z));
+        });
+        pts.push(P3(sg * (1 + gap * 0.55), dE, zTop), P3(sg * RW * 1.4, dE, zTop), P3(sg * RW * 1.4, dE, 0));
+        o += shape(pts, `url(#${u}wood)`) + shape(pts, '#000', ' opacity=".18"') + stroke(nose, lite(st.wood, 0.3), 0.8);
+        // plafons
+        let d = '';
+        L.radii.forEach((r, i) => {
+          const z = zr(r);
+          const a = P3(sg * (r - gap * 0.38), dE, z * 0.15), b = P3(sg * (r + gap * 0.38), dE, Math.max(0.01, z - 0.03));
+          d += `M${f(a[0])} ${f(a[1])}H${f(b[0])}V${f(b[1])}H${f(a[0])}Z`;
+        });
+        o += `<path d="${d}" fill="none" stroke="${dim(st.wood, 0.45)}" stroke-width=".6"/>`;
+      }
+    }
+
     // Qui seu on: d'esquerra a dreta, partit per partit.
     const order = L.pts.map((p, i) => ({ ...p, i })).sort((a, b) => a.u - b.u || a.r - b.r);
     const rank = new Map(order.map((p, k) => [p.i, k]));
@@ -1031,24 +1087,27 @@
       }
       // Cadires i diputats, del fons cap endavant.
       const inRow = order.filter((p) => p.row === row).sort((a, b) => b.d - a.d);
+      // Alçada del faristol: proporcional a la mida dels diputats d'aquesta
+      // fila, perquè sempre els tapi fins a mig cos.
+      const DT = Math.min(0.045, 0.6 * (inRow.length ? inRow[0].sp : 0.07));
       // Les files del fons es perden una mica en l'aire de la sala.
       const hz = L.rows > 1 ? 0.16 * row / (L.rows - 1) : 0;
       const wOf = new Map();
       for (const p of inRow) {
         const [X, Y, s] = P3(p.x, p.d, z + 0.012);
-        const w = Math.max(1.4, p.sp * s * 0.95), hh = Math.max(1.5, w * 1.05);
-        wOf.set(p.i, w);
-        rs += chair(X, Y, w, hh, u, row === 0 && st.front);
+        const w = Math.max(1.4, p.sp * s * 0.86), hh = Math.max(1.5, w * 1.18);
+        wOf.set(p.i, [w, X, Y - w * 0.12]);
+        rs += chair(X, Y, w * 1.16, hh, u, row === 0 && st.front);
         rs += person(X, Y - w * 0.12, w, owner.get(p.i), rank.get(p.i), seats, ca, hz);
       }
       // Faristols: tapa clara, frontal amb plafons, i micros.
-      const rd = r - gap * 0.42;
+      const rd = r - gap * 0.3;
       for (let j = 0; j <= A; j++) {
         const [s0, s1] = G0.range(j);
         const k0 = s0 * rd / r, k1 = s1 * rd / r;
         const nn = Math.max(6, Math.round((s1 - s0) * 24));
-        const topF = rowCurve(P3, rd, z + 0.022, span, arm, nn, k0, k1);
-        const topB = rowCurve(P3, rd + gap * 0.12, z + 0.022, span, arm, nn, k0, k1);
+        const topF = rowCurve(P3, rd, z + DT, span, arm, nn, k0, k1);
+        const topB = rowCurve(P3, rd + gap * 0.13, z + DT, span, arm, nn, k0, k1);
         const bot = rowCurve(P3, rd, z - 0.035, span, arm, nn, k0, k1);
         rs += shape(topF.concat(topB.slice().reverse()), `url(#${u}top)`) +
               shape(topF.concat(bot.slice().reverse()), `url(#${u}wood)`) +
@@ -1058,10 +1117,10 @@
       for (const p of inRow) {
         const sx = p.s * rd / r;
         const [tx, ty] = rowXY(rd, sx + p.sp * 0.5 * rd / r, span, arm);
-        const A1 = P3(tx, ty, z + 0.015), B1 = P3(tx, ty, z - 0.025);
+        const A1 = P3(tx, ty, z + DT - 0.007), B1 = P3(tx, ty, z - 0.025);
         if (A1[2] * p.sp > 9) pan += `M${f(A1[0])} ${f(A1[1])}L${f(B1[0])} ${f(B1[1])}`;
         const [mx, my] = rowXY(rd + gap * 0.08, sx, span, arm);
-        const M0 = P3(mx, my, z + 0.022), sm = M0[2];
+        const M0 = P3(mx, my, z + DT), sm = M0[2];
         if (sm * p.sp > 10) mic += `M${f(M0[0])} ${f(M0[1])}q${f(sm * 0.006)} ${f(-sm * 0.03)} ${f(sm * 0.016)} ${f(-sm * 0.045)}`;
       }
       if (pan) rs += `<path d="${pan}" stroke="${dim(st.wood, 0.5)}" stroke-width=".5" opacity=".7"/>`;
@@ -1072,8 +1131,9 @@
       const rt = rd + gap * 0.06;
       for (const p of inRow) {
         const [tx, ty] = rowXY(rt, p.s * rt / r, span, arm);
-        const [X, Y] = P3(tx, ty, z + 0.022);
-        rs += deskStuff(X, Y, wOf.get(p.i), owner.get(p.i), rank.get(p.i), seats, hz);
+        const [, Y] = P3(tx, ty, z + DT);
+        const [pw, PX, PY] = wOf.get(p.i);
+        if (PY - pw * 0.8 * 0.62 < Y) rs += deskStuff(PX, Y, pw, owner.get(p.i), rank.get(p.i), seats, hz, PX, PY);
       }
       if (mic) rs += `<path d="${mic}" fill="none" stroke="#222" stroke-width=".6" stroke-linecap="round"/>`;
       if (hz > 0.02) {
@@ -1201,8 +1261,10 @@
         const cells = b.cells.filter((cl) => cl.row === row).sort((a, cc) => cc.col - a.col);
         for (const cl of cells) {
           const [X, Y, s] = q(sg * (xr(row) + 0.03), d0 + (cl.col + 0.5) * dd, z + 0.005);
-          // Als Comuns seuen colze a colze: les figures es toquen i es tapen una mica.
-          o += person(X, Y, Math.max(1.6, dd * s * 1.3), cl.g, cl.k, seats, ca, 0.28 * cl.col / ncol);
+          // Als Comuns seuen colze a colze: cada diputat té la mida d'una
+          // persona de veritat a aquella distància, i el del davant tapa
+          // mig cos del del darrere, com a les fotos des de la presidència.
+          o += person(X, Y, Math.max(1.6, dd * s * 1.3, s * 0.072), cl.g, cl.k, seats, ca, 0.28 * cl.col / ncol);
         }
         o += shape([q(x, d0 - 0.03, z), q(x, d0 + D, z), q(x, d0 + D, z - 0.075), q(x, d0 - 0.03, z - 0.075)], `url(#${u}wood)`);
       }
