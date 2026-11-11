@@ -1,0 +1,72 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> › <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+  <h1>{{ '29N: cuánto acertamos' if es else "29N: quant l'hem encertat" }}</h1>
+  <p class="lede">{% if es %}Lo prometimos antes de las elecciones: aquí está nuestra media de encuestas, tal como estaba antes de la veda, frente al resultado. Sin retoques.{% else %}Ho vam prometre abans de les eleccions: aquí hi ha la nostra mitjana d'enquestes, tal com era abans de la veda, davant del resultat. Sense retocs.{% endif %}</p>
+  {% if r.provisional %}<p class="warn">{{ 'Resultado provisional del Ministerio del Interior. Se actualizará con el escrutinio definitivo.' if es else "Resultat provisional del Ministeri de l'Interior. S'actualitzarà amb l'escrutini definitiu." }}</p>{% endif %}
+
+  <div class="facts">
+    <span><b>{{ fmt(r.mae) }}</b> {{ 'puntos de error medio por partido' if es else "punts d'error mitjà per partit" }}</span>
+    {% if r.pollster_mae is not none %}<span><b>{{ fmt(r.pollster_mae) }}</b> {{ 'el instituto medio' if es else "l'institut mitjà" }}</span>
+    <span><b>{{ r.rank }}.º</b> {{ 'de' if es else 'de' }} {{ r.n_polls + 1 }} {{ '(contando la media con los institutos)' if es else '(comptant la mitjana amb els instituts)' }}</span>{% endif %}
+    {% if r.n_inside %}<span><b>{{ r.inside }}/{{ r.n_inside }}</b> {{ 'partidos con los escaños dentro del intervalo del 80 %' if es else "partits amb els escons dins de l'interval del 80 %" }}</span>{% endif %}
+  </div>
+
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr>
+      <th>{{ t('party') }}</th>
+      <th class="n">{{ 'Nuestra media' if es else 'La nostra mitjana' }}</th>
+      <th class="n">{{ 'Resultado' if es else 'Resultat' }}</th>
+      <th class="n">Error</th>
+      <th class="n">{{ 'Escaños previstos (80 %)' if es else 'Escons previstos (80 %)' }}</th>
+      <th class="n">{{ 'Escaños reales' if es else 'Escons reals' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for p in r.parties %}
+    <tr>
+      <td><span class="sw" style="background:{{ p.color }}"></span>{{ p.name }}</td>
+      <td class="n">{{ fmt(p.average) }}</td>
+      <td class="n"><b>{{ fmt(p.result) }}</b></td>
+      <td class="n">{{ signed(p.error) }}</td>
+      <td class="n">{% if p.median is not none %}{{ p.median }} <span class="fine">({{ p.lo }}–{{ p.hi }})</span>{% else %}{{ p.seats if p.seats is not none else '—' }}{% endif %}</td>
+      <td class="n"><b>{{ p.real_seats if p.real_seats is not none else '—' }}</b>{% if p.inside is not none %} {{ '✓' if p.inside else '✗' }}{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{% if es %}Media congelada antes de la veda (último trabajo de campo: {{ fdate(r.frozen.last_fieldwork) }}). Error = media − resultado, en puntos sobre el voto válido. El error medio cuenta los partidos que sacaron al menos el 3 %.{% else %}Mitjana congelada abans de la veda (últim treball de camp: {{ fdate(r.frozen.last_fieldwork) }}). Error = mitjana − resultat, en punts sobre el vot vàlid. L'error mitjà compta els partits que van treure almenys el 3 %.{% endif %}</p>
+
+  {% if r.blocs %}
+  <h2>{{ 'Las probabilidades' if es else 'Les probabilitats' }}</h2>
+  <ul>
+    <li>{{ 'PP y Vox: les dábamos un' if es else 'PP i Vox: els donàvem un' }} {{ ((r.blocs.right.prob or 0) * 100) | round | int }} % {{ 'de mayoría absoluta; han sacado' if es else 'de majoria absoluta; n’han tret' }} {{ r.blocs.right.seats }}.</li>
+    <li>{{ 'La suma que invistió a Sánchez en 2023: le dábamos un' if es else 'La suma que va investir Sánchez el 2023: li donàvem un' }} {{ ((r.blocs.left.prob or 0) * 100) | round | int }} %; {{ 'ha sacado' if es else 'n’ha tret' }} {{ r.blocs.left.seats }}.</li>
+  </ul>
+  <p class="note">{{ 'Una probabilidad del 80 % falla una de cada cinco veces: una sola elección no basta para saber si estaba bien calibrada.' if es else 'Una probabilitat del 80 % falla una de cada cinc vegades: una sola elecció no n’hi ha prou per saber si estava ben calibrada.' }}</p>
+  {% endif %}
+
+  {% if r.polls %}
+  <h2>{{ 'Los institutos' if es else 'Els instituts' }}</h2>
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr><th>{{ 'Instituto' if es else 'Institut' }}</th><th class="n">{{ 'Fin del campo' if es else 'Fi del camp' }}</th><th class="n">{{ 'Error medio' if es else 'Error mitjà' }}</th></tr></thead>
+    <tbody>
+    {% set ns = namespace(done=false) %}
+    {% for p in r.polls %}
+      {% if not ns.done and r.mae is not none and p.mae >= r.mae %}{% set ns.done = true %}<tr><td><b>Polit Bureau ({{ 'media' if es else 'mitjana' }})</b></td><td class="n">—</td><td class="n"><b>{{ fmt(r.mae) }}</b></td></tr>{% endif %}
+      <tr><td>{{ p.pollster }}</td><td class="n">{{ fdate(p.end) }}</td><td class="n">{{ fmt(p.mae) }}</td></tr>
+    {% endfor %}
+    {% if not ns.done and r.mae is not none %}<tr><td><b>Polit Bureau ({{ 'media' if es else 'mitjana' }})</b></td><td class="n">—</td><td class="n"><b>{{ fmt(r.mae) }}</b></td></tr>{% endif %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{{ 'Última encuesta de cada instituto con el campo terminado en las tres semanas anteriores a la veda.' if es else "Última enquesta de cada institut amb el camp acabat les tres setmanes d'abans de la veda." }} <a href="{{ root }}{{ lang }}/{{ page('pollsters') }}/">{{ 'Valoración histórica de los institutos' if es else 'Valoració històrica dels instituts' }}</a>.</p>
+  {% endif %}
+
+  <p class="note">{{ 'Resultado:' if es else 'Resultat:' }} {% if r.source %}<a href="{{ r.source }}" rel="noopener">{{ 'Ministerio del Interior' if es else "Ministeri de l'Interior" }}</a>{% else %}{{ 'Ministerio del Interior' if es else "Ministeri de l'Interior" }}{% endif %}{% if r.retrieved %}, {{ 'consultado el' if es else 'consultat el' }} {{ r.retrieved }}{% endif %}. {{ 'Cómo se calculaba todo:' if es else 'Com es calculava tot:' }} <a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ 'metodología' if es else 'metodologia' }}</a>.</p>
+</article>
+{% endblock %}

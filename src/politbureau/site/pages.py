@@ -598,6 +598,8 @@ def sitemaps(cfg, urls):
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
                                    for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "strongholds", "method", "legal", "privacy", "cookies")]
+        # Pagines que nomes existeixen quan hi ha dades (l'encert del 29N).
+        entries += [i18n.page_url(k, lang) for k in cfg.get("_extra_pages", [])]
         if cfg.get("_abroad"):
             elections = abroad_elections()
             entries += [abroad_url(elections[e], lang) for e in cfg["_abroad"]]

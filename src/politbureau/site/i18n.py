@@ -34,6 +34,7 @@ PAGES = {
     "society": {"es": "voto-y-sociedad", "ca": "vot-i-societat"},
     "opendata": {"es": "datos-abiertos", "ca": "dades-obertes"},
     "pollsters": {"es": "institutos", "ca": "instituts"},
+    "accuracy": {"es": "acierto-29n", "ca": "encert-29n"},
     "legal":   {"es": "aviso-legal", "ca": "avis-legal"},
     "privacy": {"es": "privacidad", "ca": "privadesa"},
     "cookies": {"es": "cookies", "ca": "galetes"},

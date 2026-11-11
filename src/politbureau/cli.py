@@ -102,6 +102,13 @@ def cmd_instituts(args):
     print(f"desat a {pollsters.OUT}")
 
 
+def cmd_congela(args):
+    from . import db, final
+    data = final.freeze(db.connect())
+    print(f"Congelat a {final.LOCAL} (ultim camp: {data['last_fieldwork']}).")
+    print("NO es puja fins despres de les 20 h del 29/11 (veda, LOREG art. 69.7).")
+
+
 def cmd_check(args):
     from .site.check import run
     return run()
@@ -170,6 +177,8 @@ def main(argv=None):
 
     sub.add_parser("instituts", help="valoracio dels instituts d'enquestes (Wikipedia + Ministeri)"
                    ).set_defaults(func=cmd_instituts)
+    sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"
+                   ).set_defaults(func=cmd_congela)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)
 
     p = sub.add_parser("serve", help="arrenca el mapa a l'ordinador")
