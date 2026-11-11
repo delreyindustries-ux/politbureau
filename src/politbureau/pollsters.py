@@ -175,7 +175,48 @@ def evaluate(process: str, date: str, page: str) -> dict:
             "result": {k: round(result[k], 2) for k in main},
             "average": {k: round(v, 2) for k, v in avg.items()},
             "average_mae": round(statistics.mean(abs(avg[k] - result[k]) for k in main), 2),
-            "mean_mae": round(mean_mae, 2), "polls": rows}
+            "mean_mae": round(mean_mae, 2), "polls": rows,
+            "backtest": backtest(polls, e_day, result, main)}
+
+
+VEDA_DAYS = 5             # LOREG art. 69.7: cap enquesta els cinc dies d'abans
+
+
+def backtest(polls, e_day, result, main) -> dict:
+    """El metode de mitjana de la web aplicat al darrer dia abans de la veda.
+
+    Les mateixes regles que build.load_polls + model.aggregate: fora les
+    enquestes internes dels partits, nomes l'ultima de cada institut, 90 dies,
+    300 entrevistes, pes per recencia (14 dies) i per mostra. Es calcula amb el
+    pes editorial actual del CIS i sense, per veure que hi aporta."""
+    from .build import is_party_poll, latest_per_pollster, pollster_weights
+    from .model.aggregate import aggregate
+
+    cutoff = e_day - dt.timedelta(days=VEDA_DAYS + 1)
+    entries = {}
+    for i, p in enumerate(polls):
+        if not p.fieldwork_end or p.fieldwork_end > cutoff.isoformat():
+            continue
+        if is_party_poll(p.pollster, "ES"):
+            continue
+        res = {}
+        for code, (share, _lo, _hi) in p.results.items():
+            if share is None:
+                continue
+            c = _canon(code)
+            res[c] = (res.get(c, (0, None, None))[0] + share, None, None)
+        entries[i] = {"pollster": (p.pollster or "").strip(), "fieldwork_end": p.fieldwork_end,
+                      "sample_size": p.sample_size, "results": res}
+    latest = latest_per_pollster(entries)
+    out = {"cutoff": cutoff.isoformat(), "n": len(latest)}
+    for key, weights in (("current", pollster_weights("es-general")), ("plain", {})):
+        polls_w = [{**e, "weight": weights.get(e["pollster"], 1.0)} for e in latest]
+        agg = aggregate(polls_w, today=cutoff)
+        shares = {k: agg[k]["share"] for k in main if k in agg}
+        out[key] = {"shares": shares,
+                    "mae": round(statistics.mean(abs(shares[k] - result[k]) for k in shares), 2)}
+    out["weights"] = pollster_weights("es-general")
+    return out
 
 
 def ratings(elections: list[dict]) -> list[dict]:

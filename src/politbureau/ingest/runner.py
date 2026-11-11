@@ -178,12 +178,12 @@ def run(conn, only=None):
         country, scope = election["country"], election.get("scope", "national")
 
         # Veda electoral (LOREG 69.7): ni una enquesta nova fins que tanquin els
-        # col.legis. La web es queda amb les que ja tenia.
-        if veda.active(election):
-            db.log_ingest(conn, eid, election["page"], "skipped", 0,
-                          "veda electoral (LOREG art. 69.7)")
-            summary.append((eid, "VEDA ELECTORAL: no es llegeix res", 0))
-            continue
+        # col.legis. La web es queda amb les que ja tenia. ATENCIO: a GitHub la
+        # base de dades es fa de zero a cada execucio, aixi que saltar-se la
+        # lectura deixava la web sense cap enquesta durant la veda (11/11/2026).
+        # Ara es llegeix igual i despres es treuen les enquestes amb el camp
+        # acabat el primer dia de veda o despres (purge_veda, a sota).
+        in_veda = veda.active(election)
 
         if election.get("national", True):
             n, unk = read_page(conn, session, eid, country, scope, election["page"],
@@ -226,4 +226,25 @@ def run(conn, only=None):
                 unmapped.update(unk3)
                 summary.append((eid, page_name, n3))
 
+        if in_veda:
+            gone = purge_veda(conn, eid, veda.window(election)[0].date().isoformat())
+            summary.append((eid, f"VEDA ELECTORAL: fora {gone} enquestes del {veda.window(election)[0].date():%d/%m} o posteriors", -gone))
+
     return summary, sorted(unmapped)
+
+
+def purge_veda(conn, election_id, first_day: str) -> int:
+    """Treu les enquestes amb el camp acabat el primer dia de veda o despres,
+    i les que no porten data: no se sap si es van fer abans de la veda."""
+    ids = [r[0] for r in conn.execute(
+        """SELECT id FROM poll WHERE election_id = ?
+           AND (fieldwork_end IS NULL OR fieldwork_end = '' OR fieldwork_end >= ?)""",
+        (election_id, first_day)).fetchall()]
+    if ids:
+        marks = ",".join("?" * len(ids))
+        conn.execute(f"DELETE FROM poll_result WHERE poll_id IN ({marks})", ids)
+        conn.execute(f"DELETE FROM poll WHERE id IN ({marks})", ids)
+        conn.commit()
+    db.log_ingest(conn, election_id, "veda", "ok", 0,
+                  f"veda electoral (LOREG art. 69.7): fora {len(ids)} enquestes des del {first_day}")
+    return len(ids)

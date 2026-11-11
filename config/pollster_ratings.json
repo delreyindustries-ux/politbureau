@@ -1,5 +1,5 @@
 {
- "computed": "2026-11-10",
+ "computed": "2026-11-11",
  "window_days": 21,
  "main_share": 3.0,
  "names": {
@@ -348,7 +348,32 @@
      },
      "plus_minus": 0.76
     }
-   ]
+   ],
+   "backtest": {
+    "cutoff": "2016-06-20",
+    "n": 24,
+    "current": {
+     "shares": {
+      "PP": 29.48,
+      "PSOE": 21.15,
+      "PODEMOS": 24.8,
+      "CS": 14.29
+     },
+     "mae": 2.47
+    },
+    "plain": {
+     "shares": {
+      "PP": 29.56,
+      "PSOE": 21.14,
+      "PODEMOS": 24.59,
+      "CS": 14.21
+     },
+     "mae": 2.38
+    },
+    "weights": {
+     "CIS": 10.0
+    }
+   }
   },
   {
    "id": "congreso-2019a",
@@ -684,7 +709,36 @@
      },
      "plus_minus": 1.07
     }
-   ]
+   ],
+   "backtest": {
+    "cutoff": "2019-04-22",
+    "n": 35,
+    "current": {
+     "shares": {
+      "PSOE": 29.18,
+      "PP": 18.86,
+      "CS": 14.24,
+      "PODEMOS": 12.53,
+      "VOX": 9.68,
+      "ERC": 3.18
+     },
+     "mae": 1.23
+    },
+    "plain": {
+     "shares": {
+      "PSOE": 29.17,
+      "PP": 20.14,
+      "CS": 14.72,
+      "PODEMOS": 13.06,
+      "VOX": 10.83,
+      "ERC": 3.18
+     },
+     "mae": 1.27
+    },
+    "weights": {
+     "CIS": 10.0
+    }
+   }
   },
   {
    "id": "congreso-2019n",
@@ -1036,7 +1090,36 @@
      },
      "plus_minus": 0.82
     }
-   ]
+   ],
+   "backtest": {
+    "cutoff": "2019-11-04",
+    "n": 26,
+    "current": {
+     "shares": {
+      "PSOE": 27.71,
+      "PP": 18.14,
+      "VOX": 10.15,
+      "PODEMOS": 11.86,
+      "CS": 8.38,
+      "ERC": 3.78
+     },
+     "mae": 1.77
+    },
+    "plain": {
+     "shares": {
+      "PSOE": 27.37,
+      "PP": 20.48,
+      "VOX": 12.7,
+      "PODEMOS": 12.26,
+      "CS": 9.09,
+      "ERC": 3.78
+     },
+     "mae": 1.06
+    },
+    "weights": {
+     "CIS": 10.0
+    }
+   }
   },
   {
    "id": "congreso-2023",
@@ -1438,7 +1521,32 @@
      },
      "plus_minus": 1.67
     }
-   ]
+   ],
+   "backtest": {
+    "cutoff": "2023-07-17",
+    "n": 30,
+    "current": {
+     "shares": {
+      "PP": 32.61,
+      "PSOE": 30.0,
+      "VOX": 12.6,
+      "SUMAR": 13.99
+     },
+     "mae": 1.0
+    },
+    "plain": {
+     "shares": {
+      "PP": 33.71,
+      "PSOE": 28.66,
+      "VOX": 13.1,
+      "SUMAR": 13.43
+     },
+     "mae": 1.37
+    },
+    "weights": {
+     "CIS": 10.0
+    }
+   }
   }
  ],
  "ratings": [

@@ -5,6 +5,7 @@
   <h1>Metodología</h1>
   <p class="lede">Todo lo que hay aquí se puede comprobar. Estas son las fuentes, el
   cálculo y, sobre todo, los límites de lo que publicamos.</p>
+  <p class="fine">En esta página: <a href="#prevision">previsión</a> · <a href="#contraste">cuánto se habría equivocado</a> · <a href="#veda">veda</a> · <a href="#registro">registro de cambios</a></p>
 
   <h2>Dos capas que nunca se mezclan</h2>
   <p><b>Resultado real.</b> El escrutinio oficial del Ministerio del Interior,
@@ -58,6 +59,44 @@
   reproduce <b>348 de los 350 escaños</b>. Las dos diferencias vienen del diccionario
   de siglas, no del reparto.</p>
 
+  <h2 id="prevision">Previsión con probabilidades</h2>
+  <p>La media de encuestas da una cifra; la previsión dice cuánto puede fallar. Se simulan
+  las elecciones {{ model.sims | thousands }} veces. En cada simulación cada partido recibe un
+  error estatal aleatorio que crece con su tamaño: una desviación de {{ fmt(model.e30) }} puntos
+  para un partido del 30 % y de {{ fmt(model.e7) }} para uno del 7 % (0,6 × la raíz del
+  porcentaje), con un máximo del {{ (model.cap * 100) | int }} % de su voto para que los
+  partidos pequeños no desaparezcan por azar. Después cada provincia recibe además un error
+  propio más pequeño y se aplica la ley d'Hondt en las 52 circunscripciones.</p>
+  <p>La probabilidad de un resultado es la parte de las simulaciones en que ocurre. El tamaño
+  del error es una hipótesis inicial, calibrada con lo que fallaron las medias en las últimas
+  generales (abajo); se ajustará con el error real del 29N.</p>
+
+  <h2 id="contraste">Cuánto se habría equivocado este método</h2>
+  <p>Hemos aplicado exactamente las reglas de esta página (una encuesta por instituto, 90 días,
+  peso por recencia y por muestra) a las encuestas publicadas antes de las cuatro últimas
+  generales, el último día antes de la veda. Error medio por partido, en puntos, de los
+  partidos que sacaron al menos el 3 %:</p>
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr><th>Elección</th><th class="n">Encuestas</th><th class="n">Método de la web</th><th class="n">Sin el peso del CIS</th><th class="n">Instituto medio</th></tr></thead>
+    <tbody>
+    {% for b in backtest %}
+    <tr><td>{{ b.label }}</td><td class="n">{{ b.n }}</td><td class="n"><b>{{ fmt(b.current) }}</b></td><td class="n">{{ fmt(b.plain) }}</td><td class="n">{{ fmt(b.pollster) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="note">«Instituto medio»: el error de la última encuesta de un instituto típico. El peso
+  del CIS ayudó en 2023 y en abril de 2019 y empeoró la media en 2016 y, sobre todo, en noviembre
+  de 2019: lo publicamos para que se pueda juzgar. Encuestas de Wikipedia (CC BY-SA 4.0);
+  resultados del Ministerio del Interior. Detalle instituto a instituto en la
+  <a href="{{ root }}{{ lang }}/{{ page('pollsters') }}/">valoración de los institutos</a>.</p>
+
+  <h2 id="veda">Veda electoral</h2>
+  <p>La ley electoral (LOREG, art. 69.7) prohíbe publicar encuestas los cinco días anteriores a
+  la votación. Del 24 de noviembre a las 00:00 al 29 de noviembre a las 20:00 no entra ninguna
+  encuesta nueva: la media y la previsión se quedan como estaban el día 23.</p>
+
   <h2>Lo que este sitio no sabe</h2>
   <ul>
     <li>No sabe qué votará un municipio concreto. Sabe qué votó y cuánto se ha movido
@@ -75,6 +114,16 @@
     es uniforme.</li>
     <li>Cuando una cifra se apoya en pocas encuestas, lo dice.</li>
   </ul>
+
+  <h2 id="registro">Registro de cambios</h2>
+  <p>Cada decisión que mueve la media o la estimación, con su fecha. Cuando un partido no se
+  presenta, se excluye y su peso se reparte proporcionalmente; cuando va en coalición, sus votos
+  se suman, encuesta a encuesta.</p>
+  <ul class="log">
+  {% for e in log %}<li><b>{{ e.date }}</b> · {{ e.text }}</li>
+  {% endfor %}
+  </ul>
+  <p>Todos los datos, en CSV y en JSON: <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">datos abiertos</a>.</p>
 
   <h2>Fuentes</h2>
   <ul>
@@ -98,6 +147,7 @@
   <h1>Metodologia</h1>
   <p class="lede">Tot el que hi ha aquí es pot comprovar. Aquestes són les fonts, el
   càlcul i, sobretot, els límits del que publiquem.</p>
+  <p class="fine">En aquesta pàgina: <a href="#previsio">previsió</a> · <a href="#contrast">quant s'hauria equivocat</a> · <a href="#veda">veda</a> · <a href="#registre">registre de canvis</a></p>
 
   <h2>Dues capes que no es barregen mai</h2>
   <p><b>Resultat real.</b> L'escrutini oficial del Ministeri de l'Interior, municipi a
@@ -150,6 +200,44 @@
   reprodueix <b>348 dels 350 escons</b>. Les dues diferències vénen del diccionari de
   sigles, no del repartiment.</p>
 
+  <h2 id="previsio">Previsió amb probabilitats</h2>
+  <p>La mitjana d'enquestes dona una xifra; la previsió diu quant pot fallar. Se simulen les
+  eleccions {{ model.sims | thousands }} vegades. A cada simulació cada partit rep un error
+  estatal aleatori que creix amb la seva mida: una desviació de {{ fmt(model.e30) }} punts per a un
+  partit del 30 % i d'{{ fmt(model.e7) }} per a un del 7 % (0,6 × l'arrel del percentatge), amb un
+  màxim del {{ (model.cap * 100) | int }} % del seu vot perquè els partits petits no desapareguin
+  per atzar. Després cada província rep a més un error propi més petit i s'aplica la llei
+  d'Hondt a les 52 circumscripcions.</p>
+  <p>La probabilitat d'un resultat és la part de les simulacions en què passa. La mida de l'error
+  és una hipòtesi inicial, calibrada amb el que van fallar les mitjanes a les últimes generals
+  (a sota); s'ajustarà amb l'error real del 29N.</p>
+
+  <h2 id="contrast">Quant s'hauria equivocat aquest mètode</h2>
+  <p>Hem aplicat exactament les regles d'aquesta pàgina (una enquesta per institut, 90 dies, pes
+  per recència i per mostra) a les enquestes publicades abans de les quatre últimes generals, el
+  darrer dia abans de la veda. Error mitjà per partit, en punts, dels partits que van treure
+  almenys el 3 %:</p>
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr><th>Elecció</th><th class="n">Enquestes</th><th class="n">Mètode de la web</th><th class="n">Sense el pes del CIS</th><th class="n">Institut mitjà</th></tr></thead>
+    <tbody>
+    {% for b in backtest %}
+    <tr><td>{{ b.label }}</td><td class="n">{{ b.n }}</td><td class="n"><b>{{ fmt(b.current) }}</b></td><td class="n">{{ fmt(b.plain) }}</td><td class="n">{{ fmt(b.pollster) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="note">«Institut mitjà»: l'error de l'última enquesta d'un institut típic. El pes del CIS
+  va ajudar el 2023 i l'abril del 2019 i va empitjorar la mitjana el 2016 i, sobretot, el novembre
+  del 2019: ho publiquem perquè es pugui jutjar. Enquestes de la Viquipèdia (CC BY-SA 4.0);
+  resultats del Ministeri de l'Interior. Detall institut per institut a la
+  <a href="{{ root }}{{ lang }}/{{ page('pollsters') }}/">valoració dels instituts</a>.</p>
+
+  <h2 id="veda">Veda electoral</h2>
+  <p>La llei electoral (LOREG, art. 69.7) prohibeix publicar enquestes els cinc dies anteriors a
+  la votació. Del 24 de novembre a les 00:00 al 29 de novembre a les 20:00 no hi entra cap
+  enquesta nova: la mitjana i la previsió es queden com estaven el dia 23.</p>
+
   <h2>El que aquest lloc no sap</h2>
   <ul>
     <li>No sap què votarà un municipi concret. Sap què va votar i quant s'ha mogut el
@@ -166,6 +254,16 @@
     aproximació: dins d'Andalusia o de Catalunya el vot tampoc no és uniforme.</li>
     <li>Quan una xifra se sosté en poques enquestes, ho diu.</li>
   </ul>
+
+  <h2 id="registre">Registre de canvis</h2>
+  <p>Cada decisió que mou la mitjana o l'estimació, amb la seva data. Quan un partit no es
+  presenta, s'exclou i el seu pes es reparteix proporcionalment; quan va en coalició, els seus
+  vots se sumen, enquesta a enquesta.</p>
+  <ul class="log">
+  {% for e in log %}<li><b>{{ e.date }}</b> · {{ e.text }}</li>
+  {% endfor %}
+  </ul>
+  <p>Totes les dades, en CSV i en JSON: <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">dades obertes</a>.</p>
 
   <h2>Fonts</h2>
   <ul>

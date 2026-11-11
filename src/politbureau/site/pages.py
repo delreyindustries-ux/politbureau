@@ -405,9 +405,60 @@ def society_page(env, cfg, conn):
     return len(g["dims"])
 
 
+# Registre public de decisions de metode (pla de ruta, fase 1: metode public).
+# Cada canvi que mou la mitjana o l'estimacio, amb la data. Fonts: els
+# comentaris de config/sources.yaml i build.py, on cada regla porta la seva.
+METHOD_LOG = [
+    ("2026-10-03", "Més per Mallorca, Més per Menorca y Chunta Aragonesista se cuentan dentro de Sumar, como en 2023.",
+     "Més per Mallorca, Més per Menorca i Chunta Aragonesista es compten dins de Sumar, com el 2023."),
+    ("2026-10-03", "Aliança Catalana sale de la media: no se presenta a las generales.",
+     "Aliança Catalana surt de la mitjana: no es presenta a les generals."),
+    ("2026-10-05", "Veda electoral: del 24/11 a las 00:00 al 29/11 a las 20:00 no entra ninguna encuesta nueva.",
+     "Veda electoral: del 24/11 a les 00:00 al 29/11 a les 20:00 no hi entra cap enquesta nova."),
+    ("2026-10-07", "Podemos pasa a contarse dentro del Frente Amplio.",
+     "Podemos passa a comptar-se dins del Frente Amplio."),
+    ("2026-10-12", "La CUP sale de la estimación: no se presenta a las generales.",
+     "La CUP surt de l'estimació: no es presenta a les generals."),
+    ("2026-10-13", "Podemos vuelve a contarse por separado y no se presenta en Cataluña; UPN y PP van juntos en Navarra.",
+     "Podemos torna a comptar-se per separat i no es presenta a Catalunya; UPN i PP van junts a Navarra."),
+    ("2026-10-14", "Las encuestas del CIS cuentan 10 veces más (decisión editorial). UPL no se presenta en León.",
+     "Les enquestes del CIS compten 10 vegades més (decisió editorial). UPL no es presenta a Lleó."),
+    ("2026-10-06", "Listas únicas a la izquierda del PSOE en Canarias, Aragón y la Comunidad Valenciana: sus votos se suman.",
+     "Llistes úniques a l'esquerra del PSOE a Canàries, l'Aragó i el País Valencià: els seus vots se sumen."),
+    ("2026-10-16", "Aragón sale de la lista única: Podemos se presenta por separado.",
+     "L'Aragó surt de la llista única: Podemos s'hi presenta per separat."),
+    ("2026-10-17", "Recortes Cero va dentro del Frente Amplio en toda España.",
+     "Recortes Cero va dins del Frente Amplio a tot Espanya."),
+    ("2026-10-18", "Primero Canarias, escindido de Nueva Canarias, va con CC: la mitad del voto de NC en 2023 pasa a CC.",
+     "Primero Canarias, escindit de Nueva Canarias, va amb CC: la meitat del vot de NC del 2023 passa a CC."),
+    ("2026-10-19", "De cada instituto cuenta solo su encuesta más reciente.",
+     "De cada institut només compta la seva enquesta més recent."),
+    ("2026-10-21", "CHA-Frente Amplio no se presenta al Congreso por Teruel; su voto se asigna al PSOE.",
+     "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
+    ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
+     "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-10-26", "Fuera las encuestas internas de los partidos.",
+     "Fora les enquestes internes dels partits."),
+    ("2026-11-01", "Fuera un sondeo interno de Vox publicado por The Objective.",
+     "Fora un sondeig intern de Vox publicat per The Objective."),
+    ("2026-11-10", "Previsión con probabilidades, datos abiertos, API y valoración de los institutos.",
+     "Previsió amb probabilitats, dades obertes, API i valoració dels instituts."),
+]
+
+
 def method_page(env, cfg, stats):
     """La metodologia sencera. Es la pagina que fa creible tota la resta."""
+    from .. import forecast as fc, pollsters
+    from .rating import LABEL
+    rating = pollsters.load() or {}
+    backtest = [{"label": LABEL.get(e["id"], e["id"]), "id": e["id"], "n": e["backtest"]["n"],
+                 "cutoff": e["backtest"]["cutoff"], "current": e["backtest"]["current"]["mae"],
+                 "plain": e["backtest"]["plain"]["mae"], "pollster": e["mean_mae"]}
+                for e in rating.get("elections", []) if e.get("backtest")]
+    model = {"sims": fc.N_SIMS, "sigma": fc.SIGMA, "local": fc.LOCAL, "cap": fc.CAP,
+             "e30": round(fc.SIGMA * 30 ** 0.5, 1), "e7": round(fc.SIGMA * 7 ** 0.5, 1)}
     for lang in i18n.LANGS:
+        log = [{"date": _fdate(d), "text": es if lang == "es" else ca} for d, es, ca in sorted(METHOD_LOG, key=lambda x: x[0])]
         canonical = i18n.page_url("method", lang)
         html = render_page(
             env, cfg, "method.html.j2", lang, canonical,
@@ -419,7 +470,8 @@ def method_page(env, cfg, stats):
              if lang == "es" else
              "Com es recullen les enquestes, com es pondera la mitjana i com es "
              "projecta sobre cada municipi. Amb el contrast del model contra el 2023."),
-            stats=stats, baseline_year=BASELINE_YEAR)
+            stats=stats, baseline_year=BASELINE_YEAR, backtest=backtest, model=model, log=log,
+            fmt=_fmt, fdate=_fdate)
         write(DIST / canonical.strip("/") / "index.html", html)
 
 
