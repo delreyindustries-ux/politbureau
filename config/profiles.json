@@ -1,0 +1,7101 @@
+{
+ "computed": "2026-11-15",
+ "source": "Wikidata (CC0)",
+ "searched": 669,
+ "found": 227,
+ "people": {
+  "javier hurtado dominguez": {
+   "qid": "Q98929913",
+   "born": 1981,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Autónoma de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "Consejero de Turismo, Comercio y Consumo",
+     "Diputat d'Infraestructures Viàries i Mobilitat d'Àlaba",
+     "cap del Departament d'Ocupació i Treball del Govern Basc"
+    ],
+    "wiki": "Javier Hurtado"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Autònoma de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "Conseller de Turisme, Comerç i Consum",
+     "Diputat d'Infraestructures Viàries i Mobilitat d'Àlaba",
+     "cap del Departament d'Ocupació i Treball del Govern Basc"
+    ]
+   }
+  },
+  "eba blanco de angulo": {
+   "qid": "Q30149726",
+   "born": 1973,
+   "es": {
+    "place": "Amurrio",
+    "jobs": [
+     "político",
+     "traductor"
+    ],
+    "posts": [
+     "diputado del Parlamento Vasco",
+     "Concejal del Ayuntamiento de Amurrio"
+    ]
+   },
+   "ca": {
+    "place": "Amurrio",
+    "jobs": [
+     "polític",
+     "traductor"
+    ],
+    "posts": [
+     "diputat al Parlament Basc",
+     "Concejal del Ayuntamiento de Amurrio"
+    ]
+   }
+  },
+  "inaki oyarzabal de miguel": {
+   "qid": "Q11684213",
+   "born": 1966,
+   "es": {
+    "desc": "político español",
+    "place": "Vitoria",
+    "jobs": [
+     "político",
+     "empresario"
+    ],
+    "posts": [
+     "sustituto en la Asamblea Parlamentaria del Consejo de Europa",
+     "diputado del Parlamento Vasco"
+    ],
+    "wiki": "Iñaki Oyarzábal"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Vitòria",
+    "jobs": [
+     "polític",
+     "empresari"
+    ],
+    "posts": [
+     "substitut de l'Assemblea Parlamentària del Consell d'Europa",
+     "diputat al Parlament Basc"
+    ]
+   }
+  },
+  "fulgencio jose cerdan barcelo": {
+   "qid": "Q66346226",
+   "born": 1970,
+   "es": {
+    "desc": "político español",
+    "place": "Villena",
+    "studies": [
+     "Universidad de Valencia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal",
+     "alcalde de Villena"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Villena",
+    "studies": [
+     "Universitat de València"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor",
+     "alcalde de Villena"
+    ]
+   }
+  },
+  "maria teresa perez diaz": {
+   "qid": "Q57414830",
+   "born": 1993,
+   "es": {
+    "desc": "política y periodista española",
+    "place": "Petrer",
+    "studies": [
+     "Universidad Carlos III de Madrid"
+    ],
+    "jobs": [
+     "investigador",
+     "político",
+     "periodista"
+    ],
+    "posts": [
+     "diputado de España",
+     "secretario general de Podemos Comunidad Valenciana"
+    ],
+    "wiki": "María Teresa Pérez (política española)"
+   },
+   "ca": {
+    "desc": "política i periodista valenciana",
+    "place": "Petrer",
+    "studies": [
+     "Universitat Carles III de Madrid"
+    ],
+    "jobs": [
+     "investigador",
+     "polític",
+     "periodista"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "secretari general de Podem País Valencià"
+    ],
+    "wiki": "María Teresa Pérez Díaz"
+   }
+  },
+  "david garcia gomis": {
+   "qid": "Q127428672",
+   "born": 1980,
+   "es": {
+    "desc": "político español",
+    "place": "Alicante",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en las Cortes Valencianas",
+     "diputado de España"
+    ],
+    "wiki": "David García Gomis"
+   },
+   "ca": {
+    "desc": "polític valencià",
+    "place": "Alacant",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a les Corts Valencianes",
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "jose maria sanchez garcia": {
+   "qid": "Q85713493",
+   "born": 1963,
+   "es": {
+    "desc": "abogado, juez, catedrático y político español",
+    "place": "Madrid",
+    "studies": [
+     "Real Colegio de España",
+     "Universidad de Bolonia",
+     "Universidad de Toulouse"
+    ],
+    "jobs": [
+     "abogado",
+     "político",
+     "magistrado",
+     "profesor universitario"
+    ],
+    "posts": [
+     "diputado de España",
+     "catedrático de universidad"
+    ],
+    "wiki": "José María Sánchez García"
+   },
+   "ca": {
+    "desc": "advocat espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Real Colegio de España",
+     "Universitat de Bolonya",
+     "Universitat de Tolosa"
+    ],
+    "jobs": [
+     "advocat",
+     "polític",
+     "magistrat",
+     "professor universitari"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "catedràtic d'universitat"
+    ]
+   }
+  },
+  "macarena montesinos de miguel": {
+   "qid": "Q11934485",
+   "born": 1961,
+   "es": {
+    "desc": "política española",
+    "place": "Alicante",
+    "jobs": [
+     "político",
+     "asesor"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Alicante",
+     "diputado en las Cortes Valencianas",
+     "diputado de España"
+    ],
+    "wiki": "Macarena Montesinos"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Alacant",
+    "jobs": [
+     "polític",
+     "assessor"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament d'Alacant",
+     "diputat a les Corts Valencianes",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Macarena Montesinos de Miguel"
+   }
+  },
+  "cesar sanchez perez": {
+   "qid": "Q11916413",
+   "born": 1978,
+   "es": {
+    "desc": "Político español",
+    "place": "Navalmoral de la Mata",
+    "studies": [
+     "Universidad de Alicante"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Calpe",
+     "diputado en las Cortes Valencianas",
+     "presidente de la Diputación Provincial de Alicante",
+     "diputado de España",
+     "Regidor de l'Ajuntament de Calp"
+    ],
+    "wiki": "César Sánchez Pérez"
+   },
+   "ca": {
+    "desc": "Polític espanyol",
+    "place": "Navalmoral de la Mata",
+    "studies": [
+     "Universitat d'Alacant"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Calp",
+     "diputat a les Corts Valencianes",
+     "president de la Diputació Provincial d'Alacant",
+     "diputat al Congrés dels Diputats",
+     "Regidor de l'Ajuntament de Calp"
+    ],
+    "wiki": "César Sánchez Pérez"
+   }
+  },
+  "joaquin melgarejo moreno": {
+   "qid": "Q56000770",
+   "born": 1960,
+   "es": {
+    "place": "Ojós",
+    "studies": [
+     "Universidad de Murcia"
+    ],
+    "jobs": [
+     "investigador",
+     "historiador",
+     "geógrafo",
+     "político"
+    ],
+    "posts": [
+     "catedrático de universidad",
+     "director"
+    ]
+   },
+   "ca": {
+    "place": "Ojós",
+    "studies": [
+     "Universitat de Múrcia"
+    ],
+    "jobs": [
+     "investigador",
+     "historiador",
+     "geògraf",
+     "polític"
+    ],
+    "posts": [
+     "catedràtic d'universitat",
+     "director"
+    ]
+   }
+  },
+  "ines maria plaza garcia": {
+   "qid": "Q122385336",
+   "born": 1978,
+   "es": {
+    "desc": "política española",
+    "place": "Almería",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "place": "Almeria",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "rocio de meer mendez": {
+   "qid": "Q66661047",
+   "born": 1989,
+   "es": {
+    "desc": "política española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Rocío de Meer Méndez"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Rocío de Meer Méndez"
+   }
+  },
+  "rafael antonio hernando fraile": {
+   "qid": "Q18642848",
+   "born": 1961,
+   "es": {
+    "desc": "político y abogado español",
+    "place": "Guadalajara",
+    "studies": [
+     "Universidad de Alcalá",
+     "Universidad Pontificia Comillas"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "senador de España",
+     "diputado de España",
+     "diputado en las Cortes de Castilla-La Mancha",
+     "concejal del Ayuntamiento de Guadalajara"
+    ],
+    "wiki": "Rafael Hernando Fraile"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Guadalajara",
+    "studies": [
+     "Universitat d'Alcalá",
+     "Universitat Pontifícia de Comillas"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "senador al Senat espanyol",
+     "diputat al Congrés dels Diputats",
+     "diputat a les Corts de Castella - la Manxa",
+     "regidor de l'Ajuntament de Guadalajara"
+    ],
+    "wiki": "Rafael Hernando Fraile"
+   }
+  },
+  "maria isabel sanchez torregrosa": {
+   "qid": "Q27999260",
+   "born": 1979,
+   "es": {
+    "desc": "política española",
+    "place": "Vélez-Rubio",
+    "studies": [
+     "Universidad de Granada"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "wiki": "María Isabel Sánchez Torregrosa"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Vélez-Rubio",
+    "studies": [
+     "Universitat de Granada"
+    ],
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "manuel arribas maroto": {
+   "qid": "Q106307248",
+   "born": 1986,
+   "es": {
+    "desc": "político español",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Manuel Arribas Maroto"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "maria teresa tortonda gordillo": {
+   "qid": "Q28872690",
+   "born": 1970,
+   "es": {
+    "desc": "política española",
+    "place": "Mérida",
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Mèrida",
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "milena herrera garcia": {
+   "qid": "Q131861864",
+   "born": 1975,
+   "es": {
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "antonio salva verd": {
+   "qid": "Q74579110",
+   "born": 1952,
+   "es": {
+    "desc": "político español",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "jose vicente mari boso": {
+   "qid": "Q21006597",
+   "born": 1970,
+   "es": {
+    "desc": "político español",
+    "place": "Valencia",
+    "studies": [
+     "Universidad de Valencia"
+    ],
+    "jobs": [
+     "abogado",
+     "político"
+    ],
+    "posts": [
+     "diputado del Parlamento de las Islas Baleares",
+     "diputado de España",
+     "presidente del Partido Popular de Eivissa",
+     "director general del Tresor i Política Financera",
+     "consejero de Hacienda y Presupuestos",
+     "senador de España"
+    ],
+    "wiki": "José Vicente Marí Bosó"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "València",
+    "studies": [
+     "Universitat de València"
+    ],
+    "jobs": [
+     "advocat",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament de les Illes Balears",
+     "diputat al Congrés dels Diputats",
+     "president del Partit Popular d'Eivissa",
+     "director general del Tresor i Política Financera",
+     "conseller d'Hisenda i Pressuposts",
+     "senador al Senat espanyol"
+    ],
+    "wiki": "José Vicente Marí Bosó"
+   }
+  },
+  "joan mesquida mayans": {
+   "qid": "Q131861861",
+   "born": 1978,
+   "es": {
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "lucia munoz dalda": {
+   "qid": "Q66663475",
+   "born": 1993,
+   "es": {
+    "desc": "política española",
+    "place": "Palma de Mallorca",
+    "studies": [
+     "Universidad Carlos III de Madrid",
+     "Universidad Complutense de Madrid",
+     "Universidad de Maastricht"
+    ],
+    "jobs": [
+     "político",
+     "politólogo"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Lucía Muñoz Dalda"
+   },
+   "ca": {
+    "desc": "política mallorquina",
+    "place": "Palma",
+    "studies": [
+     "Universitat Carles III de Madrid",
+     "Universitat Complutense de Madrid",
+     "Universitat de Maastricht"
+    ],
+    "jobs": [
+     "polític",
+     "politòleg"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Lucía Miriam Muñoz Dalda"
+   }
+  },
+  "jordi hereu boher": {
+   "qid": "Q953762",
+   "born": 1965,
+   "es": {
+    "desc": "político español",
+    "place": "Barcelona",
+    "studies": [
+     "ESADE Business School"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Barcelona",
+     "concejal del Ayuntamiento de Barcelona",
+     "diputado provincial de Barcelona",
+     "vocal",
+     "ministro de Industria de España",
+     "presidente"
+    ],
+    "wiki": "Jordi Hereu"
+   },
+   "ca": {
+    "desc": "116è Batle de Barcelona",
+    "place": "Barcelona",
+    "studies": [
+     "ESADE Business School"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "batlle de Barcelona",
+     "regidor de l'Ajuntament de Barcelona",
+     "diputat provincial de Barcelona",
+     "vocal",
+     "ministre d'Indústria",
+     "president"
+    ],
+    "wiki": "Jordi Hereu i Boher"
+   }
+  },
+  "eva granados galiano": {
+   "qid": "Q20791378",
+   "born": 1975,
+   "es": {
+    "desc": "política española",
+    "place": "Barcelona",
+    "studies": [
+     "Universidad de Barcelona",
+     "Esade",
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "sindicalista",
+     "activista por los derechos de las mujeres"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Cataluña",
+     "vicepresidente segundo del Parlamento de Cataluña",
+     "senador de España",
+     "Secretario de Estado de Cooperación Internacional"
+    ],
+    "wiki": "Eva Granados"
+   },
+   "ca": {
+    "desc": "política catalana",
+    "place": "Barcelona",
+    "studies": [
+     "Universitat de Barcelona",
+     "Escola Superior d'Administració i Direcció d'Empreses",
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "sindicalista",
+     "activista pels drets de les dones"
+    ],
+    "posts": [
+     "diputat al Parlament de Catalunya",
+     "vicepresident segon del Parlament de Catalunya",
+     "senador al Senat espanyol",
+     "Secretari d'Estat per a la Cooperació Internacional"
+    ],
+    "wiki": "Eva Maria Granados Galiano"
+   }
+  },
+  "jose zaragoza alonso": {
+   "qid": "Q19828092",
+   "born": 1961,
+   "es": {
+    "desc": "político español",
+    "place": "Molins de Rey",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "concejal del Ayuntamiento de Molins de Rei",
+     "representante de la Asamblea Parlamentaria del Consejo de Europa",
+     "presidente de la Comisión Mixta Congreso-Senado para la Unión Europea"
+    ],
+    "wiki": "José Zaragoza Alonso"
+   },
+   "ca": {
+    "desc": "polític Español",
+    "place": "Molins de Rei",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "regidor de l'Ajuntament de Molins de Rei",
+     "representant de l'Assemblea Parlamentària del Consell d'Europa",
+     "president de la Comissió Mixta Congrés-Senat per a la Unió Europea"
+    ],
+    "wiki": "José Zaragoza i Alonso"
+   }
+  },
+  "francisco aranda vargas": {
+   "qid": "Q62027401",
+   "born": 1977,
+   "es": {
+    "desc": "político español",
+    "place": "Hospitalet de Llobregat",
+    "studies": [
+     "Universidad de Barcelona"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "l'Hospitalet de Llobregat",
+    "studies": [
+     "Universitat de Barcelona"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "carlos prieto gomez": {
+   "qid": "Q104535084",
+   "born": 1975,
+   "es": {
+    "place": "Barcelona",
+    "studies": [
+     "Universidad de Barcelona",
+     "Universidad Pompeu Fabra",
+     "Esade"
+    ],
+    "jobs": [
+     "político",
+     "funcionario"
+    ],
+    "posts": [
+     "subdelegado del Gobierno en Barcelona",
+     "delegada o delegado del Gobierno en Cataluña"
+    ]
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Barcelona",
+    "studies": [
+     "Universitat de Barcelona",
+     "Universitat Pompeu Fabra",
+     "Escola Superior d'Administració i Direcció d'Empreses"
+    ],
+    "jobs": [
+     "polític",
+     "funcionari"
+    ],
+    "posts": [
+     "subdelegat del Govern a Barcelona",
+     "delegat del Govern espanyol a Catalunya"
+    ],
+    "wiki": "Carlos Prieto Gómez"
+   }
+  },
+  "arnau ramirez carner": {
+   "qid": "Q62574792",
+   "born": 1989,
+   "es": {
+    "desc": "político español",
+    "studies": [
+     "Universidad Autónoma de Barcelona"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "consejero comarcal del Vallès Oriental",
+     "concejal del Ayuntamiento de Sant Feliu de Codines",
+     "diputado de España",
+     "primer secretari de la JSC"
+    ]
+   },
+   "ca": {
+    "desc": "polític català",
+    "studies": [
+     "Universitat Autònoma de Barcelona"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "conseller comarcal del Vallès Oriental",
+     "regidor de l'Ajuntament de Sant Feliu de Codines",
+     "diputat al Congrés dels Diputats",
+     "primer secretari de la JSC"
+    ],
+    "wiki": "Arnau Ramírez i Carner"
+   }
+  },
+  "ferran verdejo vicente": {
+   "qid": "Q136731889",
+   "born": 1997,
+   "es": {
+    "place": "Cardona",
+    "studies": [
+     "Universidad de Barcelona"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Cardona",
+     "diputado de España",
+     "consejero comarcal del Bages"
+    ]
+   },
+   "ca": {
+    "place": "Cardona",
+    "studies": [
+     "Universitat de Barcelona"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Cardona",
+     "diputat al Congrés dels Diputats",
+     "conseller comarcal del Bages"
+    ],
+    "wiki": "Ferran Verdejo Vicente"
+   }
+  },
+  "pilar diaz romero": {
+   "qid": "Q11095836",
+   "born": 1967,
+   "es": {
+    "desc": "político de España",
+    "place": "Barcelona",
+    "studies": [
+     "Universidad Politécnica de Cataluña"
+    ],
+    "jobs": [
+     "político",
+     "ingeniero de telecomunicación"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Cataluña",
+     "alcalde de Esplugas de Llobregat",
+     "diputado provincial de Barcelona",
+     "delegado territorial del gobierno en Barcelona",
+     "concejal del Ayuntamiento de Esplugas de Llobregat"
+    ],
+    "wiki": "Pilar Díaz"
+   },
+   "ca": {
+    "desc": "política catalana",
+    "place": "Barcelona",
+    "studies": [
+     "Universitat Politècnica de Catalunya"
+    ],
+    "jobs": [
+     "polític",
+     "enginyer de telecomunicacions"
+    ],
+    "posts": [
+     "diputat al Parlament de Catalunya",
+     "batlle d'Esplugues de Llobregat",
+     "diputat provincial de Barcelona",
+     "delegat territorial del govern a Barcelona",
+     "regidor de l'Ajuntament d'Esplugues de Llobregat"
+    ],
+    "wiki": "Pilar Díaz i Romero"
+   }
+  },
+  "miriam nogueras i camero": {
+   "qid": "Q22337925",
+   "born": 1980,
+   "es": {
+    "desc": "política española",
+    "place": "Dosrius",
+    "jobs": [
+     "empresario",
+     "político",
+     "activista político",
+     "comentarista político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Cardedeu",
+     "diputado de España",
+     "vicepresidente"
+    ],
+    "wiki": "Míriam Nogueras"
+   },
+   "ca": {
+    "desc": "política catalana",
+    "place": "Dosrius",
+    "jobs": [
+     "empresari",
+     "polític",
+     "activista polític",
+     "comentarista polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Cardedeu",
+     "diputat al Congrés dels Diputats",
+     "vicepresident"
+    ],
+    "wiki": "Míriam Nogueras i Camero"
+   }
+  },
+  "pilar calvo i gomez": {
+   "qid": "Q73549556",
+   "born": 1963,
+   "es": {
+    "place": "Barcelona",
+    "jobs": [
+     "escritor deportivo",
+     "consultor de comunicación",
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "periodista i política catalana",
+    "place": "Barcelona",
+    "jobs": [
+     "periodista esportiu",
+     "consultor de comunicació",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Pilar Calvo"
+   }
+  },
+  "gabriel rufian romero": {
+   "qid": "Q20876620",
+   "born": 1982,
+   "es": {
+    "desc": "político español",
+    "place": "Santa Coloma de Gramanet",
+    "studies": [
+     "Universidad Pompeu Fabra"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "concejal del Ayuntamiento de Santa Coloma de Gramenet"
+    ],
+    "wiki": "Gabriel Rufián"
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Santa Coloma de Gramenet",
+    "studies": [
+     "Universitat Pompeu Fabra"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "regidor de l'Ajuntament de Santa Coloma de Gramenet"
+    ],
+    "wiki": "Gabriel Rufián Romero"
+   }
+  },
+  "juan jose aizcorbe torra": {
+   "qid": "Q5950140",
+   "born": 1959,
+   "es": {
+    "desc": "político catalán de Vox",
+    "place": "Barcelona",
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Pozuelo de Alarcón",
+     "diputado de España"
+    ],
+    "wiki": "Juan José Aizcorbe"
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Barcelona",
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Pozuelo de Alarcón",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Juan José Aizcorbe Torra"
+   }
+  },
+  "julia calvet puig": {
+   "qid": "Q125690029",
+   "born": 2001,
+   "es": {
+    "desc": "política española",
+    "place": "Barcelona",
+    "studies": [
+     "Universidad Pompeu Fabra"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Cataluña"
+    ],
+    "wiki": "Júlia Calvet"
+   },
+   "ca": {
+    "desc": "política catalana",
+    "place": "Barcelona",
+    "studies": [
+     "Universitat Pompeu Fabra"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament de Catalunya"
+    ]
+   }
+  },
+  "ada colau ballano": {
+   "qid": "Q4779594",
+   "born": 1974,
+   "es": {
+    "desc": "política española",
+    "place": "Barcelona",
+    "studies": [
+     "Universidad de Barcelona"
+    ],
+    "jobs": [
+     "político",
+     "activista social",
+     "activista LGBTI"
+    ],
+    "posts": [
+     "alcalde de Barcelona",
+     "concejal del Ayuntamiento de Barcelona",
+     "presidente del Área Metropolitana de Barcelona",
+     "copresident de Ciutats i Governs Locals Units 2016-2019",
+     "enviat especial de CGLU"
+    ],
+    "wiki": "Ada Colau"
+   },
+   "ca": {
+    "desc": "118a batllessa de Barcelona",
+    "place": "Barcelona",
+    "studies": [
+     "Universitat de Barcelona"
+    ],
+    "jobs": [
+     "polític",
+     "activista social",
+     "activista pels drets LGBT"
+    ],
+    "posts": [
+     "batlle de Barcelona",
+     "regidor de l'Ajuntament de Barcelona",
+     "president de l'Àrea Metropolitana de Barcelona",
+     "copresident de Ciutats i Governs Locals Units 2016-2019",
+     "enviat especial de CGLU"
+    ],
+    "wiki": "Ada Colau i Ballano"
+   }
+  },
+  "ernest urtasun domenech": {
+   "qid": "Q15564103",
+   "born": 1982,
+   "es": {
+    "desc": "politico español",
+    "place": "Barcelona",
+    "studies": [
+     "Liceo Francés de Barcelona",
+     "Universidad Autónoma de Barcelona",
+     "Universidad de Barcelona"
+    ],
+    "jobs": [
+     "político",
+     "economista",
+     "diplomático"
+    ],
+    "posts": [
+     "eurodiputado",
+     "portavoz",
+     "ministro de Cultura"
+    ],
+    "wiki": "Ernest Urtasun"
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Barcelona",
+    "studies": [
+     "Liceu Francès de Barcelona",
+     "Universitat Autònoma de Barcelona",
+     "Universitat de Barcelona"
+    ],
+    "jobs": [
+     "polític",
+     "economista",
+     "diplomàtic"
+    ],
+    "posts": [
+     "diputat al Parlament Europeu",
+     "portaveu",
+     "ministre de Cultura"
+    ],
+    "wiki": "Ernest Urtasun Domènech"
+   }
+  },
+  "andres garcia berrio": {
+   "qid": "Q125678218",
+   "born": 1985,
+   "es": {
+    "place": "Gamonal",
+    "studies": [
+     "Universidad Carlos III de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "activista",
+     "abogado",
+     "criminólogo"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Cataluña"
+    ]
+   },
+   "ca": {
+    "desc": "advocat i politic català",
+    "place": "Gamonal",
+    "studies": [
+     "Universitat Carles III de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "activista",
+     "advocat",
+     "criminòleg"
+    ],
+    "posts": [
+     "diputat al Parlament de Catalunya"
+    ],
+    "wiki": "Andrés García Berrio"
+   }
+  },
+  "lucia martin gonzalez": {
+   "qid": "Q22227972",
+   "born": 1979,
+   "es": {
+    "desc": "política española",
+    "place": "Lugo",
+    "jobs": [
+     "político",
+     "ingeniero"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Lucía Martín"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Lugo",
+    "jobs": [
+     "polític",
+     "enginyer"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Lucía Martín González"
+   }
+  },
+  "xavier garcia albiol": {
+   "qid": "Q11705387",
+   "born": 1967,
+   "es": {
+    "desc": "político español",
+    "place": "Badalona",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Badalona",
+     "alcalde de Badalona",
+     "diputado en el Parlamento de Cataluña",
+     "senador de España",
+     "presidente del Partido Popular de Cataluña",
+     "diputado provincial de Barcelona"
+    ],
+    "wiki": "Xavier García Albiol"
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Badalona",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Badalona",
+     "alcalde de Badalona",
+     "diputat al Parlament de Catalunya",
+     "senador al Senat espanyol",
+     "president del Partit Popular de Catalunya",
+     "diputat provincial de Barcelona"
+    ],
+    "wiki": "Xavier García Albiol"
+   }
+  },
+  "cristina aguera gago": {
+   "qid": "Q94661420",
+   "born": 1990,
+   "es": {
+    "desc": "política española",
+    "place": "Badalona",
+    "studies": [
+     "Esade",
+     "Centro de Estudios Financieros"
+    ],
+    "jobs": [
+     "abogado",
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Badalona",
+     "diputado de España"
+    ],
+    "wiki": "Cristina Agüera"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Badalona",
+    "studies": [
+     "Escola Superior d'Administració i Direcció d'Empreses",
+     "Centre d'Estudis Financers"
+    ],
+    "jobs": [
+     "advocat",
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Badalona",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Cristina Agüera Gago"
+   }
+  },
+  "esther pena camarero": {
+   "qid": "Q27758382",
+   "born": 1980,
+   "es": {
+    "desc": "socióloga y política española",
+    "place": "Burgos",
+    "studies": [
+     "Universidad de Salamanca",
+     "Universidad del País Vasco",
+     "Universidad de Burgos"
+    ],
+    "jobs": [
+     "sociólogo",
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "diputado provincial de Burgos"
+    ],
+    "wiki": "Esther Peña"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Burgos",
+    "studies": [
+     "Universitat de Salamanca",
+     "Universitat del País Basc",
+     "Universitat de Burgos"
+    ],
+    "jobs": [
+     "sociòleg",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "diputat provincial de Burgos"
+    ],
+    "wiki": "Esther Peña Camarero"
+   }
+  },
+  "cristina elena teniente sanchez": {
+   "qid": "Q8351726",
+   "born": 1967,
+   "es": {
+    "desc": "política española",
+    "place": "Cáceres",
+    "studies": [
+     "Universidad de Extremadura"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Extremadura"
+    ],
+    "wiki": "Cristina Elena Teniente Sánchez"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Càceres",
+    "studies": [
+     "Universitat d'Extremadura"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea d'Extremadura"
+    ]
+   }
+  },
+  "carlos javier floriano corrales": {
+   "qid": "Q5750351",
+   "born": 1967,
+   "es": {
+    "desc": "político español",
+    "place": "Cáceres",
+    "studies": [
+     "Universidad de Extremadura"
+    ],
+    "jobs": [
+     "político",
+     "jurista"
+    ],
+    "posts": [
+     "senador de España",
+     "diputado en la Asamblea de Extremadura",
+     "diputado de España"
+    ],
+    "wiki": "Carlos Floriano"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Càceres",
+    "studies": [
+     "Universitat d'Extremadura"
+    ],
+    "jobs": [
+     "polític",
+     "jurista"
+    ],
+    "posts": [
+     "senador al Senat espanyol",
+     "diputat a l'Assemblea d'Extremadura",
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "jose manuel albares bueno": {
+   "qid": "Q64595113",
+   "born": 1972,
+   "es": {
+    "desc": "diplomático español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad de Deusto",
+     "Escuela Diplomática"
+    ],
+    "jobs": [
+     "diplomático",
+     "político"
+    ],
+    "posts": [
+     "secretario general de Asuntos Internacionales, Unión Europea, G20 y Seguridad Global",
+     "embajador de España en Francia",
+     "ministro de Asuntos Exteriores, Unión Europea y Cooperación"
+    ],
+    "wiki": "José Manuel Albares"
+   },
+   "ca": {
+    "desc": "diplomàtic espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat de Deusto",
+     "Escola Diplomàtica"
+    ],
+    "jobs": [
+     "diplomàtic",
+     "polític"
+    ],
+    "posts": [
+     "secretari general d'Afers Internacionals, Unió Europea, G20 i Seguretat Global",
+     "ambaixador d'Espanya a França",
+     "ministre d'Afers Exteriors, Unió Europea i Cooperació"
+    ],
+    "wiki": "José Manuel Albares Bueno"
+   }
+  },
+  "maria del carmen sanchez diaz": {
+   "qid": "Q20968342",
+   "born": 1968,
+   "es": {
+    "desc": "política española",
+    "place": "Jerez de la Frontera",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "alcalde de Jerez de la Frontera"
+    ],
+    "wiki": "Mamen Sánchez Díaz"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Jerez de la Frontera",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "alcalde de Jerez de la Frontera"
+    ]
+   }
+  },
+  "alfonso carlos moscoso gonzalez": {
+   "qid": "Q14085457",
+   "born": 1972,
+   "es": {
+    "desc": "político de España",
+    "place": "Villaluenga del Rosario",
+    "studies": [
+     "Universidad de Cádiz"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Villaluenga del Rosario"
+    ],
+    "wiki": "Alfonso Moscoso González"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Villaluenga del Rosario",
+    "studies": [
+     "Universitat de Cadis"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Villaluenga del Rosario"
+    ]
+   }
+  },
+  "maria isabel moreno fernandez": {
+   "qid": "Q131448671",
+   "born": 1976,
+   "es": {
+    "desc": "política española",
+    "place": "El Gastor",
+    "studies": [
+     "Facultad de Veterinaria de Córdoba"
+    ],
+    "jobs": [
+     "político",
+     "veterinario"
+    ],
+    "posts": [
+     "diputado de España",
+     "alcalde de El Gastor"
+    ],
+    "wiki": "Isabel Moreno Fernández"
+   },
+   "ca": {
+    "place": "El Gastor",
+    "studies": [
+     "Facultad de Veterinaria de Córdoba"
+    ],
+    "jobs": [
+     "polític",
+     "veterinari"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "alcalde del Gastor"
+    ]
+   }
+  },
+  "maria jose garcia pelayo jurado": {
+   "qid": "Q5687854",
+   "born": 1968,
+   "es": {
+    "desc": "política española",
+    "place": "Jerez de la Frontera",
+    "studies": [
+     "Universidad de Cádiz",
+     "Colegio Nuestra Señora del Pilar"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "senador de España",
+     "diputado de España"
+    ],
+    "wiki": "María José García-Pelayo"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Jerez de la Frontera",
+    "studies": [
+     "Universitat de Cadis",
+     "Colegio Nuestra Señora del Pilar"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "senador al Senat espanyol",
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "miguel angel sastre uya": {
+   "qid": "Q124369020",
+   "born": 1996,
+   "es": {
+    "desc": "político español",
+    "place": "Cádiz",
+    "jobs": [
+     "político"
+    ],
+    "wiki": "Miguel Ángel Sastre Uyá"
+   },
+   "ca": {
+    "place": "Cadis",
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "miguel rodriguez rodriguez": {
+   "qid": "Q137167795",
+   "born": 1990,
+   "es": {
+    "desc": "político español",
+    "place": "Arcos de la Frontera",
+    "studies": [
+     "Universidad de Granada"
+    ],
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "place": "Arcos de la Frontera",
+    "studies": [
+     "Universitat de Granada"
+    ],
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "silvia gomez rey": {
+   "qid": "Q119985151",
+   "born": 1975,
+   "es": {
+    "place": "Lugo",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en las Cortes Valencianas"
+    ]
+   },
+   "ca": {
+    "desc": "política valenciana",
+    "place": "Lugo",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a les Corts Valencianes"
+    ]
+   }
+  },
+  "alberto teofilo asarta cuevas": {
+   "qid": "Q4711935",
+   "born": 1951,
+   "es": {
+    "desc": "militar y político español",
+    "place": "Zaragoza",
+    "studies": [
+     "Academia General Militar",
+     "Academia de Infantería de Toledo"
+    ],
+    "jobs": [
+     "militar",
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "comandante en jefe"
+    ],
+    "wiki": "Alberto Asarta"
+   },
+   "ca": {
+    "place": "Saragossa",
+    "studies": [
+     "Acadèmia General Militar",
+     "Acadèmia d'Infanteria de Toledo"
+    ],
+    "jobs": [
+     "militar",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "comandant en cap"
+    ],
+    "wiki": "Alberto Asarta Cuevas"
+   }
+  },
+  "maria de los llanos masso linares": {
+   "qid": "Q119959400",
+   "born": 1965,
+   "es": {
+    "desc": "política española",
+    "place": "Albacete",
+    "studies": [
+     "Universidad de Alicante"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "presidente de las Cortes Valencianas",
+     "diputado en las Cortes Valencianas"
+    ],
+    "wiki": "Llanos Massó"
+   },
+   "ca": {
+    "desc": "política valenciana",
+    "place": "Albacete",
+    "studies": [
+     "Universitat d'Alacant"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "president de les Corts Valencianes",
+     "diputat a les Corts Valencianes"
+    ],
+    "wiki": "María de los Llanos Massó Linares"
+   }
+  },
+  "oscar clavell lopez": {
+   "qid": "Q14066524",
+   "born": 1978,
+   "es": {
+    "desc": "político de España",
+    "place": "Castellón de la Plana",
+    "studies": [
+     "Universidad de Valencia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde",
+     "diputado de España",
+     "alcalde de Vall de Uxó"
+    ],
+    "wiki": "Óscar Clavell López"
+   },
+   "ca": {
+    "desc": "polític del País Valencià",
+    "place": "Castelló de la Plana",
+    "studies": [
+     "Universitat de València"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde",
+     "diputat al Congrés dels Diputats",
+     "alcalde de la Vall d'Uixó"
+    ],
+    "wiki": "Óscar Clavell López"
+   }
+  },
+  "isabel rodriguez garcia": {
+   "qid": "Q5920849",
+   "born": 1981,
+   "es": {
+    "desc": "política española",
+    "place": "Abenójar",
+    "studies": [
+     "Universidad de Castilla-La Mancha"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "portavoz del Gobierno de España",
+     "Ministro de Política Territorial y Función Pública"
+    ],
+    "wiki": "Isabel Rodríguez García"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Abenójar",
+    "studies": [
+     "Universitat de Castella-la Manxa"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "portaveu del Govern d'Espanya",
+     "Ministre de Política Territorial i Funció Pública"
+    ],
+    "wiki": "Isabel Rodríguez García"
+   }
+  },
+  "cristina lopez zamora": {
+   "qid": "Q66498271",
+   "born": 1989,
+   "es": {
+    "desc": "político español",
+    "place": "Ciudad Real",
+    "jobs": [
+     "político",
+     "contador"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Ciudad Real",
+    "jobs": [
+     "polític",
+     "comptable"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "ricardo chamorro delmo": {
+   "qid": "Q64787957",
+   "born": 1977,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad de Navarra"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Ricardo Chamorro"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat de Navarra"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "enrique belda perez pedrero": {
+   "qid": "Q44246351",
+   "born": 1969,
+   "es": {
+    "desc": "profesor universitario y político español",
+    "place": "Ciudad Real",
+    "studies": [
+     "Universidad de Castilla-La Mancha"
+    ],
+    "jobs": [
+     "político",
+     "jurista"
+    ],
+    "posts": [
+     "diputado de España",
+     "concejal del Ayuntamiento de Ciudad Real"
+    ],
+    "wiki": "Enrique Belda"
+   },
+   "ca": {
+    "place": "Ciudad Real",
+    "studies": [
+     "Universitat de Castella-la Manxa"
+    ],
+    "jobs": [
+     "polític",
+     "jurista"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "regidor de l'Ajuntament de Ciudad Real"
+    ]
+   }
+  },
+  "alberto mayoral de lamo": {
+   "qid": "Q135439318",
+   "born": 1984,
+   "es": {
+    "desc": "político español",
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "jose ramirez del rio": {
+   "qid": "Q65146312",
+   "born": 1973,
+   "es": {
+    "desc": "político y catedrático español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad de Sevilla"
+    ],
+    "jobs": [
+     "político",
+     "arabista",
+     "traductor",
+     "profesor universitario"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "José Ramírez del Río"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat de Sevilla"
+    ],
+    "jobs": [
+     "polític",
+     "arabista",
+     "traductor",
+     "professor universitari"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "fernando priego chacon": {
+   "qid": "Q5860085",
+   "born": 1981,
+   "es": {
+    "desc": "político español",
+    "place": "Málaga",
+    "studies": [
+     "Universidad de Granada"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "wiki": "Fernando Priego Chacón"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Màlaga",
+    "studies": [
+     "Universitat de Granada"
+    ],
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "fabiola garcia martinez": {
+   "qid": "Q56816912",
+   "born": 1985,
+   "es": {
+    "desc": "política española",
+    "place": "Ribeira",
+    "studies": [
+     "Universidad de Santiago de Compostela"
+    ],
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Ribeira",
+    "studies": [
+     "Universitat de Santiago de Compostel·la"
+    ],
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "alvaro perez lopez": {
+   "qid": "Q20534367",
+   "born": 1973,
+   "es": {
+    "desc": "político español",
+    "place": "La Coruña",
+    "jobs": [
+     "abogado",
+     "político"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "la Corunya",
+    "jobs": [
+     "advocat",
+     "polític"
+    ]
+   }
+  },
+  "manuel santos ruiz rivas": {
+   "qid": "Q12392824",
+   "born": 1957,
+   "es": {
+    "desc": "político de España",
+    "place": "Ribeira",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Ribeira",
+     "senador de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Ribeira",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Ribeira",
+     "senador al Senat espanyol"
+    ]
+   }
+  },
+  "tristana maria moraleja gomez": {
+   "qid": "Q12401411",
+   "born": 1971,
+   "es": {
+    "desc": "política española",
+    "place": "Lugo",
+    "studies": [
+     "Universidad de Alcalá"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Tristana Moraleja"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Lugo",
+    "studies": [
+     "Universitat d'Alcalá"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Tristana Moraleja Gómez"
+   }
+  },
+  "luis carlos sahuquillo garcia": {
+   "qid": "Q2880726",
+   "born": 1966,
+   "es": {
+    "desc": "político español",
+    "place": "Valencia",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Luis Carlos Sahuquillo"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "València",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "benjamin prieto valencia": {
+   "qid": "Q14071502",
+   "born": 1975,
+   "es": {
+    "desc": "político de España",
+    "place": "Cuenca",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Fuentelespino de Haro",
+     "presidente de la Diputación Provincial de Cuenca",
+     "diputado en las Cortes de Castilla-La Mancha"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Conca",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Fuentelespino de Haro",
+     "president de la Diputació Provincial de Conca",
+     "diputat a les Corts de Castella - la Manxa"
+    ]
+   }
+  },
+  "marc lamua estanol": {
+   "qid": "Q22337915",
+   "born": 1980,
+   "es": {
+    "desc": "político español",
+    "place": "Castillo de Aro, Playa de Aro y S'Agaró",
+    "studies": [
+     "Universidad de Gerona"
+    ],
+    "jobs": [
+     "político",
+     "historiador del arte"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Marc Lamuà Estañol"
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Castell d'Aro, Platja d'Aro i s'Agaró",
+    "studies": [
+     "Universitat de Girona"
+    ],
+    "jobs": [
+     "polític",
+     "historiador de l'art"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Marc Lamuà Estañol"
+   }
+  },
+  "marta madrenas i mir": {
+   "qid": "Q23016204",
+   "born": 1967,
+   "es": {
+    "desc": "abogada y política española",
+    "place": "Gerona",
+    "studies": [
+     "Universidad Autónoma de Barcelona"
+    ],
+    "jobs": [
+     "político",
+     "abogado",
+     "profesor universitario"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Gerona",
+     "alcalde de Gerona",
+     "diputado en el Parlamento de Cataluña",
+     "consejero comarcal del Gironès",
+     "segundo teniente de alcalde",
+     "diputado de España"
+    ],
+    "wiki": "Marta Madrenas"
+   },
+   "ca": {
+    "desc": "advocada i política catalana",
+    "place": "Girona",
+    "studies": [
+     "Universitat Autònoma de Barcelona"
+    ],
+    "jobs": [
+     "polític",
+     "advocat",
+     "professor universitari"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Girona",
+     "batlle de Girona",
+     "diputat al Parlament de Catalunya",
+     "conseller comarcal del Gironès",
+     "segon tinent d'alcalde",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Marta Madrenas i Mir"
+   }
+  },
+  "sergi fabri llavero": {
+   "qid": "Q61747748",
+   "born": 1984,
+   "es": {
+    "desc": "político español",
+    "place": "Albons",
+    "studies": [
+     "Universidad de Gerona"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Salt"
+    ]
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Albons",
+    "studies": [
+     "Universitat de Girona"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Salt"
+    ]
+   }
+  },
+  "jose antonio rodriguez salas": {
+   "qid": "Q14078814",
+   "born": 1965,
+   "es": {
+    "desc": "político de España",
+    "place": "Beas de Granada",
+    "studies": [
+     "Universidad de Granada"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Jun",
+     "diputado de España"
+    ],
+    "wiki": "José Antonio Rodríguez Salas"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Beas de Granada",
+    "studies": [
+     "Universitat de Granada"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Jun",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "José Antonio Rodríguez Salas"
+   }
+  },
+  "jacobo gonzalez robatto perote": {
+   "qid": "Q83640147",
+   "born": 1987,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "jobs": [
+     "senador de España",
+     "político"
+    ],
+    "wiki": "Jacobo González-Robatto"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "jobs": [
+     "senador al Senat espanyol",
+     "polític"
+    ]
+   }
+  },
+  "maria lourdes ramirez martin": {
+   "qid": "Q131846746",
+   "born": 1979,
+   "es": {
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "francisco joaquin camacho borrego": {
+   "qid": "Q14078925",
+   "born": 1983,
+   "es": {
+    "desc": "político de España",
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "angel lopez maraver": {
+   "qid": "Q63946040",
+   "born": 1984,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Europea de Madrid"
+    ],
+    "jobs": [
+     "cazador",
+     "político"
+    ],
+    "posts": [
+     "presidente",
+     "diputado de España"
+    ],
+    "wiki": "Ángel López Maraver"
+   },
+   "ca": {
+    "desc": "candidat polític",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Europea de Madrid"
+    ],
+    "jobs": [
+     "caçador",
+     "polític"
+    ],
+    "posts": [
+     "president",
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "oihana etxebarrieta legrand": {
+   "qid": "Q30337297",
+   "born": 1987,
+   "es": {
+    "desc": "política y periodista española",
+    "place": "Fuenterrabía",
+    "studies": [
+     "Universidad del País Vasco"
+    ],
+    "jobs": [
+     "periodista",
+     "escritor político",
+     "activista por los derechos de las mujeres",
+     "político"
+    ],
+    "posts": [
+     "diputado del Parlamento Vasco"
+    ]
+   },
+   "ca": {
+    "desc": "periodista i política basca",
+    "place": "Hondarribia",
+    "studies": [
+     "Universitat del País Basc"
+    ],
+    "jobs": [
+     "periodista",
+     "escriptor polític",
+     "activista pels drets de les dones",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament Basc"
+    ],
+    "wiki": "Oihana Etxebarrieta Legrand"
+   }
+  },
+  "aizpea otaegi mitxelena": {
+   "qid": "Q86533889",
+   "born": 1974,
+   "es": {
+    "desc": "alcaldesa de Errentería",
+    "place": "Rentería",
+    "studies": [
+     "Universidad del País Vasco",
+     "Universidad de Deusto"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Rentería",
+     "concejal del Ayuntamiento de Errenteria"
+    ],
+    "wiki": "Aizpea Otaegi"
+   },
+   "ca": {
+    "place": "Rentería",
+    "studies": [
+     "Universitat del País Basc",
+     "Universitat de Deusto"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde d'Errenteria",
+     "concejal del Ayuntamiento de Errenteria"
+    ]
+   }
+  },
+  "rafaela romero pozo": {
+   "qid": "Q5405261",
+   "born": 1972,
+   "es": {
+    "desc": "política española",
+    "place": "Quintana de la Serena",
+    "studies": [
+     "Universidad del País Vasco",
+     "Colegio de Abogados de Gipuzkoa"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "diputado del Parlamento Vasco",
+     "Diputado de las Juntas Generales de Guipúzcoa",
+     "diputado de España"
+    ],
+    "wiki": "Rafaela Romero"
+   },
+   "ca": {
+    "place": "Quintana de la Serena",
+    "studies": [
+     "Universitat del País Basc",
+     "Col·legi d'Advocats de Guipúscoa"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "diputat al Parlament Basc",
+     "Diputat a les Juntes Generals de Guipúscoa",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Rafaela Romero"
+   }
+  },
+  "jose ignacio asensio bazterra": {
+   "qid": "Q118779873",
+   "born": 1966,
+   "es": {
+    "desc": "político español",
+    "place": "Tolosa",
+    "jobs": [
+     "político",
+     "economista"
+    ]
+   },
+   "ca": {
+    "place": "Tolosa",
+    "jobs": [
+     "polític",
+     "economista"
+    ]
+   }
+  },
+  "maribel vaquero montero": {
+   "qid": "Q12263077",
+   "born": 1970,
+   "es": {
+    "desc": "política española",
+    "place": "Urnieta",
+    "studies": [
+     "Universidad del País Vasco"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "senador de España",
+     "Diputado de las Juntas Generales de Guipúzcoa",
+     "diputado del Parlamento Vasco",
+     "teniente de alcalde",
+     "concejal"
+    ],
+    "wiki": "Maribel Vaquero"
+   },
+   "ca": {
+    "desc": "política basca",
+    "place": "Urnieta",
+    "studies": [
+     "Universitat del País Basc"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "senador al Senat espanyol",
+     "Diputat a les Juntes Generals de Guipúscoa",
+     "diputat al Parlament Basc",
+     "tinent d'alcalde",
+     "regidor"
+    ],
+    "wiki": "Maribel Vaquero Montero"
+   }
+  },
+  "eneko goia laso": {
+   "qid": "Q12256843",
+   "born": 1971,
+   "es": {
+    "desc": "político español",
+    "place": "San Sebastián",
+    "studies": [
+     "Universidad del País Vasco",
+     "Universidad de Deusto"
+    ],
+    "jobs": [
+     "político",
+     "jurista",
+     "profesor"
+    ],
+    "posts": [
+     "alcalde de San Sebastián",
+     "diputado del Parlamento Vasco"
+    ],
+    "wiki": "Eneko Goia"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Sant Sebastià",
+    "studies": [
+     "Universitat del País Basc",
+     "Universitat de Deusto"
+    ],
+    "jobs": [
+     "polític",
+     "jurista",
+     "professor"
+    ],
+    "posts": [
+     "alcalde de Sant Sebastià",
+     "diputat al Parlament Basc"
+    ],
+    "wiki": "Eneko Goia Laso"
+   }
+  },
+  "olatz peon ormazabal": {
+   "qid": "Q114356131",
+   "born": 1969,
+   "es": {
+    "place": "Tolosa",
+    "studies": [
+     "Universidad del País Vasco"
+    ],
+    "jobs": [
+     "trabajador social",
+     "político"
+    ],
+    "posts": [
+     "alcalde de Tolosa",
+     "diputado del Parlamento Vasco",
+     "Diputado de las Juntas Generales de Guipúzcoa"
+    ]
+   },
+   "ca": {
+    "place": "Tolosa",
+    "studies": [
+     "Universitat del País Basc"
+    ],
+    "jobs": [
+     "treballador social",
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Tolosa",
+     "diputat al Parlament Basc",
+     "Diputat a les Juntes Generals de Guipúscoa"
+    ]
+   }
+  },
+  "gabriel cruz santana": {
+   "qid": "Q19989171",
+   "born": 1964,
+   "es": {
+    "desc": "político español",
+    "place": "Minas de Riotinto",
+    "studies": [
+     "Universidad de Sevilla",
+     "Universidad de Huelva"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "alcalde de Huelva"
+    ],
+    "wiki": "Gabriel Cruz Santana"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Minas de Riotinto",
+    "studies": [
+     "Universitat de Sevilla",
+     "Universitat de Huelva"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "alcalde de Huelva"
+    ]
+   }
+  },
+  "maria luisa faneca lopez": {
+   "qid": "Q14084147",
+   "born": 1957,
+   "es": {
+    "desc": "político de España",
+    "place": "Isla Cristina",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "María Luisa Faneca"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Isla Cristina",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "tomas fernandez rios": {
+   "qid": "Q74579117",
+   "born": 1969,
+   "es": {
+    "desc": "empresario y político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid",
+     "ESIC Universidad"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Tomás Fernández Ríos"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid",
+     "Universitat ESIC"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "begona nasarre oliva": {
+   "qid": "Q27999286",
+   "born": 1978,
+   "es": {
+    "desc": "política española",
+    "place": "Huesca",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Osca",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "ana isabel alos lopez": {
+   "qid": "Q14084661",
+   "born": 1969,
+   "es": {
+    "desc": "política española",
+    "place": "Huesca",
+    "studies": [
+     "Universidad de Zaragoza",
+     "Universidad Pontificia Comillas"
+    ],
+    "jobs": [
+     "político",
+     "economista",
+     "empresario"
+    ],
+    "posts": [
+     "alcalde",
+     "diputado de España",
+     "alcalde de Huesca"
+    ],
+    "wiki": "Ana Alós"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Osca",
+    "studies": [
+     "Universitat de Saragossa",
+     "Universitat Pontifícia de Comillas"
+    ],
+    "jobs": [
+     "polític",
+     "economista",
+     "empresari"
+    ],
+    "posts": [
+     "alcalde",
+     "diputat al Congrés dels Diputats",
+     "alcalde d'Osca"
+    ],
+    "wiki": "Ana Alós López"
+   }
+  },
+  "juan francisco serrano martinez": {
+   "qid": "Q66663510",
+   "born": 1988,
+   "es": {
+    "desc": "político español",
+    "place": "Bedmar y Garcíez",
+    "studies": [
+     "Universidad de Jaén"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Juan Francisco Serrano Martínez"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Bedmar y Garcíez",
+    "studies": [
+     "Universitat de Jaen"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "francisco jose alcaraz martos": {
+   "qid": "Q5866375",
+   "born": 1968,
+   "es": {
+    "desc": "político español",
+    "place": "Torredonjimeno",
+    "jobs": [
+     "peluquero",
+     "activista",
+     "político"
+    ],
+    "posts": [
+     "senador de España",
+     "diputado de España"
+    ],
+    "wiki": "Francisco José Alcaraz"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Torredonjimeno",
+    "jobs": [
+     "perruquer",
+     "activista",
+     "polític"
+    ],
+    "posts": [
+     "senador al Senat espanyol",
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "luis mariano camacho nunez chiqui": {
+   "qid": "Q140645124",
+   "born": 1973,
+   "es": {
+    "desc": "político español",
+    "place": "Bailén",
+    "studies": [
+     "Universidad Pablo de Olavide"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado provincial de Jaén",
+     "alcalde de Bailén"
+    ],
+    "wiki": "Luis Mariano Camacho"
+   },
+   "ca": {
+    "place": "Bailèn",
+    "studies": [
+     "Universitat Pablo de Olavide"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat provincial de Jaén",
+     "alcalde de Bailén"
+    ]
+   }
+  },
+  "javier alfonso cendon": {
+   "qid": "Q62054182",
+   "born": 1983,
+   "es": {
+    "desc": "político español",
+    "place": "León",
+    "studies": [
+     "Universidad de León",
+     "Universidad Estatal de Connecticut Central",
+     "Universidad Politécnica de Madrid"
+    ],
+    "jobs": [
+     "investigador",
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Javier Alfonso Cendón"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Lleó",
+    "studies": [
+     "Universitat de Lleó",
+     "Universitat Central de Connecticut",
+     "Universitat Politècnica de Madrid"
+    ],
+    "jobs": [
+     "investigador",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "ester munoz de la iglesia": {
+   "qid": "Q28872696",
+   "born": 1985,
+   "es": {
+    "desc": "política española",
+    "place": "León",
+    "studies": [
+     "Universidad de La Coruña",
+     "Universidad de León",
+     "Universidad de Murcia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "sustituto en la Asamblea Parlamentaria del Consejo de Europa",
+     "senador de España"
+    ],
+    "wiki": "Ester Muñoz"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Lleó",
+    "studies": [
+     "Universitat de la Corunya",
+     "Universitat de Lleó",
+     "Universitat de Múrcia"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "substitut de l'Assemblea Parlamentària del Consell d'Europa",
+     "senador al Senat espanyol"
+    ],
+    "wiki": "Ester Muñoz de la Iglesia"
+   }
+  },
+  "ricardo gavilanes fernandez llamazares": {
+   "qid": "Q111525352",
+   "born": 1980,
+   "es": {
+    "desc": "político español (n. 1980)",
+    "place": "León",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "procurador en las Cortes de Castilla y León"
+    ]
+   },
+   "ca": {
+    "place": "Lleó",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "procurador a les Corts de Castella i Lleó"
+    ]
+   }
+  },
+  "lorena gonzalez dios": {
+   "qid": "Q107289635",
+   "born": 1988,
+   "es": {
+    "place": "Lérida",
+    "jobs": [
+     "político",
+     "administrador"
+    ],
+    "posts": [
+     "senador de España",
+     "concejal del Ayuntamiento de Balaguer",
+     "alcalde de Balaguer"
+    ]
+   },
+   "ca": {
+    "desc": "política catalana",
+    "place": "Lleida",
+    "jobs": [
+     "polític",
+     "administratiu"
+    ],
+    "posts": [
+     "senador al Senat espanyol",
+     "regidor de l'Ajuntament de Balaguer",
+     "paer en cap de Balaguer"
+    ]
+   }
+  },
+  "isidre gavin i valls": {
+   "qid": "Q17030560",
+   "born": 1963,
+   "es": {
+    "desc": "político español",
+    "place": "Barcelona",
+    "studies": [
+     "Escuela Técnica Superior de Ingeniería Agraria"
+    ],
+    "jobs": [
+     "político",
+     "ingeniero agrónomo"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Cataluña",
+     "concejal del Ayuntamiento de Lérida",
+     "presidente de la Diputación Provincial de Lérida",
+     "secretario cuarto del Parlamento de Cataluña",
+     "director general",
+     "secretari d'Infraestructures i Mobilitat"
+    ]
+   },
+   "ca": {
+    "desc": "polític català",
+    "place": "Barcelona",
+    "studies": [
+     "Escola Tècnica Superior d'Enginyeria Agrària"
+    ],
+    "jobs": [
+     "polític",
+     "enginyer agrònom"
+    ],
+    "posts": [
+     "diputat al Parlament de Catalunya",
+     "paer de Lleida",
+     "president de la Diputació de Lleida",
+     "secretari quart del Parlament de Catalunya",
+     "director general",
+     "secretari d'Infraestructures i Mobilitat"
+    ],
+    "wiki": "Isidre Gavín i Valls"
+   }
+  },
+  "ines granollers i cunillera": {
+   "qid": "Q63372854",
+   "born": 1970,
+   "es": {
+    "desc": "político español",
+    "place": "Bellpuig",
+    "jobs": [
+     "empresario",
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "Empresària i política catalana",
+    "place": "Bellpuig",
+    "jobs": [
+     "empresari",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Inés Granollers i Cunillera"
+   }
+  },
+  "elisa garrido jimenez": {
+   "qid": "Q134474062",
+   "born": 1976,
+   "es": {
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "raul diaz marin": {
+   "qid": "Q115043621",
+   "born": 1988,
+   "es": {
+    "desc": "político español",
+    "place": "Logroño",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en el Parlamento de La Rioja"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Logronyo",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament de La Rioja"
+    ]
+   }
+  },
+  "emilia fernandez nunez": {
+   "qid": "Q115043512",
+   "born": 1975,
+   "es": {
+    "desc": "política española",
+    "place": "San Sebastián",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en el Parlamento de La Rioja"
+    ]
+   },
+   "ca": {
+    "place": "Sant Sebastià",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament de La Rioja"
+    ]
+   }
+  },
+  "jesus angel garrido martinez": {
+   "qid": "Q62560965",
+   "born": 1971,
+   "es": {
+    "desc": "Político español (n.1971)",
+    "place": "Logroño",
+    "jobs": [
+     "economista",
+     "político"
+    ],
+    "posts": [
+     "diputado en el Parlamento de La Rioja"
+    ],
+    "wiki": "Jesús Ángel Garrido"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Logronyo",
+    "jobs": [
+     "economista",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament de La Rioja"
+    ]
+   }
+  },
+  "patricia otero rodriguez": {
+   "qid": "Q98408458",
+   "born": 1979,
+   "es": {
+    "place": "Monforte de Lemos",
+    "studies": [
+     "Universidad de Santiago de Compostela"
+    ],
+    "jobs": [
+     "abogado",
+     "político"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Galicia",
+     "concejal"
+    ]
+   },
+   "ca": {
+    "place": "Monforte de Lemos",
+    "studies": [
+     "Universitat de Santiago de Compostel·la"
+    ],
+    "jobs": [
+     "advocat",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament de Galícia",
+     "regidor"
+    ]
+   }
+  },
+  "jaime de olano vela": {
+   "qid": "Q12390812",
+   "born": 1970,
+   "es": {
+    "desc": "político español",
+    "place": "La Coruña",
+    "jobs": [
+     "abogado",
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Jaime de Olano"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "la Corunya",
+    "jobs": [
+     "advocat",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "pedro sanchez perez castejon": {
+   "qid": "Q6070218",
+   "born": 1972,
+   "es": {
+    "desc": "presidente del Gobierno de España desde 2018",
+    "place": "Madrid",
+    "studies": [
+     "Real Centro Universitario María Cristina de El Escorial",
+     "Universidad libre de Bruselas",
+     "Universidad Camilo José Cela"
+    ],
+    "jobs": [
+     "político",
+     "economista",
+     "profesor universitario"
+    ],
+    "posts": [
+     "secretario general del Partido Socialista Obrero Español",
+     "concejal del Ayuntamiento de Madrid",
+     "diputado de España",
+     "Presidente del Gobierno de España",
+     "President de la Internacional Socialista",
+     "líder de la oposición"
+    ],
+    "wiki": "Pedro Sánchez"
+   },
+   "ca": {
+    "desc": "President del Govern d'Espanya des de 2018",
+    "place": "Madrid",
+    "studies": [
+     "Real Centro Universitario Escorial-Maria Christina",
+     "Universitat Lliure de Brussel·les",
+     "Universitat Camilo José Cela"
+    ],
+    "jobs": [
+     "polític",
+     "economista",
+     "professor universitari"
+    ],
+    "posts": [
+     "secretari general del PSOE",
+     "regidor de l'Ajuntament de Madrid",
+     "diputat al Congrés dels Diputats",
+     "president del Govern d'Espanya",
+     "President de la Internacional Socialista",
+     "Líder de l'Oposició d'Espanya"
+    ],
+    "wiki": "Pedro Sánchez Pérez-Castejón"
+   }
+  },
+  "maria margarita robles fernandez": {
+   "qid": "Q5997107",
+   "born": 1956,
+   "es": {
+    "desc": "ministra de Defensa de España, Magistrada (n. 1956)",
+    "place": "León",
+    "studies": [
+     "Universidad de Barcelona"
+    ],
+    "jobs": [
+     "juez",
+     "político",
+     "jurista"
+    ],
+    "posts": [
+     "diputado de España",
+     "vocal del Consejo General del Poder Judicial",
+     "secretario de Estado de Interior",
+     "ministro de Defensa",
+     "Magistrado del Tribunal Supremo de España"
+    ],
+    "wiki": "Margarita Robles"
+   },
+   "ca": {
+    "desc": "jutgessa i política espanyola",
+    "place": "Lleó",
+    "studies": [
+     "Universitat de Barcelona"
+    ],
+    "jobs": [
+     "jutge",
+     "polític",
+     "jurista"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "vocal del Consell General del Poder Judicial",
+     "secretari d'Estat d'Interior",
+     "ministre de Defensa",
+     "magistrat del Tribunal Suprem d'Espanya"
+    ],
+    "wiki": "Margarita Robles Fernández"
+   }
+  },
+  "felix bolanos garcia": {
+   "qid": "Q58331783",
+   "born": 1975,
+   "es": {
+    "desc": "Político y abogado español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "abogado",
+     "letrado",
+     "político"
+    ],
+    "posts": [
+     "ministre de la Presidència, Justícia i Relacions amb les Corts"
+    ],
+    "wiki": "Félix Bolaños"
+   },
+   "ca": {
+    "desc": "advocat i polític madrileny",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "advocat",
+     "lletrat",
+     "polític"
+    ],
+    "posts": [
+     "ministre de la Presidència, Justícia i Relacions amb les Corts"
+    ],
+    "wiki": "Félix Bolaños García"
+   }
+  },
+  "pilar sanchez acera": {
+   "qid": "Q50737549",
+   "born": 1974,
+   "es": {
+    "desc": "política española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Autónoma de Madrid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Alcobendas",
+     "diputado en la Asamblea de Madrid"
+    ],
+    "wiki": "Pilar Sánchez Acera"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Autònoma de Madrid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament d'Alcobendas",
+     "diputat a l'Assemblea de Madrid"
+    ],
+    "wiki": "Pilar Sánchez Acera"
+   }
+  },
+  "fernando grande marlaska gomez": {
+   "qid": "Q6746375",
+   "born": 1962,
+   "es": {
+    "desc": "juez y político español",
+    "place": "Bilbao",
+    "studies": [
+     "Universidad de Deusto"
+    ],
+    "jobs": [
+     "político",
+     "abogado",
+     "juez",
+     "jurista"
+    ],
+    "posts": [
+     "ministro del Interior",
+     "diputado de España"
+    ],
+    "wiki": "Fernando Grande-Marlaska"
+   },
+   "ca": {
+    "desc": "polític i jurista espanyol",
+    "place": "Bilbao",
+    "studies": [
+     "Universitat de Deusto"
+    ],
+    "jobs": [
+     "polític",
+     "advocat",
+     "jutge",
+     "jurista"
+    ],
+    "posts": [
+     "ministre de l'Interior d'Espanya",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Fernando Grande-Marlaska Gómez"
+   }
+  },
+  "manuela villa acosta": {
+   "qid": "Q107551118",
+   "born": 1976,
+   "es": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ]
+   }
+  },
+  "rafael simancas simancas": {
+   "qid": "Q3417279",
+   "born": 1966,
+   "es": {
+    "desc": "político español",
+    "place": "Kehl",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "profesor universitario"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid",
+     "diputado de España",
+     "secretario general del Partido Socialista de Madrid",
+     "secretario general de la Federación Socialista Madrileña",
+     "secretario de Estado de Relaciones con las Cortes",
+     "senador de España"
+    ],
+    "wiki": "Rafael Simancas"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Kehl",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "professor universitari"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid",
+     "diputat al Congrés dels Diputats",
+     "secretari general del Partit Socialista de Madrid",
+     "secretari general de la Federació Socialista Madrilenya",
+     "secretari d'Estat de Relacions amb les Corts",
+     "senador al Senat espanyol"
+    ],
+    "wiki": "Rafael Simancas Simancas"
+   }
+  },
+  "borja luis cabezon royo": {
+   "qid": "Q63980424",
+   "born": 1980,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid",
+     "IESE Business School",
+     "ESADE Business School"
+    ],
+    "jobs": [
+     "político",
+     "consultor"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Majadahonda",
+     "diputado en la Asamblea de Madrid"
+    ],
+    "wiki": "Borja Cabezón Royo"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid",
+     "IESE Business School",
+     "ESADE Business School"
+    ],
+    "jobs": [
+     "polític",
+     "consultor"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Majadahonda",
+     "diputat a l'Assemblea de Madrid"
+    ],
+    "wiki": "Borja Cabezón Royo"
+   }
+  },
+  "lorena morales porro": {
+   "qid": "Q66603930",
+   "born": 1982,
+   "es": {
+    "desc": "político de España",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ]
+   }
+  },
+  "vicente montavez aguillaume": {
+   "qid": "Q132398100",
+   "born": 1980,
+   "es": {
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "victor gutierrez santiago": {
+   "qid": "Q24249975",
+   "born": 1991,
+   "es": {
+    "desc": "waterpolista español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Rey Juan Carlos"
+    ],
+    "jobs": [
+     "waterpolista",
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Víctor Gutiérrez Santiago"
+   },
+   "ca": {
+    "desc": "waterpolista i polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Rei Joan Carles"
+    ],
+    "jobs": [
+     "jugador de waterpolo",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Víctor Gutiérrez Santiago"
+   }
+  },
+  "maria jose rodriguez de millan parro": {
+   "qid": "Q118512523",
+   "born": 1995,
+   "es": {
+    "desc": "abogada, columnista y política española",
+    "place": "Cabra",
+    "studies": [
+     "Universidad de Sevilla",
+     "Universidad Pablo de Olavide"
+    ],
+    "jobs": [
+     "abogado",
+     "columnista",
+     "político"
+    ],
+    "wiki": "Pepa Millán"
+   },
+   "ca": {
+    "desc": "advocada, columnista i política espanyola",
+    "place": "Cabra",
+    "studies": [
+     "Universitat de Sevilla",
+     "Universitat Pablo de Olavide"
+    ],
+    "jobs": [
+     "advocat",
+     "columnista",
+     "polític"
+    ],
+    "wiki": "Pepa Millán"
+   }
+  },
+  "cristian isaac toro carballo": {
+   "qid": "Q26333885",
+   "born": 1992,
+   "es": {
+    "desc": "kayakista español",
+    "place": "La Asunción",
+    "jobs": [
+     "kayakista",
+     "político"
+    ],
+    "wiki": "Cristian Toro"
+   },
+   "ca": {
+    "place": "La Asunción",
+    "jobs": [
+     "caiaquista",
+     "polític"
+    ]
+   }
+  },
+  "maria de la cabeza ruiz solas": {
+   "qid": "Q63862107",
+   "born": 1970,
+   "es": {
+    "desc": "política española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad CEU San Pablo"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Villaviciosa de Odón",
+     "diputado de España"
+    ],
+    "wiki": "María Ruiz Solás"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat CEU San Pablo"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Villaviciosa de Odón",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "María Ruiz Solás"
+   }
+  },
+  "julio utrilla cano": {
+   "qid": "Q74579125",
+   "born": 1967,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "rocio aguirre gil de biedma": {
+   "qid": "Q124606367",
+   "born": 1964,
+   "es": {
+    "desc": "política española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid",
+     "IE Business School"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "wiki": "Rocío Aguirre Gil de Biedma"
+   },
+   "ca": {
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid",
+     "IE Business School"
+    ],
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "jorge martin frias": {
+   "qid": "Q127328445",
+   "born": 1980,
+   "es": {
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "eurodiputado"
+    ],
+    "wiki": "Jorge Martín Frías"
+   },
+   "ca": {
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament Europeu"
+    ]
+   }
+  },
+  "alberto nunez feijoo": {
+   "qid": "Q2457783",
+   "born": 1961,
+   "es": {
+    "desc": "político español",
+    "place": "Peares",
+    "studies": [
+     "Universidad de Santiago de Compostela"
+    ],
+    "jobs": [
+     "político",
+     "jurista"
+    ],
+    "posts": [
+     "presidente de la Junta de Galicia",
+     "diputado en el Parlamento de Galicia",
+     "presidente del Partido Popular de Galicia",
+     "presidente del Partido Popular",
+     "presidente",
+     "consejero autonómico"
+    ],
+    "wiki": "Alberto Núñez Feijóo"
+   },
+   "ca": {
+    "desc": "polític gallec",
+    "place": "Os Peares",
+    "studies": [
+     "Universitat de Santiago de Compostel·la"
+    ],
+    "jobs": [
+     "polític",
+     "jurista"
+    ],
+    "posts": [
+     "president de la Xunta de Galícia",
+     "diputat al Parlament de Galícia",
+     "president del Partit Popular de Galícia",
+     "president del Partit Popular",
+     "president",
+     "conseller autonòmic"
+    ],
+    "wiki": "Alberto Núñez Feijóo"
+   }
+  },
+  "cayetana alvarez de toledo peralta ramos": {
+   "qid": "Q16297359",
+   "born": 1974,
+   "es": {
+    "desc": "política, periodista y aristócrata española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad de Oxford",
+     "Northlands School"
+    ],
+    "jobs": [
+     "político",
+     "historiador",
+     "periodista"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Cayetana Álvarez de Toledo"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "studies": [
+     "Universitat d'Oxford",
+     "Northlands School"
+    ],
+    "jobs": [
+     "polític",
+     "historiador",
+     "periodista"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Cayetana Álvarez de Toledo y Peralta-Ramos"
+   }
+  },
+  "borja semper pascual": {
+   "qid": "Q2882564",
+   "born": 1976,
+   "es": {
+    "desc": "político español",
+    "place": "Irún",
+    "studies": [
+     "Universidad del País Vasco",
+     "IESE Business School",
+     "Deusto Business School"
+    ],
+    "jobs": [
+     "político",
+     "escritor",
+     "director"
+    ],
+    "posts": [
+     "diputado del Parlamento Vasco"
+    ],
+    "wiki": "Borja Sémper"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Irun",
+    "studies": [
+     "Universitat del País Basc",
+     "IESE Business School",
+     "Deusto Business School"
+    ],
+    "jobs": [
+     "polític",
+     "escriptor",
+     "director"
+    ],
+    "posts": [
+     "diputat al Parlament Basc"
+    ],
+    "wiki": "Borja Sémper Pascual"
+   }
+  },
+  "jaime miguel de los santos gonzalez": {
+   "qid": "Q58036863",
+   "born": 1978,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "consejero de Cultura, Turismo y Deportes de la Comunitat de Madrid",
+     "diputado en la Asamblea de Madrid"
+    ],
+    "wiki": "Jaime de los Santos"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "conseller de Cultura, Turisme i Esports de la Comunitat de Madrid",
+     "diputat a l'Assemblea de Madrid"
+    ],
+    "wiki": "Jaime de los Santos González"
+   }
+  },
+  "marta varela pazos": {
+   "qid": "Q136031904",
+   "born": 1983,
+   "es": {
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "carlos novillo piris": {
+   "qid": "Q107551089",
+   "born": 1976,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ]
+   }
+  },
+  "alberto nadal belda": {
+   "qid": "Q49163828",
+   "born": 1970,
+   "es": {
+    "desc": "economista y político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Pontificia Comillas"
+    ],
+    "jobs": [
+     "político",
+     "economista"
+    ],
+    "wiki": "Alberto Nadal"
+   },
+   "ca": {
+    "place": "Madrid",
+    "studies": [
+     "Universitat Pontifícia de Comillas"
+    ],
+    "jobs": [
+     "polític",
+     "economista"
+    ]
+   }
+  },
+  "paloma martin martin": {
+   "qid": "Q77329353",
+   "born": 1970,
+   "es": {
+    "desc": "política española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid",
+     "Universidad Rey Juan Carlos"
+    ],
+    "jobs": [
+     "político",
+     "abogado",
+     "asesor político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid",
+     "consejero de Medio Ambiente, Ordenación del Territorio y Sostenibilidad de la Comunidad de Madrid"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid",
+     "Universitat Rei Joan Carles"
+    ],
+    "jobs": [
+     "polític",
+     "advocat",
+     "assessor polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid",
+     "conseller de Medi Ambient, Ordenació del Territori i Sostenibilitat de la Comunitat de Madrid"
+    ],
+    "wiki": "Paloma Martín Martín"
+   }
+  },
+  "maria martin revuelta": {
+   "qid": "Q20908919",
+   "born": 1985,
+   "es": {
+    "desc": "política española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Carlos III de Madrid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "concejal del Ayuntamiento de Villaviciosa de Odón"
+    ],
+    "wiki": "María Martín Revuelta"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Carles III de Madrid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "regidor de l'Ajuntament de Villaviciosa de Odón"
+    ],
+    "wiki": "María Martín Revuelta"
+   }
+  },
+  "jose enrique nunez guijarro": {
+   "qid": "Q44147663",
+   "born": 1974,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "funcionario"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid",
+     "concejal del Ayuntamiento de Madrid",
+     "primer teniente de alcalde de Madrid"
+    ],
+    "wiki": "José Enrique Núñez Guijarro"
+   },
+   "ca": {
+    "desc": "Polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "funcionari"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid",
+     "regidor de l'Ajuntament de Madrid",
+     "primer tinent d'alcalde de Madrid"
+    ],
+    "wiki": "José Enrique Núñez Guijarro"
+   }
+  },
+  "lucia soledad fernandez alonso": {
+   "qid": "Q107551080",
+   "born": 1983,
+   "es": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ]
+   }
+  },
+  "manuel cobo vega": {
+   "qid": "Q5992655",
+   "born": 1956,
+   "es": {
+    "desc": "político español",
+    "place": "Ponferrada",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "alcalde de Madrid",
+     "concejal del Ayuntamiento de Madrid",
+     "diputado en la Asamblea de Madrid",
+     "consejero de Presidencia de la Comunidad de Madrid"
+    ],
+    "wiki": "Manuel Cobo"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Ponferrada",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "alcalde de Madrid",
+     "regidor de l'Ajuntament de Madrid",
+     "diputat a l'Assemblea de Madrid",
+     "conseller de Presidència de la Comunitat de Madrid"
+    ],
+    "wiki": "Manuel Cobo Vega"
+   }
+  },
+  "rocio garcia alcantara": {
+   "qid": "Q50947495",
+   "born": 1981,
+   "es": {
+    "desc": "jugadora de rugby española",
+    "place": "Lalín",
+    "jobs": [
+     "rugbista",
+     "político"
+    ],
+    "wiki": "Rocío García Eiras"
+   },
+   "ca": {
+    "place": "Lalín",
+    "jobs": [
+     "jugador de rugbi",
+     "polític"
+    ]
+   }
+  },
+  "pedro munoz abrines": {
+   "qid": "Q54858739",
+   "born": 1967,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ]
+   }
+  },
+  "emilio delgado orgaz": {
+   "qid": "Q47512830",
+   "born": 1976,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "jobs": [
+     "político",
+     "integrador social"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ],
+    "wiki": "Emilio Delgado Orgaz"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "jobs": [
+     "polític",
+     "educador social"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ],
+    "wiki": "Emilio Delgado Orgaz"
+   }
+  },
+  "teslem andala ubbi": {
+   "qid": "Q119268257",
+   "born": 1994,
+   "es": {
+    "desc": "ingeniera informática y política hispano-saharaui",
+    "place": "campos de refugiados de la provincia de Tinduf",
+    "studies": [
+     "Universidad de Alicante",
+     "Universidad Europea de Madrid"
+    ],
+    "jobs": [
+     "informático teórico",
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Tesh Sidi"
+   },
+   "ca": {
+    "desc": "enginyera informàtica i política hispano-sahrauí",
+    "place": "camps de refugiats de la província de Tindouf",
+    "studies": [
+     "Universitat d'Alacant",
+     "Universidad Europea de Madrid"
+    ],
+    "jobs": [
+     "informàtic",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Tesh Sidi"
+   }
+  },
+  "juan antonio valero morales": {
+   "qid": "Q64506991",
+   "born": 1981,
+   "es": {
+    "desc": "político y profesor español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad de Málaga"
+    ],
+    "jobs": [
+     "político",
+     "profesor"
+    ],
+    "wiki": "Toni Valero"
+   },
+   "ca": {
+    "place": "Madrid",
+    "studies": [
+     "Universidad de Málaga"
+    ],
+    "jobs": [
+     "polític",
+     "professor"
+    ]
+   }
+  },
+  "veronica martinez barbero": {
+   "qid": "Q119520211",
+   "born": 1980,
+   "es": {
+    "desc": "política española",
+    "place": "Gijón",
+    "studies": [
+     "Universidad de Oviedo"
+    ],
+    "jobs": [
+     "función pública",
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Verónica Martínez Barbero"
+   },
+   "ca": {
+    "desc": "advocada i política espanyola",
+    "place": "Xixón",
+    "studies": [
+     "Universitat d'Oviedo"
+    ],
+    "jobs": [
+     "servei públic",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Verónica Martínez Barbero"
+   }
+  },
+  "eduardo fernandez rubino": {
+   "qid": "Q26232737",
+   "born": 1991,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "activista social",
+     "activista LGBTI"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ],
+    "wiki": "Eduardo Fernández Rubiño"
+   },
+   "ca": {
+    "desc": "polític i activista espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "activista social",
+     "activista pels drets LGBT"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ],
+    "wiki": "Eduardo Fernández Rubiño"
+   }
+  },
+  "jose bernal gutierrez": {
+   "qid": "Q26834098",
+   "born": 1974,
+   "es": {
+    "desc": "político, profesor, historiador y filósofo español",
+    "place": "Marbella",
+    "studies": [
+     "Universidad de Málaga",
+     "Universidad Abierta de Cataluña",
+     "Universidad Camilo José Cela"
+    ],
+    "jobs": [
+     "político",
+     "profesor",
+     "historiador"
+    ],
+    "posts": [
+     "alcalde de Marbella"
+    ],
+    "wiki": "José Bernal Gutiérrez"
+   },
+   "ca": {
+    "desc": "polític i professor",
+    "place": "Marbella",
+    "studies": [
+     "Universidad de Málaga",
+     "Universitat Oberta de Catalunya",
+     "Universitat Camilo José Cela"
+    ],
+    "jobs": [
+     "polític",
+     "professor",
+     "historiador"
+    ],
+    "posts": [
+     "alcalde de Marbella"
+    ]
+   }
+  },
+  "maria nieves ramirez moreno": {
+   "qid": "Q131860127",
+   "born": 1984,
+   "es": {
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "carlos hernandez quero": {
+   "qid": "Q127601036",
+   "born": 1990,
+   "es": {
+    "desc": "político e historiador español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid",
+     "Instituto de Ciencias Sociales, Económicas y Políticas"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Carlos Hernández Quero"
+   },
+   "ca": {
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid",
+     "Institut de Ciències Socials, Econòmiques i Polítiques"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "elias bendodo benasayag": {
+   "qid": "Q30084836",
+   "born": 1974,
+   "es": {
+    "desc": "político español",
+    "place": "Málaga",
+    "studies": [
+     "Universidad de Málaga"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "presidente de la Diputación Provincial de Málaga",
+     "concejal del Ayuntamiento de Málaga"
+    ],
+    "wiki": "Elías Bendodo"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Màlaga",
+    "studies": [
+     "Universidad de Málaga"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "president de la Diputació Provincial de Màlaga",
+     "regidor de l'Ajuntament de Màlaga"
+    ],
+    "wiki": "Elías Bendodo"
+   }
+  },
+  "angel luis gonzalez munoz": {
+   "qid": "Q27755573",
+   "born": 1979,
+   "es": {
+    "desc": "político español",
+    "place": "Antequera",
+    "studies": [
+     "Universidad de Granada"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Ángel González Muñoz"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Antequera",
+    "studies": [
+     "Universitat de Granada"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "carlos arturo bernal bergua": {
+   "qid": "Q131290153",
+   "born": 1966,
+   "es": {
+    "desc": "político español",
+    "place": "Málaga",
+    "studies": [
+     "Universidad de Málaga"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "wiki": "Arturo Bernal Bergua"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Màlaga",
+    "studies": [
+     "Universidad de Málaga"
+    ],
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "maria gonzalez veracruz": {
+   "qid": "Q5997280",
+   "born": 1979,
+   "es": {
+    "desc": "política española",
+    "place": "Murcia",
+    "studies": [
+     "Universidad de Murcia"
+    ],
+    "jobs": [
+     "político",
+     "bioquímico",
+     "profesor"
+    ],
+    "posts": [
+     "diputado de España",
+     "Secretario de Estado de Telecomunicaciones e Infraestructuras Digitales",
+     "Secretario de Estado de Digitalización e Inteligencia Artificial"
+    ],
+    "wiki": "María González Veracruz"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Múrcia",
+    "studies": [
+     "Universitat de Múrcia"
+    ],
+    "jobs": [
+     "polític",
+     "bioquímic",
+     "professor"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "Secretario de Estado de Telecomunicaciones e Infraestructuras Digitales",
+     "Secretario de Estado de Digitalización e Inteligencia Artificial"
+    ],
+    "wiki": "María González Veracruz"
+   }
+  },
+  "caridad rives arcayna": {
+   "qid": "Q5749228",
+   "born": 1972,
+   "es": {
+    "desc": "política española",
+    "place": "Cartagena",
+    "studies": [
+     "Universidad de Murcia"
+    ],
+    "jobs": [
+     "político",
+     "profesor de educación secundaria"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Cartagena",
+     "delegado del Gobierno en la Región de Murcia"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Cartagena",
+    "studies": [
+     "Universitat de Múrcia"
+    ],
+    "jobs": [
+     "polític",
+     "professor d'educació secundària"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de Cartagena",
+     "delegat del Govern d'Espanya en la regió de Múrcia"
+    ]
+   }
+  },
+  "joaquin robles lopez": {
+   "qid": "Q66661355",
+   "born": 1964,
+   "es": {
+    "desc": "político español",
+    "place": "Moratalla",
+    "studies": [
+     "Universidad de Murcia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Joaquín Robles López"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Moratalla",
+    "studies": [
+     "Universitat de Múrcia"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "luis gestoso de miguel": {
+   "qid": "Q74579123",
+   "born": 1962,
+   "es": {
+    "desc": "político español",
+    "place": "Cartagena",
+    "studies": [
+     "Universidad de Murcia",
+     "Escuela Naval Militar"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Luis Gestoso de Miguel"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Cartagena",
+    "studies": [
+     "Universitat de Múrcia",
+     "Escola Naval Militar"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "eneka maiz ulaiar": {
+   "qid": "Q137442276",
+   "born": 1970,
+   "es": {
+    "desc": "política española",
+    "place": "Echarri Aranaz",
+    "studies": [
+     "Universidad del País Vasco"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Echarri Aranaz",
+     "miembro del Parlamento de Navarra"
+    ]
+   },
+   "ca": {
+    "desc": "política basca",
+    "place": "Etxarri Aranatz",
+    "studies": [
+     "Universitat del País Basc"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde d'Etxarri Aranatz",
+     "diputat al Parlament de Navarra"
+    ],
+    "wiki": "Eneka Maiz Ulaiar"
+   }
+  },
+  "elma saiz delgado": {
+   "qid": "Q8775044",
+   "born": 1975,
+   "es": {
+    "desc": "política y abogada española",
+    "place": "Pamplona",
+    "studies": [
+     "Universidad de Navarra"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "Ministra de Inclusión, Seguridad Social y Migraciones",
+     "portavoz del Gobierno de España",
+     "concejal del Ayuntamiento de Pamplona"
+    ],
+    "wiki": "Elma Saiz"
+   },
+   "ca": {
+    "desc": "política, advocada i professora universitària",
+    "place": "Pamplona",
+    "studies": [
+     "Universitat de Navarra"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "Ministre d'Inclusió, Seguretat Social i Migracions",
+     "portaveu del Govern d'Espanya",
+     "regidor de l'Ajuntament de Pamplona"
+    ],
+    "wiki": "Elma Saiz Delgado"
+   }
+  },
+  "juan cruz cigudosa garcia": {
+   "qid": "Q69900161",
+   "born": 1964,
+   "es": {
+    "desc": "investigador y político español especializado en genética humana y biotecnología",
+    "place": "San Adrián",
+    "studies": [
+     "Universidad de Navarra",
+     "IE Business School"
+    ],
+    "jobs": [
+     "genetista",
+     "político",
+     "investigador"
+    ],
+    "posts": [
+     "secretario de Estado"
+    ],
+    "wiki": "Juan Cruz Cigudosa"
+   },
+   "ca": {
+    "desc": "investigador espanyol",
+    "place": "San Adrián",
+    "studies": [
+     "Universitat de Navarra",
+     "IE Business School"
+    ],
+    "jobs": [
+     "genetista",
+     "polític",
+     "investigador"
+    ],
+    "posts": [
+     "secretari d'Estat"
+    ]
+   }
+  },
+  "guzman garcia garcia": {
+   "qid": "Q137669688",
+   "born": 1998,
+   "es": {
+    "desc": "político español del PSN-PSOE",
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "sergio sayas lopez": {
+   "qid": "Q12267336",
+   "born": 1979,
+   "es": {
+    "desc": "político español",
+    "place": "Buñuel",
+    "studies": [
+     "Universidad de Navarra",
+     "IESE Business School"
+    ],
+    "jobs": [
+     "político",
+     "filólogo"
+    ],
+    "posts": [
+     "diputado de España",
+     "concejal del Ayuntamiento de Berriozar",
+     "miembro del Parlamento de Navarra"
+    ],
+    "wiki": "Sergio Sayas"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Buñuel",
+    "studies": [
+     "Universitat de Navarra",
+     "IESE Business School"
+    ],
+    "jobs": [
+     "polític",
+     "filòleg"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "regidor de l'Ajuntament de Berriozar",
+     "diputat al Parlament de Navarra"
+    ],
+    "wiki": "Sergio Sayas López"
+   }
+  },
+  "ana belen vazquez blanco": {
+   "qid": "Q12382952",
+   "born": 1975,
+   "es": {
+    "desc": "política española",
+    "place": "Bande",
+    "studies": [
+     "Universidad de Vigo"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "alcalde de Bande"
+    ],
+    "wiki": "Ana Belén Vázquez Blanco"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Bande",
+    "studies": [
+     "Universitat de Vigo"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "alcalde de Bande"
+    ],
+    "wiki": "Ana Belén Vázquez Blanco"
+   }
+  },
+  "celso luis delgado arce": {
+   "qid": "Q12385903",
+   "born": 1958,
+   "es": {
+    "desc": "abogado y político español",
+    "place": "Orense",
+    "studies": [
+     "Universidad de Santiago de Compostela"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Celso Delgado"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Ourense",
+    "studies": [
+     "Universitat de Santiago de Compostel·la"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "adriana lastra fernandez": {
+   "qid": "Q17620225",
+   "born": 1979,
+   "es": {
+    "desc": "política española",
+    "place": "Oviedo",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "diputado de la Junta General del Principado de Asturias",
+     "Delegado del Gobierno en Asturias"
+    ],
+    "wiki": "Adriana Lastra"
+   },
+   "ca": {
+    "desc": "Político asturiana",
+    "place": "Oviedo",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "diputat a la Junta General del Principat d'Astúries",
+     "delegat del Govern al Principat d'Astúries"
+    ],
+    "wiki": "Adriana Lastra Fernández"
+   }
+  },
+  "roberto garcia moris": {
+   "qid": "Q66663423",
+   "born": 1982,
+   "es": {
+    "desc": "político español",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "jose maria figaredo alvarez sala": {
+   "qid": "Q65146316",
+   "born": 1988,
+   "es": {
+    "desc": "político español",
+    "place": "Gijón",
+    "studies": [
+     "Universidad Pontificia Comillas"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "José María Figaredo"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Xixón",
+    "studies": [
+     "Universitat Pontifícia de Comillas"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "José María Figaredo Álvarez-Sala"
+   }
+  },
+  "carolina lopez fernandez": {
+   "qid": "Q116870195",
+   "born": 1985,
+   "es": {
+    "desc": "política española",
+    "place": "Tineo",
+    "studies": [
+     "Universidad de Salamanca"
+    ],
+    "jobs": [
+     "arquitecto técnico",
+     "político"
+    ],
+    "posts": [
+     "diputado de la Junta General del Principado de Asturias",
+     "concejal"
+    ],
+    "wiki": "Carolina López Fernández"
+   },
+   "ca": {
+    "place": "Tinéu",
+    "studies": [
+     "Universitat de Salamanca"
+    ],
+    "jobs": [
+     "arquitecte tècnic",
+     "polític"
+    ],
+    "posts": [
+     "diputat a la Junta General del Principat d'Astúries",
+     "regidor"
+    ],
+    "wiki": "Carolina López Fernández"
+   }
+  },
+  "mario arias navia": {
+   "qid": "Q28497906",
+   "born": 1979,
+   "es": {
+    "desc": "político español",
+    "place": "Belmonte de Miranda",
+    "studies": [
+     "Universidad de Oviedo"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Oviedo",
+     "senador de España",
+     "president de Nuevas Generaciones d'Oviedo"
+    ],
+    "wiki": "Mario Arias"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Belmonte de Miranda",
+    "studies": [
+     "Universitat d'Oviedo"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament d'Oviedo",
+     "senador al Senat espanyol",
+     "president de Nuevas Generaciones d'Oviedo"
+    ]
+   }
+  },
+  "maria mercedes fernandez gonzalez": {
+   "qid": "Q6010839",
+   "born": 1960,
+   "es": {
+    "desc": "política española",
+    "place": "Gijón",
+    "studies": [
+     "Universidad de Oviedo",
+     "Universidad Nacional de Educación a Distancia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "diputado de la Junta General del Principado de Asturias",
+     "regidor de l'Ajuntament de Gijón",
+     "Delegado del Gobierno en Asturias",
+     "president del Partit Popular d'Astúries"
+    ],
+    "wiki": "Mercedes Fernández"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Xixón",
+    "studies": [
+     "Universitat d'Oviedo",
+     "Universitat Nacional d'Educació a Distància"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "diputat a la Junta General del Principat d'Astúries",
+     "regidor de l'Ajuntament de Gijón",
+     "delegat del Govern al Principat d'Astúries",
+     "president del Partit Popular d'Astúries"
+    ],
+    "wiki": "Mercedes Fernández"
+   }
+  },
+  "jose agustin cuervas mons garcia braga": {
+   "qid": "Q63417207",
+   "born": 1962,
+   "es": {
+    "desc": "Político español",
+    "place": "Oviedo",
+    "jobs": [
+     "abogado",
+     "político"
+    ]
+   },
+   "ca": {
+    "place": "Oviedo",
+    "jobs": [
+     "advocat",
+     "polític"
+    ]
+   }
+  },
+  "maria luz martinez seijo": {
+   "qid": "Q27758403",
+   "born": 1968,
+   "es": {
+    "desc": "política española",
+    "place": "Valladolid",
+    "studies": [
+     "Universidad de Valladolid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "procurador en las Cortes de Castilla y León"
+    ],
+    "wiki": "María Luz Martínez Seijo"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Valladolid",
+    "studies": [
+     "Universitat de Valladolid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "procurador a les Corts de Castella i Lleó"
+    ]
+   }
+  },
+  "milagros marcos ortega": {
+   "qid": "Q22999390",
+   "born": 1965,
+   "es": {
+    "desc": "política española",
+    "place": "Palencia",
+    "studies": [
+     "Universidad de Valladolid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "consejero de Agricultura y Ganadería de la Junta de Castilla y León",
+     "diputado de España",
+     "procurador en las Cortes de Castilla y León"
+    ],
+    "wiki": "Milagros Marcos"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Palència",
+    "studies": [
+     "Universitat de Valladolid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "conseller d'Agricultura i Ramaderia de la Junta de Castella i Lleó",
+     "diputat al Congrés dels Diputats",
+     "procurador a les Corts de Castella i Lleó"
+    ]
+   }
+  },
+  "maria jose ortega gomez": {
+   "qid": "Q14095187",
+   "born": 1965,
+   "es": {
+    "desc": "político de España",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "procurador en las Cortes de Castilla y León"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "procurador a les Corts de Castella i Lleó"
+    ]
+   }
+  },
+  "maria dolores corujo berriel": {
+   "qid": "Q14100260",
+   "born": 1977,
+   "es": {
+    "desc": "político de España",
+    "place": "San Bartolomé",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de San Bartolomé",
+     "diputado en el Parlamento de Canarias"
+    ],
+    "wiki": "Dolores Corujo"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "San Bartolomé",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de San Bartolomé",
+     "diputat al Parlament de Canàries"
+    ]
+   }
+  },
+  "luc andre diouf dioh": {
+   "qid": "Q66663407",
+   "born": 1965,
+   "es": {
+    "desc": "político español",
+    "place": "Joal-Fadiouth",
+    "studies": [
+     "Universidad de Dakar"
+    ],
+    "jobs": [
+     "político",
+     "sindicalista"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Luc André Diouf"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Joal-Fadiouth",
+    "studies": [
+     "Universitat Cheikh-Anta-Diop"
+    ],
+    "jobs": [
+     "polític",
+     "sindicalista"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Luc André Diouf"
+   }
+  },
+  "ada santana aguilera": {
+   "qid": "Q131914597",
+   "born": 1998,
+   "es": {
+    "place": "Las Palmas de Gran Canaria",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "place": "Las Palmas de Gran Canaria",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "andres alberto rodriguez almeida": {
+   "qid": "Q81767768",
+   "born": 1978,
+   "es": {
+    "desc": "político español",
+    "place": "Las Palmas de Gran Canaria",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Alberto Rodríguez Almeida"
+   },
+   "ca": {
+    "place": "Las Palmas de Gran Canaria",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "julio garcia comesana": {
+   "qid": "Q98931965",
+   "born": 1968,
+   "es": {
+    "place": "Vigo",
+    "studies": [
+     "Universidad de Santiago de Compostela"
+    ],
+    "jobs": [
+     "político",
+     "físico"
+    ]
+   },
+   "ca": {
+    "place": "Vigo",
+    "studies": [
+     "Universitat de Santiago de Compostel·la"
+    ],
+    "jobs": [
+     "polític",
+     "físic"
+    ]
+   }
+  },
+  "maria jose pardo pumar pepa": {
+   "qid": "Q120886670",
+   "born": 1977,
+   "es": {
+    "desc": "abogada y política española",
+    "place": "Santiago de Compostela",
+    "studies": [
+     "Universidad CEU San Pablo"
+    ],
+    "jobs": [
+     "abogado",
+     "político"
+    ],
+    "posts": [
+     "senador de España"
+    ]
+   },
+   "ca": {
+    "place": "Santiago de Compostel·la",
+    "studies": [
+     "Universitat CEU San Pablo"
+    ],
+    "jobs": [
+     "advocat",
+     "polític"
+    ],
+    "posts": [
+     "senador al Senat espanyol"
+    ]
+   }
+  },
+  "pedro puy fraga": {
+   "qid": "Q12397415",
+   "born": 1962,
+   "es": {
+    "desc": "político español",
+    "place": "Granada",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Galicia"
+    ],
+    "wiki": "Pedro Puy Fraga"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Granada",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament de Galícia"
+    ]
+   }
+  },
+  "irene garrido valenzuela": {
+   "qid": "Q12390717",
+   "born": 1960,
+   "es": {
+    "desc": "política española",
+    "place": "Madrid",
+    "studies": [
+     "Universidad de Santiago de Compostela"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "presidente del Instituto de Crédito Oficial"
+    ],
+    "wiki": "Irene Garrido"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Madrid",
+    "studies": [
+     "Universitat de Santiago de Compostel·la"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "president de l'Institut de Crèdit Oficial"
+    ],
+    "wiki": "Irene Garrido Valenzuela"
+   }
+  },
+  "david serrada pariente": {
+   "qid": "Q27999092",
+   "born": 1977,
+   "es": {
+    "desc": "político español",
+    "place": "Valladolid",
+    "studies": [
+     "Universidad de Salamanca"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "David Serrada"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Valladolid",
+    "studies": [
+     "Universitat de Salamanca"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "jose antonio bermudez de castro fernandez": {
+   "qid": "Q5937714",
+   "born": 1959,
+   "es": {
+    "desc": "político español",
+    "place": "León",
+    "studies": [
+     "Universidad de Salamanca",
+     "Instituto Católico de Administración y Dirección de Empresas"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid",
+     "diputado de España",
+     "sustituto en la Asamblea Parlamentaria del Consejo de Europa"
+    ],
+    "wiki": "José Antonio Bermúdez de Castro"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Lleó",
+    "studies": [
+     "Universitat de Salamanca",
+     "Institut Catòlic d'Administració i Direcció d'Empreses"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid",
+     "diputat al Congrés dels Diputats",
+     "substitut de l'Assemblea Parlamentària del Consell d'Europa"
+    ],
+    "wiki": "José Antonio Bermúdez de Castro Fernández"
+   }
+  },
+  "sergio matos castro": {
+   "qid": "Q14109185",
+   "born": 1976,
+   "es": {
+    "desc": "político español",
+    "studies": [
+     "Universidad de Oviedo"
+    ],
+    "jobs": [
+     "político",
+     "pedagogo"
+    ],
+    "posts": [
+     "alcalde de Santa Cruz de La Palma",
+     "diputado de España",
+     "senador de España"
+    ],
+    "wiki": "Sergio Carlos Matos"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "studies": [
+     "Universitat d'Oviedo"
+    ],
+    "jobs": [
+     "polític",
+     "pedagog"
+    ],
+    "posts": [
+     "alcalde de Santa Cruz de La Palma",
+     "diputat al Congrés dels Diputats",
+     "senador al Senat espanyol"
+    ]
+   }
+  },
+  "cristina valido garcia": {
+   "qid": "Q81763033",
+   "born": 1969,
+   "es": {
+    "desc": "política española",
+    "place": "Las Palmas de Gran Canaria",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "consejero del Gobierno de Canarias"
+    ],
+    "wiki": "Cristina Valido"
+   },
+   "ca": {
+    "desc": "política canària",
+    "place": "Las Palmas de Gran Canaria",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "conseller del Govern de Canàries"
+    ],
+    "wiki": "Cristina Valido García"
+   }
+  },
+  "susana herran martin": {
+   "qid": "Q138040559",
+   "born": 1975,
+   "es": {
+    "desc": "política española",
+    "place": "Santurce",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde"
+    ],
+    "wiki": "Susana Herrán"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Santurtzi",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde"
+    ]
+   }
+  },
+  "emilio jesus del valle rodriguez": {
+   "qid": "Q8775589",
+   "born": 1960,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Emilio del Valle"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "felix de las cuevas cortes": {
+   "qid": "Q122346561",
+   "born": 1966,
+   "es": {
+    "desc": "abogado y político español",
+    "studies": [
+     "IE Universidad"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "wiki": "Félix de las Cuevas Cortés"
+   },
+   "ca": {
+    "studies": [
+     "Universitat IE"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ]
+   }
+  },
+  "jose luis aceves galindo": {
+   "qid": "Q66663372",
+   "born": 1970,
+   "es": {
+    "desc": "político y guardabosques español",
+    "place": "Segovia",
+    "studies": [
+     "Universidad Nacional de Educación a Distancia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "procurador en las Cortes de Castilla y León"
+    ],
+    "wiki": "José Luis Aceves"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Segòvia",
+    "studies": [
+     "Universitat Nacional d'Educació a Distància"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "procurador a les Corts de Castella i Lleó"
+    ]
+   }
+  },
+  "gonzalo babe romero": {
+   "qid": "Q107551123",
+   "born": 1965,
+   "es": {
+    "desc": "político español",
+    "place": "Madrid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en la Asamblea de Madrid"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a l'Assemblea de Madrid"
+    ]
+   }
+  },
+  "pablo perez coronado": {
+   "qid": "Q121299391",
+   "born": 1984,
+   "es": {
+    "desc": "político, economista y profesor español",
+    "place": "Salamanca",
+    "studies": [
+     "IES Andrés Laguna",
+     "Universidad de Valladolid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "wiki": "Pablo Pérez Coronado"
+   },
+   "ca": {
+    "desc": "polític, economista i professor espanyol",
+    "place": "Salamanca",
+    "studies": [
+     "IES Andrés Laguna",
+     "Universitat de Valladolid"
+    ],
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "alfonso rodriguez gomez de celis": {
+   "qid": "Q5667136",
+   "born": 1970,
+   "es": {
+    "desc": "político español",
+    "place": "Sevilla",
+    "studies": [
+     "Universidad de Sevilla",
+     "Universidad Rey Juan Carlos",
+     "Universidad Nebrija"
+    ],
+    "jobs": [
+     "político",
+     "profesor universitario",
+     "asesor laboral",
+     "asesor fiscal"
+    ],
+    "posts": [
+     "diputado en el Parlamento de Andalucía",
+     "diputado de España"
+    ],
+    "wiki": "Alfonso Rodríguez Gómez de Celis"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Sevilla",
+    "studies": [
+     "Universitat de Sevilla",
+     "Universitat Rei Joan Carles",
+     "Universitat Antonio de Nebrija"
+    ],
+    "jobs": [
+     "polític",
+     "professor universitari",
+     "asesor laboral",
+     "assessor fiscal"
+    ],
+    "posts": [
+     "diputat al Parlament d'Andalusia",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Alfonso Rodríguez Gómez de Celis"
+   }
+  },
+  "maria carmen castilla alvarez": {
+   "qid": "Q131860124",
+   "born": 1968,
+   "es": {
+    "desc": "política española",
+    "place": "Écija",
+    "studies": [
+     "Universidad de Sevilla",
+     "Universidad Nacional de Educación a Distancia",
+     "Universidad de Granada"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Écija",
+     "diputado de España"
+    ],
+    "wiki": "María Carmen Castilla"
+   },
+   "ca": {
+    "place": "Écija",
+    "studies": [
+     "Universitat de Sevilla",
+     "Universitat Nacional d'Educació a Distància",
+     "Universitat de Granada"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Écija",
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "maria de los reyes romero vilches": {
+   "qid": "Q65146324",
+   "born": 1967,
+   "es": {
+    "desc": "político español",
+    "place": "Marchena",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Reyes Romero"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Marchena",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "enrique fernando santiago romero": {
+   "qid": "Q5573261",
+   "born": 1964,
+   "es": {
+    "desc": "político y jurista español",
+    "place": "Madrid",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "abogado",
+     "defensor de derechos humanos"
+    ],
+    "posts": [
+     "secretario general del Partido Comunista de España",
+     "diputado de España",
+     "secretari d'Estat per a l'Agenda 2030"
+    ],
+    "wiki": "Enrique Santiago"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Madrid",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "advocat",
+     "activista pels drets humans"
+    ],
+    "posts": [
+     "secretari general del Partit Comunista d'Espanya",
+     "diputat al Congrés dels Diputats",
+     "secretari d'Estat per a l'Agenda 2030"
+    ],
+    "wiki": "Enrique Santiago Romero"
+   }
+  },
+  "juan bravo baena": {
+   "qid": "Q27756206",
+   "born": 1974,
+   "es": {
+    "desc": "político español",
+    "place": "Palma de Mallorca",
+    "studies": [
+     "Universidad de Jaén"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "vicesecretario de Economía"
+    ],
+    "wiki": "Juan Bravo Baena"
+   },
+   "ca": {
+    "desc": "polític mallorquí",
+    "place": "Palma",
+    "studies": [
+     "Universitat de Jaen"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "vicesecretari d'Economia del PP"
+    ]
+   }
+  },
+  "maria soledad cruz guzman garcia": {
+   "qid": "Q66663402",
+   "born": 1975,
+   "es": {
+    "desc": "política española",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "ricardo tarno blanco": {
+   "qid": "Q3430329",
+   "born": 1966,
+   "es": {
+    "desc": "político de España",
+    "place": "Sevilla",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Ricardo Tarno"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Sevilla",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Ricardo Tarno Blanco"
+   }
+  },
+  "tomas cabezon casas": {
+   "qid": "Q28872682",
+   "born": 1981,
+   "es": {
+    "desc": "político español",
+    "place": "Soria",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Sòria",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "pere lluis huguet tous": {
+   "qid": "Q125695099",
+   "born": 1962,
+   "es": {
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "concejal",
+     "diputado en el Parlamento de Cataluña"
+    ]
+   },
+   "ca": {
+    "desc": "polític català",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "regidor",
+     "diputat al Parlament de Catalunya"
+    ]
+   }
+  },
+  "herminio rufino sancho iniguez": {
+   "qid": "Q14124051",
+   "born": 1966,
+   "es": {
+    "desc": "político de España",
+    "place": "Mezquita de Jarque",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Mezquita de Jarque",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "jose alberto herrero bono": {
+   "qid": "Q27755608",
+   "born": 1978,
+   "es": {
+    "desc": "político español",
+    "place": "Calanda",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "alcalde de Calanda"
+    ],
+    "wiki": "José Alberto Herrero"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Calanda",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "alcalde de Calanda"
+    ]
+   }
+  },
+  "raquel clemente munoz": {
+   "qid": "Q14123370",
+   "born": 1982,
+   "es": {
+    "desc": "político de España",
+    "place": "Teruel",
+    "jobs": [
+     "político"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Terol",
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "milagros tolon jaime": {
+   "qid": "Q20087023",
+   "born": 1968,
+   "es": {
+    "desc": "política española",
+    "place": "Toledo",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Toledo",
+     "diputado en las Cortes de Castilla-La Mancha",
+     "concejal del Ayuntamiento de Toledo",
+     "ministro de Educación y Formación Profesional"
+    ],
+    "wiki": "Milagros Tolón"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Toledo",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Toledo",
+     "diputat a les Corts de Castella - la Manxa",
+     "regidor de l'Ajuntament de Toledo",
+     "ministre d'Educació i Esports"
+    ],
+    "wiki": "Milagros Tolón Jaime"
+   }
+  },
+  "sergio gutierrez prieto": {
+   "qid": "Q2273109",
+   "born": 1982,
+   "es": {
+    "desc": "político español",
+    "place": "Escalona",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "eurodiputado",
+     "secretario general de las Juventudes Socialistas de España",
+     "diputado de España"
+    ],
+    "wiki": "Sergio Gutiérrez Prieto"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Escalona",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament Europeu",
+     "secretari general de les Joventuts Socialistes d'Espanya",
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "manuel mariscal zabala": {
+   "qid": "Q63442032",
+   "born": 1992,
+   "es": {
+    "desc": "político español",
+    "studies": [
+     "Universidad Complutense de Madrid"
+    ],
+    "jobs": [
+     "político",
+     "periodista"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Manuel Mariscal Zabala"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "studies": [
+     "Universitat Complutense de Madrid"
+    ],
+    "jobs": [
+     "polític",
+     "periodista"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "carlos velazquez romo": {
+   "qid": "Q14126578",
+   "born": 1980,
+   "es": {
+    "desc": "político de España",
+    "place": "Toledo",
+    "jobs": [
+     "político",
+     "bancario"
+    ],
+    "posts": [
+     "alcalde de Seseña",
+     "diputado en las Cortes de Castilla-La Mancha",
+     "diputado provincial de Toledo",
+     "concejal del Ayuntamiento de Seseña",
+     "presidente"
+    ],
+    "wiki": "Carlos Velázquez Romo"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Toledo",
+    "jobs": [
+     "polític",
+     "treballador de banca"
+    ],
+    "posts": [
+     "alcalde de Seseña",
+     "diputat a les Corts de Castella - la Manxa",
+     "diputat provincial de Toledo",
+     "regidor de l'Ajuntament de Seseña",
+     "president"
+    ]
+   }
+  },
+  "carolina agudo alonso": {
+   "qid": "Q66142162",
+   "born": 1985,
+   "es": {
+    "desc": "política española",
+    "place": "Valmojado",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado en las Cortes de Castilla-La Mancha",
+     "senador de España"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Valmojado",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat a les Corts de Castella - la Manxa",
+     "senador al Senat espanyol"
+    ]
+   }
+  },
+  "pilar bernabe garcia": {
+   "qid": "Q112758597",
+   "born": 1979,
+   "es": {
+    "desc": "política española",
+    "place": "Valencia",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Valencia",
+     "delegado del Gobierno en la Comunidad Valenciana"
+    ],
+    "wiki": "Pilar Bernabé"
+   },
+   "ca": {
+    "desc": "política valenciana",
+    "place": "València",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de València",
+     "delegat del Govern d'Espanya a la Comunitat Valenciana"
+    ],
+    "wiki": "Pilar Bernabé García"
+   }
+  },
+  "arcadi espana garcia": {
+   "qid": "Q98382675",
+   "born": 1974,
+   "es": {
+    "desc": "político y economista español",
+    "place": "Carcagente",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "Consejero de Política Territorial, Obras Públicas y Movilidad",
+     "Consejero de Hacienda y Modelo Económico",
+     "diputado en las Cortes Valencianas",
+     "secretario de Estado",
+     "Ministro de Hacienda",
+     "profesor asociado"
+    ],
+    "wiki": "Arcadi España García"
+   },
+   "ca": {
+    "desc": "polític valencià",
+    "place": "Carcaixent",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "Conseller de Política Territorial, Obres Públiques i Mobilitat",
+     "Conseller d'Hisenda i Model Econòmic",
+     "diputat a les Corts Valencianes",
+     "secretari d'estat d'Espanya",
+     "ministre d'Hisenda",
+     "professor agregat"
+    ],
+    "wiki": "Arcadi España García"
+   }
+  },
+  "rebeca torro soler": {
+   "qid": "Q112035442",
+   "born": 1981,
+   "es": {
+    "desc": "política española",
+    "place": "Onteniente",
+    "studies": [
+     "Universidad de Valencia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "Regidor de l'Ajuntament d'Ontinyent",
+     "diputado provincial de Valencia",
+     "Secretari Autonòmic d'Economia Sostenible",
+     "Consejero de Política Territorial, Obras Públicas y Movilidad",
+     "diputado en las Cortes Valencianas",
+     "síndico del Grupo Parlamentario Socialista"
+    ],
+    "wiki": "Rebeca Torró"
+   },
+   "ca": {
+    "desc": "política valenciana",
+    "place": "Ontinyent",
+    "studies": [
+     "Universitat de València"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "Regidor de l'Ajuntament d'Ontinyent",
+     "diputat provincial de València",
+     "Secretari Autonòmic d'Economia Sostenible",
+     "Conseller de Política Territorial, Obres Públiques i Mobilitat",
+     "diputat a les Corts Valencianes",
+     "Síndic del Grup Parlamentari Socialista"
+    ],
+    "wiki": "Rebeca Torró Soler"
+   }
+  },
+  "carmen martinez ramirez": {
+   "qid": "Q5484087",
+   "born": 1962,
+   "es": {
+    "desc": "político española",
+    "place": "Cuart de Poblet",
+    "jobs": [
+     "político",
+     "médico"
+    ],
+    "posts": [
+     "alcalde de Cuart de Poblet",
+     "diputado en las Cortes Valencianas",
+     "regidor de l'Ajuntament de Quart de Poblet",
+     "vicepresident primer de les Corts Valencianes",
+     "secretario segundo de las Cortes Valencianas",
+     "diputado de España"
+    ],
+    "wiki": "Carmen Martínez Ramírez"
+   },
+   "ca": {
+    "desc": "política valenciana",
+    "place": "Quart de Poblet",
+    "jobs": [
+     "polític",
+     "metge"
+    ],
+    "posts": [
+     "alcalde de Quart de Poblet",
+     "diputat a les Corts Valencianes",
+     "regidor de l'Ajuntament de Quart de Poblet",
+     "vicepresident primer de les Corts Valencianes",
+     "secretari segon de les Corts Valencianes",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Carmen Martínez Ramírez"
+   }
+  },
+  "vicent sarria morell": {
+   "qid": "Q11954626",
+   "born": 1967,
+   "es": {
+    "desc": "político español",
+    "place": "Valencia",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "concejal del Ayuntamiento de Valencia",
+     "diputado en las Cortes Valencianas",
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "València",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "regidor de l'Ajuntament de València",
+     "diputat a les Corts Valencianes",
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Vicent Sarrià i Morell"
+   }
+  },
+  "ignacio gil lazaro": {
+   "qid": "Q5913259",
+   "born": 1957,
+   "es": {
+    "desc": "político español",
+    "place": "Valencia",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "senador de España",
+     "diputado de España",
+     "representante de la Asamblea Parlamentaria del Consejo de Europa",
+     "sustituto en la Asamblea Parlamentaria del Consejo de Europa"
+    ],
+    "wiki": "Ignacio Gil Lázaro"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "València",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "senador al Senat espanyol",
+     "diputat al Congrés dels Diputats",
+     "representant de l'Assemblea Parlamentària del Consell d'Europa",
+     "substitut de l'Assemblea Parlamentària del Consell d'Europa"
+    ],
+    "wiki": "Ignacio Gil Lázaro"
+   }
+  },
+  "carlos flores juberias": {
+   "qid": "Q53547566",
+   "born": 1964,
+   "es": {
+    "desc": "catedrático y político español",
+    "place": "Valencia",
+    "studies": [
+     "Universidad de Valencia",
+     "Universidad Nacional de Educación a Distancia"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "catedrático de universidad"
+    ],
+    "wiki": "Carlos Flores Juberías"
+   },
+   "ca": {
+    "desc": "polític valencià",
+    "place": "València",
+    "studies": [
+     "Universitat de València",
+     "Universitat Nacional d'Educació a Distància"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "catedràtic d'universitat"
+    ],
+    "wiki": "Carlos Flores Juberías"
+   }
+  },
+  "agueda mico mico": {
+   "qid": "Q24237362",
+   "born": 1978,
+   "es": {
+    "desc": "política española",
+    "place": "Ollería",
+    "studies": [
+     "Universidad de Valencia",
+     "Universidad Abierta de Cataluña"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "Secretari General de Més - Compromís",
+     "Portavoz de Compromís",
+     "Secretari d'Organització del Bloc Nacionalista Valencià",
+     "diputado de España",
+     "concejal del Ayuntamiento de Ollería"
+    ],
+    "wiki": "Àgueda Micó"
+   },
+   "ca": {
+    "desc": "política valenciana",
+    "place": "l'Olleria",
+    "studies": [
+     "Universitat de València",
+     "Universitat Oberta de Catalunya"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "Secretari General de Més - Compromís",
+     "portaveu de Compromís",
+     "Secretari d'Organització del Bloc Nacionalista Valencià",
+     "diputat al Congrés dels Diputats",
+     "Regidor de l'Ajuntament de l'Olleria"
+    ],
+    "wiki": "Àgueda Micó i Micó"
+   }
+  },
+  "alberto ibanez mezquita": {
+   "qid": "Q111029347",
+   "born": 1991,
+   "es": {
+    "desc": "político español",
+    "place": "Villarreal",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "portavoz de Iniciativa del Poble Valencià",
+     "diputado de España",
+     "secretari Autonòmic d'Igualtat i Diversitat",
+     "Secretari Autonòmic d'Inclusió",
+     "concejal del Ayuntamiento de Villarreal"
+    ]
+   },
+   "ca": {
+    "desc": "Polític valencià",
+    "place": "Vila-real",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "portaveu d'Iniciativa del Poble Valencià",
+     "diputat al Congrés dels Diputats",
+     "secretari Autonòmic d'Igualtat i Diversitat",
+     "Secretari Autonòmic d'Inclusió",
+     "regidor de l'Ajuntament de Vila-real"
+    ],
+    "wiki": "Alberto Ibáñez Mezquita"
+   }
+  },
+  "maria jose catala verdet": {
+   "qid": "Q4891079",
+   "born": 1981,
+   "es": {
+    "desc": "política española",
+    "place": "Valencia",
+    "studies": [
+     "Universidad CEU Cardenal Herrera"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "alcalde de Torrent",
+     "diputado en las Cortes Valencianas",
+     "portavoz del Consell de la Generalitat Valenciana",
+     "diputado de España",
+     "conseller d'Educació, Cultura i Esport",
+     "conseller d'Educació, Formació i Ocupació"
+    ],
+    "wiki": "María José Catalá"
+   },
+   "ca": {
+    "desc": "6a alcaldessa de València amb la constitució del 1978",
+    "place": "València",
+    "studies": [
+     "Universitat CEU Cardenal Herrera"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "alcalde de Torrent",
+     "diputat a les Corts Valencianes",
+     "portaveu del Consell",
+     "diputat al Congrés dels Diputats",
+     "conseller d'Educació, Cultura i Esport",
+     "conseller d'Educació, Formació i Ocupació"
+    ],
+    "wiki": "María José Català Verdet"
+   }
+  },
+  "belen hoyo julia": {
+   "qid": "Q12156127",
+   "born": 1984,
+   "es": {
+    "desc": "político español",
+    "place": "Valencia",
+    "studies": [
+     "Universidad de Valencia"
+    ],
+    "jobs": [
+     "abogado",
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "sustituto en la Asamblea Parlamentaria del Consejo de Europa"
+    ],
+    "wiki": "Belén Hoyo"
+   },
+   "ca": {
+    "desc": "advocada i política valenciana",
+    "place": "València",
+    "studies": [
+     "Universitat de València"
+    ],
+    "jobs": [
+     "advocat",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "substitut de l'Assemblea Parlamentària del Consell d'Europa"
+    ],
+    "wiki": "Belén Hoyo Juliá"
+   }
+  },
+  "fernando de rosa torner": {
+   "qid": "Q66124783",
+   "born": 1959,
+   "es": {
+    "desc": "político español",
+    "place": "Valencia",
+    "jobs": [
+     "juez",
+     "político"
+    ],
+    "posts": [
+     "Secretari Autonòmic de Justícia",
+     "Consejero de Justicia y Administraciones Públicas",
+     "President de l'Audiència Provincial de València",
+     "presidente del Consejo General del Poder Judicial",
+     "senador de España",
+     "Secretari Autonòmic de Justícia i Interior"
+    ],
+    "wiki": "Fernando de Rosa Torner"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "València",
+    "jobs": [
+     "jutge",
+     "polític"
+    ],
+    "posts": [
+     "Secretari Autonòmic de Justícia",
+     "conseller de Justícia i Administracions Públiques",
+     "President de l'Audiència Provincial de València",
+     "president del Consell General del Poder Judicial",
+     "senador al Senat espanyol",
+     "Secretari Autonòmic de Justícia i Interior"
+    ],
+    "wiki": "Fernando de Rosa Torner"
+   }
+  },
+  "oscar puente santiago": {
+   "qid": "Q6174903",
+   "born": 1968,
+   "es": {
+    "desc": "político y abogado español",
+    "place": "Valladolid",
+    "studies": [
+     "Universidad de Valladolid"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "alcalde de Valladolid",
+     "concejal del Ayuntamiento de Valladolid",
+     "Ministro de Transportes y Movilidad Urbana"
+    ],
+    "wiki": "Óscar Puente"
+   },
+   "ca": {
+    "desc": "advocat i polític espanyol",
+    "place": "Valladolid",
+    "studies": [
+     "Universitat de Valladolid"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "alcalde de Valladolid",
+     "regidor de l'Ajuntament de Valladolid",
+     "Ministre de Transports i Mobilitat Urbana"
+    ],
+    "wiki": "Óscar Puente Santiago"
+   }
+  },
+  "pablo saez alonso munumer": {
+   "qid": "Q65146321",
+   "born": 1964,
+   "es": {
+    "desc": "político español",
+    "place": "Valladolid",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Pablo Sáez Alonso-Muñumer"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Valladolid",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "eduardo carazo hermoso": {
+   "qid": "Q81765006",
+   "born": 1990,
+   "es": {
+    "desc": "político español",
+    "place": "Valladolid",
+    "studies": [
+     "Universidad de Valladolid"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Valladolid",
+    "studies": [
+     "Universitat de Valladolid"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "idoia sagastizabal unzetabarrenetxea": {
+   "qid": "Q27999264",
+   "born": 1972,
+   "es": {
+    "desc": "política española",
+    "place": "Éibar",
+    "studies": [
+     "Universidad del País Vasco"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ],
+    "wiki": "Idoia Sagastizabal"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Eibar",
+    "studies": [
+     "Universitat del País Basc"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ],
+    "wiki": "Idoia Sagastizabal Unzetabarrenetxea"
+   }
+  },
+  "jon andoni atutxa sainz": {
+   "qid": "Q106523294",
+   "born": 1970,
+   "es": {
+    "place": "Bilbao",
+    "studies": [
+     "Universidad de Deusto"
+    ],
+    "jobs": [
+     "político",
+     "profesor universitario"
+    ],
+    "posts": [
+     "diputado del Parlamento Vasco"
+    ]
+   },
+   "ca": {
+    "place": "Bilbao",
+    "studies": [
+     "Universitat de Deusto"
+    ],
+    "jobs": [
+     "polític",
+     "professor universitari"
+    ],
+    "posts": [
+     "diputat al Parlament Basc"
+    ]
+   }
+  },
+  "patxi lopez alvarez": {
+   "qid": "Q465161",
+   "born": 1959,
+   "es": {
+    "desc": "político español",
+    "place": "Portugalete",
+    "studies": [
+     "Universidad del País Vasco"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "Lendakari",
+     "diputado de España",
+     "presidente del Congreso de los Diputados",
+     "secretario general",
+     "diputado del Parlamento Vasco"
+    ],
+    "wiki": "Patxi López"
+   },
+   "ca": {
+    "desc": "6è President del Govern Basc",
+    "place": "Portugalete",
+    "studies": [
+     "Universitat del País Basc"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "lehendakari",
+     "diputat al Congrés dels Diputats",
+     "president del Congrés dels Diputats",
+     "secretari general",
+     "diputat al Parlament Basc"
+    ],
+    "wiki": "Patxi López Álvarez"
+   }
+  },
+  "maria guijarro ceballos": {
+   "qid": "Q66663429",
+   "born": 1971,
+   "es": {
+    "desc": "política española",
+    "place": "Bilbao",
+    "studies": [
+     "Universidad del País Vasco",
+     "Universidad de Deusto"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "Secretario de Estado de Igualdad y para la Erradicación de la Violencia contra las Mujeres"
+    ],
+    "wiki": "María Guijarro"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Bilbao",
+    "studies": [
+     "Universitat del País Basc",
+     "Universitat de Deusto"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "Secretario de Estado de Igualdad y para la Erradicación de la Violencia contra las Mujeres"
+    ]
+   }
+  },
+  "gabriel blanco arrue": {
+   "qid": "Q134862280",
+   "born": 1999,
+   "es": {
+    "desc": "político español",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España"
+    ]
+   },
+   "ca": {
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats"
+    ]
+   }
+  },
+  "oskar matute garcia de jalon": {
+   "qid": "Q3826664",
+   "born": 1972,
+   "es": {
+    "desc": "político español",
+    "place": "Baracaldo",
+    "studies": [
+     "Universidad del País Vasco"
+    ],
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado de España",
+     "portaveu d'Alternatiba",
+     "portavoz de EH Bildu en el Congreso de los Diputados",
+     "diputado del Parlamento Vasco"
+    ],
+    "wiki": "Oskar Matute"
+   },
+   "ca": {
+    "desc": "polític basc",
+    "place": "Barakaldo",
+    "studies": [
+     "Universitat del País Basc"
+    ],
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "portaveu d'Alternatiba",
+     "portaveu d'EH Bildu al Congrés dels Diputats",
+     "diputat al Parlament Basc"
+    ],
+    "wiki": "Oskar Matute García de Jalón"
+   }
+  },
+  "marije fullaondo la cruz": {
+   "qid": "Q12263084",
+   "born": 1964,
+   "es": {
+    "desc": "política española",
+    "place": "Guecho",
+    "jobs": [
+     "político"
+    ],
+    "wiki": "Marije Fullaondo"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Getxo",
+    "jobs": [
+     "polític"
+    ]
+   }
+  },
+  "esther martinez fernandez": {
+   "qid": "Q12257302",
+   "born": 1971,
+   "es": {
+    "desc": "política española",
+    "place": "Baracaldo",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "diputado del Parlamento Vasco",
+     "concejal",
+     "Juntas Generales de Vizcaya"
+    ]
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Barakaldo",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament Basc",
+     "regidor",
+     "Juntes Generals de Biscaia"
+    ]
+   }
+  },
+  "ines nerea llanos gomez": {
+   "qid": "Q106544505",
+   "born": 1967,
+   "es": {
+    "desc": "político vasco",
+    "place": "Baracaldo",
+    "studies": [
+     "Universidad de Deusto"
+    ],
+    "jobs": [
+     "abogado",
+     "político"
+    ],
+    "posts": [
+     "diputado del Parlamento Vasco"
+    ],
+    "wiki": "Nerea Llanos"
+   },
+   "ca": {
+    "place": "Barakaldo",
+    "studies": [
+     "Universitat de Deusto"
+    ],
+    "jobs": [
+     "advocat",
+     "polític"
+    ],
+    "posts": [
+     "diputat al Parlament Basc"
+    ],
+    "wiki": "Nerea Llanos"
+   }
+  },
+  "miguel suarez arca": {
+   "qid": "Q111525386",
+   "born": 1991,
+   "es": {
+    "desc": "político español",
+    "place": "Mieres",
+    "jobs": [
+     "político"
+    ],
+    "posts": [
+     "procurador en las Cortes de Castilla y León"
+    ]
+   },
+   "ca": {
+    "place": "Mieres",
+    "jobs": [
+     "polític"
+    ],
+    "posts": [
+     "procurador a les Corts de Castella i Lleó"
+    ]
+   }
+  },
+  "fernando martinez maillo toribio": {
+   "qid": "Q5859866",
+   "born": 1969,
+   "es": {
+    "desc": "político y abogado español",
+    "place": "Zamora",
+    "studies": [
+     "Universidad de Salamanca",
+     "Universidad Nacional de Educación a Distancia"
+    ],
+    "jobs": [
+     "político",
+     "abogado"
+    ],
+    "posts": [
+     "diputado de España",
+     "presidente de la Diputación Provincial de Zamora"
+    ],
+    "wiki": "Fernando Martínez-Maíllo"
+   },
+   "ca": {
+    "desc": "polític espanyol",
+    "place": "Zamora",
+    "studies": [
+     "Universitat de Salamanca",
+     "Universitat Nacional d'Educació a Distància"
+    ],
+    "jobs": [
+     "polític",
+     "advocat"
+    ],
+    "posts": [
+     "diputat al Congrés dels Diputats",
+     "President de la Diputació Provincial de Zamora"
+    ],
+    "wiki": "Fernando Martínez Maíllo"
+   }
+  },
+  "sofia acedo reyes": {
+   "qid": "Q28843475",
+   "born": 1985,
+   "es": {
+    "desc": "política española",
+    "place": "Melilla",
+    "jobs": [
+     "político"
+    ],
+    "wiki": "Sofía Acedo Reyes"
+   },
+   "ca": {
+    "desc": "política espanyola",
+    "place": "Melilla",
+    "jobs": [
+     "polític"
+    ]
+   }
+  }
+ }
+}

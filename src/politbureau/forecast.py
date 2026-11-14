@@ -111,3 +111,93 @@ def simulate(conn, election_id="es-general", baseline="congreso-2023",
     return {"n": n, "sigma": SIGMA, "local": LOCAL, "majority": MAJORITY,
             "parties": out_parties, "blocs": out_blocs, "pp_alone": pp_alone,
             "right_hist": sorted(hist.items())}
+
+
+# ---------------------------------------------------- cambres proporcionals
+# Previsio per a les autonomiques i per als parlaments d'altres paisos
+# (15/11/2026, pla de ruta). El mateix error estatal que a les generals, sobre
+# el repartiment de config/chambers.yaml. Amb poques enquestes la mitjana es
+# menys fiable: la desviacio es multiplica per sqrt(1 + 1/n), que val 1,41
+# amb una sola enquesta i 1,05 amb deu. Es una hipotesi, com SIGMA.
+CHAMBER_SIMS = 1500
+
+
+def _divisors(shares, seats, method, first_divisor):
+    """D'Hondt o Sainte-Lague amb un munt: molt mes rapid que seats.apportion
+    quan cal repetir-ho milers de vegades."""
+    import heapq
+    won = {p: 0 for p in shares}
+    sl = method == "sainte_lague"
+    heap = [(-v / (first_divisor if sl else 1.0), -v, p) for p, v in shares.items() if v > 0]
+    heapq.heapify(heap)
+    for _ in range(seats):
+        if not heap:
+            break
+        _q, negv, p = heap[0]
+        won[p] += 1
+        div = (2 * won[p] + 1) if sl else (won[p] + 1)
+        heapq.heapreplace(heap, (negv / div, negv, p))
+    return won
+
+
+def simulate_chamber(shares: dict, chamber: dict, n_polls: int = 1,
+                     n: int = CHAMBER_SIMS, seed=None) -> dict | None:
+    """{"parties": [{code, median, lo, hi, first, majority, zero}], "none": p}.
+
+    `shares`: {partit: %} de la mitjana (sense "altres"); `chamber`: l'entrada
+    de chambers.yaml. None si el metode no es proporcional."""
+    method = chamber.get("method")
+    if method == "proportional":
+        method = "dhondt"
+    if method not in ("dhondt", "sainte_lague", "hare", "droop"):
+        return None
+    seats = chamber["seats"]
+    threshold = chamber.get("threshold", 0.03)
+    first_divisor = chamber.get("first_divisor", 1.0)
+    bonus = chamber.get("bonus")
+    majority = (chamber.get("total") or seats) // 2 + 1
+    base = {p: v for p, v in shares.items() if p != "OTHER" and v and v > 0}
+    if len(base) < 2:
+        return None
+    widen = math.sqrt(1.0 + 1.0 / max(1, n_polls))
+    rng = random.Random(seed)
+    order = sorted(base, key=lambda p: -base[p])
+    draws = {p: [] for p in order}
+    first = {p: 0 for p in order}
+    alone = {p: 0 for p in order}
+    nobody = 0
+    fast = method in ("dhondt", "sainte_lague") and not bonus
+    for _ in range(n):
+        sim = {p: max(0.0, v * (1.0 + rng.gauss(0.0, min(CAP, SIGMA / math.sqrt(v)) * widen)))
+               for p, v in base.items()}
+        if fast:
+            got = _divisors({p: v for p, v in sim.items() if v >= threshold * 100},
+                            seats, method, first_divisor)
+        else:
+            got = seatlib.apportion(sim, seats, method, threshold, first_divisor, bonus)
+        top, best = None, -1
+        for p in order:
+            s = got.get(p, 0)
+            draws[p].append(s)
+            if s > best:
+                top, best = p, s
+        first[top] += 1
+        if best >= majority:
+            alone[top] += 1
+        else:
+            nobody += 1
+
+    def q(xs, a):
+        ys = sorted(xs)
+        return ys[min(len(ys) - 1, max(0, int(round(a * (len(ys) - 1)))))]
+
+    rows = []
+    for p in order:
+        xs = draws[p]
+        if q(xs, 0.9) == 0:
+            continue
+        rows.append({"code": p, "median": q(xs, 0.5), "lo": q(xs, 0.1), "hi": q(xs, 0.9),
+                     "first": first[p] / n, "majority": alone[p] / n,
+                     "in": sum(1 for x in xs if x > 0) / n})
+    return {"n": n, "majority": majority, "widen": round(widen, 2), "polls": n_polls,
+            "parties": rows, "none": nobody / n}

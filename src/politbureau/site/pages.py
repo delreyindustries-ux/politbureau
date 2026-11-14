@@ -437,6 +437,8 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-15", "Previsión con probabilidades también en las autonómicas, las municipales y los parlamentos proporcionales de otros países.",
+     "Previsió amb probabilitats també a les autonòmiques, les municipals i els parlaments proporcionals d'altres països."),
     ("2026-10-26", "Fuera las encuestas internas de los partidos.",
      "Fora les enquestes internes dels partits."),
     ("2026-11-01", "Fuera un sondeo interno de Vox publicado por The Objective.",
@@ -517,6 +519,15 @@ def home_page(env, cfg, data, urls, highlights):
                     """SELECT party, seats FROM seat_projection
                        WHERE election_id = ? AND level = 'chamber' AND seats > 0
                        ORDER BY seats DESC""", (ELECTION,))]
+    # Qui seu a cada escó (15/11/2026): un JSON per idioma que cambra.js carrega
+    # per obrir la fitxa de cada diputat, i la mateixa llista en HTML.
+    from . import people as peoplelib
+    try:
+        people = peoplelib.congress(data, urls)
+        people_url = peoplelib.write(DIST, people)
+    except Exception as exc:                          # noqa: BLE001
+        print(f"      avis: fitxes dels diputats no generades ({type(exc).__name__}: {exc})")
+        people, people_url = {}, {}
     # Previsio amb probabilitats (pla de ruta, 10/11/2026): 5.000 simulacions.
     # Llavor fixa: la mateixa base dona sempre les mateixes xifres.
     from .. import forecast as forecastlib
@@ -549,6 +560,9 @@ def home_page(env, cfg, data, urls, highlights):
             i18n.t("site_description", lang),
             highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
             notice=notice, subs=subs, leaders=leaders, congress=congress, forecast=fc,
+            people_url=people_url.get(lang, ""),
+            people=[{**c, "members": (people.get(lang) or {}).get("parties", {}).get(c["code"], [])}
+                    for c in congress] if people else [],
             fmt=_fmt, fdate=_fdate, regions=[
                 {"name": data["names"]["region"].get(c, c), "url": urls[("region", c)][lang]}
                 for c in sorted(data["names"]["region"],
@@ -814,12 +828,29 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
               "sample": p["sample_size"],
               "values": [(p["results"].get(c) or (None,))[0] for c in order]}
              for p in used]
+    # Previsio amb probabilitats (pla de ruta, 15/11/2026): el mateix error que
+    # a les generals, sobre el repartiment d'aquesta cambra. Llavor fixa.
+    fc = None
+    if seats and not fptp and not scope_code:
+        from .. import forecast as forecastlib
+        try:
+            fc = forecastlib.simulate_chamber(
+                {r["party"]: r["share"] for r in rows}, chamber, n_polls=len(used), seed=2911)
+        except Exception:                              # noqa: BLE001
+            fc = None
+        if fc:
+            by_code = {a["code"]: a for a in avg}
+            for r in fc["parties"]:
+                a = by_code.get(r["code"]) or {}
+                r.update({"name": a.get("person") or a.get("name", r["code"]),
+                          "color": a.get("color", "#999")})
     # Escons de partits que no surten a les enquestes (Irlanda del Nord,
     # independents, el Speaker): van a la cambra i a la taula, sense %.
     seat_extra = [{"code": c, "name": n, "color": col, "seats": seats[c], "person": None}
                   for c, (n, col) in sorted(extra.items(), key=lambda x: -seats[x[0]])]
     return {"avg": avg, "order": [next(a for a in avg if a["code"] == c) for c in order],
             "seat_extra": seat_extra, "seatrows": avg + seat_extra, "fptp": fptp,
+            "forecast": fc,
             "polls": polls, "seats": bool(seats),
             "seat_total": sum(seats.values()) if seats else 0,
             "chamber": chamber if seats else None, "margins": margins,

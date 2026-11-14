@@ -760,16 +760,19 @@
   // coll obert, coll, cara amb ombra, orelles i pentinats diferents. De prop,
   // ulls i, alguns, ulleres. `hz`: quant es perd en la boira de la sala.
   const HAZE = '#d9d2c4';
-  function person(X, Y, w, g, k, n, ca, hz) {
+  function cloth(g, k) {
+    const tv = hash(k + 41);
+    const suit = mix(SUIT[Math.floor(hash(k + 61) * SUIT.length)], g.c, 0.46);
+    return tv < 0.5 ? dim(suit, (0.5 - tv) * 0.2) : lite(suit, (tv - 0.5) * 0.14);
+  }
+  function person(X, Y, w, g, k, n, ca, hz, j) {
     const h = hash(k), h2 = hash(k + 11), h3 = hash(k + 23);
     const tw = w * 0.92, th = w * 0.8, hr = w * 0.205;
     const fog = (c) => (hz ? mix(c, HAZE, hz) : c);
     // Vestit de veritat (blau marí, gris, negre) tenyit amb el color del
     // partit: es llegeix el grup sense que semblin uniformes de colors. Cada
     // tela és una mica diferent.
-    const tv = hash(k + 41);
-    const suit = mix(SUIT[Math.floor(hash(k + 61) * SUIT.length)], g.c, 0.46);
-    const body = fog(tv < 0.5 ? dim(suit, (0.5 - tv) * 0.2) : lite(suit, (tv - 0.5) * 0.14));
+    const body = fog(cloth(g, k));
     const skin = fog(SKIN[Math.floor(h * SKIN.length)]);
     // 0-1 curt, 2 clenxa, 3 llarg, 4 calb, 5 mitja melena
     const style = Math.floor(h2 * 6);
@@ -778,7 +781,7 @@
     const s = Math.min(0.999, (k / n) * 0.9 + hash(k + 3) * 0.1);
     X += (h3 - 0.5) * w * 0.1;
     const hy = Y - th - hr * 0.95, ry = hr * 1.12;
-    let o = `<g class="mp" style="--s:${s.toFixed(3)}"><title>${esc(g.n || (ca ? 'Altres' : 'Otros'))}</title>`;
+    let o = `<g class="mp"${j == null ? '' : ` data-g="${g.gi}" data-j="${j}"`} style="--s:${s.toFixed(3)}"><title>${esc(g.n || (ca ? 'Altres' : 'Otros'))}</title>`;
     // ombra sobre el respatller
     if (w > 2.5) o += `<ellipse cx="${f(X + w * 0.12)}" cy="${f(Y - th * 0.55)}" rx="${f(tw * 0.56)}" ry="${f(th * 0.55)}" fill="#000" opacity=".2"/>`;
     // cabell llarg, per darrere de les espatlles
@@ -831,7 +834,7 @@
     return o + '</g>';
   }
   // El que hi ha damunt de l'escó: les mans, i papers, una tauleta o un got.
-  function deskStuff(X, Y, w, g, k, n, hz, PX, PY) {
+  function deskStuff(X, Y, w, g, k, n, hz, PX, PY, j) {
     const fog = (c) => (hz ? mix(c, HAZE, hz) : c);
     const r = hash(k + 31);
     let o = '';
@@ -842,8 +845,8 @@
     if (w > 5) {
       // les mans entren amb el diputat
       const s = Math.min(0.999, (k / n) * 0.9 + hash(k + 3) * 0.1);
-      const sl = fog(dim(g.c, 0.15)), sk = fog(SKIN[Math.floor(hash(k) * SKIN.length)]);
-      o += `<g class="mp" style="--s:${s.toFixed(3)}">`;
+      const sl = fog(dim(cloth(g, k), 0.12)), sk = fog(SKIN[Math.floor(hash(k) * SKIN.length)]);
+      o += `<g class="mp"${j == null ? '' : ` data-g="${g.gi}" data-j="${j}"`} style="--s:${s.toFixed(3)}">`;
       const tw = w * 0.92, th = w * 0.8;
       const hx = PX == null ? X : PX;
       for (const sg of [-1, 1]) {
@@ -905,6 +908,44 @@
     o += band(RW, zTop - 0.03, 1.55, `url(#${u}wall)`);
     o += band(RW * 0.995, 1.5, 1.58, `url(#${u}gold)`, 64, ' opacity=".9"');
     o += stroke(rowCurve(P3, RW * 0.99, 1.47, PI, 0, 64), dim(st.upper, 0.3), 0.6);
+    // La paret ja no es llisa. Sales classiques: plafons emmotllurats entre
+    // els apliques, i un socol. Bundestag: la gran vidriera amb muntants,
+    // per on entra la llum de fora.
+    const wallPts = (t0, t1, z0, z1, r) => {
+      const a = [], b = [];
+      for (let k = 0; k <= 6; k++) { const t = t0 + (t1 - t0) * k / 6; a.push(at(t, r || RW, z0)); b.push(at(t, r || RW, z1)); }
+      return a.concat(b.reverse());
+    };
+    if (st.dome) {
+      o += band(RW, 1.0, 1.5, `url(#${u}glass)`, 64, ' opacity=".55"');
+      let mu = '', tr = '';
+      for (let k = 0; k <= 44; k++) { const a = at(PI * k / 44, RW, 1.0), b = at(PI * k / 44, RW, 1.5); mu += `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`; }
+      for (const zz of [1.125, 1.25, 1.375]) tr += 'M' + pts2(rowCurve(P3, RW, zz, PI, 0, 64));
+      o += `<path d="${mu}" stroke="#93a0ae" stroke-width=".7" opacity=".8"/><path d="${tr}" fill="none" stroke="#93a0ae" stroke-width=".45" opacity=".7"/>`;
+      // pilars de formigo cada onze vidres i reflexos al vidre
+      for (let k = 0; k <= 44; k += 11) {
+        const t = PI * Math.min(0.995, Math.max(0.005, k / 44));
+        o += shape(wallPts(t - 0.012, t + 0.012, 1.0, 1.5, RW * 0.998), '#d5d9de');
+      }
+      for (const [t0, t1] of [[0.18, 0.24], [0.4, 0.44], [0.61, 0.69], [0.83, 0.86]])
+        o += shape(wallPts(PI * t0, PI * t1, 1.02, 1.48), '#fff', ' opacity=".16"');
+    } else {
+      const nl = Math.max(4, (st.cols || 0) + 1), zA = 0.84, zB = st.gal2 ? 1.13 : 1.42;
+      let frame = '', inner = '';
+      for (let j = -1; j < nl; j++) {
+        const t0 = Math.max(0.03, 0.1 + 0.8 * (j + 0.5) / nl + 0.022), t1 = Math.min(0.97, 0.1 + 0.8 * (j + 1.5) / nl - 0.022);
+        if (t1 - t0 < 0.03) continue;
+        o += shape(wallPts(PI * t0, PI * t1, zA, zB), dim(st.wall, 0.07));
+        frame += 'M' + pts2(wallPts(PI * t0, PI * t1, zA, zB)) + 'Z';
+        const e = 0.012;
+        inner += 'M' + pts2(wallPts(PI * (t0 + e), PI * (t1 - e), zA + 0.03, zB - 0.03)) + 'Z';
+      }
+      o += `<path d="${frame}" fill="none" stroke="${dim(st.wall, 0.3)}" stroke-width=".7"/>` +
+           `<path d="${inner}" fill="${lite(st.wall, 0.12)}" fill-opacity=".5" stroke="${lite(st.wall, 0.5)}" stroke-width=".45"/>`;
+      // socol de fusta sota la tribuna de convidats
+      o += band(RW * 0.999, zTop - 0.03, zTop + 0.1, dim(st.wood, 0.1)) +
+           stroke(rowCurve(P3, RW * 0.999, zTop + 0.1, PI, 0, 64), `url(#${u}gold)`, 0.7);
+    }
     // Tribuna alta.
     if (st.gal2) {
       // La galeria alta: un fons a l'ombra amb seients i alguna persona,
@@ -1073,6 +1114,14 @@
       while (left <= 0 && gi < groups.length - 1) { gi++; left = groups[gi].s; }
       owner.set(p.i, groups[gi]); left--;
     }
+    // Numero d'escó dins de cada grup, de la fila de davant cap enrere: el
+    // primer de la llista de persones del grup (el cap de llista) seu davant.
+    const jOf = new Map();
+    {
+      const byG = new Map();
+      for (const p of order) { const g = owner.get(p.i); if (!byG.has(g)) byG.set(g, []); byG.get(g).push(p); }
+      byG.forEach((list) => list.sort((a, b) => a.r - b.r || a.u - b.u).forEach((p, j) => jOf.set(p.i, j)));
+    }
 
     // Files, de la de fora a la de dins: cada una tapa la base de l'anterior.
     for (let row = L.rows - 1; row >= 0; row--) {
@@ -1102,7 +1151,7 @@
         const w = Math.max(1.4, p.sp * s * 0.86), hh = Math.max(1.5, w * 1.18);
         wOf.set(p.i, [w, X, Y - w * 0.12]);
         rs += chair(X, Y, w * 1.16, hh, u, row === 0 && st.front);
-        rs += person(X, Y - w * 0.12, w, owner.get(p.i), rank.get(p.i), seats, ca, hz);
+        rs += person(X, Y - w * 0.12, w, owner.get(p.i), rank.get(p.i), seats, ca, hz, jOf.get(p.i));
       }
       // Faristols: tapa clara, frontal amb plafons, i micros.
       const rd = r - gap * 0.3;
@@ -1137,7 +1186,7 @@
         const [tx, ty] = rowXY(rt, p.s * rt / r, span, arm);
         const [, Y] = P3(tx, ty, z + DT);
         const [pw, PX, PY] = wOf.get(p.i);
-        if (PY - pw * 0.8 * 0.62 < Y) rs += deskStuff(PX, Y, pw, owner.get(p.i), rank.get(p.i), seats, hz, PX, PY);
+        if (PY - pw * 0.8 * 0.62 < Y) rs += deskStuff(PX, Y, pw, owner.get(p.i), rank.get(p.i), seats, hz, PX, PY, jOf.get(p.i));
       }
       if (mic) rs += `<path d="${mic}" fill="none" stroke="#222" stroke-width=".6" stroke-linecap="round"/>`;
       if (hz > 0.02) {
@@ -1249,6 +1298,26 @@
         const [sx, sy, ss] = W(0, 0.14);
         o += person(sx, sy, ss * 0.075, { c: '#151515', n: 'Speaker' }, 9973, 1, ca, 0.15);
       }
+      // finestrals del fons
+      for (let k = 0; k < 5; k++) {
+        const a = -xo * 0.86 + 2 * xo * 0.86 * k / 5 + xo * 0.05, b = a + 2 * xo * 0.86 / 5 - xo * 0.1, m = (a + b) / 2;
+        const W = (x, z) => q(x, dEnd, z);
+        const pa = W(a, 1.05), pb = W(b, 1.05), sa = W(a, 1.36), sb = W(b, 1.36), ap = W(m, 1.54), c1 = W(a, 1.5), c2 = W(b, 1.5), mb = W(m, 1.05);
+        o += `<path d="M${f(pa[0])} ${f(pa[1])}L${f(sa[0])} ${f(sa[1])}Q${f(c1[0])} ${f(c1[1])} ${f(ap[0])} ${f(ap[1])}Q${f(c2[0])} ${f(c2[1])} ${f(sb[0])} ${f(sb[1])}L${f(pb[0])} ${f(pb[1])}Z" fill="#ecdcaa" fill-opacity=".3" stroke="${dim(st.wall, 0.45)}" stroke-width=".9"/>` +
+             `<path d="M${f(mb[0])} ${f(mb[1])}L${f(ap[0])} ${f(ap[1])}" stroke="${dim(st.wall, 0.4)}" stroke-width=".5"/>`;
+      }
+      // galeria de premsa, amb gent
+      {
+        let ppl = '';
+        for (let k = 0; k < 26; k++) {
+          if (hash(k * 11 + 5) > 0.7) continue;
+          const [X, Y, s] = q(-xo * 0.92 + 2 * xo * 0.92 * (k + 0.5) / 26, dEnd, 0.95);
+          const c = ['#2d2f36', '#4a4038', '#5a5f6b', '#6a2c2c', '#2f4460'][Math.floor(hash(k + 31) * 5)];
+          ppl += `<path d="M${f(X - s * 0.02)} ${f(Y)}v${f(-s * 0.03)}q${f(s * 0.02)} ${f(-s * 0.016)} ${f(s * 0.04)} 0v${f(s * 0.03)}Z" fill="${c}"/>` +
+                 `<circle cx="${f(X)}" cy="${f(Y - s * 0.052)}" r="${f(s * 0.013)}" fill="${SKIN[Math.floor(hash(k * 7 + 2) * SKIN.length)]}"/>`;
+        }
+        o += shape([q(-xo, dEnd, 0.95), q(xo, dEnd, 0.95), q(xo, dEnd, 1.03), q(-xo, dEnd, 1.03)], '#000', ' opacity=".3"') + ppl;
+      }
       o += shape([q(-xo, dEnd, 0.86), q(xo, dEnd, 0.86), q(xo, dEnd, 0.95), q(-xo, dEnd, 0.95)], st.dark) +
            stroke([q(-xo, dEnd, 0.95), q(xo, dEnd, 0.95)], `url(#${u}gold)`, 1.2);
     }
@@ -1257,9 +1326,43 @@
       let d = '';
       for (let k = 0; k <= 14; k++) { const a = q(sg * xo, dEnd * k / 14, zr(rows) + 0.02), b = q(sg * xo, dEnd * k / 14, 0.76); d += `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`; }
       o += `<path d="${d}" stroke="${dim(st.wall, 0.4)}" stroke-width=".6"/>`;
+      // Finestrals gotics de la part alta: arc apuntat, muntant i vidre
+      // emplomat que deixa passar una llum groguenca.
+      {
+        const nA = 9, z0 = 1.0, zs = 1.34, zt = 1.52;
+        for (let k = 0; k < nA; k++) {
+          const a = 0.06 + (dEnd - 0.1) * k / nA, b = 0.06 + (dEnd - 0.1) * (k + 0.72) / nA, m = (a + b) / 2;
+          const W = (d, z) => q(sg * xo, d, z);
+          const pa = W(a, z0), pb = W(b, z0), sa = W(a, zs), sb = W(b, zs), ap = W(m, zt), ca1 = W(a, zt - 0.05), cb1 = W(b, zt - 0.05);
+          const dA = `M${f(pa[0])} ${f(pa[1])}L${f(sa[0])} ${f(sa[1])}Q${f(ca1[0])} ${f(ca1[1])} ${f(ap[0])} ${f(ap[1])}Q${f(cb1[0])} ${f(cb1[1])} ${f(sb[0])} ${f(sb[1])}L${f(pb[0])} ${f(pb[1])}Z`;
+          const mb = W(m, z0), ta = W(a, zs - 0.12), tb = W(b, zs - 0.12);
+          o += `<path d="${dA}" fill="#e9d9a6" fill-opacity="${(0.34 - 0.2 * k / nA).toFixed(2)}" stroke="${dim(st.wall, 0.45)}" stroke-width="1.1"/>` +
+               `<path d="M${f(mb[0])} ${f(mb[1])}L${f(ap[0])} ${f(ap[1])}M${f(ta[0])} ${f(ta[1])}L${f(tb[0])} ${f(tb[1])}" fill="none" stroke="${dim(st.wall, 0.4)}" stroke-width=".6"/>`;
+        }
+      }
       // galeria lateral amb public i barana
+      {
+        let ppl = '';
+        for (let k = 0; k < 46; k++) {
+          if (hash(k * 5 + (sg > 0 ? 3 : 17)) > 0.62) continue;
+          const [X, Y, s] = q(sg * (xo + 0.004), 0.1 + (dEnd - 0.15) * k / 46, 0.9);
+          const c = ['#2d2f36', '#4a4038', '#5a5f6b', '#6a2c2c', '#2f4460'][Math.floor(hash(k + 29) * 5)];
+          ppl += `<path d="M${f(X - s * 0.02)} ${f(Y)}v${f(-s * 0.03)}q${f(s * 0.02)} ${f(-s * 0.016)} ${f(s * 0.04)} 0v${f(s * 0.03)}Z" fill="${c}"/>` +
+                 `<circle cx="${f(X)}" cy="${f(Y - s * 0.052)}" r="${f(s * 0.013)}" fill="${SKIN[Math.floor(hash(k * 3 + 1) * SKIN.length)]}"/>`;
+        }
+        o += shape([q(sg * xo, 0, 0.9), q(sg * xo, dEnd, 0.9), q(sg * xo, dEnd, 0.99), q(sg * xo, 0, 0.99)], '#000', ' opacity=".28"') + ppl;
+      }
       o += shape([q(sg * xo, 0, 0.8), q(sg * xo, dEnd, 0.8), q(sg * xo, dEnd, 0.9), q(sg * xo, 0, 0.9)], st.dark) +
            stroke([q(sg * xo, 0, 0.9), q(sg * xo, dEnd, 0.9)], `url(#${u}gold)`, 1.4);
+      // plafons tallats a la barana
+      {
+        let d = '';
+        for (let k = 0; k < 22; k++) {
+          const a = q(sg * xo, 0.04 + dEnd * k / 22, 0.815), b = q(sg * xo, 0.04 + dEnd * (k + 0.75) / 22, 0.815), c2 = q(sg * xo, 0.04 + dEnd * (k + 0.75) / 22, 0.885), e = q(sg * xo, 0.04 + dEnd * k / 22, 0.885);
+          d += 'M' + pts2([a, b, c2, e]) + 'Z';
+        }
+        o += `<path d="${d}" fill="none" stroke="${lite(st.wood, 0.18)}" stroke-width=".5" opacity=".7"/>`;
+      }
       for (let k = 0; k < 7; k++) {
         const [X, Y, s] = q(sg * (xo - 0.02), 0.15 + dEnd * (k + 0.5) / 7, 1.18);
         o += `<path d="M${f(X)} ${f(Y)}v${f(-s * 0.05)}" stroke="url(#${u}gold)" stroke-width="${f(s * 0.006)}"/><circle cx="${f(X)}" cy="${f(Y - s * 0.055)}" r="${f(s * 0.012)}" fill="#fff4cf"/>`;
@@ -1274,7 +1377,7 @@
     const blocks = sides.map((side, si) => {
       const sg = si === 0 ? 1 : -1, cells = [];
       let k = 0;
-      side.forEach((g) => { for (let j = 0; j < g.s; j++, k++) cells.push({ g, col: Math.floor(k / rows), row: k % rows }); });
+      side.forEach((g) => { for (let j = 0; j < g.s; j++, k++) cells.push({ g, col: Math.floor(k / rows), row: k % rows, j }); });
       return { sg, cells };
     });
     for (const b of blocks) b.cells.forEach((cell) => { cell.k = n++; });
@@ -1292,7 +1395,7 @@
           // Als Comuns seuen colze a colze: cada diputat té la mida d'una
           // persona de veritat a aquella distància, i el del davant tapa
           // mig cos del del darrere, com a les fotos des de la presidència.
-          o += person(X, Y, Math.max(1.6, dd * s * 1.3, s * 0.072), cl.g, cl.k, seats, ca, 0.28 * cl.col / ncol);
+          o += person(X, Y, Math.max(1.6, dd * s * 1.3, s * 0.072), cl.g, cl.k, seats, ca, 0.28 * cl.col / ncol, cl.j);
         }
         o += shape([q(x, d0 - 0.03, z), q(x, d0 + D, z), q(x, d0 + D, z - 0.075), q(x, d0 - 0.03, z - 0.075)], `url(#${u}wood)`);
       }
@@ -1335,6 +1438,7 @@
       groups = groups.map((g, i) => ({ ...g, i })).sort((a, c) =>
         (a.p == null ? 0 : a.p) - (c.p == null ? 0 : c.p) || a.i - c.i);
     }
+    groups.forEach((g, gi) => { g.gi = gi; });
     S = []; K = 0;
     P(`M0 ${G}H360`, 'ln gd');
     b.draw();
@@ -1355,6 +1459,7 @@
       `<span><b class="cnt" data-n="${total}">${total}</b> ${ca ? 'escons' : 'escaños'}` +
       `${maj ? ` · ${ca ? 'majoria' : 'mayoría'} <b>${maj}</b>` : ''}` +
       `${place ? `<br><small>${esc(place)} · ${ca ? 'il·lustració esquemàtica' : 'ilustración esquemática'}</small>` : ''}</span></figcaption>`;
+    if (fig.dataset.people) people(fig, groups, ca);
     if (still || !('IntersectionObserver' in window)) { fig.classList.add('go', 'still'); return; }
     const io = new IntersectionObserver((es) => {
       for (const e of es) {
@@ -1365,6 +1470,82 @@
       }
     }, { threshold: 0.25 });
     io.observe(fig);
+  }
+
+  // Cada escó, una persona (15/11/2026). `data-people` porta l'adreca d'un JSON
+  // {parties: {codi: [persona, ...]}}: en clicar un diputat surt la seva fitxa
+  // (provincia, lloc a la llista i curriculum de Wikidata).
+  function people(fig, groups, ca) {
+    const T = ca ? {
+      no: 'Núm.', of: 'de la llista per', also: 'També va obtenir escó el 2023.', born: 'Naixement',
+      st: 'Estudis', job: 'Professió', posts: 'Càrrecs', nobio: 'Sense fitxa a Wikidata: només hi ha les dades de la llista.',
+      note: "Segons l'estimació d'avui, aquest escó seria seu. Llista: BOE. Currículum: Wikidata (CC0); pot contenir errors.",
+      seat: 'Escó de', close: 'Tanca', wp: 'Viquipèdia', unk: 'La llista no té prou noms publicats per a aquest escó.',
+      hint: 'Clica un diputat per veure qui és',
+    } : {
+      no: 'N.º', of: 'de la lista por', also: 'También obtuvo escaño en 2023.', born: 'Nacimiento',
+      st: 'Estudios', job: 'Profesión', posts: 'Cargos', nobio: 'Sin ficha en Wikidata: solo hay los datos de la lista.',
+      note: 'Según la estimación de hoy, este escaño sería suyo. Lista: BOE. Currículum: Wikidata (CC0); puede contener errores.',
+      seat: 'Escaño de', close: 'Cerrar', wp: 'Wikipedia', unk: 'La lista no tiene suficientes nombres publicados para este escaño.',
+      hint: 'Haz clic en un diputado para ver quién es',
+    };
+    const lang = ca ? 'ca' : 'es';
+    let data = null;
+    const who = (el) => {
+      const g = groups[+el.dataset.g];
+      return g && data ? { g, m: ((data[g.k] || [])[+el.dataset.j]) || null } : null;
+    };
+    fetch(fig.dataset.people).then((r) => (r.ok ? r.json() : null)).then((j) => {
+      if (!j || !j.parties) return;
+      data = j.parties;
+      fig.classList.add('ppl');
+      fig.querySelectorAll('.mp[data-j]').forEach((el) => {
+        const w = who(el), t = el.querySelector('title');
+        if (w && w.m && w.m.n && t) t.textContent = `${w.m.n} · ${w.g.n} · ${w.m.pv}`;
+      });
+      const cap = fig.querySelector('figcaption span');
+      if (cap) cap.insertAdjacentHTML('beforeend', `<br><small class="hint">${T.hint}</small>`);
+    }).catch(() => {});
+    const close = () => {
+      const c = fig.querySelector('.mpcard'); if (c) c.remove();
+      fig.querySelectorAll('.mp.sel').forEach((e) => e.classList.remove('sel'));
+    };
+    fig.addEventListener('click', (ev) => {
+      if (ev.target.closest('.mpcard .x')) { close(); return; }
+      if (ev.target.closest('.mpcard')) return;
+      const el = ev.target.closest('.mp[data-j]');
+      close();
+      if (!el) return;
+      const w = who(el);
+      if (!w) return;
+      fig.querySelectorAll(`.mp[data-g="${el.dataset.g}"][data-j="${el.dataset.j}"]`).forEach((e) => e.classList.add('sel'));
+      const { g, m } = w, row = (k, v) => (v ? `<p><span>${k}</span> ${esc(v)}</p>` : '');
+      let h = `<button class="x" type="button" aria-label="${T.close}">×</button>`;
+      if (!m || !m.n) {
+        h += `<h3>${T.seat} ${esc(g.n)}</h3>${m ? `<p class="where">${esc(m.pv)}</p>` : ''}<p class="fine">${T.unk}</p>`;
+      } else {
+        const b = m.bio;
+        h += `<h3>${esc(m.n)}</h3>` +
+          `<p class="party"><i style="background:${esc(g.c)}"></i>${esc(m.list || g.n)}${m.af ? ` <small>(${esc(m.af)})</small>` : ''}</p>` +
+          `<p class="where">${T.no} ${m.pos} ${T.of} ` +
+          (m.u ? `<a href="${esc(m.u)}">${esc(m.pv)}</a>` : esc(m.pv)) + `</p>` +
+          (m.r ? `<p class="where">${T.also}</p>` : '');
+        if (b) {
+          h += (b.desc ? `<p class="desc">${esc(b.desc.charAt(0).toUpperCase() + b.desc.slice(1))}.</p>` : '') +
+            row(T.born, [b.born, b.place].filter(Boolean).join(', ')) +
+            row(T.st, (b.studies || []).join(' · ')) + row(T.job, (b.jobs || []).join(', ')) +
+            row(T.posts, (b.posts || []).join(' · ')) +
+            `<p class="links">${b.wiki ? `<a href="https://${lang}.wikipedia.org/wiki/${encodeURIComponent(b.wiki.replace(/ /g, '_'))}" rel="noopener">${T.wp}</a> · ` : ''}` +
+            `<a href="https://www.wikidata.org/wiki/${esc(b.qid)}" rel="noopener">Wikidata</a></p>`;
+        } else h += `<p class="fine">${T.nobio}</p>`;
+        h += `<p class="fine">${T.note}</p>`;
+      }
+      const card = document.createElement('div');
+      card.className = 'mpcard'; card.setAttribute('role', 'dialog'); card.setAttribute('aria-live', 'polite');
+      card.innerHTML = h;
+      fig.appendChild(card);
+    });
+    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') close(); });
   }
 
   // El recompte puja mentre els diputats ocupen els seients.

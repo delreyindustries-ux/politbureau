@@ -58,7 +58,7 @@ def chamber_json(rows, country="", key="seats"):
             ideo = parties.ideology(r["code"], country)
         pos = _POSITION.get(((ideo or {}).get("es") or {}).get("position"))
         out.append({"n": r.get("person") or r.get("name") or "", "c": r.get("color") or "#9E9E9E",
-                    "s": int(n), "p": pos})
+                    "s": int(n), "p": pos, "k": r.get("code") or ""})
     return json.dumps(out, ensure_ascii=False)
 
 

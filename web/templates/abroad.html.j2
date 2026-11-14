@@ -114,6 +114,52 @@
     {{ d.majority }}.{% if c.note_ca %} {{ c.note_ca }}{% endif %}{% endif %}</p>
 {% endif %}
 
+{% set fc = d.forecast %}
+{% if fc and fc.parties %}
+  <section class="forecast" id="previsio">
+    <h2>{{ 'Previsión con probabilidades' if es else 'Previsió amb probabilitats' }}</h2>
+    <p class="note">{% if es %}Las encuestas se equivocan. Aquí se repite el reparto {{ fc.n | thousands }} veces, cada una con
+      un error distinto en el voto de cada partido, del tamaño de los errores habituales de las medias de encuestas.
+      {% if fc.none >= 0.995 %}En ninguna simulación un partido llega solo a la mayoría absoluta ({{ fc.majority }}).{% else %}En
+      <b>{{ (fc.none * 100) | round | int }} de cada 100</b> simulaciones ningún partido llega solo a la mayoría absoluta ({{ fc.majority }}).{% endif %}{% else %}Les
+      enquestes s'equivoquen. Aquí es repeteix el repartiment {{ fc.n | thousands }} vegades, cadascuna amb un error diferent
+      en el vot de cada partit, de la mida dels errors habituals de les mitjanes d'enquestes.
+      {% if fc.none >= 0.995 %}En cap simulació un partit arriba sol a la majoria absoluta ({{ fc.majority }}).{% else %}En
+      <b>{{ (fc.none * 100) | round | int }} de cada 100</b> simulacions cap partit arriba sol a la majoria absoluta ({{ fc.majority }}).{% endif %}{% endif %}</p>
+    <div class="tablewrap">
+    <table class="results part">
+      <thead><tr>
+        <th>{{ ('Candidato' if es else 'Candidat') if d.presidential else ('Partido' if es else 'Partit') }}</th>
+        <th class="n">{{ 'Escaños (mediana)' if es else 'Escons (mediana)' }}</th>
+        <th class="n">{{ '8 de cada 10 veces' if es else '8 de cada 10 vegades' }}</th>
+        <th class="n">{{ 'Queda primero' if es else 'Queda primer' }}</th>
+        <th class="n">{{ 'Mayoría absoluta' if es else 'Majoria absoluta' }}</th>
+        <th class="n">{{ 'Entra' if es else 'Hi entra' }}</th>
+      </tr></thead>
+      <tbody>
+      {% for r in fc.parties %}
+      <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+        <td class="n"><b>{{ r.median }}</b></td>
+        <td class="n">{{ r.lo }}–{{ r.hi }}</td>
+        <td class="n">{{ (r.first * 100) | round | int }} %</td>
+        <td class="n">{{ (r.majority * 100) | round | int }} %</td>
+        <td class="n">{{ (r['in'] * 100) | round | int }} %</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="fine">{% if es %}Error de cada partido: desviación de 0,6 × √(su porcentaje) puntos, con un tope del 25 % de su voto.
+      {% if fc.widen > 1.06 %}Con solo {{ fc.polls }} {{ 'encuesta' if fc.polls == 1 else 'encuestas' }} en la media, se amplía un {{ ((fc.widen - 1) * 100) | round | int }} %. {% endif %}Es
+      una hipótesis, no una medida. El reparto es el mismo de arriba{% if d.chamber.districts %}, a escala de todo el territorio y no
+      circunscripción a circunscripción{% endif %}.{% else %}Error de cada partit: desviació de 0,6 × √(el seu percentatge) punts, amb un
+      sostre del 25 % del seu vot.
+      {% if fc.widen > 1.06 %}Amb només {{ fc.polls }} {{ 'enquesta' if fc.polls == 1 else 'enquestes' }} a la mitjana, s'eixampla un {{ ((fc.widen - 1) * 100) | round | int }} %. {% endif %}És
+      una hipòtesi, no una mesura. El repartiment és el mateix de dalt{% if d.chamber.districts %}, a escala de tot el territori i no
+      circumscripció per circumscripció{% endif %}.{% endif %}</p>
+  </section>
+{% endif %}
+
 {% set mg = d.margins %}
 {# Nomes cambres petites: amb 600 escons tots els quocients queden a 0,1 punts. #}
 {% if mg and mg.won and d.chamber.seats <= 120 %}

@@ -115,6 +115,13 @@ def cmd_sistemes(args):
     print(f"{len(data['seats'])} circumscripcions del Regne Unit desades a {systems.GB_JSON}")
 
 
+def cmd_perfils(args):
+    from . import db
+    from .ingest import profiles
+    data = profiles.run(db.connect())
+    print(f"{data['found']} perfils de {data['searched']} candidats; desat a {profiles.OUT}")
+
+
 def cmd_congela(args):
     from . import db, final
     data = final.freeze(db.connect())
@@ -194,6 +201,8 @@ def main(argv=None):
                    ).set_defaults(func=cmd_error_anterior)
     sub.add_parser("sistemes", help="resultats per circumscripcio per als sistemes majoritaris (Regne Unit)"
                    ).set_defaults(func=cmd_sistemes)
+    sub.add_parser("perfils", help="curriculum dels candidats que entrarien al Congres (Wikidata, CC0)"
+                   ).set_defaults(func=cmd_perfils)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"
                    ).set_defaults(func=cmd_congela)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)

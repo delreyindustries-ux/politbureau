@@ -74,3 +74,23 @@ w-th: {method: none,
 eu-ie: {method: none,
         note_ca: "174 escons amb vot únic transferible: cada circumscripció tria de 3 a 5 diputats i l'elector ordena els candidats. Els vots es transfereixen d'un candidat a l'altre, i això no es pot simular amb la mitjana estatal.",
         note_es: "174 escaños con voto único transferible: cada circunscripción elige de 3 a 5 diputados y el elector ordena a los candidatos. Los votos se transfieren de un candidato a otro, y eso no se puede simular con la media nacional."}
+
+# Espanya: parlaments autonomics i ajuntaments amb enquestes (15/11/2026).
+# Escons, llindar i circumscripcions: seccio "Electoral system" de l'article
+# de Wikipedia de cada eleccio (consultada el 15/11/2026). Les de
+# circumscripcio unica (Murcia, Navarra, La Rioja, Ceuta i els ajuntaments) es
+# reparteixen exactament com diu la llei; les altres porten `districts: true`.
+sub-es-mc: {name: Asamblea Regional de Murcia, seats: 45, method: dhondt, threshold: 0.03}
+sub-es-nc: {name: Parlamento de Navarra, seats: 50, method: dhondt, threshold: 0.03}
+sub-es-ri: {name: Parlamento de La Rioja, seats: 33, method: dhondt, threshold: 0.05}
+sub-es-ce: {name: Asamblea de Ceuta, seats: 25, method: dhondt, threshold: 0.05}
+sub-es-bcn: {name: Ajuntament de Barcelona, seats: 41, method: dhondt, threshold: 0.05}
+sub-es-vlc: {name: Ajuntament de València, seats: 33, method: dhondt, threshold: 0.05}
+sub-es-zgz: {name: Ayuntamiento de Zaragoza, seats: 31, method: dhondt, threshold: 0.05}
+sub-es-ct: {name: Parlament de Catalunya, seats: 135, method: dhondt, threshold: 0.03, districts: true}
+sub-es-vc: {name: Corts Valencianes, seats: 99, method: dhondt, threshold: 0.05, districts: true}
+sub-es-an: {name: Parlamento de Andalucía, seats: 109, method: dhondt, threshold: 0.03, districts: true}
+sub-es-ar: {name: Cortes de Aragón, seats: 67, method: dhondt, threshold: 0.03, districts: true}
+sub-es-ga: {name: Parlamento de Galicia, seats: 75, method: dhondt, threshold: 0.05, districts: true}
+sub-es-as: {name: Junta General del Principado de Asturias, seats: 45, method: dhondt, threshold: 0.03, districts: true}
+sub-es-cm: {name: Cortes de Castilla-La Mancha, seats: 33, method: dhondt, threshold: 0.03, districts: true}

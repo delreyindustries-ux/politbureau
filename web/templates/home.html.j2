@@ -25,7 +25,25 @@
   {% if congress %}
   {% from "_chamber.html.j2" import chamber %}
   {{ chamber('es-congreso', congress, 'ES', 176, 350, lang, 'seats',
-             'Congreso de los Diputados: estimación de hoy' if lang == 'es' else "Congrés dels Diputats: estimació d'avui") }}
+             'Congreso de los Diputados: estimación de hoy' if lang == 'es' else "Congrés dels Diputats: estimació d'avui",
+             (root ~ people_url) if people_url else '') }}
+  {% if people %}
+  <details class="mplist">
+    <summary>{{ 'Quién ocuparía cada escaño (lista completa)' if lang == 'es' else 'Qui ocuparia cada escó (llista completa)' }}</summary>
+    <p class="fine">{% if lang == 'es' %}Con la estimación de hoy y las listas proclamadas (BOE del 3/11/2026): el número
+      k de cada lista ocupa el escaño k que el partido gana en la provincia. En el hemiciclo, haz clic en un diputado
+      para ver su ficha.{% else %}Amb l'estimació d'avui i les llistes proclamades (BOE del 3/11/2026): el número k de cada
+      llista ocupa l'escó k que el partit guanya a la província. A l'hemicicle, clica un diputat per veure'n la
+      fitxa.{% endif %}</p>
+    {% for g in people if g.members %}
+    <h3><span class="sw" style="background:{{ g.color }}"></span>{{ g.name }} · {{ g.seats }}</h3>
+    <ul class="cols">
+      {% for m in g.members %}<li>{% if m.n %}{{ m.n }}{% else %}—{% endif %} <span class="fine">· {% if m.u %}<a href="{{ root }}{{ m.u.lstrip('/') }}">{{ m.pv }}</a>{% else %}{{ m.pv }}{% endif %}, {{ 'n.º' if lang == 'es' else 'núm.' }} {{ m.pos }}</span></li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </details>
+  {% endif %}
   {% endif %}
   <table class="results">
     <thead><tr>
