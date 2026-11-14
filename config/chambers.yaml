@@ -10,9 +10,15 @@
 # calcula sobre aquesta) quan hi ha escons que no es modelen (minories,
 # exterior, Feroe i Groenlandia).
 #
-# Sense escons: sistemes majoritaris o mixtos (Regne Unit, Franca, Canada,
-# Australia, Japo, Hongria, Lituania, Mexic, Tailandia), vot unic transferible
-# (Irlanda) i Belgica (sense mitjana estatal).
+# `method: fptp` (14/11/2026): majoritari uninominal, projectat circumscripcio
+# per circumscripcio (src/politbureau/systems.py). Nomes el Regne Unit, que te
+# el resultat per circumscripcio amb llicencia oberta (House of Commons Library).
+#
+# Sense escons: sistemes majoritaris o mixtos sense dades per circumscripcio
+# (Franca, Canada, Australia, Japo, Hongria, Lituania, Mexic, Tailandia), vot
+# unic transferible (Irlanda) i Belgica (sense mitjana estatal).
+
+eu-gb: {name: Cambra dels Comuns, name_es: Cámara de los Comunes, seats: 650, method: fptp}
 
 eu-nl: {name: Tweede Kamer, seats: 150, method: dhondt, threshold: 0.00667}
 eu-sk: {name: Národná rada, seats: 150, method: droop, threshold: 0.05}
@@ -40,3 +46,31 @@ eu-ch: {name: Conseil national, seats: 200, method: dhondt, threshold: 0.0, dist
 eu-tr: {name: Gran Assemblea Nacional, seats: 600, method: dhondt, threshold: 0.07, districts: true,
         note_es: "El umbral del 7 % se aplica a las alianzas: un partido aliado (el MHP con el AKP) puede entrar por debajo, y eso aquí no se modela.",
         note_ca: "El llindar del 7 % s'aplica a les aliances: un partit aliat (el MHP amb l'AKP) pot entrar-hi per sota, i això aquí no es modela."}
+
+# Sistemes on els escons no es poden estimar amb la mitjana estatal (14/11/2026):
+# `method: none` nomes porta la nota que explica com es vota. Font: seccio
+# "Electoral system" de l'article de Wikipedia de l'ultima eleccio de cada pais.
+w-ca: {method: none,
+       note_ca: "343 escons, un per circumscripció: guanya el candidat amb més vots. Els resultats per circumscripció d'Elections Canada no tenen una llicència oberta clara, i per això no se n'estimen els escons.",
+       note_es: "343 escaños, uno por circunscripción: gana el candidato con más votos. Los resultados por circunscripción de Elections Canada no tienen una licencia abierta clara, y por eso no se estiman los escaños."}
+w-au: {method: none,
+       note_ca: "150 escons, un per circumscripció, amb vot preferencial: si ningú no arriba a la meitat, es reparteixen les segones preferències fins que algú la supera. Per això compta més el «vot dels dos partits» que la primera preferència, i aquí no s'estimen els escons.",
+       note_es: "150 escaños, uno por circunscripción, con voto preferencial: si nadie llega a la mitad, se reparten las segundas preferencias hasta que alguien la supera. Por eso cuenta más el «voto de los dos partidos» que la primera preferencia, y aquí no se estiman los escaños."}
+w-jp: {method: none,
+       note_ca: "465 escons en dues parts que no es compensen: 289 per circumscripció (guanya el més votat) i 176 proporcionals en 11 blocs regionals. Sense resultats per circumscripció no se n'estimen els escons.",
+       note_es: "465 escaños en dos partes que no se compensan: 289 por circunscripción (gana el más votado) y 176 proporcionales en 11 bloques regionales. Sin resultados por circunscripción no se estiman los escaños."}
+eu-hu: {method: none,
+        note_ca: "199 escons: 106 per circumscripció (guanya el més votat) i 93 de llista estatal, que es reparteixen amb els vots de llista més els vots «sobrants» de les circumscripcions. El sistema premia molt el primer partit, i sense resultats per circumscripció no se n'estimen els escons.",
+        note_es: "199 escaños: 106 por circunscripción (gana el más votado) y 93 de lista nacional, que se reparten con los votos de lista más los votos «sobrantes» de las circunscripciones. El sistema premia mucho al primer partido, y sin resultados por circunscripción no se estiman los escaños."}
+eu-lt: {method: none,
+        note_ca: "141 escons: 71 per circumscripció, a dues voltes, i 70 proporcionals amb un llindar del 5 % (7 % per a les coalicions). Sense resultats per circumscripció no se n'estimen els escons.",
+        note_es: "141 escaños: 71 por circunscripción, a dos vueltas, y 70 proporcionales con un umbral del 5 % (7 % para las coaliciones). Sin resultados por circunscripción no se estiman los escaños."}
+w-mx: {method: none,
+       note_ca: "500 diputats: 300 per districte (guanya el més votat) i 200 proporcionals en cinc circumscripcions, amb un llindar del 3 % i un límit de 8 punts de sobrerepresentació. Sense resultats per districte no se n'estimen els escons.",
+       note_es: "500 diputados: 300 por distrito (gana el más votado) y 200 proporcionales en cinco circunscripciones, con un umbral del 3 % y un límite de 8 puntos de sobrerrepresentación. Sin resultados por distrito no se estiman los escaños."}
+w-th: {method: none,
+       note_ca: "500 escons: 400 per circumscripció (guanya el més votat) i 100 de llista estatal, que no compensen. Sense resultats per circumscripció no se n'estimen els escons.",
+       note_es: "500 escaños: 400 por circunscripción (gana el más votado) y 100 de lista nacional, que no compensan. Sin resultados por circunscripción no se estiman los escaños."}
+eu-ie: {method: none,
+        note_ca: "174 escons amb vot únic transferible: cada circumscripció tria de 3 a 5 diputats i l'elector ordena els candidats. Els vots es transfereixen d'un candidat a l'altre, i això no es pot simular amb la mitjana estatal.",
+        note_es: "174 escaños con voto único transferible: cada circunscripción elige de 3 a 5 diputados y el elector ordena a los candidatos. Los votos se transfieren de un candidato a otro, y eso no se puede simular con la media nacional."}

@@ -1,0 +1,42 @@
+{# Regla de cada pais per guanyar a la primera volta (systems.presidential, 14/11/2026). #}
+{% set pr = d.pres %}
+{% if pr %}
+{% set es = lang == 'es' %}
+{% set a, b = pr.first, pr.second %}
+  <section class="pres">
+    <h2>{% if pr.rule == 'plurality' %}{{ '¿Quién ganaría?' if es else 'Qui guanyaria?' }}{% else %}{{ '¿Habría segunda vuelta?' if es else 'Hi hauria segona volta?' }}{% endif %}</h2>
+    <p>{% if es %}
+      {%- if pr.rule == 'plurality' -%}
+        Aquí no hay segunda vuelta: gana quien tiene más votos. Con esta media ganaría
+        <b>{{ a.name }}</b>, con {{ fmt(a.share) }} % y {{ fmt(pr.lead) }} puntos de ventaja sobre {{ b.name }}.
+      {%- elif pr.rule == 'ar' -%}
+        Para ganar en la primera vuelta hace falta el 45 % de los votos válidos, o el 40 % con 10 puntos
+        de ventaja sobre el segundo.
+        {% if pr.wins %}Con esta media <b>{{ a.name }}</b> ganaría en la primera vuelta ({{ fmt(a.share) }} %, {{ fmt(pr.lead) }} puntos de ventaja).
+        {% else %}Con esta media habría <b>segunda vuelta entre {{ a.name }} y {{ b.name }}</b> ({{ fmt(a.share) }} % y {{ fmt(b.share) }} %).{% endif %}
+      {%- else -%}
+        Para ganar en la primera vuelta hace falta más de la mitad de los votos válidos{% if pr.extra == 'id' %} y al menos el 20 % en la mitad de las provincias{% endif %}.
+        {% if pr.wins %}Con esta media <b>{{ a.name }}</b> ganaría en la primera vuelta, con el {{ fmt(a.share) }} %.
+        {% else %}Con esta media habría <b>segunda vuelta entre {{ a.name }} y {{ b.name }}</b> ({{ fmt(a.share) }} % y {{ fmt(b.share) }} %).{% endif %}
+      {%- endif %}
+    {% else %}
+      {%- if pr.rule == 'plurality' -%}
+        Aquí no hi ha segona volta: guanya qui té més vots. Amb aquesta mitjana guanyaria
+        <b>{{ a.name }}</b>, amb un {{ fmt(a.share) }} % i {{ fmt(pr.lead) }} punts d'avantatge sobre {{ b.name }}.
+      {%- elif pr.rule == 'ar' -%}
+        Per guanyar a la primera volta cal el 45 % dels vots vàlids, o el 40 % amb 10 punts d'avantatge
+        sobre el segon.
+        {% if pr.wins %}Amb aquesta mitjana <b>{{ a.name }}</b> guanyaria a la primera volta ({{ fmt(a.share) }} %, {{ fmt(pr.lead) }} punts d'avantatge).
+        {% else %}Amb aquesta mitjana hi hauria <b>segona volta entre {{ a.name }} i {{ b.name }}</b> ({{ fmt(a.share) }} % i {{ fmt(b.share) }} %).{% endif %}
+      {%- else -%}
+        Per guanyar a la primera volta cal més de la meitat dels vots vàlids{% if pr.extra == 'id' %} i com a mínim el 20 % a la meitat de les províncies{% endif %}.
+        {% if pr.wins %}Amb aquesta mitjana <b>{{ a.name }}</b> guanyaria a la primera volta, amb el {{ fmt(a.share) }} %.
+        {% else %}Amb aquesta mitjana hi hauria <b>segona volta entre {{ a.name }} i {{ b.name }}</b> ({{ fmt(a.share) }} % i {{ fmt(b.share) }} %).{% endif %}
+      {%- endif %}
+    {% endif %}</p>
+    <p class="fine">{% if es %}Porcentajes sobre los candidatos, sin indecisos, como el voto válido.
+      La regla es la de la constitución o la ley electoral de cada país.{% else %}Percentatges sobre els
+      candidats, sense indecisos, com el vot vàlid. La regla és la de la constitució o la llei electoral
+      de cada país.{% endif %}</p>
+  </section>
+{% endif %}

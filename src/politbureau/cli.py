@@ -109,6 +109,12 @@ def cmd_error_anterior(args):
     print(f"{ok} de {len(data['elections'])} paisos calculats; desat a {lasterror.OUT}")
 
 
+def cmd_sistemes(args):
+    from . import systems
+    data = systems.build_gb()
+    print(f"{len(data['seats'])} circumscripcions del Regne Unit desades a {systems.GB_JSON}")
+
+
 def cmd_congela(args):
     from . import db, final
     data = final.freeze(db.connect())
@@ -186,6 +192,8 @@ def main(argv=None):
                    ).set_defaults(func=cmd_instituts)
     sub.add_parser("error-anterior", help="error de la mitjana a l'ultima eleccio de cada pais (Wikipedia)"
                    ).set_defaults(func=cmd_error_anterior)
+    sub.add_parser("sistemes", help="resultats per circumscripcio per als sistemes majoritaris (Regne Unit)"
+                   ).set_defaults(func=cmd_sistemes)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"
                    ).set_defaults(func=cmd_congela)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)

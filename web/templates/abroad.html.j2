@@ -61,15 +61,44 @@
       {% if d.seats %}<td class="n">{{ r.seats if r.seats else '—' }}</td>{% endif %}
     </tr>
     {% endfor %}
+    {% for r in d.seat_extra or [] %}
+    <tr class="fine">
+      <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+      <td class="n">—</td><td class="n">—</td>
+      <td class="n">{{ r.seats }}</td>
+    </tr>
+    {% endfor %}
     </tbody>
   </table>
   </div>
+{% include "_pres.html.j2" %}
+{% if d.sysnote %}
+  <p class="note"><b>{{ 'Cómo se vota.' if es else 'Com es vota.' }}</b> {{ d.sysnote.note_es if es else d.sysnote.note_ca }}</p>
+{% endif %}
 
 {% if d.seats %}
   {% set c = d.chamber %}
   {% from "_chamber.html.j2" import chamber %}
-  {{ chamber(d.iso, d.avg, d.iso, d.majority, c.seats, lang, 'seats',
-             ('Escaños orientativos: ' if es else 'Escons orientatius: ') ~ c.name) }}
+  {% set cname = c.name_es if es and c.name_es else c.name %}
+  {{ chamber(d.iso, d.seatrows or d.avg, d.iso, d.majority, c.seats, lang, 'seats',
+             ('Escaños orientativos: ' if es else 'Escons orientatius: ') ~ cname) }}
+{% if c.method == 'fptp' %}
+  <p class="note">{% if es %}<b>Los escaños son solo un orden de magnitud.</b> Cada
+    circunscripción elige un diputado: el que tiene más votos gana el escaño, aunque no llegue a la
+    mitad. Aquí se proyectan las {{ c.seats }} circunscripciones una a una: el voto de {{ d.fptp.date[:4] }} de cada
+    partido se multiplica por lo que ha subido o bajado en las encuestas (en Escocia, Gales y Londres,
+    con su media propia). Irlanda del Norte (18 escaños) no tiene encuestas para Westminster y se queda
+    como en {{ d.fptp.date[:4] }}; el escaño del Speaker no se disputa. Con esta media cambian de manos
+    {{ d.fptp.changed }} escaños. La mayoría absoluta es de {{ d.majority }}. Resultados por circunscripción:
+    House of Commons Library (Open Parliament Licence v3.0).{% else %}<b>Els escons només són un ordre de
+    magnitud.</b> Cada circumscripció tria un diputat: el que té més vots guanya l'escó,
+    encara que no arribi a la meitat. Aquí es projecten les {{ c.seats }} circumscripcions una per una: el vot
+    del {{ d.fptp.date[:4] }} de cada partit es multiplica pel que ha pujat o baixat a les enquestes (a
+    Escòcia, Gal·les i Londres, amb la seva mitjana pròpia). Irlanda del Nord (18 escons) no té enquestes
+    per a Westminster i es queda com el {{ d.fptp.date[:4] }}; l'escó del Speaker no es disputa. Amb aquesta
+    mitjana canvien de mans {{ d.fptp.changed }} escons. La majoria absoluta és de {{ d.majority }}.
+    Resultats per circumscripció: House of Commons Library (Open Parliament Licence v3.0).{% endif %}</p>
+{% else %}
   {% set m = c.method if c.method != 'proportional' else 'dhondt' %}
   {% set thr = fmt((c.threshold if c.threshold is not none else 0.03) * 100) %}
   <p class="note">{% if es %}<b>Los escaños son solo un orden de magnitud.</b> Se reparten los
@@ -83,6 +112,7 @@
     {% if c.districts %}La llei els reparteix circumscripció per circumscripció, i això afavoreix els
     partits grans: aquí els petits hi surten afavorits.{% endif %} La majoria absoluta és de
     {{ d.majority }}.{% if c.note_ca %} {{ c.note_ca }}{% endif %}{% endif %}</p>
+{% endif %}
 
 {% set mg = d.margins %}
 {# Nomes cambres petites: amb 600 escons tots els quocients queden a 0,1 punts. #}

@@ -760,9 +760,19 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
     # Escons d'Italia: proporcional estatal amb la mitjana, calculat aqui mateix.
     # Aixi la publicacio no ha de fer `build --country IT`, que baixaria cada
     # hora el resultat del 2022 municipi a municipi per a un mapa que la web no te.
-    seats, margins = {}, None
-    if chamber and chamber.get("method") in ("proportional", "dhondt", "sainte_lague", "hare",
-                                             "droop"):
+    seats, margins, extra, fptp = {}, None, {}, None
+    if chamber and chamber.get("method") == "fptp" and not scope_code:
+        # Majoritari uninominal (Regne Unit): circumscripcio per circumscripcio,
+        # amb les mitjanes d'Escocia, Gal.les i Londres on n'hi ha (systems.py).
+        from .. import systems
+        reg = {sc: dict(conn.execute(
+            "SELECT party, share FROM aggregate WHERE election_id = ? AND scope_code = ?",
+            (eid, sc)).fetchall()) for sc in ("SCT", "WLS", "LDN")}
+        got = systems.fptp_gb({r["party"]: r["share"] for r in rows}, reg)
+        if got:
+            seats, extra, fptp = got
+    elif chamber and chamber.get("method") in ("proportional", "dhondt", "sainte_lague", "hare",
+                                               "droop"):
         from ..model import seats as seatlib
         shares = {r["party"]: r["share"] for r in rows if r["party"] != "OTHER"}
         method = "dhondt" if chamber["method"] == "proportional" else chamber["method"]
@@ -804,7 +814,12 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
               "sample": p["sample_size"],
               "values": [(p["results"].get(c) or (None,))[0] for c in order]}
              for p in used]
+    # Escons de partits que no surten a les enquestes (Irlanda del Nord,
+    # independents, el Speaker): van a la cambra i a la taula, sense %.
+    seat_extra = [{"code": c, "name": n, "color": col, "seats": seats[c], "person": None}
+                  for c, (n, col) in sorted(extra.items(), key=lambda x: -seats[x[0]])]
     return {"avg": avg, "order": [next(a for a in avg if a["code"] == c) for c in order],
+            "seat_extra": seat_extra, "seatrows": avg + seat_extra, "fptp": fptp,
             "polls": polls, "seats": bool(seats),
             "seat_total": sum(seats.values()) if seats else 0,
             "chamber": chamber if seats else None, "margins": margins,
@@ -1023,6 +1038,12 @@ def abroad_data(conn, eid):
                    "ca": pub.get("of_ca") or de(pub["name_ca"])},
             "urls": {lg: abroad_url(election, lg) for lg in i18n.LANGS},
             "leaders": leaders_view(conn, eid),
+            # Com es vota on els escons no es poden estimar (chambers.yaml, method: none).
+            "sysnote": ((election.get("chamber") or {})
+                        if (election.get("chamber") or {}).get("method") == "none" else None),
+            # Regla de cada pais per guanyar a la primera volta (systems.py).
+            "pres": (_pres(country, national) if election.get("display") == "candidates"
+                     and election.get("group") != "sub" else None),
             # Com va encertar la mitjana a l'ultima eleccio (pla de ruta, 14/11/2026).
             "lasterror": (None if election.get("group") == "sub"
                           else _lasterror(eid, country, national, names, colors)),
@@ -1031,6 +1052,11 @@ def abroad_data(conn, eid):
                            else _parliament(conn, country)),
             "wiki": (f"https://{election.get('lang', 'en')}.wikipedia.org/wiki/"
                      + election["page"].replace(" ", "_"))}
+
+
+def _pres(country, national):
+    from .. import systems
+    return systems.presidential(country, (national or {}).get("avg") or [])
 
 
 def _lasterror(eid, country, national, names, colors):
