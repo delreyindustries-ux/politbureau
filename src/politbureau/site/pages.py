@@ -1023,11 +1023,40 @@ def abroad_data(conn, eid):
                    "ca": pub.get("of_ca") or de(pub["name_ca"])},
             "urls": {lg: abroad_url(election, lg) for lg in i18n.LANGS},
             "leaders": leaders_view(conn, eid),
+            # Com va encertar la mitjana a l'ultima eleccio (pla de ruta, 14/11/2026).
+            "lasterror": (None if election.get("group") == "sub"
+                          else _lasterror(eid, country, national, names, colors)),
             # Parlament actual i cap de govern (09/11/2026, results.py).
             "parliament": (None if election.get("group") == "sub"
                            else _parliament(conn, country)),
             "wiki": (f"https://{election.get('lang', 'en')}.wikipedia.org/wiki/"
                      + election["page"].replace(" ", "_"))}
+
+
+def _lasterror(eid, country, national, names, colors):
+    """Error de la mitjana a l'ultima eleccio (config/last_error.json, que fa
+    `politbureau error-anterior`). None si no s'ha pogut calcular."""
+    from .. import lasterror
+    r = (lasterror.load().get("elections") or {}).get(eid)
+    if not r or r.get("status") != "ok":
+        return None
+    by = {a["code"]: a for a in (national or {}).get("avg", [])}
+    rows = []
+    for x in r["rows"]:
+        code = x["party"]
+        a = by.get(code)
+        if a:
+            name, color = a.get("person") or a["name"], a["color"]
+        else:
+            meta = parties.meta(code, country, eid)
+            name, color = meta["name"], meta["color"]
+            if code.startswith("?"):
+                fixed = parties._display().get(eid, {}).get(code)
+                name = (fixed or _short(names.get(code)) or (r.get("labels") or {}).get(code)
+                        or name)
+                color = colors.get(code) or (r.get("colors") or {}).get(code) or color
+        rows.append({**x, "name": name, "color": color})
+    return {**r, "rows": rows, "year": r["date"][:4]}
 
 
 def _parliament(conn, country):

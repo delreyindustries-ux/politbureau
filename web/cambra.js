@@ -649,6 +649,7 @@
          floor: '#6d7380', stair: '#5f6572', cols: 4, colc: '#c2bbab', lamps: true },
   };
   const SKIN = ['#efcfae', '#e2b48c', '#d09a70', '#b98258', '#9a6a46', '#f3d9c0', '#7d5236'];
+  const SUIT = ['#1f2836', '#2c2f35', '#3b4049', '#1b1b1f', '#4b5059', '#262b3a'];
   const HAIR = ['#2a1d14', '#4a3222', '#1a1a1a', '#6b4a2e', '#8a8a8a', '#b8b0a4', '#3a2a1e'];
 
   const PI = Math.PI;
@@ -763,9 +764,12 @@
     const h = hash(k), h2 = hash(k + 11), h3 = hash(k + 23);
     const tw = w * 0.92, th = w * 0.8, hr = w * 0.205;
     const fog = (c) => (hz ? mix(c, HAZE, hz) : c);
-    // cada americana és d'una tela una mica diferent
+    // Vestit de veritat (blau marí, gris, negre) tenyit amb el color del
+    // partit: es llegeix el grup sense que semblin uniformes de colors. Cada
+    // tela és una mica diferent.
     const tv = hash(k + 41);
-    const body = fog(tv < 0.5 ? dim(g.c, (0.5 - tv) * 0.24) : lite(g.c, (tv - 0.5) * 0.16));
+    const suit = mix(SUIT[Math.floor(hash(k + 61) * SUIT.length)], g.c, 0.46);
+    const body = fog(tv < 0.5 ? dim(suit, (0.5 - tv) * 0.2) : lite(suit, (tv - 0.5) * 0.14));
     const skin = fog(SKIN[Math.floor(h * SKIN.length)]);
     // 0-1 curt, 2 clenxa, 3 llarg, 4 calb, 5 mitja melena
     const style = Math.floor(h2 * 6);
@@ -792,7 +796,7 @@
     if (w > 4.5) {
       // camisa: en V amb corbata, o coll obert
       o += `<path d="M${f(X - tw * 0.15)} ${f(Y - th)}L${f(X)} ${f(Y - th * (tie ? 0.4 : 0.6))}L${f(X + tw * 0.15)} ${f(Y - th)}Z" fill="${tie ? fog('#f4f1ea') : skin}"/>`;
-      if (tie) o += `<path d="M${f(X)} ${f(Y - th * 0.94)}l${f(-tw * 0.045)} ${f(th * 0.36)}l${f(tw * 0.045)} ${f(th * 0.13)}l${f(tw * 0.045)} ${f(-th * 0.13)}Z" fill="${fog(dim(g.c, 0.45))}"/>`;
+      if (tie) o += `<path d="M${f(X)} ${f(Y - th * 0.94)}l${f(-tw * 0.045)} ${f(th * 0.36)}l${f(tw * 0.045)} ${f(th * 0.13)}l${f(tw * 0.045)} ${f(-th * 0.13)}Z" fill="${fog(g.c)}"/>`;
       // solapes
       o += `<path d="M${f(X - tw * 0.16)} ${f(Y - th * 0.99)}L${f(X - tw * 0.03)} ${f(Y - th * 0.38)}M${f(X + tw * 0.16)} ${f(Y - th * 0.99)}L${f(X + tw * 0.03)} ${f(Y - th * 0.38)}" stroke="${dim(body, 0.4)}" stroke-width="${f(w * 0.035)}" fill="none"/>`;
     }
@@ -1219,8 +1223,32 @@
       let d = '';
       for (let k = 1; k < 12; k++) { const a = q(-xo + 2 * xo * k / 12, dEnd, 0.05), b = q(-xo + 2 * xo * k / 12, dEnd, 0.7); d += `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`; }
       o += `<path d="${d}" stroke="${dim(st.wall, 0.35)}" stroke-width=".6"/>`;
-      const [dx0, dy0, ds] = q(-0.06, dEnd, 0);
-      o += `<path d="M${f(dx0)} ${f(dy0)}v${f(-ds * 0.34)}a${f(ds * 0.06)} ${f(ds * 0.06)} 0 0 1 ${f(ds * 0.12)} 0v${f(ds * 0.34)}Z" fill="${dim(st.dark, 0.3)}" stroke="url(#${u}gold)" stroke-width=".8"/>`;
+      // La cadira del Speaker: respatller alt de roure fosc sota un dosser
+      // gòtic acabat en punxa, amb l'escut daurat (el que es veu al fons de
+      // totes les fotos des de la barra de la cambra).
+      {
+        const W = (x, z) => q(x, dEnd - 0.01, z);
+        const dk = dim(st.wood, 0.45), md = dim(st.wood, 0.2);
+        o += shape([W(-0.11, 0), W(0.11, 0), W(0.11, 0.62), W(-0.11, 0.62)], dk) +
+             shape([W(-0.085, 0.12), W(0.085, 0.12), W(0.085, 0.5), W(-0.085, 0.5)], dim(st.seat, 0.25)) +
+             shape([W(-0.06, 0.16), W(0.06, 0.16), W(0.06, 0.46), W(-0.06, 0.46)], st.seat);
+        // braços i seient
+        o += shape([W(-0.11, 0.1), W(0.11, 0.1), W(0.11, 0.14), W(-0.11, 0.14)], md);
+        // dosser amb pinacles
+        o += shape([W(-0.13, 0.62), W(0.13, 0.62), W(0.13, 0.7), W(-0.13, 0.7)], md) +
+             shape([W(-0.13, 0.7), W(0, 0.98), W(0.13, 0.7)], dk) +
+             stroke([W(-0.13, 0.7), W(0, 0.98), W(0.13, 0.7)], `url(#${u}gold)`, 0.9);
+        for (const x of [-0.13, -0.065, 0, 0.065, 0.13]) {
+          const top = x === 0 ? 1.06 : 0.82 - Math.abs(x) * 0.6;
+          o += stroke([W(x, x === 0 ? 0.98 : 0.66), W(x, top)], dk, 1.6) +
+               `<circle cx="${f(W(x, top)[0])}" cy="${f(W(x, top)[1])}" r="1.1" fill="url(#${u}gold)"/>`;
+        }
+        const [ax, ay, as] = W(0, 0.56);
+        o += `<circle cx="${f(ax)}" cy="${f(ay)}" r="${f(as * 0.022)}" fill="url(#${u}gold)" stroke="${dk}" stroke-width=".4"/>`;
+        // el Speaker, amb toga negra
+        const [sx, sy, ss] = W(0, 0.14);
+        o += person(sx, sy, ss * 0.075, { c: '#151515', n: 'Speaker' }, 9973, 1, ca, 0.15);
+      }
       o += shape([q(-xo, dEnd, 0.86), q(xo, dEnd, 0.86), q(xo, dEnd, 0.95), q(-xo, dEnd, 0.95)], st.dark) +
            stroke([q(-xo, dEnd, 0.95), q(xo, dEnd, 0.95)], `url(#${u}gold)`, 1.2);
     }

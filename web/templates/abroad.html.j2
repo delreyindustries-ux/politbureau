@@ -267,6 +267,9 @@
   </div>
 {% endif %}
 
+{% set le = d.lasterror %}
+{% include "_lasterror.html.j2" %}
+
 {% if d.regions %}
   <h2 id="regions">{{ 'Por regiones' if es else 'Per regions' }}</h2>
   <p class="note">{% if es %}Solo las regiones con encuestas propias de los últimos 90 días. Cada media

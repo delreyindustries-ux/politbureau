@@ -138,6 +138,8 @@ def build_api(conn, forecast=None) -> int:
     mitjanes/<id>.json  mitjana per territori (minim i maxim entre instituts)
     congres-2026.json   escons estimats (total i per provincia) i previsio
     instituts.json      valoracio dels instituts (config/pollster_ratings.json)
+    error-anterior.json error de la mitjana a l'ultima eleccio de cada pais
+                        (config/last_error.json)
     """
     from .. import pollsters
 
@@ -162,7 +164,8 @@ def build_api(conn, forecast=None) -> int:
     _json(API / "index.json", {**meta, "elections": [
         {"id": eid, "country": countries[eid], "polls": counts.get(eid, 0),
          "average": f"/api/v1/mitjanes/{eid}.json"} for eid in sorted(by)],
-        "congress_2026": "/api/v1/congres-2026.json", "pollsters": "/api/v1/instituts.json"})
+        "congress_2026": "/api/v1/congres-2026.json", "pollsters": "/api/v1/instituts.json",
+        "previous_error": "/api/v1/error-anterior.json"})
     seats: dict[str, dict] = {}
     for r in conn.execute("""SELECT level, code, party, seats FROM seat_projection
                              WHERE election_id = ? ORDER BY level, code, seats DESC""", (ELECTION,)):
@@ -183,7 +186,15 @@ def build_api(conn, forecast=None) -> int:
         _json(API / "instituts.json", {**meta, "computed": rating["computed"],
                                        "ratings": rating["ratings"],
                                        "elections": rating["elections"]})
-    return n + 3
+    from .. import lasterror
+    le = lasterror.load()
+    if le:
+        _json(API / "error-anterior.json", {**meta, "computed": le["computed"],
+                                            "main_share": le["main_share"], "elections": {
+            eid: {k: r[k] for k in ("date", "election", "page", "cutoff", "n_polls", "mae", "rows")}
+            for eid, r in le["elections"].items()
+            if r.get("status") == "ok" and countries.get(eid) not in EXCLUDED}})
+    return n + 4
 
 
 def opendata_page(env, cfg, conn, forecast=None):

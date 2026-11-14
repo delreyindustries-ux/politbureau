@@ -485,7 +485,10 @@ def _best_date_col(data_rows, header_text, party_cols, anchor_year):
     return best_col
 
 
-def parse_table(table, country, anchor_year):
+def parse_table(table, country, anchor_year, results=None):
+    """`results`: si es una llista, s'hi afegeixen les files de resultat
+    electoral real ("2024 general election"), que no son enquestes. Serveix per
+    comparar la mitjana amb el resultat de l'ultima eleccio (14/11/2026)."""
     party_cols, unknown, header_row = header_parties(table, country)
     if not party_cols:
         return [], unknown
@@ -551,7 +554,10 @@ def parse_table(table, country, anchor_year):
         if raw.lower() in header_text:
             continue
         # Les files de resultat electoral real son baseline, no enquestes.
-        if re.search(r"\b(elections?|referendum)\b", raw, re.IGNORECASE):
+        # Amb `results`, es llegeixen a part (sense tocar l'any ni la data
+        # anterior: les enquestes surten exactament igual que sense).
+        is_result = bool(re.search(r"\b(elections?|referendum)\b", raw, re.IGNORECASE))
+        if is_result and results is None:
             continue
 
         date_text = cell_text(cells[date_col]) if len(cells) > date_col else ""
@@ -561,11 +567,11 @@ def parse_table(table, country, anchor_year):
         # 90 dies: dues files una mica desordenades ("26-29 Oct" i a sota "19 Oct-1
         # Nov") no son un canvi d'any, i abans enviaven tota la resta de la taula a
         # l'any anterior (Victoria, 06/11/2026).
-        if end and previous_end and (dt.date.fromisoformat(end)
+        if not is_result and end and previous_end and (dt.date.fromisoformat(end)
                                      - dt.date.fromisoformat(previous_end)).days > 90:
             year -= 1
             start, end = parse_fieldwork(date_text, year)
-        if end:
+        if end and not is_result:
             previous_end = end
 
         pollster, _, client = raw.partition("/")
@@ -623,5 +629,5 @@ def parse_table(table, country, anchor_year):
         # gairebe sempre es una fila nomes d'escons mal llegida. Fora.
         if len(poll.results) >= 2:
             poll.colors = {c: v for c, v in colors.items() if c in poll.results}
-            polls.append(poll)
+            (results if is_result else polls).append(poll)
     return polls, unknown

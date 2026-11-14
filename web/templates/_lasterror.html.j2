@@ -1,0 +1,34 @@
+{# Error de la mitjana a l'ultima eleccio (pla de ruta, 14/11/2026). `le`: pages._lasterror(). #}
+{% if le %}
+{% set es = lang == 'es' %}
+  <h2 id="error-anterior">{{ ('Cómo acertó esta media en ' if es else 'Com va encertar aquesta mitjana el ') ~ le.year }}</h2>
+  <p class="note">{% if es %}La misma media, con las mismas reglas, calculada con las encuestas
+    publicadas hasta la víspera de las elecciones del {{ fdate(le.date) }} y comparada con el
+    resultado. Error medio: <b>{{ fmt(le.mae) }} puntos</b> por partido ({{ le.n_polls }} institutos).{% else %}La
+    mateixa mitjana, amb les mateixes regles, calculada amb les enquestes publicades fins a la
+    vigília de les eleccions del {{ fdate(le.date) }} i comparada amb el resultat. Error mitjà:
+    <b>{{ fmt(le.mae) }} punts</b> per partit ({{ le.n_polls }} instituts).{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>{{ ('Candidato' if es else 'Candidat') if d.presidential else ('Partido' if es else 'Partit') }}</th>
+      <th class="n">{{ 'Media' if es else 'Mitjana' }}</th>
+      <th class="n">{{ 'Resultado' if es else 'Resultat' }}</th>
+      <th class="n">Error</th>
+    </tr></thead>
+    <tbody>
+    {% for r in le.rows %}
+    <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+      <td class="n">{{ fmt(r.average) }}</td>
+      <td class="n"><b>{{ fmt(r.result) }}</b></td>
+      <td class="n {{ 'up' if r.diff >= 0.5 else ('dn' if r.diff <= -0.5 else '') }}">{{ '+' if r.diff > 0 }}{{ fmt(r.diff) }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{% if es %}Error = media − resultado, en puntos. Cuentan los {{ 'candidatos' if d.presidential else 'partidos' }}
+    que sacaron al menos el 3 %. Encuestas y resultado: <a href="{{ le.page }}" rel="noopener">Wikipedia</a> (CC BY-SA 4.0).{% else %}Error
+    = mitjana − resultat, en punts. Compten els {{ 'candidats' if d.presidential else 'partits' }} que van treure almenys
+    el 3 %. Enquestes i resultat: <a href="{{ le.page }}" rel="noopener">Wikipedia</a> (CC BY-SA 4.0).{% endif %}</p>
+{% endif %}

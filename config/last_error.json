@@ -1,0 +1,2030 @@
+{
+ "computed": "2026-11-14",
+ "main_share": 3.0,
+ "elections": {
+  "eu-at": {
+   "id": "eu-at",
+   "status": "ok",
+   "date": "2024-09-29",
+   "election": "2024 legislative election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Austrian_legislative_election",
+   "result_from": "previous",
+   "cutoff": "2024-09-28",
+   "n_polls": 8,
+   "mae": 1.0,
+   "rows": [
+    {
+     "party": "?FREEDOMPARTYOFAUSTRIA",
+     "average": 26.97,
+     "result": 28.8,
+     "diff": -1.83
+    },
+    {
+     "party": "?AUSTRIANPEOPLESPARTY",
+     "average": 24.59,
+     "result": 26.3,
+     "diff": -1.71
+    },
+    {
+     "party": "?SOCIALDEMOCRATICPARTYOFAUSTRIA",
+     "average": 20.88,
+     "result": 21.1,
+     "diff": -0.22
+    },
+    {
+     "party": "?NEOSTHENEWAUSTRIAANDLIBERALFORUM",
+     "average": 9.88,
+     "result": 9.1,
+     "diff": 0.78
+    },
+    {
+     "party": "?THEGREENSTHEGREENALTERNATIVE",
+     "average": 8.65,
+     "result": 8.2,
+     "diff": 0.45
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?FREEDOMPARTYOFAUSTRIA": "FPÖ",
+    "?AUSTRIANPEOPLESPARTY": "ÖVP",
+    "?SOCIALDEMOCRATICPARTYOFAUSTRIA": "SPÖ",
+    "?NEOSTHENEWAUSTRIAANDLIBERALFORUM": "NEOS",
+    "?THEGREENSTHEGREENALTERNATIVE": "Grüne"
+   },
+   "colors": {
+    "?FREEDOMPARTYOFAUSTRIA": "#0056A2",
+    "?AUSTRIANPEOPLESPARTY": "#63C3D0",
+    "?SOCIALDEMOCRATICPARTYOFAUSTRIA": "#E42712",
+    "?NEOSTHENEWAUSTRIAANDLIBERALFORUM": "#CB1667",
+    "?THEGREENSTHEGREENALTERNATIVE": "#87B529"
+   }
+  },
+  "eu-bg": {
+   "id": "eu-bg",
+   "status": "ok",
+   "date": "2026-04-19",
+   "election": "2026 election",
+   "page": "https://en.wikipedia.org/wiki/2026_Bulgarian_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2026-04-18",
+   "n_polls": 7,
+   "mae": 3.0,
+   "rows": [
+    {
+     "party": "?PROGRESSIVEBULGARIA",
+     "average": 33.91,
+     "result": 43.9,
+     "diff": -9.99
+    },
+    {
+     "party": "?GERBSDS",
+     "average": 19.5,
+     "result": 13.2,
+     "diff": 6.3
+    },
+    {
+     "party": "?PPDB",
+     "average": 11.62,
+     "result": 12.4,
+     "diff": -0.78
+    },
+    {
+     "party": "?MOVEMENTFORRIGHTSANDFREEDOMS",
+     "average": 9.66,
+     "result": 7.0,
+     "diff": 2.66
+    },
+    {
+     "party": "?REVIVAL",
+     "average": 6.72,
+     "result": 4.2,
+     "diff": 2.52
+    },
+    {
+     "party": "?MORALITYUNITYHONOUR",
+     "average": 3.12,
+     "result": 3.2,
+     "diff": -0.08
+    },
+    {
+     "party": "?VELICHIE",
+     "average": 2.33,
+     "result": 3.1,
+     "diff": -0.77
+    },
+    {
+     "party": "?BSPUNITEDLEFT",
+     "average": 3.93,
+     "result": 3.0,
+     "diff": 0.93
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?PROGRESSIVEBULGARIA": "PB",
+    "?GERBSDS": "GERB–SDS",
+    "?PPDB": "PP–DB",
+    "?MOVEMENTFORRIGHTSANDFREEDOMS": "DPS",
+    "?REVIVAL": "Vaz.",
+    "?MORALITYUNITYHONOUR": "MECh",
+    "?VELICHIE": "Veli.",
+    "?BSPUNITEDLEFT": "BSP–OL"
+   },
+   "colors": {
+    "?PROGRESSIVEBULGARIA": "#034A3F",
+    "?GERBSDS": "#0054A6",
+    "?PPDB": "#4200FF",
+    "?MOVEMENTFORRIGHTSANDFREEDOMS": "#0065B7",
+    "?REVIVAL": "#C09F62",
+    "?MORALITYUNITYHONOUR": "#1A2C44",
+    "?VELICHIE": "#AC2225",
+    "?BSPUNITEDLEFT": "#DB0F28"
+   }
+  },
+  "eu-hr": {
+   "id": "eu-hr",
+   "status": "few-parties",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Croatian_parliamentary_election",
+   "date": "2024-04-17",
+   "main": [
+    "?CROATIANDEMOCRATICUNION",
+    "?SOCIALDEMOCRATICPARTYOFCROATIA",
+    "?HOMELANDMOVEMENT",
+    "?WECAN",
+    "?THEBRIDGE"
+   ],
+   "have": [
+    "?ANDREJPLENKOVIC",
+    "?DAMIRVANELIC",
+    "?NIKOLAGRMOJA",
+    "?NOBODY",
+    "?SANDRABENCIC",
+    "?ZORANMILANOVIC"
+   ]
+  },
+  "eu-cz": {
+   "id": "eu-cz",
+   "status": "ok",
+   "date": "2025-10-04",
+   "election": "2025 legislative election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Czech_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2025-10-03",
+   "n_polls": 7,
+   "mae": 2.21,
+   "rows": [
+    {
+     "party": "?ANO",
+     "average": 31.62,
+     "result": 34.5,
+     "diff": -2.88
+    },
+    {
+     "party": "?ODS",
+     "average": 19.34,
+     "result": 23.4,
+     "diff": -4.06
+    },
+    {
+     "party": "?STAN",
+     "average": 11.03,
+     "result": 11.2,
+     "diff": -0.17
+    },
+    {
+     "party": "?PIRATI",
+     "average": 9.34,
+     "result": 9.0,
+     "diff": 0.34
+    },
+    {
+     "party": "?SPD",
+     "average": 12.03,
+     "result": 7.8,
+     "diff": 4.23
+    },
+    {
+     "party": "?MOTORISTSFORTHEMSELVES",
+     "average": 5.74,
+     "result": 6.8,
+     "diff": -1.06
+    },
+    {
+     "party": "?SOCDEM",
+     "average": 7.01,
+     "result": 4.3,
+     "diff": 2.71
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?ANO": "ANO",
+    "?ODS": "ODS",
+    "?STAN": "STAN",
+    "?PIRATI": "Piráti",
+    "?SPD": "SPD",
+    "?MOTORISTSFORTHEMSELVES": "Motorists for Themselves",
+    "?SOCDEM": "SOCDEM"
+   },
+   "colors": {
+    "?ANO": "#261060",
+    "?ODS": "#034EA2",
+    "?STAN": "#CD0F69",
+    "?PIRATI": "#000000",
+    "?SPD": "#004C82",
+    "?MOTORISTSFORTHEMSELVES": "#009EE3",
+    "?SOCDEM": "#FF5F61"
+   }
+  },
+  "eu-dk": {
+   "id": "eu-dk",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2026 Danish general election",
+    "2026 Danish general election",
+    "Opinion polling for the 2026 Danish general elections",
+    "Opinion polling for the 2026 Danish parliamentary election"
+   ]
+  },
+  "eu-ee": {
+   "id": "eu-ee",
+   "status": "no-previous-page",
+   "date": "2024-06-09",
+   "tried": [
+    "Opinion polling for the 2024 Estonian parliamentary election",
+    "2024 Estonian parliamentary election",
+    "Opinion polling for the 2024 Estonian parliamentary elections",
+    "Opinion polling for the 2024 Estonian legislative election",
+    "Opinion polling for the 2024 Estonian general election"
+   ]
+  },
+  "eu-fi": {
+   "id": "eu-fi",
+   "status": "ok",
+   "date": "2023-04-02",
+   "election": "2023 election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Finnish_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2023-04-01",
+   "n_polls": 2,
+   "mae": 0.79,
+   "rows": [
+    {
+     "party": "?NATIONALCOALITIONPARTY",
+     "average": 19.8,
+     "result": 20.8,
+     "diff": -1.0
+    },
+    {
+     "party": "?FINNSPARTY",
+     "average": 19.38,
+     "result": 20.1,
+     "diff": -0.72
+    },
+    {
+     "party": "?SOCIALDEMOCRATICPARTYOFFINLAND",
+     "average": 18.9,
+     "result": 19.9,
+     "diff": -1.0
+    },
+    {
+     "party": "?CENTREPARTY",
+     "average": 10.99,
+     "result": 11.3,
+     "diff": -0.31
+    },
+    {
+     "party": "?LEFTALLIANCE",
+     "average": 8.54,
+     "result": 7.1,
+     "diff": 1.44
+    },
+    {
+     "party": "?GREENLEAGUE",
+     "average": 8.75,
+     "result": 7.0,
+     "diff": 1.75
+    },
+    {
+     "party": "?SWEDISHPEOPLESPARTYOFFINLAND",
+     "average": 4.26,
+     "result": 4.3,
+     "diff": -0.04
+    },
+    {
+     "party": "?CHRISTIANDEMOCRATS",
+     "average": 4.24,
+     "result": 4.2,
+     "diff": 0.04
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?NATIONALCOALITIONPARTY": "KOK",
+    "?FINNSPARTY": "PS",
+    "?SOCIALDEMOCRATICPARTYOFFINLAND": "SDP",
+    "?CENTREPARTY": "KESK",
+    "?LEFTALLIANCE": "VAS",
+    "?GREENLEAGUE": "VIHR",
+    "?SWEDISHPEOPLESPARTYOFFINLAND": "SFP",
+    "?CHRISTIANDEMOCRATS": "KD"
+   },
+   "colors": {
+    "?NATIONALCOALITIONPARTY": "#006288",
+    "?FINNSPARTY": "#FFDE55",
+    "?SOCIALDEMOCRATICPARTYOFFINLAND": "#F54B4B",
+    "?CENTREPARTY": "#3AAD2E",
+    "?LEFTALLIANCE": "#F00A64",
+    "?GREENLEAGUE": "#006845",
+    "?SWEDISHPEOPLESPARTYOFFINLAND": "#FFDD93",
+    "?CHRISTIANDEMOCRATS": "#2B67C9"
+   }
+  },
+  "eu-de": {
+   "id": "eu-de",
+   "status": "ok",
+   "date": "2025-02-23",
+   "election": "2025 federal election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_German_federal_election",
+   "result_from": "previous",
+   "cutoff": "2025-02-22",
+   "n_polls": 15,
+   "mae": 0.88,
+   "rows": [
+    {
+     "party": "?CDUCSU",
+     "average": 29.67,
+     "result": 28.5,
+     "diff": 1.17
+    },
+    {
+     "party": "?ALTERNATIVEFORGERMANY",
+     "average": 20.49,
+     "result": 20.8,
+     "diff": -0.31
+    },
+    {
+     "party": "?SOCIALDEMOCRATICPARTYOFGERMANY",
+     "average": 15.3,
+     "result": 16.4,
+     "diff": -1.1
+    },
+    {
+     "party": "?ALLIANCE90THEGREENS",
+     "average": 12.92,
+     "result": 11.6,
+     "diff": 1.32
+    },
+    {
+     "party": "?THELEFT",
+     "average": 7.02,
+     "result": 8.8,
+     "diff": -1.78
+    },
+    {
+     "party": "?SAHRAWAGENKNECHTALLIANCE",
+     "average": 4.57,
+     "result": 5.0,
+     "diff": -0.43
+    },
+    {
+     "party": "?FREEDEMOCRATICPARTY",
+     "average": 4.34,
+     "result": 4.3,
+     "diff": 0.04
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?CDUCSU": "Union",
+    "?ALTERNATIVEFORGERMANY": "AfD",
+    "?SOCIALDEMOCRATICPARTYOFGERMANY": "SPD",
+    "?ALLIANCE90THEGREENS": "Grüne",
+    "?THELEFT": "Linke",
+    "?SAHRAWAGENKNECHTALLIANCE": "BSW",
+    "?FREEDEMOCRATICPARTY": "FDP"
+   },
+   "colors": {
+    "?CDUCSU": "#151518",
+    "?ALTERNATIVEFORGERMANY": "#00A2DE",
+    "?SOCIALDEMOCRATICPARTYOFGERMANY": "#E3000F",
+    "?ALLIANCE90THEGREENS": "#409A3C",
+    "?THELEFT": "#BE3075",
+    "?SAHRAWAGENKNECHTALLIANCE": "#792351",
+    "?FREEDEMOCRATICPARTY": "#FFED00"
+   }
+  },
+  "eu-gr": {
+   "id": "eu-gr",
+   "status": "no-previous-page",
+   "date": "2023-06-25",
+   "tried": [
+    "Opinion polling for the 2023 Greek parliamentary election",
+    "2023 Greek parliamentary election",
+    "Opinion polling for the 2023 Greek parliamentary elections",
+    "Opinion polling for the 2023 Greek legislative election",
+    "Opinion polling for the 2023 Greek general election"
+   ]
+  },
+  "eu-hu": {
+   "id": "eu-hu",
+   "status": "ok",
+   "date": "2026-04-12",
+   "election": "National Election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Hungarian_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2026-04-11",
+   "n_polls": 14,
+   "mae": 4.27,
+   "rows": [
+    {
+     "party": "?TISZA",
+     "average": 48.75,
+     "result": 55.76,
+     "diff": -7.01
+    },
+    {
+     "party": "?FIDESZKDNP",
+     "average": 41.42,
+     "result": 36.33,
+     "diff": 5.09
+    },
+    {
+     "party": "?OURHOMELANDMOVEMENT",
+     "average": 5.19,
+     "result": 5.9,
+     "diff": -0.71
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?TISZA": "TISZA",
+    "?FIDESZKDNP": "Fidesz–KDNP",
+    "?OURHOMELANDMOVEMENT": "MH"
+   },
+   "colors": {
+    "?TISZA": "#88E8FF",
+    "?FIDESZKDNP": "#FF6A00",
+    "?OURHOMELANDMOVEMENT": "#688D1B"
+   }
+  },
+  "eu-ie": {
+   "id": "eu-ie",
+   "status": "ok",
+   "date": "2024-11-29",
+   "election": "General election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Irish_general_election",
+   "result_from": "previous",
+   "cutoff": "2024-11-28",
+   "n_polls": 2,
+   "mae": 0.7,
+   "rows": [
+    {
+     "party": "?FIANNAFAIL",
+     "average": 20.84,
+     "result": 21.9,
+     "diff": -1.06
+    },
+    {
+     "party": "?FINEGAEL",
+     "average": 20.48,
+     "result": 20.8,
+     "diff": -0.32
+    },
+    {
+     "party": "?SINNFEIN",
+     "average": 19.92,
+     "result": 19.0,
+     "diff": 0.92
+    },
+    {
+     "party": "?SOCIALDEMOCRATS",
+     "average": 6.0,
+     "result": 4.8,
+     "diff": 1.2
+    },
+    {
+     "party": "?LABOURPARTY",
+     "average": 4.08,
+     "result": 4.7,
+     "diff": -0.62
+    },
+    {
+     "party": "?AONTU",
+     "average": 4.0,
+     "result": 3.9,
+     "diff": 0.1
+    },
+    {
+     "party": "?INDEPENDENTIRELAND",
+     "average": 4.0,
+     "result": 3.6,
+     "diff": 0.4
+    },
+    {
+     "party": "?GREENPARTY",
+     "average": 4.0,
+     "result": 3.0,
+     "diff": 1.0
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?FIANNAFAIL": "FF",
+    "?FINEGAEL": "FG",
+    "?SINNFEIN": "SF",
+    "?SOCIALDEMOCRATS": "SD",
+    "?LABOURPARTY": "Lab",
+    "?AONTU": "Aon",
+    "?INDEPENDENTIRELAND": "II",
+    "?GREENPARTY": "GP"
+   },
+   "colors": {
+    "?FIANNAFAIL": "#66BB66",
+    "?FINEGAEL": "#6699FF",
+    "?SINNFEIN": "#326760",
+    "?SOCIALDEMOCRATS": "#752F8B",
+    "?LABOURPARTY": "#CC0000",
+    "?AONTU": "#44532A",
+    "?INDEPENDENTIRELAND": "#3BEE56",
+    "?GREENPARTY": "#22AC6F"
+   }
+  },
+  "eu-lt": {
+   "id": "eu-lt",
+   "status": "ok",
+   "date": "2024-10-13",
+   "election": "2024 election",
+   "page": "https://en.wikipedia.org/wiki/2024_Lithuanian_parliamentary_election",
+   "result_from": "current",
+   "cutoff": "2024-10-12",
+   "n_polls": 3,
+   "mae": 1.65,
+   "rows": [
+    {
+     "party": "?SOCIALDEMOCRATICPARTYOFLITHUANIA",
+     "average": 24.25,
+     "result": 19.7,
+     "diff": 4.55
+    },
+    {
+     "party": "?HOMELANDUNION",
+     "average": 16.13,
+     "result": 18.35,
+     "diff": -2.22
+    },
+    {
+     "party": "?DAWNOFNEMUNAS",
+     "average": 14.9,
+     "result": 15.26,
+     "diff": -0.36
+    },
+    {
+     "party": "?UNIONOFDEMOCRATSFORLITHUANIA",
+     "average": 10.25,
+     "result": 9.4,
+     "diff": 0.85
+    },
+    {
+     "party": "?LIBERALSMOVEMENT",
+     "average": 7.82,
+     "result": 7.85,
+     "diff": -0.03
+    },
+    {
+     "party": "?LITHUANIANFARMERSANDGREENSUNION",
+     "average": 10.18,
+     "result": 7.16,
+     "diff": 3.02
+    },
+    {
+     "party": "?FREEDOMPARTY",
+     "average": 4.64,
+     "result": 4.62,
+     "diff": 0.02
+    },
+    {
+     "party": "?ELECTORALACTIONOFPOLESINLITHUANIACHRISTI",
+     "average": 1.8,
+     "result": 3.96,
+     "diff": -2.16
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?SOCIALDEMOCRATICPARTYOFLITHUANIA": "LSDP",
+    "?HOMELANDUNION": "TS– LKD",
+    "?DAWNOFNEMUNAS": "NA",
+    "?UNIONOFDEMOCRATSFORLITHUANIA": "DSVL",
+    "?LIBERALSMOVEMENT": "LS",
+    "?LITHUANIANFARMERSANDGREENSUNION": "LVŽS",
+    "?FREEDOMPARTY": "LP",
+    "?ELECTORALACTIONOFPOLESINLITHUANIACHRISTI": "LLRA −KŠS"
+   },
+   "colors": {
+    "?SOCIALDEMOCRATICPARTYOFLITHUANIA": "#E10514",
+    "?HOMELANDUNION": "#00A59B",
+    "?DAWNOFNEMUNAS": "#F25D23",
+    "?UNIONOFDEMOCRATSFORLITHUANIA": "#002060",
+    "?LIBERALSMOVEMENT": "#FF9300",
+    "?LITHUANIANFARMERSANDGREENSUNION": "#00A54F",
+    "?FREEDOMPARTY": "#E852CC",
+    "?ELECTORALACTIONOFPOLESINLITHUANIACHRISTI": "#781323"
+   }
+  },
+  "eu-lu": {
+   "id": "eu-lu",
+   "status": "no-previous-page",
+   "date": "2023-10-08",
+   "tried": [
+    "Opinion polling for the 2023 Luxembourg general election",
+    "2023 Luxembourg general election",
+    "Opinion polling for the 2023 Luxembourg general elections",
+    "Opinion polling for the 2023 Luxembourg parliamentary election"
+   ]
+  },
+  "eu-nl": {
+   "id": "eu-nl",
+   "status": "no-previous-page",
+   "date": "2025-10-29",
+   "tried": [
+    "Opinion polling for the 2025 Dutch general election",
+    "2025 Dutch general election",
+    "Opinion polling for the 2025 Dutch general elections",
+    "Opinion polling for the 2025 Dutch parliamentary election"
+   ]
+  },
+  "eu-pl": {
+   "id": "eu-pl",
+   "status": "ok",
+   "date": "2023-10-15",
+   "election": "Parliamentary election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Polish_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2023-10-14",
+   "n_polls": 15,
+   "mae": 2.03,
+   "rows": [
+    {
+     "party": "?UNITEDRIGHT",
+     "average": 34.09,
+     "result": 35.38,
+     "diff": -1.29
+    },
+    {
+     "party": "?CIVICCOALITION",
+     "average": 28.61,
+     "result": 30.7,
+     "diff": -2.09
+    },
+    {
+     "party": "?POLISHCOALITION",
+     "average": 10.73,
+     "result": 14.4,
+     "diff": -3.67
+    },
+    {
+     "party": "?THELEFT",
+     "average": 10.2,
+     "result": 8.61,
+     "diff": 1.59
+    },
+    {
+     "party": "?CONFEDERATIONLIBERTYANDINDEPENDENCE",
+     "average": 8.65,
+     "result": 7.16,
+     "diff": 1.49
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?UNITEDRIGHT": "United Right",
+    "?CIVICCOALITION": "Civic Coalition",
+    "?POLISHCOALITION": "Polish Coalition",
+    "?THELEFT": "The Left",
+    "?CONFEDERATIONLIBERTYANDINDEPENDENCE": "Confederation"
+   },
+   "colors": {
+    "?UNITEDRIGHT": "#263778",
+    "?CIVICCOALITION": "#F68F2D",
+    "?POLISHCOALITION": "#1BB100",
+    "?THELEFT": "#AC145A",
+    "?CONFEDERATIONLIBERTYANDINDEPENDENCE": "#122746"
+   }
+  },
+  "eu-pt": {
+   "id": "eu-pt",
+   "status": "ok",
+   "date": "2025-05-18",
+   "election": "2025 legislative election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Portuguese_legislative_election",
+   "result_from": "previous",
+   "cutoff": "2025-05-17",
+   "n_polls": 7,
+   "mae": 2.31,
+   "rows": [
+    {
+     "party": "?AD",
+     "average": 32.26,
+     "result": 31.8,
+     "diff": 0.46
+    },
+    {
+     "party": "?PS",
+     "average": 26.34,
+     "result": 22.8,
+     "diff": 3.54
+    },
+    {
+     "party": "?CH",
+     "average": 18.54,
+     "result": 22.8,
+     "diff": -4.26
+    },
+    {
+     "party": "?IL",
+     "average": 6.39,
+     "result": 5.4,
+     "diff": 0.99
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?AD": "AD",
+    "?PS": "PS",
+    "?CH": "CH",
+    "?IL": "IL"
+   },
+   "colors": {
+    "?AD": "#3777BC",
+    "?PS": "#FF66FF",
+    "?CH": "#202056",
+    "?IL": "#00ADEF"
+   }
+  },
+  "eu-ro": {
+   "id": "eu-ro",
+   "status": "ok",
+   "date": "2024-12-01",
+   "election": "2024 Chamber election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Romanian_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2024-11-30",
+   "n_polls": 5,
+   "mae": 2.42,
+   "rows": [
+    {
+     "party": "?SOCIALDEMOCRATICPARTY",
+     "average": 26.12,
+     "result": 21.96,
+     "diff": 4.16
+    },
+    {
+     "party": "?AURALLIANCE",
+     "average": 20.16,
+     "result": 18.01,
+     "diff": 2.15
+    },
+    {
+     "party": "?NATIONALLIBERALPARTY",
+     "average": 15.75,
+     "result": 13.2,
+     "diff": 2.55
+    },
+    {
+     "party": "?SAVEROMANIAUNION",
+     "average": 15.17,
+     "result": 12.4,
+     "diff": 2.77
+    },
+    {
+     "party": "?SOSROMANIA",
+     "average": 5.07,
+     "result": 7.36,
+     "diff": -2.29
+    },
+    {
+     "party": "?PARTYOFYOUNGPEOPLE",
+     "average": 4.6,
+     "result": 6.46,
+     "diff": -1.86
+    },
+    {
+     "party": "?DEMOCRATICUNIONOFHUNGARIANSINROMANIA",
+     "average": 5.15,
+     "result": 6.33,
+     "diff": -1.18
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?SOCIALDEMOCRATICPARTY": "PSD",
+    "?AURALLIANCE": "AUR",
+    "?NATIONALLIBERALPARTY": "PNL",
+    "?SAVEROMANIAUNION": "USR",
+    "?SOSROMANIA": "SOS",
+    "?PARTYOFYOUNGPEOPLE": "POT",
+    "?DEMOCRATICUNIONOFHUNGARIANSINROMANIA": "UDMR"
+   },
+   "colors": {
+    "?SOCIALDEMOCRATICPARTY": "#EF3340",
+    "?AURALLIANCE": "#FCB21F",
+    "?NATIONALLIBERALPARTY": "#FDE000",
+    "?SAVEROMANIAUNION": "#002A59",
+    "?SOSROMANIA": "#4DA9DA",
+    "?PARTYOFYOUNGPEOPLE": "#330099",
+    "?DEMOCRATICUNIONOFHUNGARIANSINROMANIA": "#15803C"
+   }
+  },
+  "eu-sk": {
+   "id": "eu-sk",
+   "status": "ok",
+   "date": "2023-09-30",
+   "election": "2023 elections",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Slovak_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2023-09-29",
+   "n_polls": 7,
+   "mae": 1.15,
+   "rows": [
+    {
+     "party": "?DIRECTIONSOCIALDEMOCRACY",
+     "average": 20.29,
+     "result": 22.95,
+     "diff": -2.66
+    },
+    {
+     "party": "?PROGRESSIVESLOVAKIA",
+     "average": 17.83,
+     "result": 17.96,
+     "diff": -0.13
+    },
+    {
+     "party": "?GOODCHOICE",
+     "average": 13.06,
+     "result": 14.7,
+     "diff": -1.64
+    },
+    {
+     "party": "?ORDINARYPEOPLEANDINDEPENDENTPERSONALITIE",
+     "average": 7.62,
+     "result": 8.9,
+     "diff": -1.28
+    },
+    {
+     "party": "?CHRISTIANDEMOCRATICMOVEMENT",
+     "average": 6.03,
+     "result": 6.82,
+     "diff": -0.79
+    },
+    {
+     "party": "?FREEDOMANDSOLIDARITY",
+     "average": 6.38,
+     "result": 6.32,
+     "diff": 0.06
+    },
+    {
+     "party": "?SLOVAKNATIONALPARTY",
+     "average": 5.73,
+     "result": 5.63,
+     "diff": 0.1
+    },
+    {
+     "party": "?REPUBLIC",
+     "average": 7.37,
+     "result": 4.75,
+     "diff": 2.62
+    },
+    {
+     "party": "?PARTYOFTHEHUNGARIANCOMMUNITY",
+     "average": 3.36,
+     "result": 4.39,
+     "diff": -1.03
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?DIRECTIONSOCIALDEMOCRACY": "Smer",
+    "?PROGRESSIVESLOVAKIA": "PS",
+    "?GOODCHOICE": "DV",
+    "?ORDINARYPEOPLEANDINDEPENDENTPERSONALITIE": "OĽaNO",
+    "?CHRISTIANDEMOCRATICMOVEMENT": "KDH",
+    "?FREEDOMANDSOLIDARITY": "SASKA",
+    "?SLOVAKNATIONALPARTY": "SNS",
+    "?REPUBLIC": "REP",
+    "?PARTYOFTHEHUNGARIANCOMMUNITY": "SMK/MKP"
+   },
+   "colors": {
+    "?DIRECTIONSOCIALDEMOCRACY": "#D82222",
+    "?PROGRESSIVESLOVAKIA": "#00BDFF",
+    "?GOODCHOICE": "#FF002B",
+    "?ORDINARYPEOPLEANDINDEPENDENTPERSONALITIE": "#BED62F",
+    "?CHRISTIANDEMOCRATICMOVEMENT": "#173A70",
+    "?FREEDOMANDSOLIDARITY": "#74FD00",
+    "?SLOVAKNATIONALPARTY": "#253A79",
+    "?REPUBLIC": "#E30512",
+    "?PARTYOFTHEHUNGARIANCOMMUNITY": "#029C02"
+   }
+  },
+  "eu-si": {
+   "id": "eu-si",
+   "status": "ok",
+   "date": "2026-03-22",
+   "election": "Election results",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Slovenian_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2026-03-21",
+   "n_polls": 5,
+   "mae": 1.06,
+   "rows": [
+    {
+     "party": "?FREEDOMMOVEMENT",
+     "average": 27.12,
+     "result": 28.7,
+     "diff": -1.58
+    },
+    {
+     "party": "?SLOVENIANDEMOCRATICPARTY",
+     "average": 26.82,
+     "result": 27.9,
+     "diff": -1.08
+    },
+    {
+     "party": "?NEWSLOVENIA",
+     "average": 8.45,
+     "result": 9.3,
+     "diff": -0.85
+    },
+    {
+     "party": "?SOCIALDEMOCRATS",
+     "average": 7.48,
+     "result": 6.7,
+     "diff": 0.78
+    },
+    {
+     "party": "?DEMOCRATSOFANZELOGAR",
+     "average": 6.98,
+     "result": 6.7,
+     "diff": 0.28
+    },
+    {
+     "party": "?THELEFT",
+     "average": 8.12,
+     "result": 5.7,
+     "diff": 2.42
+    },
+    {
+     "party": "?RESNICA",
+     "average": 4.24,
+     "result": 5.5,
+     "diff": -1.26
+    },
+    {
+     "party": "?PREROD",
+     "average": 2.89,
+     "result": 3.1,
+     "diff": -0.21
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?FREEDOMMOVEMENT": "GS",
+    "?SLOVENIANDEMOCRATICPARTY": "SDS",
+    "?NEWSLOVENIA": "NSi",
+    "?SOCIALDEMOCRATS": "SD",
+    "?DEMOCRATSOFANZELOGAR": "DEM",
+    "?THELEFT": "Levica",
+    "?RESNICA": "RES",
+    "?PREROD": "PVP"
+   },
+   "colors": {
+    "?FREEDOMMOVEMENT": "#00569D",
+    "?SLOVENIANDEMOCRATICPARTY": "#FCDC00",
+    "?NEWSLOVENIA": "#009AC7",
+    "?SOCIALDEMOCRATS": "#E3000F",
+    "?DEMOCRATSOFANZELOGAR": "#09115E",
+    "?THELEFT": "#FF4D4D",
+    "?RESNICA": "#7C5199",
+    "?PREROD": "#6E288F"
+   }
+  },
+  "eu-se": {
+   "id": "eu-se",
+   "status": "ok",
+   "date": "2026-09-13",
+   "election": "2026 election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Swedish_general_election",
+   "result_from": "previous",
+   "cutoff": "2026-09-12",
+   "n_polls": 7,
+   "mae": 0.96,
+   "rows": [
+    {
+     "party": "?SWEDISHSOCIALDEMOCRATICPARTY",
+     "average": 28.3,
+     "result": 28.0,
+     "diff": 0.3
+    },
+    {
+     "party": "?MODERATEPARTY",
+     "average": 17.32,
+     "result": 19.9,
+     "diff": -2.58
+    },
+    {
+     "party": "?SWEDENDEMOCRATS",
+     "average": 19.03,
+     "result": 17.5,
+     "diff": 1.53
+    },
+    {
+     "party": "?LEFTPARTY",
+     "average": 7.51,
+     "result": 8.4,
+     "diff": -0.89
+    },
+    {
+     "party": "?CENTREPARTY",
+     "average": 7.81,
+     "result": 7.0,
+     "diff": 0.81
+    },
+    {
+     "party": "?CHRISTIANDEMOCRATS",
+     "average": 6.5,
+     "result": 6.2,
+     "diff": 0.3
+    },
+    {
+     "party": "?GREENPARTY",
+     "average": 6.83,
+     "result": 6.1,
+     "diff": 0.73
+    },
+    {
+     "party": "?LIBERALS",
+     "average": 4.78,
+     "result": 5.3,
+     "diff": -0.52
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?SWEDISHSOCIALDEMOCRATICPARTY": "S",
+    "?MODERATEPARTY": "M",
+    "?SWEDENDEMOCRATS": "SD",
+    "?LEFTPARTY": "V",
+    "?CENTREPARTY": "C",
+    "?CHRISTIANDEMOCRATS": "KD",
+    "?GREENPARTY": "MP",
+    "?LIBERALS": "L"
+   },
+   "colors": {
+    "?SWEDISHSOCIALDEMOCRATICPARTY": "#ED1B34",
+    "?MODERATEPARTY": "#019CDB",
+    "?SWEDENDEMOCRATS": "#FEDF09",
+    "?LEFTPARTY": "#B00000",
+    "?CENTREPARTY": "#114838",
+    "?CHRISTIANDEMOCRATS": "#231977",
+    "?GREENPARTY": "#2B912C",
+    "?LIBERALS": "#006AB3"
+   }
+  },
+  "eu-gb": {
+   "id": "eu-gb",
+   "status": "ok",
+   "date": "2024-07-04",
+   "election": "2024 general election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_United_Kingdom_general_election",
+   "result_from": "previous",
+   "cutoff": "2024-07-03",
+   "n_polls": 38,
+   "mae": 2.18,
+   "rows": [
+    {
+     "party": "?LABOURPARTY",
+     "average": 39.69,
+     "result": 33.7,
+     "diff": 5.99
+    },
+    {
+     "party": "?CONSERVATIVEPARTY",
+     "average": 21.48,
+     "result": 23.7,
+     "diff": -2.22
+    },
+    {
+     "party": "?REFORMUK",
+     "average": 15.63,
+     "result": 14.3,
+     "diff": 1.33
+    },
+    {
+     "party": "?LIBDEMS",
+     "average": 11.31,
+     "result": 12.2,
+     "diff": -0.89
+    },
+    {
+     "party": "?GREENPARTIESINTHEUNITEDKINGDOM",
+     "average": 6.31,
+     "result": 6.8,
+     "diff": -0.49
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?LABOURPARTY": "Lab",
+    "?CONSERVATIVEPARTY": "Con",
+    "?REFORMUK": "Ref",
+    "?LIBDEMS": "LD",
+    "?GREENPARTIESINTHEUNITEDKINGDOM": "Grn"
+   },
+   "colors": {
+    "?LABOURPARTY": "#E41C3E",
+    "?CONSERVATIVEPARTY": "#0087DC",
+    "?REFORMUK": "#1EB8D0",
+    "?LIBDEMS": "#FAA61A",
+    "?GREENPARTIESINTHEUNITEDKINGDOM": "#02A95B"
+   }
+  },
+  "eu-no": {
+   "id": "eu-no",
+   "status": "ok",
+   "date": "2025-09-08",
+   "election": "2025 election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Norwegian_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2025-09-07",
+   "n_polls": 6,
+   "mae": 1.01,
+   "rows": [
+    {
+     "party": "?LABOURPARTY",
+     "average": 27.34,
+     "result": 28.0,
+     "diff": -0.66
+    },
+    {
+     "party": "?PROGRESSPARTY",
+     "average": 20.55,
+     "result": 23.9,
+     "diff": -3.35
+    },
+    {
+     "party": "?CONSERVATIVEPARTY",
+     "average": 14.24,
+     "result": 14.6,
+     "diff": -0.36
+    },
+    {
+     "party": "?SOCIALISTLEFTPARTY",
+     "average": 5.98,
+     "result": 5.6,
+     "diff": 0.38
+    },
+    {
+     "party": "?CENTREPARTY",
+     "average": 6.15,
+     "result": 5.6,
+     "diff": 0.55
+    },
+    {
+     "party": "?REDPARTY",
+     "average": 6.23,
+     "result": 5.3,
+     "diff": 0.93
+    },
+    {
+     "party": "?GREENPARTY",
+     "average": 6.14,
+     "result": 4.7,
+     "diff": 1.44
+    },
+    {
+     "party": "?CHRISTIANDEMOCRATICPARTY",
+     "average": 5.04,
+     "result": 4.2,
+     "diff": 0.84
+    },
+    {
+     "party": "?LIBERALPARTY",
+     "average": 4.28,
+     "result": 3.7,
+     "diff": 0.58
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?LABOURPARTY": "Ap",
+    "?PROGRESSPARTY": "FrP",
+    "?CONSERVATIVEPARTY": "H",
+    "?SOCIALISTLEFTPARTY": "SV",
+    "?CENTREPARTY": "Sp",
+    "?REDPARTY": "R",
+    "?GREENPARTY": "MDG",
+    "?CHRISTIANDEMOCRATICPARTY": "KrF",
+    "?LIBERALPARTY": "V"
+   },
+   "colors": {
+    "?LABOURPARTY": "#E11926",
+    "?PROGRESSPARTY": "#004F80",
+    "?CONSERVATIVEPARTY": "#0065F1",
+    "?SOCIALISTLEFTPARTY": "#B5317C",
+    "?CENTREPARTY": "#00843D",
+    "?REDPARTY": "#871212",
+    "?GREENPARTY": "#6A9325",
+    "?CHRISTIANDEMOCRATICPARTY": "#FDED34",
+    "?LIBERALPARTY": "#006666"
+   }
+  },
+  "eu-is": {
+   "id": "eu-is",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2024 Næstu alþingiskosningar",
+    "2024 Næstu alþingiskosningar"
+   ]
+  },
+  "eu-me": {
+   "id": "eu-me",
+   "status": "ok",
+   "date": "2023-06-11",
+   "election": "Election results",
+   "page": "https://en.wikipedia.org/wiki/2023_Montenegrin_parliamentary_election",
+   "result_from": "current",
+   "cutoff": "2023-06-10",
+   "n_polls": 3,
+   "mae": 1.99,
+   "rows": [
+    {
+     "party": "?EUROPENOW",
+     "average": 32.08,
+     "result": 25.5,
+     "diff": 6.58
+    },
+    {
+     "party": "?DEMOCRATICPARTYOFSOCIALISTSOFMONTENEGRO",
+     "average": 22.8,
+     "result": 23.2,
+     "diff": -0.4
+    },
+    {
+     "party": "?NEWSERBDEMOCRACY",
+     "average": 14.52,
+     "result": 14.7,
+     "diff": -0.18
+    },
+    {
+     "party": "?DEMOCRATICMONTENEGRO",
+     "average": 11.42,
+     "result": 12.5,
+     "diff": -1.08
+    },
+    {
+     "party": "?BOSNIAKPARTY",
+     "average": 4.34,
+     "result": 7.1,
+     "diff": -2.76
+    },
+    {
+     "party": "?SOCIALISTPEOPLESPARTYOFMONTENEGRO",
+     "average": 2.13,
+     "result": 3.1,
+     "diff": -0.97
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?EUROPENOW": "PES",
+    "?DEMOCRATICPARTYOFSOCIALISTSOFMONTENEGRO": "DPS",
+    "?NEWSERBDEMOCRACY": "NSD",
+    "?DEMOCRATICMONTENEGRO": "DCG",
+    "?BOSNIAKPARTY": "BS",
+    "?SOCIALISTPEOPLESPARTYOFMONTENEGRO": "SNP"
+   },
+   "colors": {
+    "?EUROPENOW": "#F1C851",
+    "?DEMOCRATICPARTYOFSOCIALISTSOFMONTENEGRO": "#524FA1",
+    "?NEWSERBDEMOCRACY": "#163868",
+    "?DEMOCRATICMONTENEGRO": "#F5911D",
+    "?BOSNIAKPARTY": "#0B9444",
+    "?SOCIALISTPEOPLESPARTYOFMONTENEGRO": "#00A2E4"
+   }
+  },
+  "eu-ch": {
+   "id": "eu-ch",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2023 Élections fédérales suisses de 2027",
+    "2023 Élections fédérales suisses de 2027"
+   ]
+  },
+  "eu-tr": {
+   "id": "eu-tr",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2023 Bir sonraki Türkiye genel seçimleri için yapılan anketler",
+    "2023 Bir sonraki Türkiye genel seçimleri için yapılan anketler"
+   ]
+  },
+  "eu-md": {
+   "id": "eu-md",
+   "status": "ok",
+   "date": "2025-09-28",
+   "election": "2025 parliamentary election",
+   "page": "https://en.wikipedia.org/wiki/2025_Moldovan_parliamentary_election",
+   "result_from": "current",
+   "cutoff": "2025-09-27",
+   "n_polls": 5,
+   "mae": 2.85,
+   "rows": [
+    {
+     "party": "?PARTYOFACTIONANDSOLIDARITY",
+     "average": 43.81,
+     "result": 50.2,
+     "diff": -6.39
+    },
+    {
+     "party": "?PARTYOFSOCIALISTSOFTHEREPUBLICOFMOLDOVA",
+     "average": 26.68,
+     "result": 24.2,
+     "diff": 2.48
+    },
+    {
+     "party": "?NATIONALALTERNATIVEMOVEMENT",
+     "average": 8.36,
+     "result": 7.96,
+     "diff": 0.4
+    },
+    {
+     "party": "?OURPARTY",
+     "average": 8.78,
+     "result": 6.2,
+     "diff": 2.58
+    },
+    {
+     "party": "?DEMOCRACYATHOMEPARTY",
+     "average": 3.2,
+     "result": 5.62,
+     "diff": -2.42
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?PARTYOFACTIONANDSOLIDARITY": "PAS",
+    "?PARTYOFSOCIALISTSOFTHEREPUBLICOFMOLDOVA": "PSRM",
+    "?NATIONALALTERNATIVEMOVEMENT": "MAN",
+    "?OURPARTY": "PN",
+    "?DEMOCRACYATHOMEPARTY": "PPDA"
+   },
+   "colors": {
+    "?PARTYOFACTIONANDSOLIDARITY": "#FFDD00",
+    "?PARTYOFSOCIALISTSOFTHEREPUBLICOFMOLDOVA": "#9C162E",
+    "?NATIONALALTERNATIVEMOVEMENT": "#0F7B61",
+    "?OURPARTY": "#2680FA",
+    "?DEMOCRACYATHOMEPARTY": "#24247A"
+   }
+  },
+  "w-ca": {
+   "id": "w-ca",
+   "status": "ok",
+   "date": "2025-04-28",
+   "election": "2025 election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election",
+   "result_from": "previous",
+   "cutoff": "2025-04-27",
+   "n_polls": 21,
+   "mae": 1.59,
+   "rows": [
+    {
+     "party": "?LIBERALPARTYOFCANADA",
+     "average": 42.5,
+     "result": 43.8,
+     "diff": -1.3
+    },
+    {
+     "party": "?CONSERVATIVEPARTYOFCANADA",
+     "average": 38.82,
+     "result": 41.3,
+     "diff": -2.48
+    },
+    {
+     "party": "?NEWDEMOCRATICPARTY",
+     "average": 8.58,
+     "result": 6.3,
+     "diff": 2.28
+    },
+    {
+     "party": "?BLOCQUEBECOIS",
+     "average": 5.98,
+     "result": 6.3,
+     "diff": -0.32
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?LIBERALPARTYOFCANADA": "LPC",
+    "?CONSERVATIVEPARTYOFCANADA": "CPC",
+    "?NEWDEMOCRATICPARTY": "NDP",
+    "?BLOCQUEBECOIS": "BQ"
+   },
+   "colors": {
+    "?LIBERALPARTYOFCANADA": "#EA6D6A",
+    "?CONSERVATIVEPARTYOFCANADA": "#6495ED",
+    "?NEWDEMOCRATICPARTY": "#F4A460",
+    "?BLOCQUEBECOIS": "#87CEFA"
+   }
+  },
+  "w-au": {
+   "id": "w-au",
+   "status": "ok",
+   "date": "2025-05-03",
+   "election": "Election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Australian_federal_election",
+   "result_from": "previous",
+   "cutoff": "2025-05-02",
+   "n_polls": 2,
+   "mae": 1.86,
+   "rows": [
+    {
+     "party": "?AUSTRALIANLABORPARTY",
+     "average": 32.0,
+     "result": 34.6,
+     "diff": -2.6
+    },
+    {
+     "party": "?COALITION",
+     "average": 34.75,
+     "result": 31.8,
+     "diff": 2.95
+    },
+    {
+     "party": "?AUSTRALIANGREENS",
+     "average": 13.75,
+     "result": 12.2,
+     "diff": 1.55
+    },
+    {
+     "party": "?PAULINEHANSONSONENATION",
+     "average": 6.75,
+     "result": 6.4,
+     "diff": 0.35
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?AUSTRALIANLABORPARTY": "ALP",
+    "?COALITION": "L/NP",
+    "?AUSTRALIANGREENS": "GRN",
+    "?PAULINEHANSONSONENATION": "ONP"
+   },
+   "colors": {
+    "?AUSTRALIANLABORPARTY": "#F00011",
+    "?COALITION": "#225479",
+    "?AUSTRALIANGREENS": "#10C25B",
+    "?PAULINEHANSONSONENATION": "#F36C21"
+   }
+  },
+  "w-nz": {
+   "id": "w-nz",
+   "status": "ok",
+   "date": "2026-11-07",
+   "election": "2026 preliminary election result",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_New_Zealand_general_election",
+   "result_from": "previous",
+   "cutoff": "2026-11-06",
+   "n_polls": 7,
+   "mae": 0.86,
+   "rows": [
+    {
+     "party": "?NEWZEALANDLABOURPARTY",
+     "average": 29.26,
+     "result": 29.36,
+     "diff": -0.1
+    },
+    {
+     "party": "?NEWZEALANDNATIONALPARTY",
+     "average": 27.49,
+     "result": 29.21,
+     "diff": -1.72
+    },
+    {
+     "party": "?GREENPARTYOFAOTEAROANEWZEALAND",
+     "average": 14.68,
+     "result": 13.3,
+     "diff": 1.38
+    },
+    {
+     "party": "?ACTNEWZEALAND",
+     "average": 10.12,
+     "result": 10.92,
+     "diff": -0.8
+    },
+    {
+     "party": "?NEWZEALANDFIRST",
+     "average": 10.06,
+     "result": 9.78,
+     "diff": 0.28
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?NEWZEALANDLABOURPARTY": "LAB",
+    "?NEWZEALANDNATIONALPARTY": "NAT",
+    "?GREENPARTYOFAOTEAROANEWZEALAND": "GRN",
+    "?ACTNEWZEALAND": "ACT",
+    "?NEWZEALANDFIRST": "NZF"
+   },
+   "colors": {
+    "?NEWZEALANDLABOURPARTY": "#FFB6B6",
+    "?NEWZEALANDNATIONALPARTY": "#B0CEFF",
+    "?GREENPARTYOFAOTEAROANEWZEALAND": "#90EE90",
+    "?ACTNEWZEALAND": "#FFFF00",
+    "?NEWZEALANDFIRST": "#D3D3D3"
+   }
+  },
+  "w-jp": {
+   "id": "w-jp",
+   "status": "no-previous-page",
+   "date": "2026-02-08",
+   "tried": [
+    "Opinion polling for the 2026 Japanese general election",
+    "2026 Japanese general election",
+    "Opinion polling for the 2026 Japanese general elections",
+    "Opinion polling for the 2026 Japanese parliamentary election"
+   ]
+  },
+  "w-kr": {
+   "id": "w-kr",
+   "status": "ok",
+   "date": "2025-06-03",
+   "election": "2025 South Korean presidential election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_South_Korean_presidential_election",
+   "result_from": "previous",
+   "cutoff": "2025-06-02",
+   "n_polls": 28,
+   "mae": 2.08,
+   "rows": [
+    {
+     "party": "?LEEJAEMYUNG",
+     "average": 47.06,
+     "result": 49.42,
+     "diff": -2.36
+    },
+    {
+     "party": "?KIMMOONSOO",
+     "average": 38.0,
+     "result": 41.15,
+     "diff": -3.15
+    },
+    {
+     "party": "?LEEJUNSEOK",
+     "average": 9.07,
+     "result": 8.34,
+     "diff": 0.73
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?LEEJAEMYUNG": "Lee Jae-myung",
+    "?KIMMOONSOO": "Kim Moon-soo",
+    "?LEEJUNSEOK": "Lee Jun-seok"
+   },
+   "colors": {
+    "?LEEJAEMYUNG": "#152484",
+    "?KIMMOONSOO": "#E61E2B",
+    "?LEEJUNSEOK": "#ED6C00"
+   }
+  },
+  "w-mx": {
+   "id": "w-mx",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2024 Mexican legislative election",
+    "2024 Mexican legislative election",
+    "Opinion polling for the 2024 Mexican legislative elections",
+    "Opinion polling for the 2024 Mexican parliamentary election"
+   ]
+  },
+  "w-ar": {
+   "id": "w-ar",
+   "status": "ok",
+   "date": "2023-10-22",
+   "election": "General elections",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Argentine_general_election",
+   "result_from": "previous",
+   "cutoff": "2023-10-21",
+   "n_polls": 26,
+   "mae": 3.23,
+   "rows": [
+    {
+     "party": "?UNIONFORTHEHOMELAND",
+     "average": 29.6,
+     "result": 36.68,
+     "diff": -7.08
+    },
+    {
+     "party": "?LALIBERTADAVANZA",
+     "average": 32.27,
+     "result": 29.98,
+     "diff": 2.29
+    },
+    {
+     "party": "?JUNTOSPORELCAMBIO",
+     "average": 24.61,
+     "result": 23.83,
+     "diff": 0.78
+    },
+    {
+     "party": "?HACEMOSPORNUESTROPAIS",
+     "average": 4.03,
+     "result": 6.78,
+     "diff": -2.75
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?UNIONFORTHEHOMELAND": "Union for the Homeland",
+    "?LALIBERTADAVANZA": "La Libertad Avanza",
+    "?JUNTOSPORELCAMBIO": "Juntos por el Cambio",
+    "?HACEMOSPORNUESTROPAIS": "Hacemos por Nuestro País"
+   },
+   "colors": {
+    "?UNIONFORTHEHOMELAND": "#00BEFF",
+    "?LALIBERTADAVANZA": "#6C4C99",
+    "?JUNTOSPORELCAMBIO": "#FFD700",
+    "?HACEMOSPORNUESTROPAIS": "#1273BD"
+   }
+  },
+  "w-gt": {
+   "id": "w-gt",
+   "status": "few-parties",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Guatemalan_general_election",
+   "date": "2023-06-25",
+   "main": [
+    "?SANDRATORRES",
+    "?BERNARDOAREVALO",
+    "?MANUELCONDEORELLANA",
+    "?ARMANDOCASTILLO",
+    "?EDMONDMULET",
+    "?ZURYRIOS",
+    "?MANUELVILLACORTA",
+    "?VICTORY"
+   ],
+   "have": []
+  },
+  "w-ph": {
+   "id": "w-ph",
+   "status": "few-parties",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2022_Philippine_presidential_election",
+   "date": "2022-05-09",
+   "main": [
+    "?BONGBONGMARCOS",
+    "?LENIROBREDO",
+    "?MANNYPACQUIAO",
+    "?ISKOMORENO"
+   ],
+   "have": [
+    "?DEMOCRATICPARTYOFTHEPHILIPPINES",
+    "?KATIPUNANNGKAMALAYANGKAYUMANGGI",
+    "?KIKOPANGILINAN",
+    "?LITOATIENZA",
+    "?MANNYSDLOPEZ",
+    "?REFUSED",
+    "?SARADUTERTE",
+    "?TITOSOTTO",
+    "?WALDENBELLO",
+    "?WILLIEONG"
+   ]
+  },
+  "w-tw": {
+   "id": "w-tw",
+   "status": "no-previous-page",
+   "date": "2024-01-13",
+   "tried": [
+    "Opinion polling for the 2024 Taiwanese legislative election",
+    "2024 Taiwanese legislative election",
+    "Opinion polling for the 2024 Taiwanese legislative elections",
+    "Opinion polling for the 2024 Taiwanese parliamentary election"
+   ]
+  },
+  "w-gm": {
+   "id": "w-gm",
+   "status": "no-previous-page",
+   "date": "2021-12-04",
+   "tried": [
+    "Opinion polling for the 2021 Gambian presidential election",
+    "2021 Gambian presidential election",
+    "Opinion polling for the 2021 Gambian presidential elections"
+   ]
+  },
+  "w-sv": {
+   "id": "w-sv",
+   "status": "no-previous-page",
+   "date": "2024-02-04",
+   "tried": [
+    "Opinion polling for the 2024 Salvadoran elections",
+    "2024 Salvadoran elections"
+   ]
+  },
+  "w-za": {
+   "id": "w-za",
+   "status": "ok",
+   "date": "2024-05-29",
+   "election": "2024 general election",
+   "page": "https://en.wikipedia.org/wiki/2024_South_African_general_election",
+   "result_from": "previous",
+   "cutoff": "2024-05-28",
+   "n_polls": 3,
+   "mae": 1.01,
+   "rows": [
+    {
+     "party": "?AFRICANNATIONALCONGRESS",
+     "average": 40.2,
+     "result": 40.2,
+     "diff": 0.0
+    },
+    {
+     "party": "?DEMOCRATICALLIANCE",
+     "average": 20.96,
+     "result": 21.8,
+     "diff": -0.84
+    },
+    {
+     "party": "?UMKHONTOWESIZWE",
+     "average": 13.31,
+     "result": 14.6,
+     "diff": -1.29
+    },
+    {
+     "party": "?ECONOMICFREEDOMFIGHTERS",
+     "average": 11.45,
+     "result": 9.5,
+     "diff": 1.95
+    },
+    {
+     "party": "?INKATHAFREEDOMPARTY",
+     "average": 2.92,
+     "result": 3.9,
+     "diff": -0.98
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?AFRICANNATIONALCONGRESS": "ANC",
+    "?DEMOCRATICALLIANCE": "DA",
+    "?UMKHONTOWESIZWE": "MK",
+    "?ECONOMICFREEDOMFIGHTERS": "EFF",
+    "?INKATHAFREEDOMPARTY": "IFP"
+   },
+   "colors": {
+    "?AFRICANNATIONALCONGRESS": "#006600",
+    "?DEMOCRATICALLIANCE": "#005BA6",
+    "?UMKHONTOWESIZWE": "#56AA48",
+    "?ECONOMICFREEDOMFIGHTERS": "#852A2A",
+    "?INKATHAFREEDOMPARTY": "#FF0000"
+   }
+  },
+  "w-ge": {
+   "id": "w-ge",
+   "status": "few-parties",
+   "page": "https://en.wikipedia.org/wiki/2024_Georgian_parliamentary_election",
+   "date": "2024-10-26",
+   "main": [
+    "?GEORGIANDREAM",
+    "?COALITIONFORCHANGE",
+    "?UNITYNATIONALMOVEMENT",
+    "?STRONGGEORGIA",
+    "?FORGEORGIA",
+    "?PARTYOFTHEFREE"
+   ],
+   "have": [
+    "?ALLIANCEOFPATRIOTSOFGEORGIA",
+    "?FORGEORGIA",
+    "?GEORGIANDREAM",
+    "?GEORGIANLABOURPARTY",
+    "?GIRCHIMOREFREEDOM",
+    "?LELOFORGEORGIA",
+    "?NEWPOLITICALCENTREGIRCHI",
+    "?UNITEDNATIONALMOVEMENT"
+   ]
+  },
+  "w-ua": {
+   "id": "w-ua",
+   "status": "few-parties",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2019_Ukrainian_presidential_election",
+   "date": "2019-03-31",
+   "main": [
+    "?ZELENSKYYSN",
+    "?POROSHENKOYES",
+    "?TYMOSHENKOVOB",
+    "?BOYKOOPZZH",
+    "?HRYTSENKOHP",
+    "?SMESHKOSICH",
+    "?LIASHKORPOL",
+    "?VILKULOPOBLOK"
+   ],
+   "have": [
+    "?BOYKOIND",
+    "?DECIDED",
+    "?HRYTSENKOCP",
+    "?KOSHULSVOBODA",
+    "?LIASHKORP",
+    "?MURAYEVOURS",
+    "?POROSHENKOIND",
+    "?SADOVYIOS",
+    "?SHEVCHUKROP",
+    "?SMESHKOIND",
+    "?TYMOSHENKOFA",
+    "?VILKULOBPDP",
+    "?ZELENSKYYSP"
+   ]
+  },
+  "w-ve": {
+   "id": "w-ve",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2026 Venezuelan presidential election",
+    "2026 Venezuelan presidential election",
+    "Opinion polling for the 2026 Venezuelan presidential elections",
+    "Opinion polling for the 2025 Venezuelan presidential election",
+    "2025 Venezuelan presidential election",
+    "Opinion polling for the 2025 Venezuelan presidential elections",
+    "Opinion polling for the 2024 Venezuelan presidential election",
+    "2024 Venezuelan presidential election",
+    "Opinion polling for the 2024 Venezuelan presidential elections",
+    "Opinion polling for the 2023 Venezuelan presidential election",
+    "2023 Venezuelan presidential election",
+    "Opinion polling for the 2023 Venezuelan presidential elections",
+    "Opinion polling for the 2022 Venezuelan presidential election",
+    "2022 Venezuelan presidential election",
+    "Opinion polling for the 2022 Venezuelan presidential elections",
+    "Opinion polling for the 2021 Venezuelan presidential election",
+    "2021 Venezuelan presidential election",
+    "Opinion polling for the 2021 Venezuelan presidential elections"
+   ]
+  },
+  "w-ps": {
+   "id": "w-ps",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2026 Palestinian legislative election",
+    "2026 Palestinian legislative election",
+    "Opinion polling for the 2026 Palestinian legislative elections",
+    "Opinion polling for the 2026 Palestinian parliamentary election",
+    "Opinion polling for the 2025 Palestinian legislative election",
+    "2025 Palestinian legislative election",
+    "Opinion polling for the 2025 Palestinian legislative elections",
+    "Opinion polling for the 2025 Palestinian parliamentary election",
+    "Opinion polling for the 2024 Palestinian legislative election",
+    "2024 Palestinian legislative election",
+    "Opinion polling for the 2024 Palestinian legislative elections",
+    "Opinion polling for the 2024 Palestinian parliamentary election",
+    "Opinion polling for the 2023 Palestinian legislative election",
+    "2023 Palestinian legislative election",
+    "Opinion polling for the 2023 Palestinian legislative elections",
+    "Opinion polling for the 2023 Palestinian parliamentary election",
+    "Opinion polling for the 2022 Palestinian legislative election",
+    "2022 Palestinian legislative election",
+    "Opinion polling for the 2022 Palestinian legislative elections",
+    "Opinion polling for the 2022 Palestinian parliamentary election",
+    "Opinion polling for the 2021 Palestinian legislative election",
+    "2021 Palestinian legislative election",
+    "Opinion polling for the 2021 Palestinian legislative elections",
+    "Opinion polling for the 2021 Palestinian parliamentary election"
+   ]
+  },
+  "w-in": {
+   "id": "w-in",
+   "status": "no-previous-page",
+   "date": null,
+   "tried": [
+    "Opinion polling for the 2026 Indian general election",
+    "2026 Indian general election",
+    "Opinion polling for the 2026 Indian general elections",
+    "Opinion polling for the 2026 Indian parliamentary election",
+    "Opinion polling for the 2025 Indian general election",
+    "2025 Indian general election",
+    "Opinion polling for the 2025 Indian general elections",
+    "Opinion polling for the 2025 Indian parliamentary election",
+    "Opinion polling for the 2024 Indian general election",
+    "2024 Indian general election",
+    "Opinion polling for the 2024 Indian general elections",
+    "Opinion polling for the 2024 Indian parliamentary election",
+    "Opinion polling for the 2023 Indian general election",
+    "2023 Indian general election",
+    "Opinion polling for the 2023 Indian general elections",
+    "Opinion polling for the 2023 Indian parliamentary election",
+    "Opinion polling for the 2022 Indian general election",
+    "2022 Indian general election",
+    "Opinion polling for the 2022 Indian general elections",
+    "Opinion polling for the 2022 Indian parliamentary election",
+    "Opinion polling for the 2021 Indian general election",
+    "2021 Indian general election",
+    "Opinion polling for the 2021 Indian general elections",
+    "Opinion polling for the 2021 Indian parliamentary election"
+   ]
+  },
+  "w-id": {
+   "id": "w-id",
+   "status": "ok",
+   "date": "2024-02-14",
+   "election": "2024 election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Indonesian_presidential_election",
+   "result_from": "current",
+   "cutoff": "2024-02-13",
+   "n_polls": 18,
+   "mae": 3.8,
+   "rows": [
+    {
+     "party": "?PRABOWOSUBIANTO",
+     "average": 51.34,
+     "result": 58.6,
+     "diff": -7.26
+    },
+    {
+     "party": "?ANIESBASWEDAN",
+     "average": 23.56,
+     "result": 24.9,
+     "diff": -1.34
+    },
+    {
+     "party": "?GANJARPRANOWO",
+     "average": 19.31,
+     "result": 16.5,
+     "diff": 2.81
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?PRABOWOSUBIANTO": "Prabowo Subianto Gerindra",
+    "?ANIESBASWEDAN": "Anies Baswedan Independent",
+    "?GANJARPRANOWO": "Ganjar Pranowo PDI-P"
+   },
+   "colors": {
+    "?PRABOWOSUBIANTO": "#B79164",
+    "?ANIESBASWEDAN": "#DCDCDC",
+    "?GANJARPRANOWO": "#DB2016"
+   }
+  },
+  "w-th": {
+   "id": "w-th",
+   "status": "ok",
+   "date": "2026-02-08",
+   "election": "Election results",
+   "page": "https://en.wikipedia.org/wiki/2026_Thai_general_election",
+   "result_from": "previous",
+   "cutoff": "2026-02-07",
+   "n_polls": 5,
+   "mae": 3.24,
+   "rows": [
+    {
+     "party": "?PEOPLESPARTY",
+     "average": 36.97,
+     "result": 30.56,
+     "diff": 6.41
+    },
+    {
+     "party": "?BHUMJAITHAIPARTY",
+     "average": 17.13,
+     "result": 17.9,
+     "diff": -0.77
+    },
+    {
+     "party": "?PHEUTHAIPARTY",
+     "average": 20.28,
+     "result": 15.43,
+     "diff": 4.85
+    },
+    {
+     "party": "?DEMOCRATPARTY",
+     "average": 9.99,
+     "result": 10.91,
+     "diff": -0.92
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?PEOPLESPARTY": "PPLE ↑ MFP",
+    "?BHUMJAITHAIPARTY": "BJT",
+    "?PHEUTHAIPARTY": "PTP",
+    "?DEMOCRATPARTY": "DP"
+   },
+   "colors": {
+    "?PEOPLESPARTY": "#F47933",
+    "?BHUMJAITHAIPARTY": "#082680",
+    "?PHEUTHAIPARTY": "#E30613",
+    "?DEMOCRATPARTY": "#00A1F1"
+   }
+  }
+ }
+}

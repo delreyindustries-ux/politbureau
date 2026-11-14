@@ -102,6 +102,13 @@ def cmd_instituts(args):
     print(f"desat a {pollsters.OUT}")
 
 
+def cmd_error_anterior(args):
+    from . import lasterror
+    data = lasterror.run()
+    ok = sum(1 for e in data["elections"].values() if e.get("status") == "ok")
+    print(f"{ok} de {len(data['elections'])} paisos calculats; desat a {lasterror.OUT}")
+
+
 def cmd_congela(args):
     from . import db, final
     data = final.freeze(db.connect())
@@ -177,6 +184,8 @@ def main(argv=None):
 
     sub.add_parser("instituts", help="valoracio dels instituts d'enquestes (Wikipedia + Ministeri)"
                    ).set_defaults(func=cmd_instituts)
+    sub.add_parser("error-anterior", help="error de la mitjana a l'ultima eleccio de cada pais (Wikipedia)"
+                   ).set_defaults(func=cmd_error_anterior)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"
                    ).set_defaults(func=cmd_congela)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)
