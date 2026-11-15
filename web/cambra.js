@@ -628,17 +628,18 @@
   // Colors de cada sala. Nomes les que coneixem; la resta, sala neutra.
   const ROOM = {
     'es-congreso': { wall: '#e9d9b8', upper: '#e2cfa6', wood: '#8f5d33', dark: '#4b2e18', seat: '#962c31',
-                     front: '#1f1d21', gold: '#d6af55', floor: '#9d3f37', stair: '#8e3530', curtain: '#a21d22',
-                     clock: true, cols: 6, colc: '#3d2b20', sky: true, lamps: true, gal2: true },
+                     front: '#27448f', gold: '#d6af55', floor: '#9d3f37', stair: '#8e3530', curtain: '#a21d22',
+                     clock: true, cols: 6, colc: '#3d2b20', sky: true, lamps: true, gal2: true,
+                     frieze: 'medallions', holes: true },
     'es-senado': { wall: '#e6d5b4', upper: '#dbc7a0', wood: '#7d4e2b', dark: '#46291a', seat: '#8e2a2f',
                    front: '#1f1d21', gold: '#cfa64c', floor: '#7d2f2a', stair: '#73302a', curtain: '#8f1d22',
                    cols: 4, colc: '#5a4030', lamps: true, gal2: true },
     fr: { wall: '#e6d2a9', upper: '#dcc597', wood: '#7a4a28', dark: '#40261a', seat: '#a8282d', gold: '#d1aa52',
           floor: '#8c2f2a', stair: '#7e2b26', curtain: '#8f1d22', cols: 8, colc: '#d3c193', lamps: true, gal2: true, sky: true },
-    it: { wall: '#d9c8a3', upper: '#cfbb91', wood: '#6b4423', dark: '#3a2414', seat: '#7f2b2b', gold: '#c7a65a',
+    it: { wall: '#b08c5e', upper: '#9c7a50', frieze: 'painted', wood: '#6b4423', dark: '#3a2414', seat: '#7f2b2b', gold: '#c7a65a',
           floor: '#6e2a24', stair: '#5f2620', cols: 6, colc: '#ab966c', lamps: true, gal2: true, sky: true },
     de: { wall: '#f0f2f4', upper: '#e4e7eb', wood: '#d7d1c3', dark: '#9a9588', seat: '#4258a6', gold: '#a8b0ba',
-          floor: '#9ba4b6', stair: '#8b94a6', cols: 0, dome: true },
+          floor: '#9ba4b6', stair: '#8b94a6', cols: 0, dome: true, cone: true },
     gb: { wall: '#6e4c2c', upper: '#5d3f23', wood: '#5c3b21', dark: '#2e1d10', seat: '#2f6d3d', gold: '#b8944b',
           floor: '#2f5d37', line: '#b3262a' },
     nz: { wall: '#a37c54', upper: '#8f6c47', wood: '#6b4a2b', dark: '#3a2616', seat: '#356d46', gold: '#b99d5e',
@@ -969,6 +970,70 @@
       o += `<path d="${pier}" fill="${st.upper}"/>`;
       o += band(RW * 0.985, 1.16, 1.2, dim(st.wood, 0.2));
       o += stroke(rowCurve(P3, RW * 0.985, 1.2, PI, 0, 64), `url(#${u}gold)`, 1.4);
+    }
+    // Fris sota la cornisa. Congres: medallons amb els escuts de les provincies. Montecitori:
+    // la franja pintada que fa la volta a la sala.
+    if (st.frieze) {
+      const zA = 1.428, zB = 1.498, zm = (zA + zB) / 2;
+      o += band(RW * 0.997, zA, zB, st.frieze === 'painted' ? '#3f5a78' : dim(st.upper, 0.12)) +
+           stroke(rowCurve(P3, RW * 0.997, zA, PI, 0, 64), `url(#${u}gold)`, 0.7);
+      if (st.frieze === 'painted') {
+        // figures: taques de colors terrosos sobre el blau del fons
+        const tones = ['#c9a36a', '#a8553a', '#e2cfa6', '#7d6a4a', '#b9825a', '#d8b98a'];
+        let fg = '';
+        for (let k = 0; k < 96; k++) {
+          const t = PI * (0.015 + 0.97 * (k + hash(k + 3) * 0.6) / 96);
+          const [X, Y, sc] = at(t, RW * 0.996, zA + 0.004), h = sc * (0.034 + hash(k + 9) * 0.02), w = sc * 0.011;
+          fg += `<path d="M${f(X - w)} ${f(Y)}v${f(-h * 0.7)}q${f(w)} ${f(-h * 0.5)} ${f(2 * w)} 0v${f(h * 0.7)}Z" fill="${tones[Math.floor(hash(k + 5) * tones.length)]}" opacity=".9"/>`;
+        }
+        o += fg;
+      } else {
+        let md = '', ring = '', bar = '';
+        for (let k = 0; k < 23; k++) {
+          const t = PI * (0.03 + 0.94 * k / 22);
+          const [X, Y, sc] = at(t, RW * 0.996, zm), r = sc * 0.024;
+          ring += `<ellipse cx="${f(X)}" cy="${f(Y)}" rx="${f(r * 0.82)}" ry="${f(r)}" fill="${dim(st.wood, 0.25)}" stroke="url(#${u}gold)" stroke-width="${f(Math.max(0.5, r * 0.22))}"/>`;
+          // dins de cada medallo, l'escut d'una provincia (els de veritat porten
+          // els escuts de totes les provincies espanyoles)
+          const tone = ['#b3262a', '#e8c65a', '#2f5d9e', '#f1ead6'][k % 4];
+          md += `<path d="M${f(X - r * 0.4)} ${f(Y - r * 0.5)}h${f(r * 0.8)}v${f(r * 0.55)}q0 ${f(r * 0.4)} ${f(-r * 0.4)} ${f(r * 0.55)}q${f(-r * 0.4)} ${f(-r * 0.15)} ${f(-r * 0.4)} ${f(-r * 0.55)}Z" fill="${tone}" stroke="${lite(st.gold, 0.3)}" stroke-width="${f(Math.max(0.2, r * 0.08))}"/>`;
+          if (k < 22) {
+            const a = at(t + PI * 0.94 / 22 * 0.3, RW * 0.996, zm), b = at(t + PI * 0.94 / 22 * 0.7, RW * 0.996, zm);
+            bar += `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`;
+          }
+        }
+        o += `<path d="${bar}" stroke="url(#${u}gold)" stroke-width="1.1" stroke-linecap="round" opacity=".8"/>` + ring + md;
+      }
+    }
+    // Els impactes de bala del 23 de febrer de 1981, que es conserven al sostre.
+    if (st.holes) {
+      let hs = '';
+      for (const [k, dy] of [[37, 7], [39, 12], [41, 6], [44, 10], [27, 9]]) {
+        const pt = topCurve[k];
+        hs += `<circle cx="${f(pt[0] + (k % 3) * 1.4)}" cy="${f(pt[1] - dy)}" r=".55" fill="#3a2a1a"/><circle cx="${f(pt[0] + (k % 3) * 1.4)}" cy="${f(pt[1] - dy)}" r=".95" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width=".25"/>`;
+      }
+      o += `<g><title>${ca ? 'Impactes de bala del 23-F (1981)' : 'Impactos de bala del 23-F (1981)'}</title>${hs}</g>`;
+    }
+    // El con de miralls que baixa de la cupula del Reichstag i porta la llum
+    // del dia fins a la sala.
+    if (st.cone) {
+      const yT = -4, yB = topCurve[32][1] + 16, wT = 34, wB = 8, n = 9;
+      let fac = '';
+      for (let k = 0; k < n; k++) {
+        const a0 = -1 + 2 * k / n, a1 = -1 + 2 * (k + 1) / n;
+        // les cares del davant es veuen mes amples que les dels costats
+        const x = (a) => Math.sin(a * PI / 2);
+        const c = ['#eaf2fb', '#c3d3e6', '#f7fbff', '#a9bdd6', '#dbe6f3'][k % 5];
+        fac += `<path d="M${f(180 + x(a0) * wT / 2)} ${yT}L${f(180 + x(a1) * wT / 2)} ${yT}L${f(180 + x(a1) * wB / 2)} ${f(yB)}L${f(180 + x(a0) * wB / 2)} ${f(yB)}Z" fill="${c}" stroke="#8fa1b8" stroke-width=".3"/>`;
+      }
+      let rings = '';
+      for (let k = 1; k < 7; k++) {
+        const y = yT + (yB - yT) * k / 7, w = wT + (wB - wT) * k / 7;
+        rings += `M${f(180 - w / 2)} ${f(y)}q${f(w / 2)} ${f(w * 0.12)} ${f(w)} 0`;
+      }
+      o += `<g><title>${ca ? 'Con de miralls de la cúpula' : 'Cono de espejos de la cúpula'}</title>${fac}` +
+           `<path d="${rings}" fill="none" stroke="#8fa1b8" stroke-width=".35"/>` +
+           `<ellipse cx="180" cy="${f(yB)}" rx="${f(wB / 2)}" ry="1.1" fill="#7d8ea6"/></g>`;
     }
     // Apliques entre columnes: s'encenen els primers, a les fosques.
     const ncol = st.cols || 0;
@@ -1400,6 +1465,12 @@
         o += shape([q(x, d0 - 0.03, z), q(x, d0 + D, z), q(x, d0 + D, z - 0.075), q(x, d0 - 0.03, z - 0.075)], `url(#${u}wood)`);
       }
     }
+    // Els tres secretaris de la cambra (clerks), amb toga negra, asseguts al
+    // cap de la taula, davant del Speaker.
+    for (const [i, x] of [-0.045, 0, 0.045].entries()) {
+      const [X, Y, sc] = q(x, 1.03, 0.1);
+      o += person(X, Y + sc * 0.012, sc * 0.062, { c: '#0f0f12', n: 'Clerks' }, 5000 + i * 3, seats * 3, ca, 0.2);
+    }
     // La taula, les dues tribunes de despatx i la maça.
     const T = (x, d, z) => q(x, d, z);
     o += shape([T(-0.075, 0.3, 0.1), T(0.075, 0.3, 0.1), T(0.075, 1.0, 0.1), T(-0.075, 1.0, 0.1)], `url(#${u}top)`) +
@@ -1408,6 +1479,16 @@
       o += shape([T(sg * 0.035, 0.34, 0.1), T(sg * 0.065, 0.34, 0.1), T(sg * 0.065, 0.34, 0.14), T(sg * 0.035, 0.34, 0.14)], dim(st.wood, 0.3), ` stroke="url(#${u}gold)" stroke-width=".5"`);
     }
     o += stroke([T(0, 0.55, 0.11), T(0, 0.92, 0.11)], `url(#${u}gold)`, 2.2, ' stroke-linecap="round"');
+    // Els microfons que pengen del sostre amb un fil, damunt dels bancs.
+    {
+      let wires = '', caps = '';
+      for (const sg of [-1, 1]) for (const x of [0.12, xr(Math.floor(rows / 2)) + 0.02]) for (let k = 0; k < 5; k++) {
+        const dd2 = d0 + D * (k + 0.5) / 5, a = q(sg * x, dd2, 1.6), b = q(sg * x, dd2, 0.62 + 0.1 * (x > 0.15 ? 1 : 0));
+        wires += `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`;
+        caps += `<rect x="${f(b[0] - b[2] * 0.004)}" y="${f(b[1])}" width="${f(b[2] * 0.008)}" height="${f(b[2] * 0.022)}" rx="${f(b[2] * 0.004)}" fill="#1b1b1b"/>`;
+      }
+      o += `<g><title>${ca ? 'Micròfons penjats del sostre' : 'Micrófonos colgados del techo'}</title><path d="${wires}" stroke="#1b1b1b" stroke-width=".25" opacity=".7"/>${caps}</g>`;
+    }
     const [, yb] = q(0, d0 - 0.06, 0);
     return { svg: o, glow, h: Math.ceil(Math.min(290, yb)) };
   }

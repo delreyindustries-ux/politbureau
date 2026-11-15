@@ -1,0 +1,97 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> › <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ 'España' if es else 'Espanya' }}</a></nav>
+  <h1>{{ 'Elecciones generales, 1977-2023' if es else 'Eleccions generals, 1977-2023' }}</h1>
+  <p class="lede">{% if es %}Las {{ elections | length }} elecciones al Congreso de los Diputados desde la recuperación de la
+    democracia: quién ganó, con cuántos votos y escaños, y cuánta gente fue a votar.{% else %}Les {{ elections | length }}
+    eleccions al Congrés dels Diputats des de la recuperació de la democràcia: qui va guanyar, amb quants vots i
+    escons, i quanta gent va anar a votar.{% endif %}</p>
+
+  <h2>{{ 'Evolución del voto' if es else 'Evolució del vot' }}</h2>
+  <figure class="histchart">
+    <svg viewBox="0 0 {{ chart.w }} {{ chart.h }}" role="img" aria-label="{{ 'Porcentaje de voto de cada partido en cada elección' if es else 'Percentatge de vot de cada partit a cada elecció' }}">
+      {% for g in chart.grid %}<line x1="{{ chart.l }}" x2="{{ chart.r }}" y1="{{ g.y }}" y2="{{ g.y }}" class="gr"/><text x="{{ chart.l - 6 }}" y="{{ g.y + 3 }}" text-anchor="end">{{ g.v }}</text>{% endfor %}
+      {% for k in chart.ticks %}<text x="{{ k.x }}" y="{{ chart.b + 16 }}" text-anchor="middle">{{ k.label }}</text>{% endfor %}
+      {% for f in families %}
+      <path d="{{ f.path }}" fill="none" stroke="{{ f.color }}" stroke-width="2" stroke-linejoin="round"/>
+      {% for d in f.dots %}<circle cx="{{ d.x }}" cy="{{ d.y }}" r="2.6" fill="{{ f.color }}"><title>{{ f.name }} · {{ d.year }}: {{ fmt(d.v) }} %</title></circle>{% endfor %}
+      {% endfor %}
+    </svg>
+    <figcaption>{% for f in families %}<span><i style="background:{{ f.color }}"></i>{{ f.name }}</span>{% endfor %}</figcaption>
+  </figure>
+  <p class="fine">{% if es %}Porcentaje sobre el voto válido. Cada línea agrupa las siglas con las que se ha presentado un mismo
+    espacio político (Alianza Popular, Coalición Popular y el PP; el PCE e Izquierda Unida; Podemos, Unidas Podemos y Sumar).
+    Solo fuerzas de ámbito estatal.{% else %}Percentatge sobre el vot vàlid. Cada línia agrupa les sigles amb què s'ha presentat un
+    mateix espai polític (Aliança Popular, Coalició Popular i el PP; el PCE i Izquierda Unida; Podemos, Unidas Podemos i
+    Sumar). Només forces d'àmbit estatal.{% endif %}</p>
+
+  <h2>{{ 'Todas las elecciones' if es else 'Totes les eleccions' }}</h2>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr>
+      <th>{{ 'Fecha' if es else 'Data' }}</th>
+      <th>{{ 'Ganador' if es else 'Guanyador' }}</th>
+      <th class="n">%</th>
+      <th class="n">{{ 'Escaños' if es else 'Escons' }}</th>
+      <th class="n">{{ 'Participación' if es else 'Participació' }}</th>
+      <th>{{ 'Reparto del Congreso' if es else 'Repartiment del Congrés' }}</th>
+    </tr></thead>
+    <tbody>
+    {% for e in elections %}
+    <tr>
+      <td><a href="#e{{ e.date }}">{{ fdate(e.date) }}</a></td>
+      <td><span class="sw" style="background:{{ e.first.color }}"></span>{{ e.first.name }}</td>
+      <td class="n">{{ fmt(e.first.share) }}</td>
+      <td class="n"><b>{{ e.first.seats }}</b>{% if e.absolute %} <span class="fine" title="{{ 'mayoría absoluta' if es else 'majoria absoluta' }}">★</span>{% endif %}</td>
+      <td class="n">{{ fmt(e.turnout) }} %</td>
+      <td><div class="seatbar mini">{% for b in e.bar %}<i style="flex:{{ b.seats }};background:{{ b.color }}" title="{{ b.name }}: {{ b.seats }}"></i>{% endfor %}</div></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">★ {{ 'mayoría absoluta (176 escaños)' if es else 'majoria absoluta (176 escons)' }}.</p>
+
+  {% for e in elections %}
+  <section class="recent" id="e{{ e.date }}">
+    <h3>{{ fdate(e.date) }}</h3>
+    <p class="fine">{% if es %}Censo: {{ e.census | thousands }} · votantes: {{ e.voters | thousands }} ({{ fmt(e.turnout) }} %) ·
+      en blanco: {{ e.blank | thousands }} · nulos: {{ e.null | thousands }}{% else %}Cens: {{ e.census | thousands }} · votants:
+      {{ e.voters | thousands }} ({{ fmt(e.turnout) }} %) · en blanc: {{ e.blank | thousands }} · nuls: {{ e.null | thousands }}{% endif %}</p>
+    <div class="tablewrap">
+    <table class="results part">
+      <thead><tr>
+        <th>{{ 'Candidatura' }}</th>
+        <th class="n">{{ 'Votos' if es else 'Vots' }}</th>
+        <th class="n">%</th>
+        <th class="n">{{ 'Escaños' if es else 'Escons' }}</th>
+      </tr></thead>
+      <tbody>
+      {% for p in e.parties %}
+      <tr><td><span class="sw" style="background:{{ p.color }}"></span>{{ p.name }}{% if p.full and p.full != p.name %} <span class="fine">{{ p.full }}</span>{% endif %}</td>
+        <td class="n">{{ p.votes | thousands }}</td>
+        <td class="n">{{ fmt(p.share) }}</td>
+        <td class="n"><b>{{ p.seats if p.seats else '—' }}</b></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="fine">{{ 'Fuente' if es else 'Font' }}: <a href="{{ e.source }}" rel="noopener">Wikipedia</a> (CC BY-SA 4.0).</p>
+  </section>
+  {% endfor %}
+
+  <h2>{{ 'De dónde salen los datos' if es else "D'on surten les dades" }}</h2>
+  <p>{% if es %}De las tablas de resultados de los artículos de Wikipedia sobre cada elección (licencia CC BY-SA 4.0), que
+    recogen los resultados oficiales. Salen las candidaturas con escaños o con al menos el 1 % del voto válido; los nombres de
+    los partidos se muestran en inglés, como en la fuente. Para las elecciones de 2016, 2019 y 2023 hemos comprobado que el
+    total de votos válidos coincide con los ficheros del Ministerio del Interior. Los mismos datos, en
+    <a href="{{ root }}api/v1/generals-historic.json">formato JSON</a>. Calculado el {{ fdate(computed) }}.{% else %}De les taules de
+    resultats dels articles de la Viquipèdia sobre cada elecció (llicència CC BY-SA 4.0), que recullen els resultats
+    oficials. Hi surten les candidatures amb escons o amb almenys l'1 % del vot vàlid; els noms dels partits es mostren en
+    anglès, com a la font. Per a les eleccions del 2016, el 2019 i el 2023 hem comprovat que el total de vots vàlids
+    coincideix amb els fitxers del Ministeri de l'Interior. Les mateixes dades, en
+    <a href="{{ root }}api/v1/generals-historic.json">format JSON</a>. Calculat el {{ fdate(computed) }}.{% endif %}</p>
+</article>
+{% endblock %}

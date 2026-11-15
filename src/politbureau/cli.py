@@ -122,6 +122,12 @@ def cmd_perfils(args):
     print(f"{data['found']} perfils de {data['searched']} candidats; desat a {profiles.OUT}")
 
 
+def cmd_historic(args):
+    from . import history
+    data = history.run()
+    print(f"{len(data['elections'])} eleccions generals desades a {history.OUT}")
+
+
 def cmd_congela(args):
     from . import db, final
     data = final.freeze(db.connect())
@@ -203,6 +209,8 @@ def main(argv=None):
                    ).set_defaults(func=cmd_sistemes)
     sub.add_parser("perfils", help="curriculum dels candidats que entrarien al Congres (Wikidata, CC0)"
                    ).set_defaults(func=cmd_perfils)
+    sub.add_parser("historic", help="resultats de les generals 1977-2023 (Wikipedia)"
+                   ).set_defaults(func=cmd_historic)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"
                    ).set_defaults(func=cmd_congela)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)

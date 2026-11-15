@@ -32,7 +32,7 @@
 {% if d.national %}
 
   <div class="facts">
-    <span><b>{{ d.polls | length }}</b> {{ 'encuestas en la media, una por instituto' if es else 'enquestes a la mitjana, una per institut' }}</span>
+    <span><b>{{ d.polls | length }}</b> {% if d.polls | length == 1 %}{{ 'encuesta en la media' if es else 'enquesta a la mitjana' }}{% else %}{{ 'encuestas en la media, una por instituto' if es else 'enquestes a la mitjana, una per institut' }}{% endif %}</span>
     <span><b>{{ d.total_polls | thousands }}</b> {{ 'encuestas recogidas' if es else 'enquestes recollides' }}</span>
     <span><b>{{ fdate(d.polls[0].end) }}</b> {{ 'la más reciente' if es else 'la més recent' }}</span>
   </div>
@@ -102,13 +102,15 @@
   {% set m = c.method if c.method != 'proportional' else 'dhondt' %}
   {% set thr = fmt((c.threshold if c.threshold is not none else 0.03) * 100) %}
   <p class="note">{% if es %}<b>Los escaños son solo un orden de magnitud.</b> Se reparten los
-    {{ c.seats }} escaños {{ ('de ' ~ c.total ~ ' ') if c.total }}de {{ c.name }} a escala nacional
+    {{ c.seats }} escaños {{ ('de ' ~ c.total ~ ' ') if c.total }}({{ cname }}) {% if d.sub and not c.districts %}en una sola
+    circunscripción, como manda la ley,{% elif d.sub %}como si todo el territorio fuera una sola circunscripción,{% else %}a escala nacional{% endif %}
     con {{ {'dhondt': 'el método D\'Hondt', 'sainte_lague': 'el método Sainte-Laguë' ~ (' modificado (primer divisor ' ~ fmt(c.first_divisor) ~ ')' if c.first_divisor and c.first_divisor != 1 else ''), 'hare': 'el resto mayor (cuota Hare)', 'droop': 'el resto mayor (cuota Hagenbach-Bischoff)'}[m] }}{% if c.threshold %} y un umbral del {{ thr }} %{% endif %}{% if c.bonus == 'gr' %}, más la prima de 20 a 50 escaños para el primer partido{% endif %}.
     {% if c.districts %}La ley los reparte circunscripción a circunscripción, y eso favorece a los
     partidos grandes: aquí los pequeños salen favorecidos.{% endif %} La mayoría absoluta es de
     {{ d.majority }}.{% if c.note_es %} {{ c.note_es }}{% endif %}{% else %}<b>Els escons només són un
-    ordre de magnitud.</b> Es reparteixen els {{ c.seats }} escons {{ ('dels ' ~ c.total ~ ' ') if c.total }}de {{ c.name }}
-    a escala estatal amb {{ {'dhondt': 'el mètode D\'Hondt', 'sainte_lague': 'el mètode Sainte-Laguë' ~ (' modificat (primer divisor ' ~ fmt(c.first_divisor) ~ ')' if c.first_divisor and c.first_divisor != 1 else ''), 'hare': 'la resta més gran (quota Hare)', 'droop': 'la resta més gran (quota Hagenbach-Bischoff)'}[m] }}{% if c.threshold %} i un llindar del {{ thr }} %{% endif %}{% if c.bonus == 'gr' %}, més la prima de 20 a 50 escons per al primer partit{% endif %}.
+    ordre de magnitud.</b> Es reparteixen els {{ c.seats }} escons {{ ('dels ' ~ c.total ~ ' ') if c.total }}({{ cname }})
+    {% if d.sub and not c.districts %}en una sola circumscripció, com mana la llei,{% elif d.sub %}com si tot el territori fos una sola
+    circumscripció,{% else %}a escala estatal{% endif %} amb {{ {'dhondt': 'el mètode D\'Hondt', 'sainte_lague': 'el mètode Sainte-Laguë' ~ (' modificat (primer divisor ' ~ fmt(c.first_divisor) ~ ')' if c.first_divisor and c.first_divisor != 1 else ''), 'hare': 'la resta més gran (quota Hare)', 'droop': 'la resta més gran (quota Hagenbach-Bischoff)'}[m] }}{% if c.threshold %} i un llindar del {{ thr }} %{% endif %}{% if c.bonus == 'gr' %}, més la prima de 20 a 50 escons per al primer partit{% endif %}.
     {% if c.districts %}La llei els reparteix circumscripció per circumscripció, i això afavoreix els
     partits grans: aquí els petits hi surten afavorits.{% endif %} La majoria absoluta és de
     {{ d.majority }}.{% if c.note_ca %} {{ c.note_ca }}{% endif %}{% endif %}</p>

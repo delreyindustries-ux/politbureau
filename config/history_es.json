@@ -1,0 +1,2018 @@
+{
+ "computed": "2026-11-15",
+ "source": "Wikipedia (CC BY-SA 4.0), taules de resultats de cada eleccio",
+ "families": [
+  {
+   "key": "PSOE",
+   "name": "PSOE",
+   "color": "#E30613"
+  },
+  {
+   "key": "PP",
+   "name": "AP · PP",
+   "color": "#1D84CE"
+  },
+  {
+   "key": "UCD",
+   "name": "UCD",
+   "color": "#197E36"
+  },
+  {
+   "key": "VOX",
+   "name": "Vox",
+   "color": "#63BE21"
+  },
+  {
+   "key": "CS",
+   "name": "Ciudadanos",
+   "color": "#EB6109"
+  },
+  {
+   "key": "UP",
+   "name": "Podemos · Sumar",
+   "color": "#6B2E68"
+  },
+  {
+   "key": "IU",
+   "name": "PCE · IU",
+   "color": "#B5121B"
+  },
+  {
+   "key": "CDS",
+   "name": "CDS",
+   "color": "#7BB661"
+  },
+  {
+   "key": "UPYD",
+   "name": "UPyD",
+   "color": "#E2007A"
+  }
+ ],
+ "elections": [
+  {
+   "date": "1977-06-15",
+   "source": "https://en.wikipedia.org/wiki/1977_Spanish_general_election",
+   "census": 23583762,
+   "voters": 18590130,
+   "turnout": 78.83,
+   "blank": 46248,
+   "null": 265797,
+   "valid": 18324333,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "UCD",
+     "full": "Union of the Democratic Centre",
+     "color": "#197E36",
+     "votes": 6310391,
+     "share": 34.44,
+     "seats": 165,
+     "family": "UCD"
+    },
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 5371866,
+     "share": 29.32,
+     "seats": 118,
+     "family": "PSOE"
+    },
+    {
+     "name": "PCE",
+     "full": "Communist Party of Spain",
+     "color": "#971324",
+     "votes": 1709890,
+     "share": 9.33,
+     "seats": 20,
+     "family": "IU"
+    },
+    {
+     "name": "AP",
+     "full": "People's Alliance",
+     "color": "#FFA519",
+     "votes": 1526671,
+     "share": 8.33,
+     "seats": 16,
+     "family": "PP"
+    },
+    {
+     "name": "PSP–US",
+     "full": "People's Socialist Party – Socialist Unity",
+     "color": "#FF7979",
+     "votes": 828461,
+     "share": 4.52,
+     "seats": 6,
+     "family": null
+    },
+    {
+     "name": "PDC",
+     "full": "Democratic Pact for Catalonia",
+     "color": "#FFC400",
+     "votes": 514647,
+     "share": 2.81,
+     "seats": 11,
+     "family": null
+    },
+    {
+     "name": "EDCEE",
+     "full": "Christian Democratic Team of the Spanish State",
+     "color": "#E94E1B",
+     "votes": 417678,
+     "share": 2.28,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 296193,
+     "share": 1.62,
+     "seats": 8,
+     "family": null
+    },
+    {
+     "name": "EC–FED",
+     "full": "Left of Catalonia–Democratic Electoral Front",
+     "color": "#EFF24C",
+     "votes": 143954,
+     "share": 0.79,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "EE–UNAI",
+     "full": "Basque Country Left – Navarrese Left Union",
+     "color": "#80DF20",
+     "votes": 85906,
+     "share": 0.47,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "CAIC",
+     "full": "Centre Independent Aragonese Candidacy",
+     "color": "#FFCC66",
+     "votes": 37183,
+     "share": 0.2,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "CIC",
+     "full": "Centre Independent Candidacy",
+     "color": "#AAAAAA",
+     "votes": 29834,
+     "share": 0.16,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "1979-03-01",
+   "source": "https://en.wikipedia.org/wiki/1979_Spanish_general_election",
+   "census": 26836490,
+   "voters": 18259192,
+   "turnout": 68.04,
+   "blank": 57267,
+   "null": 268277,
+   "valid": 17990915,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "UCD",
+     "full": "Union of the Democratic Centre",
+     "color": "#197E36",
+     "votes": 6268593,
+     "share": 34.84,
+     "seats": 168,
+     "family": "UCD"
+    },
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 5469813,
+     "share": 30.4,
+     "seats": 121,
+     "family": "PSOE"
+    },
+    {
+     "name": "PCE",
+     "full": "Communist Party of Spain",
+     "color": "#971324",
+     "votes": 1938487,
+     "share": 10.77,
+     "seats": 23,
+     "family": "IU"
+    },
+    {
+     "name": "CD",
+     "full": "Democratic Coalition",
+     "color": "#8E9629",
+     "votes": 1094438,
+     "share": 6.08,
+     "seats": 9,
+     "family": "PP"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 483353,
+     "share": 2.69,
+     "seats": 8,
+     "family": null
+    },
+    {
+     "name": "UN",
+     "full": "National Union",
+     "color": "#383CA8",
+     "votes": 378964,
+     "share": 2.11,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "PSA–PA",
+     "full": "Socialist Party of Andalusia–Andalusian Party",
+     "color": "#005931",
+     "votes": 325842,
+     "share": 1.81,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 296597,
+     "share": 1.65,
+     "seats": 7,
+     "family": null
+    },
+    {
+     "name": "PTE",
+     "full": "Party of Labour of Spain",
+     "color": "#B51818",
+     "votes": 192798,
+     "share": 1.07,
+     "seats": 0,
+     "family": null
+    },
+    {
+     "name": "HB",
+     "full": "Popular Unity",
+     "color": "#633000",
+     "votes": 172110,
+     "share": 0.96,
+     "seats": 3,
+     "family": null
+    },
+    {
+     "name": "ERC–FNC",
+     "full": "Republican Left of Catalonia – National Front of Catalonia",
+     "color": "#FFB232",
+     "votes": 123452,
+     "share": 0.69,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "EE",
+     "full": "Basque Country Left",
+     "color": "#80DF20",
+     "votes": 85677,
+     "share": 0.48,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "UPC",
+     "full": "Canarian People's Union",
+     "color": "#BA0033",
+     "votes": 58953,
+     "share": 0.33,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "PAR",
+     "full": "Regionalist Aragonese Party",
+     "color": "#FFCC66",
+     "votes": 38042,
+     "share": 0.21,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "UPN",
+     "full": "Navarrese People's Union",
+     "color": "#00599B",
+     "votes": 28248,
+     "share": 0.16,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "1982-10-28",
+   "source": "https://en.wikipedia.org/wiki/1982_Spanish_general_election",
+   "census": 26846940,
+   "voters": 21469274,
+   "turnout": 79.97,
+   "blank": 98438,
+   "null": 419236,
+   "valid": 21050038,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 10127392,
+     "share": 48.11,
+     "seats": 202,
+     "family": "PSOE"
+    },
+    {
+     "name": "AP – PDP",
+     "full": "People's Alliance–People's Democratic Party",
+     "color": "#FFA519",
+     "votes": 5548107,
+     "share": 26.36,
+     "seats": 107,
+     "family": "PP"
+    },
+    {
+     "name": "UCD",
+     "full": "Union of the Democratic Centre",
+     "color": "#197E36",
+     "votes": 1425093,
+     "share": 6.77,
+     "seats": 11,
+     "family": "UCD"
+    },
+    {
+     "name": "PCE",
+     "full": "Communist Party of Spain",
+     "color": "#971324",
+     "votes": 865272,
+     "share": 4.11,
+     "seats": 4,
+     "family": "IU"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 772726,
+     "share": 3.67,
+     "seats": 12,
+     "family": null
+    },
+    {
+     "name": "CDS",
+     "full": "Democratic and Social Centre",
+     "color": "#049456",
+     "votes": 604309,
+     "share": 2.87,
+     "seats": 2,
+     "family": "CDS"
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 395656,
+     "share": 1.88,
+     "seats": 8,
+     "family": null
+    },
+    {
+     "name": "HB",
+     "full": "Popular Unity",
+     "color": "#633000",
+     "votes": 210601,
+     "share": 1.0,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "ERC",
+     "full": "Republican Left of Catalonia",
+     "color": "#FFB232",
+     "votes": 138118,
+     "share": 0.66,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "EE",
+     "full": "Basque Country Left–Left for Socialism",
+     "color": "#80DF20",
+     "votes": 100326,
+     "share": 0.48,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "1986-06-22",
+   "source": "https://en.wikipedia.org/wiki/1986_Spanish_general_election",
+   "census": 29117613,
+   "voters": 20524858,
+   "turnout": 70.49,
+   "blank": 121186,
+   "null": 321939,
+   "valid": 20202919,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 8901718,
+     "share": 44.06,
+     "seats": 184,
+     "family": "PSOE"
+    },
+    {
+     "name": "AP – PDP – PL",
+     "full": "People's Coalition",
+     "color": "#3282A8",
+     "votes": 5247677,
+     "share": 25.97,
+     "seats": 105,
+     "family": "PP"
+    },
+    {
+     "name": "CDS",
+     "full": "Democratic and Social Centre",
+     "color": "#049456",
+     "votes": 1861912,
+     "share": 9.22,
+     "seats": 19,
+     "family": "CDS"
+    },
+    {
+     "name": "PRD – CiU – CG",
+     "full": "Reformists",
+     "color": "#333176",
+     "votes": 1288768,
+     "share": 6.38,
+     "seats": 19,
+     "family": null
+    },
+    {
+     "name": "IU",
+     "full": "United Left",
+     "color": "#732021",
+     "votes": 935504,
+     "share": 4.63,
+     "seats": 7,
+     "family": "IU"
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 309610,
+     "share": 1.53,
+     "seats": 6,
+     "family": null
+    },
+    {
+     "name": "HB",
+     "full": "Popular Unity",
+     "color": "#633000",
+     "votes": 231722,
+     "share": 1.15,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "MUC",
+     "full": "Communists' Unity Board",
+     "color": "#B51818",
+     "votes": 229695,
+     "share": 1.14,
+     "seats": 0,
+     "family": null
+    },
+    {
+     "name": "EE",
+     "full": "Basque Country Left",
+     "color": "#80DF20",
+     "votes": 107053,
+     "share": 0.53,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "PAR",
+     "full": "Regionalist Aragonese Party",
+     "color": "#FFCC66",
+     "votes": 73004,
+     "share": 0.36,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "AIC",
+     "full": "Canarian Independent Groups",
+     "color": "#000088",
+     "votes": 65664,
+     "share": 0.33,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "UV",
+     "full": "Valencian Union",
+     "color": "#1F4473",
+     "votes": 64403,
+     "share": 0.32,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "1989-10-29",
+   "source": "https://en.wikipedia.org/wiki/1989_Spanish_general_election",
+   "census": 29604055,
+   "voters": 20646365,
+   "turnout": 69.74,
+   "blank": 141795,
+   "null": 152683,
+   "valid": 20493682,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 8115568,
+     "share": 39.6,
+     "seats": 175,
+     "family": "PSOE"
+    },
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 5285972,
+     "share": 25.79,
+     "seats": 107,
+     "family": "PP"
+    },
+    {
+     "name": "IU",
+     "full": "United Left",
+     "color": "#732021",
+     "votes": 1858588,
+     "share": 9.07,
+     "seats": 17,
+     "family": "IU"
+    },
+    {
+     "name": "CDS",
+     "full": "Democratic and Social Centre",
+     "color": "#049456",
+     "votes": 1617716,
+     "share": 7.89,
+     "seats": 14,
+     "family": "CDS"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 1032243,
+     "share": 5.04,
+     "seats": 18,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 254681,
+     "share": 1.24,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "Ruiz-Mateos",
+     "full": "Ruiz-Mateos Group",
+     "color": "#28365D",
+     "votes": 219883,
+     "share": 1.07,
+     "seats": 0,
+     "family": null
+    },
+    {
+     "name": "HB",
+     "full": "Popular Unity",
+     "color": "#633000",
+     "votes": 217278,
+     "share": 1.06,
+     "seats": 4,
+     "family": null
+    },
+    {
+     "name": "PA",
+     "full": "Andalusian Party",
+     "color": "#005931",
+     "votes": 212687,
+     "share": 1.04,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "UV",
+     "full": "Valencian Union",
+     "color": "#1F4473",
+     "votes": 144924,
+     "share": 0.71,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "EA",
+     "full": "Basque Solidarity",
+     "color": "#77AC1C",
+     "votes": 136955,
+     "share": 0.67,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "EE",
+     "full": "Basque Country Left",
+     "color": "#80DF20",
+     "votes": 105238,
+     "share": 0.51,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "PAR",
+     "full": "Regionalist Aragonese Party",
+     "color": "#FFCC66",
+     "votes": 71733,
+     "share": 0.35,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "AIC",
+     "full": "Canarian Independent Groups",
+     "color": "#000088",
+     "votes": 64767,
+     "share": 0.32,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "1993-06-06",
+   "source": "https://en.wikipedia.org/wiki/1993_Spanish_general_election",
+   "census": 31030511,
+   "voters": 23718816,
+   "turnout": 76.44,
+   "blank": 188679,
+   "null": 126952,
+   "valid": 23591864,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 9150083,
+     "share": 38.78,
+     "seats": 159,
+     "family": "PSOE"
+    },
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 8201463,
+     "share": 34.76,
+     "seats": 141,
+     "family": "PP"
+    },
+    {
+     "name": "IU",
+     "full": "United Left",
+     "color": "#732021",
+     "votes": 2253722,
+     "share": 9.55,
+     "seats": 18,
+     "family": "IU"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 1165783,
+     "share": 4.94,
+     "seats": 17,
+     "family": null
+    },
+    {
+     "name": "CDS",
+     "full": "Democratic and Social Centre",
+     "color": "#049456",
+     "votes": 414740,
+     "share": 1.76,
+     "seats": 0,
+     "family": "CDS"
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 291448,
+     "share": 1.24,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "CC",
+     "full": "Canarian Coalition",
+     "color": "#FFD700",
+     "votes": 207077,
+     "share": 0.88,
+     "seats": 4,
+     "family": null
+    },
+    {
+     "name": "HB",
+     "full": "Popular Unity",
+     "color": "#633000",
+     "votes": 206876,
+     "share": 0.88,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "ERC",
+     "full": "Republican Left of Catalonia",
+     "color": "#FFB232",
+     "votes": 189632,
+     "share": 0.8,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "PAR",
+     "full": "Aragonese Party",
+     "color": "#FFCC66",
+     "votes": 144544,
+     "share": 0.61,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "EA–EuE",
+     "full": "Basque Solidarity – Basque Left",
+     "color": "#77AC1C",
+     "votes": 129293,
+     "share": 0.55,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "UV",
+     "full": "Valencian Union",
+     "color": "#1F4473",
+     "votes": 112341,
+     "share": 0.48,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "1996-03-03",
+   "source": "https://en.wikipedia.org/wiki/1996_Spanish_general_election",
+   "census": 32531833,
+   "voters": 25172058,
+   "turnout": 77.38,
+   "blank": 243345,
+   "null": 125782,
+   "valid": 25046276,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 9716006,
+     "share": 38.79,
+     "seats": 156,
+     "family": "PP"
+    },
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 9425678,
+     "share": 37.63,
+     "seats": 141,
+     "family": "PSOE"
+    },
+    {
+     "name": "IU",
+     "full": "United Left",
+     "color": "#732021",
+     "votes": 2639774,
+     "share": 10.54,
+     "seats": 21,
+     "family": "IU"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 1151633,
+     "share": 4.6,
+     "seats": 16,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 318951,
+     "share": 1.27,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "CC",
+     "full": "Canarian Coalition",
+     "color": "#FFD700",
+     "votes": 220418,
+     "share": 0.88,
+     "seats": 4,
+     "family": null
+    },
+    {
+     "name": "BNG",
+     "full": "Galician Nationalist Bloc",
+     "color": "#ADCFEF",
+     "votes": 220147,
+     "share": 0.88,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "HB",
+     "full": "Popular Unity",
+     "color": "#633000",
+     "votes": 181304,
+     "share": 0.72,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "ERC",
+     "full": "Republican Left of Catalonia",
+     "color": "#FFB232",
+     "votes": 167641,
+     "share": 0.67,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "EA",
+     "full": "Basque Solidarity",
+     "color": "#77AC1C",
+     "votes": 115861,
+     "share": 0.46,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "UV",
+     "full": "Valencian Union",
+     "color": "#1F4473",
+     "votes": 91575,
+     "share": 0.37,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "2000-03-12",
+   "source": "https://en.wikipedia.org/wiki/2000_Spanish_general_election",
+   "census": 33969640,
+   "voters": 23339490,
+   "turnout": 68.71,
+   "blank": 366823,
+   "null": 158200,
+   "valid": 23181290,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 10321178,
+     "share": 44.52,
+     "seats": 183,
+     "family": "PP"
+    },
+    {
+     "name": "PSOE–p",
+     "full": "Spanish Socialist Workers' Party – Progressives",
+     "color": "#EF1C27",
+     "votes": 7918752,
+     "share": 34.16,
+     "seats": 125,
+     "family": "PSOE"
+    },
+    {
+     "name": "IU",
+     "full": "United Left",
+     "color": "#732021",
+     "votes": 1263043,
+     "share": 5.45,
+     "seats": 8,
+     "family": "IU"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 970421,
+     "share": 4.19,
+     "seats": 15,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 353953,
+     "share": 1.53,
+     "seats": 7,
+     "family": null
+    },
+    {
+     "name": "BNG",
+     "full": "Galician Nationalist Bloc",
+     "color": "#ADCFEF",
+     "votes": 306268,
+     "share": 1.32,
+     "seats": 3,
+     "family": null
+    },
+    {
+     "name": "CC",
+     "full": "Canarian Coalition",
+     "color": "#FFD700",
+     "votes": 248261,
+     "share": 1.07,
+     "seats": 4,
+     "family": null
+    },
+    {
+     "name": "PA",
+     "full": "Andalusian Party",
+     "color": "#005931",
+     "votes": 206255,
+     "share": 0.89,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "ERC",
+     "full": "Republican Left of Catalonia",
+     "color": "#FFB232",
+     "votes": 194715,
+     "share": 0.84,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "IC–V",
+     "full": "Initiative for Catalonia–Greens",
+     "color": "#4E9E41",
+     "votes": 119290,
+     "share": 0.51,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "EA",
+     "full": "Basque Solidarity",
+     "color": "#77AC1C",
+     "votes": 100742,
+     "share": 0.43,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "CHA",
+     "full": "Aragonese Union",
+     "color": "#008A21",
+     "votes": 75356,
+     "share": 0.33,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "2004-03-14",
+   "source": "https://en.wikipedia.org/wiki/2004_Spanish_general_election",
+   "census": 34571831,
+   "voters": 26155436,
+   "turnout": 75.66,
+   "blank": 407795,
+   "null": 264137,
+   "valid": 25891299,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 11026163,
+     "share": 42.59,
+     "seats": 164,
+     "family": "PSOE"
+    },
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 9763144,
+     "share": 37.71,
+     "seats": 148,
+     "family": "PP"
+    },
+    {
+     "name": "IU",
+     "full": "United Left",
+     "color": "#732021",
+     "votes": 1284081,
+     "share": 4.96,
+     "seats": 5,
+     "family": "IU"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 835471,
+     "share": 3.23,
+     "seats": 10,
+     "family": null
+    },
+    {
+     "name": "ERC",
+     "full": "Republican Left of Catalonia",
+     "color": "#FFB232",
+     "votes": 652196,
+     "share": 2.52,
+     "seats": 8,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 420980,
+     "share": 1.63,
+     "seats": 7,
+     "family": null
+    },
+    {
+     "name": "CC",
+     "full": "Canarian Coalition",
+     "color": "#FFD700",
+     "votes": 235221,
+     "share": 0.91,
+     "seats": 3,
+     "family": null
+    },
+    {
+     "name": "BNG",
+     "full": "Galician Nationalist Bloc",
+     "color": "#ADCFEF",
+     "votes": 208688,
+     "share": 0.81,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "CHA",
+     "full": "Aragonese Union",
+     "color": "#008A21",
+     "votes": 94252,
+     "share": 0.36,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "EA",
+     "full": "Basque Solidarity",
+     "color": "#77AC1C",
+     "votes": 80905,
+     "share": 0.31,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "NaBai",
+     "full": "Navarre Yes",
+     "color": "#F75E42",
+     "votes": 61045,
+     "share": 0.24,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "2008-03-09",
+   "source": "https://en.wikipedia.org/wiki/2008_Spanish_general_election",
+   "census": 35073179,
+   "voters": 25900439,
+   "turnout": 73.85,
+   "blank": 286182,
+   "null": 165576,
+   "valid": 25734863,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 11289335,
+     "share": 43.87,
+     "seats": 169,
+     "family": "PSOE"
+    },
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 10278010,
+     "share": 39.94,
+     "seats": 154,
+     "family": "PP"
+    },
+    {
+     "name": "IU",
+     "full": "United Left",
+     "color": "#732021",
+     "votes": 969946,
+     "share": 3.77,
+     "seats": 2,
+     "family": "IU"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 779425,
+     "share": 3.03,
+     "seats": 10,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 306128,
+     "share": 1.19,
+     "seats": 6,
+     "family": null
+    },
+    {
+     "name": "UPyD",
+     "full": "Union, Progress and Democracy",
+     "color": "#E9008C",
+     "votes": 306079,
+     "share": 1.19,
+     "seats": 1,
+     "family": "UPYD"
+    },
+    {
+     "name": "esquerra",
+     "full": "Republican Left of Catalonia",
+     "color": "#FFB232",
+     "votes": 298139,
+     "share": 1.16,
+     "seats": 3,
+     "family": null
+    },
+    {
+     "name": "BNG",
+     "full": "Galician Nationalist Bloc",
+     "color": "#ADCFEF",
+     "votes": 212543,
+     "share": 0.83,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "CC – PNC",
+     "full": "Canarian Coalition–Canarian Nationalist Party",
+     "color": "#FFD700",
+     "votes": 174629,
+     "share": 0.68,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "NaBai",
+     "full": "Navarre Yes",
+     "color": "#F75E42",
+     "votes": 62398,
+     "share": 0.24,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "2011-11-20",
+   "source": "https://en.wikipedia.org/wiki/2011_Spanish_general_election",
+   "census": 35779491,
+   "voters": 24666441,
+   "turnout": 68.94,
+   "blank": 333461,
+   "null": 317555,
+   "valid": 24348886,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 10866566,
+     "share": 44.63,
+     "seats": 186,
+     "family": "PP"
+    },
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 7003511,
+     "share": 28.76,
+     "seats": 110,
+     "family": "PSOE"
+    },
+    {
+     "name": "IU–LV",
+     "full": "United Left – The Greens : Plural Left",
+     "color": "#732021",
+     "votes": 1686040,
+     "share": 6.92,
+     "seats": 11,
+     "family": "IU"
+    },
+    {
+     "name": "UPyD",
+     "full": "Union, Progress and Democracy",
+     "color": "#E9008C",
+     "votes": 1143225,
+     "share": 4.7,
+     "seats": 5,
+     "family": "UPYD"
+    },
+    {
+     "name": "CiU",
+     "full": "Convergence and Union",
+     "color": "#18307B",
+     "votes": 1015691,
+     "share": 4.17,
+     "seats": 16,
+     "family": null
+    },
+    {
+     "name": "Amaiur",
+     "full": "Amaiur",
+     "color": "#087178",
+     "votes": 334498,
+     "share": 1.37,
+     "seats": 7,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 324317,
+     "share": 1.33,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "esquerra",
+     "full": "Republican Left",
+     "color": "#FFB232",
+     "votes": 256985,
+     "share": 1.06,
+     "seats": 3,
+     "family": null
+    },
+    {
+     "name": "BNG",
+     "full": "Galician Nationalist Bloc",
+     "color": "#ADCFEF",
+     "votes": 184037,
+     "share": 0.76,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "CC – NC – PNC",
+     "full": "Canarian Coalition–New Canaries",
+     "color": "#BAF73E",
+     "votes": 143881,
+     "share": 0.59,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "Compromís–Q",
+     "full": "Bloc – Initiative – Greens – Equo : Commitment Coalition",
+     "color": "#EC8953",
+     "votes": 125306,
+     "share": 0.51,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "FAC",
+     "full": "Forum of Citizens",
+     "color": "#10286B",
+     "votes": 99473,
+     "share": 0.41,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "GBai",
+     "full": "Yes to the Future",
+     "color": "#F75E42",
+     "votes": 42415,
+     "share": 0.17,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "2015-12-20",
+   "source": "https://en.wikipedia.org/wiki/2015_Spanish_general_election",
+   "census": 36511848,
+   "voters": 25438532,
+   "turnout": 69.67,
+   "blank": 188132,
+   "null": 227219,
+   "valid": 25211313,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 7236965,
+     "share": 28.71,
+     "seats": 123,
+     "family": "PP"
+    },
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 5545315,
+     "share": 22.0,
+     "seats": 90,
+     "family": "PSOE"
+    },
+    {
+     "name": "Podemos",
+     "full": "We Can – In Common – Commitment – In Tide",
+     "color": "#5A205A",
+     "votes": 5212711,
+     "share": 20.68,
+     "seats": 69,
+     "family": "UP"
+    },
+    {
+     "name": "C's",
+     "full": "Citizens–Party of the Citizenry",
+     "color": "#EB6109",
+     "votes": 3514528,
+     "share": 13.94,
+     "seats": 40,
+     "family": "CS"
+    },
+    {
+     "name": "IU–UPeC",
+     "full": "United Left – Popular Unity in Common",
+     "color": "#732021",
+     "votes": 926783,
+     "share": 3.68,
+     "seats": 2,
+     "family": "IU"
+    },
+    {
+     "name": "ERC–CatSí",
+     "full": "Republican Left of Catalonia–Catalonia Yes",
+     "color": "#FFB232",
+     "votes": 604285,
+     "share": 2.4,
+     "seats": 9,
+     "family": null
+    },
+    {
+     "name": "DiL",
+     "full": "Democracy and Freedom",
+     "color": "#212765",
+     "votes": 567253,
+     "share": 2.25,
+     "seats": 8,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 302316,
+     "share": 1.2,
+     "seats": 6,
+     "family": null
+    },
+    {
+     "name": "EH Bildu",
+     "full": "Basque Country Gather",
+     "color": "#B5CF18",
+     "votes": 219125,
+     "share": 0.87,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "CCa – PNC",
+     "full": "Canarian Coalition–Canarian Nationalist Party",
+     "color": "#FFD700",
+     "votes": 81917,
+     "share": 0.32,
+     "seats": 1,
+     "family": null
+    }
+   ]
+  },
+  {
+   "date": "2016-06-26",
+   "source": "https://en.wikipedia.org/wiki/2016_Spanish_general_election",
+   "census": 36520913,
+   "voters": 24279259,
+   "turnout": 66.48,
+   "blank": 179081,
+   "null": 225504,
+   "valid": 24053755,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 7941236,
+     "share": 33.01,
+     "seats": 137,
+     "family": "PP"
+    },
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 5443846,
+     "share": 22.63,
+     "seats": 85,
+     "family": "PSOE"
+    },
+    {
+     "name": "Unidos Podemos",
+     "full": "United We Can",
+     "color": "#7B4977",
+     "votes": 5087538,
+     "share": 21.15,
+     "seats": 71,
+     "family": "UP"
+    },
+    {
+     "name": "C's",
+     "full": "Citizens–Party of the Citizenry",
+     "color": "#EB6109",
+     "votes": 3141570,
+     "share": 13.06,
+     "seats": 32,
+     "family": "CS"
+    },
+    {
+     "name": "ERC–CatSí",
+     "full": "Republican Left–Catalonia Yes",
+     "color": "#FFB232",
+     "votes": 639652,
+     "share": 2.66,
+     "seats": 9,
+     "family": null
+    },
+    {
+     "name": "CDC",
+     "full": "Democratic Convergence of Catalonia",
+     "color": "#232D7B",
+     "votes": 483488,
+     "share": 2.01,
+     "seats": 8,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 287014,
+     "share": 1.19,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "PACMA",
+     "full": "Animalist Party Against Mistreatment of Animals",
+     "color": "#ADBE18",
+     "votes": 286702,
+     "share": 1.19,
+     "seats": 0,
+     "family": null
+    },
+    {
+     "name": "EH Bildu",
+     "full": "Basque Country Gather",
+     "color": "#B5CF18",
+     "votes": 184713,
+     "share": 0.77,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "CCa – PNC",
+     "full": "Canarian Coalition–Canarian Nationalist Party",
+     "color": "#FFD700",
+     "votes": 78253,
+     "share": 0.33,
+     "seats": 1,
+     "family": null
+    }
+   ],
+   "ministry_diff": 0.0
+  },
+  {
+   "date": "2019-04-28",
+   "source": "https://en.wikipedia.org/wiki/April_2019_Spanish_general_election",
+   "census": 36898883,
+   "voters": 26478140,
+   "turnout": 71.76,
+   "blank": 199836,
+   "null": 276769,
+   "valid": 26201371,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 7513142,
+     "share": 28.67,
+     "seats": 123,
+     "family": "PSOE"
+    },
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 4373653,
+     "share": 16.69,
+     "seats": 66,
+     "family": "PP"
+    },
+    {
+     "name": "Cs",
+     "full": "Citizens–Party of the Citizenry",
+     "color": "#EB6109",
+     "votes": 4155665,
+     "share": 15.86,
+     "seats": 57,
+     "family": "CS"
+    },
+    {
+     "name": "Unidas Podemos",
+     "full": "United We Can",
+     "color": "#7B4977",
+     "votes": 3751145,
+     "share": 14.32,
+     "seats": 42,
+     "family": "UP"
+    },
+    {
+     "name": "Vox",
+     "full": "Vox",
+     "color": "#63BE21",
+     "votes": 2688092,
+     "share": 10.26,
+     "seats": 24,
+     "family": "VOX"
+    },
+    {
+     "name": "ERC – Sobiranistes",
+     "full": "Republican Left of Catalonia–Sovereigntists",
+     "color": "#FFB232",
+     "votes": 1024628,
+     "share": 3.91,
+     "seats": 15,
+     "family": null
+    },
+    {
+     "name": "JxCat–Junts",
+     "full": "Together for Catalonia–Together",
+     "color": "#ED5975",
+     "votes": 500787,
+     "share": 1.91,
+     "seats": 7,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 395884,
+     "share": 1.51,
+     "seats": 6,
+     "family": null
+    },
+    {
+     "name": "PACMA",
+     "full": "Animalist Party Against Mistreatment of Animals",
+     "color": "#ADBE18",
+     "votes": 328299,
+     "share": 1.25,
+     "seats": 0,
+     "family": null
+    },
+    {
+     "name": "EH Bildu",
+     "full": "Basque Country Gather",
+     "color": "#B5CF18",
+     "votes": 259647,
+     "share": 0.99,
+     "seats": 4,
+     "family": null
+    },
+    {
+     "name": "Compromís 2019",
+     "full": "Commitment : Bloc – Initiative – Greens Equo",
+     "color": "#EC8953",
+     "votes": 173821,
+     "share": 0.66,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "CCa – PNC",
+     "full": "Canarian Coalition–Canarian Nationalist Party",
+     "color": "#FFD700",
+     "votes": 137664,
+     "share": 0.53,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "NA+",
+     "full": "Sum Navarre",
+     "color": "#819DA3",
+     "votes": 107619,
+     "share": 0.41,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "PRC",
+     "full": "Regionalist Party of Cantabria",
+     "color": "#C2CE0C",
+     "votes": 52266,
+     "share": 0.2,
+     "seats": 1,
+     "family": null
+    }
+   ],
+   "ministry_diff": 0.0
+  },
+  {
+   "date": "2019-11-10",
+   "source": "https://en.wikipedia.org/wiki/November_2019_Spanish_general_election",
+   "census": 37001379,
+   "voters": 24507715,
+   "turnout": 66.23,
+   "blank": 217227,
+   "null": 249487,
+   "valid": 24258228,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 6792199,
+     "share": 28.0,
+     "seats": 120,
+     "family": "PSOE"
+    },
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 5047040,
+     "share": 20.81,
+     "seats": 89,
+     "family": "PP"
+    },
+    {
+     "name": "Vox",
+     "full": "Vox",
+     "color": "#63BE21",
+     "votes": 3656979,
+     "share": 15.08,
+     "seats": 52,
+     "family": "VOX"
+    },
+    {
+     "name": "Unidas Podemos",
+     "full": "United We Can",
+     "color": "#7B4977",
+     "votes": 3119364,
+     "share": 12.86,
+     "seats": 35,
+     "family": "UP"
+    },
+    {
+     "name": "Cs",
+     "full": "Citizens–Party of the Citizenry",
+     "color": "#EB6109",
+     "votes": 1650318,
+     "share": 6.8,
+     "seats": 10,
+     "family": "CS"
+    },
+    {
+     "name": "ERC – Sobiranistes",
+     "full": "Republican Left of Catalonia–Sovereigntists",
+     "color": "#FFB232",
+     "votes": 880734,
+     "share": 3.63,
+     "seats": 13,
+     "family": null
+    },
+    {
+     "name": "Más País",
+     "full": "More Country",
+     "color": "#0FDEC4",
+     "votes": 582306,
+     "share": 2.4,
+     "seats": 3,
+     "family": null
+    },
+    {
+     "name": "JxCat–Junts",
+     "full": "Together for Catalonia–Together",
+     "color": "#ED5975",
+     "votes": 530225,
+     "share": 2.19,
+     "seats": 8,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 379002,
+     "share": 1.56,
+     "seats": 6,
+     "family": null
+    },
+    {
+     "name": "EH Bildu",
+     "full": "Basque Country Gather",
+     "color": "#B5CF18",
+     "votes": 277621,
+     "share": 1.14,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "CUP–PR",
+     "full": "Popular Unity Candidacy–For Rupture",
+     "color": "#FFDD00",
+     "votes": 246971,
+     "share": 1.02,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "CCa – PNC – NC",
+     "full": "Canarian Coalition–New Canaries",
+     "color": "#BAF73E",
+     "votes": 124289,
+     "share": 0.51,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "BNG",
+     "full": "Galician Nationalist Bloc",
+     "color": "#ADCFEF",
+     "votes": 120456,
+     "share": 0.5,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "NA+",
+     "full": "Sum Navarre",
+     "color": "#819DA3",
+     "votes": 99078,
+     "share": 0.41,
+     "seats": 2,
+     "family": null
+    },
+    {
+     "name": "PRC",
+     "full": "Regionalist Party of Cantabria",
+     "color": "#C2CE0C",
+     "votes": 68830,
+     "share": 0.28,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "¡TE!",
+     "full": "Teruel Exists",
+     "color": "#037252",
+     "votes": 19761,
+     "share": 0.08,
+     "seats": 1,
+     "family": null
+    }
+   ],
+   "ministry_diff": 0.0
+  },
+  {
+   "date": "2023-07-23",
+   "source": "https://en.wikipedia.org/wiki/2023_Spanish_general_election",
+   "census": 37469458,
+   "voters": 24952447,
+   "turnout": 66.59,
+   "blank": 200673,
+   "null": 264360,
+   "valid": 24688087,
+   "seats": 350,
+   "seats_listed": 350,
+   "parties": [
+    {
+     "name": "PP",
+     "full": "People's Party",
+     "color": "#1D84CE",
+     "votes": 8160837,
+     "share": 33.06,
+     "seats": 137,
+     "family": "PP"
+    },
+    {
+     "name": "PSOE",
+     "full": "Spanish Socialist Workers' Party",
+     "color": "#EF1C27",
+     "votes": 7821718,
+     "share": 31.68,
+     "seats": 121,
+     "family": "PSOE"
+    },
+    {
+     "name": "Vox",
+     "full": "Vox",
+     "color": "#63BE21",
+     "votes": 3057000,
+     "share": 12.38,
+     "seats": 33,
+     "family": "VOX"
+    },
+    {
+     "name": "Sumar",
+     "full": "Unite",
+     "color": "#EF4B91",
+     "votes": 3044996,
+     "share": 12.33,
+     "seats": 31,
+     "family": "UP"
+    },
+    {
+     "name": "ERC",
+     "full": "Republican Left of Catalonia",
+     "color": "#FFB232",
+     "votes": 466020,
+     "share": 1.89,
+     "seats": 7,
+     "family": null
+    },
+    {
+     "name": "Junts",
+     "full": "Together for Catalonia",
+     "color": "#00C7AE",
+     "votes": 395429,
+     "share": 1.6,
+     "seats": 7,
+     "family": null
+    },
+    {
+     "name": "EH Bildu",
+     "full": "Basque Country Gather",
+     "color": "#00AC8E",
+     "votes": 335129,
+     "share": 1.36,
+     "seats": 6,
+     "family": null
+    },
+    {
+     "name": "EAJ/PNV",
+     "full": "Basque Nationalist Party",
+     "color": "#4AAE4A",
+     "votes": 277289,
+     "share": 1.12,
+     "seats": 5,
+     "family": null
+    },
+    {
+     "name": "BNG",
+     "full": "Galician Nationalist Bloc",
+     "color": "#ADCFEF",
+     "votes": 153995,
+     "share": 0.62,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "CCa",
+     "full": "Canarian Coalition",
+     "color": "#FFD700",
+     "votes": 116363,
+     "share": 0.47,
+     "seats": 1,
+     "family": null
+    },
+    {
+     "name": "UPN",
+     "full": "Navarrese People's Union",
+     "color": "#00599B",
+     "votes": 52188,
+     "share": 0.21,
+     "seats": 1,
+     "family": null
+    }
+   ],
+   "ministry_diff": 0.0
+  }
+ ]
+}

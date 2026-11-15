@@ -157,9 +157,11 @@ def run(clean=True):
     pagemod.strongholds_page(env, cfg, urls)
     pagemod.senate_page(env, cfg, urls, data.get("senate"))
     pagemod.society_page(env, cfg, conn)
-    from . import encert, opendata, rating
+    from . import encert, historic, opendata, rating
     if encert.accuracy_page(env, cfg, conn):
         print("     encert del 29N: pagina generada")
+    n_hist = historic.historic_page(env, cfg)
+    print(f"     generals 1977-2023: {n_hist} eleccions")
     n_rated = rating.rating_page(env, cfg)
     print(f"     valoracio d'instituts: {n_rated} instituts")
     n_files = opendata.opendata_page(env, cfg, conn, fc)
