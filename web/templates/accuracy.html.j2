@@ -67,6 +67,6 @@
   <p class="fine">{{ 'Última encuesta de cada instituto con el campo terminado en las tres semanas anteriores a la veda.' if es else "Última enquesta de cada institut amb el camp acabat les tres setmanes d'abans de la veda." }} <a href="{{ root }}{{ lang }}/{{ page('pollsters') }}/">{{ 'Valoración histórica de los institutos' if es else 'Valoració històrica dels instituts' }}</a>.</p>
   {% endif %}
 
-  <p class="note">{{ 'Resultado:' if es else 'Resultat:' }} {% if r.source %}<a href="{{ r.source }}" rel="noopener">{{ 'Ministerio del Interior' if es else "Ministeri de l'Interior" }}</a>{% else %}{{ 'Ministerio del Interior' if es else "Ministeri de l'Interior" }}{% endif %}{% if r.retrieved %}, {{ 'consultado el' if es else 'consultat el' }} {{ r.retrieved }}{% endif %}. {{ 'Cómo se calculaba todo:' if es else 'Com es calculava tot:' }} <a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ 'metodología' if es else 'metodologia' }}</a>.</p>
+  <p class="note">{{ 'Resultado:' if es else 'Resultat:' }} {% if r.source %}<a href="{{ r.source }}" rel="noopener">{{ 'Ministerio del Interior' if es else "Ministeri de l'Interior" }}</a>{% else %}{{ 'Ministerio del Interior' if es else "Ministeri de l'Interior" }}{% endif %}{% if r.retrieved %}, {{ 'consultado el' if es else 'consultat el' }} {{ fdate(r.retrieved | string) }}{% endif %}. {{ 'Cómo se calculaba todo:' if es else 'Com es calculava tot:' }} <a href="{{ root }}{{ lang }}/{{ page('method') }}/">{{ 'metodología' if es else 'metodologia' }}</a>.</p>
 </article>
 {% endblock %}

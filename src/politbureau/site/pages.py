@@ -319,6 +319,13 @@ def senate_page(env, cfg, urls, view):
     """El Senat del 29N: qui guanyaria cada escó amb l'estimacio d'avui (09/11/2026)."""
     if not view:
         return 0
+    # Qui seu a cada escó (19/11/2026): el mateix clic que al Congrés.
+    from . import people as peoplelib
+    try:
+        people_url = peoplelib.write(DIST, peoplelib.senate(view, urls), stem="senadors-2026")
+    except Exception as exc:                          # noqa: BLE001
+        print(f"      avis: fitxes dels senadors no generades ({type(exc).__name__}: {exc})")
+        people_url = {}
     for lang in i18n.LANGS:
         canonical = i18n.page_url("senate", lang)
         consts = [{**c, "url": (urls.get(("province", c["province"])) or {}).get(lang)}
@@ -333,7 +340,7 @@ def senate_page(env, cfg, urls, view):
              f"provincia a provincia y con nombres: {lead['name']} {lead['now']}." if lang == "es" else
              f"Estimació dels {view['elected']} senadors que s'escullen el 29 de novembre, "
              f"província a província i amb noms: {lead['name']} {lead['now']}."),
-            v=view, consts=consts)
+            v=view, consts=consts, people_url=people_url.get(lang, ""))
         write(DIST / canonical.strip("/") / "index.html", html)
     return len(view["constituencies"])
 

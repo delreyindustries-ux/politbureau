@@ -26,7 +26,8 @@
 
   {% from "_chamber.html.j2" import chamber %}
   {{ chamber('es-senado', v.rows, 'ES', v.majority, v.house, lang, 'total',
-             'Reparto estimado del Senado' if es else 'Repartiment estimat del Senat') }}
+             'Reparto estimado del Senado' if es else 'Repartiment estimat del Senat',
+             (root ~ people_url) if people_url else '') }}
 
   <div class="tablewrap">
   <table class="results part">

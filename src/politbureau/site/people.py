@@ -68,12 +68,74 @@ def congress(data, urls, magnitudes=None) -> dict:
     return out
 
 
-def write(dist, got) -> dict:
+def _given_first(name: str) -> str:
+    """"Arenas Bocanegra, Francisco Javier" -> "Francisco Javier Arenas Bocanegra"."""
+    if "," in name:
+        last, first = name.split(",", 1)
+        return f"{first.strip()} {last.strip()}"
+    return name
+
+
+def senate(view, urls) -> dict:
+    """Els senadors de l'hemicicle del Senat: els 209 electes de l'estimacio
+    (amb el nom de la llista proclamada al BOE) i els designats pels
+    parlaments autonomics, que no es voten el 29N."""
+    from .. import senate as senatelib
+    from ..ingest import profiles
+    bios = profiles.load()
+    out = {}
+    for lang in ("es", "ca"):
+        ca = lang == "ca"
+        by_family: dict[str, list] = {}
+
+        def bio_of(name):
+            bio = bios.get(profiles.fold(name))
+            if not bio:
+                return None
+            b = dict(bio.get(lang) or {})
+            if bio.get("born"):
+                b["born"] = bio["born"]
+            b["qid"] = bio["qid"]
+            return b
+        for c in sorted(view["constituencies"], key=lambda c: -c["seats"]):
+            u = (urls.get(("province", c["province"])) or {}).get(lang)
+            for e in c["elected"]:
+                row = {"n": e["person"], "pv": c["name"][lang], "list": e["list"],
+                       "w": (f"Candidatura al Senat per {c['name'][lang]}" if ca
+                             else f"Candidatura al Senado por {c['name'][lang]}")}
+                if u:
+                    row["u"] = u
+                b = bio_of(e["person"])
+                if b:
+                    row["bio"] = b
+                by_family.setdefault(e["code"], []).append(row)
+        for r in senatelib.composition():
+            if r["kind"] != "designat":
+                continue
+            name = _given_first(r["name"])
+            row = {"n": name, "pv": r["designated_by"], "list": r["party"],
+                   "w": (f"Escó designat per: {r['designated_by']}" if ca else f"Escaño designado por: {r['designated_by']}"),
+                   "nt": ("Escó designat per un parlament autonòmic: no es vota el 29N. "
+                          "Font: Senat (Viquipèdia). Currículum: Wikidata (CC0)." if ca else
+                          "Escaño designado por un parlamento autonómico: no se vota el 29N. "
+                          "Fuente: Senado (Wikipedia). Currículum: Wikidata (CC0).")}
+            b = bio_of(name)
+            if b:
+                row["bio"] = b
+            by_family.setdefault(r["family"], []).append(row)
+        out[lang] = {"updated": dt.date.today().isoformat(),
+                     "sources": ["BOE-A-2026-23103 (candidaturas proclamadas)",
+                                 "Anexo:Senadores de la XV legislatura de España (Wikipedia)", "Wikidata (CC0)"],
+                     "parties": by_family}
+    return out
+
+
+def write(dist, got, stem="diputats-2026") -> dict:
     """Desa els JSON i retorna {idioma: cami dins del lloc} per a data-people."""
     links = {}
     for lang, payload in got.items():
-        path = dist / "dades" / f"diputats-2026-{lang}.json"
+        path = dist / "dades" / f"{stem}-{lang}.json"
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
-        links[lang] = f"dades/diputats-2026-{lang}.json"
+        links[lang] = f"dades/{stem}-{lang}.json"
     return links

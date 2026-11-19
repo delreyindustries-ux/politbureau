@@ -81,7 +81,26 @@ def wanted(conn) -> list[dict]:
                 continue
             for m in members[:n + EXTRA]:
                 out.append({"name": m["name"], "party": party, "province": prov})
-    return out
+    # El Senat: els electes de l'estimacio i els designats pels parlaments.
+    try:
+        from .. import senate as senatelib
+        from ..site.people import _given_first
+        view = senatelib.view(conn)
+        for c in (view or {}).get("constituencies", []):
+            for e in c["elected"]:
+                out.append({"name": e["person"], "party": e["code"], "province": c["province"]})
+        for r in senatelib.composition():
+            if r["kind"] == "designat":
+                out.append({"name": _given_first(r["name"]), "party": r["family"], "province": ""})
+    except Exception as exc:                          # noqa: BLE001
+        print(f"  avis: senadors no inclosos ({type(exc).__name__}: {exc})")
+    seen, uniq = set(), []
+    for x in out:
+        k = fold(x["name"])
+        if k not in seen:
+            seen.add(k)
+            uniq.append(x)
+    return uniq
 
 
 def _labels(entity) -> set[str]:

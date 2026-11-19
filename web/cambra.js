@@ -1608,8 +1608,9 @@
         const b = m.bio;
         h += `<h3>${esc(m.n)}</h3>` +
           `<p class="party"><i style="background:${esc(g.c)}"></i>${esc(m.list || g.n)}${m.af ? ` <small>(${esc(m.af)})</small>` : ''}</p>` +
-          `<p class="where">${T.no} ${m.pos} ${T.of} ` +
-          (m.u ? `<a href="${esc(m.u)}">${esc(m.pv)}</a>` : esc(m.pv)) + `</p>` +
+          (m.w ? `<p class="where">${m.u ? `<a href="${esc(m.u)}">${esc(m.w)}</a>` : esc(m.w)}</p>`
+               : `<p class="where">${T.no} ${m.pos} ${T.of} ` +
+                 (m.u ? `<a href="${esc(m.u)}">${esc(m.pv)}</a>` : esc(m.pv)) + `</p>`) +
           (m.r ? `<p class="where">${T.also}</p>` : '');
         if (b) {
           h += (b.desc ? `<p class="desc">${esc(b.desc.charAt(0).toUpperCase() + b.desc.slice(1))}.</p>` : '') +
@@ -1619,7 +1620,7 @@
             `<p class="links">${b.wiki ? `<a href="https://${lang}.wikipedia.org/wiki/${encodeURIComponent(b.wiki.replace(/ /g, '_'))}" rel="noopener">${T.wp}</a> · ` : ''}` +
             `<a href="https://www.wikidata.org/wiki/${esc(b.qid)}" rel="noopener">Wikidata</a></p>`;
         } else h += `<p class="fine">${T.nobio}</p>`;
-        h += `<p class="fine">${T.note}</p>`;
+        h += `<p class="fine">${esc(m.nt || T.note)}</p>`;
       }
       const card = document.createElement('div');
       card.className = 'mpcard'; card.setAttribute('role', 'dialog'); card.setAttribute('aria-live', 'polite');
