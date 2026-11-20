@@ -157,6 +157,12 @@ def run(clean=True):
     pagemod.strongholds_page(env, cfg, urls)
     pagemod.senate_page(env, cfg, urls, data.get("senate"))
     pagemod.society_page(env, cfg, conn)
+    from . import sandbox
+    if sandbox.sandbox_page(env, cfg, data, conn=conn):
+        print("     simulador electoral: pagina generada")
+    from . import governs_page
+    if governs_page.governs_page(env, cfg):
+        print("     qui governa el mon: pagina generada")
     if pagemod.conversation_page(env, cfg, conn):
         print("     termometre de conversa: pagina generada")
     if pagemod.groups_page(env, cfg):

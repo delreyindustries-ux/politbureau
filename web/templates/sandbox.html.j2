@@ -1,0 +1,125 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide sandbox">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+{% if regional %}
+{% if es %}
+  <h1>Simulador electoral: {{ regional.place }}</h1>
+  <p class="lede">Mueve el voto de cada partido y mira cómo se reparten los {{ regional.seats }} escaños
+    del {{ regional.chamber }} circunscripción por circunscripción. Después, haz correr la noche electoral.</p>
+  <p class="note"><b>No es una previsión.</b> La media de encuestas y la estimación están en la
+    <a href="{{ root }}{{ regional.url.lstrip('/') }}">página de {{ regional.place }}</a>.</p>
+{% else %}
+  <h1>Simulador electoral: {{ regional.place }}</h1>
+  <p class="lede">Mou el vot de cada partit i mira com es reparteixen els {{ regional.seats }} escons
+    del {{ regional.chamber }} circumscripció per circumscripció. Després, fes córrer la nit electoral.</p>
+  <p class="note"><b>No és una previsió.</b> La mitjana d'enquestes i l'estimació són a la
+    <a href="{{ root }}{{ regional.url.lstrip('/') }}">pàgina de {{ regional.place }}</a>.</p>
+{% endif %}
+{% elif es %}
+  <h1>Simulador electoral del Congreso</h1>
+  <p class="lede">Mueve el voto de cada partido, en toda España o comunidad por comunidad, y mira
+    cómo se reparten los 350 escaños provincia por provincia. Después, haz correr la noche electoral.</p>
+  <p class="note"><b>No es una previsión.</b> Es una herramienta para entender cómo el sistema convierte
+    votos en escaños: lo que pase depende de lo que tú pongas. La previsión con las encuestas está en la
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">página de España</a>.</p>
+{% else %}
+  <h1>Simulador electoral del Congrés</h1>
+  <p class="lede">Mou el vot de cada partit, a tot Espanya o comunitat per comunitat, i mira com es
+    reparteixen els 350 escons província per província. Després, fes córrer la nit electoral.</p>
+  <p class="note"><b>No és una previsió.</b> És una eina per entendre com el sistema converteix vots en
+    escons: el que passi depèn del que hi posis tu. La previsió amb les enquestes és a la
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">pàgina d'Espanya</a>.</p>
+{% endif %}
+
+  <div class="sb-controls">
+    <fieldset class="sb-base"><legend>{{ 'Punto de partida' if es else 'Punt de partida' }}</legend>
+      <label><input type="radio" name="sb-base" value="now" checked> {{ 'La media de encuestas de hoy' if es else "La mitjana d'enquestes d'avui" }}</label>
+      <label><input type="radio" name="sb-base" value="real"> {{ ('Resultado de ' if es else 'Resultat del ') ~ (regional.year if regional else '2023') }}</label>
+      <label><input type="radio" name="sb-base" value="y2019n"> {{ 'Noviembre de 2019' if es else 'Novembre del 2019' }}</label>
+      <label><input type="radio" name="sb-base" value="y2019a"> {{ 'Abril de 2019' if es else 'Abril del 2019' }}</label>
+      <label><input type="radio" name="sb-base" value="y2016"> 2016</label>
+    </fieldset>
+    <label class="sb-where">{{ 'Dónde cambias el voto' if es else 'On canvies el vot' }}
+      <select id="sb-where"></select></label>
+    <div class="sb-buttons">
+      <button type="button" id="sb-night"></button>
+      <button type="button" id="sb-reset">{{ 'Volver al punto de partida' if es else 'Torna al punt de partida' }}</button>
+      <button type="button" id="sb-share">{{ 'Copiar el enlace de este escenario' if es else "Copia l'enllaç d'aquest escenari" }}</button>
+      <span id="sb-count" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <div class="sb-grid">
+    <div id="sb-sliders" class="sb-sliders"></div>
+    <div class="sb-out">
+      <svg id="sb-hemi" viewBox="0 0 400 210" role="img" aria-label="{{ 'Hemiciclo' if es else 'Hemicicle' }}"></svg>
+      <p id="sb-blocs" class="facts"></p>
+      <div class="tablewrap">
+      <table id="sb-table" class="results">
+        <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="num">{{ 'Voto' if es else 'Vot' }}</th>
+          <th class="num">{{ 'Escaños' if es else 'Escons' }}</th><th class="num">{{ 'Cambio' if es else 'Canvi' }}</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <svg id="sb-map" viewBox="0 0 900 640" role="img" aria-label="{{ 'Mapa de provincias' if es else 'Mapa de províncies' }}"><g></g></svg>
+
+{% if regional %}
+  <h2>{{ 'Cómo funciona' if es else 'Com funciona' }}</h2>
+  <ul>
+  {% if es %}
+    <li>Cada circunscripción reparte sus escaños con la ley d'Hondt y el umbral de la ley autonómica.</li>
+    <li>El punto de partida es el resultado real de {{ regional.year }} en cada circunscripción (Wikipedia) o ese mismo resultado movido hasta la media de encuestas de hoy.</li>
+    <li>Si cambias el voto de un partido, cada circunscripción lo cambia en la misma proporción; los partidos sin barra se ajustan para que cada una sume 100.</li>
+  {% else %}
+    <li>Cada circumscripció reparteix els seus escons amb la llei d'Hondt i el llindar de la llei autonòmica.</li>
+    <li>El punt de partida és el resultat real del {{ regional.year }} a cada circumscripció (Viquipèdia) o aquest mateix resultat mogut fins a la mitjana d'enquestes d'avui.</li>
+    <li>Si canvies el vot d'un partit, cada circumscripció el canvia en la mateixa proporció; els partits sense barra s'ajusten perquè cadascuna sumi 100.</li>
+  {% endif %}
+  </ul>
+  <p class="note">{{ 'Fuentes' if es else 'Fonts' }}: Wikipedia (CC BY-SA 4.0), {{ 'resultados por circunscripción' if es else 'resultats per circumscripció' }}; {{ 'censo electoral del INE' if es else "cens electoral de l'INE" }}; {{ 'media de encuestas de Polit Bureau' if es else "mitjana d'enquestes de Polit Bureau" }}.</p>
+{% else %}
+  <h2>{{ 'Cómo funciona' if es else 'Com funciona' }}</h2>
+  <ul>
+  {% if es %}
+    <li>Cada provincia elige sus diputados con la ley d'Hondt; un partido necesita el 3 % del voto válido de la provincia.</li>
+    <li>Si cambias el voto de un partido en toda España, cada provincia lo cambia en la misma proporción (si pasa del 30 al 33 %, se multiplica por 1,1 en todas). Si lo cambias en una comunidad, solo cambian sus provincias.</li>
+    <li>Los partidos sin barra («otros») se ajustan para que cada provincia sume 100.</li>
+    <li>«Cambio»: escaños respecto al punto de partida. La mayoría absoluta es de 176. Con los resultados de 2016 y 2019 sin tocar nada salen exactamente los escaños reales de cada provincia.</li>
+    <li>La noche electoral hace entrar las provincias por tandas, en un orden fijo, hasta completar el recuento.</li>
+  {% else %}
+    <li>Cada província tria els seus diputats amb la llei d'Hondt; un partit necessita el 3 % del vot vàlid de la província.</li>
+    <li>Si canvies el vot d'un partit a tot Espanya, cada província el canvia en la mateixa proporció (si passa del 30 al 33 %, es multiplica per 1,1 a totes). Si el canvies en una comunitat, només canvien les seves províncies.</li>
+    <li>Els partits sense barra («altres») s'ajusten perquè cada província sumi 100.</li>
+    <li>«Canvi»: escons respecte del punt de partida. La majoria absoluta és de 176. Amb els resultats del 2016 i del 2019 sense tocar res surten exactament els escons reals de cada província.</li>
+    <li>La nit electoral fa entrar les províncies per tandes, en un ordre fix, fins a completar el recompte.</li>
+  {% endif %}
+  </ul>
+  <p class="note">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'resultado de 2023 del Ministerio del Interior y media de encuestas de Polit Bureau; límites provinciales del INE.' if es else "resultat del 2023 del Ministeri de l'Interior i mitjana d'enquestes de Polit Bureau; límits provincials de l'INE." }}</p>
+  <p>{{ 'Parlamentos autonómicos' if es else 'Parlaments autonòmics' }}:
+    {% for r in regional_links %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a>{{ ', ' if not loop.last else '.' }}{% endfor %}</p>
+{% endif %}
+  <script type="application/json" id="sandbox-data">{{ payload | safe }}</script>
+</article>
+<style>
+.sandbox .sb-controls{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;margin:16px 0}
+.sandbox fieldset{border:1px solid var(--line,#ddd);padding:6px 12px;margin:0}
+.sandbox .sb-buttons{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sandbox button{padding:6px 12px;border:1px solid var(--line,#ccc);background:transparent;color:inherit;border-radius:6px;cursor:pointer}
+.sandbox .sb-grid{display:grid;grid-template-columns:minmax(260px,1fr) 2fr;gap:24px}
+@media (max-width:760px){.sandbox .sb-grid{grid-template-columns:1fr}}
+.sandbox .sb-row{display:grid;grid-template-columns:14px 1fr 2fr 56px;gap:8px;align-items:center;margin:6px 0}
+.sandbox .sb-row input{width:100%}
+.sandbox .sb-row output{text-align:right;font-variant-numeric:tabular-nums}
+.sandbox #sb-hemi{width:100%;max-width:520px;display:block;margin:auto}
+.sandbox #sb-map{width:100%;max-width:820px;display:block;margin:16px auto}
+.sandbox #sb-map path{stroke:var(--bg,#fff);stroke-width:.8}
+.sandbox #sb-map path:hover{opacity:.75}
+.sandbox #sb-blocs{display:flex;flex-wrap:wrap;gap:8px 18px}
+</style>
+{% endblock %}
+{% block scripts %}<script src="{{ root }}assets/sandbox.js" defer></script>{% endblock %}

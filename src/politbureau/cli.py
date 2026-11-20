@@ -154,6 +154,12 @@ def cmd_collectius(args):
     print(f"{d['n']} entrevistes de {len(d['studies'])} barometres; desat a {collectius.OUT}")
 
 
+def cmd_governs(args):
+    from . import governs
+    d = governs.run()
+    print(f"{sum(1 for c in d['countries'].values() if 'head' in c)} caps de govern; desat a {governs.OUT}")
+
+
 def cmd_historic(args):
     from . import history
     data = history.run()
@@ -251,6 +257,8 @@ def main(argv=None):
                    ).set_defaults(func=cmd_conversa)
     sub.add_parser("collectius", help="vot de cada col·lectiu amb les microdades del CIS (data/raw/cis)"
                    ).set_defaults(func=cmd_collectius)
+    sub.add_parser("governs", help="cap de govern de cada pais i la posicio del seu partit (Wikidata)"
+                   ).set_defaults(func=cmd_governs)
     sub.add_parser("historic", help="resultats de les generals 1977-2023 (Wikipedia)"
                    ).set_defaults(func=cmd_historic)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"

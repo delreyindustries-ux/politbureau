@@ -95,6 +95,14 @@ jobs:
           export PYTHONPATH=src
           python -m politbureau conversa
 
+      # Qui governa el mon (21/11/2026). Si falla, es fa servir la copia del repositori.
+      - name: Caps de govern
+        continue-on-error: true
+        timeout-minutes: 5
+        run: |
+          export PYTHONPATH=src
+          python -m politbureau governs
+
       - name: Recalcula i genera el lloc
         run: |
           export PYTHONPATH=src

@@ -1,0 +1,94 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide governs">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
+{% if es %}
+  <h1>Quién gobierna el mundo</h1>
+  <p class="lede">El jefe de gobierno de {{ n }} países, coloreado por la posición de su partido, y qué
+    parte de la población y de la economía del mundo gobierna cada familia política. Haz clic en un país
+    para cambiar quién lo gobierna y mira cómo se mueven los totales.</p>
+{% else %}
+  <h1>Qui governa el món</h1>
+  <p class="lede">El cap de govern de {{ n }} països, pintat per la posició del seu partit, i quina
+    part de la població i de l'economia del món governa cada família política. Fes clic en un país
+    per canviar qui el governa i mira com es mouen els totals.</p>
+{% endif %}
+  <svg id="gv-map" viewBox="0 0 900 360" role="img" aria-label="{{ 'Mapa del mundo' if es else 'Mapa del món' }}"><g></g></svg>
+  <p id="gv-tip" class="note" aria-live="polite">{{ 'Pasa por encima de un país o tócalo.' if es else 'Passa per sobre d\'un país o toca\'l.' }}</p>
+  <p><button type="button" id="gv-reset">{{ 'Volver a los datos reales' if es else 'Torna a les dades reals' }}</button></p>
+  <div class="tablewrap">
+  <table class="results" id="gv-table">
+    <thead><tr><th>{{ 'Familia' if es else 'Família' }}</th><th class="num">{{ 'Países' if es else 'Països' }}</th>
+      <th class="num">{{ 'Población mundial' if es else 'Població mundial' }}</th><th class="num">{{ 'PIB mundial' if es else 'PIB mundial' }}</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  </div>
+  <p class="note">{% if es %}<b>La clasificación es de Wikidata, no nuestra.</b> El jefe de gobierno es el que
+    Wikidata da como vigente (si hay varios, el más reciente); la familia es la «posición política» que Wikidata
+    asigna a su partido (si tiene varias, la mediana). Muchos partidos no tienen ninguna posición asignada y salen
+    en gris oscuro. Los países con dudas sobre quién gobierna salen con borde discontinuo. Población y PIB nominal:
+    Wikidata. Datos del {{ fdate(computed) }}.{% else %}<b>La classificació és de Wikidata, no nostra.</b> El cap de
+    govern és el que Wikidata dona com a vigent (si n'hi ha diversos, el més recent); la família és la «posició
+    política» que Wikidata assigna al seu partit (si en té diverses, la mediana). Molts partits no en tenen cap
+    d'assignada i surten en gris fosc. Els països amb dubtes sobre qui governa surten amb la vora discontínua.
+    Població i PIB nominal: Wikidata. Dades del {{ fdate(computed) }}.{% endif %}</p>
+  <p class="note">{{ 'Fuente' if es else 'Font' }}: Wikidata (CC0); {{ 'fronteras' if es else 'fronteres' }}: Natural Earth.</p>
+  <script type="application/json" id="gv-data">{{ payload | safe }}</script>
+</article>
+<style>
+.governs #gv-map{width:100%;display:block;margin:12px 0;background:transparent}
+.governs #gv-map path{stroke:var(--bg,#fff);stroke-width:.3;cursor:pointer}
+.governs #gv-map path.doubt{stroke:currentColor;stroke-dasharray:1.5 1.5;stroke-width:.5}
+.governs #gv-map path:hover{opacity:.75}
+.governs button{padding:6px 12px;border:1px solid var(--line,#ccc);background:transparent;color:inherit;border-radius:6px;cursor:pointer}
+</style>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("gv-data").textContent);
+  var ES = {{ 'true' if es else 'false' }};
+  var cats = D.cats, byK = {};
+  cats.forEach(function (c) { byK[c.k] = c; });
+  var cur = {};
+  function reset() { for (var k in D.rows) cur[k] = D.rows[k].k; }
+  function pct(x) { return (Math.round(x * 10) / 10).toFixed(1).replace(".", ",") + " %"; }
+  function draw() {
+    var g = document.querySelector("#gv-map g"), h = "";
+    for (var k in D.rows) {
+      var r = D.rows[k]; if (!r.path) continue;
+      h += '<path data-k="' + k + '" d="' + r.path + '" fill="' + byK[cur[k]].color + '"' + (r.d ? ' class="doubt"' : "") + "></path>";
+    }
+    g.innerHTML = h;
+    var tot = { n: 0, pop: 0, gdp: 0 }, by = {};
+    for (var j in D.rows) {
+      var x = D.rows[j], c = cur[j];
+      by[c] = by[c] || { n: 0, pop: 0, gdp: 0 };
+      by[c].n++; by[c].pop += x.pop; by[c].gdp += x.gdp;
+      tot.n++; tot.pop += x.pop; tot.gdp += x.gdp;
+    }
+    document.querySelector("#gv-table tbody").innerHTML = cats.map(function (c) {
+      var b = by[c.k] || { n: 0, pop: 0, gdp: 0 };
+      return '<tr><td><span class="sw" style="background:' + c.color + '"></span>' + (ES ? c.es : c.ca) +
+        '</td><td class="num">' + b.n + '</td><td class="num">' + pct(100 * b.pop / tot.pop) +
+        '</td><td class="num">' + pct(100 * b.gdp / tot.gdp) + "</td></tr>";
+    }).join("");
+  }
+  function label(k) {
+    var r = D.rows[k], name = (ES ? r.n.es : r.n.ca) || r.n.es || r.n.ca || k;
+    return name + ": " + (r.h || "—") + (r.p ? " (" + r.p + ")" : "") + " · " + (ES ? byK[cur[k]].es : byK[cur[k]].ca) +
+      (cur[k] !== r.k ? (ES ? " (cambiado por ti)" : " (canviat per tu)") : "") + (r.d ? (ES ? " · dato dudoso" : " · dada dubtosa") : "");
+  }
+  var map = document.getElementById("gv-map"), tip = document.getElementById("gv-tip");
+  map.addEventListener("mousemove", function (e) { var k = e.target.dataset && e.target.dataset.k; if (k) tip.textContent = label(k); });
+  map.addEventListener("click", function (e) {
+    var k = e.target.dataset && e.target.dataset.k; if (!k) return;
+    var order = cats.map(function (c) { return c.k; });
+    cur[k] = order[(order.indexOf(cur[k]) + 1) % order.length];
+    draw(); tip.textContent = label(k);
+  });
+  document.getElementById("gv-reset").addEventListener("click", function () { reset(); draw(); });
+  reset(); draw();
+})();
+</script>
+{% endblock %}

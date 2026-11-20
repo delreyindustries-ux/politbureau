@@ -1,7 +1,7 @@
 {
  "sub-es-ct": {
   "base": "2024 Catalan regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Barcelona",
@@ -117,7 +117,7 @@
  },
  "sub-es-vc": {
   "base": "2023 Valencian regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Alicante",
@@ -184,7 +184,7 @@
  },
  "sub-es-an": {
   "base": "2026 Andalusian regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Almería",
@@ -344,7 +344,7 @@
  },
  "sub-es-ar": {
   "base": "2026 Aragonese regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Huesca",
@@ -422,7 +422,7 @@
  },
  "sub-es-ga": {
   "base": "2024 Galician regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "A Coruña",
@@ -430,12 +430,12 @@
     "shares": {
      "PP": 47.7,
      "BNG": 32.5,
-     "?PSDEG": 13.0
+     "PSOE": 13.0
     },
     "won": {
      "PP": 13,
      "BNG": 9,
-     "?PSDEG": 3
+     "PSOE": 3
     }
    },
    {
@@ -444,12 +444,12 @@
     "shares": {
      "PP": 53.3,
      "BNG": 25.0,
-     "?PSDEG": 17.3
+     "PSOE": 17.3
     },
     "won": {
      "PP": 8,
      "BNG": 4,
-     "?PSDEG": 2
+     "PSOE": 2
     }
    },
    {
@@ -458,13 +458,13 @@
     "shares": {
      "PP": 50.1,
      "BNG": 25.0,
-     "?PSDEG": 12.4,
+     "PSOE": 12.4,
      "?DO": 8.7
     },
     "won": {
      "PP": 8,
      "BNG": 4,
-     "?PSDEG": 1,
+     "PSOE": 1,
      "?DO": 1
     }
    },
@@ -474,32 +474,32 @@
     "shares": {
      "PP": 44.0,
      "BNG": 34.4,
-     "?PSDEG": 14.8
+     "PSOE": 14.8
     },
     "won": {
      "PP": 11,
      "BNG": 8,
-     "?PSDEG": 3
+     "PSOE": 3
     }
    }
   ],
   "total": {
    "PP": 47.4,
    "BNG": 31.3,
-   "?PSDEG": 14.1,
+   "PSOE": 14.1,
    "?DO": 1.0
   },
   "total_won": {
    "PP": 40,
    "BNG": 25,
-   "?PSDEG": 9,
+   "PSOE": 9,
    "?DO": 1
   },
   "source": "https://en.wikipedia.org/wiki/2024_Galician_regional_election"
  },
  "sub-es-as": {
   "base": "2023 Asturian regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Central",
@@ -574,7 +574,7 @@
  },
  "sub-es-cm": {
   "base": "2023 Castilian-Manchegan regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Albacete",
@@ -660,7 +660,7 @@
  },
  "sub-es-ib": {
   "base": "2023 Balearic regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Formentera",
@@ -678,13 +678,13 @@
     "seats": 12,
     "shares": {
      "PP": 48.8,
-     "?PSIB": 25.6,
+     "PSOE": 25.6,
      "VOX": 9.2,
      "PODEMOS": 6.4
     },
     "won": {
      "PP": 7,
-     "?PSIB": 4,
+     "PSOE": 4,
      "VOX": 1
     }
    },
@@ -693,14 +693,14 @@
     "seats": 33,
     "shares": {
      "PP": 34.2,
-     "?PSIB": 26.9,
+     "PSOE": 26.9,
      "VOX": 15.3,
      "MESPM": 10.4,
      "PODEMOS": 4.0
     },
     "won": {
      "PP": 13,
-     "?PSIB": 10,
+     "PSOE": 10,
      "VOX": 6,
      "MESPM": 4
     }
@@ -710,14 +710,14 @@
     "seats": 13,
     "shares": {
      "PP": 38.7,
-     "?PSIB": 26.7,
+     "PSOE": 26.7,
      "VOX": 7.2,
      "PODEMOS": 6.8,
      "MESPM": 16.6
     },
     "won": {
      "PP": 5,
-     "?PSIB": 4,
+     "PSOE": 4,
      "VOX": 1,
      "PODEMOS": 1,
      "MESPM": 2
@@ -726,7 +726,7 @@
   ],
   "total": {
    "PP": 35.8,
-   "?PSIB": 26.5,
+   "PSOE": 26.5,
    "VOX": 13.9,
    "MESPM": 9.8,
    "PODEMOS": 4.4,
@@ -734,7 +734,7 @@
   },
   "total_won": {
    "PP": 25,
-   "?PSIB": 18,
+   "PSOE": 18,
    "VOX": 8,
    "MESPM": 6,
    "PODEMOS": 1,
@@ -744,7 +744,7 @@
  },
  "sub-es-cn": {
   "base": "2023 Canarian regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "El Hierro",
@@ -901,7 +901,7 @@
  },
  "sub-es-pv": {
   "base": "2024 Basque regional election",
-  "retrieved": "2026-11-19",
+  "retrieved": "2026-11-20",
   "districts": [
    {
     "name": "Álava",
@@ -909,7 +909,7 @@
     "shares": {
      "PNV": 26.7,
      "EHB": 29.1,
-     "?PSEEE": 16.2,
+     "PSOE": 16.2,
      "PP": 15.9,
      "SUMAR": 3.7,
      "VOX": 3.7
@@ -917,7 +917,7 @@
     "won": {
      "PNV": 7,
      "EHB": 8,
-     "?PSEEE": 4,
+     "PSOE": 4,
      "PP": 4,
      "SUMAR": 1,
      "VOX": 1
@@ -929,7 +929,7 @@
     "shares": {
      "PNV": 39.1,
      "EHB": 28.3,
-     "?PSEEE": 13.9,
+     "PSOE": 13.9,
      "PP": 9.0,
      "SUMAR": 3.3,
      "VOX": 1.9
@@ -937,7 +937,7 @@
     "won": {
      "PNV": 11,
      "EHB": 8,
-     "?PSEEE": 4,
+     "PSOE": 4,
      "PP": 2
     }
    },
@@ -947,7 +947,7 @@
     "shares": {
      "PNV": 31.4,
      "EHB": 39.8,
-     "?PSEEE": 13.4,
+     "PSOE": 13.4,
      "PP": 6.4,
      "SUMAR": 3.1,
      "VOX": 1.5
@@ -955,7 +955,7 @@
     "won": {
      "PNV": 9,
      "EHB": 11,
-     "?PSEEE": 4,
+     "PSOE": 4,
      "PP": 1
     }
    }
@@ -963,7 +963,7 @@
   "total": {
    "PNV": 34.8,
    "EHB": 32.1,
-   "?PSEEE": 14.1,
+   "PSOE": 14.1,
    "PP": 9.2,
    "SUMAR": 3.3,
    "VOX": 2.0
@@ -971,7 +971,7 @@
   "total_won": {
    "PNV": 27,
    "EHB": 27,
-   "?PSEEE": 12,
+   "PSOE": 12,
    "PP": 7,
    "SUMAR": 1,
    "VOX": 1

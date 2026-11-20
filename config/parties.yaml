@@ -275,6 +275,18 @@ ES:
     aliases:
     - gbai
     - geroa bai
+  # Ciudadanos (21/11/2026): fins ara quedava amb el codi provisional ?CS. Ara
+  # cal per als punts de partida del 2016 i del 2019 del simulador, on va
+  # treure 32, 57 i 10 escons.
+  CS:
+    name: Cs
+    color: '#EB6109'
+    aliases:
+    - cs
+    - c's
+    - ciudadanos
+    - ciudadanos-partido de la ciudadania
+    - ciudadanos-partido de la ciudadanía
   FO:
     name: Frente Obrero
     color: '#8C1C13'

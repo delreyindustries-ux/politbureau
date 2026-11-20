@@ -509,6 +509,12 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-21", "Simulador abierto también para nueve parlamentos autonómicos y con los resultados de 2016 y 2019 como punto de partida (reproducen exactamente los escaños reales). Corregido: el PSOE de Galicia, el País Vasco y Baleares no se emparejaba con su resultado anterior en el reparto por circunscripciones.",
+     "Simulador obert també per a nou parlaments autonòmics i amb els resultats del 2016 i el 2019 com a punt de partida (reprodueixen exactament els escons reals). Corregit: el PSOE de Galícia, el País Basc i les Balears no s'aparellava amb el seu resultat anterior al repartiment per circumscripcions."),
+    ("2026-11-21", "Quién gobierna el mundo: mapa de los jefes de gobierno por la posición política de su partido según Wikidata, con la parte de la población y del PIB mundial de cada familia.",
+     "Qui governa el món: mapa dels caps de govern per la posició política del seu partit segons Wikidata, amb la part de la població i del PIB mundial de cada família."),
+    ("2026-11-21", "Simulador electoral abierto: el usuario mueve el voto de cada partido en toda España o por comunidad y ve el reparto provincia por provincia, el mapa y una noche electoral. No es una previsión.",
+     "Simulador electoral obert: l'usuari mou el vot de cada partit a tot Espanya o per comunitat i veu el repartiment província per província, el mapa i una nit electoral. No és una previsió."),
     ("2026-11-20", "Voto por colectivos con los microdatos del CIS (voto + simpatía, ponderado): sexo, edad, lugar de nacimiento, estudios, trabajo, profesión, clase, ingresos, religión, ideología, estado civil y tamaño del municipio. Grupos de menos de 100 entrevistas, fuera.",
      "Vot per col·lectius amb les microdades del CIS (vot + simpatia, ponderat): sexe, edat, lloc de naixement, estudis, feina, professió, classe, ingressos, religió, ideologia, estat civil i mida del municipi. Grups de menys de 100 entrevistes, fora."),
     ("2026-11-20", "Termómetro de conversación: cuánto se habla de cada partido en Bluesky y en Wikipedia, al lado de su voto en las encuestas. No entra en la media: en 2023 la atención no predijo el voto.",
@@ -689,7 +695,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "groups", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "groups", "sandbox", "governs", "strongholds", "method", "legal", "privacy", "cookies")]
         # Pagines que nomes existeixen quan hi ha dades (l'encert del 29N).
         entries += [i18n.page_url(k, lang) for k in cfg.get("_extra_pages", [])]
         if cfg.get("_abroad"):
@@ -730,7 +736,7 @@ def assets(data, urls):
     """Copia el CSS i el JS i escriu les dades que necessita el mapa interactiu."""
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
-    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js",
+    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js", "sandbox.js",
                  "world.js", "world.json", "relief.jpg", "flags.webp", "favicon.svg"):
         src = WEB / name
         if src.exists():
