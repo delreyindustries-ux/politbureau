@@ -2,6 +2,12 @@
  "computed": "2026-11-20",
  "studies": [
   {
+   "id": "3571",
+   "n": 4020,
+   "month": "2026-07",
+   "updated": "2026-08-06"
+  },
+  {
    "id": "3577",
    "n": 4042,
    "month": "2026-09",
@@ -14,7 +20,7 @@
    "updated": "2026-10-19"
   }
  ],
- "n": 9066,
+ "n": 13086,
  "parties": [
   {
    "code": "PSOE",
@@ -47,19 +53,19 @@
  ],
  "measure": "VOTOSIMG (voto + simpatía), ponderado con PESO",
  "total": {
-  "n": 9066,
-  "n_party": 7507,
+  "n": 13086,
+  "n_party": 10891,
   "shares": {
-   "PSOE": 34.2,
-   "PP": 22.2,
-   "VOX": 15.3,
-   "SUMAR": 7.2,
-   "PODEMOS": 3.4,
-   "SALF": 1.6,
+   "PSOE": 34.1,
+   "PP": 22.7,
+   "VOX": 15.1,
+   "SUMAR": 7.0,
+   "PODEMOS": 3.1,
+   "SALF": 1.9,
    "OTHER": 16.1
   },
-  "none": 18.5,
-  "moe": 1.5
+  "none": 17.9,
+  "moe": 1.2
  },
  "dims": [
   {
@@ -74,19 +80,19 @@
       "ca": "Dones",
       "es": "Mujeres"
      },
-     "n": 4462,
-     "n_party": 3625,
+     "n": 6421,
+     "n_party": 5256,
      "shares": {
       "PSOE": 39.6,
-      "PP": 21.7,
-      "VOX": 13.2,
-      "SUMAR": 6.7,
-      "PODEMOS": 2.9,
-      "SALF": 1.0,
-      "OTHER": 14.9
+      "PP": 22.1,
+      "VOX": 12.4,
+      "SUMAR": 6.8,
+      "PODEMOS": 2.5,
+      "SALF": 1.3,
+      "OTHER": 15.2
      },
-     "none": 20.2,
-     "moe": 2.2,
+     "none": 19.9,
+     "moe": 1.9,
      "hidden": false
     },
     {
@@ -94,19 +100,19 @@
       "ca": "Homes",
       "es": "Hombres"
      },
-     "n": 4604,
-     "n_party": 3882,
+     "n": 6665,
+     "n_party": 5635,
      "shares": {
-      "PSOE": 28.7,
-      "PP": 22.6,
-      "VOX": 17.5,
-      "SUMAR": 7.6,
-      "PODEMOS": 4.0,
-      "SALF": 2.3,
-      "OTHER": 17.3
+      "PSOE": 28.6,
+      "PP": 23.2,
+      "VOX": 17.8,
+      "SUMAR": 7.2,
+      "PODEMOS": 3.7,
+      "SALF": 2.5,
+      "OTHER": 17.0
      },
-     "none": 16.6,
-     "moe": 2.0,
+     "none": 15.9,
+     "moe": 1.6,
      "hidden": false
     }
    ]
@@ -123,19 +129,19 @@
       "ca": "18 a 29 anys",
       "es": "18 a 29 años"
      },
-     "n": 1172,
-     "n_party": 963,
+     "n": 1691,
+     "n_party": 1392,
      "shares": {
       "PSOE": 26.6,
-      "PP": 15.5,
+      "PP": 16.1,
       "VOX": 22.7,
-      "SUMAR": 10.1,
+      "SUMAR": 9.5,
       "PODEMOS": 3.4,
-      "SALF": 2.7,
-      "OTHER": 19.1
+      "SALF": 3.5,
+      "OTHER": 18.1
      },
      "none": 18.8,
-     "moe": 3.5,
+     "moe": 3.0,
      "hidden": false
     },
     {
@@ -143,19 +149,19 @@
       "ca": "30 a 44 anys",
       "es": "30 a 44 años"
      },
-     "n": 2045,
-     "n_party": 1672,
+     "n": 2965,
+     "n_party": 2438,
      "shares": {
-      "PSOE": 22.2,
-      "PP": 20.2,
-      "VOX": 22.1,
-      "SUMAR": 9.6,
-      "PODEMOS": 3.7,
-      "SALF": 3.0,
-      "OTHER": 19.3
+      "PSOE": 22.5,
+      "PP": 20.4,
+      "VOX": 21.9,
+      "SUMAR": 8.9,
+      "PODEMOS": 3.4,
+      "SALF": 3.8,
+      "OTHER": 19.1
      },
-     "none": 19.4,
-     "moe": 2.8,
+     "none": 18.2,
+     "moe": 2.2,
      "hidden": false
     },
     {
@@ -163,19 +169,19 @@
       "ca": "45 a 64 anys",
       "es": "45 a 64 años"
      },
-     "n": 3781,
-     "n_party": 3117,
+     "n": 5436,
+     "n_party": 4492,
      "shares": {
       "PSOE": 32.8,
-      "PP": 24.6,
-      "VOX": 14.7,
-      "SUMAR": 6.9,
-      "PODEMOS": 4.1,
+      "PP": 24.7,
+      "VOX": 14.5,
+      "SUMAR": 7.2,
+      "PODEMOS": 3.6,
       "SALF": 1.4,
-      "OTHER": 15.5
+      "OTHER": 15.8
      },
-     "none": 18.5,
-     "moe": 2.1,
+     "none": 18.3,
+     "moe": 1.8,
      "hidden": false
     },
     {
@@ -183,19 +189,19 @@
       "ca": "65 anys o més",
       "es": "65 años o más"
      },
-     "n": 2068,
-     "n_party": 1755,
+     "n": 2994,
+     "n_party": 2569,
      "shares": {
-      "PSOE": 49.6,
-      "PP": 23.8,
-      "VOX": 7.1,
-      "SUMAR": 4.0,
-      "PODEMOS": 2.3,
+      "PSOE": 49.0,
+      "PP": 24.9,
+      "VOX": 6.6,
+      "SUMAR": 3.9,
+      "PODEMOS": 2.0,
       "SALF": 0.4,
-      "OTHER": 12.8
+      "OTHER": 13.1
      },
-     "none": 17.5,
-     "moe": 3.6,
+     "none": 16.7,
+     "moe": 3.0,
      "hidden": false
     }
    ]
@@ -212,19 +218,19 @@
       "ca": "Nascuts a Espanya",
       "es": "Nacidos en España"
      },
-     "n": 8513,
-     "n_party": 7060,
+     "n": 12280,
+     "n_party": 10237,
      "shares": {
-      "PSOE": 33.9,
-      "PP": 21.9,
-      "VOX": 15.2,
-      "SUMAR": 7.2,
-      "PODEMOS": 3.5,
-      "SALF": 1.7,
+      "PSOE": 33.8,
+      "PP": 22.5,
+      "VOX": 15.0,
+      "SUMAR": 7.1,
+      "PODEMOS": 3.1,
+      "SALF": 2.0,
       "OTHER": 16.5
      },
-     "none": 18.3,
-     "moe": 1.6,
+     "none": 17.7,
+     "moe": 1.3,
      "hidden": false
     },
     {
@@ -232,19 +238,19 @@
       "ca": "Nascuts a Llatinoamèrica",
       "es": "Nacidos en Latinoamérica"
      },
-     "n": 379,
-     "n_party": 307,
+     "n": 540,
+     "n_party": 433,
      "shares": {
-      "PSOE": 40.7,
-      "PP": 27.1,
-      "VOX": 16.8,
-      "SUMAR": 5.6,
-      "PODEMOS": 1.8,
-      "SALF": 1.2,
-      "OTHER": 6.8
+      "PSOE": 42.4,
+      "PP": 27.3,
+      "VOX": 15.7,
+      "SUMAR": 4.3,
+      "PODEMOS": 1.7,
+      "SALF": 1.3,
+      "OTHER": 7.3
      },
-     "none": 23.9,
-     "moe": 7.6,
+     "none": 24.9,
+     "moe": 6.2,
      "hidden": false
     },
     {
@@ -252,19 +258,19 @@
       "ca": "Nascuts a la resta del món",
       "es": "Nacidos en el resto del mundo"
      },
-     "n": 173,
-     "n_party": 139,
+     "n": 264,
+     "n_party": 219,
      "shares": {
       "PSOE": 35.1,
-      "PP": 25.2,
-      "VOX": 17.1,
-      "SUMAR": 5.5,
-      "PODEMOS": 5.5,
-      "SALF": 1.0,
-      "OTHER": 10.5
+      "PP": 22.0,
+      "VOX": 16.7,
+      "SUMAR": 6.8,
+      "PODEMOS": 4.6,
+      "SALF": 1.3,
+      "OTHER": 13.5
      },
-     "none": 16.5,
-     "moe": 9.8,
+     "none": 14.4,
+     "moe": 7.9,
      "hidden": false
     }
    ]
@@ -281,19 +287,19 @@
       "ca": "Des del naixement",
       "es": "Desde el nacimiento"
      },
-     "n": 8639,
-     "n_party": 7169,
+     "n": 12455,
+     "n_party": 10392,
      "shares": {
-      "PSOE": 33.8,
-      "PP": 22.0,
-      "VOX": 15.2,
-      "SUMAR": 7.3,
-      "PODEMOS": 3.5,
-      "SALF": 1.7,
-      "OTHER": 16.5
+      "PSOE": 33.7,
+      "PP": 22.5,
+      "VOX": 15.1,
+      "SUMAR": 7.1,
+      "PODEMOS": 3.2,
+      "SALF": 2.0,
+      "OTHER": 16.4
      },
-     "none": 18.2,
-     "moe": 1.5,
+     "none": 17.6,
+     "moe": 1.3,
      "hidden": false
     },
     {
@@ -301,19 +307,19 @@
       "ca": "Adquirida després",
       "es": "Adquirida después"
      },
-     "n": 423,
-     "n_party": 337,
+     "n": 627,
+     "n_party": 498,
      "shares": {
-      "PSOE": 42.6,
-      "PP": 27.0,
-      "VOX": 16.9,
+      "PSOE": 42.9,
+      "PP": 26.0,
+      "VOX": 15.4,
       "SUMAR": 4.5,
-      "PODEMOS": 1.8,
-      "SALF": 1.2,
-      "OTHER": 6.1
+      "PODEMOS": 1.5,
+      "SALF": 1.5,
+      "OTHER": 8.2
      },
-     "none": 23.4,
-     "moe": 7.0,
+     "none": 24.0,
+     "moe": 5.7,
      "hidden": false
     }
    ]
@@ -330,19 +336,19 @@
       "ca": "Primària o menys",
       "es": "Primaria o menos"
      },
-     "n": 231,
-     "n_party": 177,
+     "n": 349,
+     "n_party": 276,
      "shares": {
-      "PSOE": 51.3,
-      "PP": 18.2,
-      "VOX": 12.9,
-      "SUMAR": 3.6,
-      "PODEMOS": 3.9,
-      "SALF": 0.8,
-      "OTHER": 9.4
+      "PSOE": 50.7,
+      "PP": 20.2,
+      "VOX": 11.7,
+      "SUMAR": 3.4,
+      "PODEMOS": 2.6,
+      "SALF": 0.7,
+      "OTHER": 10.8
      },
-     "none": 23.8,
-     "moe": 8.0,
+     "none": 21.5,
+     "moe": 6.4,
      "hidden": false
     },
     {
@@ -350,19 +356,19 @@
       "ca": "Secundària (1a etapa)",
       "es": "Secundaria (1.ª etapa)"
      },
-     "n": 1001,
-     "n_party": 812,
+     "n": 1465,
+     "n_party": 1194,
      "shares": {
-      "PSOE": 38.1,
-      "PP": 23.0,
-      "VOX": 17.1,
+      "PSOE": 37.3,
+      "PP": 23.2,
+      "VOX": 17.4,
       "SUMAR": 4.1,
-      "PODEMOS": 3.5,
-      "SALF": 1.5,
-      "OTHER": 12.8
+      "PODEMOS": 2.7,
+      "SALF": 2.3,
+      "OTHER": 13.0
      },
-     "none": 19.2,
-     "moe": 3.6,
+     "none": 18.7,
+     "moe": 2.9,
      "hidden": false
     },
     {
@@ -370,19 +376,19 @@
       "ca": "Batxillerat",
       "es": "Bachillerato"
      },
-     "n": 1333,
-     "n_party": 1124,
+     "n": 1904,
+     "n_party": 1607,
      "shares": {
-      "PSOE": 32.8,
-      "PP": 20.6,
-      "VOX": 15.6,
-      "SUMAR": 7.9,
-      "PODEMOS": 2.5,
-      "SALF": 2.0,
-      "OTHER": 18.6
+      "PSOE": 32.3,
+      "PP": 21.5,
+      "VOX": 15.7,
+      "SUMAR": 7.7,
+      "PODEMOS": 3.1,
+      "SALF": 2.2,
+      "OTHER": 17.6
      },
-     "none": 16.2,
-     "moe": 2.9,
+     "none": 16.3,
+     "moe": 2.4,
      "hidden": false
     },
     {
@@ -390,19 +396,19 @@
       "ca": "Formació professional",
       "es": "Formación profesional"
      },
-     "n": 2021,
-     "n_party": 1650,
+     "n": 2892,
+     "n_party": 2357,
      "shares": {
-      "PSOE": 28.5,
-      "PP": 19.4,
-      "VOX": 19.6,
-      "SUMAR": 6.4,
-      "PODEMOS": 3.7,
-      "SALF": 2.5,
-      "OTHER": 19.9
+      "PSOE": 30.0,
+      "PP": 19.6,
+      "VOX": 19.1,
+      "SUMAR": 6.2,
+      "PODEMOS": 3.3,
+      "SALF": 2.7,
+      "OTHER": 19.1
      },
      "none": 18.6,
-     "moe": 2.5,
+     "moe": 2.1,
      "hidden": false
     },
     {
@@ -410,19 +416,19 @@
       "ca": "Universitaris",
       "es": "Universitarios"
      },
-     "n": 4454,
-     "n_party": 3725,
+     "n": 6442,
+     "n_party": 5433,
      "shares": {
-      "PSOE": 27.6,
-      "PP": 25.3,
-      "VOX": 11.8,
-      "SUMAR": 11.5,
+      "PSOE": 27.7,
+      "PP": 25.5,
+      "VOX": 11.6,
+      "SUMAR": 11.4,
       "PODEMOS": 3.7,
-      "SALF": 1.5,
-      "OTHER": 18.6
+      "SALF": 1.3,
+      "OTHER": 18.8
      },
-     "none": 16.3,
-     "moe": 1.5,
+     "none": 15.7,
+     "moe": 1.2,
      "hidden": false
     }
    ]
@@ -439,19 +445,19 @@
       "ca": "Treballa",
       "es": "Trabaja"
      },
-     "n": 5496,
-     "n_party": 4572,
+     "n": 7935,
+     "n_party": 6609,
      "shares": {
-      "PSOE": 27.1,
-      "PP": 23.1,
+      "PSOE": 27.2,
+      "PP": 23.3,
       "VOX": 17.8,
-      "SUMAR": 8.5,
-      "PODEMOS": 3.7,
-      "SALF": 2.2,
+      "SUMAR": 8.2,
+      "PODEMOS": 3.5,
+      "SALF": 2.4,
       "OTHER": 17.7
      },
-     "none": 17.6,
-     "moe": 1.7,
+     "none": 17.0,
+     "moe": 1.4,
      "hidden": false
     },
     {
@@ -459,19 +465,19 @@
       "ca": "A l'atur",
       "es": "En paro"
      },
-     "n": 712,
-     "n_party": 552,
+     "n": 1026,
+     "n_party": 810,
      "shares": {
-      "PSOE": 33.9,
-      "PP": 18.1,
-      "VOX": 18.9,
-      "SUMAR": 7.0,
-      "PODEMOS": 3.5,
-      "SALF": 1.3,
-      "OTHER": 17.3
+      "PSOE": 34.7,
+      "PP": 16.5,
+      "VOX": 19.0,
+      "SUMAR": 6.9,
+      "PODEMOS": 2.8,
+      "SALF": 2.7,
+      "OTHER": 17.4
      },
-     "none": 22.2,
-     "moe": 5.6,
+     "none": 21.5,
+     "moe": 4.5,
      "hidden": false
     },
     {
@@ -479,19 +485,19 @@
       "ca": "Jubilats i pensionistes",
       "es": "Jubilados y pensionistas"
      },
-     "n": 2110,
-     "n_party": 1794,
+     "n": 3065,
+     "n_party": 2628,
      "shares": {
-      "PSOE": 48.5,
-      "PP": 22.6,
-      "VOX": 8.1,
-      "SUMAR": 4.7,
-      "PODEMOS": 2.7,
+      "PSOE": 48.0,
+      "PP": 23.7,
+      "VOX": 7.6,
+      "SUMAR": 4.6,
+      "PODEMOS": 2.3,
       "SALF": 0.7,
-      "OTHER": 12.8
+      "OTHER": 13.2
      },
-     "none": 17.7,
-     "moe": 3.5,
+     "none": 17.2,
+     "moe": 2.9,
      "hidden": false
     },
     {
@@ -499,19 +505,19 @@
       "ca": "Estudiants",
       "es": "Estudiantes"
      },
-     "n": 365,
-     "n_party": 288,
+     "n": 517,
+     "n_party": 411,
      "shares": {
-      "PSOE": 27.1,
-      "PP": 17.3,
-      "VOX": 17.8,
-      "SUMAR": 13.4,
-      "PODEMOS": 4.8,
-      "SALF": 1.8,
-      "OTHER": 17.9
+      "PSOE": 27.2,
+      "PP": 18.5,
+      "VOX": 18.2,
+      "SUMAR": 12.9,
+      "PODEMOS": 4.2,
+      "SALF": 2.5,
+      "OTHER": 16.7
      },
-     "none": 20.5,
-     "moe": 5.8,
+     "none": 20.2,
+     "moe": 5.0,
      "hidden": false
     },
     {
@@ -519,19 +525,19 @@
       "ca": "Treball domèstic no remunerat",
       "es": "Trabajo doméstico no remunerado"
      },
-     "n": 222,
-     "n_party": 171,
+     "n": 311,
+     "n_party": 247,
      "shares": {
-      "PSOE": 39.7,
-      "PP": 28.0,
-      "VOX": 18.6,
-      "SUMAR": 0.4,
-      "PODEMOS": 0.8,
-      "SALF": 2.1,
-      "OTHER": 10.4
+      "PSOE": 41.1,
+      "PP": 29.4,
+      "VOX": 17.4,
+      "SUMAR": 1.0,
+      "PODEMOS": 0.6,
+      "SALF": 2.2,
+      "OTHER": 8.4
      },
-     "none": 24.8,
-     "moe": 9.4,
+     "none": 23.2,
+     "moe": 8.0,
      "hidden": false
     }
    ]
@@ -548,19 +554,19 @@
       "ca": "Assalariats",
       "es": "Asalariados"
      },
-     "n": 4610,
-     "n_party": 3825,
+     "n": 6651,
+     "n_party": 5539,
      "shares": {
-      "PSOE": 27.3,
-      "PP": 22.0,
-      "VOX": 17.4,
-      "SUMAR": 9.3,
-      "PODEMOS": 3.9,
-      "SALF": 1.9,
+      "PSOE": 27.8,
+      "PP": 22.2,
+      "VOX": 16.9,
+      "SUMAR": 9.1,
+      "PODEMOS": 3.7,
+      "SALF": 2.0,
       "OTHER": 18.2
      },
-     "none": 18.4,
-     "moe": 1.8,
+     "none": 17.6,
+     "moe": 1.5,
      "hidden": false
     },
     {
@@ -568,19 +574,19 @@
       "ca": "Autònoms sense assalariats",
       "es": "Autónomos sin asalariados"
      },
-     "n": 527,
-     "n_party": 444,
+     "n": 762,
+     "n_party": 629,
      "shares": {
-      "PSOE": 27.9,
-      "PP": 27.7,
-      "VOX": 18.1,
+      "PSOE": 26.4,
+      "PP": 27.2,
+      "VOX": 20.5,
       "SUMAR": 4.7,
-      "PODEMOS": 3.8,
-      "SALF": 3.8,
-      "OTHER": 14.0
+      "PODEMOS": 3.5,
+      "SALF": 4.2,
+      "OTHER": 13.6
      },
-     "none": 12.3,
-     "moe": 5.8,
+     "none": 13.7,
+     "moe": 4.7,
      "hidden": false
     },
     {
@@ -588,19 +594,19 @@
       "ca": "Empresaris amb assalariats",
       "es": "Empresarios con asalariados"
      },
-     "n": 297,
-     "n_party": 255,
+     "n": 427,
+     "n_party": 365,
      "shares": {
-      "PSOE": 18.4,
-      "PP": 33.6,
-      "VOX": 24.7,
-      "SUMAR": 2.9,
+      "PSOE": 16.8,
+      "PP": 35.5,
+      "VOX": 24.5,
+      "SUMAR": 2.4,
       "PODEMOS": 0.6,
-      "SALF": 3.2,
-      "OTHER": 16.6
+      "SALF": 4.4,
+      "OTHER": 15.8
      },
-     "none": 14.0,
-     "moe": 7.3,
+     "none": 13.5,
+     "moe": 6.2,
      "hidden": false
     }
    ]
@@ -617,19 +623,19 @@
       "ca": "Directius i gerents",
       "es": "Directivos y gerentes"
      },
-     "n": 461,
-     "n_party": 387,
+     "n": 685,
+     "n_party": 582,
      "shares": {
-      "PSOE": 24.7,
-      "PP": 30.9,
-      "VOX": 19.1,
-      "SUMAR": 3.8,
+      "PSOE": 21.0,
+      "PP": 35.2,
+      "VOX": 18.5,
+      "SUMAR": 4.2,
       "PODEMOS": 1.1,
-      "SALF": 3.0,
-      "OTHER": 17.5
+      "SALF": 2.4,
+      "OTHER": 17.6
      },
-     "none": 17.5,
-     "moe": 5.4,
+     "none": 15.2,
+     "moe": 4.5,
      "hidden": false
     },
     {
@@ -637,19 +643,19 @@
       "ca": "Professionals i científics",
       "es": "Profesionales y científicos"
      },
-     "n": 1917,
-     "n_party": 1630,
+     "n": 2750,
+     "n_party": 2343,
      "shares": {
-      "PSOE": 26.4,
-      "PP": 25.3,
-      "VOX": 10.6,
-      "SUMAR": 12.1,
-      "PODEMOS": 4.1,
-      "SALF": 1.4,
-      "OTHER": 20.1
+      "PSOE": 27.3,
+      "PP": 25.0,
+      "VOX": 10.4,
+      "SUMAR": 12.3,
+      "PODEMOS": 4.0,
+      "SALF": 1.5,
+      "OTHER": 19.5
      },
-     "none": 14.4,
-     "moe": 2.4,
+     "none": 14.5,
+     "moe": 2.0,
      "hidden": false
     },
     {
@@ -657,19 +663,19 @@
       "ca": "Tècnics de nivell mitjà",
       "es": "Técnicos de nivel medio"
      },
-     "n": 971,
-     "n_party": 814,
+     "n": 1412,
+     "n_party": 1174,
      "shares": {
-      "PSOE": 27.6,
-      "PP": 21.3,
-      "VOX": 14.1,
-      "SUMAR": 9.5,
-      "PODEMOS": 4.8,
-      "SALF": 1.3,
-      "OTHER": 21.4
+      "PSOE": 26.5,
+      "PP": 21.5,
+      "VOX": 13.9,
+      "SUMAR": 9.4,
+      "PODEMOS": 5.1,
+      "SALF": 1.4,
+      "OTHER": 22.2
      },
-     "none": 15.9,
-     "moe": 3.8,
+     "none": 16.1,
+     "moe": 3.1,
      "hidden": false
     },
     {
@@ -677,19 +683,19 @@
       "ca": "Administratius",
       "es": "Administrativos"
      },
-     "n": 416,
-     "n_party": 339,
+     "n": 613,
+     "n_party": 507,
      "shares": {
-      "PSOE": 24.1,
-      "PP": 23.6,
-      "VOX": 14.9,
+      "PSOE": 27.2,
+      "PP": 24.5,
+      "VOX": 13.6,
       "SUMAR": 9.2,
-      "PODEMOS": 3.7,
-      "SALF": 1.5,
-      "OTHER": 23.1
+      "PODEMOS": 2.9,
+      "SALF": 1.1,
+      "OTHER": 21.5
      },
-     "none": 21.2,
-     "moe": 5.2,
+     "none": 19.1,
+     "moe": 4.5,
      "hidden": false
     },
     {
@@ -697,19 +703,19 @@
       "ca": "Serveis i comerç",
       "es": "Servicios y comercio"
      },
-     "n": 723,
-     "n_party": 607,
+     "n": 1016,
+     "n_party": 841,
      "shares": {
-      "PSOE": 32.9,
+      "PSOE": 33.2,
       "PP": 18.3,
-      "VOX": 20.1,
-      "SUMAR": 7.5,
-      "PODEMOS": 3.6,
+      "VOX": 19.7,
+      "SUMAR": 6.5,
+      "PODEMOS": 3.9,
       "SALF": 2.0,
-      "OTHER": 15.5
+      "OTHER": 16.2
      },
-     "none": 16.7,
-     "moe": 4.7,
+     "none": 17.2,
+     "moe": 4.0,
      "hidden": false
     },
     {
@@ -717,27 +723,39 @@
       "ca": "Agricultura i pesca",
       "es": "Agricultura y pesca"
      },
-     "n": 68,
-     "hidden": true
+     "n": 100,
+     "n_party": 86,
+     "shares": {
+      "PSOE": 36.1,
+      "PP": 30.7,
+      "VOX": 15.2,
+      "SUMAR": 5.6,
+      "PODEMOS": 1.0,
+      "SALF": 7.2,
+      "OTHER": 4.2
+     },
+     "none": 11.9,
+     "moe": 12.5,
+     "hidden": false
     },
     {
      "label": {
       "ca": "Oficis i construcció",
       "es": "Oficios y construcción"
      },
-     "n": 314,
-     "n_party": 257,
+     "n": 447,
+     "n_party": 366,
      "shares": {
-      "PSOE": 21.7,
-      "PP": 25.4,
-      "VOX": 24.5,
-      "SUMAR": 7.8,
-      "PODEMOS": 3.1,
-      "SALF": 2.4,
-      "OTHER": 15.0
+      "PSOE": 22.1,
+      "PP": 24.4,
+      "VOX": 25.2,
+      "SUMAR": 6.3,
+      "PODEMOS": 2.7,
+      "SALF": 2.8,
+      "OTHER": 16.5
      },
-     "none": 17.3,
-     "moe": 7.3,
+     "none": 17.0,
+     "moe": 5.9,
      "hidden": false
     },
     {
@@ -745,19 +763,19 @@
       "ca": "Operaris de màquines",
       "es": "Operadores de máquinas"
      },
-     "n": 237,
-     "n_party": 197,
+     "n": 324,
+     "n_party": 272,
      "shares": {
-      "PSOE": 23.2,
+      "PSOE": 21.3,
       "PP": 21.2,
-      "VOX": 29.0,
-      "SUMAR": 4.6,
-      "PODEMOS": 4.8,
-      "SALF": 1.2,
-      "OTHER": 16.0
+      "VOX": 30.7,
+      "SUMAR": 7.0,
+      "PODEMOS": 3.9,
+      "SALF": 2.1,
+      "OTHER": 13.7
      },
-     "none": 17.2,
-     "moe": 7.9,
+     "none": 15.1,
+     "moe": 6.8,
      "hidden": false
     },
     {
@@ -765,19 +783,19 @@
       "ca": "Ocupacions elementals",
       "es": "Ocupaciones elementales"
      },
-     "n": 188,
-     "n_party": 139,
+     "n": 302,
+     "n_party": 227,
      "shares": {
-      "PSOE": 32.2,
-      "PP": 13.8,
-      "VOX": 25.9,
-      "SUMAR": 7.6,
-      "PODEMOS": 2.1,
-      "SALF": 6.2,
+      "PSOE": 35.1,
+      "PP": 14.0,
+      "VOX": 24.2,
+      "SUMAR": 6.0,
+      "PODEMOS": 2.0,
+      "SALF": 6.4,
       "OTHER": 12.2
      },
-     "none": 27.7,
-     "moe": 9.7,
+     "none": 24.8,
+     "moe": 7.6,
      "hidden": false
     },
     {
@@ -785,19 +803,19 @@
       "ca": "Militars i policies",
       "es": "Militares y policías"
      },
-     "n": 125,
-     "n_party": 101,
+     "n": 183,
+     "n_party": 151,
      "shares": {
-      "PSOE": 8.5,
-      "PP": 34.1,
-      "VOX": 42.4,
-      "SUMAR": 0.7,
-      "PODEMOS": 4.0,
-      "SALF": 4.1,
-      "OTHER": 6.2
+      "PSOE": 7.2,
+      "PP": 32.9,
+      "VOX": 40.5,
+      "SUMAR": 0.5,
+      "PODEMOS": 2.8,
+      "SALF": 7.2,
+      "OTHER": 9.0
      },
-     "none": 24.3,
-     "moe": 12.2,
+     "none": 21.5,
+     "moe": 9.5,
      "hidden": false
     }
    ]
@@ -814,19 +832,19 @@
       "ca": "Alta i mitjana-alta",
       "es": "Alta y media-alta"
      },
-     "n": 473,
-     "n_party": 407,
+     "n": 713,
+     "n_party": 613,
      "shares": {
-      "PSOE": 24.3,
-      "PP": 33.4,
-      "VOX": 14.0,
-      "SUMAR": 5.9,
-      "PODEMOS": 2.1,
-      "SALF": 1.2,
-      "OTHER": 19.1
+      "PSOE": 22.8,
+      "PP": 36.1,
+      "VOX": 13.3,
+      "SUMAR": 5.1,
+      "PODEMOS": 1.8,
+      "SALF": 2.5,
+      "OTHER": 18.4
      },
-     "none": 14.9,
-     "moe": 5.6,
+     "none": 14.5,
+     "moe": 4.6,
      "hidden": false
     },
     {
@@ -834,19 +852,19 @@
       "ca": "Mitjana",
       "es": "Media"
      },
-     "n": 4000,
-     "n_party": 3384,
+     "n": 5773,
+     "n_party": 4903,
      "shares": {
-      "PSOE": 33.1,
-      "PP": 29.6,
-      "VOX": 15.2,
-      "SUMAR": 5.9,
-      "PODEMOS": 1.4,
-      "SALF": 1.4,
-      "OTHER": 13.3
+      "PSOE": 33.5,
+      "PP": 29.0,
+      "VOX": 15.1,
+      "SUMAR": 6.0,
+      "PODEMOS": 1.7,
+      "SALF": 1.6,
+      "OTHER": 13.1
      },
-     "none": 15.3,
-     "moe": 2.2,
+     "none": 15.2,
+     "moe": 1.8,
      "hidden": false
     },
     {
@@ -854,19 +872,19 @@
       "ca": "Mitjana-baixa",
       "es": "Media-baja"
      },
-     "n": 1239,
-     "n_party": 1000,
+     "n": 1797,
+     "n_party": 1465,
      "shares": {
-      "PSOE": 32.5,
-      "PP": 22.3,
-      "VOX": 16.3,
-      "SUMAR": 6.3,
-      "PODEMOS": 2.5,
-      "SALF": 2.0,
-      "OTHER": 18.1
+      "PSOE": 32.9,
+      "PP": 21.8,
+      "VOX": 15.7,
+      "SUMAR": 6.9,
+      "PODEMOS": 2.4,
+      "SALF": 2.4,
+      "OTHER": 18.0
      },
-     "none": 19.1,
-     "moe": 3.8,
+     "none": 18.0,
+     "moe": 3.1,
      "hidden": false
     },
     {
@@ -874,19 +892,19 @@
       "ca": "Treballadora",
       "es": "Trabajadora"
      },
-     "n": 1446,
-     "n_party": 1262,
+     "n": 2018,
+     "n_party": 1771,
      "shares": {
-      "PSOE": 38.8,
-      "PP": 6.8,
+      "PSOE": 38.6,
+      "PP": 8.6,
       "VOX": 9.0,
-      "SUMAR": 14.1,
-      "PODEMOS": 9.3,
+      "SUMAR": 13.6,
+      "PODEMOS": 8.2,
       "SALF": 1.0,
-      "OTHER": 21.0
+      "OTHER": 21.1
      },
-     "none": 14.5,
-     "moe": 3.6,
+     "none": 14.3,
+     "moe": 3.0,
      "hidden": false
     },
     {
@@ -894,19 +912,19 @@
       "ca": "Baixa o pobre",
       "es": "Baja o pobre"
      },
-     "n": 1286,
-     "n_party": 999,
+     "n": 1841,
+     "n_party": 1437,
      "shares": {
-      "PSOE": 33.4,
-      "PP": 17.1,
+      "PSOE": 33.3,
+      "PP": 17.2,
       "VOX": 21.0,
-      "SUMAR": 5.6,
-      "PODEMOS": 3.9,
+      "SUMAR": 5.5,
+      "PODEMOS": 3.3,
       "SALF": 3.1,
-      "OTHER": 16.0
+      "OTHER": 16.5
      },
-     "none": 22.8,
-     "moe": 4.1,
+     "none": 21.9,
+     "moe": 3.3,
      "hidden": false
     }
    ]
@@ -923,19 +941,19 @@
       "ca": "Menys de 1.100 €",
       "es": "Menos de 1.100 €"
      },
-     "n": 536,
-     "n_party": 401,
+     "n": 759,
+     "n_party": 573,
      "shares": {
-      "PSOE": 39.7,
-      "PP": 19.1,
-      "VOX": 15.9,
-      "SUMAR": 4.4,
-      "PODEMOS": 3.8,
-      "SALF": 1.2,
-      "OTHER": 16.0
+      "PSOE": 39.1,
+      "PP": 20.5,
+      "VOX": 15.8,
+      "SUMAR": 3.7,
+      "PODEMOS": 2.7,
+      "SALF": 3.0,
+      "OTHER": 15.3
      },
-     "none": 26.9,
-     "moe": 6.5,
+     "none": 26.0,
+     "moe": 5.2,
      "hidden": false
     },
     {
@@ -943,19 +961,19 @@
       "ca": "1.100 a 1.800 €",
       "es": "1.100 a 1.800 €"
      },
-     "n": 1502,
-     "n_party": 1199,
+     "n": 2132,
+     "n_party": 1715,
      "shares": {
-      "PSOE": 40.6,
-      "PP": 19.8,
-      "VOX": 15.8,
-      "SUMAR": 5.9,
-      "PODEMOS": 3.0,
-      "SALF": 1.6,
-      "OTHER": 13.2
+      "PSOE": 39.9,
+      "PP": 20.1,
+      "VOX": 16.1,
+      "SUMAR": 5.7,
+      "PODEMOS": 2.7,
+      "SALF": 2.0,
+      "OTHER": 13.6
      },
-     "none": 21.3,
-     "moe": 3.9,
+     "none": 20.5,
+     "moe": 3.2,
      "hidden": false
     },
     {
@@ -963,19 +981,19 @@
       "ca": "1.801 a 2.700 €",
       "es": "1.801 a 2.700 €"
      },
-     "n": 2000,
-     "n_party": 1659,
+     "n": 2921,
+     "n_party": 2433,
      "shares": {
-      "PSOE": 32.9,
-      "PP": 22.6,
-      "VOX": 16.0,
-      "SUMAR": 7.0,
-      "PODEMOS": 4.4,
-      "SALF": 1.7,
-      "OTHER": 15.4
+      "PSOE": 33.7,
+      "PP": 22.4,
+      "VOX": 16.2,
+      "SUMAR": 7.2,
+      "PODEMOS": 3.9,
+      "SALF": 1.8,
+      "OTHER": 14.8
      },
-     "none": 17.0,
-     "moe": 3.0,
+     "none": 16.5,
+     "moe": 2.5,
      "hidden": false
     },
     {
@@ -983,19 +1001,19 @@
       "ca": "2.701 a 3.900 €",
       "es": "2.701 a 3.900 €"
      },
-     "n": 2009,
-     "n_party": 1704,
+     "n": 2875,
+     "n_party": 2451,
      "shares": {
-      "PSOE": 33.8,
-      "PP": 22.0,
-      "VOX": 14.4,
-      "SUMAR": 8.7,
-      "PODEMOS": 3.9,
-      "SALF": 1.5,
-      "OTHER": 15.8
+      "PSOE": 33.3,
+      "PP": 22.4,
+      "VOX": 13.4,
+      "SUMAR": 8.8,
+      "PODEMOS": 3.5,
+      "SALF": 1.6,
+      "OTHER": 17.0
      },
-     "none": 14.1,
-     "moe": 3.0,
+     "none": 13.8,
+     "moe": 2.5,
      "hidden": false
     },
     {
@@ -1003,19 +1021,19 @@
       "ca": "3.901 a 5.000 €",
       "es": "3.901 a 5.000 €"
      },
-     "n": 1658,
-     "n_party": 1430,
+     "n": 2415,
+     "n_party": 2091,
      "shares": {
-      "PSOE": 28.1,
-      "PP": 23.9,
-      "VOX": 13.7,
-      "SUMAR": 10.0,
-      "PODEMOS": 2.1,
-      "SALF": 2.5,
-      "OTHER": 19.7
+      "PSOE": 29.1,
+      "PP": 24.4,
+      "VOX": 12.9,
+      "SUMAR": 9.4,
+      "PODEMOS": 2.5,
+      "SALF": 2.3,
+      "OTHER": 19.4
      },
-     "none": 13.9,
-     "moe": 2.9,
+     "none": 13.7,
+     "moe": 2.4,
      "hidden": false
     },
     {
@@ -1023,19 +1041,19 @@
       "ca": "Més de 5.000 €",
       "es": "Más de 5.000 €"
      },
-     "n": 1082,
-     "n_party": 938,
+     "n": 1595,
+     "n_party": 1376,
      "shares": {
-      "PSOE": 27.0,
-      "PP": 28.6,
-      "VOX": 15.1,
-      "SUMAR": 6.3,
-      "PODEMOS": 2.9,
-      "SALF": 0.9,
-      "OTHER": 19.1
+      "PSOE": 25.8,
+      "PP": 30.6,
+      "VOX": 14.8,
+      "SUMAR": 6.2,
+      "PODEMOS": 2.7,
+      "SALF": 1.0,
+      "OTHER": 18.8
      },
-     "none": 14.2,
-     "moe": 3.7,
+     "none": 14.4,
+     "moe": 3.0,
      "hidden": false
     }
    ]
@@ -1052,19 +1070,19 @@
       "ca": "Catòlics practicants",
       "es": "Católicos practicantes"
      },
-     "n": 1348,
-     "n_party": 1116,
+     "n": 1971,
+     "n_party": 1644,
      "shares": {
-      "PSOE": 23.2,
-      "PP": 45.7,
-      "VOX": 19.2,
-      "SUMAR": 1.6,
-      "PODEMOS": 0.6,
-      "SALF": 1.4,
-      "OTHER": 8.3
+      "PSOE": 22.7,
+      "PP": 44.1,
+      "VOX": 19.1,
+      "SUMAR": 2.1,
+      "PODEMOS": 0.5,
+      "SALF": 1.6,
+      "OTHER": 9.9
      },
-     "none": 20.4,
-     "moe": 4.4,
+     "none": 19.6,
+     "moe": 3.6,
      "hidden": false
     },
     {
@@ -1072,19 +1090,19 @@
       "ca": "Catòlics no practicants",
       "es": "Católicos no practicantes"
      },
-     "n": 3149,
-     "n_party": 2598,
+     "n": 4583,
+     "n_party": 3799,
      "shares": {
-      "PSOE": 32.2,
-      "PP": 28.3,
-      "VOX": 20.3,
-      "SUMAR": 4.2,
-      "PODEMOS": 0.9,
-      "SALF": 2.2,
-      "OTHER": 11.9
+      "PSOE": 32.6,
+      "PP": 28.7,
+      "VOX": 19.8,
+      "SUMAR": 3.9,
+      "PODEMOS": 0.8,
+      "SALF": 2.5,
+      "OTHER": 11.7
      },
-     "none": 18.9,
-     "moe": 2.5,
+     "none": 18.2,
+     "moe": 2.1,
      "hidden": false
     },
     {
@@ -1092,19 +1110,19 @@
       "ca": "D'una altra religió",
       "es": "De otra religión"
      },
-     "n": 219,
-     "n_party": 174,
+     "n": 344,
+     "n_party": 273,
      "shares": {
-      "PSOE": 36.4,
-      "PP": 17.1,
-      "VOX": 24.6,
-      "SUMAR": 2.2,
-      "PODEMOS": 2.8,
-      "SALF": 3.8,
-      "OTHER": 13.1
+      "PSOE": 36.2,
+      "PP": 16.7,
+      "VOX": 20.0,
+      "SUMAR": 2.6,
+      "PODEMOS": 2.0,
+      "SALF": 5.3,
+      "OTHER": 17.3
      },
-     "none": 23.6,
-     "moe": 9.7,
+     "none": 22.4,
+     "moe": 7.7,
      "hidden": false
     },
     {
@@ -1112,19 +1130,19 @@
       "ca": "Agnòstics",
       "es": "Agnósticos"
      },
-     "n": 1353,
-     "n_party": 1108,
+     "n": 1970,
+     "n_party": 1610,
      "shares": {
-      "PSOE": 39.2,
-      "PP": 10.8,
-      "VOX": 8.8,
-      "SUMAR": 11.2,
-      "PODEMOS": 5.9,
-      "SALF": 1.9,
-      "OTHER": 22.3
+      "PSOE": 39.8,
+      "PP": 11.4,
+      "VOX": 8.5,
+      "SUMAR": 11.8,
+      "PODEMOS": 5.1,
+      "SALF": 1.6,
+      "OTHER": 21.7
      },
      "none": 18.6,
-     "moe": 3.9,
+     "moe": 3.2,
      "hidden": false
     },
     {
@@ -1132,19 +1150,19 @@
       "ca": "Indiferents, no creients",
       "es": "Indiferentes, no creyentes"
      },
-     "n": 1168,
-     "n_party": 960,
+     "n": 1635,
+     "n_party": 1357,
      "shares": {
-      "PSOE": 42.7,
-      "PP": 11.7,
-      "VOX": 11.0,
-      "SUMAR": 9.7,
+      "PSOE": 42.0,
+      "PP": 12.2,
+      "VOX": 12.2,
+      "SUMAR": 8.7,
       "PODEMOS": 3.8,
-      "SALF": 1.0,
-      "OTHER": 20.1
+      "SALF": 1.8,
+      "OTHER": 19.4
      },
-     "none": 18.1,
-     "moe": 4.3,
+     "none": 16.9,
+     "moe": 3.6,
      "hidden": false
     },
     {
@@ -1152,19 +1170,19 @@
       "ca": "Ateus",
       "es": "Ateos"
      },
-     "n": 1714,
-     "n_party": 1481,
+     "n": 2420,
+     "n_party": 2104,
      "shares": {
-      "PSOE": 38.6,
-      "PP": 5.7,
-      "VOX": 7.6,
-      "SUMAR": 14.6,
-      "PODEMOS": 8.9,
+      "PSOE": 38.4,
+      "PP": 6.3,
+      "VOX": 7.3,
+      "SUMAR": 14.5,
+      "PODEMOS": 8.7,
       "SALF": 0.5,
-      "OTHER": 24.1
+      "OTHER": 24.2
      },
-     "none": 14.1,
-     "moe": 3.2,
+     "none": 13.8,
+     "moe": 2.7,
      "hidden": false
     }
    ]
@@ -1181,19 +1199,19 @@
       "ca": "1-2",
       "es": "1-2"
      },
-     "n": 2066,
-     "n_party": 1923,
+     "n": 2934,
+     "n_party": 2721,
      "shares": {
-      "PSOE": 55.8,
+      "PSOE": 56.5,
       "PP": 1.0,
-      "VOX": 0.8,
-      "SUMAR": 14.5,
-      "PODEMOS": 8.6,
-      "SALF": 0.0,
-      "OTHER": 19.4
+      "VOX": 1.0,
+      "SUMAR": 13.9,
+      "PODEMOS": 8.1,
+      "SALF": 0.1,
+      "OTHER": 19.5
      },
-     "none": 7.8,
-     "moe": 3.1,
+     "none": 8.4,
+     "moe": 2.6,
      "hidden": false
     },
     {
@@ -1201,19 +1219,19 @@
       "ca": "3-4",
       "es": "3-4"
      },
-     "n": 2170,
-     "n_party": 1845,
+     "n": 3182,
+     "n_party": 2720,
      "shares": {
       "PSOE": 54.8,
-      "PP": 3.5,
-      "VOX": 1.9,
-      "SUMAR": 12.6,
-      "PODEMOS": 4.1,
+      "PP": 3.9,
+      "VOX": 1.7,
+      "SUMAR": 13.0,
+      "PODEMOS": 3.6,
       "SALF": 0.1,
-      "OTHER": 23.0
+      "OTHER": 22.9
      },
-     "none": 15.5,
-     "moe": 3.0,
+     "none": 15.3,
+     "moe": 2.4,
      "hidden": false
     },
     {
@@ -1221,19 +1239,19 @@
       "ca": "5-6",
       "es": "5-6"
      },
-     "n": 2608,
-     "n_party": 1819,
+     "n": 3749,
+     "n_party": 2656,
      "shares": {
-      "PSOE": 19.1,
-      "PP": 43.7,
-      "VOX": 16.9,
-      "SUMAR": 0.8,
+      "PSOE": 19.4,
+      "PP": 43.6,
+      "VOX": 16.0,
+      "SUMAR": 1.3,
       "PODEMOS": 0.3,
       "SALF": 3.4,
-      "OTHER": 15.8
+      "OTHER": 16.0
      },
-     "none": 32.9,
-     "moe": 3.2,
+     "none": 30.3,
+     "moe": 2.6,
      "hidden": false
     },
     {
@@ -1241,19 +1259,19 @@
       "ca": "7-8",
       "es": "7-8"
      },
-     "n": 1312,
-     "n_party": 1209,
+     "n": 1895,
+     "n_party": 1751,
      "shares": {
-      "PSOE": 8.5,
-      "PP": 46.5,
-      "VOX": 31.2,
-      "SUMAR": 1.1,
-      "PODEMOS": 0.4,
-      "SALF": 3.0,
-      "OTHER": 9.3
+      "PSOE": 9.4,
+      "PP": 47.1,
+      "VOX": 29.9,
+      "SUMAR": 0.8,
+      "PODEMOS": 0.3,
+      "SALF": 3.7,
+      "OTHER": 8.9
      },
-     "none": 9.2,
-     "moe": 3.9,
+     "none": 8.9,
+     "moe": 3.3,
      "hidden": false
     },
     {
@@ -1261,19 +1279,19 @@
       "ca": "9-10",
       "es": "9-10"
      },
-     "n": 662,
-     "n_party": 624,
+     "n": 966,
+     "n_party": 908,
      "shares": {
-      "PSOE": 5.4,
-      "PP": 35.6,
-      "VOX": 52.6,
-      "SUMAR": 0.2,
+      "PSOE": 5.5,
+      "PP": 33.1,
+      "VOX": 53.3,
+      "SUMAR": 0.3,
       "PODEMOS": 0.1,
-      "SALF": 2.9,
-      "OTHER": 3.1
+      "SALF": 4.1,
+      "OTHER": 3.6
      },
-     "none": 6.3,
-     "moe": 5.6,
+     "none": 7.0,
+     "moe": 4.5,
      "hidden": false
     }
    ]
@@ -1290,19 +1308,19 @@
       "ca": "Solters",
       "es": "Solteros"
      },
-     "n": 3189,
-     "n_party": 2605,
+     "n": 4604,
+     "n_party": 3784,
      "shares": {
-      "PSOE": 26.9,
-      "PP": 18.5,
-      "VOX": 19.6,
-      "SUMAR": 9.9,
-      "PODEMOS": 4.1,
-      "SALF": 2.2,
+      "PSOE": 26.3,
+      "PP": 18.8,
+      "VOX": 19.5,
+      "SUMAR": 9.7,
+      "PODEMOS": 3.9,
+      "SALF": 3.0,
       "OTHER": 18.8
      },
-     "none": 19.1,
-     "moe": 2.3,
+     "none": 18.5,
+     "moe": 1.9,
      "hidden": false
     },
     {
@@ -1310,19 +1328,19 @@
       "ca": "Casats",
       "es": "Casados"
      },
-     "n": 4479,
-     "n_party": 3770,
+     "n": 6466,
+     "n_party": 5477,
      "shares": {
-      "PSOE": 36.1,
-      "PP": 25.0,
-      "VOX": 13.3,
-      "SUMAR": 6.0,
-      "PODEMOS": 3.2,
+      "PSOE": 36.4,
+      "PP": 25.4,
+      "VOX": 13.2,
+      "SUMAR": 5.8,
+      "PODEMOS": 2.8,
       "SALF": 1.3,
       "OTHER": 15.1
      },
-     "none": 17.0,
-     "moe": 2.2,
+     "none": 16.2,
+     "moe": 1.8,
      "hidden": false
     },
     {
@@ -1330,19 +1348,19 @@
       "ca": "Divorciats o separats",
       "es": "Divorciados o separados"
      },
-     "n": 950,
-     "n_party": 770,
+     "n": 1362,
+     "n_party": 1101,
      "shares": {
-      "PSOE": 34.8,
-      "PP": 20.5,
-      "VOX": 16.8,
-      "SUMAR": 5.7,
-      "PODEMOS": 3.6,
-      "SALF": 2.5,
-      "OTHER": 16.2
+      "PSOE": 35.8,
+      "PP": 20.8,
+      "VOX": 15.7,
+      "SUMAR": 5.9,
+      "PODEMOS": 3.3,
+      "SALF": 2.4,
+      "OTHER": 16.1
      },
-     "none": 22.1,
-     "moe": 4.4,
+     "none": 21.7,
+     "moe": 3.7,
      "hidden": false
     },
     {
@@ -1350,19 +1368,19 @@
       "ca": "Vidus",
       "es": "Viudos"
      },
-     "n": 434,
-     "n_party": 357,
+     "n": 636,
+     "n_party": 522,
      "shares": {
-      "PSOE": 55.3,
-      "PP": 22.9,
-      "VOX": 6.2,
-      "SUMAR": 4.0,
-      "PODEMOS": 1.2,
-      "SALF": 0.4,
-      "OTHER": 10.0
+      "PSOE": 52.8,
+      "PP": 24.8,
+      "VOX": 6.5,
+      "SUMAR": 3.8,
+      "PODEMOS": 1.0,
+      "SALF": 0.7,
+      "OTHER": 10.4
      },
-     "none": 19.5,
-     "moe": 7.8,
+     "none": 20.3,
+     "moe": 6.4,
      "hidden": false
     }
    ]
@@ -1379,19 +1397,19 @@
       "ca": "Fins a 10.000 habitants",
       "es": "Hasta 10.000 habitantes"
      },
-     "n": 1570,
-     "n_party": 1283,
+     "n": 2288,
+     "n_party": 1877,
      "shares": {
-      "PSOE": 36.5,
-      "PP": 19.0,
-      "VOX": 14.2,
-      "SUMAR": 6.0,
-      "PODEMOS": 4.2,
-      "SALF": 2.1,
+      "PSOE": 36.2,
+      "PP": 19.3,
+      "VOX": 14.3,
+      "SUMAR": 6.1,
+      "PODEMOS": 3.5,
+      "SALF": 2.6,
       "OTHER": 18.0
      },
-     "none": 19.1,
-     "moe": 3.7,
+     "none": 18.5,
+     "moe": 3.0,
      "hidden": false
     },
     {
@@ -1399,19 +1417,19 @@
       "ca": "10.001 a 50.000",
       "es": "10.001 a 50.000"
      },
-     "n": 2369,
-     "n_party": 1956,
+     "n": 3425,
+     "n_party": 2837,
      "shares": {
-      "PSOE": 33.3,
-      "PP": 21.7,
-      "VOX": 16.7,
-      "SUMAR": 6.4,
-      "PODEMOS": 3.1,
-      "SALF": 1.3,
+      "PSOE": 33.0,
+      "PP": 22.4,
+      "VOX": 16.3,
+      "SUMAR": 6.3,
+      "PODEMOS": 2.9,
+      "SALF": 1.7,
       "OTHER": 17.5
      },
-     "none": 18.2,
-     "moe": 2.9,
+     "none": 18.3,
+     "moe": 2.3,
      "hidden": false
     },
     {
@@ -1419,19 +1437,19 @@
       "ca": "50.001 a 400.000",
       "es": "50.001 a 400.000"
      },
-     "n": 3456,
-     "n_party": 2864,
+     "n": 4979,
+     "n_party": 4148,
      "shares": {
-      "PSOE": 35.6,
-      "PP": 22.9,
-      "VOX": 16.0,
-      "SUMAR": 6.5,
-      "PODEMOS": 3.2,
-      "SALF": 1.8,
-      "OTHER": 14.1
+      "PSOE": 34.7,
+      "PP": 23.5,
+      "VOX": 15.9,
+      "SUMAR": 6.4,
+      "PODEMOS": 3.0,
+      "SALF": 2.1,
+      "OTHER": 14.4
      },
-     "none": 18.4,
-     "moe": 2.5,
+     "none": 17.8,
+     "moe": 2.0,
      "hidden": false
     },
     {
@@ -1439,19 +1457,19 @@
       "ca": "Més de 400.000",
       "es": "Más de 400.000"
      },
-     "n": 1671,
-     "n_party": 1404,
+     "n": 2394,
+     "n_party": 2029,
      "shares": {
-      "PSOE": 29.5,
+      "PSOE": 32.0,
       "PP": 26.3,
-      "VOX": 12.9,
-      "SUMAR": 11.7,
-      "PODEMOS": 3.3,
-      "SALF": 1.1,
-      "OTHER": 15.1
+      "VOX": 12.5,
+      "SUMAR": 10.7,
+      "PODEMOS": 3.2,
+      "SALF": 1.0,
+      "OTHER": 14.3
      },
-     "none": 18.2,
-     "moe": 3.1,
+     "none": 16.8,
+     "moe": 2.7,
      "hidden": false
     }
    ]
