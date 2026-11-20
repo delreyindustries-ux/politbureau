@@ -36,7 +36,13 @@
     <span><b>{{ d.total_polls | thousands }}</b> {{ 'encuestas recogidas' if es else 'enquestes recollides' }}</span>
     <span><b>{{ fdate(d.polls[0].end) }}</b> {{ 'la más reciente' if es else 'la més recent' }}</span>
   </div>
-{% if d.polls | length < 3 %}
+{% if d.stale %}
+  <p class="note">{% if es %}<b>Encuestas antiguas.</b> No hay ninguna de los últimos 90 días: la media
+    usa las de los últimos 12 meses, y la más reciente es del {{ fdate(d.polls[0].end) }}. Es orientativa
+    hasta que se publiquen nuevas.{% else %}<b>Enquestes antigues.</b> No n'hi ha cap dels últims 90 dies:
+    la mitjana fa servir les dels últims 12 mesos, i la més recent és del {{ fdate(d.polls[0].end) }}. És
+    orientativa fins que se'n publiquin de noves.{% endif %}</p>
+{% elif d.polls | length < 3 %}
   <p class="note">{% if es %}<b>Pocas encuestas.</b> La media se apoya en {{ d.polls | length }}
     {{ 'encuesta' if d.polls | length == 1 else 'encuestas' }} de los últimos 90 días: tómala con
     precaución.{% else %}<b>Poques enquestes.</b> La mitjana es basa en {{ d.polls | length }}
@@ -98,6 +104,32 @@
     per a Westminster i es queda com el {{ d.fptp.date[:4] }}; l'escó del Speaker no es disputa. Amb aquesta
     mitjana canvien de mans {{ d.fptp.changed }} escons. La majoria absoluta és de {{ d.majority }}.
     Resultats per circumscripció: House of Commons Library (Open Parliament Licence v3.0).{% endif %}</p>
+{% elif d.bydist %}
+  {% set bd = d.bydist %}
+  {% set thr = fmt((c.district_threshold if c.district_threshold is defined else c.threshold) * 100) %}
+  <p class="note">{% if es %}<b>Los escaños son solo un orden de magnitud.</b> Se reparten los
+    {{ c.seats }} escaños ({{ cname }}) circunscripción a circunscripción, como manda la ley. En cada una de
+    las {{ bd.n }}, el resultado de {{ bd.base[:4] }} de cada partido se multiplica por lo que ha subido o
+    bajado en la media, y se aplica el método D'Hondt {% if c.threshold_scope == 'region' %}con el umbral del
+    {{ fmt(c.threshold * 100) }} % en toda la comunidad{% elif c.region_threshold %}con el umbral del {{ thr }} %
+    en cada isla o del {{ fmt(c.region_threshold * 100) }} % en todo el archipiélago{% else %}con el umbral
+    del {{ thr }} % en cada circunscripción{% endif %}. Un partido nuevo, o que no se presentó, recibe la
+    misma cuota en todas. La mayoría absoluta es de {{ d.majority }}. Resultado de {{ bd.base[:4] }} por
+    circunscripción: <a href="{{ bd.source }}">Wikipedia</a> (CC BY-SA 4.0).{% else %}<b>Els escons només
+    són un ordre de magnitud.</b> Es reparteixen els {{ c.seats }} escons ({{ cname }}) circumscripció per
+    circumscripció, com mana la llei. A cadascuna de les {{ bd.n }}, el resultat del {{ bd.base[:4] }} de
+    cada partit es multiplica pel que ha pujat o baixat a la mitjana, i s'aplica el mètode D'Hondt
+    {% if c.threshold_scope == 'region' %}amb el llindar del {{ fmt(c.threshold * 100) }} % a tota la
+    comunitat{% elif c.region_threshold %}amb el llindar del {{ thr }} % a cada illa o del
+    {{ fmt(c.region_threshold * 100) }} % a tot l'arxipèlag{% else %}amb el llindar del {{ thr }} % a cada
+    circumscripció{% endif %}. Un partit nou, o que no s'hi va presentar, rep la mateixa quota a totes. La
+    majoria absoluta és de {{ d.majority }}. Resultat del {{ bd.base[:4] }} per circumscripció:
+    <a href="{{ bd.source }}">Viquipèdia</a> (CC BY-SA 4.0).{% endif %}</p>
+  <details class="bydist"><summary>{{ 'Escaños por circunscripción' if es else 'Escons per circumscripció' }}</summary>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'Circunscripción' if es else 'Circumscripció' }}</th>{% for a in bd.cols %}<th>{{ a.person or a.name }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for dn, got in bd.detail.items() %}<tr><td>{{ dn }}</td>{% for a in bd.cols %}<td>{{ got.get(a.code, 0) or '–' }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div></details>
 {% else %}
   {% set m = c.method if c.method != 'proportional' else 'dhondt' %}
   {% set thr = fmt((c.threshold if c.threshold is not none else 0.03) * 100) %}

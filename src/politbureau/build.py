@@ -738,6 +738,9 @@ def aggregate_all(conn):
             print(f"   {row['election_id']} {row['sc'] or '(estatal)'}: "
                   f"mitjana nomes amb {len(polls)} sondeigs a peu d'urna")
         result = drop_not_standing(row["election_id"], agg.aggregate(polls))
+        if not result and (elections.get(row["election_id"]) or {}).get("group") == "sub":
+            result = drop_not_standing(row["election_id"],
+                                       agg.aggregate(polls, max_age_days=agg.SUB_MAX_AGE_DAYS))
         if result:
             store_aggregate(conn, row["election_id"], row["sc"], result)
             done.append((row["election_id"], row["sc"] or "(estatal)", len(polls), len(result)))

@@ -444,6 +444,8 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-19", "Ocho elecciones más: Madrid, Cantabria, Baleares, Canarias, País Vasco y Melilla, y los ayuntamientos de Madrid y Sevilla. En autonómicas y municipales sin ninguna encuesta de los últimos 90 días, la media usa las de los últimos 12 meses y la página lo avisa.",
+     "Vuit eleccions més: Madrid, Cantàbria, Balears, Canàries, País Basc i Melilla, i els ajuntaments de Madrid i Sevilla. A les autonòmiques i municipals sense cap enquesta dels últims 90 dies, la mitjana fa servir les dels últims 12 mesos i la pàgina ho avisa."),
     ("2026-11-15", "Previsión con probabilidades también en las autonómicas, las municipales y los parlamentos proporcionales de otros países.",
      "Previsió amb probabilitats també a les autonòmiques, les municipals i els parlaments proporcionals d'altres països."),
     ("2026-10-26", "Fuera las encuestas internas de los partidos.",
@@ -708,6 +710,13 @@ def abroad_elections():
     for e in load_sources()["elections"]:
         if e.get("pub"):
             chamber = e.get("chamber") or (chambers or {}).get(e["id"])
+            if chamber and chamber.get("ine"):
+                # Ajuntaments (19/11/2026): els regidors surten del padro de l'INE i
+                # l'escala de la LOREG (municipals.py), no d'un numero escrit a ma.
+                from .. import municipals
+                s27 = ((municipals.load().get("munis") or {}).get(chamber["ine"]) or {}).get("s27")
+                if s27:
+                    chamber = {**chamber, "seats": s27}
             out[e["id"]] = {**e, "chamber": chamber} if chamber else e
     return out
 
@@ -772,16 +781,24 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
     if not rows:
         return None
     today = dt.date.today()
-    used = [p for p in load_polls(conn, eid, scope_code or None)
-            if p["fieldwork_end"]
-            and (today - dt.date.fromisoformat(p["fieldwork_end"])).days <= 90
-            and not (p["sample_size"] and p["sample_size"] < 300)]
+    every = [p for p in load_polls(conn, eid, scope_code or None)
+             if p["fieldwork_end"] and not (p["sample_size"] and p["sample_size"] < 300)]
+    used = [p for p in every if (today - dt.date.fromisoformat(p["fieldwork_end"])).days <= 90]
+    # Autonomiques i municipals sense cap enquesta dels ultims 90 dies: les dels
+    # ultims 12 mesos, com fa build.aggregate_all (la pagina avisa).
+    stale = False
+    if not used and (abroad_elections().get(eid) or {}).get("group") == "sub":
+        from ..model.aggregate import SUB_MAX_AGE_DAYS
+        used = [p for p in every
+                if (today - dt.date.fromisoformat(p["fieldwork_end"])).days <= SUB_MAX_AGE_DAYS]
+        stale = bool(used)
     if not used:
         return None
     # Escons d'Italia: proporcional estatal amb la mitjana, calculat aqui mateix.
     # Aixi la publicacio no ha de fer `build --country IT`, que baixaria cada
     # hora el resultat del 2022 municipi a municipi per a un mapa que la web no te.
     seats, margins, extra, fptp = {}, None, {}, None
+    extra_districts, project = None, None
     if chamber and chamber.get("method") == "fptp" and not scope_code:
         # Majoritari uninominal (Regne Unit): circumscripcio per circumscripcio,
         # amb les mitjanes d'Escocia, Gal.les i Londres on n'hi ha (systems.py).
@@ -797,11 +814,22 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
         from ..model import seats as seatlib
         shares = {r["party"]: r["share"] for r in rows if r["party"] != "OTHER"}
         method = "dhondt" if chamber["method"] == "proportional" else chamber["method"]
-        seats = {p: n for p, n in seatlib.apportion(
-            shares, chamber["seats"], method, chamber.get("threshold", 0.03),
-            chamber.get("first_divisor", 1.0), chamber.get("bonus")).items() if n}
-        margins = seatlib.margins(shares, chamber["seats"], method, chamber.get("threshold", 0.03),
-                                  chamber.get("first_divisor", 1.0), chamber.get("bonus"))
+        # Autonomiques amb diverses circumscripcions: provincia a provincia amb el
+        # resultat real de l'eleccio anterior (regional.py, 19/11/2026).
+        from .. import regional
+        project = regional.projector(eid, chamber) if not scope_code else None
+        if project:
+            detail = {}
+            seats = {p: n for p, n in project(shares, detail).items() if n}
+            margins = None
+            extra_districts = {"n": project.n_districts, "base": project.base,
+                               "source": project.source, "detail": detail}
+        else:
+            seats = {p: n for p, n in seatlib.apportion(
+                shares, chamber["seats"], method, chamber.get("threshold", 0.03),
+                chamber.get("first_divisor", 1.0), chamber.get("bonus")).items() if n}
+            margins = seatlib.margins(shares, chamber["seats"], method, chamber.get("threshold", 0.03),
+                                      chamber.get("first_divisor", 1.0), chamber.get("bonus"))
     avg = []
     for r in rows:
         meta = parties.meta(r["party"], country, eid)
@@ -842,7 +870,8 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
         from .. import forecast as forecastlib
         try:
             fc = forecastlib.simulate_chamber(
-                {r["party"]: r["share"] for r in rows}, chamber, n_polls=len(used), seed=2911)
+                {r["party"]: r["share"] for r in rows}, chamber, n_polls=len(used), seed=2911,
+                project=project)
         except Exception:                              # noqa: BLE001
             fc = None
         if fc:
@@ -855,9 +884,15 @@ def _average(conn, eid, scope_code, country, names, persons, colors, chamber=Non
     # independents, el Speaker): van a la cambra i a la taula, sense %.
     seat_extra = [{"code": c, "name": n, "color": col, "seats": seats[c], "person": None}
                   for c, (n, col) in sorted(extra.items(), key=lambda x: -seats[x[0]])]
-    return {"avg": avg, "order": [next(a for a in avg if a["code"] == c) for c in order],
+    if extra_districts:
+        # Columnes de la taula per circumscripcio: tots els que hi treuen algun
+        # esco (ASG a La Gomera, AHI a El Hierro), no nomes els sis primers.
+        extra_districts["cols"] = [a for a in avg if any(
+            a["code"] in got for got in extra_districts["detail"].values())]
+    return {"avg": avg, "stale": stale,
+            "order": [next(a for a in avg if a["code"] == c) for c in order],
             "seat_extra": seat_extra, "seatrows": avg + seat_extra, "fptp": fptp,
-            "forecast": fc,
+            "forecast": fc, "bydist": extra_districts,
             "polls": polls, "seats": bool(seats),
             "seat_total": sum(seats.values()) if seats else 0,
             "chamber": chamber if seats else None, "margins": margins,

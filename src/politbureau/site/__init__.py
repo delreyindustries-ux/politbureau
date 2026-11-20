@@ -162,6 +162,24 @@ def run(clean=True):
         print("     encert del 29N: pagina generada")
     n_hist = historic.historic_page(env, cfg)
     print(f"     generals 1977-2023: {n_hist} eleccions")
+    # Municipals del 2027 (19/11/2026): resultat del 2023 i regidors de cada municipi.
+    from .. import municipals
+    mun = municipals.load()
+    if mun.get("munis"):
+        import json as _json
+        api = DIST / "api" / "v1"
+        api.mkdir(parents=True, exist_ok=True)
+        (api / "municipals-2027.json").write_bytes(_json.dumps(
+            {"licence": {"name": "CC BY 4.0", "url": "https://creativecommons.org/licenses/by/4.0/",
+                         "attribution": "Polit Bureau (politbureau.es), amb dades del Ministeri de "
+                                        "l'Interior i de l'INE"},
+             "fields": {"n": "nom", "pop": "habitants (padro)", "s27": "regidors 2027",
+                        "s23": "regidors 2023", "v": "vots valids 2023",
+                        "open": "llistes obertes (250 habitants o menys)",
+                        "r": "[sigles, codi de partit, vots, regidors] del 2023"},
+             **{k: v for k, v in mun.items() if k != "munis"}, "munis": mun["munis"]},
+            ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+        print(f"     municipals 2027: {len(mun['munis'])} municipis a l'API")
     n_rated = rating.rating_page(env, cfg)
     print(f"     valoracio d'instituts: {n_rated} instituts")
     n_files = opendata.opendata_page(env, cfg, conn, fc)

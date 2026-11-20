@@ -190,6 +190,34 @@
   {%- endif %}
   {%- endif %}
 
+  {%- if municipal %}
+  {%- set es = lang == 'es' %}
+  <section class="municipal" id="municipals">
+    <h2>{{ 'Municipales del 23 de mayo de 2027' if es else 'Municipals del 23 de maig del 2027' }}</h2>
+    <p>{% if es %}El Ayuntamiento tendrá <b>{{ municipal.s27 }} concejales</b>{% if municipal.s23 and municipal.s23 != municipal.s27 %} ({{ municipal.s23 }} en 2023){% endif %}:
+      le corresponden por sus {{ municipal['pop'] | thousands }} habitantes a 1 de enero de {{ municipal.pop_year }}, con la escala
+      de la ley electoral.{% if municipal.pop_year and municipal.pop_year < 2026 %} El número definitivo sale del padrón a 1 de enero de 2026, que el INE publica en diciembre.{% endif %}{% else %}L'Ajuntament tindrà
+      <b>{{ municipal.s27 }} regidors</b>{% if municipal.s23 and municipal.s23 != municipal.s27 %} ({{ municipal.s23 }} el 2023){% endif %}: li toquen pels
+      {{ municipal['pop'] | thousands }} habitants que tenia l'1 de gener del {{ municipal.pop_year }}, amb l'escala de la llei
+      electoral.{% if municipal.pop_year and municipal.pop_year < 2026 %} El nombre definitiu surt del padró de l'1 de gener del 2026, que l'INE publica al desembre.{% endif %}{% endif %}
+      {% if municipal.open %}{{ 'Con 250 habitantes o menos se vota con listas abiertas: cada elector puede marcar varios candidatos, y por eso no hay porcentaje por partido.' if es else 'Amb 250 habitants o menys es vota amb llistes obertes: cada elector pot marcar diversos candidats, i per això no hi ha percentatge per partit.' }}{% endif %}</p>
+    {%- if municipal.rows %}
+    <div class="tablewrap">
+    <table class="results part">
+      <caption>{{ 'Resultado de las municipales del 28 de mayo de 2023' if es else 'Resultat de les municipals del 28 de maig del 2023' }}</caption>
+      <thead><tr><th>{{ 'Candidatura' }}</th>{% if not municipal.open %}<th class="num">{{ '% voto' if es else '% vot' }}</th>{% endif %}<th class="num">{{ 'Concejales' if es else 'Regidors' }}</th></tr></thead>
+      <tbody>
+      {%- for r in municipal.rows %}
+        <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>{% if not municipal.open %}<td class="num">{{ r.pct | pct if r.pct is not none else '—' }}</td>{% endif %}<td class="num">{{ r.seats or '—' }}</td></tr>
+      {%- endfor %}
+      </tbody>
+    </table>
+    </div>
+    {%- endif %}
+    <p class="note">{% if es %}Fuentes: Ministerio del Interior (resultados de 2023), INE (padrón a 1/1/{{ municipal.pop_year }}) y LOREG, art. 179.{% else %}Fonts: Ministeri de l'Interior (resultats del 2023), INE (padró a 1/1/{{ municipal.pop_year }}) i LOREG, art. 179.{% endif %}</p>
+  </section>
+  {%- endif %}
+
 {% include "_senate_province.html.j2" %}
 
   {%- if districts %}

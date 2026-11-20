@@ -27,6 +27,13 @@ def weight(fieldwork_end: str, sample_size, today, half_life=14.0, sample_cap=3.
     return recency * size
 
 
+# Autonomiques i municipals (19/11/2026): s'hi fan poques enquestes i moltes
+# cambres passen mesos sense cap. Si no n'hi ha cap dels ultims 90 dies, la
+# mitjana es fa amb les dels ultims 12 mesos i la pagina ho diu. El pes per
+# antiguitat (mitja vida de 14 dies) fa que mani la mes recent.
+SUB_MAX_AGE_DAYS = 365
+
+
 def aggregate(polls, today=None, half_life=14.0, max_age_days=90, min_sample=300):
     """`polls`: llista de dicts {fieldwork_end, sample_size, results:{party:(share,lo,hi)}}.
 

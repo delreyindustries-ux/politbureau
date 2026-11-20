@@ -12,6 +12,12 @@ ES:
     - psoe-psc
     - pspv
     - psc
+    # Federacions del PSOE tal com surten a les taules de Wikipedia de les
+    # autonomiques (19/11/2026).
+    - psdeg
+    - pse-ee
+    - pse–ee
+    - psib
   PP:
     name: PP
     color: '#1D84CE'
@@ -223,6 +229,9 @@ ES:
     aliases:
     - nc
     - nc-bc
+    # "NCa" a les enquestes de Canaries des de la sortida de Primero Canarias
+    # (2025): es Nueva Canarias (19/11/2026).
+    - nca
   EXISTE:
     name: Coalicion Existe
     color: '#00A0A0'

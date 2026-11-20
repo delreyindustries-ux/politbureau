@@ -122,6 +122,23 @@ def cmd_perfils(args):
     print(f"{data['found']} perfils de {data['searched']} candidats; desat a {profiles.OUT}")
 
 
+def cmd_circumscripcions(args):
+    import yaml
+    from . import regional
+    chambers = yaml.safe_load((regional.ROOT / "config" / "chambers.yaml").read_text(encoding="utf-8"))
+    data = regional.run(chambers, only=set(args.only) if args.only else None)
+    print(f"{len(data)} parlaments amb resultats per circumscripcio; desat a {regional.OUT}")
+
+
+def cmd_municipals(args):
+    from . import municipals
+    d = municipals.run()
+    m = d["munis"]
+    print(f"{len(m)} municipis; regidors 2023: {sum(x.get('s23', 0) for x in m.values())}; "
+          f"regidors 2027 (padro {d['pop_year']}): {sum(x.get('s27', 0) for x in m.values())}; "
+          f"desat a {municipals.OUT}")
+
+
 def cmd_historic(args):
     from . import history
     data = history.run()
@@ -209,6 +226,12 @@ def main(argv=None):
                    ).set_defaults(func=cmd_sistemes)
     sub.add_parser("perfils", help="curriculum dels candidats que entrarien al Congres (Wikidata, CC0)"
                    ).set_defaults(func=cmd_perfils)
+    p_circ = sub.add_parser("circumscripcions",
+                            help="resultat de l'ultima autonomica a cada circumscripcio (Wikipedia)")
+    p_circ.add_argument("only", nargs="*")
+    p_circ.set_defaults(func=cmd_circumscripcions)
+    sub.add_parser("municipals", help="municipals 2027: resultat del 2023 i regidors de cada municipi"
+                   ).set_defaults(func=cmd_municipals)
     sub.add_parser("historic", help="resultats de les generals 1977-2023 (Wikipedia)"
                    ).set_defaults(func=cmd_historic)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"

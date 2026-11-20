@@ -1,0 +1,981 @@
+{
+ "sub-es-ct": {
+  "base": "2024 Catalan regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Barcelona",
+    "seats": 85,
+    "shares": {
+     "PSOE": 29.9,
+     "JUNTS": 19.3,
+     "ERC": 13.4,
+     "PP": 11.6,
+     "VOX": 8.0,
+     "COMUNS": 6.7,
+     "CUP": 4.0,
+     "ALIANCA": 2.9
+    },
+    "won": {
+     "PSOE": 28,
+     "JUNTS": 18,
+     "ERC": 12,
+     "PP": 11,
+     "VOX": 7,
+     "COMUNS": 6,
+     "CUP": 3
+    }
+   },
+   {
+    "name": "Girona",
+    "seats": 17,
+    "shares": {
+     "PSOE": 19.6,
+     "JUNTS": 34.8,
+     "ERC": 12.0,
+     "PP": 6.6,
+     "VOX": 6.4,
+     "COMUNS": 3.3,
+     "CUP": 4.9,
+     "ALIANCA": 9.0
+    },
+    "won": {
+     "PSOE": 4,
+     "JUNTS": 7,
+     "ERC": 2,
+     "PP": 1,
+     "VOX": 1,
+     "CUP": 1,
+     "ALIANCA": 1
+    }
+   },
+   {
+    "name": "Lleida",
+    "seats": 15,
+    "shares": {
+     "PSOE": 20.6,
+     "JUNTS": 30.3,
+     "ERC": 16.3,
+     "PP": 9.2,
+     "VOX": 6.2,
+     "COMUNS": 2.2,
+     "CUP": 4.2,
+     "ALIANCA": 7.8
+    },
+    "won": {
+     "PSOE": 4,
+     "JUNTS": 5,
+     "ERC": 3,
+     "PP": 1,
+     "VOX": 1,
+     "ALIANCA": 1
+    }
+   },
+   {
+    "name": "Tarragona",
+    "seats": 18,
+    "shares": {
+     "PSOE": 25.5,
+     "JUNTS": 21.2,
+     "ERC": 16.0,
+     "PP": 11.8,
+     "VOX": 10.2,
+     "COMUNS": 3.9,
+     "CUP": 4.0,
+     "ALIANCA": 3.5
+    },
+    "won": {
+     "PSOE": 6,
+     "JUNTS": 5,
+     "ERC": 3,
+     "PP": 2,
+     "VOX": 2
+    }
+   }
+  ],
+  "total": {
+   "PSOE": 28.0,
+   "JUNTS": 21.6,
+   "ERC": 13.7,
+   "PP": 11.0,
+   "VOX": 8.0,
+   "COMUNS": 5.8,
+   "CUP": 4.1,
+   "ALIANCA": 3.8
+  },
+  "total_won": {
+   "PSOE": 42,
+   "JUNTS": 35,
+   "ERC": 20,
+   "PP": 15,
+   "VOX": 11,
+   "COMUNS": 6,
+   "CUP": 4,
+   "ALIANCA": 2
+  },
+  "source": "https://en.wikipedia.org/wiki/2024_Catalan_regional_election"
+ },
+ "sub-es-vc": {
+  "base": "2023 Valencian regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Alicante",
+    "seats": 35,
+    "shares": {
+     "PP": 39.3,
+     "PSOE": 29.5,
+     "SUMAR": 10.2,
+     "VOX": 12.3
+    },
+    "won": {
+     "PP": 15,
+     "PSOE": 11,
+     "SUMAR": 4,
+     "VOX": 5
+    }
+   },
+   {
+    "name": "Castellón",
+    "seats": 24,
+    "shares": {
+     "PP": 36.0,
+     "PSOE": 30.2,
+     "SUMAR": 13.1,
+     "VOX": 13.1
+    },
+    "won": {
+     "PP": 10,
+     "PSOE": 8,
+     "SUMAR": 3,
+     "VOX": 3
+    }
+   },
+   {
+    "name": "Valencia",
+    "seats": 40,
+    "shares": {
+     "PP": 33.6,
+     "PSOE": 27.9,
+     "SUMAR": 17.4,
+     "VOX": 12.6
+    },
+    "won": {
+     "PP": 15,
+     "PSOE": 12,
+     "SUMAR": 8,
+     "VOX": 5
+    }
+   }
+  ],
+  "total": {
+   "PP": 35.7,
+   "PSOE": 28.7,
+   "SUMAR": 14.5,
+   "VOX": 12.6
+  },
+  "total_won": {
+   "PP": 40,
+   "PSOE": 31,
+   "SUMAR": 15,
+   "VOX": 13
+  },
+  "source": "https://en.wikipedia.org/wiki/2023_Valencian_regional_election"
+ },
+ "sub-es-an": {
+  "base": "2026 Andalusian regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Almería",
+    "seats": 12,
+    "shares": {
+     "PP": 42.7,
+     "PSOE": 21.7,
+     "VOX": 23.2,
+     "AA": 3.1,
+     "?PORA": 3.8
+    },
+    "won": {
+     "PP": 6,
+     "PSOE": 3,
+     "VOX": 3
+    }
+   },
+   {
+    "name": "Cádiz",
+    "seats": 15,
+    "shares": {
+     "PP": 38.9,
+     "PSOE": 20.2,
+     "VOX": 13.0,
+     "AA": 14.3,
+     "?PORA": 5.3
+    },
+    "won": {
+     "PP": 7,
+     "PSOE": 3,
+     "VOX": 2,
+     "AA": 2,
+     "?PORA": 1
+    }
+   },
+   {
+    "name": "Córdoba",
+    "seats": 12,
+    "shares": {
+     "PP": 43.2,
+     "PSOE": 22.3,
+     "VOX": 12.6,
+     "AA": 8.3,
+     "?PORA": 8.8
+    },
+    "won": {
+     "PP": 6,
+     "PSOE": 3,
+     "VOX": 1,
+     "AA": 1,
+     "?PORA": 1
+    }
+   },
+   {
+    "name": "Granada",
+    "seats": 13,
+    "shares": {
+     "PP": 42.4,
+     "PSOE": 24.3,
+     "VOX": 15.1,
+     "AA": 6.8,
+     "?PORA": 6.5
+    },
+    "won": {
+     "PP": 6,
+     "PSOE": 3,
+     "VOX": 2,
+     "AA": 1,
+     "?PORA": 1
+    }
+   },
+   {
+    "name": "Huelva",
+    "seats": 11,
+    "shares": {
+     "PP": 40.8,
+     "PSOE": 25.2,
+     "VOX": 14.9,
+     "AA": 8.0,
+     "?PORA": 5.6
+    },
+    "won": {
+     "PP": 5,
+     "PSOE": 3,
+     "VOX": 2,
+     "AA": 1
+    }
+   },
+   {
+    "name": "Jaén",
+    "seats": 11,
+    "shares": {
+     "PP": 43.7,
+     "PSOE": 27.3,
+     "VOX": 13.6,
+     "AA": 4.4,
+     "?PORA": 5.1
+    },
+    "won": {
+     "PP": 6,
+     "PSOE": 4,
+     "VOX": 1
+    }
+   },
+   {
+    "name": "Málaga",
+    "seats": 17,
+    "shares": {
+     "PP": 44.0,
+     "PSOE": 20.0,
+     "VOX": 14.6,
+     "AA": 9.3,
+     "?PORA": 6.0
+    },
+    "won": {
+     "PP": 9,
+     "PSOE": 4,
+     "VOX": 2,
+     "AA": 1,
+     "?PORA": 1
+    }
+   },
+   {
+    "name": "Seville",
+    "seats": 18,
+    "shares": {
+     "PP": 39.4,
+     "PSOE": 24.0,
+     "VOX": 10.8,
+     "AA": 12.9,
+     "?PORA": 7.5
+    },
+    "won": {
+     "PP": 8,
+     "PSOE": 5,
+     "VOX": 2,
+     "AA": 2,
+     "?PORA": 1
+    }
+   }
+  ],
+  "total": {
+   "PP": 41.6,
+   "PSOE": 22.8,
+   "VOX": 13.8,
+   "AA": 9.6,
+   "?PORA": 6.3
+  },
+  "total_won": {
+   "PP": 53,
+   "PSOE": 28,
+   "VOX": 15,
+   "AA": 8,
+   "?PORA": 5
+  },
+  "source": "https://en.wikipedia.org/wiki/2026_Andalusian_regional_election"
+ },
+ "sub-es-ar": {
+  "base": "2026 Aragonese regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Huesca",
+    "seats": 18,
+    "shares": {
+     "PP": 32.7,
+     "PSOE": 26.9,
+     "VOX": 18.7,
+     "CHA": 9.8,
+     "EXISTE": 2.2,
+     "?IUMS": 2.6
+    },
+    "won": {
+     "PP": 7,
+     "PSOE": 5,
+     "VOX": 4,
+     "CHA": 2
+    }
+   },
+   {
+    "name": "Teruel",
+    "seats": 14,
+    "shares": {
+     "PP": 28.7,
+     "PSOE": 23.7,
+     "VOX": 20.3,
+     "CHA": 3.9,
+     "EXISTE": 12.9,
+     "?IUMS": 1.8
+    },
+    "won": {
+     "PP": 5,
+     "PSOE": 4,
+     "VOX": 3,
+     "EXISTE": 2
+    }
+   },
+   {
+    "name": "Zaragoza",
+    "seats": 35,
+    "shares": {
+     "PP": 35.2,
+     "PSOE": 23.9,
+     "VOX": 17.3,
+     "CHA": 10.5,
+     "EXISTE": 2.5,
+     "?IUMS": 3.2
+    },
+    "won": {
+     "PP": 14,
+     "PSOE": 9,
+     "VOX": 7,
+     "CHA": 4,
+     "?IUMS": 1
+    }
+   }
+  ],
+  "total": {
+   "PP": 34.2,
+   "PSOE": 24.4,
+   "VOX": 17.8,
+   "CHA": 9.7,
+   "EXISTE": 3.5,
+   "?IUMS": 3.0
+  },
+  "total_won": {
+   "PP": 26,
+   "PSOE": 18,
+   "VOX": 14,
+   "CHA": 6,
+   "EXISTE": 2,
+   "?IUMS": 1
+  },
+  "source": "https://en.wikipedia.org/wiki/2026_Aragonese_regional_election"
+ },
+ "sub-es-ga": {
+  "base": "2024 Galician regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "A Coruña",
+    "seats": 25,
+    "shares": {
+     "PP": 47.7,
+     "BNG": 32.5,
+     "?PSDEG": 13.0
+    },
+    "won": {
+     "PP": 13,
+     "BNG": 9,
+     "?PSDEG": 3
+    }
+   },
+   {
+    "name": "Lugo",
+    "seats": 14,
+    "shares": {
+     "PP": 53.3,
+     "BNG": 25.0,
+     "?PSDEG": 17.3
+    },
+    "won": {
+     "PP": 8,
+     "BNG": 4,
+     "?PSDEG": 2
+    }
+   },
+   {
+    "name": "Ourense",
+    "seats": 14,
+    "shares": {
+     "PP": 50.1,
+     "BNG": 25.0,
+     "?PSDEG": 12.4,
+     "?DO": 8.7
+    },
+    "won": {
+     "PP": 8,
+     "BNG": 4,
+     "?PSDEG": 1,
+     "?DO": 1
+    }
+   },
+   {
+    "name": "Pontevedra",
+    "seats": 22,
+    "shares": {
+     "PP": 44.0,
+     "BNG": 34.4,
+     "?PSDEG": 14.8
+    },
+    "won": {
+     "PP": 11,
+     "BNG": 8,
+     "?PSDEG": 3
+    }
+   }
+  ],
+  "total": {
+   "PP": 47.4,
+   "BNG": 31.3,
+   "?PSDEG": 14.1,
+   "?DO": 1.0
+  },
+  "total_won": {
+   "PP": 40,
+   "BNG": 25,
+   "?PSDEG": 9,
+   "?DO": 1
+  },
+  "source": "https://en.wikipedia.org/wiki/2024_Galician_regional_election"
+ },
+ "sub-es-as": {
+  "base": "2023 Asturian regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Central",
+    "seats": 34,
+    "shares": {
+     "PSOE": 36.2,
+     "PP": 32.0,
+     "VOX": 10.7,
+     "?CXAST": 8.2,
+     "PODEMOS": 4.3,
+     "?FORO": 3.2
+    },
+    "won": {
+     "PSOE": 13,
+     "PP": 12,
+     "VOX": 4,
+     "?CXAST": 3,
+     "PODEMOS": 1,
+     "?FORO": 1
+    }
+   },
+   {
+    "name": "Eastern",
+    "seats": 5,
+    "shares": {
+     "PSOE": 38.3,
+     "PP": 36.4,
+     "VOX": 9.5,
+     "?CXAST": 4.7,
+     "PODEMOS": 2.6,
+     "?FORO": 3.9
+    },
+    "won": {
+     "PSOE": 3,
+     "PP": 2
+    }
+   },
+   {
+    "name": "Western",
+    "seats": 6,
+    "shares": {
+     "PSOE": 37.0,
+     "PP": 35.0,
+     "VOX": 6.5,
+     "?CXAST": 5.4,
+     "PODEMOS": 1.7,
+     "?FORO": 6.7
+    },
+    "won": {
+     "PSOE": 3,
+     "PP": 3
+    }
+   }
+  ],
+  "total": {
+   "PSOE": 36.5,
+   "PP": 32.6,
+   "VOX": 10.1,
+   "?CXAST": 7.6,
+   "PODEMOS": 3.9,
+   "?FORO": 3.7
+  },
+  "total_won": {
+   "PSOE": 19,
+   "PP": 17,
+   "VOX": 4,
+   "?CXAST": 3,
+   "PODEMOS": 1,
+   "?FORO": 1
+  },
+  "source": "https://en.wikipedia.org/wiki/2023_Asturian_regional_election"
+ },
+ "sub-es-cm": {
+  "base": "2023 Castilian-Manchegan regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Albacete",
+    "seats": 7,
+    "shares": {
+     "PSOE": 42.6,
+     "PP": 35.5,
+     "VOX": 12.4
+    },
+    "won": {
+     "PSOE": 3,
+     "PP": 3,
+     "VOX": 1
+    }
+   },
+   {
+    "name": "Ciudad Real",
+    "seats": 7,
+    "shares": {
+     "PSOE": 46.6,
+     "PP": 34.5,
+     "VOX": 12.0
+    },
+    "won": {
+     "PSOE": 4,
+     "PP": 2,
+     "VOX": 1
+    }
+   },
+   {
+    "name": "Cuenca",
+    "seats": 5,
+    "shares": {
+     "PSOE": 47.4,
+     "PP": 33.6,
+     "VOX": 10.5
+    },
+    "won": {
+     "PSOE": 3,
+     "PP": 2
+    }
+   },
+   {
+    "name": "Guadalajara",
+    "seats": 5,
+    "shares": {
+     "PSOE": 42.2,
+     "PP": 30.3,
+     "VOX": 16.1
+    },
+    "won": {
+     "PSOE": 2,
+     "PP": 2,
+     "VOX": 1
+    }
+   },
+   {
+    "name": "Toledo",
+    "seats": 9,
+    "shares": {
+     "PSOE": 45.6,
+     "PP": 33.2,
+     "VOX": 13.3
+    },
+    "won": {
+     "PSOE": 5,
+     "PP": 3,
+     "VOX": 1
+    }
+   }
+  ],
+  "total": {
+   "PSOE": 45.0,
+   "PP": 33.7,
+   "VOX": 12.8
+  },
+  "total_won": {
+   "PSOE": 17,
+   "PP": 12,
+   "VOX": 4
+  },
+  "source": "https://en.wikipedia.org/wiki/2023_Castilian-Manchegan_regional_election"
+ },
+ "sub-es-ib": {
+  "base": "2023 Balearic regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Formentera",
+    "seats": 1,
+    "shares": {
+     "VOX": 3.3,
+     "?SAUNIO": 46.5
+    },
+    "won": {
+     "?SAUNIO": 1
+    }
+   },
+   {
+    "name": "Ibiza",
+    "seats": 12,
+    "shares": {
+     "PP": 48.8,
+     "?PSIB": 25.6,
+     "VOX": 9.2,
+     "PODEMOS": 6.4
+    },
+    "won": {
+     "PP": 7,
+     "?PSIB": 4,
+     "VOX": 1
+    }
+   },
+   {
+    "name": "Mallorca",
+    "seats": 33,
+    "shares": {
+     "PP": 34.2,
+     "?PSIB": 26.9,
+     "VOX": 15.3,
+     "MESPM": 10.4,
+     "PODEMOS": 4.0
+    },
+    "won": {
+     "PP": 13,
+     "?PSIB": 10,
+     "VOX": 6,
+     "MESPM": 4
+    }
+   },
+   {
+    "name": "Menorca",
+    "seats": 13,
+    "shares": {
+     "PP": 38.7,
+     "?PSIB": 26.7,
+     "VOX": 7.2,
+     "PODEMOS": 6.8,
+     "MESPM": 16.6
+    },
+    "won": {
+     "PP": 5,
+     "?PSIB": 4,
+     "VOX": 1,
+     "PODEMOS": 1,
+     "MESPM": 2
+    }
+   }
+  ],
+  "total": {
+   "PP": 35.8,
+   "?PSIB": 26.5,
+   "VOX": 13.9,
+   "MESPM": 9.8,
+   "PODEMOS": 4.4,
+   "?SAUNIO": 0.4
+  },
+  "total_won": {
+   "PP": 25,
+   "?PSIB": 18,
+   "VOX": 8,
+   "MESPM": 6,
+   "PODEMOS": 1,
+   "?SAUNIO": 1
+  },
+  "source": "https://en.wikipedia.org/wiki/2023_Balearic_regional_election"
+ },
+ "sub-es-cn": {
+  "base": "2023 Canarian regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "El Hierro",
+    "seats": 3,
+    "shares": {
+     "PSOE": 26.5,
+     "PP": 20.2,
+     "VOX": 1.6,
+     "?AHI": 26.3
+    },
+    "won": {
+     "PSOE": 1,
+     "PP": 1,
+     "?AHI": 1
+    }
+   },
+   {
+    "name": "Fuerteventura",
+    "seats": 8,
+    "shares": {
+     "PSOE": 21.4,
+     "CC": 25.7,
+     "PP": 19.2,
+     "NC": 10.8,
+     "VOX": 6.0
+    },
+    "won": {
+     "PSOE": 2,
+     "CC": 3,
+     "PP": 2,
+     "NC": 1
+    }
+   },
+   {
+    "name": "Gran Canaria",
+    "seats": 15,
+    "shares": {
+     "PSOE": 28.1,
+     "CC": 9.5,
+     "PP": 21.3,
+     "NC": 14.5,
+     "VOX": 9.9
+    },
+    "won": {
+     "PSOE": 5,
+     "CC": 1,
+     "PP": 4,
+     "NC": 3,
+     "VOX": 2
+    }
+   },
+   {
+    "name": "La Gomera",
+    "seats": 4,
+    "shares": {
+     "PSOE": 17.9,
+     "CC": 9.3,
+     "PP": 4.5,
+     "VOX": 2.0,
+     "?ASG": 54.7
+    },
+    "won": {
+     "PSOE": 1,
+     "?ASG": 3
+    }
+   },
+   {
+    "name": "La Palma",
+    "seats": 8,
+    "shares": {
+     "PSOE": 23.9,
+     "CC": 42.4,
+     "PP": 20.0,
+     "NC": 3.0,
+     "VOX": 3.0
+    },
+    "won": {
+     "PSOE": 2,
+     "CC": 4,
+     "PP": 2
+    }
+   },
+   {
+    "name": "Lanzarote",
+    "seats": 8,
+    "shares": {
+     "PSOE": 29.0,
+     "CC": 27.3,
+     "PP": 17.2,
+     "NC": 8.8,
+     "VOX": 6.9
+    },
+    "won": {
+     "PSOE": 3,
+     "CC": 3,
+     "PP": 1,
+     "NC": 1
+    }
+   },
+   {
+    "name": "Tenerife",
+    "seats": 15,
+    "shares": {
+     "PSOE": 27.3,
+     "CC": 31.3,
+     "PP": 18.1,
+     "NC": 2.4,
+     "VOX": 7.1
+    },
+    "won": {
+     "PSOE": 5,
+     "CC": 6,
+     "PP": 3,
+     "VOX": 1
+    }
+   },
+   {
+    "name": "Regional",
+    "seats": 9,
+    "shares": {
+     "PSOE": 32.4,
+     "CC": 19.2,
+     "PP": 20.1,
+     "NC": 7.1,
+     "VOX": 7.9
+    },
+    "won": {
+     "PSOE": 4,
+     "CC": 2,
+     "PP": 2,
+     "VOX": 1
+    }
+   }
+  ],
+  "total": {
+   "PSOE": 27.2,
+   "CC": 22.1,
+   "PP": 19.3,
+   "NC": 7.9,
+   "VOX": 7.9,
+   "?ASG": 0.7,
+   "?AHI": 0.2
+  },
+  "total_won": {
+   "PSOE": 23,
+   "CC": 19,
+   "PP": 15,
+   "NC": 5,
+   "VOX": 4,
+   "?ASG": 3,
+   "?AHI": 1
+  },
+  "source": "https://en.wikipedia.org/wiki/2023_Canarian_regional_election"
+ },
+ "sub-es-pv": {
+  "base": "2024 Basque regional election",
+  "retrieved": "2026-11-19",
+  "districts": [
+   {
+    "name": "Álava",
+    "seats": 25,
+    "shares": {
+     "PNV": 26.7,
+     "EHB": 29.1,
+     "?PSEEE": 16.2,
+     "PP": 15.9,
+     "SUMAR": 3.7,
+     "VOX": 3.7
+    },
+    "won": {
+     "PNV": 7,
+     "EHB": 8,
+     "?PSEEE": 4,
+     "PP": 4,
+     "SUMAR": 1,
+     "VOX": 1
+    }
+   },
+   {
+    "name": "Biscay",
+    "seats": 25,
+    "shares": {
+     "PNV": 39.1,
+     "EHB": 28.3,
+     "?PSEEE": 13.9,
+     "PP": 9.0,
+     "SUMAR": 3.3,
+     "VOX": 1.9
+    },
+    "won": {
+     "PNV": 11,
+     "EHB": 8,
+     "?PSEEE": 4,
+     "PP": 2
+    }
+   },
+   {
+    "name": "Gipuzkoa",
+    "seats": 25,
+    "shares": {
+     "PNV": 31.4,
+     "EHB": 39.8,
+     "?PSEEE": 13.4,
+     "PP": 6.4,
+     "SUMAR": 3.1,
+     "VOX": 1.5
+    },
+    "won": {
+     "PNV": 9,
+     "EHB": 11,
+     "?PSEEE": 4,
+     "PP": 1
+    }
+   }
+  ],
+  "total": {
+   "PNV": 34.8,
+   "EHB": 32.1,
+   "?PSEEE": 14.1,
+   "PP": 9.2,
+   "SUMAR": 3.3,
+   "VOX": 2.0
+  },
+  "total_won": {
+   "PNV": 27,
+   "EHB": 27,
+   "?PSEEE": 12,
+   "PP": 7,
+   "SUMAR": 1,
+   "VOX": 1
+  },
+  "source": "https://en.wikipedia.org/wiki/2024_Basque_regional_election"
+ }
+}

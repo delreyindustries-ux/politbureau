@@ -18,6 +18,25 @@ from .build import (BASELINE_YEAR, DIST, LEVEL_NAME, SECCIONS, WEB, area_rows, d
                     dhondt_for, lede_for, pct, thousands)
 
 
+def _municipal(code):
+    """Municipals 2027 (19/11/2026): resultat i regidors del 2023 i regidors que
+    tocaran el 2027 segons el padro (municipals.py)."""
+    from .. import municipals
+    d = municipals.load()
+    m = (d.get("munis") or {}).get(code)
+    if not m or not m.get("s27"):
+        return None
+    rows = []
+    for name, pcode, votes, seats in m.get("r") or []:
+        pct = 100.0 * votes / m["v"] if votes is not None and m.get("v") else None
+        if not seats and (pct is None or pct < 1):
+            continue
+        color = (parties.meta(pcode, "ES").get("color") if pcode and not pcode.startswith("?")
+                 else None) or "#9e9e9e"
+        rows.append({"name": name, "pct": pct, "seats": seats, "color": color})
+    return {**m, "rows": rows, "pop_year": d.get("pop_year")}
+
+
 def _social(code, lang):
     """Poblacio, edat, estrangers (INE ADRH) i atur registrat (SEPE) del municipi."""
     from .. import social as sociallib
@@ -282,6 +301,7 @@ def territory_pages(env, cfg, data, urls, prov_region):
                     secmap=bool(secmap), districts=districts,
                     renda=(rendalib.load().get((level, code)) if level == "municipality" else None),
                     social=_social(code, lang) if level == "municipality" else None,
+                    municipal=_municipal(code) if level == "municipality" else None,
                     crumbs=crumbs, children=children, children_title=ch_title,
                     siblings=siblings, siblings_title=si_title)
                 write(DIST / canonical.strip("/") / "index.html", html)

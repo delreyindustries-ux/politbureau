@@ -84,13 +84,43 @@ sub-es-mc: {name: Asamblea Regional de Murcia, seats: 45, method: dhondt, thresh
 sub-es-nc: {name: Parlamento de Navarra, seats: 50, method: dhondt, threshold: 0.03}
 sub-es-ri: {name: Parlamento de La Rioja, seats: 33, method: dhondt, threshold: 0.05}
 sub-es-ce: {name: Asamblea de Ceuta, seats: 25, method: dhondt, threshold: 0.05}
-sub-es-bcn: {name: Ajuntament de Barcelona, seats: 41, method: dhondt, threshold: 0.05}
-sub-es-vlc: {name: Ajuntament de València, seats: 33, method: dhondt, threshold: 0.05}
-sub-es-zgz: {name: Ayuntamiento de Zaragoza, seats: 31, method: dhondt, threshold: 0.05}
-sub-es-ct: {name: Parlament de Catalunya, seats: 135, method: dhondt, threshold: 0.03, districts: true}
-sub-es-vc: {name: Corts Valencianes, seats: 99, method: dhondt, threshold: 0.05, districts: true}
-sub-es-an: {name: Parlamento de Andalucía, seats: 109, method: dhondt, threshold: 0.03, districts: true}
-sub-es-ar: {name: Cortes de Aragón, seats: 67, method: dhondt, threshold: 0.03, districts: true}
-sub-es-ga: {name: Parlamento de Galicia, seats: 75, method: dhondt, threshold: 0.05, districts: true}
-sub-es-as: {name: Junta General del Principado de Asturias, seats: 45, method: dhondt, threshold: 0.03, districts: true}
-sub-es-cm: {name: Cortes de Castilla-La Mancha, seats: 33, method: dhondt, threshold: 0.03, districts: true}
+# Ajuntaments: `ine` = codi del municipi. Els regidors es calculen amb el padro
+# de l'INE i l'escala de la LOREG (data/municipals/municipis.json); `seats`
+# nomes es la reserva si aquell fitxer no hi es. Amb el padro de l'1/1/2025,
+# Barcelona passa de 41 a 43 regidors i Madrid de 57 a 61 (19/11/2026).
+sub-es-bcn: {name: Ajuntament de Barcelona, seats: 41, method: dhondt, threshold: 0.05, ine: "08019"}
+sub-es-vlc: {name: Ajuntament de València, seats: 33, method: dhondt, threshold: 0.05, ine: "46250"}
+sub-es-zgz: {name: Ayuntamiento de Zaragoza, seats: 31, method: dhondt, threshold: 0.05, ine: "50297"}
+sub-es-ct: {name: Parlament de Catalunya, seats: 135, method: dhondt, threshold: 0.03, districts: true,
+            base: "2024 Catalan regional election"}
+sub-es-vc: {name: Corts Valencianes, seats: 99, method: dhondt, threshold: 0.05, districts: true, threshold_scope: region,
+            base: "2023 Valencian regional election"}
+sub-es-an: {name: Parlamento de Andalucía, seats: 109, method: dhondt, threshold: 0.03, districts: true,
+            base: "2026 Andalusian regional election"}
+sub-es-ar: {name: Cortes de Aragón, seats: 67, method: dhondt, threshold: 0.03, districts: true,
+            base: "2026 Aragonese regional election", rename: {"?IUMS": "?IU"}}
+sub-es-ga: {name: Parlamento de Galicia, seats: 75, method: dhondt, threshold: 0.05, districts: true,
+            base: "2024 Galician regional election"}
+sub-es-as: {name: Junta General del Principado de Asturias, seats: 45, method: dhondt, threshold: 0.03, districts: true,
+            base: "2023 Asturian regional election"}
+sub-es-cm: {name: Cortes de Castilla-La Mancha, seats: 33, method: dhondt, threshold: 0.03, districts: true,
+            base: "2023 Castilian-Manchegan regional election"}
+# `base` (19/11/2026): l'eleccio anterior, d'on surt el resultat de cada
+# circumscripcio (regional.py). Llindar: a cada circumscripcio, llevat de la
+# Comunitat Valenciana (5 % a tot el territori, `threshold_scope: region`) i
+# Canaries (15 % a l'illa o 4 % a tot l'arxipelag).
+# Afegides el 19/11/2026 (seccio "Electoral system" de cada article, consultada
+# aquell dia). Madrid: 143 escons pel padro de l'1/1/2025 (un per 50.000
+# habitants). Canaries: 61 escons d'illa (llindar del 15 % a l'illa) i 9 de
+# llista regional (4 % a tot l'arxipelag); aqui s'aplica el 4 % a tot.
+sub-es-md: {name: Asamblea de Madrid, seats: 143, method: dhondt, threshold: 0.05}
+sub-es-cb: {name: Parlamento de Cantabria, seats: 35, method: dhondt, threshold: 0.05}
+sub-es-ml: {name: Asamblea de Melilla, seats: 25, method: dhondt, threshold: 0.05}
+sub-es-ib: {name: Parlament de les Illes Balears, seats: 59, method: dhondt, threshold: 0.05, districts: true,
+            base: "2023 Balearic regional election", rename: {MESPM: "?MES"}}
+sub-es-cn: {name: Parlamento de Canarias, seats: 70, method: dhondt, threshold: 0.04, districts: true, district_threshold: 0.15, region_threshold: 0.04,
+            base: "2023 Canarian regional election"}
+sub-es-pv: {name: Parlamento Vasco, seats: 75, method: dhondt, threshold: 0.03, districts: true,
+            base: "2024 Basque regional election"}
+sub-es-mad: {name: Ayuntamiento de Madrid, seats: 59, method: dhondt, threshold: 0.05, ine: "28079"}
+sub-es-sev: {name: Ayuntamiento de Sevilla, seats: 31, method: dhondt, threshold: 0.05, ine: "41091"}

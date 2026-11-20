@@ -141,7 +141,7 @@ def _divisors(shares, seats, method, first_divisor):
 
 
 def simulate_chamber(shares: dict, chamber: dict, n_polls: int = 1,
-                     n: int = CHAMBER_SIMS, seed=None) -> dict | None:
+                     n: int = CHAMBER_SIMS, seed=None, project=None) -> dict | None:
     """{"parties": [{code, median, lo, hi, first, majority, zero}], "none": p}.
 
     `shares`: {partit: %} de la mitjana (sense "altres"); `chamber`: l'entrada
@@ -170,7 +170,10 @@ def simulate_chamber(shares: dict, chamber: dict, n_polls: int = 1,
     for _ in range(n):
         sim = {p: max(0.0, v * (1.0 + rng.gauss(0.0, min(CAP, SIGMA / math.sqrt(v)) * widen)))
                for p, v in base.items()}
-        if fast:
+        if project is not None:
+            # Circumscripcio per circumscripcio (regional.py, 19/11/2026).
+            got = project(sim)
+        elif fast:
             got = _divisors({p: v for p, v in sim.items() if v >= threshold * 100},
                             seats, method, first_divisor)
         else:

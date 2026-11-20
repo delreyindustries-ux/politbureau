@@ -633,6 +633,33 @@ elections:
      label: "Ceuta", page: "2027 Ceuta Assembly election",
      pub: {es: ceuta, ca: ceuta, name_es: "Ceuta", name_ca: "Ceuta",
            kind_es: "elecciones a la Asamblea de Ceuta", kind_ca: "eleccions a l'Assemblea de Ceuta"}}
+  # Espanya: les autonomiques que faltaven (19/11/2026, demanat per l'Alfonso:
+  # "tindre totes les dades per les municipals i autonomiques"). Pagines i
+  # dates: Wikipedia anglesa, consultada el 19/11/2026. Castella i Lleo i
+  # Extremadura no en tenen: van votar el 2025-2026 i no toca fins al 2029-2030.
+  - {id: sub-es-md, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "Comunitat de Madrid", page: "2027 Madrilenian regional election",
+     pub: {es: comunidad-de-madrid, ca: comunitat-de-madrid, name_es: "Comunidad de Madrid", name_ca: "Comunitat de Madrid",
+           of_es: "de la Comunidad de Madrid", of_ca: "de la Comunitat de Madrid",
+           kind_es: "elecciones a la Asamblea de Madrid", kind_ca: "eleccions a l'Assemblea de Madrid"}}
+  - {id: sub-es-cb, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "Cantàbria", page: "2027 Cantabrian regional election",
+     pub: {es: cantabria, ca: cantabria, name_es: "Cantabria", name_ca: "Cantàbria"}}
+  - {id: sub-es-ib, group: sub, parent: spain, country: ES, scope: national, kind: autonomic,
+     label: "Illes Balears", page: "Next Balearic regional election",
+     pub: {es: islas-baleares, ca: illes-balears, name_es: "Islas Baleares", name_ca: "Illes Balears",
+           of_es: "de las Islas Baleares", of_ca: "de les Illes Balears"}}
+  - {id: sub-es-cn, group: sub, parent: spain, country: ES, scope: national, kind: autonomic,
+     label: "Canàries", page: "Next Canarian regional election",
+     pub: {es: canarias, ca: canaries, name_es: "Canarias", name_ca: "Canàries"}}
+  - {id: sub-es-pv, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, display: {PSOE: PSE-EE},
+     label: "País Basc", page: "Next Basque regional election",
+     pub: {es: pais-vasco, ca: pais-basc, name_es: "País Vasco", name_ca: "País Basc",
+           of_es: "del País Vasco", of_ca: "del País Basc"}}
+  - {id: sub-es-ml, group: sub, parent: spain, country: ES, scope: national, kind: autonomic, date: 2027-05-23,
+     label: "Melilla", page: "2027 Melilla Assembly election",
+     pub: {es: melilla, ca: melilla, name_es: "Melilla", name_ca: "Melilla",
+           kind_es: "elecciones a la Asamblea de Melilla", kind_ca: "eleccions a l'Assemblea de Melilla"}}
   # Espanya: municipals del 23/05/2027.
   - {id: sub-es-bcn, group: sub, parent: spain, country: ES, scope: national, kind: municipal, date: 2027-05-23, display: {PSOE: PSC},
      label: "Barcelona", page: "2027 Barcelona municipal election",
@@ -643,6 +670,12 @@ elections:
   - {id: sub-es-zgz, group: sub, parent: spain, country: ES, scope: national, kind: municipal, date: 2027-05-23,
      label: "Saragossa", page: "2027 Zaragoza municipal election",
      pub: {es: zaragoza, ca: saragossa, name_es: "Zaragoza", name_ca: "Saragossa"}}
+  - {id: sub-es-mad, group: sub, parent: spain, country: ES, scope: national, kind: municipal, date: 2027-05-23,
+     label: "Madrid", page: "2027 Madrid municipal election",
+     pub: {es: madrid, ca: madrid, name_es: "Madrid", name_ca: "Madrid"}}
+  - {id: sub-es-sev, group: sub, parent: spain, country: ES, scope: national, kind: municipal, date: 2027-05-23,
+     label: "Sevilla", page: "2027 Seville municipal election",
+     pub: {es: sevilla, ca: sevilla, name_es: "Sevilla", name_ca: "Sevilla"}}
   # Alemanya: Landtag dels estats federats.
   - {id: sub-de-ni, group: sub, parent: eu-de, country: DE, scope: national, kind: state,
      label: "Baixa Saxònia", page: "2027 Lower Saxony state election",
