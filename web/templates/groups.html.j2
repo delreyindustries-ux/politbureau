@@ -1,0 +1,78 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
+{% macro n0(x) %}{{ '%.0f'|format(x) }}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+{% if es %}
+  <h1>Cómo vota cada colectivo</h1>
+  <p class="lede">Mujeres y hombres, jóvenes y mayores, nacidos en España y fuera, cada profesión,
+    clase social, nivel de ingresos y religión: a qué partido se inclina cada grupo, según
+    {{ d.n | thousands }} entrevistas del CIS.</p>
+{% else %}
+  <h1>Com vota cada col·lectiu</h1>
+  <p class="lede">Dones i homes, joves i grans, nascuts a Espanya i fora, cada professió, classe
+    social, nivell d'ingressos i religió: cap a quin partit s'inclina cada grup, segons
+    {{ d.n | thousands }} entrevistes del CIS.</p>
+{% endif %}
+
+  <p class="note">{% if es %}<b>No es una estimación de voto.</b> Es lo que dice la gente cuando el CIS
+    le pregunta a quién votaría o por qué partido siente más simpatía, sin cocina. El CIS da al PSOE más
+    que las demás encuestas ({{ n1(d.total.shares.PSOE) }} % aquí), y eso pasa en todos los grupos: lo que
+    vale es <b>la diferencia entre grupos</b>, no la cifra de cada partido. Los porcentajes son sobre
+    quien dice un partido; la columna «sin partido» es quien no sabe, no votaría, vota en blanco o nulo o
+    no contesta. «±» es el margen de error al 95 % del partido más votado del grupo. Grupos de menos de
+    100 entrevistas, fuera.{% else %}<b>No és una estimació de vot.</b> És el que diu la gent quan el CIS
+    li pregunta a qui votaria o per quin partit sent més simpatia, sense cuina. El CIS dona al PSOE més que
+    les altres enquestes ({{ n1(d.total.shares.PSOE) }} % aquí), i això passa a tots els grups: el que
+    compta és <b>la diferència entre grups</b>, no la xifra de cada partit. Els percentatges són sobre qui
+    diu un partit; la columna «sense partit» és qui no sap, no votaria, vota en blanc o nul o no contesta.
+    «±» és el marge d'error al 95 % del partit més votat del grup. Grups de menys de 100 entrevistes,
+    fora.{% endif %}</p>
+
+  <p class="note">{% if es %}<b>Origen, no etnia.</b> Ninguna encuesta electoral española pregunta por la
+    etnia, y el CIS tampoco. Lo más cercano es dónde nació la persona y desde cuándo tiene la nacionalidad.
+    El CIS solo entrevista a personas con nacionalidad española, que son las que votan en las generales:
+    los nacidos fuera son españoles nacidos en el extranjero o nacionalizados.{% else %}<b>Origen, no
+    ètnia.</b> Cap enquesta electoral espanyola pregunta per l'ètnia, i el CIS tampoc. El més proper és
+    on va néixer la persona i des de quan té la nacionalitat. El CIS només entrevista persones amb
+    nacionalitat espanyola, que són les que voten a les generals: els nascuts fora són espanyols nascuts
+    a l'estranger o nacionalitzats.{% endif %}</p>
+
+{% for dim in d.dims %}
+  <section>
+  <h2>{{ dim.title[lang] }}</h2>
+  <div class="tablewrap">
+  <table class="results">
+    <thead><tr><th>{{ 'Grupo' if es else 'Grup' }}</th>
+      {% for c in cols %}<th class="num"><span class="sw" style="background:{{ c.color }}"></span>{{ c.name[lang] }}</th>{% endfor %}
+      <th class="num">{{ 'Sin partido' if es else 'Sense partit' }}</th>
+      <th class="num">±</th><th class="num">{{ 'Entrevistas' if es else 'Entrevistes' }}</th></tr></thead>
+    <tbody>
+    {%- for r in dim.rows %}
+      {%- if r.hidden %}
+      <tr class="muted"><td>{{ r.label[lang] }}</td><td colspan="{{ cols | length + 2 }}">{{ 'Muy pocas entrevistas para dar el dato' if es else 'Massa poques entrevistes per donar la dada' }}</td><td class="num">{{ r.n | thousands }}</td></tr>
+      {%- else %}
+      <tr><td>{{ r.label[lang] }}</td>
+        {%- set top = r.shares.values() | max %}
+        {% for c in cols %}<td class="num">{% if r.shares[c.code] == top %}<b>{{ n0(r.shares[c.code]) }}</b>{% else %}{{ n0(r.shares[c.code]) }}{% endif %}</td>{% endfor %}
+        <td class="num">{{ n0(r.none) }}</td><td class="num">{{ n0(r.moe) }}</td><td class="num">{{ r.n | thousands }}</td></tr>
+      {%- endif %}
+    {%- endfor %}
+      <tr class="total"><td>{{ 'Total' }}</td>{% for c in cols %}<td class="num">{{ n0(d.total.shares[c.code]) }}</td>{% endfor %}<td class="num">{{ n0(d.total.none) }}</td><td class="num">{{ n0(d.total.moe) }}</td><td class="num">{{ d.total.n | thousands }}</td></tr>
+    </tbody>
+  </table>
+  </div>
+  </section>
+{% endfor %}
+
+  <p class="note">{% if es %}Pregunta: «voto + simpatía» en unas supuestas elecciones generales (VOTOSIMG),
+    ponderado con el peso del CIS, que corrige que en la muestra haya más universitarios de los que hay.
+    Barómetros{% else %}Pregunta: «vot + simpatia» en unes suposades eleccions generals (VOTOSIMG), ponderat
+    amb el pes del CIS, que corregeix que a la mostra hi hagi més universitaris dels que hi ha. Baròmetres{% endif %}
+    {% for s in d.studies %}{{ s.id }}{% if s.month %} ({{ s.month[5:] }}/{{ s.month[:4] }}){% endif %}{{ ', ' if not loop.last else '.' }}{% endfor %}
+    {{ 'Origen de los datos: Centro de Investigaciones Sociológicas' }}{% if d.studies %} ({{ 'última actualización' if es else 'darrera actualització' }} {{ fdate(d.studies | map(attribute='updated') | max) }}){% endif %}.</p>
+</article>
+{% endblock %}

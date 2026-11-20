@@ -159,6 +159,8 @@ def run(clean=True):
     pagemod.society_page(env, cfg, conn)
     if pagemod.conversation_page(env, cfg, conn):
         print("     termometre de conversa: pagina generada")
+    if pagemod.groups_page(env, cfg):
+        print("     vot per col·lectius: pagina generada")
     from . import encert, historic, opendata, rating
     if encert.accuracy_page(env, cfg, conn):
         print("     encert del 29N: pagina generada")

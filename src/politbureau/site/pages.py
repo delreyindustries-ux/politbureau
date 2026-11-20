@@ -389,6 +389,37 @@ def conversation_page(env, cfg, conn):
     return len(s["rows"])
 
 
+def groups_page(env, cfg):
+    """Com vota cada col·lectiu (20/11/2026): microdades del CIS (collectius.py)."""
+    from .. import collectius
+    d = collectius.load()
+    if not d.get("dims"):
+        return 0
+    cols = []
+    for p in d["parties"]:
+        if p["code"] == "OTHER":
+            cols.append({"code": "OTHER", "name": {"ca": "Altres", "es": "Otros"}, "color": "#9e9e9e"})
+        else:
+            meta = parties.meta(p["code"], "ES", ELECTION)
+            name = p["cis"] if p["code"] == "SUMAR" else meta["name"]
+            cols.append({"code": p["code"], "name": {"ca": name, "es": name}, "color": meta["color"]})
+    months = sorted(s["month"] for s in d["studies"] if s.get("month"))
+    for lang in i18n.LANGS:
+        canonical = i18n.page_url("groups", lang)
+        html = render_page(
+            env, cfg, "groups.html.j2", lang, canonical,
+            {lg: i18n.page_url("groups", lg) for lg in i18n.LANGS},
+            ("Cómo vota cada colectivo: sexo, edad, origen, profesión, clase y religión" if lang == "es"
+             else "Com vota cada col·lectiu: sexe, edat, origen, professió, classe i religió"),
+            ("El voto de cada grupo de la sociedad según las entrevistas del CIS: mujeres y hombres, "
+             "jóvenes y mayores, nacidos fuera, profesiones, clase social, ingresos y religión." if lang == "es"
+             else "El vot de cada grup de la societat segons les entrevistes del CIS: dones i homes, "
+             "joves i grans, nascuts fora, professions, classe social, ingressos i religió."),
+            d=d, cols=cols, months=months, fdate=_fdate)
+        write(DIST / canonical.strip("/") / "index.html", html)
+    return len(d["dims"])
+
+
 def society_page(env, cfg, conn):
     """Com vota cada tipus de municipi (09/11/2026): mida, renda, edat, estrangers i atur."""
     from .. import social as sociallib
@@ -478,6 +509,8 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-20", "Voto por colectivos con los microdatos del CIS (voto + simpatía, ponderado): sexo, edad, lugar de nacimiento, estudios, trabajo, profesión, clase, ingresos, religión, ideología, estado civil y tamaño del municipio. Grupos de menos de 100 entrevistas, fuera.",
+     "Vot per col·lectius amb les microdades del CIS (vot + simpatia, ponderat): sexe, edat, lloc de naixement, estudis, feina, professió, classe, ingressos, religió, ideologia, estat civil i mida del municipi. Grups de menys de 100 entrevistes, fora."),
     ("2026-11-20", "Termómetro de conversación: cuánto se habla de cada partido en Bluesky y en Wikipedia, al lado de su voto en las encuestas. No entra en la media: en 2023 la atención no predijo el voto.",
      "Termòmetre de conversa: quant es parla de cada partit a Bluesky i a la Viquipèdia, al costat del seu vot a les enquestes. No entra a la mitjana: el 2023 l'atenció no va predir el vot."),
     ("2026-11-19", "Ocho elecciones más: Madrid, Cantabria, Baleares, Canarias, País Vasco y Melilla, y los ayuntamientos de Madrid y Sevilla. En autonómicas y municipales sin ninguna encuesta de los últimos 90 días, la media usa las de los últimos 12 meses y la página lo avisa.",
@@ -656,7 +689,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "groups", "strongholds", "method", "legal", "privacy", "cookies")]
         # Pagines que nomes existeixen quan hi ha dades (l'encert del 29N).
         entries += [i18n.page_url(k, lang) for k in cfg.get("_extra_pages", [])]
         if cfg.get("_abroad"):
