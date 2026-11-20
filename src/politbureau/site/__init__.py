@@ -157,6 +157,8 @@ def run(clean=True):
     pagemod.strongholds_page(env, cfg, urls)
     pagemod.senate_page(env, cfg, urls, data.get("senate"))
     pagemod.society_page(env, cfg, conn)
+    if pagemod.conversation_page(env, cfg, conn):
+        print("     termometre de conversa: pagina generada")
     from . import encert, historic, opendata, rating
     if encert.accuracy_page(env, cfg, conn):
         print("     encert del 29N: pagina generada")

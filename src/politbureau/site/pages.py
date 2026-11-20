@@ -355,6 +355,40 @@ _DIM_TITLES = {
 }
 
 
+def conversation_page(env, cfg, conn):
+    """Termometre de conversa (20/11/2026): atencio a xarxes, premsa i Viquipedia
+    de cada partit, al costat del vot de les enquestes. No entra a la mitjana."""
+    from .. import conversa
+    vote = dict(conn.execute(
+        "SELECT party, share FROM aggregate WHERE election_id = ? AND scope_code = ''",
+        (ELECTION,)).fetchall())
+    s = conversa.summary(vote)
+    if not s:
+        return 0
+    for r in s["rows"]:
+        meta = parties.meta(r["code"], "ES", ELECTION)
+        r["name"], r["color"] = meta["name"], meta["color"]
+        pts = [(i, v) for i, v in enumerate(s["spark"].get(r["code"]) or []) if v is not None]
+        top = max((v for row in s["spark"].values() for v in row if v is not None), default=0) or 1
+        if len(pts) > 1:
+            n = len(s["spark"][r["code"]]) - 1 or 1
+            r["path"] = "M" + " L".join(f"{120 * i / n:.1f},{26 - 24 * v / top:.1f}" for i, v in pts)
+    for lang in i18n.LANGS:
+        canonical = i18n.page_url("conversation", lang)
+        html = render_page(
+            env, cfg, "conversa.html.j2", lang, canonical,
+            {lg: i18n.page_url("conversation", lg) for lg in i18n.LANGS},
+            ("Termómetro de conversación: quién ocupa la conversación y quién tiene los votos" if lang == "es"
+             else "Termòmetre de conversa: qui ocupa la conversa i qui té els vots"),
+            ("Cuánto se habla de cada partido y de su líder en Bluesky, en la prensa y en Wikipedia, "
+             "comparado con su voto en las encuestas." if lang == "es" else
+             "Quant es parla de cada partit i del seu líder a Bluesky, a la premsa i a la Viquipèdia, "
+             "comparat amb el seu vot a les enquestes."),
+            s=s, fdate=_fdate)
+        write(DIST / canonical.strip("/") / "index.html", html)
+    return len(s["rows"])
+
+
 def society_page(env, cfg, conn):
     """Com vota cada tipus de municipi (09/11/2026): mida, renda, edat, estrangers i atur."""
     from .. import social as sociallib
@@ -444,6 +478,8 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-20", "Termómetro de conversación: cuánto se habla de cada partido en Bluesky y en Wikipedia, al lado de su voto en las encuestas. No entra en la media: en 2023 la atención no predijo el voto.",
+     "Termòmetre de conversa: quant es parla de cada partit a Bluesky i a la Viquipèdia, al costat del seu vot a les enquestes. No entra a la mitjana: el 2023 l'atenció no va predir el vot."),
     ("2026-11-19", "Ocho elecciones más: Madrid, Cantabria, Baleares, Canarias, País Vasco y Melilla, y los ayuntamientos de Madrid y Sevilla. En autonómicas y municipales sin ninguna encuesta de los últimos 90 días, la media usa las de los últimos 12 meses y la página lo avisa.",
      "Vuit eleccions més: Madrid, Cantàbria, Balears, Canàries, País Basc i Melilla, i els ajuntaments de Madrid i Sevilla. A les autonòmiques i municipals sense cap enquesta dels últims 90 dies, la mitjana fa servir les dels últims 12 mesos i la pàgina ho avisa."),
     ("2026-11-15", "Previsión con probabilidades también en las autonómicas, las municipales y los parlamentos proporcionales de otros países.",
@@ -620,7 +656,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "strongholds", "method", "legal", "privacy", "cookies")]
         # Pagines que nomes existeixen quan hi ha dades (l'encert del 29N).
         entries += [i18n.page_url(k, lang) for k in cfg.get("_extra_pages", [])]
         if cfg.get("_abroad"):

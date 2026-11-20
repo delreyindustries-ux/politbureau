@@ -139,6 +139,12 @@ def cmd_municipals(args):
           f"desat a {municipals.OUT}")
 
 
+def cmd_conversa(args):
+    from . import conversa
+    d = conversa.run()
+    print(f"termometre de conversa fins al {d['end']}; desat a {conversa.OUT}")
+
+
 def cmd_historic(args):
     from . import history
     data = history.run()
@@ -232,6 +238,8 @@ def main(argv=None):
     p_circ.set_defaults(func=cmd_circumscripcions)
     sub.add_parser("municipals", help="municipals 2027: resultat del 2023 i regidors de cada municipi"
                    ).set_defaults(func=cmd_municipals)
+    sub.add_parser("conversa", help="visibilitat i conversa de cada partit (Viquipedia, Bluesky, GDELT)"
+                   ).set_defaults(func=cmd_conversa)
     sub.add_parser("historic", help="resultats de les generals 1977-2023 (Wikipedia)"
                    ).set_defaults(func=cmd_historic)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"

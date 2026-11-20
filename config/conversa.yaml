@@ -1,0 +1,63 @@
+# Termometre de conversa (20/11/2026, demanat per l'Alfonso: "la visibilitat i
+# conversa que te un politic o partit, a les xarxes socials").
+#
+# NO entra a la mitjana de vot. Prova feta abans de construir-ho: la quota de
+# visites a Wikipedia del 23/06 al 22/07/2023 donava el PSOE al 17,5 % (va
+# treure el 31,7 %) i Vox al 21,4 % (12,4 %); error mitja d'uns 9 punts als
+# quatre grans, contra uns 2 de la mitjana d'enquestes. L'atencio no es vot:
+# es mostra al costat, i la diferencia entre totes dues es la dada.
+#
+# Per a cada partit:
+#   wiki:  articles de la Viquipedia en castella (partit i lider); es busquen
+#          tambe a la catalana, la basca i la gallega pel seu enllac.
+#   terms: el que es cerca a Bluesky, nomes en castella i catala. Res de
+#          paraules amb un altre sentit: "podemos" i "sumar" son verbs, "junts"
+#          es una paraula catalana, "Frente Amplio" es tambe el partit uruguaia.
+#
+# Fonts:
+#   - Wikimedia Pageviews API (dades CC0): visites d'usuaris, sense robots.
+#   - Bluesky (API publica app.bsky.feed.searchPosts): nomes es compten els
+#     missatges; no es desa cap text, autor ni enllac (RGPD).
+#   - GDELT (premsa) queda fora: el 20/11/2026 limitava fins i tot a 1 consulta
+#     cada 6 segons.
+# X, Instagram, TikTok i Facebook no tenen API oberta i les seves condicions
+# prohibeixen l'extraccio automatica: no hi son (vegeu direccio/TASKS.md).
+
+window_days: 7        # finestra de la quota (la ultima setmana completa)
+history_days: 60      # serie del grafic (Viquipedia)
+bsky_days: 28         # Bluesky: quatre setmanes
+
+parties:
+  PP:
+    wiki: ["Partido Popular", "Alberto Núñez Feijóo"]
+    terms: ["Feijóo", "Partido Popular"]
+  PSOE:
+    wiki: ["Partido Socialista Obrero Español", "Pedro Sánchez"]
+    terms: ["Pedro Sánchez", "PSOE"]
+  VOX:
+    wiki: ["Vox (partido político)", "Santiago Abascal"]
+    terms: ["Abascal", "Vox"]
+  SUMAR:
+    wiki: ["Sumar (partido político)", "Yolanda Díaz"]
+    terms: ["Yolanda Díaz", "Ada Colau"]
+  PODEMOS:
+    wiki: ["Podemos (partido político)", "Ione Belarra"]
+    terms: ["Ione Belarra", "Irene Montero"]
+  SALF:
+    wiki: ["Se Acabó La Fiesta", "Alvise Pérez"]
+    terms: ["Se Acabó La Fiesta", "Alvise"]
+  ERC:
+    wiki: ["Esquerra Republicana de Catalunya", "Gabriel Rufián"]
+    terms: ["Esquerra Republicana", "Rufián", "Junqueras"]
+  JUNTS:
+    wiki: ["Junts per Catalunya", "Carles Puigdemont"]
+    terms: ["Junts per Catalunya", "Puigdemont", "Míriam Nogueras"]
+  EHB:
+    wiki: ["Euskal Herria Bildu", "Arnaldo Otegi"]
+    terms: ["Bildu", "Otegi"]
+  PNV:
+    wiki: ["Partido Nacionalista Vasco", "Aitor Esteban"]
+    terms: ["PNV", "Aitor Esteban"]
+  BNG:
+    wiki: ["Bloque Nacionalista Galego", "Ana Pontón"]
+    terms: ["BNG", "Ana Pontón"]

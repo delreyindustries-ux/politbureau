@@ -1,0 +1,92 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
+{% macro dd(x) %}{% if x is none %}—{% elif x >= 0.05 %}+{{ n1(x) }}{% elif x <= -0.05 %}−{{ n1(-x) }}{% else %}={% endif %}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+{% if es %}
+  <h1>Termómetro de conversación</h1>
+  <p class="lede">Quién ocupa la conversación y quién tiene los votos. Cuánto se habla de cada partido
+    y de su líder en las redes sociales y en Wikipedia, comparado con lo que le dan las
+    encuestas. La diferencia entre las dos cosas es el dato.</p>
+{% else %}
+  <h1>Termòmetre de conversa</h1>
+  <p class="lede">Qui ocupa la conversa i qui té els vots. Quant es parla de cada partit i del seu
+    líder a les xarxes socials i a la Viquipèdia, comparat amb el que li donen les
+    enquestes. La diferència entre totes dues coses és la dada.</p>
+{% endif %}
+
+  <p class="note">{% if es %}<b>Esto no es una encuesta ni una estimación de voto</b>, y no entra en la
+    media. Hablar mucho de un partido no quiere decir votarlo: en las generales de 2023, Vox tuvo el 21 %
+    de las visitas a Wikipedia de los grandes partidos y sacó el 12 % de los votos, y el PSOE tuvo el 18 % y
+    sacó el 32 %. Mide atención, buena o mala.{% else %}<b>Això no és una enquesta ni una estimació de
+    vot</b>, i no entra a la mitjana. Que es parli molt d'un partit no vol dir que el votin: a les generals
+    del 2023, Vox va tenir el 21 % de les visites a la Viquipèdia dels grans partits i va treure el 12 % dels
+    vots, i el PSOE en va tenir el 18 % i en va treure el 32 %. Mesura atenció, bona o dolenta.{% endif %}</p>
+
+  <div class="tablewrap">
+  <table class="results">
+    <caption>{% if es %}Cuota de atención de los últimos {{ s.window }} días, hasta el {{ fdate(s.end) }}{% else %}Quota d'atenció dels últims {{ s.window }} dies, fins al {{ fdate(s.end) }}{% endif %}</caption>
+    <thead><tr>
+      <th>{{ 'Partido' if es else 'Partit' }}</th>
+      <th class="num">{{ 'Voto (encuestas)' if es else 'Vot (enquestes)' }}</th>
+      {% for k in s.sources %}<th class="num">{% if k == 'bsky' %}{{ 'Redes' if es else 'Xarxes' }}<small> Bluesky</small>{% else %}{{ 'Wikipedia' if es else 'Viquipèdia' }}{% endif %}</th>{% endfor %}
+      <th class="num">{{ 'Atención' if es else 'Atenció' }}</th>
+      <th class="num">{{ 'Atención − voto' if es else 'Atenció − vot' }}</th>
+      <th class="num">{{ 'Semana' if es else 'Setmana' }}</th>
+      <th>{{ 'Últimos 60 días' if es else 'Últims 60 dies' }}</th>
+    </tr></thead>
+    <tbody>
+    {%- for r in s.rows %}
+      <tr>
+        <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
+        <td class="num">{{ n1(r.vote) ~ ' %' if r.vote is not none else '—' }}</td>
+        {% for k in s.sources %}<td class="num">{{ n1(r.by[k]) }} %</td>{% endfor %}
+        <td class="num"><b>{{ n1(r.att) }} %</b></td>
+        <td class="num">{{ dd(r.gap) }}</td>
+        <td class="num">{{ dd(r.trend) }}</td>
+        <td>{% if r.path %}<svg class="spark" viewBox="0 0 120 28" width="120" height="28" role="img" aria-label="{{ r.name }}"><path d="{{ r.path }}" fill="none" stroke="{{ r.color }}" stroke-width="1.6"/></svg>{% endif %}</td>
+      </tr>
+    {%- endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  <h2>{{ 'Cómo se mide' if es else 'Com es mesura' }}</h2>
+  <ul>
+  {% if es %}
+    <li><b>Redes</b>: mensajes publicados en Bluesky que mencionan el partido o a su líder. Solo se
+      cuentan; no se guarda ningún texto, autor ni enlace. X, Instagram, TikTok y Facebook no tienen
+      una vía abierta que permita contarlo respetando sus condiciones, y por eso no están.</li>
+    <li><b>Wikipedia</b>: visitas de personas (no de robots) a los artículos del partido y de su
+      líder, en castellano, catalán, euskera y gallego.</li>
+    <li>Cada columna es el porcentaje de la atención total a estos {{ s.rows | length }} partidos. La
+      <b>atención</b> es la media de las dos. <b>Atención − voto</b> compara con el voto de las encuestas
+      sobre los mismos partidos: un número positivo quiere decir que se habla de él más de lo que se le
+      vota. <b>Semana</b>: cambio de la atención respecto a los {{ s.window }} días anteriores, en puntos.</li>
+    <li>Redes: mensajes en castellano y catalán. El gráfico de 60 días es la cuota de Wikipedia.
+      La prensa (GDELT) se añadirá cuando su servicio responda de forma fiable.</li>
+  {% else %}
+    <li><b>Xarxes</b>: missatges publicats a Bluesky que mencionen el partit o el seu líder. Només es
+      compten; no es desa cap text, autor ni enllaç. X, Instagram, TikTok i Facebook no tenen cap via
+      oberta que permeti comptar-ho respectant les seves condicions, i per això no hi són.</li>
+    <li><b>Viquipèdia</b>: visites de persones (no de robots) als articles del partit i del seu
+      líder, en castellà, català, basc i gallec.</li>
+    <li>Cada columna és el percentatge de l'atenció total a aquests {{ s.rows | length }} partits.
+      L'<b>atenció</b> és la mitjana de totes dues. <b>Atenció − vot</b> compara amb el vot de les enquestes
+      sobre els mateixos partits: un nombre positiu vol dir que se'n parla més del que se'l vota.
+      <b>Setmana</b>: canvi de l'atenció respecte dels {{ s.window }} dies anteriors, en punts.</li>
+    <li>Xarxes: missatges en castellà i català. El gràfic de 60 dies és la quota de la Viquipèdia.
+      La premsa (GDELT) s'hi afegirà quan el seu servei respongui de manera fiable.</li>
+  {% endif %}
+  </ul>
+  <p class="note">{% if es %}Bluesky tiene un público más joven y más de izquierdas que el conjunto
+    de la población, y algunos partidos casi no tienen cuenta allí: la columna de redes describe la
+    conversación en Bluesky, no la de España.{% else %}Bluesky té un públic més jove i més d'esquerres
+    que el conjunt de la població, i alguns partits gairebé no hi tenen compte: la columna de xarxes
+    descriu la conversa a Bluesky, no la d'Espanya.{% endif %}</p>
+  <p class="note">{{ 'Fuentes' if es else 'Fonts' }}: Bluesky (API pública), Wikimedia Pageviews API (CC0). {{ 'Actualizado el' if es else 'Actualitzat el' }} {{ fdate(s.computed) }}.</p>
+</article>
+{% endblock %}
