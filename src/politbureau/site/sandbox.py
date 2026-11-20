@@ -179,6 +179,11 @@ def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
     except Exception as exc:                              # noqa: BLE001
         print(f"      avis: simuladors autonomics no generats ({type(exc).__name__}: {exc})")
         links = []
+    try:
+        flinks = foreign_pages(env, cfg, conn) if conn is not None else []
+    except Exception as exc:                              # noqa: BLE001
+        print(f"      avis: simuladors estrangers no generats ({type(exc).__name__}: {exc})")
+        flinks = []
     for lang in i18n.LANGS:
         canonical = i18n.page_url("sandbox", lang)
         html = render_page(
@@ -190,7 +195,8 @@ def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
              "reparto del Congreso provincia por provincia, con noche electoral incluida." if lang == "es"
              else "Canvia el vot de cada partit a tot Espanya o comunitat per comunitat i mira el "
              "repartiment del Congrés província per província, amb nit electoral inclosa."),
-            payload=js, regional_links=[{"url": x["url"][lang], "name": x["name"][lang]} for x in links])
+            payload=js, regional_links=[{"url": x["url"][lang], "name": x["name"][lang]} for x in links],
+            foreign_links=[{"url": x["url"][lang], "name": x["name"][lang]} for x in flinks])
         write(DIST / canonical.strip("/") / "index.html", html)
     return len(provs)
 
@@ -329,5 +335,77 @@ def regional_pages(env, cfg, conn, names) -> list[dict]:
         done.append({"eid": eid,
                      "url": {lg: f"/{lg}/{i18n.page_url('sandbox', lg).strip('/').split('/', 1)[1]}/{pub[lg]}/"
                              for lg in i18n.LANGS},
+                     "name": {"es": pub["name_es"], "ca": pub["name_ca"]}})
+    return sorted(done, key=lambda x: x["name"]["ca"])
+
+
+# ---------------------------------------------------------------- estrangers
+# Simulador obert dels parlaments estrangers proporcionals (21/11/2026). Es
+# reparteix a escala de tot el pais amb el metode i el llindar de la llei, com
+# l'estimacio de la pagina de cada pais: alla on la llei reparteix per
+# circumscripcions (Portugal, Polonia...) es una aproximacio i la pagina ho diu.
+POSITION_ORDER = {"extrema esquerra": -3, "esquerra": -2, "centreesquerra": -1, "centre": 0,
+                  "centredreta": 1, "dreta": 2, "extrema dreta": 3}
+METHOD_TEXT = {
+    "dhondt": ("la ley d'Hondt", "la llei d'Hondt"),
+    "sainte_lague": ("el método Sainte-Laguë", "el mètode Sainte-Laguë"),
+    "hare": ("el resto mayor (cuota Hare)", "la resta més gran (quota Hare)"),
+    "droop": ("el resto mayor (cuota Hagenbach-Bischoff)", "la resta més gran (quota Hagenbach-Bischoff)"),
+}
+
+
+def foreign_pages(env, cfg, conn) -> list[dict]:
+    from .pages import abroad_data, abroad_elections
+    done = []
+    for eid, e in abroad_elections().items():
+        ch = e.get("chamber") or {}
+        method = "dhondt" if ch.get("method") == "proportional" else ch.get("method")
+        if e.get("group") == "sub" or e["country"] == "ES" or method not in METHOD_TEXT:
+            continue
+        try:
+            d = abroad_data(conn, eid)
+        except Exception:                                  # noqa: BLE001
+            d = None
+        if not d or not d.get("avg") or not d.get("seats"):
+            continue
+        seats = ch.get("in_play") or ch["seats"]
+        now = {a["code"]: a["share"] for a in d["avg"] if a["code"] != "OTHER" and a["share"]}
+        meta = {}
+        for a in d["avg"]:
+            pos = ((a.get("ideo") or {}).get("ca") or {}).get("position")
+            meta[a["code"]] = {"name": a.get("person") or a["name"], "color": a["color"],
+                               "pos": POSITION_ORDER.get(pos, 999)}
+        main = [a["code"] for a in d["avg"] if a["code"] != "OTHER" and (a["share"] >= 0.8 or a.get("seats"))]
+        payload = {"provinces": [{"c": "ALL", "n": d["name"]["ca"], "r": None, "m": seats, "v": 1,
+                                  "now": now, "mm": {}}],
+                   "main": {"now": main}, "meta": meta, "layers": ["now"], "labels": {}, "regions": {},
+                   "paths": {}, "seats": seats, "majority": d.get("majority") or seats // 2 + 1,
+                   "method": {"name": method, "thr": (ch.get("threshold") or 0) * 100,
+                              "first": ch.get("first_divisor", 1.0), "bonus": ch.get("bonus")}}
+        js = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\u003c")
+        pub = e["pub"]
+        thr = ch.get("threshold") or 0
+        for lang in i18n.LANGS:
+            es = lang == "es"
+            base = i18n.page_url("sandbox", lang).strip("/").split("/", 1)[1]
+            canonical = f"/{lang}/{base}/{pub[lang]}/"
+            place = d["name"][lang]
+            name = ch.get("name_es") if es and ch.get("name_es") else ch.get("name", "")
+            html = render_page(
+                env, cfg, "sandbox.html.j2", lang, canonical,
+                {lg: f"/{lg}/{i18n.page_url('sandbox', lg).strip('/').split('/', 1)[1]}/{pub[lg]}/"
+                 for lg in i18n.LANGS},
+                (f"Simulador electoral de {place}: mueve el voto y mira los escaños" if es
+                 else f"Simulador electoral de {place}: mou el vot i mira els escons"),
+                (f"Cambia el voto de cada partido y mira cómo se reparten los {seats} escaños de {name}."
+                 if es else f"Canvia el vot de cada partit i mira com es reparteixen els {seats} escons de {name}."),
+                payload=js, regional={"place": place, "chamber": name, "year": None, "seats": seats,
+                                      "url": d["urls"][lang], "foreign": True,
+                                      "method": METHOD_TEXT[method][0 if es else 1],
+                                      "thr": round(thr * 100, 2), "bonus": ch.get("bonus"),
+                                      "first": ch.get("first_divisor")})
+            write(DIST / canonical.strip("/") / "index.html", html)
+        done.append({"eid": eid, "url": {lg: f"/{lg}/{i18n.page_url('sandbox', lg).strip('/').split('/', 1)[1]}/{pub[lg]}/"
+                                         for lg in i18n.LANGS},
                      "name": {"es": pub["name_es"], "ca": pub["name_ca"]}})
     return sorted(done, key=lambda x: x["name"]["ca"])

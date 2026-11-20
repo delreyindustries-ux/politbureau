@@ -1,0 +1,50 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a></nav>
+{% if es %}
+  <h1>Para medios y docentes</h1>
+  <p class="lede">Gráficos que puedes insertar en tu web tal como están, cómo citar los datos y cómo usar
+    Polit Bureau en clase. Todo es gratuito.</p>
+{% else %}
+  <h1>Per a mitjans i docents</h1>
+  <p class="lede">Gràfics que pots inserir a la teva web tal com són, com citar les dades i com fer servir
+    Polit Bureau a classe. Tot és gratuït.</p>
+{% endif %}
+
+  <h2>{{ 'Gráficos para insertar' if es else 'Gràfics per inserir' }}</h2>
+  <p>{{ 'Copia el código y pégalo en tu web. El gráfico se actualiza solo cada vez que se publica la web.' if es else "Copia el codi i enganxa'l a la teva web. El gràfic s'actualitza sol cada cop que es publica la web." }}</p>
+  {% for e in embeds %}
+  <h3>{{ {'mitjana': ('Media de encuestas' if es else "Mitjana d'enquestes"), 'escons': ('Escaños del Congreso' if es else 'Escons del Congrés'), 'previsio': ('Probabilidad de mayoría' if es else 'Probabilitat de majoria')}[e.kind] }}</h3>
+  <iframe src="{{ root }}{{ e.url.lstrip('/') }}" title="{{ e.kind }}" loading="lazy" style="width:100%;max-width:640px;height:{{ 380 if e.kind == 'escons' else 330 if e.kind == 'mitjana' else 200 }}px;border:1px solid var(--line,#ddd);border-radius:6px"></iframe>
+  <pre class="code"><code>&lt;iframe src="{{ site_url }}{{ e.url }}" width="640" height="{{ 380 if e.kind == 'escons' else 330 if e.kind == 'mitjana' else 200 }}" style="border:0;max-width:100%" loading="lazy" title="Polit Bureau"&gt;&lt;/iframe&gt;</code></pre>
+  {% endfor %}
+
+  <h2>{{ 'Cómo citarlo' if es else 'Com citar-ho' }}</h2>
+  <ul>
+  {% if es %}
+    <li>Los datos y los gráficos tienen licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">CC BY-SA 4.0</a>: puedes usarlos, también en un medio comercial, citando «Polit Bureau (politbureau.es)».</li>
+    <li>Di siempre que es una <b>media de encuestas</b>, no una encuesta propia, y la fecha.</li>
+    <li>Los datos en bruto están en <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">datos abiertos</a> (CSV y API).</li>
+  {% else %}
+    <li>Les dades i els gràfics tenen llicència <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ca">CC BY-SA 4.0</a>: els pots fer servir, també en un mitjà comercial, citant «Polit Bureau (politbureau.es)».</li>
+    <li>Digues sempre que és una <b>mitjana d'enquestes</b>, no una enquesta pròpia, i la data.</li>
+    <li>Les dades en brut són a <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">dades obertes</a> (CSV i API).</li>
+  {% endif %}
+  </ul>
+
+  <h2>{{ 'En clase' if es else 'A classe' }}</h2>
+  <ul>
+  {% if es %}
+    <li><a href="{{ root }}{{ lang }}/{{ page('sandbox') }}/">Simulador electoral</a>: con el resultado de 2016 o 2019, pide a los alumnos cuántos votos necesitaba un partido para ganar un escaño más en su provincia. El simulador da exactamente los escaños reales.</li>
+    <li>Compara el Congreso con un parlamento que reparte en todo el país (Países Bajos, Israel): el mismo voto da escaños muy distintos.</li>
+    <li><a href="{{ root }}{{ lang }}/{{ page('history') }}/">Generales 1977-2023</a> y <a href="{{ root }}{{ lang }}/{{ page('groups') }}/">voto por colectivos</a> para hablar de cambio electoral y de quién vota a quién.</li>
+  {% else %}
+    <li><a href="{{ root }}{{ lang }}/{{ page('sandbox') }}/">Simulador electoral</a>: amb el resultat del 2016 o del 2019, demana als alumnes quants vots necessitava un partit per guanyar un escó més a la seva província. El simulador dona exactament els escons reals.</li>
+    <li>Compara el Congrés amb un parlament que reparteix a tot el país (Països Baixos, Israel): el mateix vot dona escons molt diferents.</li>
+    <li><a href="{{ root }}{{ lang }}/{{ page('history') }}/">Generals 1977-2023</a> i <a href="{{ root }}{{ lang }}/{{ page('groups') }}/">vot per col·lectius</a> per parlar de canvi electoral i de qui vota qui.</li>
+  {% endif %}
+  </ul>
+</article>
+{% endblock %}

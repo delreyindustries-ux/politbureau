@@ -160,6 +160,12 @@ def run(clean=True):
     from . import sandbox
     if sandbox.sandbox_page(env, cfg, data, conn=conn):
         print("     simulador electoral: pagina generada")
+    from . import embeds
+    try:
+        if embeds.embed_pages(env, cfg, conn, fc):
+            print("     grafics per inserir i pagina per a mitjans: generats")
+    except Exception as exc:                              # noqa: BLE001
+        print(f"     avis: grafics per inserir no generats ({type(exc).__name__}: {exc})")
     from . import governs_page
     if governs_page.governs_page(env, cfg):
         print("     qui governa el mon: pagina generada")

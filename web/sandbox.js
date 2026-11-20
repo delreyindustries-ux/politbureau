@@ -69,10 +69,17 @@
       out[k] = f > 0 ? (shares[k] || 0) * to[k] / f : to[k];
     });
     for (var j in out) { if (MAIN.indexOf(j) >= 0) main += out[j]; else other += out[j]; }
-    if (main >= 100) {
-      for (var a in out) out[a] = MAIN.indexOf(a) >= 0 ? out[a] * 100 / main : 0;
+    // El total es mante el del punt de partida: 100 a les provincies, pero una
+    // mitjana d'enquestes pot sumar 100,4 (Suecia) o 79,5 (Croacia, amb
+    // indecisos). Forcar-lo a 100 movia partits per sobre o per sota del
+    // llindar sense que ningu toques res.
+    var cap = 0;
+    for (var c0 in shares) cap += shares[c0];
+    if (!cap) cap = 100;
+    if (main >= cap) {
+      for (var a in out) out[a] = MAIN.indexOf(a) >= 0 ? out[a] * cap / main : 0;
     } else if (other > 0) {
-      var kk = (100 - main) / other;
+      var kk = (cap - main) / other;
       for (var b in out) if (MAIN.indexOf(b) < 0) out[b] *= kk;
     }
     return out;
@@ -117,12 +124,51 @@
     return won;
   }
 
+  /* Parlaments estrangers (D.method): repartiment a escala de tot el pais amb
+     el metode de cada llei, el mateix que model/seats.apportion: d'Hondt,
+     Sainte-Lague amb el primer divisor de cada pais, resta mes gran (Hare o
+     Droop) i la prima grega. El llindar es sobre el % del total. */
+  function apportion(shares, seats) {
+    var M = D.method, res = {}, run = {}, k;
+    for (k in shares) { res[k] = 0; if (shares[k] >= M.thr) run[k] = shares[k]; }
+    var keys = Object.keys(run);
+    if (!keys.length) return res;
+    if (M.bonus === "gr") {
+      var top = keys.reduce(function (a, b) { return run[b] > run[a] ? b : a; });
+      if (run[top] >= 25) {
+        var extra = Math.min(50, 20 + Math.floor((Math.min(run[top], 40) - 25) / 0.5));
+        res[top] += extra; seats -= extra;
+      }
+    }
+    if (M.name === "hare" || M.name === "droop") {
+      var total = keys.reduce(function (a, b) { return a + run[b]; }, 0);
+      var q = M.name === "hare" ? total / seats : total / (seats + 1), got = {}, used = 0;
+      keys.forEach(function (x) { got[x] = Math.floor(run[x] / q); used += got[x]; });
+      keys.slice().sort(function (a, b) { return (run[b] / q - got[b]) - (run[a] / q - got[a]); })
+        .slice(0, Math.max(0, seats - used)).forEach(function (x) { got[x]++; });
+      keys.forEach(function (x) { res[x] += got[x]; });
+      return res;
+    }
+    var won = {}; keys.forEach(function (x) { won[x] = 0; });
+    var div = function (n) { return M.name === "sainte_lague" ? (n === 0 ? (M.first || 1) : 2 * n + 1) : n + 1; };
+    for (var i = 0; i < seats; i++) {
+      var best = null, bq = -1;
+      keys.forEach(function (x) {
+        var qq = run[x] / div(won[x]);
+        if (qq > bq || (qq === bq && run[x] > run[best])) { bq = qq; best = x; }
+      });
+      won[best]++;
+    }
+    keys.forEach(function (x) { res[x] += won[x]; });
+    return res;
+  }
+
   function allocate(shares, only) {
     var tot = {}, by = {};
     var nat = weighted(P, function (p) { return shares[p.c]; });
     P.forEach(function (p) {
       if (only && !only[p.c]) return;
-      var w = dhondt(shares[p.c], mag(p), nat);
+      var w = D.method ? apportion(shares[p.c], mag(p)) : dhondt(shares[p.c], mag(p), nat);
       by[p.c] = w;
       for (var k in w) if (w[k]) tot[k] = (tot[k] || 0) + w[k];
     });
@@ -179,9 +225,74 @@
         tip += ": " + order(Object.keys(w)).filter(function (k) { return w[k]; })
           .map(function (k) { return name(k) + " " + w[k]; }).join(", ");
       }
-      html += '<path d="' + D.paths[p.c] + '" fill="' + fill + '"><title>' + tip + "</title></path>";
+      html += '<path data-c="' + p.c + '" tabindex="0" d="' + D.paths[p.c] + '" fill="' + fill + '"' +
+              (p.c === picked ? ' class="on"' : "") + '><title>' + tip + "</title></path>";
     });
     g.innerHTML = html;
+  }
+
+  /* ------------------------------------------------------------ cada provincia
+     Clic (o Retorn) a una provincia del mapa o de la taula: la seva fitxa, amb
+     el vot i els escons de cada partit i el marge de l'ultim esco. */
+  var picked = null, LAST = null;
+  function fmt2(x) { return String(Math.round(x * 100) / 100).replace(".", ","); }
+
+  function provPanel() {
+    var box = $("#sb-prov"); if (!box || !LAST) return;
+    var p = P.filter(function (x) { return x.c === picked; })[0];
+    if (!p) { box.hidden = true; return; }
+    var sh = LAST.shares[p.c], w = LAST.by[p.c] || {}, m = mag(p);
+    var codes = Object.keys(sh).filter(function (k) { return (w[k] || 0) > 0 || sh[k] >= 0.5; })
+      .sort(function (a, b) { return (w[b] || 0) - (w[a] || 0) || sh[b] - sh[a]; });
+    var h = '<button type="button" class="sb-x" aria-label="' + (ES ? "Cerrar" : "Tanca") + '">×</button>' +
+      "<h3>" + p.n + "</h3><p>" + m + " " + (m === 1 ? (ES ? "escaño" : "escó") : (ES ? "escaños" : "escons")) + "</p>" +
+      '<table class="results"><thead><tr><th>' + T.party + '</th><th class="num">' + T.vote + '</th><th class="num">' +
+      T.seats + "</th></tr></thead><tbody>";
+    codes.forEach(function (k) {
+      h += '<tr><td><span class="sw" style="background:' + color(k) + '"></span>' + name(k) + '</td><td class="num">' +
+           fmt(sh[k]) + ' %</td><td class="num">' + (w[k] ? "<b>" + w[k] + "</b>" : "–") + "</td></tr>";
+    });
+    h += "</tbody></table>";
+    // Marge (d'Hondt): qui es va endur l'ultim esco i qui era a punt d'entrar.
+    if (!D.method || D.method.name === "dhondt") {
+      var won = Object.keys(w).filter(function (k) { return w[k]; });
+      if (won.length) {
+        var lastK = won.reduce(function (a, b) { return sh[b] / w[b] < sh[a] / w[a] ? b : a; });
+        var q = sh[lastK] / w[lastK];
+        var nat = weighted(P, function (x) { return LAST.shares[x.c]; });
+        var cands = Object.keys(sh).filter(function (k) { return passes(k, sh[k], nat) && k !== lastK; });
+        var nextK = cands.sort(function (a, b) { return sh[b] / ((w[b] || 0) + 1) - sh[a] / ((w[a] || 0) + 1); })[0];
+        h += '<p class="note">' + (ES ? "Último escaño: " : "Últim escó: ") + "<b>" + name(lastK) + "</b>";
+        if (nextK) {
+          var need = q * ((w[nextK] || 0) + 1) - sh[nextK];
+          h += ". " + name(nextK) + (ES ? " se quedó a " : " es va quedar a ") + fmt2(need) +
+               (ES ? " puntos de quitárselo." : " punts de prendre-li'l.");
+        }
+        h += "</p>";
+      }
+    }
+    box.innerHTML = h;
+    box.hidden = false;
+    box.querySelector(".sb-x").addEventListener("click", function () { picked = null; box.hidden = true; render(); });
+  }
+
+  /* Totes les provincies d'un cop d'ull. */
+  function provTable() {
+    var t = $("#sb-bydist");
+    if (!t) return;
+    if (!LAST || P.length < 2) { t.hidden = true; return; }
+    var cols = Object.keys(LAST.total).filter(function (k) { return LAST.total[k]; })
+      .sort(function (a, b) { return LAST.total[b] - LAST.total[a]; });
+    var head = '<tr><th></th><th class="num">' + T.seats + "</th>" + cols.map(function (k) {
+      return '<th class="num"><span class="sw" style="background:' + color(k) + '"></span>' + name(k) + "</th>";
+    }).join("") + "</tr>";
+    var body = P.slice().sort(function (a, b) { return mag(b) - mag(a) || (a.n < b.n ? -1 : 1); }).map(function (p) {
+      var w = LAST.by[p.c] || {};
+      return "<tr><td><a href=\"#sb-mapwrap\" data-c=\"" + p.c + "\">" + p.n + '</a></td><td class="num">' + mag(p) + "</td>" +
+        cols.map(function (k) { return '<td class="num">' + (w[k] || "–") + "</td>"; }).join("") + "</tr>";
+    }).join("");
+    t.querySelector("thead").innerHTML = head;
+    t.querySelector("tbody").innerHTML = body;
   }
 
   function table(total, base, nat) {
@@ -224,11 +335,14 @@
   function render() {
     var shares = scenario();
     var res = allocate(shares);
+    LAST = { shares: shares, by: res.by, total: res.total };
     var nat = weighted(P, function (p) { return shares[p.c]; });
     hemicycle(res.total, D.seats);
     mapDraw(res.by, shares);
     table(res.total, baseSeats(), nat);
     sliders(shares);
+    provPanel();
+    provTable();
     writeHash();
   }
 
@@ -300,6 +414,9 @@
         countedV += (P.filter(function (p) { return p.c === c; })[0] || {}).v || 0;
       }
       var res = allocate(shares, done);
+      LAST = { shares: shares, by: res.by, total: res.total };
+      provTable();
+      if (picked) provPanel();
       hemicycle(res.total, D.seats);
       mapDraw(res.by, shares);
       table(res.total, baseSeats(), weighted(P.filter(function (p) { return done[p.c]; }),
@@ -348,6 +465,20 @@
     });
     $("#sb-reset").addEventListener("click", function () { state.nat = {}; state.reg = {}; stopNight(); render(); });
     $("#sb-night").addEventListener("click", runNight);
+    var pick = function (e) {
+      var c = e.target && e.target.getAttribute && e.target.getAttribute("data-c");
+      if (!c) return;
+      if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      picked = c;
+      if (!night) render(); else provPanel();
+      if (e.currentTarget.id === "sb-bydist") $("#sb-mapwrap").scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+    ["click", "keydown"].forEach(function (ev) {
+      if ($("#sb-map")) $("#sb-map").addEventListener(ev, pick);
+      if ($("#sb-bydist")) $("#sb-bydist").addEventListener(ev, pick);
+    });
+    if (P.length < 2) $("#sb-night").style.display = "none";   // una sola circumscripcio: no hi ha recompte per tandes
     $("#sb-night").textContent = T.night;
     $("#sb-share").addEventListener("click", function () {
       writeHash();

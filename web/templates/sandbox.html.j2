@@ -4,7 +4,11 @@
 <article class="doc wide sandbox">
   <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
     <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
-{% if regional %}
+{% if regional and regional.foreign %}
+  <h1>{{ 'Simulador electoral' }}: {{ regional.place }}</h1>
+  <p class="lede">{% if es %}Mueve el voto de cada partido y mira cómo se reparten los {{ regional.seats }} escaños de {{ regional.chamber }}.{% else %}Mou el vot de cada partit i mira com es reparteixen els {{ regional.seats }} escons de {{ regional.chamber }}.{% endif %}</p>
+  <p class="note">{% if es %}<b>No es una previsión.</b> La media de encuestas está en la <a href="{{ root }}{{ regional.url.lstrip('/') }}">página de {{ regional.place }}</a>.{% else %}<b>No és una previsió.</b> La mitjana d'enquestes és a la <a href="{{ root }}{{ regional.url.lstrip('/') }}">pàgina de {{ regional.place }}</a>.{% endif %}</p>
+{% elif regional %}
 {% if es %}
   <h1>Simulador electoral: {{ regional.place }}</h1>
   <p class="lede">Mueve el voto de cada partido y mira cómo se reparten los {{ regional.seats }} escaños
@@ -66,9 +70,31 @@
       </div>
     </div>
   </div>
-  <svg id="sb-map" viewBox="0 0 900 640" role="img" aria-label="{{ 'Mapa de provincias' if es else 'Mapa de províncies' }}"><g></g></svg>
+  <div id="sb-mapwrap" class="sb-mapwrap">
+    <svg id="sb-map" viewBox="0 0 900 640" role="img" aria-label="{{ 'Mapa de provincias' if es else 'Mapa de províncies' }}"><g></g></svg>
+    <aside id="sb-prov" class="sb-prov" aria-live="polite" hidden></aside>
+  </div>
+  {% if not regional %}<p class="note sb-hint">{{ 'Toca una provincia del mapa o de la tabla para ver su reparto.' if es else 'Toca una província del mapa o de la taula per veure el seu repartiment.' }}</p>{% endif %}
+  <details id="sb-bydist" class="sb-bydist" open>
+    <summary>{% if regional %}{{ 'Escaños por circunscripción' if es else 'Escons per circumscripció' }}{% else %}{{ 'Escaños por provincia' if es else 'Escons per província' }}{% endif %}</summary>
+    <div class="tablewrap"><table class="results"><thead></thead><tbody></tbody></table></div>
+  </details>
 
-{% if regional %}
+{% if regional and regional.foreign %}
+  <h2>{{ 'Cómo funciona' if es else 'Com funciona' }}</h2>
+  <ul>
+  {% if es %}
+    <li>Los {{ regional.seats }} escaños se reparten en todo el país con {{ regional.method }}{% if regional.first and regional.first != 1 %} (primer divisor {{ regional.first }}){% endif %}{% if regional.thr %} y un umbral del {{ regional.thr }} %{% endif %}{% if regional.bonus == 'gr' %}, más la prima de 20 a 50 escaños para el primer partido{% endif %}.</li>
+    <li>Donde la ley reparte por circunscripciones, esto es una aproximación: los partidos pequeños salen favorecidos. La página de {{ regional.place }} lo explica.</li>
+    <li>El punto de partida es la media de encuestas de hoy. Si subes un partido, los demás bajan en proporción.</li>
+  {% else %}
+    <li>Els {{ regional.seats }} escons es reparteixen a tot el país amb {{ regional.method }}{% if regional.first and regional.first != 1 %} (primer divisor {{ regional.first }}){% endif %}{% if regional.thr %} i un llindar del {{ regional.thr }} %{% endif %}{% if regional.bonus == 'gr' %}, més la prima de 20 a 50 escons per al primer partit{% endif %}.</li>
+    <li>On la llei reparteix per circumscripcions, això és una aproximació: els partits petits hi surten afavorits. La pàgina de {{ regional.place }} ho explica.</li>
+    <li>El punt de partida és la mitjana d'enquestes d'avui. Si puges un partit, els altres baixen en proporció.</li>
+  {% endif %}
+  </ul>
+  <p class="note">{{ 'Fuente' if es else 'Font' }}: {{ 'media de encuestas de Polit Bureau (Wikipedia, CC BY-SA 4.0); sistema electoral: artículo de cada elección en Wikipedia.' if es else "mitjana d'enquestes de Polit Bureau (Viquipèdia, CC BY-SA 4.0); sistema electoral: article de cada elecció a la Viquipèdia." }}</p>
+{% elif regional %}
   <h2>{{ 'Cómo funciona' if es else 'Com funciona' }}</h2>
   <ul>
   {% if es %}
@@ -102,6 +128,8 @@
   <p class="note">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'resultado de 2023 del Ministerio del Interior y media de encuestas de Polit Bureau; límites provinciales del INE.' if es else "resultat del 2023 del Ministeri de l'Interior i mitjana d'enquestes de Polit Bureau; límits provincials de l'INE." }}</p>
   <p>{{ 'Parlamentos autonómicos' if es else 'Parlaments autonòmics' }}:
     {% for r in regional_links %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a>{{ ', ' if not loop.last else '.' }}{% endfor %}</p>
+  {% if foreign_links %}<p>{{ 'Otros países' if es else 'Altres països' }}:
+    {% for r in foreign_links %}<a href="{{ root }}{{ r.url.lstrip('/') }}">{{ r.name }}</a>{{ ', ' if not loop.last else '.' }}{% endfor %}</p>{% endif %}
 {% endif %}
   <script type="application/json" id="sandbox-data">{{ payload | safe }}</script>
 </article>
@@ -120,6 +148,16 @@
 .sandbox #sb-map path{stroke:var(--bg,#fff);stroke-width:.8}
 .sandbox #sb-map path:hover{opacity:.75}
 .sandbox #sb-blocs{display:flex;flex-wrap:wrap;gap:8px 18px}
+.sandbox .sb-mapwrap{position:relative}
+.sandbox #sb-map path{cursor:pointer;outline:none}
+.sandbox #sb-map path.on,.sandbox #sb-map path:focus{stroke:currentColor;stroke-width:2}
+.sandbox .sb-prov{position:absolute;top:8px;right:8px;width:290px;max-height:92%;overflow:auto;background:var(--bg,#fff);border:1px solid var(--line,#ddd);border-radius:8px;padding:10px 12px;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.sandbox .sb-prov h3{margin:0 24px 2px 0}
+.sandbox .sb-prov p{margin:2px 0 8px}
+.sandbox .sb-x{position:absolute;top:6px;right:8px;border:0;background:transparent;font-size:20px;line-height:1;padding:2px 6px}
+@media (max-width:760px){.sandbox .sb-prov{position:static;width:auto;max-height:none;margin-top:8px}}
+.sandbox .sb-bydist summary{cursor:pointer;font-weight:600;margin:8px 0}
+.sandbox .sb-bydist td a{color:inherit}
 </style>
 {% endblock %}
 {% block scripts %}<script src="{{ root }}assets/sandbox.js" defer></script>{% endblock %}

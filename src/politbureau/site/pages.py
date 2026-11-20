@@ -509,6 +509,10 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-21", "Para medios y docentes: tres gráficos para insertar (media, escaños y probabilidad de mayoría) con licencia CC BY-SA 4.0, y propuestas para usar la web en clase.",
+     "Per a mitjans i docents: tres gràfics per inserir (mitjana, escons i probabilitat de majoria) amb llicència CC BY-SA 4.0, i propostes per fer servir la web a classe."),
+    ("2026-11-21", "Simulador abierto también para 24 parlamentos de otros países, con el método y el umbral de cada ley (sin tocar nada, da los mismos escaños que la página de cada país).",
+     "Simulador obert també per a 24 parlaments d'altres països, amb el mètode i el llindar de cada llei (sense tocar res, dona els mateixos escons que la pàgina de cada país)."),
     ("2026-11-21", "Simulador abierto también para nueve parlamentos autonómicos y con los resultados de 2016 y 2019 como punto de partida (reproducen exactamente los escaños reales). Corregido: el PSOE de Galicia, el País Vasco y Baleares no se emparejaba con su resultado anterior en el reparto por circunscripciones.",
      "Simulador obert també per a nou parlaments autonòmics i amb els resultats del 2016 i el 2019 com a punt de partida (reprodueixen exactament els escons reals). Corregit: el PSOE de Galícia, el País Basc i les Balears no s'aparellava amb el seu resultat anterior al repartiment per circumscripcions."),
     ("2026-11-21", "Quién gobierna el mundo: mapa de los jefes de gobierno por la posición política de su partido según Wikidata, con la parte de la población y del PIB mundial de cada familia.",
@@ -695,7 +699,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "groups", "sandbox", "governs", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "groups", "sandbox", "governs", "media", "strongholds", "method", "legal", "privacy", "cookies")]
         # Pagines que nomes existeixen quan hi ha dades (l'encert del 29N).
         entries += [i18n.page_url(k, lang) for k in cfg.get("_extra_pages", [])]
         if cfg.get("_abroad"):

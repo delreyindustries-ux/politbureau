@@ -1,0 +1,49 @@
+<!doctype html>
+{% set es = lang == 'es' %}
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ title }} · Polit Bureau</title>
+<meta name="description" content="{{ desc }}">
+<link rel="canonical" href="{{ canonical }}">
+<style>
+:root{--bg:#ffffff;--fg:#1d1f24;--mut:#5d6370;--line:#e3e5ea}
+@media (prefers-color-scheme:dark){:root{--bg:#111218;--fg:#eceef3;--mut:#a8adbb;--line:#2a2d36}}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{padding:14px 16px;max-width:640px}
+h1{font-size:17px;margin:0 0 10px}
+.row{display:grid;grid-template-columns:110px 1fr 52px;gap:8px;align-items:center;margin:5px 0}
+.bar{height:16px;border-radius:3px}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.foot{margin-top:10px;font-size:12px;color:var(--mut)}
+.foot a{color:inherit}
+.big{font-size:34px;font-weight:700;line-height:1.1}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+svg{width:100%;display:block}
+.leg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:13px;margin-top:6px}
+</style>
+</head>
+<body><div class="w">
+<h1>{{ title }}</h1>
+{% if kind == 'mitjana' %}
+  {% set top = rows[0].share %}
+  {% for r in rows %}<div class="row"><span><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</span>
+    <div class="bar" style="width:{{ (100 * r.share / top) | round(1) }}%;background:{{ r.color }}"></div>
+    <span class="num">{{ ('%.1f'|format(r.share))|replace('.', ',') }} %</span></div>{% endfor %}
+{% elif kind == 'escons' %}
+  {{ hemi | safe }}
+  <div class="leg">{% for s in seats %}<span><span class="sw" style="background:{{ s.color }}"></span>{{ s.name }} <b>{{ s.seats }}</b></span>{% endfor %}</div>
+  <p class="foot">{{ 'Mayoría absoluta: 176.' if es else 'Majoria absoluta: 176.' }}</p>
+{% else %}
+  <div class="cols">
+    <div><div class="big">{{ ((((blocs.right or {}).majority or 0) * 100) | round) | int }} %</div>{{ 'PP y Vox suman mayoría absoluta' if es else 'PP i Vox sumen majoria absoluta' }}</div>
+    <div><div class="big">{{ ((((blocs.left or {}).majority or 0) * 100) | round) | int }} %</div>{{ 'la suma que invistió a Sánchez en 2023 llega a 176' if es else 'la suma que va investir Sánchez el 2023 arriba a 176' }}</div>
+  </div>
+{% endif %}
+<p class="foot">{% if es %}Media ponderada de encuestas, {{ day[8:10] }}/{{ day[5:7] }}/{{ day[:4] }}. No es una encuesta propia.{% else %}Mitjana ponderada d'enquestes, {{ day[8:10] }}/{{ day[5:7] }}/{{ day[:4] }}. No és una enquesta pròpia.{% endif %}
+  <a href="{{ site }}/{{ lang }}/{{ 'espana' if es else 'espanya' }}/" target="_blank" rel="noopener">Polit Bureau</a> · CC BY-SA 4.0</p>
+</div></body>
+</html>
