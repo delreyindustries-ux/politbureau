@@ -174,7 +174,11 @@ def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
                "blocs": {k: list(v) for k, v in BLOCS.items()}, "seats": 350, "majority": 176,
                "paths": {p["c"]: paths.get(p["c"], "") for p in provs}}
     js = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
-    links = regional_pages(env, cfg, conn, data["names"]) if conn is not None else []
+    try:
+        links = regional_pages(env, cfg, conn, data["names"]) if conn is not None else []
+    except Exception as exc:                              # noqa: BLE001
+        print(f"      avis: simuladors autonomics no generats ({type(exc).__name__}: {exc})")
+        links = []
     for lang in i18n.LANGS:
         canonical = i18n.page_url("sandbox", lang)
         html = render_page(
@@ -223,14 +227,28 @@ def _census() -> dict:
 
 
 def _weights(base) -> list[float]:
-    import numpy as np
+    """Pesos de cada circumscripcio que millor reprodueixen el total de la
+    comunitat (minims quadrats). Python pur: la publicacio no te numpy."""
     ds = base["districts"]
     parts = sorted(set(base["total"]))
-    A = np.array([[d["shares"].get(p, 0) for d in ds] for p in parts])
-    y = np.array([base["total"][p] for p in parts])
-    w, *_ = np.linalg.lstsq(A, y, rcond=None)
-    w = np.clip(w, 1e-3, None)
-    return list(w / w.sum())
+    A = [[d["shares"].get(p, 0.0) for d in ds] for p in parts]
+    y = [base["total"][p] for p in parts]
+    k = len(ds)
+    # Equacions normals (A'A) w = A'y, resoltes per Gauss amb pivot.
+    M = [[sum(A[r][i] * A[r][j] for r in range(len(A))) for j in range(k)]
+         + [sum(A[r][i] * y[r] for r in range(len(A)))] for i in range(k)]
+    for c in range(k):
+        piv = max(range(c, k), key=lambda r: abs(M[r][c]))
+        M[c], M[piv] = M[piv], M[c]
+        if abs(M[c][c]) < 1e-12:
+            return [1.0 / k] * k
+        for r in range(k):
+            if r != c:
+                f = M[r][c] / M[c][c]
+                M[r] = [a - f * b for a, b in zip(M[r], M[c])]
+    w = [max(M[i][k] / M[i][i], 1e-3) for i in range(k)]
+    t = sum(w)
+    return [x / t for x in w]
 
 
 def regional_pages(env, cfg, conn, names) -> list[dict]:
