@@ -146,7 +146,7 @@ def _turnout_payload():
     if not d or not d.get("factors"):
         return None
     c = d.get("classic")
-    return {"ref": d["ref"], "max": d["max"], "factors": d["factors"],
+    return {"ref": d["ref"], "max": d["max"], "factors": d["factors"], "regional": d.get("regional") or {},
             "classic": {"slope": c["slope"], "left": c["left"], "right": c["right"]} if c else None}
 
 
@@ -157,10 +157,12 @@ def _turnout_view(meta):
     show = [t for t in TURNOUT_SHOW if str(t) in d["factors"]]
     order = sorted(d["n_party"], key=lambda p: -d["n_party"][p])
     return {"ref": d["ref"], "q_ref": d["q_ref"], "n": d["n"], "studies": d["studies"], "source": d["source"],
-            "classic": d.get("classic"),
+            "classic": d.get("classic"), "logit": d.get("logit"), "boot": d.get("boot"),
+            "regions": len(d.get("regional") or {}), "shrink_k": d.get("shrink_k"),
             "show": show,
             "parties": [{"name": (meta.get(p) or {}).get("name", p), "color": (meta.get(p) or {}).get("color", "#999"),
-                         "n": d["n_party"][p], "f": [d["factors"][str(t)].get(p, 1) for t in show]} for p in order]}
+                         "n": d["n_party"][p], "f": [d["factors"][str(t)].get(p, 1) for t in show],
+                         "ci": [(d.get("ci") or {}).get(str(t), {}).get(p) for t in show]} for p in order]}
 
 
 def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:

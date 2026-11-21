@@ -185,47 +185,189 @@ def history() -> dict | None:
             "april2019": round(a19, 2)}
 
 
+# ------------------------------------------------------------- model v2
+# Millora del 21/11/2026 ("millora els calculs ... dels escenaris depenent la
+# participacio"):
+#   * Probabilitat de votar suau en lloc d'un tall per index amb empats: cada
+#     entrevista te p_i = logistica(alfa + s_i), on s_i = b1 * PROBVOTO + b2 *
+#     edat. b1 i b2 s'estimen amb una regressio logistica ponderada: com
+#     prediuen la probabilitat declarada i l'edat que la persona digui que va
+#     votar el 2023 (PARTICIPACIONG). Per a una participacio T, alfa es tria
+#     perque la mitjana ponderada de p_i sigui q(T) (mateixa escala d'abans).
+#   * Interval: les entrevistes es remostregen (bootstrap, BOOT vegades) i es
+#     donen els percentils 10 i 90 de cada factor.
+#   * Factors per comunitat autonoma, encongits cap a l'estatal:
+#     f_r = f + (f_r_cru - f) * n_r / (n_r + K_SHRINK), nomes on hi ha
+#     MIN_REGION entrevistes o mes; un partit amb menys de 80 entrevistes a la
+#     comunitat hi fa servir el factor estatal.
+CCAA = {"Andalucía": "01", "Aragón": "02", "Asturias (Principado de)": "03", "Balears (Illes)": "04",
+        "Canarias": "05", "Cantabria": "06", "Castilla y León": "07", "Castilla-La Mancha": "08",
+        "Cataluña": "09", "Comunitat Valenciana": "10", "Extremadura": "11", "Galicia": "12",
+        "Madrid (Comunidad de)": "13", "Murcia (Región de)": "14", "Navarra (Comunidad Foral de)": "15",
+        "País Vasco": "16", "Rioja (La)": "17", "Ceuta (Ciudad Autónoma de)": "18", "Melilla (Ciudad Autónoma de)": "19"}
+K_SHRINK = 1000
+MIN_REGION = 300
+MIN_REGION_PARTY = 80
+BOOT = 60
+SHOW = (50, 55, 60, 65, 75, 80)
+
+
+def _sig(x):
+    if x < -40:
+        return 0.0
+    if x > 40:
+        return 1.0
+    return 1.0 / (1.0 + math.exp(-x))
+
+
+def _solve3(a, b):
+    """Resol a (3x3) x = b per Gauss."""
+    m = [row[:] + [bb] for row, bb in zip(a, b)]
+    for i in range(3):
+        piv = max(range(i, 3), key=lambda r: abs(m[r][i]))
+        m[i], m[piv] = m[piv], m[i]
+        for r in range(3):
+            if r != i and m[i][i]:
+                f = m[r][i] / m[i][i]
+                for c in range(i, 4):
+                    m[r][c] -= f * m[i][c]
+    return [m[i][3] / m[i][i] for i in range(3)]
+
+
+def _fit_logit(xs, ys, ws, iters=30):
+    """Regressio logistica ponderada (IRLS) amb tres coeficients."""
+    beta = [0.0, 0.0, 0.0]
+    for _ in range(iters):
+        h = [[0.0] * 3 for _ in range(3)]
+        g = [0.0] * 3
+        for x, y, w in zip(xs, ys, ws):
+            p = _sig(sum(b * xi for b, xi in zip(beta, x)))
+            v = w * p * (1 - p)
+            for i in range(3):
+                g[i] += w * (y - p) * x[i]
+                for j in range(3):
+                    h[i][j] += v * x[i] * x[j]
+        step = _solve3(h, g)
+        beta = [b + s for b, s in zip(beta, step)]
+        if max(abs(s) for s in step) < 1e-7:
+            break
+    return beta
+
+
+def _alpha(scores, ws, target):
+    """alfa tal que la mitjana ponderada de logistica(alfa + s) = target.
+    Biseccio: la mitjana creix sempre amb alfa, aixi que sempre convergeix."""
+    tot = sum(ws)
+    lo, hi = -40.0, 40.0
+    for _ in range(45):
+        mid = (lo + hi) / 2
+        if sum(w * _sig(mid + s) for s, w in zip(scores, ws)) / tot < target:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def _shares(sample, alpha):
+    out, tot = {}, 0.0
+    for s, w, party, _r in sample:
+        if party:
+            v = w * _sig(alpha + s)
+            out[party] = out.get(party, 0.0) + v
+            tot += v
+    return {p: 100.0 * v / tot for p, v in out.items()} if tot else {}
+
+
+def _factors(sample, q_ref, t_ref, levels, keep):
+    scores = [x[0] for x in sample]
+    ws = [x[1] for x in sample]
+    base = _shares(sample, _alpha(scores, ws, q_ref))
+    out = {}
+    for t in levels:
+        q = min(0.999, t * q_ref / t_ref)
+        s = _shares(sample, _alpha(scores, ws, q))
+        out[t] = {p: s.get(p, 0) / base[p] for p in keep if base.get(p)}
+    return out
+
+
 def run() -> dict | None:
+    import random
     files = sorted(RAW.glob("*/*_etiq.csv"))
     if not files:
         return None
-    people, voted, everyone, n_party, studies = [], 0.0, 0.0, {}, []
+    rows, studies = [], []
     for f in files:
         studies.append(f.parent.name)
         for r in _read(f):
             w = _weight(r.get("PESO"))
-            if w <= 0:
+            part = (r.get("PARTICIPACIONG") or "").strip().lower()
+            if w <= 0 or "derecho" in part:                # sense dret a vot
                 continue
-            part = r.get("PARTICIPACIONG") or ""
-            if "derecho" in part.lower():           # no te dret a vot
-                continue
-            party = PARTY.get((r.get("VOTOSIMG") or "").strip())
             try:
                 age = min(99.0, float(str(r.get("EDAD") or "").replace(",", ".")))
             except ValueError:
                 age = 45.0
-            idx = _prob(r.get("PROBVOTO")) + _bonus(part) + 0.001 * age
-            people.append((idx, w, party))
-            everyone += w
-            if part.strip().lower().startswith("votó"):
-                voted += w
-            if party:
-                n_party[party] = n_party.get(party, 0) + 1
-    people.sort(key=lambda x: -x[0])
+            rows.append({"w": w, "prob": _prob(r.get("PROBVOTO")), "age": age, "part": part,
+                         "party": PARTY.get((r.get("VOTOSIMG") or "").strip()), "reg": CCAA.get(r.get("CCAA"))})
+    # 1. Com prediuen la probabilitat declarada i l'edat el vot del 2023.
+    fit = [x for x in rows if "edad" not in x["part"] and x["part"] in ("votó", "no votó")]
+    beta = _fit_logit([(1.0, x["prob"] / 10.0, (x["age"] - 50.0) / 20.0) for x in fit],
+                      [1.0 if x["part"] == "votó" else 0.0 for x in fit], [x["w"] for x in fit])
+    for x in rows:
+        x["s"] = beta[1] * x["prob"] / 10.0 + beta[2] * (x["age"] - 50.0) / 20.0
+    sample = [(x["s"], x["w"], x["party"], x["reg"]) for x in rows]
+    everyone = sum(x["w"] for x in rows)
+    voted = sum(x["w"] for x in rows if x["part"].startswith("votó"))
     t_ref = _ref_turnout()
     q_ref = voted / everyone
-    base = _shares_at(people, q_ref)
+    t_max = min(math.floor(t_ref / q_ref) if q_ref else 85, GRID[-1])
+    levels = [t for t in GRID if t <= t_max]
+    n_party = {}
+    for x in rows:
+        if x["party"]:
+            n_party[x["party"]] = n_party.get(x["party"], 0) + 1
     keep = sorted(p for p, n in n_party.items() if n >= MIN_N)
-    grid = {}
-    for t in GRID:
-        q = min(1.0, t * q_ref / t_ref)
-        s = _shares_at(people, q)
-        grid[str(t)] = {p: round(s.get(p, 0) / base[p], 4) for p in keep if base.get(p)}
-    t_max = math.floor(t_ref / q_ref) if q_ref else 85
-    data = {"updated": dt.date.today().isoformat(), "studies": studies, "n": len(people),
-            "ref": round(t_ref, 1), "q_ref": round(100 * q_ref, 1), "max": min(t_max, GRID[-1]),
-            "n_party": {p: n_party[p] for p in keep}, "base": {p: round(base[p], 2) for p in keep},
-            "factors": {k: v for k, v in grid.items() if int(k) <= min(t_max, GRID[-1])},
+    nat = _factors(sample, q_ref, t_ref, levels, keep)
+    # 2. Interval (bootstrap)
+    rng = random.Random(2911)
+    boots = {t: {p: [] for p in keep} for t in SHOW if t in nat}
+    for _ in range(BOOT):
+        bs = [sample[rng.randrange(len(sample))] for _ in sample]
+        fb = _factors(bs, q_ref, t_ref, list(boots), keep)
+        for t in boots:
+            for p in keep:
+                if p in fb[t]:
+                    boots[t][p].append(fb[t][p])
+
+    def pct(xs, a):
+        ys = sorted(xs)
+        return ys[min(len(ys) - 1, max(0, int(round(a * (len(ys) - 1)))))] if ys else None
+    ci = {str(t): {p: [round(pct(v, 0.1), 4), round(pct(v, 0.9), 4)] for p, v in d.items() if v}
+          for t, d in boots.items()}
+    # 3. Comunitats autonomes
+    regional, n_region = {}, {}
+    for code in sorted(set(CCAA.values())):
+        sub = [x for x in sample if x[3] == code]
+        n_region[code] = len(sub)
+        if len(sub) < MIN_REGION:
+            continue
+        counts = {}
+        for x in sub:
+            if x[2]:
+                counts[x[2]] = counts.get(x[2], 0) + 1
+        rk = [p for p in keep if counts.get(p, 0) >= MIN_REGION_PARTY]
+        if not rk:
+            continue
+        raw = _factors(sub, q_ref, t_ref, levels, rk)
+        shrink = len(sub) / (len(sub) + K_SHRINK)
+        regional[code] = {str(t): {p: round(nat[t][p] + (raw[t][p] - nat[t][p]) * shrink, 4)
+                                   for p in rk if p in raw[t] and p in nat[t]} for t in levels}
+    data = {"updated": dt.date.today().isoformat(), "studies": studies, "n": len(rows), "model": 2,
+            "ref": round(t_ref, 1), "q_ref": round(100 * q_ref, 1), "max": t_max,
+            "logit": {"b0": round(beta[0], 3), "prob": round(beta[1], 3), "age": round(beta[2], 3), "n": len(fit)},
+            "n_party": {p: n_party[p] for p in keep},
+            "factors": {str(t): {p: round(v, 4) for p, v in d.items()} for t, d in nat.items()},
+            "ci": ci, "boot": BOOT, "regional": regional, "n_region": n_region, "shrink_k": K_SHRINK,
             "classic": None,
             "source": "Origen de los datos: Centro de Investigaciones Sociológicas (CIS), "
                       "barómetros " + ", ".join(studies)}

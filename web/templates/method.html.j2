@@ -63,13 +63,15 @@
   <p>La media de encuestas da una cifra; la previsión dice cuánto puede fallar. Se simulan
   las elecciones {{ model.sims | thousands }} veces. En cada simulación cada partido recibe un
   error estatal aleatorio que crece con su tamaño: una desviación de {{ fmt(model.e30) }} puntos
-  para un partido del 30 % y de {{ fmt(model.e7) }} para uno del 7 % (0,6 × la raíz del
-  porcentaje), con un máximo del {{ (model.cap * 100) | int }} % de su voto para que los
-  partidos pequeños no desaparezcan por azar. Después cada provincia recibe además un error
-  propio más pequeño y se aplica la ley d'Hondt en las 52 circunscripciones.</p>
-  <p>La probabilidad de un resultado es la parte de las simulaciones en que ocurre. El tamaño
-  del error es una hipótesis inicial, calibrada con lo que fallaron las medias en las últimas
-  generales (abajo); se ajustará con el error real del 29N.</p>
+  para un partido del 30 % y de {{ fmt(model.e7) }} para uno del 7 % ({{ fmt(model.sigma) }} × la raíz del
+  porcentaje), con un máximo del {{ (model.cap * 100) | int }} % de su voto. Ese {{ fmt(model.sigma) }} se mide: es el
+  error que tuvieron las medias de encuestas en la última elección de {{ model.sig_c }} países ({{ model.sig_n }} partidos).
+  Para los partidos que solo se presentan en una parte de España cuenta su porcentaje allí. Después cada comunidad
+  autónoma recibe un error común ({{ fmt(model.regional) }} × la raíz del porcentaje) y cada provincia uno propio
+  ({{ fmt(model.local) }}), medidos con cuánto se apartaron del reparto proporcional los resultados reales de 2016 a 2023;
+  se sortea la participación (desviación de {{ fmt(model.turnout_sd) }} puntos) con cómo se mueve cada electorado según el
+  CIS, y se aplica la ley d'Hondt en las 52 circunscripciones.</p>
+  <p>La probabilidad de un resultado es la parte de las simulaciones en que ocurre. Se comprobará con el error real del 29N.</p>
 
   <h2 id="contraste">Cuánto se habría equivocado este método</h2>
   <p>Hemos aplicado exactamente las reglas de esta página (una encuesta por instituto, 90 días,
@@ -204,13 +206,15 @@
   <p>La mitjana d'enquestes dona una xifra; la previsió diu quant pot fallar. Se simulen les
   eleccions {{ model.sims | thousands }} vegades. A cada simulació cada partit rep un error
   estatal aleatori que creix amb la seva mida: una desviació de {{ fmt(model.e30) }} punts per a un
-  partit del 30 % i d'{{ fmt(model.e7) }} per a un del 7 % (0,6 × l'arrel del percentatge), amb un
-  màxim del {{ (model.cap * 100) | int }} % del seu vot perquè els partits petits no desapareguin
-  per atzar. Després cada província rep a més un error propi més petit i s'aplica la llei
-  d'Hondt a les 52 circumscripcions.</p>
-  <p>La probabilitat d'un resultat és la part de les simulacions en què passa. La mida de l'error
-  és una hipòtesi inicial, calibrada amb el que van fallar les mitjanes a les últimes generals
-  (a sota); s'ajustarà amb l'error real del 29N.</p>
+  partit del 30 % i d'{{ fmt(model.e7) }} per a un del 7 % ({{ fmt(model.sigma) }} × l'arrel del percentatge), amb un
+  màxim del {{ (model.cap * 100) | int }} % del seu vot. Aquest {{ fmt(model.sigma) }} es mesura: és l'error que van tenir les
+  mitjanes d'enquestes a l'última elecció de {{ model.sig_c }} països ({{ model.sig_n }} partits). Per als partits que només
+  es presenten en una part d'Espanya compta el seu percentatge allà. Després cada comunitat autònoma rep un error comú
+  ({{ fmt(model.regional) }} × l'arrel del percentatge) i cada província un de propi ({{ fmt(model.local) }}), mesurats amb quant
+  es van apartar del repartiment proporcional els resultats reals del 2016 al 2023; se sorteja la participació (desviació
+  de {{ fmt(model.turnout_sd) }} punts) amb com es mou cada electorat segons el CIS, i s'aplica la llei d'Hondt a les 52
+  circumscripcions.</p>
+  <p>La probabilitat d'un resultat és la part de les simulacions en què passa. Es comprovarà amb l'error real del 29N.</p>
 
   <h2 id="contrast">Quant s'hauria equivocat aquest mètode</h2>
   <p>Hem aplicat exactament les regles d'aquesta pàgina (una enquesta per institut, 90 dies, pes

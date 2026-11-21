@@ -61,7 +61,7 @@
   function baseShares(p) {
     var s = p[state.base] || {};
     if (!turnoutOn()) return s;
-    var g = turnoutFactors(), out = {}, before = 0, after = 0, k;
+    var g = turnoutFactors(p), out = {}, before = 0, after = 0, k;
     for (k in s) { before += s[k]; out[k] = s[k] * (g[k] || 1); after += out[k]; }
     if (after) for (k in out) out[k] *= before / after;
     return out;
@@ -72,9 +72,20 @@
      punts per cada punt de participacio per sobre del 2023 (la mida de
      l'abril del 2019) i baixa igual per sota; els altres partits no es mouen. */
   var FCACHE = {};
-  function turnoutFactors() {
+  function turnoutFactors(p) {
     var C = D.turnout.classic;
-    if (state.tm !== "classic" || !C) return D.turnout.factors[String(state.t)] || {};
+    if (state.tm !== "classic" || !C) {
+      // Model CIS: factors estatals, i els de la comunitat on n'hi ha (encongits
+      // cap a l'estatal a participacio.py).
+      var g = D.turnout.factors[String(state.t)] || {};
+      var reg = p && D.turnout.regional && D.turnout.regional[p.r];
+      var gr = reg && reg[String(state.t)];
+      if (!gr) return g;
+      var m = {};
+      for (var k in g) m[k] = g[k];
+      for (var j in gr) m[j] = gr[j];
+      return m;
+    }
     var key = "c" + state.t;
     if (FCACHE[key]) return FCACHE[key];
     var nat = BASE.now || {}, L = 0, R = 0, g = {};

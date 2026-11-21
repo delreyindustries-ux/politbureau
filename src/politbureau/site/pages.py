@@ -509,6 +509,8 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-21", "Previsión: el error de cada partido ya no es una hipótesis (0,59 × √%, medido con el error de las medias en la última elección de 26 países); se añade un error común por comunidad autónoma (0,50) y el provincial baja a 0,27, medidos con 2016-2023; los partidos regionales usan su % en su territorio; y cada simulación sortea la participación. Escenarios de participación: probabilidad de votar logística calibrada con el voto declarado de 2023, factores por comunidad e intervalo por remuestreo.",
+     "Previsió: l'error de cada partit ja no és una hipòtesi (0,59 × √%, mesurat amb l'error de les mitjanes a l'última elecció de 26 països); s'hi afegeix un error comú per comunitat autònoma (0,50) i el provincial baixa a 0,27, mesurats amb 2016-2023; els partits regionals fan servir el seu % al seu territori; i cada simulació sorteja la participació. Escenaris de participació: probabilitat de votar logística calibrada amb el vot declarat del 2023, factors per comunitat i interval per remostreig."),
     ("2026-11-21", "Perfiles de votantes: para cada colectivo, sus temas, cuánto se mueve su voto y qué partidos compiten por él; para cada partido, los votantes a su alcance (segunda opción o indecisos que lo sienten cercano) y de qué hablan. Microdatos del CIS.",
      "Perfils de votants: per a cada col·lectiu, els seus temes, quant es mou el seu vot i quins partits s'hi disputen; per a cada partit, els votants a l'abast (segona opció o indecisos que el senten proper) i de què parlen. Microdades del CIS."),
     ("2026-11-21", "Simulador: escenarios de participación (votante probable del CIS e hipótesis clásica, contrastada con 2016-2023) y constructor de mayorías.",
@@ -553,8 +555,10 @@ def method_page(env, cfg, stats):
                  "cutoff": e["backtest"]["cutoff"], "current": e["backtest"]["current"]["mae"],
                  "plain": e["backtest"]["plain"]["mae"], "pollster": e["mean_mae"]}
                 for e in rating.get("elections", []) if e.get("backtest")]
-    model = {"sims": fc.N_SIMS, "sigma": fc.SIGMA, "local": fc.LOCAL, "cap": fc.CAP,
-             "e30": round(fc.SIGMA * 30 ** 0.5, 1), "e7": round(fc.SIGMA * 7 ** 0.5, 1)}
+    sig, sig_n, sig_c = fc.calibrated_sigma()
+    model = {"sims": fc.N_SIMS, "sigma": round(sig, 2), "local": fc.LOCAL, "regional": fc.REGIONAL, "cap": fc.CAP,
+             "sig_n": sig_n, "sig_c": sig_c, "turnout_sd": fc.TURNOUT_SD,
+             "e30": round(sig * 30 ** 0.5, 1), "e7": round(sig * 7 ** 0.5, 1)}
     for lang in i18n.LANGS:
         log = [{"date": _fdate(d), "text": es if lang == "es" else ca} for d, es, ca in sorted(METHOD_LOG, key=lambda x: x[0])]
         canonical = i18n.page_url("method", lang)
@@ -637,6 +641,10 @@ def home_page(env, cfg, data, urls, highlights):
         for r in fc["parties"]:
             m = meta.get(r["code"]) or parties.meta(r["code"], "ES", ELECTION)
             r.update({"name": m["name"], "color": m["color"]})
+        for b in fc.get("by_turnout") or []:
+            for r in b["parties"]:
+                m = meta.get(r["code"]) or parties.meta(r["code"], "ES", ELECTION)
+                r.update({"name": m["name"], "color": m["color"]})
         peak = max(c for _, c in fc["right_hist"]) or 1
         fc["bars"] = [{"x": x, "h": c / peak, "maj": x >= fc["majority"]} for x, c in fc["right_hist"]]
     if cfg.get("_abroad"):

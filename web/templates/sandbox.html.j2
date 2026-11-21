@@ -128,27 +128,34 @@
     </details>{% endif %}
     <details class="minor"><summary>{{ 'Cómo se calcula' if es else 'Com es calcula' }}</summary>
     {% if es %}
-      <p>Con {{ '{:,}'.format(turnout.n).replace(',', '.') }} entrevistas de los barómetros del CIS ({{ turnout.studies | join(', ') }}),
-        cada persona recibe un índice de propensión a votar: lo seguro que dice estar de ir a votar (0 a 10), más medio punto si votó en 2023;
-        a igualdad, la edad desempata, porque la participación sube con la edad. Una participación del T % quiere decir que votan los más propensos
-        hasta llegar a ese porcentaje (escalado, porque en el CIS dice haber votado un {{ n1(turnout.q_ref) }} % de la muestra, más que en la realidad).
-        De ahí sale cuánto sube o baja el voto de cada partido respecto a la participación de 2023:</p>
+      <p>Con {{ '{:,}'.format(turnout.n).replace(',', '.') }} entrevistas de los barómetros del CIS ({{ turnout.studies | join(', ') }}).
+        <b>1.</b> Cada persona tiene una probabilidad de votar que depende de lo seguro que dice estar de ir a votar (0 a 10) y de su edad.
+        Cuánto pesa cada cosa se ha medido con una regresión logística sobre quién dice que votó en 2023 ({{ '{:,}'.format(turnout.logit.n).replace(',', '.') }} entrevistas):
+        quien dice 10 votó un {{ '%.0f'|format(100 / (1 + 2.718281828 ** -(turnout.logit.b0 + turnout.logit.prob))) }} % de las veces y quien dice 0, un {{ '%.0f'|format(100 / (1 + 2.718281828 ** -turnout.logit.b0)) }} %.
+        <b>2.</b> Una participación del T % sube o baja todas las probabilidades a la vez hasta que la media llega a T (escalado, porque en el CIS dice haber votado
+        un {{ n1(turnout.q_ref) }} % de la muestra, más que en la realidad). Así nadie está «dentro» o «fuera»: los menos seguros pesan menos.
+        <b>3.</b> En {{ turnout.regions }} comunidades el cálculo se repite con sus propias entrevistas y se acerca a la media estatal cuanto menos muestra hay.
+        <b>4.</b> Las entrevistas se remuestrean {{ turnout.boot }} veces para el intervalo. Cuánto sube o baja el voto de cada partido respecto a la participación de 2023:</p>
     {% else %}
-      <p>Amb {{ '{:,}'.format(turnout.n).replace(',', '.') }} entrevistes dels baròmetres del CIS ({{ turnout.studies | join(', ') }}),
-        cada persona rep un índex de propensió a votar: com de segura diu que està d'anar a votar (0 a 10), més mig punt si va votar el 2023;
-        a igualtat, l'edat desempata, perquè la participació puja amb l'edat. Una participació del T % vol dir que voten els més propensos
-        fins a arribar a aquest percentatge (escalat, perquè al CIS diu haver votat un {{ n1(turnout.q_ref) }} % de la mostra, més que a la realitat).
-        D'aquí surt quant puja o baixa el vot de cada partit respecte a la participació del 2023:</p>
+      <p>Amb {{ '{:,}'.format(turnout.n).replace(',', '.') }} entrevistes dels baròmetres del CIS ({{ turnout.studies | join(', ') }}).
+        <b>1.</b> Cada persona té una probabilitat de votar que depèn de com de segura diu que està d'anar a votar (0 a 10) i de l'edat.
+        Quant pesa cada cosa s'ha mesurat amb una regressió logística sobre qui diu que va votar el 2023 ({{ '{:,}'.format(turnout.logit.n).replace(',', '.') }} entrevistes):
+        qui diu 10 va votar un {{ '%.0f'|format(100 / (1 + 2.718281828 ** -(turnout.logit.b0 + turnout.logit.prob))) }} % de les vegades i qui diu 0, un {{ '%.0f'|format(100 / (1 + 2.718281828 ** -turnout.logit.b0)) }} %.
+        <b>2.</b> Una participació del T % puja o baixa totes les probabilitats alhora fins que la mitjana arriba a T (escalat, perquè al CIS diu haver votat
+        un {{ n1(turnout.q_ref) }} % de la mostra, més que a la realitat). Així ningú no és «dins» o «fora»: els menys segurs pesen menys.
+        <b>3.</b> A {{ turnout.regions }} comunitats el càlcul es repeteix amb les seves entrevistes i s'acosta a la mitjana estatal com menys mostra hi ha.
+        <b>4.</b> Les entrevistes es remostregen {{ turnout.boot }} vegades per a l'interval. Quant puja o baixa el vot de cada partit respecte a la participació del 2023:</p>
     {% endif %}
       <div class="tablewrap"><table class="results"><thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th>
         {% for lv in turnout.show %}<th class="num">{{ lv }} %</th>{% endfor %}<th class="num">{{ 'Entrevistas' if es else 'Entrevistes' }}</th></tr></thead>
         <tbody>{% for pr in turnout.parties %}<tr><td><span class="sw" style="background:{{ pr.color }}"></span>{{ pr.name }}</td>
-          {% for f in pr.f %}<td class="num">{{ '%+.0f'|format(100 * (f - 1)) }} %</td>{% endfor %}<td class="num">{{ pr.n }}</td></tr>{% endfor %}</tbody>
+          {% for f in pr.f %}{% set c = pr.ci[loop.index0] %}<td class="num">{{ ('%+.1f'|format(100 * (f - 1))) | replace('.', ',') }} %{% if c %}<br><small>{{ ('%+.1f'|format(100 * (c[0] - 1))) | replace('.', ',') }} a {{ ('%+.1f'|format(100 * (c[1] - 1))) | replace('.', ',') }}</small>{% endif %}</td>{% endfor %}<td class="num">{{ pr.n }}</td></tr>{% endfor %}</tbody>
       </table></div>
-      <p class="note">{% if es %}Se lee así: con una participación del {{ turnout.show[0] }} %, el voto de cada partido se multiplica por (1 + la cifra). Los partidos
-        con menos de 300 entrevistas no se mueven: no hay muestra suficiente. Es un modelo: la participación real depende de la campaña.
+      <p class="note">{% if es %}Se lee así: con una participación del {{ turnout.show[0] }} %, el voto de cada partido se multiplica por (1 + la cifra). Debajo, el intervalo del 80 %
+        del remuestreo: mide el error de muestra, no si el modelo es el correcto. Los partidos con menos de 300 entrevistas no se mueven: no hay muestra suficiente. Es un modelo: la participación real depende de la campaña.
         {{ turnout.source }}.{% else %}Es llegeix així: amb una participació del {{ turnout.show[0] }} %, el vot de cada partit es multiplica per (1 + la xifra).
-        Els partits amb menys de 300 entrevistes no es mouen: no hi ha prou mostra. És un model: la participació real depèn de la campanya.
+        A sota, l'interval del 80 % del
+        remostreig: mesura l'error de mostra, no si el model és el correcte. Els partits amb menys de 300 entrevistes no es mouen: no hi ha prou mostra. És un model: la participació real depèn de la campanya.
         {{ turnout.source }}.{% endif %}</p>
     </details>
   </section>{% endif %}
