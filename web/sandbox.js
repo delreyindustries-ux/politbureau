@@ -30,7 +30,7 @@
     nobody: "Ningú no té majoria absoluta", has: "té majoria absoluta", noseat: "sense escó"
   };
   var P = D.provinces, META = D.meta, MAIN = D.main.now;
-  var state = { base: "now", nat: {}, reg: {}, where: "", t: null, tm: "cis" };
+  var state = { base: "now", nat: {}, reg: {}, where: "", t: null, tm: "cis", coal: [] };
   var night = null;
 
   function fmt(x) { return (Math.round(x * 10) / 10).toFixed(1).replace(".", ","); }
@@ -337,8 +337,9 @@
     var out = "";
     pts.forEach(function (p, ii) {
       var c = seq[ii];
+      var dim = state.coal.length && c && state.coal.indexOf(c) < 0;
       out += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + sz + '" fill="' +
-             (c ? color(c) : "var(--line, #ddd)") + '"/>';
+             (c ? color(c) : "var(--line, #ddd)") + '"' + (dim ? ' fill-opacity=".18"' : "") + "/>";
     });
     out += '<line x1="200" y1="8" x2="200" y2="200" stroke="currentColor" stroke-dasharray="3 3" opacity=".5"/>';
     svg.innerHTML = out;
@@ -690,6 +691,59 @@
     var w = $("#sb-twrap"); if (w) w.hidden = state.base !== "now";
   }
 
+  /* ------------------------------------------------------------ coalicions
+     Construeix una majoria (22/11/2026): toca els partits per sumar-los. I la
+     llista de majories minimes: coalicions que arriben a la majoria i en les
+     quals cap partit sobra (si en treus qualsevol, ja no hi arriben). Amb
+     fins a 16 partits amb escons es miren totes les combinacions; amb mes,
+     fins a sis partits. "Contigua" vol dir que els partits son veins a l'eix
+     esquerra-dreta (l'ordre del web, el mateix de l'hemicicle), sense saltar-se'n
+     cap amb escons: la coalicio "connectada" d'Axelrod. */
+  function coalitions(total) {
+    var maj = D.majority, ks = order(Object.keys(total).filter(function (k) { return total[k] > 0; }));
+    var out = [], n = ks.length, MAXK = n <= 16 ? n : 6;
+    function rec(start, pick, sum) {
+      if (sum >= maj) {
+        var minimal = pick.every(function (k) { return sum - total[k] < maj; });
+        if (minimal) out.push({ ks: pick.slice(), seats: sum });
+        return;
+      }
+      if (pick.length >= MAXK) return;
+      for (var i = start; i < n; i++) { pick.push(ks[i]); rec(i + 1, pick, sum + total[ks[i]]); pick.pop(); }
+    }
+    rec(0, [], 0);
+    out.forEach(function (c) {
+      var idx = c.ks.map(function (k) { return ks.indexOf(k); }).sort(function (a, b) { return a - b; });
+      c.contig = idx[idx.length - 1] - idx[0] === idx.length - 1;
+    });
+    out.sort(function (a, b) { return a.ks.length - b.ks.length || a.seats - b.seats; });
+    return out;
+  }
+  function coalBox(total) {
+    var box = $("#sb-coal"); if (!box) return;
+    var ks = order(Object.keys(total).filter(function (k) { return total[k] > 0; }));
+    state.coal = state.coal.filter(function (k) { return total[k] > 0; });
+    var sum = state.coal.reduce(function (a, k) { return a + total[k]; }, 0), maj = D.majority;
+    $("#sb-chips").innerHTML = ks.map(function (k) {
+      var on = state.coal.indexOf(k) >= 0;
+      return '<button type="button" class="sb-chip' + (on ? " on" : "") + '" aria-pressed="' + on + '" data-k="' + k +
+        '"><span class="sw" style="background:' + color(k) + '"></span>' + name(k) + " <b>" + total[k] + "</b></button>";
+    }).join("");
+    var pct = Math.min(100, 100 * sum / D.seats), mp = 100 * maj / D.seats;
+    $("#sb-coalbar").innerHTML = '<div class="sb-cfill" style="width:' + pct.toFixed(1) + '%"></div><div class="sb-cmaj" style="left:' +
+      mp.toFixed(1) + '%"></div>';
+    $("#sb-coalsum").innerHTML = state.coal.length ? "<b>" + sum + "</b> " + (ES ? "escaños" : "escons") + " · " +
+      (sum >= maj ? (ES ? "mayoría absoluta ✔" : "majoria absoluta ✔") :
+       (ES ? "faltan " : "en falten ") + (maj - sum) + (ES ? " para la mayoría (" : " per a la majoria (") + maj + ")") :
+      (ES ? "Toca los partidos para sumarlos." : "Toca els partits per sumar-los.");
+    var list = coalitions(total).slice(0, 16);
+    $("#sb-coallist").innerHTML = list.length ? list.map(function (c) {
+      return '<li><button type="button" class="sb-clink" data-ks="' + c.ks.join(",") + '">' + c.ks.map(function (k) {
+        return '<span class="sw" style="background:' + color(k) + '"></span>' + name(k);
+      }).join(" + ") + "</button> <b>" + c.seats + "</b>" + (c.contig ? ' <small>' + (ES ? "contigua" : "contigua") + "</small>" : "") + "</li>";
+    }).join("") : "<li>" + (ES ? "Ninguna combinación llega a la mayoría." : "Cap combinació no arriba a la majoria.") + "</li>";
+  }
+
   function render() {
     var shares = scenario();
     var res = allocate(shares);
@@ -705,6 +759,7 @@
     altTable(shares, res.total);
     turnoutLabel();
     turnoutTable();
+    coalBox(res.total);
     writeHash();
   }
 
@@ -797,11 +852,12 @@
     if (Object.keys(state.nat).length) o.n = round(state.nat);
     if (state.t !== null) o.t = state.t;
     if (state.tm === "classic") o.m = "c";
+    if (state.coal.length) o.k = state.coal;
     if (Object.keys(state.reg).length) {
       o.r = {};
       for (var r in state.reg) o.r[r] = round(state.reg[r]);
     }
-    var s = (o.n || o.r || o.t || o.m || o.b !== "now") ? "#" + encodeURIComponent(JSON.stringify(o)) : " ";
+    var s = (o.n || o.r || o.t || o.m || o.k || o.b !== "now") ? "#" + encodeURIComponent(JSON.stringify(o)) : " ";
     history.replaceState(null, "", s === " " ? location.pathname + location.search : s);
   }
   function round(o) { var x = {}; for (var k in o) x[k] = Math.round(o[k] * 10) / 10; return x; }
@@ -811,6 +867,7 @@
       if (D.main[o.b]) setBase(o.b);
       if (o.n) state.nat = o.n;
       if (o.r) state.reg = o.r;
+      if (Array.isArray(o.k)) state.coal = o.k.filter(function (k) { return typeof k === "string"; });
       if (D.turnout && o.t && D.turnout.factors[String(o.t)]) state.t = o.t;
       if (D.turnout && o.m === "c" && D.turnout.classic) state.tm = "classic";
     } catch (e) { /* sense escenari a l'enllac */ }
@@ -854,6 +911,19 @@
       });
     } else if ($("#sb-twrap")) $("#sb-twrap").remove();
     $("#sb-night").addEventListener("click", runNight);
+    if ($("#sb-coal")) {
+      $("#sb-coal").addEventListener("click", function (e) {
+        var chip = e.target.closest && e.target.closest(".sb-chip");
+        var link = e.target.closest && e.target.closest(".sb-clink");
+        if (chip) {
+          var k = chip.dataset.k, i = state.coal.indexOf(k);
+          if (i >= 0) state.coal.splice(i, 1); else state.coal.push(k);
+        } else if (link) state.coal = link.dataset.ks.split(",");
+        else if (e.target.id === "sb-coalclear") state.coal = [];
+        else return;
+        if (!night) render(); else { coalBox(LAST.total); hemicycle(LAST.total, D.seats); }
+      });
+    }
     var pick = function (e) {
       var c = e.target && e.target.getAttribute && e.target.getAttribute("data-c");
       if (!c) return;

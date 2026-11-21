@@ -73,6 +73,18 @@
       </div>
     </div>
   </div>
+  <section id="sb-coal" class="sb-altbox">
+    <h2>{{ 'Construye una mayoría' if es else 'Construeix una majoria' }}</h2>
+    <div id="sb-chips" class="sb-chips"></div>
+    <div id="sb-coalbar" class="sb-coalbar" aria-hidden="true"></div>
+    <p id="sb-coalsum" aria-live="polite"></p>
+    <p><button type="button" id="sb-coalclear">{{ 'Vaciar' if es else 'Buida' }}</button></p>
+    <h3>{{ 'Mayorías posibles' if es else 'Majories possibles' }}</h3>
+    <p class="note">{% if es %}Combinaciones de partidos que llegan a la mayoría absoluta y en las que no sobra ninguno: si quitas cualquiera, ya no llegan.
+      <i>Contigua</i>: los partidos son vecinos en el eje izquierda-derecha, sin saltarse ninguno con escaños. Primero las de menos partidos. Es aritmética: no dice quién querría pactar con quién.{% else %}Combinacions de partits que arriben a la majoria absoluta i en què no en sobra cap: si en treus qualsevol, ja no hi arriben.
+      <i>Contigua</i>: els partits són veïns a l'eix esquerra-dreta, sense saltar-se'n cap amb escons. Primer les de menys partits. És aritmètica: no diu qui voldria pactar amb qui.{% endif %}</p>
+    <ol id="sb-coallist" class="sb-coallist"></ol>
+  </section>
   {% if turnout %}<section id="sb-turnoutbox" class="sb-altbox">
     <h2>{{ 'Escenarios de participación' if es else 'Escenaris de participació' }}</h2>
     <p id="sb-tnote">{% if es %}En 2023 votó (voto válido) el {{ n1(turnout.ref) }} % del censo de residentes. Si vota más o menos gente,
@@ -244,6 +256,15 @@
 .sandbox .sb-x{position:absolute;top:6px;right:8px;border:0;background:transparent;font-size:20px;line-height:1;padding:2px 6px}
 @media (max-width:760px){.sandbox .sb-prov{position:static;width:auto;max-height:none;margin-top:8px}}
 .sandbox .sb-bydist summary{cursor:pointer;font-weight:600;margin:8px 0}
+.sandbox .sb-chips{display:flex;flex-wrap:wrap;gap:6px}
+.sandbox .sb-chip{border:1px solid var(--line,#ccc);background:transparent;color:inherit;border-radius:16px;padding:4px 10px;cursor:pointer;font:inherit;font-size:.92em}
+.sandbox .sb-chip.on{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor;font-weight:600}
+.sandbox .sb-coalbar{position:relative;height:14px;border-radius:7px;background:var(--line,#e5e5e5);margin:12px 0 4px;overflow:hidden}
+.sandbox .sb-cfill{position:absolute;left:0;top:0;bottom:0;background:currentColor;opacity:.55}
+.sandbox .sb-cmaj{position:absolute;top:-2px;bottom:-2px;width:2px;background:currentColor}
+.sandbox .sb-coallist{padding-left:22px;columns:2 340px}
+.sandbox .sb-coallist li{margin:2px 0;break-inside:avoid}
+.sandbox .sb-clink{border:0;background:none;color:inherit;font:inherit;padding:0;cursor:pointer;text-align:left;text-decoration:underline dotted}
 .sandbox .sb-trows tbody tr{cursor:pointer}
 .sandbox .sb-trows tbody tr:hover,.sandbox .sb-trows tbody tr:focus{outline:1px solid currentColor}
 .sandbox .sb-trows small{opacity:.65}
