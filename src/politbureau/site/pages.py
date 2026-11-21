@@ -648,6 +648,14 @@ def home_page(env, cfg, data, urls, highlights):
                     subs.append(sub_card(d))
         subs.sort(key=lambda c: parties.slug(c["names"]["ca"]))
     try:
+        from . import seatgrid
+        sg = seatgrid.build(sim, lambda p: {**parties.meta(p, "ES", ELECTION),
+                                            **({"name": "Sumar"} if p == "SUMAR" else {})},
+                            lambda p: parties.position(p, "ES") or 999)
+    except Exception as exc:                              # noqa: BLE001
+        print(f"     avis: repartiment d'un cop d'ull no generat ({type(exc).__name__}: {exc})")
+        sg = None
+    try:
         from . import trend as trendlib
         trend = trendlib.build(db.connect(), ELECTION, highlights or [])
     except Exception as exc:                              # noqa: BLE001
@@ -660,7 +668,7 @@ def home_page(env, cfg, data, urls, highlights):
             {lg: i18n.page_url("spain", lg) for lg in i18n.LANGS},
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
-            highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR, trend=trend,
+            highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR, trend=trend, seatgrid=sg,
             notice=notice, subs=subs, leaders=leaders, congress=congress, forecast=fc,
             people_url=people_url.get(lang, ""),
             people=[{**c, "members": (people.get(lang) or {}).get("parties", {}).get(c["code"], [])}

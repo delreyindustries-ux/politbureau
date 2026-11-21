@@ -1,0 +1,25 @@
+{# Repartiment d'un cop d'ull (site/seatgrid.py). Cal: sg, lang. #}
+{% macro seatgrid(sg, lang, sim_url) %}
+{% set es = lang == 'es' %}
+{% macro f2(x) %}{{ ('%.2f'|format(x)) | replace('.', ',') }}{% endmacro %}
+<div class="sg-close">
+  <b>{{ 'Los últimos escaños más ajustados' if es else 'Els últims escons més ajustats' }}:</b>
+  {% for t in sg.close[:6] %}<span class="sg-chip"><b>{{ t.name }}</b> <i style="background:{{ t.info.last_c | vis }}"></i>{{ t.info.last }} <span class="vs">vs</span> <i style="background:{{ t.info.rival_c | vis }}"></i>{{ t.info.rival }} <em>{{ f2(t.info.tr) }}{% if t.info.votes %} · ≈{{ t.info.votes | thousands }}{% endif %}</em></span>{% endfor %}
+</div>
+<div class="sg-wrap"><div class="sg" style="--cols:{{ sg.cols }};--rows:{{ sg.rows }}">
+  {% for t in sg.tiles %}
+  <div class="sg-t{% if t.info and t.info.hot %} hot{% endif %}" style="grid-column:{{ t.col }};grid-row:{{ t.row }}"
+       title="{{ t.name }} · {{ t.m }} {{ 'escaños' if es else 'escons' }}{% if t.info %} · {{ 'último escaño' if es else 'últim escó' }}: {{ t.info.last }}; {{ t.info.rival }} {{ 'a' }} {{ f2(t.info.tr) }} {{ 'puntos' if es else 'punts' }}{% if t.info.votes %} (≈ {{ t.info.votes | thousands }} {{ 'votos' if es else 'vots' }}){% endif %}{% endif %}">
+    <span class="sg-h"><b>{{ t.abbr }}</b><small>{{ t.m }}</small></span>
+    <span class="sg-s">{% for s in t.seq %}<i style="background:{{ s.c | vis }}"{% if loop.index0 == t.last_idx %} class="last"{% endif %}></i>{% endfor %}</span>
+    {% if t.info %}<span class="sg-f"><i style="background:{{ t.info.rival_c | vis }}"></i>{{ f2(t.info.tr) }}</span>{% endif %}
+  </div>
+  {% endfor %}
+  <div class="sg-legend" style="grid-column:8 / span 4;grid-row:7 / span 3">
+    <p><i class="sg-demo last"></i> {{ 'último escaño repartido' if es else 'últim escó repartit' }}</p>
+    <p><i class="sg-demo" style="background:var(--dim)"></i> 0,25 = {{ 'puntos que tendrían que pasar al primero que se queda fuera (su color) para que cambiara de manos' if es else 'punts que haurien de passar al primer que es queda fora (el seu color) perquè canviés de mans' }}</p>
+    <p><span class="sg-hotdemo"></span> {{ 'menos de medio punto' if es else 'menys de mig punt' }}</p>
+    {% if sim_url %}<p><a href="{{ sim_url }}">{{ 'Muévelo en el simulador →' if es else 'Mou-ho al simulador →' }}</a></p>{% endif %}
+  </div>
+</div></div>
+{% endmacro %}

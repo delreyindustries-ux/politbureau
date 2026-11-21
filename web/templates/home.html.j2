@@ -60,6 +60,9 @@
     {% endfor %}
     </tbody>
   </table>
+  {% if seatgrid %}{% from "_seatgrid.html.j2" import seatgrid as sgrid %}
+  <h3 id="repartiment">{{ 'El reparto, provincia a provincia, y la lucha por el último escaño' if lang == 'es' else "El repartiment, província a província, i la lluita per l'últim escó" }}</h3>
+  {{ sgrid(seatgrid, lang, root ~ lang ~ '/' ~ page('sandbox') ~ '/') }}{% endif %}
   {% if trend %}{% from "_trend.html.j2" import trendchart %}
   <h3>{{ 'Cómo ha cambiado en el último año' if lang == 'es' else "Com ha canviat l'últim any" }}</h3>
   {{ trendchart(trend, lang, fdate) }}{% endif %}

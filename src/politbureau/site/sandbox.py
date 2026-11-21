@@ -124,6 +124,12 @@ def _province_paths(root) -> dict:
 TURNOUT_SHOW = (55, 60, 65, 75, 80)
 
 
+def _layout():
+    """Lloc de cada provincia al mapa de caselles (seatgrid.LAYOUT)."""
+    from .seatgrid import LAYOUT
+    return {c: list(v) for c, v in LAYOUT.items()}
+
+
 def _turnout_data():
     """config/participacio.json (politbureau participacio), si existeix."""
     f = ROOT / "config" / "participacio.json"
@@ -210,6 +216,7 @@ def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
                "blocs": {k: list(v) for k, v in BLOCS.items()}, "seats": 350, "majority": 176,
                "votes": True,      # p.v = vot valid del 2023: els marges es poden passar a vots
                "turnout": _turnout_payload(),
+               "layout": _layout(),
                "paths": {p["c"]: paths.get(p["c"], "") for p in provs}}
     js = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
     try:

@@ -469,6 +469,46 @@
     t.querySelector("tbody").innerHTML = body;
   }
 
+  /* Repartiment d'un cop d'ull (21/11/2026): les 52 provincies en un mapa de
+     caselles, cada esco un quadret, l'ultim esco marcat i qui l'hi disputa
+     (el mateix dibuix que la pagina d'Espanya, site/seatgrid.py). */
+  function f2(x) { return (Math.round(x * 100) / 100).toFixed(2).replace(".", ","); }
+  function seatGrid() {
+    var box = $("#sb-sg");
+    if (!box || !D.layout || !LAST) return;
+    var tiles = "", close = [];
+    P.forEach(function (p) {
+      var pos = D.layout[p.c], w = LAST.by[p.c];
+      if (!pos) return;
+      var style = ' style="grid-column:' + (pos[0] + 1) + ";grid-row:" + (pos[1] + 1) + '"';
+      if (!w) {                                         // nit electoral: encara no escrutada
+        tiles += '<div class="sg-t"' + style + '><span class="sg-h"><b>' + pos[2] + "</b><small>" + mag(p) + "</small></span></div>";
+        return;
+      }
+      var L = lastInfo(p), seq = [];
+      order(Object.keys(w)).forEach(function (k) { for (var i = 0; i < w[k]; i++) seq.push(k); });
+      var li = L && L.last ? seq.lastIndexOf(L.last.k) : -1;
+      var hot = L && L.rival && L.transfer < 0.5;
+      var tip = p.n + " · " + mag(p) + " " + T.seats.toLowerCase() + (L && L.rival ? " · " + (ES ? "último escaño: " : "últim escó: ") + name(L.last.k) +
+        "; " + name(L.rival.k) + " a " + f2(L.transfer) + (ES ? " puntos" : " punts") + votes(L.transfer, p) : "");
+      tiles += '<div class="sg-t' + (hot ? " hot" : "") + (p.c === picked ? " on" : "") + '" data-c="' + p.c + '" tabindex="0" role="button"' + style +
+        ' title="' + tip.replace(/"/g, "&quot;") + '"><span class="sg-h"><b>' + pos[2] + "</b><small>" + mag(p) + '</small></span><span class="sg-s">' +
+        seq.map(function (k, i) { return '<i style="background:' + color(k) + '"' + (i === li ? ' class="last"' : "") + "></i>"; }).join("") + "</span>" +
+        (L && L.rival ? '<span class="sg-f"><i style="background:' + color(L.rival.k) + '"></i>' + f2(L.transfer) + "</span>" : "") + "</div>";
+      if (L && L.rival) close.push({ p: p, L: L });
+    });
+    close.sort(function (a, b) { return a.L.transfer - b.L.transfer; });
+    box.innerHTML = '<div class="sg-close"><b>' + (ES ? "Los más ajustados" : "Els més ajustats") + ":</b> " + close.slice(0, 6).map(function (x) {
+      return '<button type="button" class="sg-chip" data-c="' + x.p.c + '"><b>' + x.p.n + '</b> <i style="background:' + color(x.L.last.k) + '"></i>' +
+        name(x.L.last.k) + ' <span class="vs">vs</span> <i style="background:' + color(x.L.rival.k) + '"></i>' + name(x.L.rival.k) + " <em>" + f2(x.L.transfer) + "</em></button>";
+    }).join("") + '</div><div class="sg-wrap"><div class="sg" style="--cols:11;--rows:9">' + tiles +
+      '<div class="sg-legend" style="grid-column:8 / span 4;grid-row:7 / span 3"><p><i class="sg-demo last"></i> ' +
+      (ES ? "último escaño repartido" : "últim escó repartit") + '</p><p><i class="sg-demo" style="background:var(--dim)"></i> ' +
+      (ES ? "puntos que tendrían que pasar al primero que se queda fuera (su color) para que cambiara de manos" :
+        "punts que haurien de passar al primer que es queda fora (el seu color) perquè canviés de mans") + '</p><p><span class="sg-hotdemo"></span> ' +
+      (ES ? "menos de medio punto. Toca una provincia para ver su reparto." : "menys de mig punt. Toca una província per veure'n el repartiment.") + "</p></div></div></div>";
+  }
+
   /* Els ultims escons mes ajustats de tot el territori. */
   function closeTable() {
     var t = $("#sb-close");
@@ -756,6 +796,7 @@
     provPanel();
     provTable();
     closeTable();
+    seatGrid();
     altTable(shares, res.total);
     turnoutLabel();
     turnoutTable();
@@ -834,6 +875,7 @@
       LAST = { shares: shares, by: res.by, total: res.total };
       provTable();
       closeTable();
+      seatGrid();
       if (picked) provPanel();
       hemicycle(res.total, D.seats);
       mapDraw(res.by, shares);
@@ -911,6 +953,18 @@
       });
     } else if ($("#sb-twrap")) $("#sb-twrap").remove();
     $("#sb-night").addEventListener("click", runNight);
+    if ($("#sb-sg")) {
+      ["click", "keydown"].forEach(function (ev) {
+        $("#sb-sg").addEventListener(ev, function (e) {
+          var t = e.target.closest && e.target.closest("[data-c]");
+          if (!t || (e.type === "keydown" && e.key !== "Enter" && e.key !== " ")) return;
+          e.preventDefault();
+          picked = t.getAttribute("data-c");
+          if (!night) render(); else { provPanel(); seatGrid(); }
+          $("#sb-mapwrap").scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      });
+    }
     if ($("#sb-coal")) {
       $("#sb-coal").addEventListener("click", function (e) {
         var chip = e.target.closest && e.target.closest(".sb-chip");
