@@ -15,7 +15,10 @@ from .build import DIST, ELECTION
 from .render import render_page, write
 
 SPECIAL = {"UND": {"name": {"ca": "Indecisos", "es": "Indecisos"}, "color": "#bdbdbd"},
-           "OTH": {"name": {"ca": "Altres partits", "es": "Otros partidos"}, "color": "#9e9e9e"}}
+           "OTH": {"name": {"ca": "Altres partits", "es": "Otros partidos"}, "color": "#9e9e9e"},
+           "ABS": {"name": {"ca": "Abstenció", "es": "Abstención"}, "color": "#e0e0e0"},
+           "BLANK": {"name": {"ca": "Blanc o nul", "es": "Blanco o nulo"}, "color": "#eeeeee"},
+           "NONE": {"name": {"ca": "Cap", "es": "Ninguno"}, "color": "#e0e0e0"}}
 
 
 def perfils_page(env, cfg) -> int:
@@ -26,11 +29,10 @@ def perfils_page(env, cfg) -> int:
     if not d.get("dims"):
         return 0
     codes = set(d["focus"])
-    for dim in d["dims"]:
-        for g in dim["groups"]:
-            codes |= set(g["vote"])
-            for rec in g["parties"].values():
-                codes |= {x["k"] for x in rec.get("from", []) + rec.get("risk", [])}
+    for g in [d["total"]] + [g for dim in d["dims"] for g in dim["groups"]]:
+        codes |= set(g["vote"]) | set(g.get("direct", {})) | set(g.get("recall", {})) | set(g.get("close", {}))
+        for rec in g["parties"].values():
+            codes |= {x["k"] for x in rec.get("from", []) + rec.get("risk", []) + rec.get("went", [])}
     meta = {}
     for c in sorted(codes):
         if c in SPECIAL:

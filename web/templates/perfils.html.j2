@@ -14,27 +14,38 @@
     I, per a cada partit, on té votants a l'abast i de què parlen. Amb {{ d.n | thousands }} entrevistes del CIS.</p>
 {% endif %}
 
-  <div class="pf-pick">
-    <label>{{ 'Partido' if es else 'Partit' }} <select id="pf-party"></select></label>
-  </div>
+  <nav class="pf-toc"><a href="#pf-partysec">{{ 'Por partido' if es else 'Per partit' }}</a> · <a href="#pf-cardsec">{{ 'Por colectivo' if es else 'Per col·lectiu' }}</a> ·
+    <a href="#pf-topicsec">{{ 'Por tema o política' if es else 'Per tema o política' }}</a></nav>
 
-  <section>
-    <h2 id="pf-h-opps"></h2>
-    <p id="pf-summary"></p>
+  <section id="pf-partysec">
+    <h2>{{ 'Por partido' if es else 'Per partit' }}: <span id="pf-h-party"></span></h2>
+    <div class="pf-pick"><label>{{ 'Partido' if es else 'Partit' }} <select id="pf-party"></select></label></div>
+    <div id="pf-kpis"></div>
     <p class="note">{% if es %}<b>A su alcance</b>: votantes probables (dicen 5 o más sobre 10 en la probabilidad de ir a votar) que hoy no votarían
-      a este partido pero lo tienen como segunda opción, o que aún no saben a quién votarán y lo sienten el más cercano. En % de cada grupo.
-      <b>Fieles</b>: de quienes lo votaron en 2023, cuántos lo volverían a votar. <b>Vienen de</b>: qué votan hoy los que tiene a su alcance.
-      <b>Les preocupa</b>: los problemas de España que más citan esos votantes.{% else %}<b>A l'abast</b>: votants probables (diuen 5 o més sobre 10
+      a este partido pero lo tienen como segunda opción, o que aún no saben a quién votarán y lo sienten el más cercano. Las personas son una aproximación
+      sobre el censo de 2023 ({{ d.electorate | thousands }} electores residentes). Un mismo votante puede estar al alcance de dos partidos.
+      <b>Fieles</b>: de quienes lo votaron en 2023, cuántos lo volverían a votar.{% else %}<b>A l'abast</b>: votants probables (diuen 5 o més sobre 10
       en la probabilitat d'anar a votar) que avui no votarien aquest partit però el tenen de segona opció, o que encara no saben a qui votaran i el
-      senten el més proper. En % de cada grup. <b>Fidels</b>: dels qui el van votar el 2023, quants el tornarien a votar. <b>Vénen de</b>: què
-      voten avui els que té a l'abast. <b>Els preocupa</b>: els problemes d'Espanya que més citen aquests votants.{% endif %}</p>
+      senten el més proper. Les persones són una aproximació sobre el cens del 2023 ({{ d.electorate | thousands }} electors residents). Un mateix votant
+      pot estar a l'abast de dos partits. <b>Fidels</b>: dels qui el van votar el 2023, quants el tornarien a votar.{% endif %}</p>
+    <div id="pf-party-detail"></div>
+    <h3 id="pf-h-opps"></h3>
+    <p id="pf-summary"></p>
+    <p><button type="button" id="pf-sort"></button></p>
     <div class="tablewrap"><table id="pf-opps" class="results pf-opps"><thead></thead><tbody></tbody></table></div>
   </section>
 
-  <section>
+  <section id="pf-cardsec">
     <h2>{{ 'Ficha de cada colectivo' if es else 'Fitxa de cada col·lectiu' }}</h2>
     <div class="pf-pick"><label>{{ 'Colectivo' if es else 'Col·lectiu' }} <select id="pf-group"></select></label></div>
     <div id="pf-card" class="pf-card"></div>
+  </section>
+
+  <section id="pf-topicsec">
+    <h2>{{ 'Por tema o política' if es else 'Per tema o política' }}</h2>
+    <p>{{ '¿Qué colectivos apoyan más una medida o hablan más de un problema? Elige uno:' if es else "Quins col·lectius donen més suport a una mesura o parlen més d'un problema? Tria'n un:" }}</p>
+    <div class="pf-pick"><label>{{ 'Tema o política' if es else 'Tema o política' }} <select id="pf-topicsel"></select></label></div>
+    <div id="pf-topic"></div>
   </section>
 
   <details class="minor">
@@ -45,6 +56,8 @@
         <a href="{{ root }}{{ lang }}/{{ page('groups') }}/">voto por colectivos</a>.</li>
       <li>Temas: los tres primeros problemas de España que cita cada persona (pregunta abierta, codificada por el CIS). «Le distingue» quiere decir
         que el grupo lo cita al menos 1,25 veces más que la media y lo menciona al menos un 5 %.</li>
+      <li>Políticas: las preguntas de actualidad de cada barómetro (vivienda en el de noviembre, fronteras e incendios en el de septiembre, el papa en el de julio;
+        el cambio climático, Ucrania y Oriente Próximo en los tres). El % es sobre quien responde. Si una pregunta solo está en un barómetro, sale de ese barómetro.</li>
       <li>Voto: «voto + simpatía» del CIS, sobre quien dice un partido. El CIS da al PSOE más que las demás encuestas: comparad grupos, no cifras sueltas.</li>
       <li>Grupos de menos de 100 entrevistas, fuera. Si los votantes al alcance de un partido en un grupo son menos de 50, no se dice de qué hablan.
         Con 100 entrevistas, el margen de error de un porcentaje del 50 % es de unos ±10 puntos.</li>
@@ -59,6 +72,8 @@
         <a href="{{ root }}{{ lang }}/{{ page('groups') }}/">vot per col·lectius</a>.</li>
       <li>Temes: els tres primers problemes d'Espanya que cita cada persona (pregunta oberta, codificada pel CIS). «El distingeix» vol dir que el
         grup el cita almenys 1,25 vegades més que la mitjana i l'esmenta almenys un 5 %.</li>
+      <li>Polítiques: les preguntes d'actualitat de cada baròmetre (habitatge al de novembre, fronteres i incendis al de setembre, el papa al de juliol;
+        el canvi climàtic, Ucraïna i l'Orient Mitjà als tres). El % és sobre qui respon. Si una pregunta només és en un baròmetre, surt d'aquell baròmetre.</li>
       <li>Vot: «vot + simpatia» del CIS, sobre qui diu un partit. El CIS dona al PSOE més que les altres enquestes: compareu grups, no xifres soltes.</li>
       <li>Grups de menys de 100 entrevistes, fora. Si els votants a l'abast d'un partit en un grup són menys de 50, no es diu de què parlen.
         Amb 100 entrevistes, el marge d'error d'un percentatge del 50 % és d'uns ±10 punts.</li>
@@ -85,7 +100,21 @@
 .perfils .pf-tags span{display:inline-block;border:1px solid var(--line,#ccc);border-radius:12px;padding:2px 8px;margin:2px 4px 2px 0;font-size:.92em}
 .perfils .pf-tags span.hot{border-color:currentColor;font-weight:600}
 .perfils .pf-read{background:var(--soft,rgba(127,127,127,.08));border-radius:6px;padding:8px 12px}
-.perfils .pf-opps a{color:inherit}
+.perfils .pf-opps a,.perfils #pf-topic a{color:inherit}
+.perfils .pf-toc{margin:8px 0 16px}
+.perfils .pf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}
+.perfils .pf-kpi{border:1px solid var(--line,#ddd);border-radius:8px;padding:8px 12px}
+.perfils .pf-kpi b{display:block;font-size:1.5em}
+.perfils .pf-kpi span{font-size:.88em;opacity:.8}
+.perfils .pf-went{margin:4px 0}
+.perfils h4{margin:12px 0 4px;font-size:.98em}
+.perfils .pf-mini td{padding:2px 6px;font-size:.92em}
+.perfils .pf-mini tr.hot td{font-weight:600}
+.perfils .pf-row{margin:2px 0}
+.perfils .pf-ops .pf-block td{font-weight:700;padding-top:10px;border-bottom:1px solid var(--line,#ccc)}
+.perfils small.up,.perfils span.up{color:#1b7f3b}
+.perfils small.down,.perfils span.down{color:#b3261e}
+@media (prefers-color-scheme:dark){.perfils small.up,.perfils span.up{color:#6fd08c}.perfils small.down,.perfils span.down{color:#ff8a80}}
 </style>
 {% endblock %}
 {% block scripts %}<script src="{{ root }}assets/perfils.js" defer></script>{% endblock %}
