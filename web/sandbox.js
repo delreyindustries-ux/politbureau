@@ -332,6 +332,115 @@
     return BASESEATS[state.base];
   }
 
+  /* ------------------------------------------------------------ altres sistemes
+     El mateix vot amb una altra llei (21/11/2026): la idea central dels
+     simuladors electorals, que la llei decideix tant com el vot. Per a
+     l'escenari d'ara mateix es calcula:
+       - la llei actual;
+       - una sola circumscripcio per a tot el territori, amb d'Hondt i el llindar
+         de la llei aplicat a tot el territori;
+       - Sainte-Lague a cada circumscripcio (amb el mateix llindar);
+       - proporcional pur: tot el territori, resta mes gran (Hare), sense llindar.
+     I l'index de Gallagher de cadascun: arrel de la meitat de la suma dels
+     quadrats de (% de vot - % d'escons). 0 = perfectament proporcional. */
+  function divisors(run, seats, sl) {
+    var won = {}, keys = Object.keys(run);
+    keys.forEach(function (k) { won[k] = 0; });
+    if (!keys.length) return won;
+    for (var i = 0; i < seats; i++) {
+      var best = null, q = -1;
+      keys.forEach(function (k) {
+        var v = run[k] / (sl ? 2 * won[k] + 1 : won[k] + 1);
+        if (v > q || (v === q && run[k] > run[best])) { q = v; best = k; }
+      });
+      won[best]++;
+    }
+    return won;
+  }
+  function hare(run, seats) {
+    var keys = Object.keys(run), total = 0, got = {}, used = 0;
+    keys.forEach(function (k) { total += run[k]; });
+    if (!total) return got;
+    var q = total / seats;
+    keys.forEach(function (k) { got[k] = Math.floor(run[k] / q); used += got[k]; });
+    keys.slice().sort(function (a, b) { return (run[b] / q - got[b]) - (run[a] / q - got[a]); })
+      .slice(0, Math.max(0, seats - used)).forEach(function (k) { got[k]++; });
+    return got;
+  }
+  function gallagher(seats, nat) {
+    var n = 0, tv = 0, sum = 0, k;
+    for (k in seats) n += seats[k];
+    for (k in nat) tv += nat[k];
+    if (!n || !tv) return null;
+    var keys = {};
+    for (k in nat) keys[k] = 1;
+    for (k in seats) keys[k] = 1;
+    for (k in keys) {
+      var d = 100 * (nat[k] || 0) / tv - 100 * (seats[k] || 0) / n;
+      sum += d * d;
+    }
+    return Math.sqrt(sum / 2);
+  }
+  function alternatives(shares, current) {
+    var nat = weighted(P, function (p) { return shares[p.c]; });
+    var total = D.seats, out = [];
+    var natThr = D.method ? D.method.thr : (THR.scope === "region" ? THR.rt : THR.d);
+    var add = function (key, seats) {
+      var clean = {};
+      for (var k in seats) if (seats[k]) clean[k] = seats[k];
+      out.push({ key: key, seats: clean, g: gallagher(clean, nat) });
+    };
+    add("law", current);
+    if (P.length > 1) {
+      var run = {};
+      for (var k in nat) if (nat[k] >= natThr) run[k] = nat[k];
+      add("single", divisors(run, total, false));
+      var sl = {};
+      P.forEach(function (p) {
+        var r = {};
+        for (var j in shares[p.c]) if (passes(j, shares[p.c][j], nat)) r[j] = shares[p.c][j];
+        var w = divisors(r, mag(p), true);
+        for (var x in w) sl[x] = (sl[x] || 0) + w[x];
+      });
+      add("sl", sl);
+    } else {
+      var run1 = {};
+      for (var k1 in nat) if (nat[k1] >= natThr) run1[k1] = nat[k1];
+      if (!D.method || D.method.name !== "dhondt") add("dh1", divisors(run1, total, false));
+      if (!D.method || D.method.name !== "sainte_lague") add("sl1", divisors(run1, total, true));
+    }
+    var all = {};
+    for (var k2 in nat) if (nat[k2] > 0) all[k2] = nat[k2];
+    add("pure", hare(all, total));
+    return out;
+  }
+  var ALT_LABEL = ES ? {
+    law: "Ley actual", single: "Una sola circunscripción (d'Hondt, umbral en todo el territorio)", sl: "Sainte-Laguë en cada circunscripción",
+    dh1: "D'Hondt con el mismo umbral", sl1: "Sainte-Laguë con el mismo umbral", pure: "Proporcional puro, sin umbral"
+  } : {
+    law: "Llei actual", single: "Una sola circumscripció (d'Hondt, llindar a tot el territori)", sl: "Sainte-Laguë a cada circumscripció",
+    dh1: "D'Hondt amb el mateix llindar", sl1: "Sainte-Laguë amb el mateix llindar", pure: "Proporcional pur, sense llindar"
+  };
+  function altTable(shares, current) {
+    var t = $("#sb-alt"); if (!t) return;
+    var rows = alternatives(shares, current);
+    var cols = Object.keys(current).filter(function (k) { return current[k]; })
+      .sort(function (a, b) { return current[b] - current[a]; });
+    rows.forEach(function (r) {
+      for (var k in r.seats) if (cols.indexOf(k) < 0 && r.seats[k]) cols.push(k);
+    });
+    cols = cols.slice(0, 9);
+    t.querySelector("thead").innerHTML = "<tr><th></th>" + cols.map(function (k) {
+      return '<th class="num"><span class="sw" style="background:' + color(k) + '"></span>' + name(k) + "</th>";
+    }).join("") + '<th class="num">Gallagher</th></tr>';
+    t.querySelector("tbody").innerHTML = rows.map(function (r) {
+      return "<tr" + (r.key === "law" ? ' class="total"' : "") + "><td>" + ALT_LABEL[r.key] + "</td>" + cols.map(function (k) {
+        var v = r.seats[k] || 0, d = v - (current[k] || 0);
+        return '<td class="num">' + (v || "–") + (r.key !== "law" && d ? ' <small>(' + (d > 0 ? "+" : "−") + Math.abs(d) + ")</small>" : "") + "</td>";
+      }).join("") + '<td class="num">' + (r.g === null ? "–" : fmt(r.g)) + "</td></tr>";
+    }).join("");
+  }
+
   function render() {
     var shares = scenario();
     var res = allocate(shares);
@@ -343,6 +452,7 @@
     sliders(shares);
     provPanel();
     provTable();
+    altTable(shares, res.total);
     writeHash();
   }
 

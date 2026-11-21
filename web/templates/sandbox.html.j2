@@ -70,6 +70,16 @@
       </div>
     </div>
   </div>
+  <section class="sb-altbox">
+    <h2>{{ 'El mismo voto con otro sistema' if es else 'El mateix vot amb un altre sistema' }}</h2>
+    <p>{% if es %}La ley electoral decide tanto como el voto. Con el escenario que tienes ahora, así quedarían los escaños con otras reglas.
+      Entre paréntesis, la diferencia con la ley actual. <b>Gallagher</b> mide la desproporción entre votos y escaños: 0 es perfectamente
+      proporcional; cuanto más alto, más premia el sistema a los grandes o a los concentrados.{% else %}La llei electoral decideix tant com el vot.
+      Amb l'escenari que tens ara, així quedarien els escons amb altres regles. Entre parèntesis, la diferència amb la llei actual.
+      <b>Gallagher</b> mesura la desproporció entre vots i escons: 0 és perfectament proporcional; com més alt, més premia el sistema els
+      grans o els concentrats.{% endif %}</p>
+    <div class="tablewrap"><table id="sb-alt" class="results"><thead></thead><tbody></tbody></table></div>
+  </section>
   <div id="sb-mapwrap" class="sb-mapwrap">
     <svg id="sb-map" viewBox="0 0 900 640" role="img" aria-label="{{ 'Mapa de provincias' if es else 'Mapa de províncies' }}"><g></g></svg>
     <aside id="sb-prov" class="sb-prov" aria-live="polite" hidden></aside>

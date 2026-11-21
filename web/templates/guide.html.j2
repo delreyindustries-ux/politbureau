@@ -1,0 +1,76 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% macro n0(x) %}{{ '{:,.0f}'.format(x).replace(',', '.') }}{% endmacro %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+{% if es %}
+  <h1>Cómo se vota al Congreso</h1>
+  <p class="lede">Los 350 diputados no se reparten con el voto de toda España: cada provincia elige los suyos.
+    Esta guía lo explica con los números reales del 23 de julio de 2023.</p>
+{% else %}
+  <h1>Com es vota al Congrés</h1>
+  <p class="lede">Els 350 diputats no es reparteixen amb el vot de tot Espanya: cada província tria els seus.
+    Aquesta guia ho explica amb els números reals del 23 de juliol del 2023.</p>
+{% endif %}
+
+  <h2>{{ 'Las reglas' if es else 'Les regles' }}</h2>
+  <ul>
+  {% if es %}
+    <li><b>52 circunscripciones</b>: las 50 provincias, Ceuta y Melilla.</li>
+    <li>Cada provincia tiene <b>2 escaños fijos</b>; Ceuta y Melilla, 1. Los otros 248 se reparten según la población.</li>
+    <li>Dentro de cada provincia, la <b>ley d'Hondt</b>, y un partido necesita el <b>3 %</b> del voto válido de esa provincia (contando el voto en blanco).</li>
+    <li>La mayoría absoluta es de <b>176</b>.</li>
+  {% else %}
+    <li><b>52 circumscripcions</b>: les 50 províncies, Ceuta i Melilla.</li>
+    <li>Cada província té <b>2 escons fixos</b>; Ceuta i Melilla, 1. Els altres 248 es reparteixen segons la població.</li>
+    <li>Dins de cada província, la <b>llei d'Hondt</b>, i un partit necessita el <b>3 %</b> del vot vàlid d'aquella província (comptant el vot en blanc).</li>
+    <li>La majoria absoluta és de <b>176</b>.</li>
+  {% endif %}
+  </ul>
+
+  <h2>{{ 'Un escaño no cuesta lo mismo en todas partes' if es else 'Un escó no costa el mateix a tot arreu' }}</h2>
+  <p>{% if es %}Como los dos escaños fijos pesan mucho en las provincias pequeñas, en {{ cheapest.name }} había
+    {{ n0(cheapest.per_seat) }} votos válidos por escaño y en {{ dearest.name }}, {{ n0(dearest.per_seat) }}:
+    {{ n1(dearest.per_seat / cheapest.per_seat) }} veces más.{% else %}Com que els dos escons fixos pesen molt a les
+    províncies petites, a {{ cheapest.name }} hi havia {{ n0(cheapest.per_seat) }} vots vàlids per escó i a
+    {{ dearest.name }}, {{ n0(dearest.per_seat) }}: {{ n1(dearest.per_seat / cheapest.per_seat) }} vegades més.{% endif %}</p>
+  <details class="minor"><summary>{{ 'Las 52 circunscripciones' if es else 'Les 52 circumscripcions' }}</summary>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'Circunscripción' if es else 'Circumscripció' }}</th><th class="num">{{ 'Escaños' if es else 'Escons' }}</th>
+      <th class="num">{{ 'Voto válido' if es else 'Vot vàlid' }}</th><th class="num">{{ 'Votos por escaño' if es else 'Vots per escó' }}</th>
+      <th class="num">{{ 'Para entrar hacía falta' if es else 'Per entrar calia' }}</th></tr></thead>
+    <tbody>{% for r in rows %}<tr><td>{{ r.name }}</td><td class="num">{{ r.seats }}</td><td class="num">{{ n0(r.valid) }}</td>
+      <td class="num">{{ n0(r.per_seat) }}</td><td class="num">{% if r.last_pct %}{{ n1(r.last_pct) }} %{% else %}–{% endif %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="note">{{ '«Para entrar hacía falta»: el porcentaje del cociente del último escaño repartido. Por debajo de eso, ningún partido sacaba escaño aunque superara el 3 %.' if es else "«Per entrar calia»: el percentatge del quocient de l'últim escó repartit. Per sota d'això, cap partit treia escó encara que passés del 3 %." }}</p>
+  </details>
+
+  <h2>{{ "La ley d'Hondt, paso a paso" if es else "La llei d'Hondt, pas a pas" }}: {{ example.name }}</h2>
+  <p>{% if es %}{{ example.name }} elegía {{ example.seats }} diputados. Se dividen los votos de cada partido entre 1, 2, 3... y los
+    {{ example.seats }} cocientes más altos se llevan un escaño cada uno (el número indica el orden).{% else %}{{ example.name }}
+    triava {{ example.seats }} diputats. Es divideixen els vots de cada partit entre 1, 2, 3... i els {{ example.seats }}
+    quocients més alts s'enduen un escó cadascun (el número indica l'ordre).{% endif %}</p>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="num">{{ 'Votos' if es else 'Vots' }}</th>
+      {% for d in example.divs %}<th class="num">÷ {{ d }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for r in example.rows %}<tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }} <small>{{ n1(r.pct) }} %</small></td>
+      <td class="num">{{ n0(r.votes) }}</td>
+      {% for q in r.q %}<td class="num">{% if q.win %}<b>{{ n0(q.v) }}</b> <small>({{ q.order }})</small>{% else %}{{ n0(q.v) }}{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div>
+
+  <h2>{{ 'El umbral del 3 %, ¿cuándo importa?' if es else 'El llindar del 3 %, quan importa?' }}</h2>
+  {% set bit = rows | selectattr('lost') | list %}
+  <p>{% if es %}Casi nunca. En una provincia de 3 o 4 escaños hace falta mucho más del 3 % para entrar: el umbral solo decide algo
+    en las provincias grandes.{% else %}Gairebé mai. En una província de 3 o 4 escons cal molt més del 3 % per entrar: el llindar
+    només decideix alguna cosa a les províncies grans.{% endif %}
+    {% if bit %}{% if es %}En 2023 dejó fuera de un escaño a:{% else %}El 2023 va deixar fora d'un escó:{% endif %}
+    {% for r in bit %}{{ r.lost | join(', ') }} ({{ r.name }}){{ ', ' if not loop.last else '.' }}{% endfor %}
+    {% else %}{{ 'En 2023 no dejó a nadie sin escaño: sin umbral, el reparto habría sido el mismo en las 52 circunscripciones.' if es else "El 2023 no va deixar ningú sense escó: sense llindar, el repartiment hauria estat el mateix a les 52 circumscripcions." }}{% endif %}</p>
+
+  <p>{{ 'Pruébalo tú mismo en el' if es else 'Prova-ho tu mateix al' }} <a href="{{ root }}{{ lang }}/{{ page('sandbox') }}/">{{ 'simulador electoral' }}</a>{{ ': con el resultado de 2023 da exactamente estos escaños, y puedes ver qué pasaría con otro sistema.' if es else ": amb el resultat del 2023 dona exactament aquests escons, i pots veure què passaria amb un altre sistema." }}</p>
+  <p class="note">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'resultados del Ministerio del Interior (23/07/2023); reglas: LOREG, artículos 162 y 163.' if es else "resultats del Ministeri de l'Interior (23/07/2023); regles: LOREG, articles 162 i 163." }}</p>
+</article>
+{% endblock %}
