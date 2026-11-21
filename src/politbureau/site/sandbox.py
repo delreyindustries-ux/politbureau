@@ -121,6 +121,42 @@ def _province_paths(root) -> dict:
     return paths
 
 
+TURNOUT_SHOW = (55, 60, 65, 75, 80)
+
+
+def _turnout_data():
+    """config/participacio.json (politbureau participacio), si existeix."""
+    f = ROOT / "config" / "participacio.json"
+    if not f.exists():
+        return None
+    try:
+        return json.loads(f.read_text(encoding="utf-8"))
+    except ValueError:
+        return None
+
+
+def _turnout_payload():
+    d = _turnout_data()
+    if not d or not d.get("factors"):
+        return None
+    c = d.get("classic")
+    return {"ref": d["ref"], "max": d["max"], "factors": d["factors"],
+            "classic": {"slope": c["slope"], "left": c["left"], "right": c["right"]} if c else None}
+
+
+def _turnout_view(meta):
+    d = _turnout_data()
+    if not d or not d.get("factors"):
+        return None
+    show = [t for t in TURNOUT_SHOW if str(t) in d["factors"]]
+    order = sorted(d["n_party"], key=lambda p: -d["n_party"][p])
+    return {"ref": d["ref"], "q_ref": d["q_ref"], "n": d["n"], "studies": d["studies"], "source": d["source"],
+            "classic": d.get("classic"),
+            "show": show,
+            "parties": [{"name": (meta.get(p) or {}).get("name", p), "color": (meta.get(p) or {}).get("color", "#999"),
+                         "n": d["n_party"][p], "f": [d["factors"][str(t)].get(p, 1) for t in show]} for p in order]}
+
+
 def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
     sim = simulator_for(data, "national", "ES")
     if not sim:
@@ -173,6 +209,7 @@ def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
                "regions": dict(sorted(regions.items(), key=lambda kv: kv[1])),
                "blocs": {k: list(v) for k, v in BLOCS.items()}, "seats": 350, "majority": 176,
                "votes": True,      # p.v = vot valid del 2023: els marges es poden passar a vots
+               "turnout": _turnout_payload(),
                "paths": {p["c"]: paths.get(p["c"], "") for p in provs}}
     js = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
     try:
@@ -196,7 +233,8 @@ def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
              "reparto del Congreso provincia por provincia, con noche electoral incluida." if lang == "es"
              else "Canvia el vot de cada partit a tot Espanya o comunitat per comunitat i mira el "
              "repartiment del Congrés província per província, amb nit electoral inclosa."),
-            payload=js, regional_links=[{"url": x["url"][lang], "name": x["name"][lang]} for x in links],
+            payload=js, turnout=_turnout_view(meta),
+            regional_links=[{"url": x["url"][lang], "name": x["name"][lang]} for x in links],
             foreign_links=[{"url": x["url"][lang], "name": x["name"][lang]} for x in flinks])
         write(DIST / canonical.strip("/") / "index.html", html)
     return len(provs)

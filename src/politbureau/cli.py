@@ -145,6 +145,16 @@ def cmd_conversa(args):
     print(f"termometre de conversa fins al {d['end']}; desat a {conversa.OUT}")
 
 
+def cmd_participacio(args):
+    from . import participacio
+    d = participacio.run()
+    if not d:
+        print(f"no hi ha microdades del CIS a {participacio.RAW}")
+        return 1
+    print(f"{d['n']} entrevistes; participacio del 2023 {d['ref']} %; escenaris fins al {d['max']} %; "
+          f"desat a {participacio.OUT}")
+
+
 def cmd_collectius(args):
     from . import collectius
     d = collectius.run()
@@ -257,6 +267,8 @@ def main(argv=None):
                    ).set_defaults(func=cmd_conversa)
     sub.add_parser("collectius", help="vot de cada col·lectiu amb les microdades del CIS (data/raw/cis)"
                    ).set_defaults(func=cmd_collectius)
+    sub.add_parser("participacio", help="escenaris de participacio amb les microdades del CIS (data/raw/cis)"
+                   ).set_defaults(func=cmd_participacio)
     sub.add_parser("governs", help="cap de govern de cada pais i la posicio del seu partit (Wikidata)"
                    ).set_defaults(func=cmd_governs)
     sub.add_parser("historic", help="resultats de les generals 1977-2023 (Wikipedia)"

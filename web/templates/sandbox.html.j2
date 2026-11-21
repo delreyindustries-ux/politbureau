@@ -1,6 +1,7 @@
 {% extends "base.html.j2" %}
 {% block content %}
 {% set es = lang == 'es' %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
 <article class="doc wide sandbox">
   <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
     <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
@@ -46,6 +47,8 @@
       <label><input type="radio" name="sb-base" value="y2019a"> {{ 'Abril de 2019' if es else 'Abril del 2019' }}</label>
       <label><input type="radio" name="sb-base" value="y2016"> 2016</label>
     </fieldset>
+    {% if turnout %}<label id="sb-twrap" class="sb-where sb-twrap">{{ 'Participación' if es else 'Participació' }}
+      <input type="range" id="sb-t" aria-describedby="sb-tnote"> <output id="sb-tout"></output></label>{% endif %}
     <label class="sb-where">{{ 'Dónde cambias el voto' if es else 'On canvies el vot' }}
       <select id="sb-where"></select></label>
     <div class="sb-buttons">
@@ -70,6 +73,69 @@
       </div>
     </div>
   </div>
+  {% if turnout %}<section id="sb-turnoutbox" class="sb-altbox">
+    <h2>{{ 'Escenarios de participación' if es else 'Escenaris de participació' }}</h2>
+    <p id="sb-tnote">{% if es %}En 2023 votó (voto válido) el {{ n1(turnout.ref) }} % del censo de residentes. Si vota más o menos gente,
+      no todos los electorados se mueven igual. Así quedaría el escenario que tienes ahora con cada participación.
+      Toca una fila, o mueve el control «Participación», para verla en el hemiciclo y el mapa.{% else %}El 2023 va votar (vot vàlid) el
+      {{ n1(turnout.ref) }} % del cens de residents. Si vota més o menys gent, no tots els electorats es mouen igual. Així quedaria
+      l'escenari que tens ara amb cada participació. Toca una fila, o mou el control «Participació», per veure-la a l'hemicicle i al mapa.{% endif %}</p>
+    <fieldset class="sb-mapmode"><legend>{{ 'Cómo se mueve el voto cuando cambia la participación' if es else 'Com es mou el vot quan canvia la participació' }}</legend>
+      <label><input type="radio" name="sb-tm" value="cis" checked> {{ 'Según quién dice que irá a votar (CIS)' if es else 'Segons qui diu que anirà a votar (CIS)' }}</label>
+      <label><input type="radio" name="sb-tm" value="classic"> {{ 'Hipótesis clásica: más participación, más izquierda' if es else "Hipòtesi clàssica: més participació, més esquerra" }}</label>
+    </fieldset>
+    <div class="tablewrap"><table id="sb-turnout" class="results sb-trows"><thead></thead><tbody></tbody></table></div>
+    {% if turnout.classic %}{% set hc = turnout.classic.history %}
+    <details class="minor"><summary>{{ '¿Más participación favorece a la izquierda? Lo que dicen los resultados' if es else "Més participació afavoreix l'esquerra? El que diuen els resultats" }}</summary>
+      <div class="tablewrap"><table class="results"><thead><tr><th>{{ 'Elecciones generales' if es else 'Eleccions generals' }}</th>
+        <th class="num">{{ 'Participación' if es else 'Participació' }}</th><th class="num">{{ 'Izquierda, sobre izquierda + derecha' if es else 'Esquerra, sobre esquerra + dreta' }}</th></tr></thead>
+        <tbody>{% for r in hc.rows %}<tr><td>{{ r.e }}</td><td class="num">{{ n1(r.turnout) }} %</td><td class="num">{{ n1(r.left) }} %</td></tr>{% endfor %}</tbody></table></div>
+      {% set r0, r1, r2 = hc.rows[0], hc.rows[1], hc.rows[2] %}
+      {% if es %}
+      <p>En abril de 2019 la participación subió {{ n1(r1.turnout - r0.turnout) }} puntos y la izquierda ganó {{ n1(r1.left - r0.left) }}: encaja con la hipótesis.
+        Pero en noviembre la participación bajó {{ n1(r1.turnout - r2.turnout) }} puntos y la izquierda casi no perdió nada. Provincia a provincia,
+        de una elección a la siguiente ({{ hc.n }} casos, sin Cataluña), cada punto de participación ha ido con {{ '%+.2f'|format(hc.pooled)|replace('.', ',') }} puntos de izquierda
+        (±{{ '%.2f'|format(hc.pooled_se)|replace('.', ',') }}): prácticamente nada.</p>
+      <p>El modelo clásico del simulador usa la medida de abril de 2019, {{ '%.2f'|format(hc.april2019)|replace('.', ',') }} puntos de izquierda por punto de participación:
+        es el caso más favorable a la hipótesis, no la media. Izquierda: PSOE, Sumar, Podemos, ERC, EH Bildu, BNG y CUP. Derecha: PP, Vox, SALF, UPN, Cs y Aliança Catalana.
+        Junts, PNV y Coalición Canaria no se mueven.</p>
+      {% else %}
+      <p>L'abril del 2019 la participació va pujar {{ n1(r1.turnout - r0.turnout) }} punts i l'esquerra en va guanyar {{ n1(r1.left - r0.left) }}: encaixa amb la hipòtesi.
+        Però al novembre la participació va baixar {{ n1(r1.turnout - r2.turnout) }} punts i l'esquerra gairebé no va perdre res. Província per província,
+        d'una elecció a la següent ({{ hc.n }} casos, sense Catalunya), cada punt de participació ha anat amb {{ '%+.2f'|format(hc.pooled)|replace('.', ',') }} punts d'esquerra
+        (±{{ '%.2f'|format(hc.pooled_se)|replace('.', ',') }}): pràcticament res.</p>
+      <p>El model clàssic del simulador fa servir la mida de l'abril del 2019, {{ '%.2f'|format(hc.april2019)|replace('.', ',') }} punts d'esquerra per punt de participació:
+        és el cas més favorable a la hipòtesi, no la mitjana. Esquerra: PSOE, Sumar, Podemos, ERC, EH Bildu, BNG i CUP. Dreta: PP, Vox, SALF, UPN, Cs i Aliança Catalana.
+        Junts, el PNB i Coalició Canària no es mouen.</p>
+      {% endif %}
+      <p class="note">{{ 'Participación: voto válido sobre el censo de residentes. Fuente: resultados del Ministerio del Interior, 2016-2023.' if es else 'Participació: vot vàlid sobre el cens de residents. Font: resultats del Ministeri de l\'Interior, 2016-2023.' }}</p>
+    </details>{% endif %}
+    <details class="minor"><summary>{{ 'Cómo se calcula' if es else 'Com es calcula' }}</summary>
+    {% if es %}
+      <p>Con {{ '{:,}'.format(turnout.n).replace(',', '.') }} entrevistas de los barómetros del CIS ({{ turnout.studies | join(', ') }}),
+        cada persona recibe un índice de propensión a votar: lo seguro que dice estar de ir a votar (0 a 10), más medio punto si votó en 2023;
+        a igualdad, la edad desempata, porque la participación sube con la edad. Una participación del T % quiere decir que votan los más propensos
+        hasta llegar a ese porcentaje (escalado, porque en el CIS dice haber votado un {{ n1(turnout.q_ref) }} % de la muestra, más que en la realidad).
+        De ahí sale cuánto sube o baja el voto de cada partido respecto a la participación de 2023:</p>
+    {% else %}
+      <p>Amb {{ '{:,}'.format(turnout.n).replace(',', '.') }} entrevistes dels baròmetres del CIS ({{ turnout.studies | join(', ') }}),
+        cada persona rep un índex de propensió a votar: com de segura diu que està d'anar a votar (0 a 10), més mig punt si va votar el 2023;
+        a igualtat, l'edat desempata, perquè la participació puja amb l'edat. Una participació del T % vol dir que voten els més propensos
+        fins a arribar a aquest percentatge (escalat, perquè al CIS diu haver votat un {{ n1(turnout.q_ref) }} % de la mostra, més que a la realitat).
+        D'aquí surt quant puja o baixa el vot de cada partit respecte a la participació del 2023:</p>
+    {% endif %}
+      <div class="tablewrap"><table class="results"><thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th>
+        {% for lv in turnout.show %}<th class="num">{{ lv }} %</th>{% endfor %}<th class="num">{{ 'Entrevistas' if es else 'Entrevistes' }}</th></tr></thead>
+        <tbody>{% for pr in turnout.parties %}<tr><td><span class="sw" style="background:{{ pr.color }}"></span>{{ pr.name }}</td>
+          {% for f in pr.f %}<td class="num">{{ '%+.0f'|format(100 * (f - 1)) }} %</td>{% endfor %}<td class="num">{{ pr.n }}</td></tr>{% endfor %}</tbody>
+      </table></div>
+      <p class="note">{% if es %}Se lee así: con una participación del {{ turnout.show[0] }} %, el voto de cada partido se multiplica por (1 + la cifra). Los partidos
+        con menos de 300 entrevistas no se mueven: no hay muestra suficiente. Es un modelo: la participación real depende de la campaña.
+        {{ turnout.source }}.{% else %}Es llegeix així: amb una participació del {{ turnout.show[0] }} %, el vot de cada partit es multiplica per (1 + la xifra).
+        Els partits amb menys de 300 entrevistes no es mouen: no hi ha prou mostra. És un model: la participació real depèn de la campanya.
+        {{ turnout.source }}.{% endif %}</p>
+    </details>
+  </section>{% endif %}
   <section class="sb-altbox">
     <h2>{{ 'El mismo voto con otro sistema' if es else 'El mateix vot amb un altre sistema' }}</h2>
     <p>{% if es %}La ley electoral decide tanto como el voto. Con el escenario que tienes ahora, así quedarían los escaños con otras reglas.
@@ -178,6 +244,10 @@
 .sandbox .sb-x{position:absolute;top:6px;right:8px;border:0;background:transparent;font-size:20px;line-height:1;padding:2px 6px}
 @media (max-width:760px){.sandbox .sb-prov{position:static;width:auto;max-height:none;margin-top:8px}}
 .sandbox .sb-bydist summary{cursor:pointer;font-weight:600;margin:8px 0}
+.sandbox .sb-trows tbody tr{cursor:pointer}
+.sandbox .sb-trows tbody tr:hover,.sandbox .sb-trows tbody tr:focus{outline:1px solid currentColor}
+.sandbox .sb-trows small{opacity:.65}
+.sandbox .sb-twrap input{vertical-align:middle}
 .sandbox .sb-mapmode{border:0;padding:0;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.92em}
 .sandbox .sb-mapmode legend{font-weight:600;padding:0;margin-bottom:4px}
 .sandbox .sb-prov h4{margin:10px 0 4px;font-size:.95em}

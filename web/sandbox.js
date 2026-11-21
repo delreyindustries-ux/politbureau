@@ -30,7 +30,7 @@
     nobody: "Ningú no té majoria absoluta", has: "té majoria absoluta", noseat: "sense escó"
   };
   var P = D.provinces, META = D.meta, MAIN = D.main.now;
-  var state = { base: "now", nat: {}, reg: {}, where: "" };
+  var state = { base: "now", nat: {}, reg: {}, where: "", t: null, tm: "cis" };
   var night = null;
 
   function fmt(x) { return (Math.round(x * 10) / 10).toFixed(1).replace(".", ","); }
@@ -51,7 +51,51 @@
     return out;
   }
 
-  function baseShares(p) { return p[state.base] || {}; }
+  /* Participacio (22/11/2026). D.turnout.factors[T][partit] = quant es
+     multiplica el vot del partit si la participacio es T % en lloc de la del
+     2023 (model de votant probable amb les microdades del CIS: vegeu
+     src/politbureau/participacio.py). S'aplica al punt de partida de les
+     enquestes d'avui, abans dels lliscadors: si fixes un partit amb el seu
+     lliscador, la participacio ja no el mou. */
+  function turnoutOn() { return !!(D.turnout && state.base === "now" && state.t !== null); }
+  function baseShares(p) {
+    var s = p[state.base] || {};
+    if (!turnoutOn()) return s;
+    var g = turnoutFactors(), out = {}, before = 0, after = 0, k;
+    for (k in s) { before += s[k]; out[k] = s[k] * (g[k] || 1); after += out[k]; }
+    if (after) for (k in out) out[k] *= before / after;
+    return out;
+  }
+  /* Dos models: "cis" (votant probable, factors calculats a Python) i
+     "classic": la participacio alta afavoreix l'esquerra. En el classic, el
+     pes de l'esquerra dins de la suma esquerra + dreta puja D.turnout.classic.slope
+     punts per cada punt de participacio per sobre del 2023 (la mida de
+     l'abril del 2019) i baixa igual per sota; els altres partits no es mouen. */
+  var FCACHE = {};
+  function turnoutFactors() {
+    var C = D.turnout.classic;
+    if (state.tm !== "classic" || !C) return D.turnout.factors[String(state.t)] || {};
+    var key = "c" + state.t;
+    if (FCACHE[key]) return FCACHE[key];
+    var nat = BASE.now || {}, L = 0, R = 0, g = {};
+    C.left.forEach(function (k) { L += nat[k] || 0; });
+    C.right.forEach(function (k) { R += nat[k] || 0; });
+    var sum = L + R;
+    if (!L || !R) return {};
+    var Lt = L + C.slope * (state.t - D.turnout.ref) * sum / 100;
+    Lt = Math.max(0.02 * sum, Math.min(0.98 * sum, Lt));
+    C.left.forEach(function (k) { g[k] = Lt / L; });
+    C.right.forEach(function (k) { g[k] = (sum - Lt) / R; });
+    FCACHE[key] = g;
+    return g;
+  }
+  var BASE_T = {};
+  function baseNat() {
+    if (!turnoutOn()) return BASE[state.base];
+    var key = state.base + "|" + state.t + "|" + state.tm;
+    if (!BASE_T[key]) BASE_T[key] = weighted(P, baseShares);
+    return BASE_T[key];
+  }
   function mag(p) { return (p.mm && p.mm[state.base]) || p.m; }
   function setBase(b) { state.base = b; MAIN = D.main[b] || D.main.now; }
   var BASE = {};
@@ -89,10 +133,11 @@
   function scenario() {
     var target = {};
     MAIN.forEach(function (k) {
-      target[k] = state.nat[k] !== undefined ? state.nat[k] : (BASE[state.base][k] || 0);
+      target[k] = state.nat[k] !== undefined ? state.nat[k] : (baseNat()[k] || 0);
     });
     var shares = {};
-    P.forEach(function (p) { shares[p.c] = swing(baseShares(p), BASE[state.base], target); });
+    var from = baseNat();
+    P.forEach(function (p) { shares[p.c] = swing(baseShares(p), from, target); });
     Object.keys(state.reg).forEach(function (r) {
       var provs = P.filter(function (p) { return p.r === r; });
       var cur = weighted(provs, function (p) { return shares[p.c]; });
@@ -253,7 +298,7 @@
   function pts(x) { return fmtM(x) + " " + (Math.abs(x - 1) < 0.005 ? (ES ? "punto" : "punt") : (ES ? "puntos" : "punts")); }
   function votes(x, p) {
     if (!D.votes || !p.v) return "";
-    var v = Math.max(1, Math.round(x * p.v / 100));
+    var v = Math.max(1, Math.round(x * p.v / 100 * (turnoutOn() ? state.t / D.turnout.ref : 1)));
     return " (≈ " + String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (ES ? " votos)" : " vots)");
   }
   function lastInfo(p) {
@@ -478,10 +523,10 @@
   var BASESEATS = {};
   function baseSeats() {
     if (!BASESEATS[state.base]) {
-      var keep = { nat: state.nat, reg: state.reg };
-      state.nat = {}; state.reg = {};
+      var keep = { nat: state.nat, reg: state.reg, t: state.t };
+      state.nat = {}; state.reg = {}; state.t = null;
       BASESEATS[state.base] = allocate(scenario()).total;
-      state.nat = keep.nat; state.reg = keep.reg;
+      state.nat = keep.nat; state.reg = keep.reg; state.t = keep.t;
     }
     return BASESEATS[state.base];
   }
@@ -595,6 +640,56 @@
     }).join("");
   }
 
+  /* ------------------------------------------------------------ escenaris de participacio */
+  function turnoutLevels() {
+    var T = D.turnout, ref = Math.round(T.ref), out = [];
+    [50, 55, 60, 65, ref, 75, 80].forEach(function (t) {
+      if (t <= T.max && out.indexOf(t) < 0 && T.factors[String(t)]) out.push(t);
+    });
+    return out.sort(function (a, b) { return a - b; });
+  }
+  function turnoutTable() {
+    var box = $("#sb-turnoutbox");
+    if (!box) return;
+    if (!D.turnout || state.base !== "now") { box.hidden = true; return; }
+    box.hidden = false;
+    var keep = state.t, ref = Math.round(D.turnout.ref), rows = [];
+    turnoutLevels().forEach(function (t) {
+      state.t = t === ref ? null : t;
+      var sh = scenario();
+      rows.push({ t: t, seats: allocate(sh).total, nat: weighted(P, function (p) { return sh[p.c]; }) });
+    });
+    state.t = keep;
+    var cur = keep === null ? ref : keep;
+    var cols = MAIN.filter(function (k) { return rows.some(function (r) { return r.seats[k]; }); }).slice(0, 8);
+    var t = $("#sb-turnout");
+    var sum = function (r, list) { return list.reduce(function (a, k) { return a + (r.seats[k] || 0); }, 0); };
+    t.querySelector("thead").innerHTML = "<tr><th>" + (ES ? "Participación" : "Participació") + "</th>" + cols.map(function (k) {
+      return '<th class="num"><span class="sw" style="background:' + color(k) + '"></span>' + name(k) + "</th>";
+    }).join("") + (D.blocs ? '<th class="num">' + T.right + '</th><th class="num">' + (ES ? "Bloque de la investidura" : "Bloc de la investidura") + "</th>" : "") + "</tr>";
+    t.querySelector("tbody").innerHTML = rows.map(function (r) {
+      var R = D.blocs ? sum(r, D.blocs.right) : 0, L = D.blocs ? sum(r, D.blocs.left) : 0;
+      return '<tr data-t="' + r.t + '" tabindex="0"' + (r.t === cur ? ' class="total"' : "") + "><td>" + r.t + " %" +
+        (r.t === ref ? (ES ? " (como en 2023)" : " (com el 2023)") : "") + "</td>" + cols.map(function (k) {
+          return '<td class="num">' + (r.seats[k] || "–") + ' <small>' + fmt(r.nat[k] || 0) + " %</small></td>";
+        }).join("") + (D.blocs ? '<td class="num">' + (R >= D.majority ? "<b>" + R + "</b>" : R) + '</td><td class="num">' +
+        (L >= D.majority ? "<b>" + L + "</b>" : L) + "</td>" : "") + "</tr>";
+    }).join("");
+  }
+  function setTurnout(t) {
+    var ref = Math.round(D.turnout.ref);
+    state.t = (t === ref || isNaN(t)) ? null : Math.max(50, Math.min(D.turnout.max, t));
+    var inp = $("#sb-t");
+    if (inp) { inp.value = state.t === null ? ref : state.t; }
+    render();
+  }
+  function turnoutLabel() {
+    var o = $("#sb-tout"); if (!o || !D.turnout) return;
+    var ref = Math.round(D.turnout.ref), v = state.t === null ? ref : state.t;
+    o.textContent = v + " %" + (v === ref ? (ES ? " (como en 2023)" : " (com el 2023)") : "");
+    var w = $("#sb-twrap"); if (w) w.hidden = state.base !== "now";
+  }
+
   function render() {
     var shares = scenario();
     var res = allocate(shares);
@@ -608,6 +703,8 @@
     provTable();
     closeTable();
     altTable(shares, res.total);
+    turnoutLabel();
+    turnoutTable();
     writeHash();
   }
 
@@ -698,11 +795,13 @@
   function writeHash() {
     var o = { b: state.base };
     if (Object.keys(state.nat).length) o.n = round(state.nat);
+    if (state.t !== null) o.t = state.t;
+    if (state.tm === "classic") o.m = "c";
     if (Object.keys(state.reg).length) {
       o.r = {};
       for (var r in state.reg) o.r[r] = round(state.reg[r]);
     }
-    var s = (o.n || o.r || o.b !== "now") ? "#" + encodeURIComponent(JSON.stringify(o)) : " ";
+    var s = (o.n || o.r || o.t || o.m || o.b !== "now") ? "#" + encodeURIComponent(JSON.stringify(o)) : " ";
     history.replaceState(null, "", s === " " ? location.pathname + location.search : s);
   }
   function round(o) { var x = {}; for (var k in o) x[k] = Math.round(o[k] * 10) / 10; return x; }
@@ -712,6 +811,8 @@
       if (D.main[o.b]) setBase(o.b);
       if (o.n) state.nat = o.n;
       if (o.r) state.reg = o.r;
+      if (D.turnout && o.t && D.turnout.factors[String(o.t)]) state.t = o.t;
+      if (D.turnout && o.m === "c" && D.turnout.classic) state.tm = "classic";
     } catch (e) { /* sense escenari a l'enllac */ }
   }
 
@@ -729,7 +830,29 @@
       r.checked = r.value === state.base;
       r.addEventListener("change", function () { setBase(r.value); state.nat = {}; state.reg = {}; stopNight(); render(); });
     });
-    $("#sb-reset").addEventListener("click", function () { state.nat = {}; state.reg = {}; stopNight(); render(); });
+    $("#sb-reset").addEventListener("click", function () {
+      state.nat = {}; state.reg = {}; state.t = null; stopNight();
+      if ($("#sb-t") && D.turnout) $("#sb-t").value = Math.round(D.turnout.ref);
+      render();
+    });
+    if (D.turnout && $("#sb-t")) {
+      var ti = $("#sb-t");
+      ti.min = 50; ti.max = D.turnout.max; ti.step = 1;
+      ti.value = state.t === null ? Math.round(D.turnout.ref) : state.t;
+      ti.addEventListener("input", function () { stopNight(); setTurnout(parseInt(ti.value, 10)); });
+      document.querySelectorAll("input[name=sb-tm]").forEach(function (r) {
+        if (r.value === "classic" && !D.turnout.classic) { r.parentNode.remove(); return; }
+        r.checked = r.value === state.tm;
+        r.addEventListener("change", function () { if (r.checked) { state.tm = r.value; stopNight(); render(); } });
+      });
+      ["click", "keydown"].forEach(function (ev) {
+        $("#sb-turnout").addEventListener(ev, function (e) {
+          var tr = e.target.closest && e.target.closest("tr[data-t]");
+          if (!tr || (e.type === "keydown" && e.key !== "Enter" && e.key !== " ")) return;
+          e.preventDefault(); stopNight(); setTurnout(parseInt(tr.dataset.t, 10));
+        });
+      });
+    } else if ($("#sb-twrap")) $("#sb-twrap").remove();
     $("#sb-night").addEventListener("click", runNight);
     var pick = function (e) {
       var c = e.target && e.target.getAttribute && e.target.getAttribute("data-c");
