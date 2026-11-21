@@ -509,6 +509,10 @@ METHOD_LOG = [
      "CHA-Frente Amplio no es presenta al Congrés per Terol; el seu vot s'assigna al PSOE."),
     ("2026-10-25", "Podemos entra en Ara Més-Front Ampli en Baleares.",
      "Podemos entra a Ara Més-Front Ampli a les Balears."),
+    ("2026-11-21", "Perfiles de votantes: para cada colectivo, sus temas, cuánto se mueve su voto y qué partidos compiten por él; para cada partido, los votantes a su alcance (segunda opción o indecisos que lo sienten cercano) y de qué hablan. Microdatos del CIS.",
+     "Perfils de votants: per a cada col·lectiu, els seus temes, quant es mou el seu vot i quins partits s'hi disputen; per a cada partit, els votants a l'abast (segona opció o indecisos que el senten proper) i de què parlen. Microdades del CIS."),
+    ("2026-11-21", "Simulador: escenarios de participación (votante probable del CIS e hipótesis clásica, contrastada con 2016-2023) y constructor de mayorías.",
+     "Simulador: escenaris de participació (votant probable del CIS i hipòtesi clàssica, contrastada amb 2016-2023) i constructor de majories."),
     ("2026-11-21", "Guía «Cómo se vota al Congreso» con los números de 2023: votos por escaño en cada provincia, reparto d'Hondt paso a paso y dónde importa el umbral del 3 %.",
      "Guia «Com es vota al Congrés» amb els números del 2023: vots per escó a cada província, repartiment d'Hondt pas a pas i on importa el llindar del 3 %."),
     ("2026-11-21", "Simulador: el mismo voto con otro sistema (una sola circunscripción, Sainte-Laguë, proporcional puro) con el índice de desproporción de Gallagher, y ficha de cada provincia al tocar el mapa.",
@@ -703,7 +707,7 @@ def sitemaps(cfg, urls):
     files = []
     for lang in i18n.LANGS:
         entries = [f"/{lang}/"] + [i18n.page_url(k, lang)
-                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "groups", "sandbox", "governs", "media", "guide", "strongholds", "method", "legal", "privacy", "cookies")]
+                                   for k in ("spain", "countries", "map", "participation", "senate", "society", "opendata", "pollsters", "history", "conversation", "groups", "profiles", "sandbox", "governs", "media", "guide", "strongholds", "method", "legal", "privacy", "cookies")]
         # Pagines que nomes existeixen quan hi ha dades (l'encert del 29N).
         entries += [i18n.page_url(k, lang) for k in cfg.get("_extra_pages", [])]
         if cfg.get("_abroad"):
@@ -744,7 +748,7 @@ def assets(data, urls):
     """Copia el CSS i el JS i escriu les dades que necessita el mapa interactiu."""
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
-    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js", "sandbox.js",
+    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js", "sandbox.js", "perfils.js",
                  "world.js", "world.json", "relief.jpg", "flags.webp", "favicon.svg"):
         src = WEB / name
         if src.exists():

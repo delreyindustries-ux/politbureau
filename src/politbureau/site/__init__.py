@@ -179,6 +179,12 @@ def run(clean=True):
         print("     termometre de conversa: pagina generada")
     if pagemod.groups_page(env, cfg):
         print("     vot per col·lectius: pagina generada")
+    from . import perfils_page
+    try:
+        if perfils_page.perfils_page(env, cfg):
+            print("     perfils de votants: pagina generada")
+    except Exception as exc:                              # noqa: BLE001
+        print(f"     avis: perfils de votants no generats ({type(exc).__name__}: {exc})")
     from . import encert, historic, opendata, rating
     if encert.accuracy_page(env, cfg, conn):
         print("     encert del 29N: pagina generada")

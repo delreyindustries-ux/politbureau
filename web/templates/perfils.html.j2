@@ -1,0 +1,91 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+<article class="doc wide perfils">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a></nav>
+{% if es %}
+  <h1>Perfiles de votantes</h1>
+  <p class="lede">Qué preocupa a cada grupo de la sociedad, cuánto se mueve su voto y qué partidos compiten por él.
+    Y, para cada partido, dónde tiene votantes a su alcance y de qué hablan. Con {{ d.n | thousands }} entrevistas del CIS.</p>
+{% else %}
+  <h1>Perfils de votants</h1>
+  <p class="lede">Què preocupa a cada grup de la societat, quant es mou el seu vot i quins partits s'hi disputen.
+    I, per a cada partit, on té votants a l'abast i de què parlen. Amb {{ d.n | thousands }} entrevistes del CIS.</p>
+{% endif %}
+
+  <div class="pf-pick">
+    <label>{{ 'Partido' if es else 'Partit' }} <select id="pf-party"></select></label>
+  </div>
+
+  <section>
+    <h2 id="pf-h-opps"></h2>
+    <p id="pf-summary"></p>
+    <p class="note">{% if es %}<b>A su alcance</b>: votantes probables (dicen 5 o más sobre 10 en la probabilidad de ir a votar) que hoy no votarían
+      a este partido pero lo tienen como segunda opción, o que aún no saben a quién votarán y lo sienten el más cercano. En % de cada grupo.
+      <b>Fieles</b>: de quienes lo votaron en 2023, cuántos lo volverían a votar. <b>Vienen de</b>: qué votan hoy los que tiene a su alcance.
+      <b>Les preocupa</b>: los problemas de España que más citan esos votantes.{% else %}<b>A l'abast</b>: votants probables (diuen 5 o més sobre 10
+      en la probabilitat d'anar a votar) que avui no votarien aquest partit però el tenen de segona opció, o que encara no saben a qui votaran i el
+      senten el més proper. En % de cada grup. <b>Fidels</b>: dels qui el van votar el 2023, quants el tornarien a votar. <b>Vénen de</b>: què
+      voten avui els que té a l'abast. <b>Els preocupa</b>: els problemes d'Espanya que més citen aquests votants.{% endif %}</p>
+    <div class="tablewrap"><table id="pf-opps" class="results pf-opps"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>{{ 'Ficha de cada colectivo' if es else 'Fitxa de cada col·lectiu' }}</h2>
+    <div class="pf-pick"><label>{{ 'Colectivo' if es else 'Col·lectiu' }} <select id="pf-group"></select></label></div>
+    <div id="pf-card" class="pf-card"></div>
+  </section>
+
+  <details class="minor">
+    <summary>{{ 'Cómo se ha hecho y qué no dice' if es else "Com s'ha fet i què no diu" }}</summary>
+  {% if es %}
+    <ul>
+      <li>Fuente: microdatos de los barómetros del CIS {{ d.studies | join(', ') }}, ponderados con su peso (PESO). Las mismas entrevistas que
+        <a href="{{ root }}{{ lang }}/{{ page('groups') }}/">voto por colectivos</a>.</li>
+      <li>Temas: los tres primeros problemas de España que cita cada persona (pregunta abierta, codificada por el CIS). «Le distingue» quiere decir
+        que el grupo lo cita al menos 1,25 veces más que la media y lo menciona al menos un 5 %.</li>
+      <li>Voto: «voto + simpatía» del CIS, sobre quien dice un partido. El CIS da al PSOE más que las demás encuestas: comparad grupos, no cifras sueltas.</li>
+      <li>Grupos de menos de 100 entrevistas, fuera. Si los votantes al alcance de un partido en un grupo son menos de 50, no se dice de qué hablan.
+        Con 100 entrevistas, el margen de error de un porcentaje del 50 % es de unos ±10 puntos.</li>
+      <li>Es una foto de opiniones declaradas, no una receta. Dice qué temas pesan en cada grupo y qué voto se mueve; no dice qué mensaje funcionará.</li>
+      <li><b>Datos sensibles.</b> Origen, religión e ideología se muestran para entender la sociedad. Usarlos para dirigir publicidad política a personas
+        concretas está prohibido: el Reglamento (UE) 2024/900 (artículo 18) no permite la segmentación de anuncios políticos con categorías especiales de datos
+        (RGPD, artículo 9). Aquí todo son agregados: no se puede identificar a nadie.</li>
+    </ul>
+  {% else %}
+    <ul>
+      <li>Font: microdades dels baròmetres del CIS {{ d.studies | join(', ') }}, ponderades amb el seu pes (PESO). Les mateixes entrevistes que
+        <a href="{{ root }}{{ lang }}/{{ page('groups') }}/">vot per col·lectius</a>.</li>
+      <li>Temes: els tres primers problemes d'Espanya que cita cada persona (pregunta oberta, codificada pel CIS). «El distingeix» vol dir que el
+        grup el cita almenys 1,25 vegades més que la mitjana i l'esmenta almenys un 5 %.</li>
+      <li>Vot: «vot + simpatia» del CIS, sobre qui diu un partit. El CIS dona al PSOE més que les altres enquestes: compareu grups, no xifres soltes.</li>
+      <li>Grups de menys de 100 entrevistes, fora. Si els votants a l'abast d'un partit en un grup són menys de 50, no es diu de què parlen.
+        Amb 100 entrevistes, el marge d'error d'un percentatge del 50 % és d'uns ±10 punts.</li>
+      <li>És una foto d'opinions declarades, no una recepta. Diu quins temes pesen a cada grup i quin vot es mou; no diu quin missatge funcionarà.</li>
+      <li><b>Dades sensibles.</b> Origen, religió i ideologia es mostren per entendre la societat. Fer-les servir per adreçar publicitat política a
+        persones concretes està prohibit: el Reglament (UE) 2024/900 (article 18) no permet la segmentació d'anuncis polítics amb categories especials
+        de dades (RGPD, article 9). Aquí tot són agregats: no es pot identificar ningú.</li>
+    </ul>
+  {% endif %}
+    <p class="note">{{ d.source }}.</p>
+  </details>
+</article>
+<script type="application/json" id="perfils-data">{{ payload | safe }}</script>
+<style>
+.perfils .pf-pick{margin:12px 0}
+.perfils .pf-pick select{font:inherit;padding:4px 6px;margin-left:6px}
+.perfils .pf-opps td small{opacity:.7}
+.perfils .pf-opps tr.dim td{opacity:.75}
+.perfils .pf-bar{display:inline-block;height:10px;border-radius:3px;vertical-align:middle;margin-right:6px;background:currentColor;opacity:.55}
+.perfils .pf-card{border:1px solid var(--line,#ddd);border-radius:8px;padding:12px 16px;margin-top:8px}
+.perfils .pf-card h3{margin:16px 0 6px}
+.perfils .pf-card h3:first-child{margin-top:4px}
+.perfils .pf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 24px}
+.perfils .pf-tags span{display:inline-block;border:1px solid var(--line,#ccc);border-radius:12px;padding:2px 8px;margin:2px 4px 2px 0;font-size:.92em}
+.perfils .pf-tags span.hot{border-color:currentColor;font-weight:600}
+.perfils .pf-read{background:var(--soft,rgba(127,127,127,.08));border-radius:6px;padding:8px 12px}
+.perfils .pf-opps a{color:inherit}
+</style>
+{% endblock %}
+{% block scripts %}<script src="{{ root }}assets/perfils.js" defer></script>{% endblock %}

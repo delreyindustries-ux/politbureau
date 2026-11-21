@@ -145,6 +145,15 @@ def cmd_conversa(args):
     print(f"termometre de conversa fins al {d['end']}; desat a {conversa.OUT}")
 
 
+def cmd_perfils_votants(args):
+    from . import perfils
+    d = perfils.run()
+    if not d:
+        print(f"no hi ha microdades del CIS a {perfils.RAW}")
+        return 1
+    print(f"{d['n']} entrevistes; {sum(len(x['groups']) for x in d['dims'])} col·lectius; desat a {perfils.OUT}")
+
+
 def cmd_participacio(args):
     from . import participacio
     d = participacio.run()
@@ -267,6 +276,8 @@ def main(argv=None):
                    ).set_defaults(func=cmd_conversa)
     sub.add_parser("collectius", help="vot de cada col·lectiu amb les microdades del CIS (data/raw/cis)"
                    ).set_defaults(func=cmd_collectius)
+    sub.add_parser("perfils-votants", help="perfils de votants de cada col·lectiu amb les microdades del CIS (data/raw/cis)"
+                   ).set_defaults(func=cmd_perfils_votants)
     sub.add_parser("participacio", help="escenaris de participacio amb les microdades del CIS (data/raw/cis)"
                    ).set_defaults(func=cmd_participacio)
     sub.add_parser("governs", help="cap de govern de cada pais i la posicio del seu partit (Wikidata)"
