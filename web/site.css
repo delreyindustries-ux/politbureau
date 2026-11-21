@@ -491,3 +491,140 @@ figure.fchart figcaption{font-size:13px;color:var(--dim)}
 .histchart svg .gr{stroke:var(--line);stroke-width:1}
 .histchart figcaption{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--dim);margin-top:6px}
 .histchart figcaption i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+
+/* =====================================================================
+   Disseny 2 (21/11/2026): mes aire, mes contrast i el mateix llenguatge a
+   totes les pagines. Va al final perque passi per sobre de l'anterior.
+   ===================================================================== */
+:root{
+  --bg:#0c0f16; --panel:#141924; --panel2:#1a2030; --line:#242b3b; --ink:#eef1f7;
+  --dim:#a6aec1; --faint:#737c91; --accent:#6d9dff; --accent-ink:#0a0f1d;
+  --up:#62c98a; --dn:#ef8080;
+  --radius:12px;
+  --shadow:0 1px 2px rgba(0,0,0,.28),0 10px 28px rgba(0,0,0,.18);
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f5f6fa; --panel:#fff; --panel2:#f0f2f7; --line:#e1e5ee; --ink:#11141d;
+    --dim:#4f586d; --faint:#7a8398; --accent:#2a5bd7; --accent-ink:#fff;
+    --up:#18804a; --dn:#bf3a2f;
+    --shadow:0 1px 2px rgba(16,24,40,.05),0 8px 22px rgba(16,24,40,.06);
+  }
+}
+body{font-size:16px;line-height:1.62;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(1200px 380px at 50% -120px,color-mix(in srgb,var(--accent) 9%,transparent),transparent) no-repeat,var(--bg)}
+::selection{background:color-mix(in srgb,var(--accent) 35%,transparent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a{text-underline-offset:3px}
+
+/* capcalera */
+header.top{background:color-mix(in srgb,var(--panel) 82%,transparent);backdrop-filter:saturate(1.4) blur(10px);
+  -webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid color-mix(in srgb,var(--line) 80%,transparent)}
+.brand{font-weight:700;letter-spacing:-.01em}
+header.top nav a{padding:4px 2px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+header.top nav a:hover{color:var(--ink);text-decoration:none}
+header.top nav a.on{color:var(--ink);border-bottom-color:var(--accent)}
+@media (max-width:640px){
+  header.top nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  header.top nav::-webkit-scrollbar{display:none}
+}
+
+/* titols i text */
+main{padding-top:30px}
+h1{font-size:34px;font-weight:750;letter-spacing:-.022em;line-height:1.15;margin-bottom:12px}
+h2{font-size:22px;font-weight:700;letter-spacing:-.012em;margin:46px 0 14px}
+h2::before{content:"";display:block;width:28px;height:3px;border-radius:3px;background:var(--accent);margin-bottom:10px;opacity:.85}
+h3{font-size:16.5px;font-weight:650;color:var(--ink);margin:28px 0 10px}
+h4{font-size:14.5px;font-weight:650;color:var(--dim);margin:16px 0 6px}
+.lede{font-size:18.5px;color:var(--dim);max-width:68ch}
+.note{font-size:14px;line-height:1.6;color:var(--dim);max-width:78ch;margin:10px 0 14px}
+.note b{color:var(--ink)}
+.fine{font-size:13px;color:var(--faint)}
+small{color:var(--faint)}
+@media (max-width:640px){h1{font-size:27px}h2{font-size:20px;margin-top:38px}.lede{font-size:17px}}
+
+/* targetes i xifres */
+.facts span{border-radius:10px;box-shadow:var(--shadow);background:var(--panel)}
+.facts b{color:var(--ink)}
+.warn{border-radius:0 10px 10px 0}
+details{margin:10px 0}
+details>summary{cursor:pointer;color:var(--accent);font-weight:600;list-style-position:outside}
+details>summary:hover{text-decoration:underline}
+details.minor{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:10px 16px}
+details.minor[open]{padding-bottom:14px}
+details.minor[open]>summary{margin-bottom:8px}
+figure{margin:16px 0}
+figcaption{font-size:13px;color:var(--dim);line-height:1.5;margin-top:8px;max-width:78ch}
+
+/* taules */
+.tablewrap{border-radius:var(--radius)}
+table.results{font-size:14.5px;font-variant-numeric:tabular-nums}
+table.results th{font-size:11.5px;letter-spacing:.06em;color:var(--faint);border-bottom:2px solid var(--line);padding:8px 8px}
+table.results td{padding:8px 8px;border-bottom:1px solid color-mix(in srgb,var(--line) 75%,transparent)}
+table.results tbody tr{transition:background .12s}
+table.results tbody tr:hover td{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+table.results td.num,table.results th.num,td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.results .n{font-family:inherit;font-size:14.5px;font-weight:500}
+table.results tr.total td{font-weight:700;background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.sw{border-radius:50%;width:10px;height:10px}
+/* barra de vot a les taules de mitjanes */
+td.barcell{width:34%;padding-right:2px}
+td.barcell .vbar{display:block;height:9px;border-radius:5px;min-width:2px;opacity:.9}
+@media (max-width:560px){td.barcell{width:22%}}
+
+/* botons i controls */
+main button{font:inherit;font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--line);
+  border-radius:9px;padding:6px 13px;cursor:pointer;transition:border-color .15s,background .15s}
+main button:hover{border-color:var(--accent)}
+main select{font:inherit;font-size:14.5px;color:var(--ink);background:var(--panel);border:1px solid var(--line);
+  border-radius:9px;padding:6px 30px 6px 10px;cursor:pointer;max-width:100%}
+input[type=range]{accent-color:var(--accent)}
+input[type=radio],input[type=checkbox]{accent-color:var(--accent)}
+.btn{border-radius:10px;transition:border-color .15s,transform .15s}
+.btn:hover{transform:translateY(-1px)}
+
+/* peu */
+.foot{background:var(--panel);margin-top:56px}
+.foot a:hover{color:var(--ink);text-decoration:none}
+
+/* histograma de la previsio */
+figure.fchart rect{fill:var(--faint);opacity:.55;rx:1.2}
+figure.fchart rect.maj{fill:var(--accent);opacity:1}
+figure.fchart rect:hover{opacity:1}
+
+/* evolucio de les enquestes (site/trend.py) */
+figure.trend{max-width:860px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 10px 10px;box-shadow:var(--shadow)}
+figure.trend svg{display:block;width:100%;height:auto;overflow:visible}
+figure.trend figcaption{padding:0 6px}
+.trend .gr{stroke:var(--line);stroke-width:1}
+.trend .tk{stroke:var(--faint)}
+.trend text{font-size:11px;fill:var(--faint)}
+.trend .yl{text-anchor:end}
+.trend .xl{text-anchor:middle}
+.trend .dots{fill:none;stroke-width:3.6;stroke-linecap:round;opacity:.22}
+.trend .ln{fill:none;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round;transition:opacity .15s,stroke-width .15s}
+.trend svg:hover .ln{opacity:.35}
+.trend svg .ln:hover{opacity:1;stroke-width:3.6}
+.trend .el{font-size:12px;fill:var(--ink);font-weight:600}
+.trend .ev{fill:var(--dim);font-weight:500}
+.trend .endpt{stroke:var(--panel);stroke-width:1.5}
+table.results th.n{font-size:11.5px;font-weight:600;font-family:inherit}
+figure.fchart{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 14px 10px;box-shadow:var(--shadow)}
+header.top nav{gap:12px}
+header.top .find{max-width:250px}
+@media (min-width:900px){header.top{flex-wrap:nowrap}header.top nav{white-space:nowrap}}
+.brand{white-space:nowrap}
+@media (min-width:900px) and (max-width:1100px){header.top nav{gap:10px;font-size:13.5px}}
+/* evolucio historica 1977-2023 */
+.histchart{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px 10px;box-shadow:var(--shadow);max-width:880px}
+.histchart svg path{stroke-width:2.6;stroke-linecap:round;transition:opacity .15s}
+.histchart svg:hover path{opacity:.35}
+.histchart svg path:hover{opacity:1;stroke-width:3.6}
+.histchart svg circle{stroke:var(--panel);stroke-width:1.2}
+.histchart figcaption span{display:inline-flex;align-items:center}
+/* simulador: llista de majories en una columna */
+.sandbox .sb-coallist{columns:auto}
+/* conversa: barres petites */
+svg.spark{display:block}
+@media (max-width:640px){header.top .find{max-width:none;flex-basis:100%}}

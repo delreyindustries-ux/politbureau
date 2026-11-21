@@ -166,3 +166,14 @@
     document.addEventListener("DOMContentLoaded", function () { initConsent(); initSearch(); });
   } else { initConsent(); initSearch(); }
 })();
+
+/* La pagina on ets, marcada al menu de dalt (21/11/2026). */
+(function () {
+  var here = location.pathname.replace(/index\.html$/, "");
+  var best = null, len = 0;
+  document.querySelectorAll("header.top nav a").forEach(function (a) {
+    var path = new URL(a.getAttribute("href"), location.href).pathname.replace(/index\.html$/, "");
+    if (path.length > 4 && here.indexOf(path) === 0 && path.length > len) { best = a; len = path.length; }
+  });
+  if (best) { best.classList.add("on"); best.setAttribute("aria-current", "page"); }
+})();

@@ -51,6 +51,7 @@ def make_env():
                       autoescape=select_autoescape(["html", "xml"]),
                       trim_blocks=True, lstrip_blocks=True)
     env.filters["thousands"] = thousands
+    env.filters["vis"] = visible
     env.filters["pct"] = pct
     env.filters["title_name"] = title_name
     env.filters["chamber_json"] = chamber_json
@@ -307,3 +308,16 @@ def territory_pages(env, cfg, data, urls, prov_region):
                 write(DIST / canonical.strip("/") / "index.html", html)
                 written_keys.add((level, code))
     return written_keys
+
+
+def visible(color):
+    """Un color de partit gairebe negre (la CDU, per exemple) no es veu sobre el
+    fons fosc: es pinta amb el color del text, que canvia amb el tema."""
+    c = (color or "").lstrip("#")
+    if len(c) == 3:
+        c = "".join(ch * 2 for ch in c)
+    try:
+        r, g, b = (int(c[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    except ValueError:
+        return color
+    return "var(--ink)" if 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.13 else color

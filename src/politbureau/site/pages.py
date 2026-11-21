@@ -647,6 +647,12 @@ def home_page(env, cfg, data, urls, highlights):
                 if d:
                     subs.append(sub_card(d))
         subs.sort(key=lambda c: parties.slug(c["names"]["ca"]))
+    try:
+        from . import trend as trendlib
+        trend = trendlib.build(db.connect(), ELECTION, highlights or [])
+    except Exception as exc:                              # noqa: BLE001
+        print(f"     avis: grafic d'evolucio no generat ({type(exc).__name__}: {exc})")
+        trend = None
     for lang in i18n.LANGS:
         canonical = i18n.page_url("spain", lang)
         html = render_page(
@@ -654,7 +660,7 @@ def home_page(env, cfg, data, urls, highlights):
             {lg: i18n.page_url("spain", lg) for lg in i18n.LANGS},
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
-            highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR,
+            highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR, trend=trend,
             notice=notice, subs=subs, leaders=leaders, congress=congress, forecast=fc,
             people_url=people_url.get(lang, ""),
             people=[{**c, "members": (people.get(lang) or {}).get("parties", {}).get(c["code"], [])}
@@ -1424,7 +1430,13 @@ def abroad_pages(env, cfg, conn):
         if data:
             done.append((eid, data))
     link_subs(done)
+    from . import trend as trendlib
     for eid, data in done:
+        try:
+            data["trend"] = None if data.get("stale") else trendlib.build(conn, eid, data["avg"])
+        except Exception as exc:                          # noqa: BLE001
+            print(f"     avis: grafic d'evolucio de {eid} no generat ({type(exc).__name__}: {exc})")
+            data["trend"] = None
         for lang in i18n.LANGS:
             title, description = _titles(data, lang)
             canonical = data["urls"][lang]

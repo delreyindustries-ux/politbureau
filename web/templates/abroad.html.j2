@@ -54,6 +54,7 @@
   <table class="results">
     <thead><tr>
       <th>{{ ('Candidato' if es else 'Candidat') if d.presidential else ('Partido' if es else 'Partit') }}</th>
+      <th aria-hidden="true"></th>
       <th class="n">{{ 'Media' if es else 'Mitjana' }}</th>
       <th class="n">{{ 'Horquilla entre institutos' if es else 'Forquilla entre instituts' }}</th>
       {% if d.seats %}<th class="n">{{ 'Escaños (orientativo)' if es else 'Escons (orientatiu)' }}</th>{% endif %}
@@ -62,6 +63,8 @@
     {% for r in d.avg %}
     <tr>
       <td><span class="sw" style="background:{{ r.color }}"></span>{% if r.person %}{{ r.person }}{% if r.name != r.person %} <span class="fine">({{ r.name }})</span>{% endif %}{% else %}{{ r.name }}{% endif %}{{ ideo(r.ideo, lang) }}</td>
+      {% set vmax = d.avg | map(attribute='share') | max %}
+      <td class="barcell" aria-hidden="true"><span class="vbar" style="width:{{ '%.1f'|format(100 * r.share / (vmax or 1)) }}%;background:{{ r.color | vis }}"></span></td>
       <td class="n">{{ fmt(r.share) }} %</td>
       <td class="n">{{ fmt(r.lo) }}–{{ fmt(r.hi) }}</td>
       {% if d.seats %}<td class="n">{{ r.seats if r.seats else '—' }}</td>{% endif %}
@@ -70,13 +73,16 @@
     {% for r in d.seat_extra or [] %}
     <tr class="fine">
       <td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td>
-      <td class="n">—</td><td class="n">—</td>
+      <td></td><td class="n">—</td><td class="n">—</td>
       <td class="n">{{ r.seats }}</td>
     </tr>
     {% endfor %}
     </tbody>
   </table>
   </div>
+{% if d.trend %}{% from "_trend.html.j2" import trendchart %}
+  <h3>{{ 'Cómo ha cambiado en el último año' if es else "Com ha canviat l'últim any" }}</h3>
+  {{ trendchart(d.trend, lang, fdate) }}{% endif %}
 {% include "_pres.html.j2" %}
 {% if d.sysnote %}
   <p class="note"><b>{{ 'Cómo se vota.' if es else 'Com es vota.' }}</b> {{ d.sysnote.note_es if es else d.sysnote.note_ca }}</p>

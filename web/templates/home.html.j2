@@ -45,19 +45,24 @@
   <table class="results">
     <thead><tr>
       <th>{{ t('party') }}</th>
+      <th aria-hidden="true"></th>
       <th class="n">%</th>
       <th class="n">{{ t('seats_title') }}</th>
     </tr></thead>
     <tbody>
     {% for h in highlights %}
       <tr>
-        <td><span class="sw" style="background:{{ h.color }}"></span>{{ h.name }}{{ ideo(h.ideo, lang) }}</td>
+        <td><span class="sw" style="background:{{ h.color | vis }}"></span>{{ h.name }}{{ ideo(h.ideo, lang) }}</td>
+        <td class="barcell" aria-hidden="true"><span class="vbar" style="width:{{ '%.1f'|format(100 * h.share / highlights[0].share) }}%;background:{{ h.color | vis }}"></span></td>
         <td class="n">{{ h.share | pct }}</td>
         <td class="n">{{ h.seats if h.seats else '·' }}</td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
+  {% if trend %}{% from "_trend.html.j2" import trendchart %}
+  <h3>{{ 'Cómo ha cambiado en el último año' if lang == 'es' else "Com ha canviat l'últim any" }}</h3>
+  {{ trendchart(trend, lang, fdate) }}{% endif %}
   <p class="warn">{{ t('estimate_warning') | safe }}</p>
   <p class="note">{{ 'Posición e ideología de cada partido: ' if lang == 'es' else 'Posició i ideologia de cada partit: ' }}<a href="https://www.wikidata.org" rel="noopener">Wikidata</a> (CC0).</p>
 </section>
