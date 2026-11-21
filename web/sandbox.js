@@ -175,6 +175,93 @@
     return { total: tot, by: by };
   }
 
+  /* ------------------------------------------------------------ l'ultim esco
+     Repetim el repartiment d'una circumscripcio guardant l'ordre en que surt
+     cada esco (22/11/2026). Serveix el mateix metode que allocate(): d'Hondt
+     amb el llindar de la llei a Espanya, i als parlaments estrangers d'Hondt,
+     Sainte-Lague (amb el primer divisor de cada pais) o resta mes gran.
+     Tres marges, en punts de vot de la circumscripcio:
+       - "traspas": vot que hauria de passar del qui te l'ultim esco al
+         primer que es queda fora perque l'esco canvies de mans;
+       - "sol": el que hauria de pujar el segon sense treure vot a ningu;
+       - "pot perdre": el que pot baixar el primer abans de perdre'l.
+     Amb dos quocients l/dl i n/dn, el traspas x compleix (n+x)/dn = (l-x)/dl,
+     d'on x = (dn*l - dl*n)/(dl+dn). */
+  function divOf(n) {
+    var M = D.method;
+    return M && M.name === "sainte_lague" ? (n === 0 ? (M.first || 1) : 2 * n + 1) : n + 1;
+  }
+  function lastSeat(sh, m, nat) {
+    var M = D.method, run = {}, below = {}, k;
+    for (k in sh) {
+      if (!(sh[k] > 0)) continue;
+      if (M ? sh[k] >= M.thr : passes(k, sh[k], nat)) run[k] = sh[k]; else below[k] = sh[k];
+    }
+    var keys = Object.keys(run);
+    if (!keys.length || !m) return null;
+    var thr = M ? M.thr : (THR.scope === "region" ? THR.rt : THR.d);
+    var bonus = 0;
+    if (M && M.bonus === "gr") {
+      var top = keys.reduce(function (a, b) { return run[b] > run[a] ? b : a; });
+      if (run[top] >= 25) bonus = Math.min(50, 20 + Math.floor((Math.min(run[top], 40) - 25) / 0.5));
+    }
+    if (M && (M.name === "hare" || M.name === "droop")) {
+      m -= bonus;
+      var total = keys.reduce(function (a, b) { return a + run[b]; }, 0);
+      var quota = M.name === "hare" ? total / m : total / (m + 1), used = 0, got = {};
+      keys.forEach(function (x) { got[x] = Math.floor(run[x] / quota); used += got[x]; });
+      var rem = keys.slice().sort(function (a, b) { return (run[b] / quota - got[b]) - (run[a] / quota - got[a]); });
+      var extra = m - used;
+      if (extra < 1 || extra >= rem.length) return { lr: true, quota: quota };
+      var lk = rem[extra - 1], rk = rem[extra];
+      var rl = run[lk] / quota - got[lk], rr = run[rk] / quota - got[rk];
+      return { lr: true, quota: quota, bonus: bonus, last: { k: lk, r: rl }, rival: { k: rk, r: rr },
+               transfer: (rl - rr) * quota / 2 };
+    }
+    var won = {}, seq = [];
+    keys.forEach(function (x) { won[x] = 0; });
+    for (var i = 0; i < m - bonus; i++) {
+      var best = null, bq = -1;
+      keys.forEach(function (x) {
+        var q = run[x] / divOf(won[x]);
+        if (q > bq || (q === bq && run[x] > run[best])) { bq = q; best = x; }
+      });
+      seq.push({ k: best, q: bq, d: divOf(won[best]) });
+      won[best]++;
+    }
+    var next = keys.map(function (x) { return { k: x, q: run[x] / divOf(won[x]), d: divOf(won[x]) }; })
+      .sort(function (a, b) { return b.q - a.q; });
+    var out = { seq: seq, next: next, bonus: bonus, run: run };
+    var last = seq[seq.length - 1];
+    if (!last) return out;
+    out.last = last;
+    var rival = next.filter(function (x) { return x.k !== last.k; })[0];
+    if (rival) {
+      var l = run[last.k], n = run[rival.k];
+      out.rival = rival;
+      out.transfer = Math.max(0, (rival.d * l - last.d * n) / (last.d + rival.d));
+      out.gain = Math.max(0, rival.d * last.q - n);
+      out.lose = Math.max(0, l - last.d * rival.q);
+    }
+    // Qui hauria entrat si hagues passat el llindar.
+    var cut = Object.keys(below).filter(function (x) { return below[x] / divOf(0) > last.q; })
+      .sort(function (a, b) { return below[b] - below[a]; })[0];
+    if (cut && thr) out.cut = { k: cut, need: thr - below[cut], thr: thr };
+    return out;
+  }
+  function fmtM(x) { return x < 0.01 ? (Math.round(x * 1000) / 1000).toFixed(3).replace(".", ",") : fmt2(x); }
+  function pts(x) { return fmtM(x) + " " + (Math.abs(x - 1) < 0.005 ? (ES ? "punto" : "punt") : (ES ? "puntos" : "punts")); }
+  function votes(x, p) {
+    if (!D.votes || !p.v) return "";
+    var v = Math.max(1, Math.round(x * p.v / 100));
+    return " (≈ " + String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (ES ? " votos)" : " vots)");
+  }
+  function lastInfo(p) {
+    if (!LAST || !LAST.by[p.c]) return null;
+    var nat = weighted(P, function (x) { return LAST.shares[x.c]; });
+    return lastSeat(LAST.shares[p.c], mag(p), nat);
+  }
+
   /* ------------------------------------------------------------ dibuix */
   var $ = function (s) { return document.querySelector(s); };
 
@@ -216,8 +303,17 @@
     var g = $("#sb-map g"); if (!g || !Object.keys(D.paths || {}).length) return;
     var html = "";
     P.forEach(function (p) {
-      var w = by[p.c], fill = "var(--line, #ddd)", tip = p.n;
-      if (w) {
+      var w = by[p.c], fill = "var(--line, #ddd)", tip = p.n, op = 1;
+      if (w && mapMode === "last") {
+        var L = lastInfo(p);
+        if (L && L.last) {
+          fill = color(L.last.k);
+          var tr = L.transfer;
+          op = tr === undefined ? 1 : Math.max(0.3, 1 - tr / 4);
+          tip += ": " + (ES ? "último escaño, " : "últim escó, ") + name(L.last.k) +
+            (L.rival ? (ES ? "; " + name(L.rival.k) + " a " : "; " + name(L.rival.k) + " a ") + pts(tr) : "");
+        }
+      } else if (w) {
         var best = null;
         for (var k in w) if (w[k] && (best === null || w[k] > w[best] ||
             (w[k] === w[best] && shares[p.c][k] > shares[p.c][best]))) best = k;
@@ -226,6 +322,7 @@
           .map(function (k) { return name(k) + " " + w[k]; }).join(", ");
       }
       html += '<path data-c="' + p.c + '" tabindex="0" d="' + D.paths[p.c] + '" fill="' + fill + '"' +
+              (op < 1 ? ' fill-opacity="' + op.toFixed(2) + '"' : "") +
               (p.c === picked ? ' class="on"' : "") + '><title>' + tip + "</title></path>";
     });
     g.innerHTML = html;
@@ -234,8 +331,8 @@
   /* ------------------------------------------------------------ cada provincia
      Clic (o Retorn) a una provincia del mapa o de la taula: la seva fitxa, amb
      el vot i els escons de cada partit i el marge de l'ultim esco. */
-  var picked = null, LAST = null;
-  function fmt2(x) { return String(Math.round(x * 100) / 100).replace(".", ","); }
+  var picked = null, LAST = null, mapMode = "win";
+  function fmt2(x) { return (Math.round(x * 100) / 100).toFixed(2).replace(".", ","); }
 
   function provPanel() {
     var box = $("#sb-prov"); if (!box || !LAST) return;
@@ -253,23 +350,54 @@
            fmt(sh[k]) + ' %</td><td class="num">' + (w[k] ? "<b>" + w[k] + "</b>" : "–") + "</td></tr>";
     });
     h += "</tbody></table>";
-    // Marge (d'Hondt): qui es va endur l'ultim esco i qui era a punt d'entrar.
-    if (!D.method || D.method.name === "dhondt") {
-      var won = Object.keys(w).filter(function (k) { return w[k]; });
-      if (won.length) {
-        var lastK = won.reduce(function (a, b) { return sh[b] / w[b] < sh[a] / w[a] ? b : a; });
-        var q = sh[lastK] / w[lastK];
-        var nat = weighted(P, function (x) { return LAST.shares[x.c]; });
-        var cands = Object.keys(sh).filter(function (k) { return passes(k, sh[k], nat) && k !== lastK; });
-        var nextK = cands.sort(function (a, b) { return sh[b] / ((w[b] || 0) + 1) - sh[a] / ((w[a] || 0) + 1); })[0];
-        h += '<p class="note">' + (ES ? "Último escaño: " : "Últim escó: ") + "<b>" + name(lastK) + "</b>";
-        if (nextK) {
-          var need = q * ((w[nextK] || 0) + 1) - sh[nextK];
-          h += ". " + name(nextK) + (ES ? " se quedó a " : " es va quedar a ") + fmt2(need) +
-               (ES ? " puntos de quitárselo." : " punts de prendre-li'l.");
+    var L = lastInfo(p);
+    if (L && L.seq && L.seq.length) {
+      // Escó a escó: tots si en són pocs; si no, els cinc últims.
+      var from = L.seq.length > 12 ? L.seq.length - 5 : 0;
+      h += "<h4>" + (ES ? "Escaño a escaño" : "Escó a escó") + "</h4>" +
+        '<table class="results sb-seq"><thead><tr><th class="num">#</th><th>' + T.party + '</th><th class="num">' +
+        (ES ? "Cociente" : "Quocient") + "</th></tr></thead><tbody>";
+      if (from) h += '<tr class="sb-gap"><td colspan="3">… ' + (L.bonus ? L.bonus + (ES ? " de prima + " : " de prima + ") : "") +
+        from + (ES ? " escaños antes" : " escons abans") + "</td></tr>";
+      else if (L.bonus) h += '<tr class="sb-gap"><td colspan="3">' + L.bonus + (ES ? " escaños de prima para " : " escons de prima per a ") +
+        name(Object.keys(L.run).reduce(function (a, b) { return L.run[b] > L.run[a] ? b : a; })) + "</td></tr>";
+      var row = function (n, x, cls) {
+        return "<tr" + (cls ? ' class="' + cls + '"' : "") + '><td class="num">' + n + '</td><td><span class="sw" style="background:' +
+          color(x.k) + '"></span>' + name(x.k) + '</td><td class="num">' + fmt2(L.run[x.k]) + " ÷ " + x.d + " = " + fmt2(x.q) + "</td></tr>";
+      };
+      L.seq.slice(from).forEach(function (x, i) {
+        h += row(from + i + 1 + (L.bonus || 0), x, from + i === L.seq.length - 1 ? "sb-lastrow" : "");
+      });
+      L.next.slice(0, 3).forEach(function (x) { h += row("–", x, "sb-out"); });
+      h += "</tbody></table>";
+    }
+    if (L && L.last && !L.lr) {
+      h += '<p class="note"><b>' + (ES ? "Último escaño" : "Últim escó") + "</b>: " + name(L.last.k) + ".";
+      if (L.rival) {
+        h += " " + (ES ? "El primero que se queda fuera es " : "El primer que es queda fora és ") + "<b>" + name(L.rival.k) + "</b>.</p>" +
+          '<ul class="sb-marg"><li>' + (ES ? "Si " + pts(L.transfer) + " pasaran de " + name(L.last.k) + " a " + name(L.rival.k) +
+          ", el escaño cambiaría de manos" : "Si " + pts(L.transfer) + " passessin de " + name(L.last.k) + " a " + name(L.rival.k) +
+          ", l'escó canviaria de mans") + votes(L.transfer, p) + ".</li>";
+        if (!L.lr) {
+          h += "<li>" + (ES ? name(L.rival.k) + " subiendo sola: +" + pts(L.gain) : name(L.rival.k) + " pujant tot sol: +" + pts(L.gain)) +
+            votes(L.gain, p) + ".</li><li>" + (ES ? name(L.last.k) + " puede perder " + pts(L.lose) + " antes de perderlo" :
+            name(L.last.k) + " pot perdre " + pts(L.lose) + " abans de perdre'l") + votes(L.lose, p) + ".</li>";
         }
-        h += "</p>";
+        h += "</ul>";
+      } else h += "</p>";
+      if (L.cut) {
+        h += '<p class="note">' + name(L.cut.k) + (ES ? " se lo llevaría si llegara al umbral del " : " se l'enduria si arribés al llindar del ") +
+          fmt(L.cut.thr) + " %: " + (ES ? "le faltan " : "li falten ") + pts(L.cut.need) + ".</p>";
       }
+      if (L.bonus) h += '<p class="note">' + (ES ? "La prima depende del voto del primer partido y no se cuenta en estos márgenes." :
+        "La prima depèn del vot del primer partit i no es compta en aquests marges.") + "</p>";
+    }
+    if (L && L.lr && L.last) {
+      h += '<p class="note"><b>' + (ES ? "Último escaño" : "Últim escó") + "</b> (" + (ES ? "resto mayor" : "resta més gran") + "): " +
+        name(L.last.k) + ". " + name(L.rival.k) + (ES ? " se lo quitaría con un traspaso de " : " l'hi prendria amb un traspàs de ") +
+        pts(L.transfer) + votes(L.transfer, p) + ".</p>";
+      if (L.bonus) h += '<p class="note">' + (ES ? "La prima depende del voto del primer partido y no se cuenta en este margen." :
+        "La prima depèn del vot del primer partit i no es compta en aquest marge.") + "</p>";
     }
     box.innerHTML = h;
     box.hidden = false;
@@ -293,6 +421,32 @@
     }).join("");
     t.querySelector("thead").innerHTML = head;
     t.querySelector("tbody").innerHTML = body;
+  }
+
+  /* Els ultims escons mes ajustats de tot el territori. */
+  function closeTable() {
+    var t = $("#sb-close");
+    if (!t) return;
+    if (!LAST) { t.hidden = true; return; }
+    var rows = [];
+    P.forEach(function (p) {
+      var L = lastInfo(p);
+      if (L && L.last && L.rival) rows.push({ p: p, L: L });
+    });
+    rows.sort(function (a, b) { return a.L.transfer - b.L.transfer; });
+    if (!rows.length) { t.hidden = true; return; }
+    t.hidden = false;
+    var one = P.length < 2;
+    t.querySelector("tbody").innerHTML = rows.slice(0, 12).map(function (r) {
+      var L = r.L, sw = function (k) { return '<span class="sw" style="background:' + color(k) + '"></span>' + name(k); };
+      return "<tr>" + (one ? "" : '<td><a href="#sb-mapwrap" data-c="' + r.p.c + '">' + r.p.n + '</a></td>') +
+        "<td>" + sw(L.last.k) + "</td><td>" + sw(L.rival.k) + '</td><td class="num">' + fmtM(L.transfer) +
+        "</td>" + (D.votes ? '<td class="num">' + (r.p.v ? votes(L.transfer, r.p).replace(/[()≈ ]|vots|votos/g, "") : "–") + "</td>" : "") + "</tr>";
+    }).join("");
+    if (one) {
+      var th = t.querySelector("thead th");
+      if (th && th.dataset.dist) th.remove();
+    }
   }
 
   function table(total, base, nat) {
@@ -452,6 +606,7 @@
     sliders(shares);
     provPanel();
     provTable();
+    closeTable();
     altTable(shares, res.total);
     writeHash();
   }
@@ -526,6 +681,7 @@
       var res = allocate(shares, done);
       LAST = { shares: shares, by: res.by, total: res.total };
       provTable();
+      closeTable();
       if (picked) provPanel();
       hemicycle(res.total, D.seats);
       mapDraw(res.by, shares);
@@ -582,11 +738,15 @@
       e.preventDefault();
       picked = c;
       if (!night) render(); else provPanel();
-      if (e.currentTarget.id === "sb-bydist") $("#sb-mapwrap").scrollIntoView({ behavior: "smooth", block: "center" });
+      if (e.currentTarget.id === "sb-bydist" || e.currentTarget.id === "sb-close") $("#sb-mapwrap").scrollIntoView({ behavior: "smooth", block: "center" });
     };
     ["click", "keydown"].forEach(function (ev) {
       if ($("#sb-map")) $("#sb-map").addEventListener(ev, pick);
       if ($("#sb-bydist")) $("#sb-bydist").addEventListener(ev, pick);
+      if ($("#sb-close")) $("#sb-close").addEventListener(ev, pick);
+    });
+    document.querySelectorAll("input[name=sb-mapmode]").forEach(function (r) {
+      r.addEventListener("change", function () { if (r.checked) { mapMode = r.value; render(); } });
     });
     if (P.length < 2) $("#sb-night").style.display = "none";   // una sola circumscripcio: no hi ha recompte per tandes
     $("#sb-night").textContent = T.night;

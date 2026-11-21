@@ -172,6 +172,7 @@ def sandbox_page(env, cfg, data, root=ROOT, conn=None) -> int:
     payload = {"provinces": provs, "main": main, "meta": meta, "layers": layers, "labels": labels,
                "regions": dict(sorted(regions.items(), key=lambda kv: kv[1])),
                "blocs": {k: list(v) for k, v in BLOCS.items()}, "seats": 350, "majority": 176,
+               "votes": True,      # p.v = vot valid del 2023: els marges es poden passar a vots
                "paths": {p["c"]: paths.get(p["c"], "") for p in provs}}
     js = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
     try:

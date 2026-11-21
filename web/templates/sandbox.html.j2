@@ -80,11 +80,22 @@
       grans o els concentrats.{% endif %}</p>
     <div class="tablewrap"><table id="sb-alt" class="results"><thead></thead><tbody></tbody></table></div>
   </section>
+  {% if not (regional and regional.foreign) %}<fieldset class="sb-mapmode"><legend>{{ 'Color del mapa' if es else 'Color del mapa' }}</legend>
+    <label><input type="radio" name="sb-mapmode" value="win" checked> {{ 'Quién gana más escaños' if es else 'Qui guanya més escons' }}</label>
+    <label><input type="radio" name="sb-mapmode" value="last"> {{ 'Quién se lleva el último escaño (más intenso = más ajustado)' if es else "Qui s'endú l'últim escó (més intens = més ajustat)" }}</label>
+  </fieldset>{% endif %}
   <div id="sb-mapwrap" class="sb-mapwrap">
     <svg id="sb-map" viewBox="0 0 900 640" role="img" aria-label="{{ 'Mapa de provincias' if es else 'Mapa de províncies' }}"><g></g></svg>
     <aside id="sb-prov" class="sb-prov" aria-live="polite" hidden></aside>
   </div>
   {% if not regional %}<p class="note sb-hint">{{ 'Toca una provincia del mapa o de la tabla para ver su reparto.' if es else 'Toca una província del mapa o de la taula per veure el seu repartiment.' }}</p>{% endif %}
+  <details id="sb-close" class="sb-bydist" open>
+    <summary>{% if regional and regional.foreign %}{{ 'El último escaño' if es else "L'últim escó" }}{% else %}{{ 'Los últimos escaños más ajustados' if es else 'Els últims escons més ajustats' }}{% endif %}</summary>
+    <p class="note">{% if es %}Margen: puntos de voto que tendrían que pasar del partido que se lleva el último escaño al primero que se queda fuera para que el escaño cambiara de manos.{% if not regional %} Los votos son aproximados, con la participación de 2023.{% endif %}{% else %}Marge: punts de vot que haurien de passar del partit que s'endú l'últim escó al primer que es queda fora perquè l'escó canviés de mans.{% if not regional %} Els vots són aproximats, amb la participació del 2023.{% endif %}{% endif %}</p>
+    <div class="tablewrap"><table class="results"><thead><tr>{% if not (regional and regional.foreign) %}<th data-dist="1">{{ 'Circunscripción' if es else 'Circumscripció' }}</th>{% endif %}
+      <th>{{ 'Último escaño' if es else 'Últim escó' }}</th><th>{{ 'Primero fuera' if es else 'Primer fora' }}</th>
+      <th class="num">{{ 'Margen (puntos)' if es else 'Marge (punts)' }}</th>{% if not regional %}<th class="num">{{ '≈ votos' if es else '≈ vots' }}</th>{% endif %}</tr></thead><tbody></tbody></table></div>
+  </details>
   <details id="sb-bydist" class="sb-bydist" open>
     <summary>{% if regional %}{{ 'Escaños por circunscripción' if es else 'Escons per circumscripció' }}{% else %}{{ 'Escaños por provincia' if es else 'Escons per província' }}{% endif %}</summary>
     <div class="tablewrap"><table class="results"><thead></thead><tbody></tbody></table></div>
@@ -167,6 +178,14 @@
 .sandbox .sb-x{position:absolute;top:6px;right:8px;border:0;background:transparent;font-size:20px;line-height:1;padding:2px 6px}
 @media (max-width:760px){.sandbox .sb-prov{position:static;width:auto;max-height:none;margin-top:8px}}
 .sandbox .sb-bydist summary{cursor:pointer;font-weight:600;margin:8px 0}
+.sandbox .sb-mapmode{border:0;padding:0;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.92em}
+.sandbox .sb-mapmode legend{font-weight:600;padding:0;margin-bottom:4px}
+.sandbox .sb-prov h4{margin:10px 0 4px;font-size:.95em}
+.sandbox .sb-seq td,.sandbox .sb-seq th{padding:2px 4px;font-size:.88em}
+.sandbox .sb-seq .sb-lastrow td{font-weight:700;border-top:1px dashed var(--line,#ccc);border-bottom:2px solid currentColor}
+.sandbox .sb-seq .sb-out td{opacity:.6}
+.sandbox .sb-seq .sb-gap td{opacity:.7;font-style:italic}
+.sandbox .sb-marg{margin:2px 0 8px;padding-left:18px;font-size:.9em}
 .sandbox .sb-bydist td a{color:inherit}
 </style>
 {% endblock %}
