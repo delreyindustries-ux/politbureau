@@ -1,5 +1,5 @@
 {# Evolucio de les enquestes (site/trend.py). Cal: trend, lang. #}
-{% macro trendchart(tr, lang, fdate) %}
+{% macro trendchart(tr, lang, fdate, root='') %}
 {% set es = lang == 'es' %}
 <figure class="trend">
   <svg viewBox="0 0 {{ tr.w }} {{ tr.h }}" role="img" aria-label="{{ 'Evolución de la media de encuestas' if es else 'Evolució de la mitjana d\'enquestes' }}">
@@ -10,6 +10,8 @@
     {% for l in tr.lines %}<circle cx="{{ '%.1f'|format(l.x) }}" cy="{{ '%.1f'|format(l.y) }}" r="3.4" fill="{{ l.color }}" class="endpt"/>
       <text class="el" x="{{ '%.1f'|format(l.x + 8) }}" y="{{ '%.1f'|format(l.ly + 4) }}"><tspan fill="{{ l.color }}">●</tspan> {{ l.name }} <tspan class="ev">{{ ('%.1f'|format(l.last)) | replace('.', ',') }}</tspan></text>{% endfor %}
   </svg>
+  {% if tr.data %}<script type="application/json" class="trend-data">{{ tr.data | tojson }}</script>
+  <script src="{{ root }}assets/charts.js" defer></script>{% endif %}
   <figcaption>{% if es %}Media de encuestas de cada semana desde el {{ fdate(tr.start) }} ({{ tr.n }} encuestas; cada punto es una). De cada instituto cuenta su encuesta más reciente de los {{ tr.window }} días anteriores, suavizado en tres semanas. Cada línea se ha desplazado para que acabe en la media de hoy de la web, que pondera cada instituto.{% else %}Mitjana d'enquestes de cada setmana des del {{ fdate(tr.start) }} ({{ tr.n }} enquestes; cada punt n'és una). De cada institut compta la seva enquesta més recent dels {{ tr.window }} dies anteriors, suavitzat en tres setmanes. Cada línia s'ha desplaçat perquè acabi a la mitjana d'avui de la web, que pondera cada institut.{% endif %}</figcaption>
 </figure>
 {% endmacro %}

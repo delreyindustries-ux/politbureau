@@ -82,7 +82,7 @@
   </div>
 {% if d.trend %}{% from "_trend.html.j2" import trendchart %}
   <h3>{{ 'Cómo ha cambiado en el último año' if es else "Com ha canviat l'últim any" }}</h3>
-  {{ trendchart(d.trend, lang, fdate) }}{% endif %}
+  {{ trendchart(d.trend, lang, fdate, root) }}{% endif %}
 {% include "_pres.html.j2" %}
 {% if d.sysnote %}
   <p class="note"><b>{{ 'Cómo se vota.' if es else 'Com es vota.' }}</b> {{ d.sysnote.note_es if es else d.sysnote.note_ca }}</p>

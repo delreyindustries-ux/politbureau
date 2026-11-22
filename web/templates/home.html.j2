@@ -65,7 +65,7 @@
   {{ sgrid(seatgrid, lang, root ~ lang ~ '/' ~ page('sandbox') ~ '/') }}{% endif %}
   {% if trend %}{% from "_trend.html.j2" import trendchart %}
   <h3>{{ 'Cómo ha cambiado en el último año' if lang == 'es' else "Com ha canviat l'últim any" }}</h3>
-  {{ trendchart(trend, lang, fdate) }}{% endif %}
+  {{ trendchart(trend, lang, fdate, root) }}{% endif %}
   <p class="warn">{{ t('estimate_warning') | safe }}</p>
   <p class="note">{{ 'Posición e ideología de cada partido: ' if lang == 'es' else 'Posició i ideologia de cada partit: ' }}<a href="https://www.wikidata.org" rel="noopener">Wikidata</a> (CC0).</p>
 </section>
@@ -89,7 +89,9 @@
     <svg viewBox="0 0 600 170" role="img" aria-label="{{ 'Escaños de PP y Vox en las simulaciones' if es else 'Escons de PP i Vox a les simulacions' }}">
       {% for b in forecast.bars %}<rect x="{{ '%.1f'|format(20 + (b.x - x0) / (x1 - x0 + 1) * 560) }}" y="{{ '%.1f'|format(130 - b.h * 110) }}" width="{{ '%.2f'|format([560 / (x1 - x0 + 1) - 0.6, 0.6]|max) }}" height="{{ '%.1f'|format(b.h * 110) }}" class="{{ 'maj' if b.maj else '' }}"><title>{{ b.x }}</title></rect>{% endfor %}
       {% set mx = 20 + (forecast.majority - x0) / (x1 - x0 + 1) * 560 %}
-      {% if forecast.majority >= x0 and forecast.majority <= x1 %}<line x1="{{ '%.1f'|format(mx) }}" x2="{{ '%.1f'|format(mx) }}" y1="10" y2="134" class="ml"/><text x="{{ '%.1f'|format(mx + 4) }}" y="20">{{ 'mayoría' if es else 'majoria' }} 176</text>{% endif %}
+      {% if forecast.majority >= x0 and forecast.majority <= x1 %}<line x1="{{ '%.1f'|format(mx) }}" x2="{{ '%.1f'|format(mx) }}" y1="14" y2="134" class="ml"/><text x="{{ '%.1f'|format(mx + 4) }}" y="11">{{ 'mayoría' if es else 'majoria' }} 176</text>
+      <text class="pr maj" x="576" y="34" text-anchor="end">{{ prob(forecast.blocs.right.majority) }}</text><text class="prl" x="576" y="49" text-anchor="end">{{ 'con mayoría' if es else 'amb majoria' }}</text>
+      <text class="pr" x="24" y="34">{{ prob(1 - forecast.blocs.right.majority) }}</text><text class="prl" x="24" y="49">{{ 'sin mayoría' if es else 'sense majoria' }}</text>{% endif %}
       <line x1="20" x2="580" y1="130.5" y2="130.5" class="ax"/>
       <text x="20" y="150">{{ x0 }}</text><text x="580" y="150" text-anchor="end">{{ x1 }}</text>
       <text x="300" y="164" text-anchor="middle">{{ 'escaños de PP + Vox' if es else 'escons de PP + Vox' }}</text>
@@ -98,10 +100,13 @@
   </figure>
   <div class="tablewrap">
   <table class="results">
-    <thead><tr><th>{{ t('party') }}</th><th class="n">{{ 'Escaños (mediana)' if es else 'Escons (mediana)' }}</th><th class="n">{{ 'Intervalo del 80 %' if es else 'Interval del 80 %' }}</th><th class="n">{{ 'Primer partido' if es else 'Primer partit' }}</th></tr></thead>
+    {% set ivmax = forecast.parties | map(attribute='hi') | max %}
+    <thead><tr><th>{{ t('party') }}</th><th class="ivh" aria-hidden="true"></th><th class="n">{{ 'Escaños (mediana)' if es else 'Escons (mediana)' }}</th><th class="n">{{ 'Intervalo del 80 %' if es else 'Interval del 80 %' }}</th><th class="n">{{ 'Primer partido' if es else 'Primer partit' }}</th></tr></thead>
     <tbody>
     {% for r in forecast.parties %}
-      <tr><td><span class="sw" style="background:{{ r.color }}"></span>{{ r.name }}</td><td class="n"><b>{{ r.median }}</b></td><td class="n">{{ r.lo }}–{{ r.hi }}</td><td class="n">{{ prob(r.first) if r.first >= 0.005 else '—' }}</td></tr>
+      <tr><td><span class="sw" style="background:{{ r.color | vis }}"></span>{{ r.name }}</td>
+        <td class="ivcell" aria-hidden="true"><span class="iv" style="left:{{ '%.1f'|format(100 * r.lo / ivmax) }}%;width:{{ '%.1f'|format([100 * (r.hi - r.lo) / ivmax, 0.8]|max) }}%;background:{{ r.color | vis }}"></span><span class="md" style="left:{{ '%.1f'|format(100 * r.median / ivmax) }}%;background:{{ r.color | vis }}"></span></td>
+        <td class="n"><b>{{ r.median }}</b></td><td class="n">{{ r.lo }}–{{ r.hi }}</td><td class="n">{{ prob(r.first) if r.first >= 0.005 else '—' }}</td></tr>
     {% endfor %}
     </tbody>
   </table>

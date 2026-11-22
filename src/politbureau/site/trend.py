@@ -134,3 +134,88 @@ def build(conn, election_id, rows, days=365):
     return {"w": W, "h": H, "x0": x0, "x1": x1, "y0": y0, "y1": y1, "grid": grid, "ticks": ticks,
             "lines": lines, "dots": dots, "months": MONTHS, "start": start.isoformat(), "end": last.isoformat(),
             "n": len([p for p in polls if p[2] >= start]), "window": WINDOW}
+
+
+def interactive(conn, election_id, rows, since=None, election_day=None, marks=()):
+    """Les mateixes linies, per al grafic interactiu (web/charts.js): tota la
+    serie des de `since` (per defecte, tres anys enrere), una franja amb la
+    dispersio entre instituts (percentils 10 i 90 de les enquestes que compten
+    cada setmana, si n'hi ha tres o mes), totes les enquestes i les marques
+    (eleccions anteriors, dia de la votacio)."""
+    rows = [r for r in rows if r.get("code") and r["code"] != "OTHER" and (r.get("share") or 0) >= 1][:MAX_LINES]
+    if not rows:
+        return None
+    codes = [r["code"] for r in rows]
+    polls = conn.execute(
+        "SELECT id, pollster, fieldwork_end FROM poll WHERE election_id = ? AND scope = 'national' "
+        "AND fieldwork_end IS NOT NULL ORDER BY fieldwork_end", (election_id,)).fetchall()
+    if len(polls) < 8:
+        return None
+    last = _d(polls[-1][2])
+    start = _d(since) if since else last - dt.timedelta(days=3 * 365)
+    start = max(start, _d(polls[0][2]))
+    polls = [p for p in polls if _d(p[2]) >= start - dt.timedelta(days=WINDOW)]
+    ids = [p[0] for p in polls]
+    shares = {}
+    q = ",".join("?" * len(codes))
+    for i in range(0, len(ids), 500):
+        chunk = ids[i:i + 500]
+        for pid, party, share in conn.execute(
+                f"SELECT poll_id, party, share FROM poll_result WHERE poll_id IN ({','.join('?' * len(chunk))}) "
+                f"AND party IN ({q})", (*chunk, *codes)):
+            if share:
+                shares.setdefault(pid, {})[party] = share
+    polls = [(p[0], p[1], _d(p[2])) for p in polls if p[0] in shares]
+    if len(polls) < 8:
+        return None
+    days_ = []
+    d = start
+    while d <= last:
+        days_.append(d)
+        d += dt.timedelta(days=STEP)
+    if days_[-1] != last:
+        days_.append(last)
+    mean = {c: [] for c in codes}
+    lo = {c: [] for c in codes}
+    hi = {c: [] for c in codes}
+    for day in days_:
+        latest = {}
+        for pid, who, end in polls:
+            if day - dt.timedelta(days=WINDOW) < end <= day:
+                if who not in latest or end >= latest[who][1]:
+                    latest[who] = (pid, end)
+        for c in codes:
+            vals = sorted(shares[pid][c] for pid, _e in latest.values() if c in shares[pid])
+            mean[c].append(sum(vals) / len(vals) if vals else None)
+            if len(vals) >= 3:
+                lo[c].append(vals[int(round(0.1 * (len(vals) - 1)))])
+                hi[c].append(vals[int(round(0.9 * (len(vals) - 1)))])
+            else:
+                lo[c].append(None)
+                hi[c].append(None)
+    by_code = {r["code"]: r for r in rows}
+
+    def smooth(s):
+        return [None if s[i] is None else
+                sum(x for x in s[max(0, i - 1):i + 2] if x is not None) /
+                len([x for x in s[max(0, i - 1):i + 2] if x is not None]) for i in range(len(s))]
+    out_s, out_lo, out_hi = {}, {}, {}
+    for c in codes:
+        s, a, b = smooth(mean[c]), smooth(lo[c]), smooth(hi[c])
+        lastv = next((v for v in reversed(s) if v is not None), None)
+        off = (by_code[c]["share"] - lastv) if lastv is not None else 0
+        r1 = lambda v: None if v is None else round(max(0.0, v + off), 2)       # noqa: E731
+        out_s[c] = [r1(v) for v in s]
+        out_lo[c] = [r1(v) for v in a]
+        out_hi[c] = [r1(v) for v in b]
+    return {
+        "dates": [x.isoformat() for x in days_],
+        "codes": codes,
+        "names": {c: by_code[c].get("person") or by_code[c]["name"] for c in codes},
+        "colors": {c: visible(by_code[c]["color"]) for c in codes},
+        "s": out_s, "lo": out_lo, "hi": out_hi,
+        "polls": [[e.isoformat(), who, {c: shares[p][c] for c in codes if c in shares[p]}]
+                  for p, who, e in polls if e >= start],
+        "marks": [{"d": m[0], "l": m[1]} for m in marks if _d(m[0]) >= start],
+        "end": election_day if election_day and _d(election_day) > last else None,
+    }

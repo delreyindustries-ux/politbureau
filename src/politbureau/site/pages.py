@@ -666,6 +666,10 @@ def home_page(env, cfg, data, urls, highlights):
     try:
         from . import trend as trendlib
         trend = trendlib.build(db.connect(), ELECTION, highlights or [])
+        if trend:
+            trend["data"] = trendlib.interactive(db.connect(), ELECTION, highlights or [], since="2023-07-23",
+                                                 election_day=(general or {}).get("election_date"),
+                                                 marks=[("2023-07-23", "23J")])
     except Exception as exc:                              # noqa: BLE001
         print(f"     avis: grafic d'evolucio no generat ({type(exc).__name__}: {exc})")
         trend = None
@@ -770,7 +774,7 @@ def assets(data, urls):
     """Copia el CSS i el JS i escriu les dades que necessita el mapa interactiu."""
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
-    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js", "sandbox.js", "perfils.js",
+    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js", "sandbox.js", "perfils.js", "charts.js",
                  "world.js", "world.json", "relief.jpg", "flags.webp", "favicon.svg"):
         src = WEB / name
         if src.exists():
@@ -1450,6 +1454,9 @@ def abroad_pages(env, cfg, conn):
     for eid, data in done:
         try:
             data["trend"] = None if data.get("stale") else trendlib.build(conn, eid, data["avg"])
+            if data["trend"]:
+                data["trend"]["data"] = trendlib.interactive(
+                    conn, eid, data["avg"], election_day=str((abroad_elections().get(eid) or {}).get("election_date") or "") or None)
         except Exception as exc:                          # noqa: BLE001
             print(f"     avis: grafic d'evolucio de {eid} no generat ({type(exc).__name__}: {exc})")
             data["trend"] = None

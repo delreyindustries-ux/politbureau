@@ -625,6 +625,10 @@ function renderLegend() {
         const p = state.parties[i] || { name: '?', color: '#888' };
         return `<div class="row"><span class="sw" style="background:${p.color}"></span>${p.name}<span class="n">${n}</span></div>`;
       }).join('');
+    // Intensitat: el marge sobre el segon (el mateix calcul que colourOf).
+    leg.innerHTML += `<div class="legtitle" style="margin-top:8px">${LANG === 'ca' ? 'Intensitat: marge sobre el segon' : 'Intensidad: margen sobre el segundo'}</div>` +
+      '<div class="row legscale">' + [2, 8, 16, 26].map((m) => `<span><span class="sw" style="background:${rgba('#9aa3b8', Math.max(0.30, Math.min(1, 0.34 + m / 26)))}"></span>${m}${m === 26 ? '+' : ''}</span>`).join('') +
+      `<span class="n">${LANG === 'ca' ? 'punts' : 'puntos'}</span></div>`;
     const nTies = Object.keys(state.ties || {}).length;
     if (nTies) {
       leg.innerHTML += `<div class="row"><span class="sw tie"></span>${LANG === 'ca'

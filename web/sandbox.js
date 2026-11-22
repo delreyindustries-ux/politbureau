@@ -374,7 +374,13 @@
         var best = null;
         for (var k in w) if (w[k] && (best === null || w[k] > w[best] ||
             (w[k] === w[best] && shares[p.c][k] > shares[p.c][best]))) best = k;
-        if (best) fill = color(best);
+        if (best) {
+          fill = color(best);
+          // Com el mapa d'Espanya: el marge de vot sobre el segon gradua el color.
+          var sv = Object.keys(shares[p.c]).map(function (k) { return shares[p.c][k]; }).sort(function (a, b) { return b - a; });
+          var marg = shares[p.c][best] - (sv[0] === shares[p.c][best] ? (sv[1] || 0) : sv[0]);
+          op = Math.max(0.4, Math.min(1, 0.42 + Math.abs(marg) / 25));
+        }
         tip += ": " + order(Object.keys(w)).filter(function (k) { return w[k]; })
           .map(function (k) { return name(k) + " " + w[k]; }).join(", ");
       }
