@@ -318,6 +318,33 @@
     return lastSeat(LAST.shares[p.c], mag(p), nat);
   }
 
+  /* L'ultim esco facil d'entendre (22/11/2026): web/lastseat.js. Nomes amb
+     metodes de divisors sense prima; amb resta mes gran o prima, el d'abans. */
+  function lsOf(p) {
+    if (!window.PBLast || !LAST || !LAST.by[p.c]) return null;
+    var M = D.method;
+    if (M && (M.name === "hare" || M.name === "droop" || M.bonus)) return null;
+    LAST.ls = LAST.ls || {};
+    if (LAST.ls[p.c] !== undefined) return LAST.ls[p.c];
+    if (!LAST.nat) LAST.nat = weighted(P, function (x) { return LAST.shares[x.c]; });
+    var nat = LAST.nat;
+    var V = D.votes && p.v ? p.v * (turnoutOn() ? state.t / D.turnout.ref : 1) : null;
+    var simple = !M && THR.scope !== "region" && (THR.r === null || THR.r === undefined);
+    var thr = M ? M.thr : (simple ? THR.d : null);
+    var R = window.PBLast.compute(LAST.shares[p.c] || {}, mag(p), V, {
+      div: divOf, thr: thr,
+      ok: function (k, x) { return M ? x >= M.thr : passes(k, x, nat); }
+    });
+    LAST.ls[p.c] = R.seq.length ? R : null;
+    return LAST.ls[p.c];
+  }
+  function lsNeed(R) {
+    var x = R.first.next.need;
+    if (x / R.unit < 0.02) return ES ? "empate" : "empat";
+    return R.votes ? window.PBLast.th(x) : f2(x);
+  }
+  function lsUnit(R) { return R.votes ? (ES ? " votos" : " vots") : (ES ? " puntos" : " punts"); }
+
   /* ------------------------------------------------------------ dibuix */
   var $ = function (s) { return document.querySelector(s); };
 
@@ -413,7 +440,9 @@
            fmt(sh[k]) + ' %</td><td class="num">' + (w[k] ? "<b>" + w[k] + "</b>" : "–") + "</td></tr>";
     });
     h += "</tbody></table>";
-    var L = lastInfo(p);
+    var L = lastInfo(p), LS = lsOf(p);
+    if (LS) h += '<h4>' + (ES ? "Cómo se reparte" : "Com es reparteix") + '</h4><div class="sb-ls"></div>';
+    if (LS && L && L.rival) h += '<details class="minor"><summary>' + (ES ? "Escaño a escaño y otras medidas del margen" : "Escó a escó i altres mesures del marge") + "</summary>";
     if (L && L.seq && L.seq.length) {
       // Escó a escó: tots si en són pocs; si no, els cinc últims.
       var from = L.seq.length > 12 ? L.seq.length - 5 : 0;
@@ -455,6 +484,7 @@
       if (L.bonus) h += '<p class="note">' + (ES ? "La prima depende del voto del primer partido y no se cuenta en estos márgenes." :
         "La prima depèn del vot del primer partit i no es compta en aquests marges.") + "</p>";
     }
+    if (LS && L && L.rival) h += "</details>";
     if (L && L.lr && L.last) {
       h += '<p class="note"><b>' + (ES ? "Último escaño" : "Últim escó") + "</b> (" + (ES ? "resto mayor" : "resta més gran") + "): " +
         name(L.last.k) + ". " + name(L.rival.k) + (ES ? " se lo quitaría con un traspaso de " : " l'hi prendria amb un traspàs de ") +
@@ -463,6 +493,7 @@
         "La prima depèn del vot del primer partit i no es compta en aquest marge.") + "</p>";
     }
     box.innerHTML = h;
+    if (LS) window.PBLast.ladder(box.querySelector(".sb-ls"), LS, { name: name, color: color });
     box.hidden = false;
     box.querySelector(".sb-x").addEventListener("click", function () { picked = null; box.hidden = true; render(); });
   }
@@ -502,28 +533,55 @@
         tiles += '<div class="sg-t"' + style + '><span class="sg-h"><b>' + pos[2] + "</b><small>" + mag(p) + "</small></span></div>";
         return;
       }
-      var L = lastInfo(p), seq = [];
+      var L = lastInfo(p), seq = [], LS = lsOf(p);
       order(Object.keys(w)).forEach(function (k) { for (var i = 0; i < w[k]; i++) seq.push(k); });
       var li = L && L.last ? seq.lastIndexOf(L.last.k) : -1;
-      var hot = L && L.rival && L.transfer < 0.5;
+      var hot = LS && LS.first ? LS.first.next.need / LS.unit < 0.5 : (L && L.rival && L.transfer < 0.5);
       var tip = p.n + " · " + mag(p) + " " + T.seats.toLowerCase() + (L && L.rival ? " · " + (ES ? "último escaño: " : "últim escó: ") + name(L.last.k) +
         "; " + name(L.rival.k) + " a " + f2(L.transfer) + (ES ? " puntos" : " punts") + votes(L.transfer, p) : "");
+      if (LS && LS.first) tip = p.n + " · " + mag(p) + " " + T.seats.toLowerCase() + " · " + (ES ? "último escaño: " : "últim escó: ") + name(LS.last.k) +
+        "; " + (ES ? "primero fuera: " : "primer fora: ") + name(LS.first.k) + ", " + (ES ? "le faltan " : "li falten ") + lsNeed(LS) + lsUnit(LS);
       tiles += '<div class="sg-t' + (hot ? " hot" : "") + (p.c === picked ? " on" : "") + '" data-c="' + p.c + '" tabindex="0" role="button"' + style +
         ' title="' + tip.replace(/"/g, "&quot;") + '"><span class="sg-h"><b>' + pos[2] + "</b><small>" + mag(p) + '</small></span><span class="sg-s">' +
         seq.map(function (k, i) { return '<i style="background:' + color(k) + '"' + (i === li ? ' class="last"' : "") + "></i>"; }).join("") + "</span>" +
-        (L && L.rival ? '<span class="sg-f"><i style="background:' + color(L.rival.k) + '"></i>' + f2(L.transfer) + "</span>" : "") + "</div>";
-      if (L && L.rival) close.push({ p: p, L: L });
+        (LS && LS.first ? '<span class="sg-f"><i style="background:' + color(LS.first.k) + '"></i>' + (/\d/.test(lsNeed(LS)) ? "+" : "") + lsNeed(LS) + "</span>" :
+         L && L.rival ? '<span class="sg-f"><i style="background:' + color(L.rival.k) + '"></i>' + f2(L.transfer) + "</span>" : "") + "</div>";
+      if (LS && LS.first) close.push({ p: p, LS: LS, m: LS.first.next.need / LS.unit });
+      else if (L && L.rival) close.push({ p: p, L: L, m: L.transfer });
     });
-    close.sort(function (a, b) { return a.L.transfer - b.L.transfer; });
+    close.sort(function (a, b) { return a.m - b.m; });
     box.innerHTML = '<div class="sg-close"><b>' + (ES ? "Los más ajustados" : "Els més ajustats") + ":</b> " + close.slice(0, 6).map(function (x) {
+      if (x.LS) {
+        var nd = lsNeed(x.LS), num = /\d/.test(nd);
+        return '<button type="button" class="sg-chip" data-c="' + x.p.c + '"><b>' + x.p.n + '</b> <i style="background:' + color(x.LS.last.k) + '"></i>' +
+          name(x.LS.last.k) + ' <span class="vs">' + (ES ? "por delante de" : "davant de") + '</span> <i style="background:' + color(x.LS.first.k) + '"></i>' + name(x.LS.first.k) +
+          " <em>" + (num ? "a " + nd + lsUnit(x.LS) : nd) + "</em></button>";
+      }
       return '<button type="button" class="sg-chip" data-c="' + x.p.c + '"><b>' + x.p.n + '</b> <i style="background:' + color(x.L.last.k) + '"></i>' +
         name(x.L.last.k) + ' <span class="vs">vs</span> <i style="background:' + color(x.L.rival.k) + '"></i>' + name(x.L.rival.k) + " <em>" + f2(x.L.transfer) + "</em></button>";
     }).join("") + '</div><div class="sg-wrap"><div class="sg" style="--cols:11;--rows:9">' + tiles +
       '<div class="sg-legend" style="grid-column:8 / span 4;grid-row:7 / span 3"><p><i class="sg-demo last"></i> ' +
       (ES ? "último escaño repartido" : "últim escó repartit") + '</p><p><i class="sg-demo" style="background:var(--dim)"></i> ' +
-      (ES ? "puntos que tendrían que pasar al primero que se queda fuera (su color) para que cambiara de manos" :
-        "punts que haurien de passar al primer que es queda fora (el seu color) perquè canviés de mans") + '</p><p><span class="sg-hotdemo"></span> ' +
+      (window.PBLast && !(D.method && (D.method.bonus || D.method.name === "hare" || D.method.name === "droop"))
+        ? (D.votes ? (ES ? "votos que le faltan al primero que se queda fuera (su color) para quitarlo" : "vots que li falten al primer que es queda fora (el seu color) per prendre'l")
+                   : (ES ? "puntos que le faltan al primero que se queda fuera (su color) para quitarlo" : "punts que li falten al primer que es queda fora (el seu color) per prendre'l"))
+        : (ES ? "puntos que tendrían que pasar al primero que se queda fuera (su color) para que cambiara de manos" :
+        "punts que haurien de passar al primer que es queda fora (el seu color) perquè canviés de mans")) + '</p><p><span class="sg-hotdemo"></span> ' +
       (ES ? "menos de medio punto. Toca una provincia para ver su reparto." : "menys de mig punt. Toca una província per veure'n el repartiment.") + "</p></div></div></div>";
+  }
+
+  /* Diputat a diputat: l'ultim que te cada partit i el primer que es queda fora. */
+  function lpChart() {
+    var el = $("#sb-lp");
+    if (!el || !window.PBLast || !LAST) return;
+    var list = [];
+    P.forEach(function (p) {
+      var R = lsOf(p), pos = D.layout && D.layout[p.c];
+      if (R) list.push({ c: p.c, n: p.n, a: pos ? pos[2] : p.n, R: R });
+    });
+    if (!list.length) { el.innerHTML = ""; return; }
+    window.PBLast.parties(el, list, { name: name, color: color, nat: LAST.nat || weighted(P, function (x) { return LAST.shares[x.c]; }),
+      go: function (c) { picked = c; render(); var mw = $("#sb-mapwrap"); if (mw) mw.scrollIntoView({ behavior: "smooth", block: "start" }); } });
   }
 
   /* Els ultims escons mes ajustats de tot el territori. */
@@ -814,6 +872,7 @@
     provTable();
     closeTable();
     seatGrid();
+    lpChart();
     altTable(shares, res.total);
     turnoutLabel();
     turnoutTable();

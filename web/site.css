@@ -696,3 +696,60 @@ figure.fchart .pr.maj{fill:var(--accent)}
 figure.fchart .prl{font-size:11px;fill:var(--dim)}
 .legscale{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .legscale>span{display:inline-flex;align-items:center;gap:3px}
+
+/* L'ultim esco, facil d'entendre (22/11/2026; web/lastseat.js) */
+.sg-t[data-c]:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.sg-demo.sg-dot{border-radius:50%}
+.ls-panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius,12px);padding:14px 16px 12px;margin:4px 0 20px;max-width:760px;box-shadow:var(--shadow,none)}
+.ls-title{margin:0 0 6px;font-size:16px}
+.ls-sum{margin:0 0 12px;font-size:15px;line-height:1.45}
+.ls{display:flex;flex-direction:column;gap:7px}
+.ls-t{display:flex;align-items:baseline;gap:8px;font-size:13px;flex-wrap:wrap}
+.ls-n{width:22px;text-align:right;color:var(--faint);font-variant-numeric:tabular-nums;flex:none}
+.ls-p{display:inline-flex;align-items:center;gap:5px;font-weight:650}
+.ls-p i{width:9px;height:9px;border-radius:50%;flex:none}
+.ls-p small{color:var(--dim);font-weight:500}
+.ls-tag{font-size:10.5px;background:var(--ink);color:var(--bg);border-radius:999px;padding:1px 8px;font-weight:700;letter-spacing:.02em}
+.ls-v{margin-left:auto;color:var(--dim);font-variant-numeric:tabular-nums;font-size:12.5px}
+.ls-v b{color:var(--ink)}
+.ls-b{position:relative;height:11px;margin:3px 0 0 30px;background:color-mix(in srgb,var(--line) 55%,transparent);border-radius:3px}
+.ls-b b{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.ls-b u{position:absolute;top:0;bottom:0;border:1.5px dashed;border-left:0;border-radius:0 3px 3px 0;
+  background:repeating-linear-gradient(45deg,transparent 0 3px,color-mix(in srgb,var(--ink) 16%,transparent) 3px 5px)}
+.ls-line{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px solid var(--ink);opacity:.7}
+.ls-r.last .ls-b b{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.ls-r.out .ls-p,.ls-r.out .ls-n{opacity:.85}
+.ls-r.out .ls-b b{opacity:.5}
+.ls-r.out .ls-v b{color:var(--warn)}
+.ls-cut{border-top:2px dashed var(--warn);margin:10px 0 4px;text-align:center;height:0}
+.ls-cut span{position:relative;top:-11px;background:var(--panel);padding:0 8px;font-size:12px;font-weight:700;color:var(--warn)}
+.ls-gap{font-size:12px;color:var(--faint);padding-left:30px}
+.ls-all{font:inherit;font-size:12px;background:none;border:0;color:var(--accent);cursor:pointer;padding:0;text-decoration:underline}
+.ls-how{font-size:12px;color:var(--dim);margin:12px 0 0;line-height:1.45}
+.ls-more{margin:8px 0 0;font-size:13px}
+.lp-title{margin:20px 0 8px}
+.lp{max-width:920px;margin-bottom:12px}
+.lp-head{display:grid;grid-template-columns:160px minmax(0,1fr) minmax(0,1fr);font-size:11.5px;color:var(--faint);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.lp-hl{text-align:right;padding-right:10px}.lp-hr{padding-left:10px}
+.lp-r{display:grid;grid-template-columns:160px minmax(0,1fr) minmax(0,1fr);align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.lp-p{display:flex;align-items:center;gap:6px;font-weight:650;font-size:14px;min-width:0}
+.lp-p span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lp-p i{width:10px;height:10px;border-radius:50%;flex:none}
+.lp-p b{margin-left:auto;margin-right:12px;font-variant-numeric:tabular-nums}
+.lp-l,.lp-rt{display:flex;align-items:center;gap:6px;height:22px;font-size:12px;font-variant-numeric:tabular-nums;min-width:0}
+.lp-l{justify-content:flex-end;border-right:2px solid var(--ink)}
+.lp-rt{border-left:0}
+.lp-l b{height:14px;border-radius:3px 0 0 3px;opacity:.5;flex:none}
+.lp-rt b{height:14px;border-radius:0 3px 3px 0;flex:none}
+.lp-l em,.lp-rt em{font-style:normal;white-space:nowrap;color:var(--dim);overflow:hidden;text-overflow:ellipsis}
+.lp-d small{color:var(--faint);font-size:inherit}
+.lp-d{grid-column:2 / 4;font-size:12.5px;color:var(--dim);line-height:1.45;padding-top:4px}
+.lp-go{font:inherit;background:none;border:0;padding:0;color:var(--accent);cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px}
+.lp-none{color:var(--faint)}
+@media (max-width:640px){
+  .lp-head,.lp-r{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .lp-head span:first-child{display:none}
+  .lp-p{grid-column:1 / 3;margin-bottom:4px}
+  .lp-d{grid-column:1 / 3}
+  .ls-b{margin-left:0}
+}

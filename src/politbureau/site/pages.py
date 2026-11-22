@@ -513,6 +513,8 @@ METHOD_LOG = [
      "Previsió: l'error de cada partit ja no és una hipòtesi (0,59 × √%, mesurat amb l'error de les mitjanes a l'última elecció de 26 països); s'hi afegeix un error comú per comunitat autònoma (0,50) i el provincial baixa a 0,27, mesurats amb 2016-2023; els partits regionals fan servir el seu % al seu territori; i cada simulació sorteja la participació. Escenaris de participació: probabilitat de votar logística calibrada amb el vot declarat del 2023, factors per comunitat i interval per remostreig."),
     ("2026-11-21", "Perfiles de votantes: para cada colectivo, sus temas, cuánto se mueve su voto y qué partidos compiten por él; para cada partido, los votantes a su alcance (segunda opción o indecisos que lo sienten cercano) y de qué hablan. Microdatos del CIS.",
      "Perfils de votants: per a cada col·lectiu, els seus temes, quant es mou el seu vot i quins partits s'hi disputen; per a cada partit, els votants a l'abast (segona opció o indecisos que el senten proper) i de què parlen. Microdades del CIS."),
+    ("2026-11-22", "El último escaño, en votos: cuántos votos le faltan al primero que se queda fuera en cada provincia (los demás quietos), el reparto d'Hondt de cada provincia dibujado como una escala de barras y, para cada partido, su último diputado (cuántos votos puede perder antes de perderlo) y el siguiente (cuántos le faltan).",
+     "L'últim escó, en vots: quants vots li falten al primer que es queda fora a cada província (els altres quiets), el repartiment d'Hondt de cada província dibuixat com una escala de barres i, per a cada partit, el seu últim diputat (quants vots pot perdre abans de perdre'l) i el següent (quants li'n falten)."),
     ("2026-11-21", "Simulador: escenarios de participación (votante probable del CIS e hipótesis clásica, contrastada con 2016-2023) y constructor de mayorías.",
      "Simulador: escenaris de participació (votant probable del CIS i hipòtesi clàssica, contrastada amb 2016-2023) i constructor de majories."),
     ("2026-11-21", "Guía «Cómo se vota al Congreso» con los números de 2023: votos por escaño en cada provincia, reparto d'Hondt paso a paso y dónde importa el umbral del 3 %.",
@@ -774,7 +776,7 @@ def assets(data, urls):
     """Copia el CSS i el JS i escriu les dades que necessita el mapa interactiu."""
     out = DIST / "assets"
     out.mkdir(parents=True, exist_ok=True)
-    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js", "sandbox.js", "perfils.js", "charts.js",
+    for name in ("site.css", "site.js", "cambra.js", "map.js", "map.css", "coalition.js", "seccions.js", "sandbox.js", "perfils.js", "charts.js", "lastseat.js",
                  "world.js", "world.json", "relief.jpg", "flags.webp", "favicon.svg"):
         src = WEB / name
         if src.exists():

@@ -1,25 +1,34 @@
-{# Repartiment d'un cop d'ull (site/seatgrid.py). Cal: sg, lang. #}
-{% macro seatgrid(sg, lang, sim_url) %}
+{# Repartiment d'un cop d'ull (site/seatgrid.py) i l'ultim esco (web/lastseat.js). Cal: sg, lang. #}
+{% macro seatgrid(sg, lang, sim_url, root='') %}
 {% set es = lang == 'es' %}
-{% macro f2(x) %}{{ ('%.2f'|format(x)) | replace('.', ',') }}{% endmacro %}
+{% macro need(i) %}{% if i.pts < 0.02 %}{{ 'empate' if es else 'empat' }}{% elif i.votes %}{{ i.need | thousands }}{% else %}{{ ('%.2f'|format(i.need)) | replace('.', ',') }}{% endif %}{% endmacro %}
 <div class="sg-close">
   <b>{{ 'Los últimos escaños más ajustados' if es else 'Els últims escons més ajustats' }}:</b>
-  {% for t in sg.close[:6] %}<span class="sg-chip"><b>{{ t.name }}</b> <i style="background:{{ t.info.last_c | vis }}"></i>{{ t.info.last }} <span class="vs">vs</span> <i style="background:{{ t.info.rival_c | vis }}"></i>{{ t.info.rival }} <em>{{ f2(t.info.tr) }}{% if t.info.votes %} · ≈{{ t.info.votes | thousands }}{% endif %}</em></span>{% endfor %}
+  {% for t in sg.close[:6] %}<button type="button" class="sg-chip" data-c="{{ t.code }}"><b>{{ t.name }}</b> <i style="background:{{ t.info.last_c | vis }}"></i>{{ t.info.last }} <span class="vs">{{ 'por delante de' if es else 'davant de' }}</span> <i style="background:{{ t.info.rival_c | vis }}"></i>{{ t.info.rival }} <em>{% if t.info.pts < 0.02 %}{{ need(t.info) }}{% else %}a {{ need(t.info) }}{% if t.info.votes %} {{ 'votos' if es else 'vots' }}{% endif %}{% endif %}</em></button>{% endfor %}
 </div>
-<div class="sg-wrap"><div class="sg" style="--cols:{{ sg.cols }};--rows:{{ sg.rows }}">
+<div class="sg-wrap"><div class="sg" data-ls style="--cols:{{ sg.cols }};--rows:{{ sg.rows }}">
   {% for t in sg.tiles %}
-  <div class="sg-t{% if t.info and t.info.hot %} hot{% endif %}" style="grid-column:{{ t.col }};grid-row:{{ t.row }}"
-       title="{{ t.name }} · {{ t.m }} {{ 'escaños' if es else 'escons' }}{% if t.info %} · {{ 'último escaño' if es else 'últim escó' }}: {{ t.info.last }}; {{ t.info.rival }} {{ 'a' }} {{ f2(t.info.tr) }} {{ 'puntos' if es else 'punts' }}{% if t.info.votes %} (≈ {{ t.info.votes | thousands }} {{ 'votos' if es else 'vots' }}){% endif %}{% endif %}">
+  <div class="sg-t{% if t.info and t.info.hot %} hot{% endif %}" data-c="{{ t.code }}" tabindex="0" role="button" style="grid-column:{{ t.col }};grid-row:{{ t.row }}"
+       title="{{ t.name }} · {{ t.m }} {{ 'escaños' if es else 'escons' }}{% if t.info %} · {{ 'último escaño' if es else 'últim escó' }}: {{ t.info.last }}; {{ 'primero fuera' if es else 'primer fora' }}: {{ t.info.rival }}, {% if t.info.pts < 0.02 %}{{ need(t.info) }}{% else %}{{ 'le faltan' if es else 'li falten' }} {{ need(t.info) }}{% if t.info.votes %} {{ 'votos' if es else 'vots' }}{% endif %}{% endif %}{% endif %}">
     <span class="sg-h"><b>{{ t.abbr }}</b><small>{{ t.m }}</small></span>
     <span class="sg-s">{% for s in t.seq %}<i style="background:{{ s.c | vis }}"{% if loop.index0 == t.last_idx %} class="last"{% endif %}></i>{% endfor %}</span>
-    {% if t.info %}<span class="sg-f"><i style="background:{{ t.info.rival_c | vis }}"></i>{{ f2(t.info.tr) }}</span>{% endif %}
+    {% if t.info %}<span class="sg-f"><i style="background:{{ t.info.rival_c | vis }}"></i>{% if t.info.pts >= 0.02 %}+{% endif %}{{ need(t.info) }}</span>{% endif %}
   </div>
   {% endfor %}
   <div class="sg-legend" style="grid-column:8 / span 4;grid-row:7 / span 3">
     <p><i class="sg-demo last"></i> {{ 'último escaño repartido' if es else 'últim escó repartit' }}</p>
-    <p><i class="sg-demo" style="background:var(--dim)"></i> 0,25 = {{ 'puntos que tendrían que pasar al primero que se queda fuera (su color) para que cambiara de manos' if es else 'punts que haurien de passar al primer que es queda fora (el seu color) perquè canviés de mans' }}</p>
+    <p><i class="sg-demo sg-dot" style="background:var(--dim)"></i> {{ 'votos que le faltan al primero que se queda fuera (su color) para quitarlo' if es else "vots que li falten al primer que es queda fora (el seu color) per prendre'l" }}</p>
     <p><span class="sg-hotdemo"></span> {{ 'menos de medio punto' if es else 'menys de mig punt' }}</p>
-    {% if sim_url %}<p><a href="{{ sim_url }}">{{ 'Muévelo en el simulador →' if es else 'Mou-ho al simulador →' }}</a></p>{% endif %}
+    <p><b>{{ 'Toca una provincia para ver cómo se reparte.' if es else 'Toca una província per veure com es reparteix.' }}</b></p>
   </div>
 </div></div>
+<div id="ls-panel" class="ls-panel" aria-live="polite" hidden>
+  <h4 class="ls-title"></h4>
+  <div class="ls-body"></div>
+  {% if sim_url %}<p class="ls-more"><a href="{{ sim_url }}">{{ 'Muévelo en el simulador →' if es else 'Mou-ho al simulador →' }}</a></p>{% endif %}
+</div>
+<h4 class="lp-title">{{ 'Diputado a diputado: el último que tiene cada partido y el primero que se le queda fuera' if es else "Diputat a diputat: l'últim que té cada partit i el primer que se li queda fora" }}</h4>
+<div id="lp-chart" class="lp"><p class="note">{{ 'Hace falta JavaScript para ver este gráfico.' if es else 'Cal JavaScript per veure aquest gràfic.' }}</p></div>
+<script type="application/json" id="ls-data">{{ sg.data | tojson }}</script>
+<script src="{{ root }}assets/lastseat.js" defer></script>
 {% endmacro %}

@@ -76,6 +76,8 @@
   {% if not regional %}<section class="sb-altbox">
     <h2>{{ 'El reparto, provincia a provincia, y la lucha por el último escaño' if es else "El repartiment, província a província, i la lluita per l'últim escó" }}</h2>
     <div id="sb-sg"></div>
+    <h3 class="lp-title">{{ 'Diputado a diputado: el último que tiene cada partido y el primero que se le queda fuera' if es else "Diputat a diputat: l'últim que té cada partit i el primer que se li queda fora" }}</h3>
+    <div id="sb-lp" class="lp"></div>
   </section>{% endif %}
   <section id="sb-coal" class="sb-altbox">
     <h2>{{ 'Construye una mayoría' if es else 'Construeix una majoria' }}</h2>
@@ -291,4 +293,4 @@
 .sandbox .sb-bydist td a{color:inherit}
 </style>
 {% endblock %}
-{% block scripts %}<script src="{{ root }}assets/sandbox.js" defer></script>{% endblock %}
+{% block scripts %}<script src="{{ root }}assets/lastseat.js" defer></script><script src="{{ root }}assets/sandbox.js" defer></script>{% endblock %}
