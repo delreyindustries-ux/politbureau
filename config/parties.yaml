@@ -135,6 +135,8 @@ ES:
     - pnv
     - eaj
     - eaj-pnv
+    # Capcalera de les taules per circumscripcio de Wikipedia (Ikerfel, 22/11/2026).
+    - basque nationalist party
   BNG:
     name: BNG
     color: '#ADCFEF'

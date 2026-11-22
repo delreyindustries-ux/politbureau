@@ -439,7 +439,7 @@ def apply_regional_merge(projected, region, rules, country="ES", report=None):
 REGIONAL_HALF_LIFE = 30.0   # dies: el pes d'una enquesta regional es parteix per dos
 
 
-def regional_poll_weight(n_pollsters):
+def regional_poll_weight(n_pollsters, level="region"):
     """Pes de la mitjana d'enquestes d'una comunitat davant del swing.
 
     Les dues incerteses ja estan calibrades a forecast.py: l'apartament d'una
@@ -447,24 +447,31 @@ def regional_poll_weight(n_pollsters):
     mitjana d'enquestes (calibrated_sigma, 0,59 x arrel del %). Com les dues
     escalen amb l'arrel del %, el pes no depen del partit. Amb n cases, la
     meitat de l'error es comuna a totes (hipotesi): s^2 (1/2 + 1/(2n))."""
-    from .forecast import REGIONAL, calibrated_sigma
+    from .forecast import LOCAL, REGIONAL, calibrated_sigma
     sigma = calibrated_sigma()[0]
     n = max(1, int(n_pollsters or 1))
     var_poll = sigma ** 2 * (0.5 + 0.5 / n)
-    return REGIONAL ** 2 / (REGIONAL ** 2 + var_poll)
+    # Una provincia s'aparta del swing per la comunitat i per ella mateixa.
+    var_model = REGIONAL ** 2 + (LOCAL ** 2 if level == "province" else 0.0)
+    return var_model / (var_model + var_poll)
 
 
-def regional_polls(conn, election_id):
+def regional_polls(conn, election_id, level="region"):
     """{comunitat: {"avg": {partit: %}, "n": cases, "w": pes}} de la regla
     `regional_polls` d'una eleccio (sources.yaml), amb la mitjana que ja ha
-    calculat aggregate_all per a l'eleccio `from` i el codi de la comunitat."""
+    calculat aggregate_all per a l'eleccio `from` i el codi de la comunitat.
+    Amb level="province", el mateix per a les circumscripcions (`provinces`):
+    la clau es el codi INE i la mitjana es la de l'ambit "P" + codi."""
     rule = next((e.get("regional_polls") for e in _config()["elections"] if e["id"] == election_id), None)
     if not rule:
         return {}
+    region_of = _region_lookup()
     out = {}
-    for region in rule.get("regions") or []:
+    for code in rule.get("regions" if level == "region" else "provinces") or []:
+        scope = code if level == "region" else f"P{code}"
+        region = region_of(level, code)
         rows = conn.execute("SELECT party, share, n_polls FROM aggregate WHERE election_id = ? AND scope_code = ?",
-                            (rule["from"], region)).fetchall()
+                            (rule["from"], scope)).fetchall()
         avg = {r["party"]: r["share"] for r in rows if r["share"]}
         # Les mateixes llistes uniques que la projeccio (regional_merge): una
         # enquesta d'abans de la coalicio que dona Sumar i Podemos per separat
@@ -477,13 +484,13 @@ def regional_polls(conn, election_id):
         # d'un mes enrere. El pes es parteix per dos cada REGIONAL_HALF_LIFE dies
         # des de l'enquesta mes recent (Pais Valencia, 16/10: un 40 % del pes).
         last = conn.execute("SELECT MAX(fieldwork_end) FROM poll WHERE election_id = ? AND scope_code = ?",
-                            (rule["from"], region)).fetchone()[0]
+                            (rule["from"], scope)).fetchone()[0]
         try:
             age = max(0, (dt.date.today() - dt.date.fromisoformat(last)).days)
         except (TypeError, ValueError):
             continue
-        w = regional_poll_weight(n) * 0.5 ** (age / REGIONAL_HALF_LIFE)
-        out[region] = {"avg": avg, "n": n, "w": w, "age": age, "last": last}
+        w = regional_poll_weight(n, level) * 0.5 ** (age / REGIONAL_HALF_LIFE)
+        out[code] = {"avg": avg, "n": n, "w": w, "age": age, "last": last}
     return out
 
 
@@ -595,6 +602,20 @@ def project_shares(conn, baseline_election, national_now, level, country="ES",
             if region in polls_by_region and region in whole:
                 out[code] = apply_regional_polls(out[code], whole[region], polls_by_region[region])
         report.setdefault("enquestes de comunitat", set()).update(polls_by_region)
+    # Enquestes d'una circumscripcio (22/11/2026), despres de les de la comunitat:
+    # el mateix ajust sobre la projeccio de la provincia sencera. No toca el
+    # nivell de comunitat (la seva enquesta ja hi es).
+    polls_by_prov = (regional_polls(conn, election_id, "province")
+                     if (anchor is True and election_id and country == "ES" and level != "region") else {})
+    if polls_by_prov:
+        whole = (out if level == "province" else
+                 project_shares(conn, baseline_election, national_now, "province", country,
+                                {}, election_id, None, anchor="region"))
+        for code in list(out):
+            prov = code if level == "province" else code[:2]
+            if prov in polls_by_prov and prov in whole:
+                out[code] = apply_regional_polls(out[code], whole[prov], polls_by_prov[prov])
+        report.setdefault("enquestes de circumscripcio", set()).update(polls_by_prov)
     return out
 
 

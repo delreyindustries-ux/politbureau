@@ -32,7 +32,21 @@ elections:
     #   04 Balears: a Wikipedia nomes hi ha escons, cap %; entrara sola si n'hi posen.
     #   02 Arago: A+M / Heraldo de Aragon (1-6/10, n = 2.200), amb CHA i Sumar
     #      encara per separat: compten junts com a CHA-Frente Amplio Aragon.
-    regional_polls: {from: es-general-sub, regions: ["05", "10", "04", "02"]}
+    #   09 Catalunya (EM-Analytics, GESOP/CEO), 12 Galicia (Sondaxe, EM-Analytics),
+    #   13 Madrid (DYM), 14 Murcia (OBEDE/UCAM), 15 Navarra (EM-Analytics) i
+    #   16 Euskadi (Ikerfel, EM-Analytics), afegides el 22/11/2026. La resta de
+    #   comunitats nomes tenen escons a Wikipedia; entraran soles si hi posen %.
+    # `provinces`: el mateix amb les enquestes d'una sola circumscripcio, sobre la
+    # projeccio de la provincia ja acostada a la de la comunitat. Error del model
+    # a la provincia: arrel(REGIONAL^2 + LOCAL^2) = 0,57 (forecast.py).
+    regional_polls:
+      from: es-general-sub
+      regions: ["05", "10", "04", "02", "09", "12", "13", "14", "15", "16",
+                "01", "03", "06", "07", "08", "11", "17"]
+      # Lleo (24) no: l'enquesta de SyM (16/10) posa un 10,3 % a la columna de
+      # Podemos, que a l'estat en te un 1,2; no se sap de quina llista es.
+      provinces: ["15", "27", "32", "36", "01", "48", "20", "03", "12", "46",
+                  "11", "35", "38", "52"]
     chamber:
       name: "Congreso de los Diputados"
       seats: 350
@@ -241,6 +255,37 @@ elections:
       - {code: "10", name: Comunitat Valenciana, match: "valencian community"}
       - {code: "04", name: Illes Balears, match: "balearic islands"}
       - {code: "02", name: Aragón, match: "aragon"}
+      - {code: "09", name: Catalunya, match: "catalonia > autonomous communities"}
+      - {code: "12", name: Galicia, match: "galicia > autonomous communities"}
+      - {code: "13", name: Comunidad de Madrid, match: "madrid > autonomous communities"}
+      - {code: "14", name: Región de Murcia, match: "murcia > autonomous communities"}
+      - {code: "15", name: Navarra, match: "navarre > autonomous communities"}
+      - {code: "16", name: País Vasco, match: "basque country > autonomous communities"}
+      - {code: "01", name: Andalucía, match: "andalusia > autonomous communities"}
+      - {code: "03", name: Asturias, match: "asturias > autonomous communities"}
+      - {code: "06", name: Cantabria, match: "cantabria > autonomous communities"}
+      - {code: "07", name: Castilla y León, match: "castile and león > autonomous communities"}
+      - {code: "08", name: Castilla-La Mancha, match: "castilla–la mancha > autonomous communities"}
+      - {code: "11", name: Extremadura, match: "extremadura > autonomous communities"}
+      - {code: "17", name: La Rioja, match: "la rioja > autonomous communities"}
+      # Circumscripcions (22/11/2026): codi "P" + INE de la provincia, perque
+      # el de Valencia (46) no es confongui amb cap comunitat i el de Castello
+      # (12) amb Galicia.
+      - {code: "P15", province: "15", name: A Coruña, match: "a coruña > constituencies"}
+      - {code: "P27", province: "27", name: Lugo, match: "lugo > constituencies"}
+      - {code: "P32", province: "32", name: Ourense, match: "ourense > constituencies"}
+      - {code: "P36", province: "36", name: Pontevedra, match: "pontevedra > constituencies"}
+      - {code: "P01", province: "01", name: Araba/Álava, match: "álava > constituencies"}
+      - {code: "P48", province: "48", name: Bizkaia, match: "biscay > constituencies"}
+      - {code: "P20", province: "20", name: Gipuzkoa, match: "gipuzkoa > constituencies"}
+      - {code: "P03", province: "03", name: Alacant, match: "alicante > constituencies"}
+      - {code: "P12", province: "12", name: Castelló, match: "castellón > constituencies"}
+      - {code: "P46", province: "46", name: València, match: "valencia > constituencies"}
+      - {code: "P11", province: "11", name: Cádiz, match: "cádiz > constituencies"}
+      - {code: "P35", province: "35", name: Las Palmas, match: "las palmas > constituencies"}
+      - {code: "P38", province: "38", name: Santa Cruz de Tenerife, match: "santa cruz de tenerife > constituencies"}
+      - {code: "P24", province: "24", name: León, match: "león > constituencies"}
+      - {code: "P52", province: "52", name: Melilla, match: "melilla > constituencies"}
 
   - id: es-local-2027
     country: ES
