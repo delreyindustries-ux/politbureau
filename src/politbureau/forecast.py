@@ -97,9 +97,16 @@ def _province_shares(conn, election_id):
 def simulate(conn, election_id="es-general", baseline="congreso-2023",
              n=N_SIMS, seed=None) -> dict | None:
     """{"parties": [...], "blocs": {...}, "n": n, "by_turnout": [...], ...} o None."""
-    from .build import current_national, magnitudes_for
+    from .build import current_national, magnitudes_for, regional_polls
     from .geo import regions as georegions
     national = current_national(conn, election_id)
+    # Enquestes de comunitat i de circumscripcio (22/11/2026): la projeccio ja
+    # s'hi ha acostat amb pes w, i l'error que li queda es el del model per
+    # arrel(1 - w) (la variancia d'una mitjana ponderada de dues estimacions
+    # independents). A la comunitat, REGIONAL; a la provincia, tot el soroll
+    # (comunitat + local) es multiplica per arrel(1 - w de la provincia).
+    w_reg = {r: v["w"] for r, v in regional_polls(conn, election_id).items()}
+    w_prov = {c: v["w"] for c, v in regional_polls(conn, election_id, "province").items()}
     prov = _province_shares(conn, election_id)
     mags = magnitudes_for(conn, election_id, baseline)
     if not national or not prov or not mags:
@@ -138,10 +145,13 @@ def simulate(conn, election_id="es-general", baseline="congreso-2023",
             if tm and r in (tm.get("regional") or {}):
                 tf = {**tf_nat, **tm["regional"][r].get(str(t), {})}
             out = {}
+            k_reg = REGIONAL * math.sqrt(1.0 - w_reg.get(r, 0.0))
+            k_prov = math.sqrt(1.0 - w_prov.get(code, 0.0))
             for p, v in s.items():
                 base = v * factor.get(p, 1.0) * tf.get(p, 1.0)
                 sv = math.sqrt(max(v, 0.0))
-                out[p] = max(0.0, base + REGIONAL * sv * zreg.get((r, p), 0.0) + LOCAL * sv * rng.gauss(0.0, 1.0))
+                out[p] = max(0.0, base + k_prov * sv * (k_reg * zreg.get((r, p), 0.0)
+                                                         + LOCAL * rng.gauss(0.0, 1.0)))
             tot = sum(out.values()) or 1.0
             shares[code] = {p: x * 100.0 / tot for p, x in out.items()}
         totals, _ = seatlib.allocate(shares, mags)
@@ -187,6 +197,7 @@ def simulate(conn, election_id="es-general", baseline="congreso-2023",
                          "parties": [{"code": p, "median": q([draws[p][i] for i in idx], 0.5)} for p in main]})
     return {"n": n, "sigma": round(sigma, 3), "sigma_n": n_cal, "sigma_countries": n_countries,
             "regional": REGIONAL, "local": LOCAL, "turnout_sd": TURNOUT_SD if tm else None,
+            "anchored": {"regions": len(w_reg), "provinces": len(w_prov)},
             "turnout_ref": ref, "majority": MAJORITY,
             "parties": out_parties, "blocs": out_blocs, "pp_alone": pp_alone,
             "right_hist": sorted(hist.items()), "by_turnout": by_t}
