@@ -59,10 +59,31 @@ OUT = ROOT / "config" / "perfils.json"
 MIN_N = 100
 MIN_SUB = 50
 
-PARTY = {"PSOE": "PSOE", "PP": "PP", "VOX": "VOX", "Sumar": "SUMAR", "Podemos": "PODEMOS",
-         "ERC": "ERC", "Se Acabó la Fiesta": "SALF", "EH Bildu": "EHB", "Junts": "JUNTS",
-         "BNG": "BNG", "EAJ-PNV": "PNV", "Aliança Catalana": "AA"}
-FOCUS = ["PP", "PSOE", "VOX", "SUMAR", "PODEMOS", "SALF", "ERC"]
+# Etiquetes del CIS -> codis del cataleg. "AA" al cataleg es Adelante
+# Andalucia: fins al 22/11/2026 Alianca Catalana hi anava per error, i Adelante
+# Andalucia quedava com a "altres". "Frente Amplio" (3582) i IU van dins del
+# codi SUMAR, com al model. "Coalicion de izquierdas" no: el CIS la pregunta
+# al costat de Sumar i no se sap quina llista es.
+PARTY = {"PSOE": "PSOE", "PP": "PP", "VOX": "VOX", "Sumar": "SUMAR", "Frente Amplio": "SUMAR",
+         "IU": "SUMAR", "Podemos": "PODEMOS", "ERC": "ERC", "Se Acabó la Fiesta": "SALF",
+         "EH Bildu": "EHB", "Junts": "JUNTS", "BNG": "BNG", "EAJ-PNV": "PNV",
+         "Adelante Andalucía": "AA", "Aliança Catalana": "ALIANCA", "CCa": "CC", "PACMA": "PACMA",
+         "UPN": "UPN"}
+# Fitxa propia de cada partit amb diputats o amb mostra (22/11/2026). Els de
+# menys de MIN_SUB votants al CIS (CC) tenen fitxa nomes amb el model.
+FOCUS = ["PP", "PSOE", "VOX", "SUMAR", "PODEMOS", "SALF", "ERC", "EHB", "JUNTS", "PNV", "BNG", "AA"]
+# Partits d'una comunitat: la seva fitxa es compara amb la seva comunitat, no
+# amb tot Espanya (valors de la columna CCAA del CIS).
+SCOPE = {"ERC": ["Cataluña"], "JUNTS": ["Cataluña"],
+         "EHB": ["País Vasco", "Navarra (Comunidad Foral de)"], "PNV": ["País Vasco"],
+         "BNG": ["Galicia"], "AA": ["Andalucía"]}
+SCOPE_LABEL = {"Cataluña": ("Catalunya", "Cataluña"), "País Vasco": ("Euskadi", "País Vasco"),
+               "Navarra (Comunidad Foral de)": ("Navarra", "Navarra"), "Galicia": ("Galícia", "Galicia"),
+               "Andalucía": ("Andalusia", "Andalucía")}
+# Grups per adaptar el discurs: NOMES dimensions que no son categories
+# especials de dades (RGPD art. 9; Reglament (UE) 2024/900, art. 18). Fora:
+# lloc de naixement, nacionalitat, religio i ideologia.
+SEGMENT_DIMS = ["sexage", "sex", "age", "studies", "work", "employ", "job", "class", "income", "civil", "town"]
 UNDECIDED = {"No sabe todavía", "N.S."}
 LEADERS = [("VALORALIDERES_1", "Pedro Sánchez"), ("VALORALIDERES_2", "Alberto Núñez Feijóo"),
            ("VALORALIDERES_3", "Yolanda Díaz"), ("VALORALIDERES_4", "Santiago Abascal")]
@@ -319,7 +340,7 @@ def _ministers(a: "_Acc"):
     return [{"name": nm, "mean": round(m, 1), "n": n} for nm, m, n in rows]
 
 
-def profile(rows, all_issues, electorate, dims_fn=None, deep=False):
+def profile(rows, all_issues, electorate, dims_fn=None, deep=False, focus=None, seg=False):
     a = _Acc(rows)
     issues = a.issues()
     personal = a.issues(("PPERSONAL1", "PPERSONAL2", "PPERSONAL3"))
@@ -368,7 +389,7 @@ def profile(rows, all_issues, electorate, dims_fn=None, deep=False):
         "ministers": (lambda m: m if deep else m[:3] + m[-2:] if len(m) > 5 else m)(_ministers(a)),
         "parties": {},
     }
-    for p in FOCUS:
+    for p in (focus or FOCUS):
         voters = [r for r in rows if _party(r, "INTENCIONG") == p]
         was = [r for r in rows if _party(r, "RECUVOTOG") == p]
         reach = [r for r in rows if _probable(r) and _party(r, "INTENCIONG") != p and (
@@ -390,7 +411,13 @@ def profile(rows, all_issues, electorate, dims_fn=None, deep=False):
             src = wr.dist(lambda r: _party(r, "INTENCIONG") or
                           ("UND" if (r.get("INTENCIONG") or "").strip() in UNDECIDED else "OTH"))
             rec["from"] = [{"k": k, "p": round(v, 1)} for k, v in _top(src, 3)]
-            rec["issues"] = [{"k": k, "l": _label(k), "p": round(v, 1)} for k, v in _top(wr.issues(), 5)]
+            rec["issues"] = [{"k": k, "l": _label(k), "p": round(v, 1),
+                              "lift": round(v / all_issues[k], 2) if all_issues.get(k) else None}
+                             for k, v in _top(wr.issues(), 5)]
+            # Per adaptar el discurs a cada grup (22/11/2026): que en pensen,
+            # de cada politica, els votants a l'abast d'aquest grup.
+            if seg:
+                rec["ops_reach"] = _opinions(wr)
             if deep:
                 rec["ops_reach"] = _opinions(wr)
                 rec["ideo_reach"] = round(wr.mean(lambda r: _num(r.get("ESCIDEOL"))) or 0, 1)
@@ -484,9 +511,9 @@ def run() -> dict | None:
         fn = col if callable(col) else (lambda r, c=col: r.get(c))
         dimfns.append((key, title, fn, cats))
 
-    def portrait(voters, reach):
+    def portrait(voters, reach, everyone=None):
         """Com es reparteixen els votants (i els que te a l'abast) a cada dimensio."""
-        av, ar, at = _Acc(voters), _Acc(reach) if reach else None, _Acc(rows)
+        av, ar, at = _Acc(voters), _Acc(reach) if reach else None, _Acc(everyone or rows)
         res = []
         for key, title, fn, cats in dimfns:
             if key not in PORTRAIT_DIMS:
@@ -507,7 +534,7 @@ def run() -> dict | None:
     for gid, label, fn in CROSS:
         g = [r for r in rows if fn(r)]
         if len(g) >= MIN_N:
-            cross.append({"id": gid, "label": label, **profile(g, all_issues, electorate)})
+            cross.append({"id": gid, "label": label, **profile(g, all_issues, electorate, seg=True)})
     if cross:
         dims.append({"key": "sexage", "title": {"ca": "Sexe i edat", "es": "Sexo y edad"}, "groups": cross})
     for key, title, fn, cats in dimfns:
@@ -517,15 +544,47 @@ def run() -> dict | None:
             if len(g) < MIN_N:
                 continue
             groups.append({"id": f"{key}:{value}", "label": {"ca": ca, "es": es},
-                           **profile(g, all_issues, electorate)})
+                           **profile(g, all_issues, electorate, seg=key in SEGMENT_DIMS)})
         if groups:
             dims.append({"key": key, "title": title, "groups": groups})
+    # Partits d'una comunitat: el mateix, nomes amb les entrevistes d'alla.
+    scopes = {}
+    for party, regions in SCOPE.items():
+        rr = [r for r in rows if (r.get("CCAA") or "").strip() in regions]
+        if len(rr) < MIN_N:
+            continue
+        ai = _Acc(rr).issues()
+        tot_s = profile(rr, ai, electorate, deep=True, focus=[party],
+                        dims_fn=lambda v, rc, e=rr: portrait(v, rc, e))
+        sdims = []
+        for gid, label, fn in CROSS:
+            g = [r for r in rr if fn(r)]
+            if len(g) >= MIN_N:
+                sdims.append(("sexage", {"ca": "Sexe i edat", "es": "Sexo y edad"},
+                              {"id": gid, "label": label, **profile(g, ai, electorate, focus=[party], seg=True)}))
+        for key, title, fn, cats in dimfns:
+            if key not in SEGMENT_DIMS:
+                continue
+            for value, ca, es in cats:
+                g = [r for r in rr if fn(r) == value]
+                if len(g) >= MIN_N:
+                    sdims.append((key, title, {"id": f"{key}:{value}", "label": {"ca": ca, "es": es},
+                                               **profile(g, ai, electorate, focus=[party], seg=True)}))
+        out_dims = []
+        for key, title, grp in sdims:
+            if not out_dims or out_dims[-1]["key"] != key:
+                out_dims.append({"key": key, "title": title, "groups": []})
+            out_dims[-1]["groups"].append(grp)
+        scopes[party] = {"regions": regions,
+                         "label": {"ca": " i ".join(SCOPE_LABEL.get(x, (x, x))[0] for x in regions),
+                                   "es": " y ".join(SCOPE_LABEL.get(x, (x, x))[1] for x in regions)},
+                         "n": len(rr), "total": tot_s, "dims": out_dims}
     ops_meta = [{"k": k, "b": b, "l": {"ca": ca, "es": es}} for k, b, ca, es, _m, _p in OPINIONS]
     data = {"computed": dt.date.today().isoformat(), "studies": studies, "n": len(rows), "focus": FOCUS,
             "electorate": electorate, "ops": ops_meta,
             "blocks": {k: {"ca": v[0], "es": v[1]} for k, v in BLOCKS.items()},
             "compose": [{"k": k, "l": {"ca": ca, "es": es}} for k, ca, es, _f in COMPOSE],
-            "total": total, "dims": dims,
+            "total": total, "dims": dims, "scopes": scopes, "segment_dims": SEGMENT_DIMS,
             "source": "Origen de los datos: Centro de Investigaciones Sociológicas (CIS), barómetros "
                       + ", ".join(studies)}
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

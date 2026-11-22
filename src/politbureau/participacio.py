@@ -59,7 +59,10 @@ OUT = ROOT / "config" / "participacio.json"
 MIN_N = 300
 PARTY = {"PSOE": "PSOE", "PP": "PP", "VOX": "VOX", "Sumar": "SUMAR", "Podemos": "PODEMOS",
          "ERC": "ERC", "Se Acabó la Fiesta": "SALF", "EH Bildu": "EHB", "Junts": "JUNTS",
-         "BNG": "BNG", "EAJ-PNV": "PNV", "Aliança Catalana": "AA"}
+         "BNG": "BNG", "EAJ-PNV": "PNV", "Aliança Catalana": "ALIANCA",
+         # "AA" es Adelante Andalucia al cataleg (fins al 22/11/2026 hi anava
+         # Alianca Catalana per error; cap dels dos arriba a MIN_N entrevistes).
+         "Adelante Andalucía": "AA"}
 GRID = list(range(50, 86))
 
 

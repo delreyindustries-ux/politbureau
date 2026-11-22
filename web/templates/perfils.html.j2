@@ -14,6 +14,13 @@
     I, per a cada partit, on té votants a l'abast i de què parlen. Amb {{ d.n | thousands }} entrevistes del CIS.</p>
 {% endif %}
 
+  {% if links %}<section class="pf-cards-nav">
+    <h2>{{ 'Ficha de cada partido' if es else 'Fitxa de cada partit' }}</h2>
+    <p>{{ 'Quién le vota, qué preocupa a los votantes que puede ganar, qué propuestas conectan con cada grupo y qué escaños se juega.' if es else
+      "Qui el vota, què preocupa als votants que pot guanyar, quines propostes connecten amb cada grup i quins escons es juga." }}</p>
+    <nav class="pf-plinks">{% for l in links %}<a href="{{ root }}{{ l.url.lstrip('/') }}"><span class="sw" style="background:{{ l.color | vis }}"></span>{{ l.name }}</a>{% endfor %}</nav>
+  </section>{% endif %}
+
   <nav class="pf-toc"><a href="#pf-partysec">{{ 'Por partido' if es else 'Per partit' }}</a> · <a href="#pf-cardsec">{{ 'Por colectivo' if es else 'Per col·lectiu' }}</a> ·
     <a href="#pf-topicsec">{{ 'Por tema o política' if es else 'Per tema o política' }}</a></nav>
 
@@ -102,6 +109,9 @@
 .perfils .pf-read{background:var(--soft,rgba(127,127,127,.08));border-radius:6px;padding:8px 12px}
 .perfils .pf-opps a,.perfils #pf-topic a{color:inherit}
 .perfils .pf-toc{margin:8px 0 16px}
+.perfils .pf-plinks{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+.perfils .pf-plinks a{border:1px solid var(--line,#ddd);border-radius:16px;padding:4px 12px;text-decoration:none;color:inherit;font-weight:600}
+.perfils .pf-plinks a:hover{border-color:currentColor}
 .perfils .pf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}
 .perfils .pf-kpi{border:1px solid var(--line,#ddd);border-radius:8px;padding:8px 12px}
 .perfils .pf-kpi b{display:block;font-size:1.5em}

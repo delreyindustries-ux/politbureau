@@ -1,0 +1,217 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% set c = color | vis %}
+<article class="doc wide perfils pp" style="--pc:{{ c }}">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('profiles') }}/">{{ t('nav_profiles') }}</a></nav>
+  <header class="pp-head">
+    <h1><span class="pp-dot"></span>{{ name }}</h1>
+    <p class="lede">{% if es %}Quién vota a {{ name }}, qué le preocupa a quien podría votarle y qué propuestas conectan con cada grupo
+      en {{ v.where }}. Con {{ v.n_scope | thousands }} entrevistas del CIS{% if v.scoped %} hechas en {{ v.where }}{% endif %}.
+      {% else %}Qui vota {{ name }}, què preocupa als qui el podrien votar i quines propostes connecten amb cada grup a {{ v.where }}.
+      Amb {{ v.n_scope | thousands }} entrevistes del CIS{% if v.scoped %} fetes a {{ v.where }}{% endif %}.{% endif %}</p>
+    <nav class="pp-parties" aria-label="{{ 'Otros partidos' if es else 'Altres partits' }}">{% for l in links %}<a href="{{ root }}{{ l.url.lstrip('/') }}"{% if l.code == v.code %} aria-current="page"{% endif %}><span class="sw" style="background:{{ l.color | vis }}"></span>{{ l.name }}</a>{% endfor %}</nav>
+  </header>
+
+{% if not v.enough %}
+  <p class="pp-warn">{% if es %}El CIS tiene muy pocas entrevistas con votantes de {{ name }} en estos tres barómetros: no se puede trazar su perfil
+    sin un margen de error enorme. Abajo, solo lo que dice el modelo de escaños.{% else %}El CIS té molt poques entrevistes amb votants de {{ name }}
+    en aquests tres baròmetres: no se'n pot fer el perfil sense un marge d'error enorme. A sota, només el que diu el model d'escons.{% endif %}</p>
+{% else %}
+  <div class="pf-kpis">{% for k in v.kpis %}<div class="pf-kpi"><b>{{ k[0] }}</b><span>{{ k[1] }}</span></div>{% endfor %}
+  {% if v.model.seats is not none %}<div class="pf-kpi"><b>{{ v.model.seats }}</b><span>{{ 'escaños en el modelo de Polit Bureau' if es else 'escons al model de Polit Bureau' }}{% if v.model.share %} ({{ fmt(v.model.share) }} % {{ 'en la media de encuestas' if es else 'a la mitjana d\'enquestes' }}){% endif %}</span></div>{% endif %}</div>
+  {% if v.summary %}<div class="pf-read pp-sum"><b>{{ 'Lo que dicen los datos' if es else 'Què diuen les dades' }}.</b><ul>{% for s in v.summary %}<li>{{ s | safe }}</li>{% endfor %}</ul></div>{% endif %}
+
+  <nav class="pf-toc"><a href="#pp-grups">{{ 'Cómo hablar a cada grupo' if es else 'Com parlar a cada grup' }}</a> ·
+    <a href="#pp-pont">{{ 'Propuestas puente' if es else 'Propostes pont' }}</a> · <a href="#pp-temes">{{ 'Temas' if es else 'Temes' }}</a> ·
+    <a href="#pp-qui">{{ 'Quiénes son' if es else 'Qui són' }}</a> · <a href="#pp-escons">{{ 'Escaños en juego' if es else 'Escons en joc' }}</a></nav>
+
+  <section id="pp-grups">
+    <h2>{{ 'Cómo adaptar el discurso a cada grupo' if es else 'Com adaptar el discurs a cada grup' }}</h2>
+    <p>{% if es %}Para cada grupo, los votantes que {{ name }} tiene a su alcance (votantes probables que lo tienen de segunda opción, o indecisos que lo sienten
+      el más cercano): cuántos son, a quién votan hoy, qué problemas citan —con cuántas veces más que la media {{ v.de_where }} (×)— y qué propuestas
+      apoyan más. Ordenados por número de personas.{% else %}Per a cada grup, els votants que {{ name }} té a l'abast (votants probables que el tenen de segona
+      opció, o indecisos que el senten el més proper): quants són, a qui voten avui, quins problemes citen —amb quantes vegades més que la mitjana
+      {{ v.de_where }} (×)— i quines propostes hi tenen més suport. Ordenats per nombre de persones.{% endif %}</p>
+{% macro card(s) %}
+      <div class="pp-card">
+        <h3>{{ s.label }} <small>{{ s.dim }}</small></h3>
+        <p class="pp-big"><b>{{ s.people_s }}</b> {{ 'a su alcance' if es else "a l'abast" }} · {{ fmt(s.reach) }} % {{ 'del grupo' if es else 'del grup' }}{% if s.small %} · <small title="{{ s.n }}">{{ 'poca muestra' if es else 'poca mostra' }} ({{ s.n }})</small>{% endif %}</p>
+        {% if s['from'] %}<p class="pp-from">{{ 'Hoy votan' if es else 'Avui voten' }}: {% for f in s['from'] %}<span class="sw" style="background:{{ f.color | vis }}"></span>{{ f.name }} {{ fmt(f.p) }} %{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+        {% if s.issues %}<h4>{{ 'Les preocupa' if es else 'Els preocupa' }}</h4><ul class="pp-iss">{% for i in s.issues %}<li><span>{{ i.l }}</span> <b>{{ fmt(i.p) }} %</b>{% if i.lift %} <small class="{{ 'up' if i.lift >= 1.25 else ('down' if i.lift <= 0.8 else '') }}">×{{ fmt(i.lift) }}</small>{% endif %}</li>{% endfor %}</ul>{% endif %}
+        <h4>{{ 'Propuestas que destacan en el grupo' if es else 'Propostes que hi destaquen' }}</h4>
+        {% if s.props %}<ul class="pp-props">{% for pr in s.props %}<li>{{ pr.l }} <b>{{ fmt(pr.p) }} %</b> <small class="up">(+{{ fmt(pr.gap) }})</small>{% if pr.reach is not none %} <small>· {{ 'a su alcance' if es else "a l'abast" }} {{ fmt(pr.reach) }} %</small>{% endif %}</li>{% endfor %}</ul>
+        {% else %}<p class="pp-none">{{ 'Ninguna propuesta destaca aquí sobre la media.' if es else 'Cap proposta no hi destaca sobre la mitjana.' }}</p>{% endif %}
+        {% if s.read %}<p class="pp-angle">→ {{ s.read | safe }}.</p>{% endif %}
+      </div>
+{% endmacro %}
+    {% if v.segments %}
+    {% if v.seg_main %}<h3 class="pp-sub">{{ 'Por sexo y edad' if es else 'Per sexe i edat' }}</h3>
+    <p class="note">{{ 'Ocho grupos que no se solapan: entre todos, todo el electorado.' if es else "Vuit grups que no se solapen: entre tots, tot l'electorat." }}</p>
+    <div class="pp-cards">{% for s in v.seg_main %}{{ card(s) }}{% endfor %}</div>{% endif %}
+    {% if v.seg_more %}<h3 class="pp-sub">{{ 'Otros grupos con muchos votantes a su alcance' if es else "Altres grups amb molts votants a l'abast" }}</h3>
+    <div class="pp-cards">{% for s in v.seg_more %}{{ card(s) }}{% endfor %}</div>{% endif %}
+    {% if v.segments %}
+    <details class="minor"><summary>{{ 'Todos los grupos' if es else 'Tots els grups' }} ({{ v.segments | length }})</summary>
+      <div class="tablewrap"><table class="results"><thead><tr><th>{{ 'Grupo' if es else 'Grup' }}</th><th class="num">{{ 'A su alcance' if es else "A l'abast" }}</th>
+        <th class="num">≈ {{ 'personas' if es else 'persones' }}</th><th>{{ 'Les preocupa' if es else 'Els preocupa' }}</th><th>{{ 'Propuesta que más destaca' if es else 'Proposta que més hi destaca' }}</th></tr></thead><tbody>
+      {% for s in v.segments %}<tr><td>{{ s.label }} <small>{{ s.dim }}</small></td><td class="num">{{ fmt(s.reach) }} %</td><td class="num">{{ s.people_s }}</td>
+        <td>{% for i in s.issues[:3] %}{{ i.l }} <small>{{ fmt(i.p) }} %</small>{% if not loop.last %} · {% endif %}{% endfor %}</td>
+        <td>{% if s.props %}{{ s.props[0].l }} <small>{{ fmt(s.props[0].p) }} % (+{{ fmt(s.props[0].gap) }})</small>{% else %}–{% endif %}</td></tr>{% endfor %}
+      </tbody></table></div></details>
+    {% endif %}
+    {% else %}<p>{{ 'Ningún grupo tiene bastantes votantes a su alcance (50 entrevistas) para decir de qué hablan.' if es else "Cap grup no té prou votants a l'abast (50 entrevistes) per dir de què parlen." }}</p>{% endif %}
+    <p class="note">{% if es %}Solo grupos por edad, sexo, estudios, trabajo, clase, ingresos, estado civil y tamaño del municipio. No se segmenta por ideología, religión
+      ni origen: son categorías especiales de datos y el Reglamento (UE) 2024/900 (artículo 18) prohíbe usarlas para dirigir publicidad política. Las propuestas que destacan
+      son las que el grupo entero apoya al menos 3 puntos más que la media {{ v.de_where }} (preguntas de actualidad de los barómetros; si un grupo tiene menos de 50 respuestas a una pregunta, no sale). Con 50-100 entrevistas, el margen de error de un
+      50 % es de ±10-14 puntos.{% else %}Només grups per edat, sexe, estudis, feina, classe, ingressos, estat civil i mida del municipi. No es fan grups per ideologia,
+      religió ni origen: són categories especials de dades i el Reglament (UE) 2024/900 (article 18) prohibeix fer-les servir per adreçar publicitat política. Les
+      propostes que hi destaquen són les que el grup sencer recolza almenys 3 punts més que la mitjana {{ v.de_where }} (preguntes d'actualitat dels baròmetres; si un grup té menys de 50 respostes a una pregunta, no surt). Amb 50-100 entrevistes, el marge d'error
+      d'un 50 % és de ±10-14 punts.{% endif %}</p>
+  </section>
+
+  <section id="pp-pont">
+    <h2>{{ 'Propuestas puente y propuestas que dividen' if es else 'Propostes pont i propostes que divideixen' }}</h2>
+    <p>{% if es %}Dónde los votantes que {{ name }} puede ganar piensan distinto de los que ya tiene. Una propuesta puente gusta más a los primeros que a los segundos;
+      una que divide, al revés. Las de consenso tienen más de un 70 % de apoyo en los dos.{% else %}On els votants que {{ name }} pot guanyar pensen diferent dels que
+      ja té. Una proposta pont agrada més als primers que als segons; una que divideix, al revés. Les de consens tenen més d'un 70 % de suport en tots dos.{% endif %}</p>
+    <div class="pf-grid">
+      <div><h4 class="up">{{ 'Puente: más apoyo entre los que puede ganar' if es else 'Pont: més suport entre els que pot guanyar' }}</h4>
+        {% if v.bridge %}<ul>{% for r in v.bridge %}<li>{{ r.l }}: <b>{{ fmt(r.r) }} %</b> {{ 'frente a' if es else 'davant' }} {{ fmt(r.v) }} % <small class="up">(+{{ fmt(r.gap) }})</small></li>{% endfor %}</ul>{% else %}<p>–</p>{% endif %}</div>
+      <div><h4 class="down">{{ 'Dividen: menos apoyo entre los que puede ganar' if es else 'Divideixen: menys suport entre els que pot guanyar' }}</h4>
+        {% if v.wedge %}<ul>{% for r in v.wedge %}<li>{{ r.l }}: <b>{{ fmt(r.r) }} %</b> {{ 'frente a' if es else 'davant' }} {{ fmt(r.v) }} % <small class="down">(−{{ fmt(-r.gap) }})</small></li>{% endfor %}</ul>{% else %}<p>–</p>{% endif %}</div>
+      <div><h4>{{ 'Consenso en los dos' if es else 'Consens en tots dos' }}</h4>
+        {% if v.consensus %}<ul>{% for r in v.consensus %}<li>{{ r.l }}: {{ fmt(r.v) }} % / {{ fmt(r.r) }} %</li>{% endfor %}</ul>{% else %}<p>–</p>{% endif %}</div>
+    </div>
+    <details class="minor"><summary>{{ 'Todas las propuestas' if es else 'Totes les propostes' }} ({{ v.ops | length }})</summary>
+      <div class="tablewrap"><table class="results"><thead><tr><th>{{ 'Pregunta' if es else 'Pregunta' }}</th><th class="num">{{ 'Sus votantes' if es else 'Els seus votants' }}</th>
+        <th class="num">{{ 'A su alcance' if es else "A l'abast" }}</th><th class="num">{{ v.where }}</th><th class="num">{{ 'Diferencia' if es else 'Diferència' }}</th></tr></thead><tbody>
+      {% set ns = namespace(b=None) %}{% for r in v.ops %}{% if r.block != ns.b %}<tr class="pf-block"><td colspan="5"><b>{{ r.block }}</b></td></tr>{% set ns.b = r.block %}{% endif %}
+        <tr><td>{{ r.l }}</td><td class="num">{{ fmt(r.v) }} %</td><td class="num">{{ fmt(r.r) }}{% if r.r is not none %} %{% endif %}</td><td class="num">{{ fmt(r.t) }}{% if r.t is not none %} %{% endif %}</td>
+        <td class="num">{% if r.gap is not none %}<span class="{{ 'up' if r.gap >= 5 else ('down' if r.gap <= -5 else '') }}">{{ '+' if r.gap >= 0 else '−' }}{{ fmt(r.gap | abs) }}</span>{% else %}–{% endif %}</td></tr>{% endfor %}
+      </tbody></table></div></details>
+  </section>
+
+  <section id="pp-temes">
+    <h2>{{ 'Qué les preocupa' if es else 'Què els preocupa' }}</h2>
+    <p>{{ 'Los tres primeros problemas de España que cita cada persona.' if es else "Els tres primers problemes d'Espanya que cita cada persona." }}
+      <span class="pp-key"><i class="v"></i>{{ 'sus votantes' if es else 'els seus votants' }} <i class="r"></i>{{ 'a su alcance' if es else "a l'abast" }}</span></p>
+    <table class="pp-bars">{% for i in v.issues %}<tr><td>{{ i.l }}</td><td><span class="b v" style="width:{{ i.wv }}%"></span><small>{{ fmt(i.v) }}{% if i.v is not none %} %{% endif %}</small><br>
+      <span class="b r" style="width:{{ i.wr }}%"></span><small>{{ fmt(i.r) }}{% if i.r is not none %} %{% endif %}</small></td><td class="num"><small>{{ v.where }}: {{ fmt(i.t) }}{% if i.t is not none %} %{% endif %}</small></td></tr>{% endfor %}</table>
+  </section>
+
+  <section id="pp-qui">
+    <h2>{{ 'Quiénes son' if es else 'Qui són' }}</h2>
+    <div class="pf-grid">
+      <div class="tablewrap"><table class="results"><thead><tr><th></th><th class="num">{{ 'Sus votantes' if es else 'Els seus votants' }}</th><th class="num">{{ 'A su alcance' if es else "A l'abast" }}</th><th class="num">{{ v.where }}</th></tr></thead><tbody>
+      {% for r in v.portrait %}<tr><td>{{ r.l }}</td><td class="num">{{ fmt(r.v) }}{% if r.unit is not defined and r.v is not none %} %{% endif %}</td><td class="num">{{ fmt(r.r) }}{% if r.unit is not defined and r.r is not none %} %{% endif %}</td><td class="num">{{ fmt(r.t) }}{% if r.unit is not defined and r.t is not none %} %{% endif %}</td></tr>{% endfor %}
+      </tbody></table></div>
+      <div><h4>{{ 'De dónde vendrían' if es else "D'on vindrien" }}</h4>
+        {% if v['from'] %}{% for f in v['from'] %}<div class="pf-row"><span class="sw" style="background:{{ f.color | vis }}"></span>{{ f.name }} <span class="pf-bar" style="width:{{ (f.p * 0.8) | round | int }}px;color:{{ f.color | vis }}"></span>{{ fmt(f.p) }} %</div>{% endfor %}{% else %}<p>–</p>{% endif %}
+        <h4>{{ 'Si lo dejan, se van a (segunda opción)' if es else 'Si el deixen, se\'n van a (segona opció)' }}</h4>
+        {% if v.risk %}{% for f in v.risk %}<div class="pf-row"><span class="sw" style="background:{{ f.color | vis }}"></span>{{ f.name }} <span class="pf-bar" style="width:{{ (f.p * 0.8) | round | int }}px;color:{{ f.color | vis }}"></span>{{ fmt(f.p) }} %</div>{% endfor %}{% else %}<p>–</p>{% endif %}
+        {% if v.went %}<h4>{{ 'Sus votantes de 2023 que hoy no le votan' if es else 'Els seus votants del 2023 que avui no el voten' }}</h4>
+        {% for f in v.went %}<div class="pf-row"><span class="sw" style="background:{{ f.color | vis }}"></span>{{ f.name }} {{ fmt(f.p) }} %</div>{% endfor %}{% endif %}
+      </div>
+    </div>
+    {% if v.portrait_full %}<details class="minor"><summary>{{ 'Retrato completo' if es else 'Retrat complet' }}</summary><div class="pf-grid">
+      {% for dm in v.portrait_full %}<div><h4>{{ dm.title }}</h4><table class="results pf-mini"><thead><tr><th></th><th class="num">{{ 'Votantes' if es else 'Votants' }}</th><th class="num">{{ 'Alcance' if es else 'Abast' }}</th><th class="num">{{ v.where }}</th></tr></thead><tbody>
+        {% for cc in dm.cells %}<tr><td>{{ cc.l }}</td><td class="num">{{ fmt(cc.v) }} %</td><td class="num">{{ fmt(cc.r) }}{% if cc.r is not none %} %{% endif %}</td><td class="num">{{ fmt(cc.t) }} %</td></tr>{% endfor %}
+      </tbody></table></div>{% endfor %}</div></details>{% endif %}
+  </section>
+{% endif %}
+
+  <section id="pp-escons">
+    <h2>{{ 'Escaños en juego en el modelo' if es else 'Escons en joc al model' }}</h2>
+    {% if v.model.seats is not none %}
+    <p>{% if es %}Con la proyección de Polit Bureau (media de encuestas llevada a cada provincia), {{ name }} saca <b>{{ v.model.seats }}</b> escaños. Dónde está
+      a menos de {{ 3 }} puntos de ganar uno más o de perder el último, con el resto de partidos quietos (votos aproximados con el voto válido de 2023):{% else %}Amb la
+      projecció de Polit Bureau (mitjana d'enquestes portada a cada província), {{ name }} treu <b>{{ v.model.seats }}</b> escons. On és a menys de 3 punts de
+      guanyar-ne un més o de perdre l'últim, amb la resta de partits quiets (vots aproximats amb el vot vàlid del 2023):{% endif %}</p>
+    <div class="pf-grid">
+      <div><h4 class="up">{{ 'Puede ganar' if es else 'Pot guanyar' }}</h4>{% if v.model.win %}<ul>{% for r in v.model.win %}<li><b>{{ r.name }}</b> ({{ r.seats }}/{{ r.m }}, {{ fmt(r.share) }} %): {% if r.tie %}{{ 'empate: lo decide un puñado de votos' if es else 'empat: el decideixen quatre vots' }}{% else %}{{ 'le faltan' if es else 'li falten' }} {{ fmt(r.pts, 2) }} {{ 'puntos' if es else 'punts' }} · ≈ {{ r.votes | int | thousands }} {{ 'votos' if es else 'vots' }}{% endif %}</li>{% endfor %}</ul>{% else %}<p>–</p>{% endif %}</div>
+      <div><h4 class="down">{{ 'Puede perder' if es else 'Pot perdre' }}</h4>{% if v.model.lose %}<ul>{% for r in v.model.lose %}<li><b>{{ r.name }}</b> ({{ r.seats }}/{{ r.m }}, {{ fmt(r.share) }} %): {% if r.tie %}{{ 'empate: lo decide un puñado de votos' if es else 'empat: el decideixen quatre vots' }}{% else %}{{ 'margen de' if es else 'marge de' }} {{ fmt(r.pts, 2) }} {{ 'puntos' if es else 'punts' }} · ≈ {{ r.votes | int | thousands }} {{ 'votos' if es else 'vots' }}{% endif %}</li>{% endfor %}</ul>{% else %}<p>–</p>{% endif %}</div>
+    </div>
+    <p><a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ 'El reparto de cada provincia, escaño a escaño' if es else 'El repartiment de cada província, escó a escó' }} →</a></p>
+    {% else %}<p>{{ 'El modelo no le da ningún escaño ni le sitúa cerca de ganar uno.' if es else "El model no li dona cap escó ni el situa a prop de guanyar-ne un." }}</p>{% endif %}
+  </section>
+
+  <details class="minor">
+    <summary>{{ 'Cómo se ha hecho y qué no dice' if es else "Com s'ha fet i què no diu" }}</summary>
+  {% if es %}
+    <ul>
+      <li>Fuente: microdatos de los barómetros del CIS {{ d.studies | join(', ') }}, ponderados con su peso.{% if v.scoped %} Solo las entrevistas hechas en {{ v.where }}: {{ name }} se compara con su comunidad, no con toda España.{% endif %}
+        En el CIS, «{{ cis_name }}» es la respuesta que pregunta el barómetro: puede no coincidir con la candidatura que se presenta.</li>
+      <li><b>Votantes</b>: dicen que le votarían (voto directo). <b>A su alcance</b>: votantes probables (5 o más sobre 10) que hoy no le votarían pero le tienen de segunda opción,
+        o indecisos que le sienten el más cercano. Las personas son una aproximación sobre el censo de 2023.</li>
+      <li>«×1,4» quiere decir que el grupo cita ese problema 1,4 veces más que la media {{ v.de_where }}.</li>
+      <li>Es una foto de opiniones declaradas, no una receta: dice qué temas pesan y qué propuestas tienen apoyo en cada grupo, no qué mensaje convencerá.</li>
+      <li><b>Uso de los datos.</b> Todo son agregados: no se puede identificar a nadie. Dirigir anuncios políticos a personas concretas con técnicas que tratan datos personales
+        requiere su consentimiento explícito, y con categorías especiales de datos (ideología, religión, origen…) está prohibido: Reglamento (UE) 2024/900, artículo 18, y RGPD, artículo 9.</li>
+      <li>Escaños: ley d'Hondt con el umbral del 3 % en cada provincia sobre la proyección de hoy. No es una previsión de lo que pasará.</li>
+    </ul>
+  {% else %}
+    <ul>
+      <li>Font: microdades dels baròmetres del CIS {{ d.studies | join(', ') }}, ponderades amb el seu pes.{% if v.scoped %} Només les entrevistes fetes a {{ v.where }}: {{ name }} es compara amb la seva comunitat, no amb tot Espanya.{% endif %}
+        Al CIS, «{{ cis_name }}» és la resposta que pregunta el baròmetre: pot no coincidir amb la candidatura que es presenta.</li>
+      <li><b>Votants</b>: diuen que el votarien (vot directe). <b>A l'abast</b>: votants probables (5 o més sobre 10) que avui no el votarien però el tenen de segona opció,
+        o indecisos que el senten el més proper. Les persones són una aproximació sobre el cens del 2023.</li>
+      <li>«×1,4» vol dir que el grup cita aquell problema 1,4 vegades més que la mitjana {{ v.de_where }}.</li>
+      <li>És una foto d'opinions declarades, no una recepta: diu quins temes pesen i quines propostes tenen suport a cada grup, no quin missatge convencerà.</li>
+      <li><b>Ús de les dades.</b> Tot són agregats: no es pot identificar ningú. Adreçar anuncis polítics a persones concretes amb tècniques que tracten dades personals
+        requereix el seu consentiment explícit, i amb categories especials de dades (ideologia, religió, origen…) està prohibit: Reglament (UE) 2024/900, article 18, i RGPD, article 9.</li>
+      <li>Escons: llei d'Hondt amb el llindar del 3 % a cada província sobre la projecció d'avui. No és una previsió del que passarà.</li>
+    </ul>
+  {% endif %}
+    <p class="note">{{ d.source }}.</p>
+  </details>
+</article>
+<style>
+.pp .pp-head h1{display:flex;align-items:center;gap:10px}
+.pp .pp-dot{width:18px;height:18px;border-radius:50%;background:var(--pc);flex:none}
+.pp .pp-head{border-left:6px solid var(--pc);padding-left:14px;margin-bottom:12px}
+.pp .pp-parties{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.pp .pp-parties a{border:1px solid var(--line,#ddd);border-radius:14px;padding:2px 10px;text-decoration:none;color:inherit;font-size:.9em}
+.pp .pp-parties a[aria-current]{border-color:var(--pc);font-weight:700}
+.pp .pp-warn{border-left:4px solid #b3261e;padding:8px 12px;background:var(--soft,rgba(127,127,127,.08))}
+.pp .pp-sum ul{margin:6px 0 0;padding-left:20px}
+.pp .pp-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px;margin:12px 0}
+.pp .pp-card{border:1px solid var(--line,#ddd);border-top:4px solid var(--pc);border-radius:8px;padding:10px 14px}
+.pp .pp-sub{margin:18px 0 2px}
+.pp .pp-none{margin:2px 0;font-size:.9em;opacity:.75}
+.pp .pp-card h3{margin:2px 0 4px;font-size:1.05em}
+.pp .pp-card h3 small{font-weight:400;opacity:.7;font-size:.8em}
+.pp .pp-card h4{margin:8px 0 2px;font-size:.9em;opacity:.85}
+.pp .pp-big{margin:2px 0}
+.pp .pp-from{margin:4px 0;font-size:.9em}
+.pp .pp-iss,.pp .pp-props{margin:0;padding-left:18px;font-size:.93em}
+.pp .pp-angle{margin:8px 0 0;padding:6px 8px;border-radius:6px;background:var(--soft,rgba(127,127,127,.08));font-size:.93em}
+.pp .pp-bars{width:100%;border-collapse:collapse}
+.pp .pp-bars td{padding:4px 6px;vertical-align:middle;border-bottom:1px solid var(--line,#eee)}
+.pp .pp-bars td:first-child{width:34%}
+.pp .pp-bars .b{display:inline-block;height:9px;border-radius:3px;margin-right:6px;vertical-align:middle;max-width:70%}
+.pp .pp-bars .b.v,.pp .pp-key i.v{background:var(--pc)}
+.pp .pp-bars .b.r,.pp .pp-key i.r{background:var(--pc);opacity:.4}
+.pp .pp-key{margin-left:8px;font-size:.88em}
+.pp .pp-key i{display:inline-block;width:12px;height:9px;border-radius:2px;margin:0 4px 0 10px}
+@media (max-width:640px){.pp .pp-bars td:first-child{width:40%}.pp .pp-bars td:last-child{display:none}}
+</style>
+<style>
+.perfils .pf-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}
+.perfils .pf-kpi{border:1px solid var(--line,#ddd);border-radius:8px;padding:8px 12px}
+.perfils .pf-kpi b{display:block;font-size:1.5em}
+.perfils .pf-kpi span{font-size:.88em;opacity:.8}
+.perfils .pf-read{background:var(--soft,rgba(127,127,127,.08));border-radius:6px;padding:8px 12px}
+.perfils .pf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 24px}
+.perfils .pf-toc{margin:8px 0 16px}
+.perfils .pf-bar{display:inline-block;height:10px;border-radius:3px;vertical-align:middle;margin:0 6px;background:currentColor;opacity:.55}
+.perfils .pf-row{margin:2px 0}
+.perfils .pf-mini td{padding:2px 6px;font-size:.92em}
+.perfils h4{margin:12px 0 4px;font-size:.98em}
+.perfils small.up,.perfils span.up,.perfils h4.up{color:#1b7f3b}
+.perfils small.down,.perfils span.down,.perfils h4.down{color:#b3261e}
+@media (prefers-color-scheme:dark){.perfils small.up,.perfils span.up,.perfils h4.up{color:#6fd08c}.perfils small.down,.perfils span.down,.perfils h4.down{color:#ff8a80}}
+</style>
+{% endblock %}
