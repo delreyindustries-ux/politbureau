@@ -30,7 +30,9 @@ elections:
     #   05 Canaries: Agora Integral (16-20/11) i GCEMOP (28/10-11/11), Wikipedia.
     #   10 Pais Valencia: SyM Consulting (16/10) i SocioMetrica (7/10), Wikipedia.
     #   04 Balears: a Wikipedia nomes hi ha escons, cap %; entrara sola si n'hi posen.
-    regional_polls: {from: es-general-sub, regions: ["05", "10", "04"]}
+    #   02 Arago: A+M / Heraldo de Aragon (1-6/10, n = 2.200), amb CHA i Sumar
+    #      encara per separat: compten junts com a CHA-Frente Amplio Aragon.
+    regional_polls: {from: es-general-sub, regions: ["05", "10", "04", "02"]}
     chamber:
       name: "Congreso de los Diputados"
       seats: 350
@@ -238,6 +240,7 @@ elections:
       - {code: "05", name: Canarias, match: "canary islands"}
       - {code: "10", name: Comunitat Valenciana, match: "valencian community"}
       - {code: "04", name: Illes Balears, match: "balearic islands"}
+      - {code: "02", name: Aragón, match: "aragon"}
 
   - id: es-local-2027
     country: ES
