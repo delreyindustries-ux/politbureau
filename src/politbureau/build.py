@@ -436,8 +436,86 @@ def apply_regional_merge(projected, region, rules, country="ES", report=None):
     return projected
 
 
+REGIONAL_HALF_LIFE = 30.0   # dies: el pes d'una enquesta regional es parteix per dos
+
+
+def regional_poll_weight(n_pollsters):
+    """Pes de la mitjana d'enquestes d'una comunitat davant del swing.
+
+    Les dues incerteses ja estan calibrades a forecast.py: l'apartament d'una
+    comunitat respecte del swing (REGIONAL, 0,50 x arrel del %) i l'error d'una
+    mitjana d'enquestes (calibrated_sigma, 0,59 x arrel del %). Com les dues
+    escalen amb l'arrel del %, el pes no depen del partit. Amb n cases, la
+    meitat de l'error es comuna a totes (hipotesi): s^2 (1/2 + 1/(2n))."""
+    from .forecast import REGIONAL, calibrated_sigma
+    sigma = calibrated_sigma()[0]
+    n = max(1, int(n_pollsters or 1))
+    var_poll = sigma ** 2 * (0.5 + 0.5 / n)
+    return REGIONAL ** 2 / (REGIONAL ** 2 + var_poll)
+
+
+def regional_polls(conn, election_id):
+    """{comunitat: {"avg": {partit: %}, "n": cases, "w": pes}} de la regla
+    `regional_polls` d'una eleccio (sources.yaml), amb la mitjana que ja ha
+    calculat aggregate_all per a l'eleccio `from` i el codi de la comunitat."""
+    rule = next((e.get("regional_polls") for e in _config()["elections"] if e["id"] == election_id), None)
+    if not rule:
+        return {}
+    out = {}
+    for region in rule.get("regions") or []:
+        rows = conn.execute("SELECT party, share, n_polls FROM aggregate WHERE election_id = ? AND scope_code = ?",
+                            (rule["from"], region)).fetchall()
+        avg = {r["party"]: r["share"] for r in rows if r["share"]}
+        # Les mateixes llistes uniques que la projeccio (regional_merge): una
+        # enquesta d'abans de la coalicio que dona Sumar i Podemos per separat
+        # (Pais Valencia, SocioMetrica 07/10) es compara amb la llista sencera.
+        avg = apply_regional_merge(dict(avg), region, regional_merges(election_id))
+        if len(avg) < 2:
+            continue
+        n = max((r["n_polls"] or 0) for r in rows)
+        # Antiguitat: la mitjana estatal es d'avui i l'enquesta regional pot ser
+        # d'un mes enrere. El pes es parteix per dos cada REGIONAL_HALF_LIFE dies
+        # des de l'enquesta mes recent (Pais Valencia, 16/10: un 40 % del pes).
+        last = conn.execute("SELECT MAX(fieldwork_end) FROM poll WHERE election_id = ? AND scope_code = ?",
+                            (rule["from"], region)).fetchone()[0]
+        try:
+            age = max(0, (dt.date.today() - dt.date.fromisoformat(last)).days)
+        except (TypeError, ValueError):
+            continue
+        w = regional_poll_weight(n) * 0.5 ** (age / REGIONAL_HALF_LIFE)
+        out[region] = {"avg": avg, "n": n, "w": w, "age": age, "last": last}
+    return out
+
+
+def apply_regional_polls(projected, region_now, poll):
+    """Acosta un territori de la comunitat a la seva mitjana d'enquestes.
+
+    Nomes es mou el repartiment DINS dels partits que pregunta l'enquesta i que
+    es presenten: el seu total al territori es queda igual, i els altres partits
+    no es toquen. `region_now` es la projeccio de la comunitat sencera (el que
+    es compara amb l'enquesta); el mateix factor per partit s'aplica a tots els
+    seus territoris, aixi que les diferencies entre provincies es mantenen."""
+    group = [p for p in poll["avg"] if region_now.get(p, 0) > 0]
+    if len(group) < 2:
+        return projected
+    sum_a = sum(poll["avg"][p] for p in group)
+    sum_r = sum(region_now[p] for p in group)
+    w = poll["w"]
+    factor = {}
+    for p in group:
+        a, r = poll["avg"][p] / sum_a, region_now[p] / sum_r
+        factor[p] = (w * a + (1 - w) * r) / r
+    before = sum(projected.get(p, 0) for p in group)
+    moved = {p: v * factor.get(p, 1.0) for p, v in projected.items()}
+    after = sum(moved.get(p, 0) for p in group)
+    if not after:
+        return projected
+    k = before / after
+    return {p: round(v * k, 2) if p in factor else v for p, v in moved.items()}
+
+
 def project_shares(conn, baseline_election, national_now, level, country="ES",
-                   report=None, election_id=None, baseline=None):
+                   report=None, election_id=None, baseline=None, anchor=True):
     """{codi_territori: {partit: %}}: el vot estatal `national_now` portat a cada
     territori d'un nivell. Es el cor de `project`, separat perque l'enquesta
     propia (survey/estimate.py) passi exactament pel mateix model que la mitjana
@@ -505,6 +583,18 @@ def project_shares(conn, baseline_election, national_now, level, country="ES",
         out[code] = projected
     if dropped:
         report.setdefault("fora del seu ambit", set()).update(dropped)
+    # Enquestes d'una comunitat (`regional_polls`, 22/11/2026): sobre la
+    # projeccio de la comunitat sencera, sense aquest ajust.
+    polls_by_region = regional_polls(conn, election_id) if (anchor and election_id and country == "ES") else {}
+    if polls_by_region:
+        whole = (out if level == "region" else
+                 project_shares(conn, baseline_election, national_now, "region", country,
+                                {}, election_id, None, anchor=False))
+        for code in list(out):
+            region = region_of(level, code)
+            if region in polls_by_region and region in whole:
+                out[code] = apply_regional_polls(out[code], whole[region], polls_by_region[region])
+        report.setdefault("enquestes de comunitat", set()).update(polls_by_region)
     return out
 
 

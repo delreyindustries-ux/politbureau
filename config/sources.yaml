@@ -18,6 +18,19 @@ elections:
     # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a
     # peu d'urna. Decisio de l'Alfonso, 05/10/2026. Vegeu src/politbureau/veda.py.
     veda: {from: "2026-11-24T00:00:00+01:00", to: "2026-11-29T20:00:00+01:00"}
+    # Enquestes d'una comunitat (22/11/2026, decisio de l'Alfonso: "afegeix aquestes
+    # enquestes per canviar les dades"). Despres del swing, el repartiment entre
+    # els partits que pregunta l'enquesta regional s'acosta a la seva mitjana
+    # (build.apply_regional_polls). Pes de l'enquesta = R^2 / (R^2 + s^2 (1/2 + 1/(2n))):
+    # R = error regional del model (forecast.REGIONAL, 0,50), s = error de les
+    # mitjanes d'enquestes (forecast.calibrated_sigma, 0,59), n = cases; la meitat
+    # de l'error es suposa comuna a totes les cases. A mes, el pes es parteix per
+    # dos cada 30 dies des de l'enquesta mes recent (build.REGIONAL_HALF_LIFE).
+    # Nomes on es diu aqui.
+    #   05 Canaries: Agora Integral (16-20/11) i GCEMOP (28/10-11/11), Wikipedia.
+    #   10 Pais Valencia: SyM Consulting (16/10) i SocioMetrica (7/10), Wikipedia.
+    #   04 Balears: a Wikipedia nomes hi ha escons, cap %; entrara sola si n'hi posen.
+    regional_polls: {from: es-general-sub, regions: ["05", "10", "04"]}
     chamber:
       name: "Congreso de los Diputados"
       seats: 350
@@ -165,7 +178,7 @@ elections:
     # "?FV": Compromis-Front Valencia quan una casa el posa com a "FV"
     # (SocioMetrica, 27/10/2026); "FV-ERC-AM" o "FV - C" son llistes municipals.
     merge: {MESPM: SUMAR, MASMADRID: SUMAR, COMUNS: SUMAR, CHA: SUMAR, RECORTESCERO: SUMAR,
-            "?FA": SUMAR, "?FV": SUMAR}
+            "?FA": SUMAR, "?FV": SUMAR, "?UPC": SUMAR, "?ARAMES": SUMAR}
     scope_exclude: {PODEMOS: ["09"]}
     display: {SUMAR: "Frente Amplio"}
     # A Canaries (05) la llista unica va amb Nueva Canarias (acord del 15/10/2026).
@@ -217,6 +230,14 @@ elections:
     # 29/11 a les 20 h no entra cap enquesta nova; despres, nomes els sondeigs a
     # peu d'urna. Decisio de l'Alfonso, 05/10/2026. Vegeu src/politbureau/veda.py.
     veda: {from: "2026-11-24T00:00:00+01:00", to: "2026-11-29T20:00:00+01:00"}
+    # La pagina parteix les enquestes per comunitat ("Autonomous communities >
+    # Canary Islands"): llegida sencera no en sortia cap (22/11/2026). Es llegeix
+    # cada comunitat a part amb el seu codi (ingest/runner.py, section_regions).
+    national: false
+    section_regions:
+      - {code: "05", name: Canarias, match: "canary islands"}
+      - {code: "10", name: Comunitat Valenciana, match: "valencian community"}
+      - {code: "04", name: Illes Balears, match: "balearic islands"}
 
   - id: es-local-2027
     country: ES

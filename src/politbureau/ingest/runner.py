@@ -211,6 +211,15 @@ def run(conn, only=None):
             unmapped.update(unk4)
             summary.append((eid, f"  {reg['key']} {reg.get('page') or reg.get('match')}", n4))
 
+        # Comunitats dins de la pagina de l'eleccio (`section_regions`, 22/11/2026):
+        # la seccio de cada una, amb el seu codi.
+        for reg in election.get("section_regions", []):
+            n5, unk5 = read_page(conn, session, eid, country, "region", election["page"],
+                                 scope_code=reg["code"], scope_name=reg.get("name"),
+                                 deny=REGION_DENY, match=reg["match"])
+            unmapped.update(unk5)
+            summary.append((eid, f"  {reg['code']} {reg['match']}", n5))
+
         for extra in election.get("regional_pages", []):
             region = extra.split("(")[-1].rstrip(")").replace("_", " ") if "(" in extra else None
             n2, unk2 = read_page(conn, session, eid, country, "region", extra,
