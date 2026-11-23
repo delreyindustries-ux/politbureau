@@ -30,7 +30,7 @@
     nobody: "Ningú no té majoria absoluta", has: "té majoria absoluta", noseat: "sense escó"
   };
   var P = D.provinces, META = D.meta, MAIN = D.main.now;
-  var state = { base: "now", nat: {}, reg: {}, where: "", t: null, tm: "cis", coal: [] };
+  var state = { base: "now", nat: {}, reg: {}, where: "", t: null, tm: "cis", coal: [], cap: false };
   var night = null;
 
   function fmt(x) { return (Math.round(x * 10) / 10).toFixed(1).replace(".", ","); }
@@ -154,7 +154,40 @@
       var cur = weighted(provs, function (p) { return shares[p.c]; });
       provs.forEach(function (p) { shares[p.c] = swing(shares[p.c], cur, state.reg[r]); });
     });
-    return shares;
+    return capRight(shares);
+  }
+
+  /* Sostre de vots de la dreta (23/11/2026, hipotesi opcional). Si PP + Vox
+     (+ UPN) passen de D.turnout.check.cap vots a tot Espanya, els que sobren
+     s'abstenen, igual a cada provincia: els altres partits conserven els seus
+     vots i els % es tornen a calcular. Vots = % x vot valid oficial del 2023 x
+     participacio / la del 2023 (com a la comprovacio en vots). CAPX guarda,
+     per a cada participacio, quants vots s'han tret. */
+  var CAPX = {}, CAPV = {};
+  function capRight(shares) {
+    var C = D.turnout && D.turnout.check, key = state.t === null ? (D.turnout ? Math.round(D.turnout.ref) : 0) : state.t;
+    CAPX[key] = 0; CAPV[key] = null;
+    if (!state.cap || !C || !C.cap || state.base !== "now") return shares;
+    var R = C.blocs.right.now, tf = turnoutOn() ? state.t / D.turnout.ref : 1;
+    var sumV = P.reduce(function (a, p) { return a + (p.v || 0); }, 0) || 1, scale = (C.valid || sumV) / sumV;
+    var rv = 0, lv = 0, Lf = C.blocs.left.now;
+    P.forEach(function (p) {
+      var s = shares[p.c] || {};
+      R.forEach(function (k) { rv += (s[k] || 0) / 100 * p.v * tf * scale; });
+      Lf.forEach(function (k) { lv += (s[k] || 0) / 100 * p.v * tf * scale; });
+    });
+    if (rv <= C.cap) return shares;
+    var k = C.cap / rv, out = {};
+    P.forEach(function (p) {
+      var s = shares[p.c] || {}, tot = 0, rs = 0, o = {}, x;
+      for (x in s) { tot += s[x]; if (R.indexOf(x) >= 0) rs += s[x]; }
+      var den = tot - rs * (1 - k);
+      for (x in s) o[x] = (R.indexOf(x) >= 0 ? s[x] * k : s[x]) * (den ? tot / den : 1);
+      out[p.c] = o;
+    });
+    CAPX[key] = rv - C.cap;
+    CAPV[key] = { right: C.cap, left: lv };      // els altres conserven els seus vots
+    return out;
   }
 
   /* Llindar: 3 % a cada provincia al Congres. Als parlaments autonomics, el
@@ -777,6 +810,7 @@
     });
     state.t = keep;
     var cur = keep === null ? ref : keep;
+    rows.forEach(function (r) { r.capx = CAPX[r.t] || 0; r.capv = CAPV[r.t] || null; });
     var cols = MAIN.filter(function (k) { return rows.some(function (r) { return r.seats[k]; }); }).slice(0, 8);
     var t = $("#sb-turnout");
     var sum = function (r, list) { return list.reduce(function (a, k) { return a + (r.seats[k] || 0); }, 0); };
@@ -818,7 +852,8 @@
     head += "</tr>";
     var flags = [], tflag = {};
     var body = rows.map(function (r) {
-      var Vt = V23 * r.t / ref, tr = "<tr" + (r.t === (state.t === null ? Math.round(ref) : state.t) ? ' class="total"' : "") + "><td>" + r.t + " %</td>";
+      var Vt = V23 * r.t / ref - (r.capx || 0), tr = "<tr" + (r.t === (state.t === null ? Math.round(ref) : state.t) ? ' class="total"' : "") + "><td>" + r.t + " %" +
+        (r.capx ? ' <small title="' + (ES ? "votantes de PP y Vox por encima del techo, que no votan" : "votants de PP i Vox per sobre del sostre, que no voten") + '">(−' + M(r.capx) + ")</small>" : "") + "</td>";
       if (TV) {
         var tp = 100 * Vt / C.census, out = tp < TV.min - 0.05 || tp > TV.max + 0.05;
         if (out) tflag[r.t] = tp < TV.min ? (ES ? "por debajo de la más baja (" : "per sota de la més baixa (") + fmt(TV.min) + " %, " + yr(TV.min_y) + ")" :
@@ -827,11 +862,13 @@
       }
       ["right", "left"].forEach(function (k) {
         var B = C.blocs[k], sh = B.now.reduce(function (a, q) { return a + (r.nat[q] || 0); }, 0);
-        var votes = sh / 100 * Vt, pc = 100 * votes / C.census, cls = "", tip = "";
+        var votes = r.capv ? r.capv[k] : sh / 100 * Vt, pc = 100 * votes / C.census, cls = "", tip = "";
+        var overCap = k === "right" && C.cap && votes > C.cap + 5e4;
         if (pc > B.max + 0.05) { cls = "up"; tip = (ES ? "por encima del máximo (" : "per sobre del màxim (") + fmt(B.max) + " %, " + yr(B.max_y) + ")"; }
         else if (pc < B.min - 0.05) { cls = "down"; tip = (ES ? "por debajo del mínimo (" : "per sota del mínim (") + fmt(B.min) + " %, " + yr(B.min_y) + ")"; }
         if (tip) flags.push({ t: r.t, k: k, tip: tip, pc: pc });
-        tr += '<td class="num' + (cls ? " sb-out" : "") + '"' + (tip ? ' title="' + tip + '"' : "") + ">" + M(votes) + " · <b" +
+        if (overCap) tip += (tip ? "; " : "") + (ES ? "más de " : "més de ") + M(C.cap) + (ES ? " de votos" : " de vots");
+        tr += '<td class="num' + (cls || overCap ? " sb-out" : "") + '"' + (tip ? ' title="' + tip + '"' : "") + ">" + (overCap ? "<b>" + M(votes) + "</b>" : M(votes)) + " · <b" +
           (cls ? ' class="' + cls + '"' : "") + ">" + fmt(pc) + " %</b>" + (tip ? " ⚠" : "") + "</td>";
       });
       return tr + "</tr>";
@@ -841,6 +878,10 @@
     var cur = state.t === null ? Math.round(ref) : state.t, now = flags.filter(function (f) { return f.t === cur; });
     var pre = tflag[cur] ? (ES ? "Esta participación no tiene precedentes desde " : "Aquesta participació no té precedents des del ") + C.from + ": " + tflag[cur] +
       (ES ? ". Por eso los bloques también salen del rango; lo que cuenta es la participación. " : ". Per això els blocs també surten del rang; el que compta és la participació. ") : "";
+    var cx = rows.filter(function (r) { return r.t === cur; })[0];
+    if (state.cap && C.cap) pre = (cx && cx.capx ? (ES ? "Con el techo de " : "Amb el sostre de ") + M(C.cap) + (ES ? ", " : ", ") + M(cx.capx) +
+      (ES ? " de votantes de PP y Vox se quedan en casa. " : " de votants de PP i Vox es queden a casa. ") :
+      (ES ? "Con esta participación, PP y Vox no llegan al techo de " : "Amb aquesta participació, PP i Vox no arriben al sostre de ") + M(C.cap) + ". ") + pre;
     var txt = pre + (now.length ? now.map(function (f) {
       return "<b>" + names[f.k] + "</b>: " + fmt(f.pc) + " % " + (ES ? "del censo, " : "del cens, ") + f.tip;
     }).join(". ") + "." : (ES ? "Con esta participación, los dos bloques quedan dentro de lo que han votado entre " :
@@ -1025,12 +1066,13 @@
     if (Object.keys(state.nat).length) o.n = round(state.nat);
     if (state.t !== null) o.t = state.t;
     if (state.tm === "classic") o.m = "c";
+    if (state.cap) o.c = 1;
     if (state.coal.length) o.k = state.coal;
     if (Object.keys(state.reg).length) {
       o.r = {};
       for (var r in state.reg) o.r[r] = round(state.reg[r]);
     }
-    var s = (o.n || o.r || o.t || o.m || o.k || o.b !== "now") ? "#" + encodeURIComponent(JSON.stringify(o)) : " ";
+    var s = (o.n || o.r || o.t || o.m || o.c || o.k || o.b !== "now") ? "#" + encodeURIComponent(JSON.stringify(o)) : " ";
     history.replaceState(null, "", s === " " ? location.pathname + location.search : s);
   }
   function round(o) { var x = {}; for (var k in o) x[k] = Math.round(o[k] * 10) / 10; return x; }
@@ -1043,6 +1085,7 @@
       if (Array.isArray(o.k)) state.coal = o.k.filter(function (k) { return typeof k === "string"; });
       if (D.turnout && o.t && D.turnout.factors[String(o.t)]) state.t = o.t;
       if (D.turnout && o.m === "c" && D.turnout.classic) state.tm = "classic";
+      if (D.turnout && o.c && D.turnout.check && D.turnout.check.cap) state.cap = true;
     } catch (e) { /* sense escenari a l'enllac */ }
   }
 
@@ -1075,6 +1118,11 @@
         r.checked = r.value === state.tm;
         r.addEventListener("change", function () { if (r.checked) { state.tm = r.value; stopNight(); render(); } });
       });
+      var cap = $("#sb-cap");
+      if (cap && D.turnout.check && D.turnout.check.cap) {
+        cap.checked = state.cap;
+        cap.addEventListener("change", function () { state.cap = cap.checked; stopNight(); render(); });
+      } else if (cap) cap.closest("label").remove();
       ["click", "keydown"].forEach(function (ev) {
         $("#sb-turnout").addEventListener(ev, function (e) {
           var tr = e.target.closest && e.target.closest("tr[data-t]");

@@ -102,6 +102,10 @@
       <label><input type="radio" name="sb-tm" value="cis" checked> {{ 'Según quién dice que irá a votar (CIS)' if es else 'Segons qui diu que anirà a votar (CIS)' }}</label>
       <label><input type="radio" name="sb-tm" value="classic"> {{ 'Hipótesis clásica: más participación, más izquierda' if es else "Hipòtesi clàssica: més participació, més esquerra" }}</label>
     </fieldset>
+    <label class="sb-capbox"><input type="checkbox" id="sb-cap"> {% if es %}<b>Techo de la derecha:</b> PP y Vox no pasan de 12 millones de votos
+      (hipótesis). En los blocs históricos, el máximo es de 11,3 millones (2023); si las encuestas dan más, los que sobran no votan y el resto de partidos
+      conserva sus votos.{% else %}<b>Sostre de la dreta:</b> PP i Vox no passen de 12 milions de vots (hipòtesi). Als blocs històrics, el màxim és d'11,3
+      milions (2023); si les enquestes en donen més, els que sobren no voten i la resta de partits conserva els seus vots.{% endif %}</label>
     <div class="tablewrap"><table id="sb-turnout" class="results sb-trows"><thead></thead><tbody></tbody></table></div>
     <div id="sb-tcheck" hidden>
       <h3>{{ 'Comprobación en votos: ¿tiene precedentes?' if es else 'Comprovació en vots: té precedents?' }}</h3>

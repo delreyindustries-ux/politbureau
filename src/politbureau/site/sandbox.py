@@ -153,6 +153,11 @@ CHECK_BLOCS = {
              "now": ["PSOE", "SUMAR", "PODEMOS"]},
 }
 CHECK_FROM = "1996"
+# Sostre de vots de la dreta (23/11/2026, hipotesi de l'editor: "es molt dificil
+# que la dreta tingui mes de 12 milions de votants veient els blocs historics").
+# Opcio del simulador, com la hipotesi classica: si PP + Vox (+ UPN) passen
+# d'aquests vots, els que sobren no voten. No s'aplica al model ni a la previsio.
+RIGHT_CAP = 12_000_000
 
 
 def _turnout_check():
@@ -167,7 +172,7 @@ def _turnout_check():
     # "valid": el vot valid oficial de l'ultima (amb el blanc), la mateixa base
     # que els % de les enquestes i de la serie historica.
     out = {"census": els[-1]["census"], "valid": els[-1].get("valid"), "census_year": els[-1]["date"][:4],
-           "from": els[0]["date"][:4],
+           "from": els[0]["date"][:4], "cap": RIGHT_CAP,
            "to": els[-1]["date"][:4], "blocs": {}}
     # La participacio mateixa (vot valid sobre el cens amb el CERA): per sota
     # del minim historic, els dos blocs hi queden per sota per forca.

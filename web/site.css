@@ -759,3 +759,5 @@ figure.fchart .prl{font-size:11px;fill:var(--dim)}
 .sb-tcheck-read{background:var(--soft,rgba(127,127,127,.08));border-radius:6px;padding:8px 12px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sb-tcheck td.sb-out b{color:#ffb74d}}
 :root[data-theme="dark"] .sb-tcheck td.sb-out b{color:#ffb74d}
+.sb-capbox{display:block;margin:10px 0;padding:8px 12px;border:1px solid var(--line,#ddd);border-radius:6px;font-size:.95em}
+.sb-capbox input{margin-right:6px}
