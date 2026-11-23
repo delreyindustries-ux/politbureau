@@ -25,6 +25,7 @@
   {% if v.summary %}<div class="pf-read pp-sum"><b>{{ 'Lo que dicen los datos' if es else 'Què diuen les dades' }}.</b><ul>{% for s in v.summary %}<li>{{ s | safe }}</li>{% endfor %}</ul></div>{% endif %}
 
   <nav class="pf-toc"><a href="#pp-grups">{{ 'Cómo hablar a cada grupo' if es else 'Com parlar a cada grup' }}</a> ·
+    <a href="#pp-cataleg">{{ 'Propuestas por tema' if es else 'Propostes per tema' }}</a> ·
     <a href="#pp-pont">{{ 'Propuestas puente' if es else 'Propostes pont' }}</a> · <a href="#pp-temes">{{ 'Temas' if es else 'Temes' }}</a> ·
     <a href="#pp-qui">{{ 'Quiénes son' if es else 'Qui són' }}</a> · <a href="#pp-escons">{{ 'Escaños en juego' if es else 'Escons en joc' }}</a></nav>
 
@@ -44,6 +45,8 @@
         <h4>{{ 'Propuestas que destacan en el grupo' if es else 'Propostes que hi destaquen' }}</h4>
         {% if s.props %}<ul class="pp-props">{% for pr in s.props %}<li>{{ pr.l }} <b>{{ fmt(pr.p) }} %</b> <small class="up">(+{{ fmt(pr.gap) }})</small>{% if pr.reach is not none %} <small>· {{ 'a su alcance' if es else "a l'abast" }} {{ fmt(pr.reach) }} %</small>{% endif %}</li>{% endfor %}</ul>
         {% else %}<p class="pp-none">{{ 'Ninguna propuesta destaca aquí sobre la media.' if es else 'Cap proposta no hi destaca sobre la mitjana.' }}</p>{% endif %}
+        {% if s.conc %}<h4>{{ 'Propuestas concretas para este grupo' if es else 'Propostes concretes per a aquest grup' }}</h4>
+        <ul class="pp-conc">{% for c in s.conc %}<li>{% if c.topic %}<span class="pp-tp">{{ c.topic }}{% if c.lift %} <small class="{{ 'up' if c.lift >= 1.15 else '' }}">×{{ fmt(c.lift) }}</small>{% endif %}</span>{% else %}<span class="pp-tp g">{{ 'Para el grupo' if es else 'Per al grup' }}</span>{% endif %} {{ c.l }}</li>{% endfor %}</ul>{% endif %}
         {% if s.read %}<p class="pp-angle">→ {{ s.read | safe }}.</p>{% endif %}
       </div>
 {% endmacro %}
@@ -51,8 +54,14 @@
     {% if v.seg_main %}<h3 class="pp-sub">{{ 'Por sexo y edad' if es else 'Per sexe i edat' }}</h3>
     <p class="note">{{ 'Ocho grupos que no se solapan: entre todos, todo el electorado.' if es else "Vuit grups que no se solapen: entre tots, tot l'electorat." }}</p>
     <div class="pp-cards">{% for s in v.seg_main %}{{ card(s) }}{% endfor %}</div>{% endif %}
-    {% if v.seg_more %}<h3 class="pp-sub">{{ 'Otros grupos con muchos votantes a su alcance' if es else "Altres grups amb molts votants a l'abast" }}</h3>
-    <div class="pp-cards">{% for s in v.seg_more %}{{ card(s) }}{% endfor %}</div>{% endif %}
+    {% for f in v.seg_fams %}
+    {% if f.open %}<h3 class="pp-sub">{{ f.title }}</h3>
+    {% if f.key == 'national' %}<p class="note">{{ 'Los barómetros del CIS no preguntan por la independencia: los grupos salen del partido que cada persona dice que votaría (o por el que siente más simpatía).' if es else 'Els baròmetres del CIS no pregunten per la independència: els grups surten del partit que cada persona diu que votaria (o pel que sent més simpatia).' }}</p>{% endif %}
+    {% if f.key == 'origin' %}<p class="note">{{ 'El CIS solo entrevista a personas con nacionalidad española: son nacidos fuera que ya pueden votar, la mayoría nacionalizados.' if es else "El CIS només entrevista persones amb nacionalitat espanyola: són nascuts fora que ja poden votar, la majoria nacionalitzats." }}</p>{% endif %}
+    <div class="pp-cards">{% for s in f.cards %}{{ card(s) }}{% endfor %}</div>
+    {% else %}<details class="minor pp-fam"><summary>{{ f.title }} ({{ f.cards | length }})</summary>
+    <div class="pp-cards">{% for s in f.cards %}{{ card(s) }}{% endfor %}</div></details>{% endif %}
+    {% endfor %}
     {% if v.segments %}
     <details class="minor"><summary>{{ 'Todos los grupos' if es else 'Tots els grups' }} ({{ v.segments | length }})</summary>
       <div class="tablewrap"><table class="results"><thead><tr><th>{{ 'Grupo' if es else 'Grup' }}</th><th class="num">{{ 'A su alcance' if es else "A l'abast" }}</th>
@@ -63,13 +72,29 @@
       </tbody></table></div></details>
     {% endif %}
     {% else %}<p>{{ 'Ningún grupo tiene bastantes votantes a su alcance (50 entrevistas) para decir de qué hablan.' if es else "Cap grup no té prou votants a l'abast (50 entrevistes) per dir de què parlen." }}</p>{% endif %}
-    <p class="note">{% if es %}Solo grupos por edad, sexo, estudios, trabajo, clase, ingresos, estado civil y tamaño del municipio. No se segmenta por ideología, religión
-      ni origen: son categorías especiales de datos y el Reglamento (UE) 2024/900 (artículo 18) prohíbe usarlas para dirigir publicidad política. Las propuestas que destacan
-      son las que el grupo entero apoya al menos 3 puntos más que la media {{ v.de_where }} (preguntas de actualidad de los barómetros; si un grupo tiene menos de 50 respuestas a una pregunta, no sale). Con 50-100 entrevistas, el margen de error de un
-      50 % es de ±10-14 puntos.{% else %}Només grups per edat, sexe, estudis, feina, classe, ingressos, estat civil i mida del municipi. No es fan grups per ideologia,
-      religió ni origen: són categories especials de dades i el Reglament (UE) 2024/900 (article 18) prohibeix fer-les servir per adreçar publicitat política. Les
-      propostes que hi destaquen són les que el grup sencer recolza almenys 3 punts més que la mitjana {{ v.de_where }} (preguntes d'actualitat dels baròmetres; si un grup té menys de 50 respostes a una pregunta, no surt). Amb 50-100 entrevistes, el marge d'error
-      d'un 50 % és de ±10-14 punts.{% endif %}</p>
+    <p class="note">{% if es %}Las propuestas que destacan son las que el grupo entero apoya al menos 3 puntos más que la media {{ v.de_where }}
+      (preguntas de actualidad de los barómetros; si un grupo tiene menos de 50 respuestas a una pregunta, no sale). Las <b>propuestas concretas</b> son
+      de redacción editorial (abajo, «Propuestas por tema»): salen de los temas que el grupo cita más que la media (×) y de su perfil, en la orientación de {{ name }};
+      el CIS no las ha preguntado. Con 50-100 entrevistas, el margen de error de un 50 % es de ±10-14 puntos. Los grupos por origen, religión, ideología o eje nacional son
+      agregados estadísticos: el Reglamento (UE) 2024/900 (artículo 18) prohíbe usar estas categorías de datos personales para dirigir anuncios políticos.{% else %}Les propostes
+      que hi destaquen són les que el grup sencer recolza almenys 3 punts més que la mitjana {{ v.de_where }} (preguntes d'actualitat dels baròmetres; si un grup té menys
+      de 50 respostes a una pregunta, no surt). Les <b>propostes concretes</b> són de redacció editorial (a sota, «Propostes per tema»): surten dels temes que el grup cita
+      més que la mitjana (×) i del seu perfil, en l'orientació de {{ name }}; el CIS no les ha preguntades. Amb 50-100 entrevistes, el marge d'error d'un 50 % és de
+      ±10-14 punts. Els grups per origen, religió, ideologia o eix nacional són agregats estadístics: el Reglament (UE) 2024/900 (article 18) prohibeix fer servir
+      aquestes categories de dades personals per adreçar anuncis polítics.{% endif %}</p>
+  </section>
+
+  <section id="pp-cataleg">
+    <h2>{{ 'Propuestas por tema' if es else 'Propostes per tema' }}</h2>
+    <p>{% if es %}{{ v.n_catalog }} propuestas concretas en {{ v.catalog | length }} temas, en la orientación de {{ name }}. Ordenadas por cuánto citan el tema sus votantes y los que tiene a su alcance.
+      Son de redacción editorial de Polit Bureau: medidas que ya se aplican o se debaten en España o en otros países europeos. El CIS no las ha preguntado y no se sabe qué apoyo tienen.
+      {% else %}{{ v.n_catalog }} propostes concretes en {{ v.catalog | length }} temes, en l'orientació de {{ name }}. Ordenades per quant citen el tema els seus votants i els que té a l'abast.
+      Són de redacció editorial de Polit Bureau: mesures que ja s'apliquen o es debaten a Espanya o a altres països europeus. El CIS no les ha preguntades i no se'n sap el suport.{% endif %}</p>
+    <div class="pp-cat">{% for c in v.catalog %}<div class="pp-cat-i">
+      <h3>{{ c.l }}</h3>
+      <p class="pp-cat-n">{% if c.v is not none %}{{ 'sus votantes' if es else 'els seus votants' }} <b>{{ fmt(c.v) }} %</b>{% endif %}{% if c.r is not none %} · {{ 'a su alcance' if es else "a l'abast" }} <b>{{ fmt(c.r) }} %</b>{% endif %}{% if c.t is not none %} · {{ v.where }} {{ fmt(c.t) }} %{% endif %}</p>
+      <ul>{% for x in c.props %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endfor %}</div>
+    <p class="note">{{ 'El % es la parte que cita el tema entre los tres primeros problemas de España.' if es else "El % és la part que cita el tema entre els tres primers problemes d'Espanya." }}</p>
   </section>
 
   <section id="pp-pont">
@@ -187,6 +212,17 @@
 .pp .pp-big{margin:2px 0}
 .pp .pp-from{margin:4px 0;font-size:.9em}
 .pp .pp-iss,.pp .pp-props{margin:0;padding-left:18px;font-size:.93em}
+.pp .pp-conc{margin:0;padding-left:18px;font-size:.93em}
+.pp .pp-conc li{margin:3px 0}
+.pp .pp-tp{display:inline-block;font-size:.78em;font-weight:700;padding:0 6px;border-radius:8px;border:1px solid var(--pc);margin-right:2px}
+.pp .pp-tp.g{border-style:dashed}
+.pp .pp-fam{margin:10px 0}
+.pp .pp-fam>summary{font-weight:700}
+.pp .pp-cat{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:10px 18px;margin:10px 0}
+.pp .pp-cat-i{border-left:3px solid var(--pc);padding:2px 0 2px 10px}
+.pp .pp-cat-i h3{margin:0;font-size:1em}
+.pp .pp-cat-n{margin:2px 0;font-size:.85em;opacity:.8}
+.pp .pp-cat-i ul{margin:4px 0;padding-left:18px;font-size:.93em}
 .pp .pp-angle{margin:8px 0 0;padding:6px 8px;border-radius:6px;background:var(--soft,rgba(127,127,127,.08));font-size:.93em}
 .pp .pp-bars{width:100%;border-collapse:collapse}
 .pp .pp-bars td{padding:4px 6px;vertical-align:middle;border-bottom:1px solid var(--line,#eee)}

@@ -10,10 +10,12 @@ propostes a cada votant sabent quins temes els interessen"): una pagina
 estatica per partit amb
   * el retrat dels seus votants i dels que te a l'abast, comparats amb tot
     Espanya o, als partits d'una comunitat, amb la seva comunitat;
-  * per a cada grup (NOMES dimensions que no son categories especials de
-    dades: edat, sexe, estudis, feina, classe, ingressos, municipi), de que
-    parlen els votants a l'abast, quant mes que la mitjana, i quines
-    propostes hi tenen mes suport;
+  * per a cada grup (edat, sexe, estudis, feina, classe, ingressos, municipi
+    i, des del 23/11/2026, perfils concrets, origen, nacionalitat, religio,
+    ideologia i l'eix nacional), de que parlen els votants a l'abast, quant
+    mes que la mitjana, quines propostes del CIS hi tenen mes suport i
+    propostes concretes del cataleg (propostes.py) per als seus temes;
+  * el cataleg de propostes concretes per tema, en l'orientacio del partit;
   * els temes i les propostes "pont": on els votants a l'abast pensen diferent
     dels seus votants;
   * on es juga els escons al model (llei d'Hondt sobre la projeccio).
@@ -23,7 +25,7 @@ from __future__ import annotations
 
 import json
 
-from .. import db, parties
+from .. import db, parties, propostes
 from ..perfils import MIN_SUB, OUT
 from . import i18n
 from .build import DIST, ELECTION
@@ -230,7 +232,18 @@ def _party_view(p, d, meta, stakes, lang):
             props = sorted(([ops[k]["l"][L], v, v - ot[k], gops.get(k)]
                             for k, v in gall.items() if k in PROPOSALS and k in ot and v - ot[k] >= LIFT_GAP),
                            key=lambda x: -x[2])[:3]
+            # Propostes concretes: els temes on els seus votants a l'abast
+            # pesen mes que la mitjana (×), i les del tipus de grup.
+            tr, tt = gr.get("topics_r") or {}, base.get("topics") or {}
+            hot = sorted([t for t, v in tr.items() if v >= 8 and tt.get(t)],
+                         key=lambda t: -(tr[t] / tt[t]) * min(1.0, tr[t] / 15))
+            conc = propostes.for_group(p, L, hot[:6], propostes.tags_for(g["id"], d.get("persona_tags")))
+            for c in conc:
+                tp = next((t for t in hot if c["topic"] and propostes.TOPICS[t][0 if L == "ca" else 1] == c["topic"]), None)
+                c["p"] = tr.get(tp) if tp else None
+                c["lift"] = round(tr[tp] / tt[tp], 2) if tp and tt.get(tp) else None
             segs.append({
+                "conc": conc,
                 "key": dm["key"], "label": g["label"][L], "dim": dm["title"][L], "n": gr["n_reach"],
                 "reach": gr.get("reach"), "people": gr.get("reach_people") or 0,
                 "people_s": _people(gr.get("reach_people"), es), "share": gr.get("share"),
@@ -245,7 +258,19 @@ def _party_view(p, d, meta, stakes, lang):
     # Primer, sexe x edat: vuit grups que no se solapen i cobreixen tothom.
     # Despres, els altres grups (sense "sexe", que ja hi es) on te mes gent a l'abast.
     view["seg_main"] = [x for x in segs if x["key"] == "sexage"]
-    view["seg_more"] = [x for x in segs if x["key"] not in ("sexage", "sex")][:9]
+    # Despres, per families de grups (23/11/2026): perfils concrets, origen,
+    # eix nacional, religio i ideologia, i la resta.
+    fams = [("persona", ("Perfiles concretos", "Perfils concrets"), ("persona",), True),
+            ("origin", ("Origen y nacionalidad", "Origen i nacionalitat"), ("origin2", "migr", "origin", "natio"), True),
+            ("national", ("Eje nacional", "Eix nacional"), ("national",), True),
+            ("ideology", ("Ideología", "Ideologia"), ("ideology",), False),
+            ("religion", ("Religión", "Religió"), ("religion",), False),
+            ("other", ("Estudios, trabajo, clase, ingresos y municipio", "Estudis, feina, classe, ingressos i municipi"),
+             ("age", "studies", "work", "employ", "job", "class", "income", "civil", "town"), False)]
+    view["seg_fams"] = [{"key": k, "title": t[0] if es else t[1], "open": op,
+                         "cards": [x for x in segs if x["key"] in keys]} for k, t, keys, op in fams]
+    view["seg_fams"] = [f for f in view["seg_fams"] if f["cards"]]
+    view["seg_more"] = []
     # Lectura en una frase per a cada grup
     for sgm in segs:
         hot = [x for x in sgm["issues"] if x["lift"] and x["lift"] >= 1.15] or sgm["issues"][:1]
@@ -290,6 +315,15 @@ def _party_view(p, d, meta, stakes, lang):
         summ.append((f"Y apoyan más: «{b0['l']}» (+{_fmt(b0['gap'])} puntos sobre sus votantes)." if es else
                      f"I donen més suport a: «{b0['l']}» (+{_fmt(b0['gap'])} punts sobre els seus votants)."))
     view["summary"] = summ
+
+    # Cataleg de propostes per tema (23/11/2026): totes les del partit, amb
+    # quant esmenten el tema els seus votants i els que te a l'abast.
+    tv, trr, tall = rec.get("topics_v") or {}, rec.get("topics_r") or {}, base.get("topics") or {}
+    cat = propostes.catalog(p, L)
+    view["catalog"] = sorted([{"key": t, "l": propostes.TOPICS[t][0 if L == "ca" else 1], "v": tv.get(t), "r": trr.get(t),
+                               "t": tall.get(t), "props": props} for t, props in cat.items()],
+                             key=lambda x: -((x["r"] or 0) + (x["v"] or 0) + 0.01 * (x["t"] or 0)))
+    view["n_catalog"] = sum(len(x["props"]) for x in view["catalog"])
 
     # Model
     st = stakes.get(p) or {}
@@ -358,7 +392,7 @@ def perfils_page(env, cfg) -> int:
     # La pagina general no porta el que nomes fan servir les fitxes (les
     # opinions per grup i els ambits de comunitat): pesaria tres vegades mes.
     light = {k: v for k, v in d.items() if k != "scopes"}
-    light["dims"] = [{**dm, "groups": [{**g, "parties": {p: {k: v for k, v in r.items() if k != "ops_reach"}
+    light["dims"] = [{**dm, "groups": [{**{k: v for k, v in g.items() if k != "topics"}, "parties": {p: {k: v for k, v in r.items() if k not in ("ops_reach", "topics_r")}
                                                          for p, r in g["parties"].items()}}
                                        for g in dm["groups"]]} for dm in d["dims"]]
     payload = json.dumps({"d": light, "meta": meta}, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")

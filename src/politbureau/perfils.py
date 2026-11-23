@@ -80,10 +80,16 @@ SCOPE = {"ERC": ["Cataluña"], "JUNTS": ["Cataluña"],
 SCOPE_LABEL = {"Cataluña": ("Catalunya", "Cataluña"), "País Vasco": ("Euskadi", "País Vasco"),
                "Navarra (Comunidad Foral de)": ("Navarra", "Navarra"), "Galicia": ("Galícia", "Galicia"),
                "Andalucía": ("Andalusia", "Andalucía")}
-# Grups per adaptar el discurs: NOMES dimensions que no son categories
-# especials de dades (RGPD art. 9; Reglament (UE) 2024/900, art. 18). Fora:
-# lloc de naixement, nacionalitat, religio i ideologia.
-SEGMENT_DIMS = ["sexage", "sex", "age", "studies", "work", "employ", "job", "class", "income", "civil", "town"]
+# Grups per adaptar el discurs a les fitxes dels partits. Fins al 23/11/2026
+# nomes hi havia les dimensions que no son categories especials de dades; des
+# d'aleshores (decisio editorial: "fes els perfils de votants mes concrets...
+# inclou els perfils que puguis, per exemple independentista, diferents tipus
+# d'immigrants") tambe origen, nacionalitat, religio, ideologia, l'eix nacional
+# i perfils concrets creuats. Son agregats estadistics; l'avis del Reglament
+# (UE) 2024/900, art. 18, recorda que no es poden fer servir per adrecar
+# anuncis amb dades personals d'aquestes categories.
+SEGMENT_DIMS = ["sexage", "persona", "origin2", "migr", "origin", "natio", "national", "religion", "ideology",
+                "sex", "age", "studies", "work", "employ", "job", "class", "income", "civil", "town"]
 UNDECIDED = {"No sabe todavía", "N.S."}
 LEADERS = [("VALORALIDERES_1", "Pedro Sánchez"), ("VALORALIDERES_2", "Alberto Núñez Feijóo"),
            ("VALORALIDERES_3", "Yolanda Díaz"), ("VALORALIDERES_4", "Santiago Abascal")]
@@ -188,6 +194,16 @@ class _Acc:
             out[k] = out.get(k, 0.0) + w
         return {k: 100.0 * v / den for k, v in out.items()} if den else {}
 
+    def topics(self):
+        """% que esmenta algun problema de cada tema del cataleg de propostes."""
+        from .propostes import TOPIC_OF
+        out = {}
+        for r, w in zip(self.rows, self.w):
+            seen = {TOPIC_OF.get((r.get(c) or "").strip()) for c in ("PESPANNA1", "PESPANNA2", "PESPANNA3")} - {None}
+            for t in seen:
+                out[t] = out.get(t, 0.0) + w
+        return {k: round(100.0 * v / self.tot, 1) for k, v in out.items() if 100.0 * v / self.tot >= 0.5}
+
     def issues(self, cols=("PESPANNA1", "PESPANNA2", "PESPANNA3")):
         out = {}
         for r, w in zip(self.rows, self.w):
@@ -263,13 +279,39 @@ OPINIONS = [
      "Le preocupa (mucho o bastante) la invasión rusa de Ucrania", "preocupación por la invasión de Rusia", _MUCH2),
     ("orient", "world", "Li preocupa (molt o bastant) el conflicte a l'Orient Mitjà",
      "Le preocupa (mucho o bastante) el conflicto en Oriente Próximo", "preocupación por el conflicto en Oriente", _MUCH2),
+    ("viv_decrets", "housing", "Valora bé els dos decrets d'habitatge del 29 de setembre",
+     "Valora bien los dos decretos de vivienda del 29 de septiembre", "Valoración de los dos decretos sobre vivienda",
+     ("Muy positivamente", "Bastante positivamente")),
+    ("viv_estat", "territory", "L'Estat hauria de tenir més competències d'habitatge",
+     "El Estado debería tener más competencias de vivienda", "debería tener mayores competencias en vivienda",
+     ("El Estado",)),
+    ("viv_ccaa", "territory", "Les comunitats haurien de tenir més competències d'habitatge",
+     "Las comunidades deberían tener más competencias de vivienda", "debería tener mayores competencias en vivienda",
+     ("Las CC.AA.",)),
+    ("incendis_estat", "territory", "La lluita contra els incendis hauria de passar a l'Estat",
+     "La lucha contra los incendios debería pasar al Estado", "Atribución de competencias en la prevención",
+     ("Deben pasar a ser competencia del Gobierno central",)),
+    ("ue_ceuta", "security", "La UE hauria de col·laborar més amb Espanya a Ceuta",
+     "La UE debería colaborar más con España en Ceuta", "Colaboración o no de la Unión Europea",
+     ("Sí, debería colaborar más",)),
+    ("marroc", "security", "És important mantenir una política amistosa amb el Marroc",
+     "Es importante mantener una política amistosa con Marruecos", "política amistosa entre España y Marruecos",
+     ("Mucha importancia", "Bastante importancia")),
+    ("ceuta", "security", "Ceuta i Melilla són tan espanyoles com qualsevol altre territori",
+     "Ceuta y Melilla son tan españolas como cualquier otro territorio", "integración territorial de Ceuta y Melilla",
+     ("Son territorios tan españoles como cualquier otro territorio de la península",)),
+    ("papa_polar", "leaders", "D'acord amb el papa Lleó XIV sobre la polarització política",
+     "De acuerdo con el papa León XIV sobre la polarización política",
+     "manifestaciones del papa León XIV sobre la polarización", ("De acuerdo", "Muy de acuerdo")),
     ("conf_pte", "leaders", "Confia (molt o bastant) en Pedro Sánchez", "Confía (mucho o bastante) en Pedro Sánchez",
      "confianza en el presidente del Gobierno", ("Mucha confianza", "Bastante confianza")),
     ("conf_opo", "leaders", "Confia (molt o bastant) en Alberto Núñez Feijóo",
      "Confía (mucho o bastante) en Alberto Núñez Feijóo", "confianza en el líder del principal partido de la oposición",
      ("Mucha confianza", "Bastante confianza")),
 ]
-BLOCKS = {"housing": ("Habitatge", "Vivienda"), "security": ("Fronteres i immigració", "Fronteras e inmigración"),
+BLOCKS = {"housing": ("Habitatge", "Vivienda"),
+          "security": ("Fronteres, immigració i el Marroc", "Fronteras, inmigración y Marruecos"),
+          "territory": ("Competències: Estat o comunitats", "Competencias: Estado o comunidades"),
           "climate": ("Clima i emergències", "Clima y emergencias"), "world": ("Món", "Mundo"),
           "leaders": ("Confiança en els líders", "Confianza en los líderes")}
 NOT_VALID = {"", "N.S.", "N.C.", "N.P.", "No procede", "N.S., no tiene información suficiente"}
@@ -291,6 +333,157 @@ COMPOSE = [
      lambda r: r.get("TAMUNI") in ("100.001 a 400.000 habitantes", "400.001 a 1.000.000 habitantes",
                                    "Más de 1.000.000 habitantes")),
 ]
+# ------------------------------------------------------------- grups nous
+# (23/11/2026) Origen detallat dels nascuts fora, com es va tenir la
+# nacionalitat, l'eix nacional (pel partit que voten: els barometres no
+# pregunten per la independencia) i perfils concrets creuats.
+_ORIGIN2 = [
+    ("ven", "Nascuts a Veneçuela", "Nacidos en Venezuela", {"Venezuela"}),
+    ("andes", "Nascuts a Colòmbia, l'Equador, el Perú o Bolívia", "Nacidos en Colombia, Ecuador, Perú o Bolivia",
+     {"Colombia", "Ecuador", "Perú", "Bolivia"}),
+    ("sud", "Nascuts a l'Argentina, l'Uruguai, Xile o el Paraguai", "Nacidos en Argentina, Uruguay, Chile o Paraguay",
+     {"Argentina", "Uruguay", "Chile", "Paraguay"}),
+    ("carib", "Nascuts al Carib, Centreamèrica, Mèxic o el Brasil", "Nacidos en el Caribe, Centroamérica, México o Brasil",
+     {"Cuba", "República Dominicana", "Honduras", "El Salvador", "Nicaragua", "Panamá", "Costa Rica", "Guatemala",
+      "México", "Brasil", "Puerto Rico"}),
+    ("west", "Nascuts a l'Europa occidental o a l'Amèrica del Nord", "Nacidos en Europa occidental o Norteamérica",
+     {"Francia", "Alemania", "Suiza", "Reino Unido", "Bélgica", "Andorra", "Italia", "Portugal", "Suecia",
+      "Países Bajos", "Dinamarca", "Austria", "Noruega", "Irlanda", "Luxemburgo", "Finlandia", "Estados Unidos de América",
+      "Canadá", "Australia"}),
+]
+
+
+def _origin2(r):
+    if r.get("PAISNAC") != "En otro país":
+        return None
+    c = (r.get("PAISNAC2") or "").strip()
+    if not c or c == "N.C.":
+        return None
+    for key, _ca, _es, names in _ORIGIN2:
+        if c in names:
+            return key
+    return "rest"
+
+
+def _migr(r):
+    if r.get("PAISNAC") != "En otro país":
+        return None
+    return {"Desde que nació": "born", "La ha adquirido con posterioridad": "acq"}.get(r.get("ADQUINAC"))
+
+
+IND_CAT = {"ERC", "JUNTS", "CUP", "ALIANCA"}
+IND_ALL = IND_CAT | {"EHB", "BNG"}
+STATEWIDE = {"PSOE", "PP", "VOX", "SUMAR", "PODEMOS", "SALF"}
+_CAT = {"Cataluña"}
+_EUS = {"País Vasco", "Navarra (Comunidad Foral de)"}
+
+
+def _declared(r):
+    """Partit que diu que votaria (o, si no, pel que sent simpatia); amb la CUP,
+    que a VOTOSIMG va dins d'"altres"."""
+    v = (r.get("INTENCIONG") or "").strip()
+    if v == "CUP":
+        return "CUP"
+    return PARTY.get(v) or _party(r)
+
+
+def _national(r):
+    p, cc = _declared(r), (r.get("CCAA") or "").strip()
+    if not p:
+        return None
+    if cc in _CAT:
+        return "cat_ind" if p in IND_CAT else ("cat_state" if p in STATEWIDE else None)
+    if cc in _EUS:
+        return "eus_nat" if p in ("EHB", "PNV") else ("eus_state" if p in STATEWIDE else None)
+    if cc == "Galicia":
+        return "gal_bng" if p == "BNG" else ("gal_state" if p in STATEWIDE else None)
+    return None
+
+
+def _age_n(r):
+    return _num(r.get("EDAD")) or 0
+
+
+_BIG = ("100.001 a 400.000 habitantes", "400.001 a 1.000.000 habitantes", "Más de 1.000.000 habitantes")
+_SMALL = ("Menos o igual a 2.000 habitantes", "2.001 a 10.000 habitantes")
+_SELF = ("Profesional o trabajador/a autónomo/a (sin asalariados/as)", "Empresario/a o profesional con asalariados/as")
+_MANUAL = ("Oficiales/as, operarios/as, artesanos/as y trabajadores/as de artes mecánicas y de otros oficios",
+           "Operadores/as de instalaciones y máquinas y ensambladores/as", "Ocupaciones elementales")
+_RETIRED = ("Jubilado/a o pensionista (anteriormente ha trabajado)", "Pensionista (anteriormente no ha trabajado)")
+# Perfils concrets: (clau, ca, es, etiquetes per triar propostes, condicio).
+PERSONAS = [
+    ("young_work", "Joves de 18 a 34 anys que treballen", "Jóvenes de 18 a 34 años que trabajan", ("young", "worker"),
+     lambda r: _age_n(r) < 35 and r.get("SITLAB") == "Trabaja"),
+    ("young_univ", "Joves universitaris (18-34)", "Jóvenes universitarios (18-34)", ("young", "univ"),
+     lambda r: _age_n(r) < 35 and r.get("ESTUDIOS") == "Superiores"),
+    ("young_nouniv", "Joves sense estudis universitaris (18-34)", "Jóvenes sin estudios universitarios (18-34)",
+     ("young", "worker"), lambda r: _age_n(r) < 35 and r.get("ESTUDIOS") not in ("Superiores", None, "", "N.C.")),
+    ("young_small", "Joves de pobles i ciutats de menys de 50.000 habitants (18-34)",
+     "Jóvenes de pueblos y ciudades de menos de 50.000 habitantes (18-34)", ("young", "rural"),
+     lambda r: _age_n(r) < 35 and r.get("TAMUNI") in _SMALL + ("10.001 a 50.000 habitantes",)),
+    ("young_women", "Dones joves (18-34) universitàries", "Mujeres jóvenes (18-34) universitarias",
+     ("young", "women", "univ"),
+     lambda r: _age_n(r) < 35 and r.get("SEXO") == "Mujer" and r.get("ESTUDIOS") == "Superiores"),
+    ("families", "Casats de 30 a 54 anys que treballen", "Casados de 30 a 54 años que trabajan", ("family", "worker"),
+     lambda r: 30 <= _age_n(r) < 55 and r.get("ECIVIL") == "Casado/a" and r.get("SITLAB") == "Trabaja"),
+    ("women_4564", "Dones de 45 a 64 anys que treballen", "Mujeres de 45 a 64 años que trabajan", ("women", "worker"),
+     lambda r: 45 <= _age_n(r) < 65 and r.get("SEXO") == "Mujer" and r.get("SITLAB") == "Trabaja"),
+    ("urban_prof", "Universitaris de 30 a 64 anys de ciutats de més de 100.000 habitants",
+     "Universitarios de 30 a 64 años de ciudades de más de 100.000 habitantes", ("univ",),
+     lambda r: 30 <= _age_n(r) < 65 and r.get("ESTUDIOS") == "Superiores" and r.get("TAMUNI") in _BIG),
+    ("manual", "Treballadors manuals (oficis, operaris, ocupacions elementals)",
+     "Trabajadores manuales (oficios, operarios, ocupaciones elementales)", ("worker", "lowinc"),
+     lambda r: r.get("CNO11") in _MANUAL),
+    ("selfemp", "Autònoms i empresaris", "Autónomos y empresarios", ("selfemp",),
+     lambda r: r.get("RELALAB") in _SELF),
+    ("unemp45", "Aturats de 45 anys o més", "Parados de 45 años o más", ("unemp",),
+     lambda r: _age_n(r) >= 45 and (r.get("SITLAB") or "").startswith("En paro")),
+    ("ret_low", "Jubilats amb menys de 1.800 € d'ingressos a la llar",
+     "Jubilados con menos de 1.800 € de ingresos en el hogar", ("senior", "lowinc"),
+     lambda r: r.get("SITLAB") in _RETIRED and r.get("INGRESHOG") in ("Menos de 1.100 €", "De 1.100 a 1.800 €")),
+    ("senior_rural", "Gent de 65 anys o més de pobles de menys de 10.000 habitants",
+     "Personas de 65 años o más de pueblos de menos de 10.000 habitantes", ("senior", "rural"),
+     lambda r: _age_n(r) >= 65 and r.get("TAMUNI") in _SMALL),
+    ("rural", "Gent del camp: pagesos, ramaders i pescadors, o veïns de pobles de menys de 2.000 habitants",
+     "Gente del campo: agricultores, ganaderos y pescadores, o vecinos de pueblos de menos de 2.000 habitantes",
+     ("rural",),
+     lambda r: (r.get("CNO11") or "").startswith("Agricultores") or r.get("TAMUNI") == "Menos o igual a 2.000 habitantes"),
+    ("catholic_senior", "Catòlics practicants de 65 anys o més", "Católicos practicantes de 65 años o más",
+     ("catholic", "senior"), lambda r: _age_n(r) >= 65 and r.get("RELIGION") == "Católico/a practicante"),
+    ("high_inc", "Llars amb més de 3.900 € nets al mes", "Hogares con más de 3.900 € netos al mes", ("highinc",),
+     lambda r: r.get("INGRESHOG") in ("De 3.901 a 5.000 €", "Más de 5.000 €")),
+    ("immig_work", "Nascuts fora d'Espanya que treballen", "Nacidos fuera de España que trabajan", ("immig", "worker"),
+     lambda r: r.get("PAISNAC") == "En otro país" and r.get("SITLAB") == "Trabaja"),
+    ("police", "Militars i policies", "Militares y policías", ("security",),
+     lambda r: r.get("CNO11") == "Ocupaciones militares y cuerpos policiales"),
+]
+PERSONA_TAGS = {k: list(t) for k, _ca, _es, t, _f in PERSONAS}
+EXTRA_DIMS = [
+    ("persona", {"ca": "Perfils concrets", "es": "Perfiles concretos"}, None,
+     [(k, ca, es) for k, ca, es, _t, _f in PERSONAS]),
+    ("origin2", {"ca": "Nascuts fora d'Espanya, per on", "es": "Nacidos fuera de España, por dónde"}, _origin2,
+     [(k, ca, es) for k, ca, es, _n in _ORIGIN2] +
+     [("rest", "Nascuts a l'Àfrica, l'Europa de l'Est o l'Àsia", "Nacidos en África, Europa del Este o Asia")]),
+    ("migr", {"ca": "Nascuts fora: nacionalitat", "es": "Nacidos fuera: nacionalidad"}, _migr,
+     [("born", "Nascuts fora, espanyols des del naixement", "Nacidos fuera, españoles desde el nacimiento"),
+      ("acq", "Nascuts fora, nacionalitzats", "Nacidos fuera, nacionalizados")]),
+    ("national", {"ca": "Eix nacional (pel partit que voten)", "es": "Eje nacional (por el partido que votan)"}, _national,
+     [("cat_ind", "Catalunya: voten un partit independentista (ERC, Junts, CUP, Aliança)",
+       "Cataluña: votan un partido independentista (ERC, Junts, CUP, Aliança)"),
+      ("cat_state", "Catalunya: voten un partit d'àmbit estatal", "Cataluña: votan un partido de ámbito estatal"),
+      ("eus_nat", "Euskadi i Navarra: voten EH Bildu o el PNV", "Euskadi y Navarra: votan EH Bildu o el PNV"),
+      ("eus_state", "Euskadi i Navarra: voten un partit d'àmbit estatal",
+       "Euskadi y Navarra: votan un partido de ámbito estatal"),
+      ("gal_bng", "Galícia: voten el BNG", "Galicia: votan el BNG"),
+      ("gal_state", "Galícia: voten un partit d'àmbit estatal", "Galicia: votan un partido de ámbito estatal")]),
+]
+_PERSONA_FN = {k: f for k, _ca, _es, _t, f in PERSONAS}
+# Els independentistes de tot Espanya: un grup mes de l'eix nacional (se solapa
+# amb els de cada comunitat).
+IND_GROUP = ("ind_all", "Votants de partits independentistes de tot Espanya (ERC, Junts, CUP, Aliança, EH Bildu, BNG)",
+             "Votantes de partidos independentistas de toda España (ERC, Junts, CUP, Aliança, EH Bildu, BNG)",
+             lambda r: _declared(r) in IND_ALL)
+
 # Retrat dels votants de cada partit: aquestes dimensions de collectius.DIMS.
 PORTRAIT_DIMS = ("sex", "age", "studies", "work", "class", "income", "religion", "town", "origin")
 
@@ -386,6 +579,7 @@ def profile(rows, all_issues, electorate, dims_fn=None, deep=False, focus=None, 
         "close": {k: round(v, 1) for k, v in _top(a.dist(lambda r: _party(r, "CERCANIA") or (
             "NONE" if (r.get("CERCANIA") or "").startswith("Ninguno") else None)), 6)},
         "ops": _opinions(a),
+        "topics": a.topics(),
         "ministers": (lambda m: m if deep else m[:3] + m[-2:] if len(m) > 5 else m)(_ministers(a)),
         "parties": {},
     }
@@ -418,8 +612,10 @@ def profile(rows, all_issues, electorate, dims_fn=None, deep=False, focus=None, 
             # de cada politica, els votants a l'abast d'aquest grup.
             if seg:
                 rec["ops_reach"] = _opinions(wr)
+                rec["topics_r"] = wr.topics()
             if deep:
                 rec["ops_reach"] = _opinions(wr)
+                rec["topics_r"] = wr.topics()
                 rec["ideo_reach"] = round(wr.mean(lambda r: _num(r.get("ESCIDEOL"))) or 0, 1)
                 rec["age_reach"] = round(wr.mean(lambda r: _num(r.get("EDAD"))) or 0, 1)
                 rec["who_reach"] = {k: round(wr.pct(fn), 1) for k, _c, _e, fn in COMPOSE}
@@ -429,6 +625,7 @@ def profile(rows, all_issues, electorate, dims_fn=None, deep=False, focus=None, 
             rec["n_voters"] = len(voters)
             if deep:
                 rec["ops_voters"] = _opinions(wv)
+                rec["topics_v"] = wv.topics()
                 rec["issues_voters"] = [{"k": k, "l": _label(k), "p": round(v, 1)} for k, v in _top(wv.issues(), 5)]
                 rec["ideo_voters"] = round(wv.mean(lambda r: _num(r.get("ESCIDEOL"))) or 0, 1)
                 rec["age_voters"] = round(wv.mean(lambda r: _num(r.get("EDAD"))) or 0, 1)
@@ -547,6 +744,26 @@ def run() -> dict | None:
                            **profile(g, all_issues, electorate, seg=key in SEGMENT_DIMS)})
         if groups:
             dims.append({"key": key, "title": title, "groups": groups})
+    def extra_groups(pool, ai, focus=None):
+        """Grups de les dimensions noves (23/11/2026) dins d'un conjunt d'entrevistes."""
+        res = []
+        for key, title, fn, cats in EXTRA_DIMS:
+            groups = []
+            picks = [(v, ca, es, _PERSONA_FN[v] if key == "persona" else (lambda r, f=fn, x=v: f(r) == x))
+                     for v, ca, es in cats]
+            if key == "national":
+                picks.append(IND_GROUP)
+            for value, ca, es, pick in picks:
+                g = [r for r in pool if pick(r)]
+                if len(g) < MIN_N:
+                    continue
+                groups.append({"id": f"{key}:{value}", "label": {"ca": ca, "es": es},
+                               **profile(g, ai, electorate, focus=focus, seg=True)})
+            if groups:
+                res.append({"key": key, "title": title, "groups": groups})
+        return res
+
+    dims[1:1] = extra_groups(rows, all_issues)
     # Partits d'una comunitat: el mateix, nomes amb les entrevistes d'alla.
     scopes = {}
     for party, regions in SCOPE.items():
@@ -570,6 +787,9 @@ def run() -> dict | None:
                 if len(g) >= MIN_N:
                     sdims.append((key, title, {"id": f"{key}:{value}", "label": {"ca": ca, "es": es},
                                                **profile(g, ai, electorate, focus=[party], seg=True)}))
+        for dm in extra_groups(rr, ai, focus=[party]):
+            for grp in dm["groups"]:
+                sdims.append((dm["key"], dm["title"], grp))
         out_dims = []
         for key, title, grp in sdims:
             if not out_dims or out_dims[-1]["key"] != key:
@@ -584,6 +804,7 @@ def run() -> dict | None:
             "electorate": electorate, "ops": ops_meta,
             "blocks": {k: {"ca": v[0], "es": v[1]} for k, v in BLOCKS.items()},
             "compose": [{"k": k, "l": {"ca": ca, "es": es}} for k, ca, es, _f in COMPOSE],
+            "persona_tags": PERSONA_TAGS,
             "total": total, "dims": dims, "scopes": scopes, "segment_dims": SEGMENT_DIMS,
             "source": "Origen de los datos: Centro de Investigaciones Sociológicas (CIS), barómetros "
                       + ", ".join(studies)}
