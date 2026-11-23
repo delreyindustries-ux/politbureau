@@ -7,7 +7,15 @@ name: Actualitza i publica
 on:
   schedule:
     - cron: "17 * * * *"
+    # 29/11/2026, 20:01 (19:01 UTC): tanquen els col.legis i s'acaba la veda.
+    # La web ha de mostrar de seguida els escons segons la participacio (nit.py).
+    - cron: "1 19 29 11 *"
   workflow_dispatch:
+    inputs:
+      rapid:
+        description: "Publicacio rapida (jornada electoral): nomes Espanya, la resta de l'ultima execucio"
+        type: boolean
+        default: false
   push:
     branches: [main]
 
@@ -23,6 +31,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Publicacio rapida (23/11/2026, per a la jornada del 29N): un commit amb
+    # "[nit]" al missatge (`politbureau nit` desa la participacio oficial) o el
+    # boto amb "rapid". Es recupera la base de dades de l'ultima execucio
+    # completa i nomes es tornen a llegir les enquestes d'Espanya: ~10 minuts
+    # en lloc de ~35.
+    env:
+      NIT: ${{ contains(github.event.head_commit.message, '[nit]') || github.event.inputs.rapid == 'true' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -42,6 +57,26 @@ jobs:
             data/raw
             data/geo
           key: fonts-v1-${{ hashFiles('config/sources.yaml') }}
+
+      - name: Recupera l'estat de l'ultima execucio completa (publicacio rapida)
+        if: env.NIT == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/politbureau.db
+            data/next_elections.json
+            data/resultats
+            data/conversa
+            data/governs
+          key: estat-${{ github.run_id }}
+          restore-keys: estat-
+
+      # Sense l'estat guardat, la web sortiria sense les pagines de la resta del
+      # mon: millor no publicar res i deixar la versio anterior.
+      - name: Comprova que hi ha estat guardat
+        if: env.NIT == 'true'
+        run: |
+          test -f data/politbureau.db || { echo "Sense estat guardat, cal una execucio completa abans"; exit 1; }
 
       - name: Prepara
         run: |
@@ -63,6 +98,7 @@ jobs:
       # agafa totes les enquestes de la base). Si Wikipedia falla, la web es
       # publica igual sense aquestes pagines.
       - name: Enquestes de la resta d'Europa i del mon
+        if: env.NIT != 'true'
         continue-on-error: true
         run: |
           export PYTHONPATH=src
@@ -73,6 +109,7 @@ jobs:
       # Valoracio dels lideres (08/11/2026): aprovacio, nota i preferit per governar.
       # Si falla, les pagines surten igual, sense aquest apartat.
       - name: Valoracio dels lideres
+        if: env.NIT != 'true'
         continue-on-error: true
         run: |
           export PYTHONPATH=src
@@ -81,6 +118,7 @@ jobs:
       # Resultats recents i composicio dels parlaments (09/11/2026). Si falla, es
       # fa servir la copia de data/resultats/darreres.json del repositori.
       - name: Resultats recents i parlaments
+        if: env.NIT != 'true'
         continue-on-error: true
         run: |
           export PYTHONPATH=src
@@ -89,6 +127,7 @@ jobs:
       # Termometre de conversa (20/11/2026): Viquipedia i Bluesky. Si falla, es
       # fa servir la copia de data/conversa/conversa.json del repositori.
       - name: Termometre de conversa
+        if: env.NIT != 'true'
         continue-on-error: true
         timeout-minutes: 15
         run: |
@@ -108,6 +147,25 @@ jobs:
           export PYTHONPATH=src
           python -m politbureau build --country ES
           python -m politbureau site
+
+      # Estat per a la publicacio rapida: dues vegades al dia (5 h i 17 h UTC) i
+      # quan es llanca a ma. Cada copia pesa uns 250 MB; cada hora ompliria la
+      # memoria cau del repositori (10 GB) i en faria fora les descarregues.
+      - name: Hora
+        id: hora
+        run: echo "h=$(date -u +%H)" >> "$GITHUB_OUTPUT"
+
+      - name: Guarda l'estat per a la publicacio rapida
+        if: env.NIT != 'true' && (steps.hora.outputs.h == '05' || steps.hora.outputs.h == '17' || github.event_name == 'workflow_dispatch')
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            data/politbureau.db
+            data/next_elections.json
+            data/resultats
+            data/conversa
+            data/governs
+          key: estat-${{ github.run_id }}
 
       # Si el lloc te enllacos trencats, titols duplicats o adreces al sitemap
       # que no existeixen, NO es publica. Val mes deixar en linia la versio

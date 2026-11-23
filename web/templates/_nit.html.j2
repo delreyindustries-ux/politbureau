@@ -1,0 +1,31 @@
+{# Jornada del 29N (nit.py): participacio oficial i, des de les 20 h, que vol dir per als escons. #}
+{% if nit and nit.stages %}
+{% set es = lang == 'es' %}
+<section class="doc nit" id="participacio-29n">
+  <h2>{{ 'Participación hoy' if es else 'Participació avui' }}</h2>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'Hora' if es else 'Hora' }}</th><th class="num">29N</th><th class="num">{{ 'A la misma hora en 2023' if es else 'A la mateixa hora el 2023' }}</th><th class="num">{{ 'Diferencia' if es else 'Diferència' }}</th></tr></thead>
+    <tbody>{% for s in nit.stages %}<tr><td>{{ s.label }}</td><td class="num"><b>{{ s.value_s }} %</b></td><td class="num">{{ s.ref_s }} %</td>
+      <td class="num"><span class="{{ 'up' if s.diff > 0 else 'down' }}">{{ s.diff_s }}</span></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% if nit.projection %}<p>{% if es %}Participación final estimada: <b>{{ nit.projection.mid_s }} %</b> (entre {{ nit.projection.lo_s }} % y {{ nit.projection.hi_s }} %).
+    Sale de multiplicar el último avance por lo que creció la participación desde esa hora en las generales de 2016, 2019 y 2023. Los avances no cuentan el voto por correo.
+    {% else %}Participació final estimada: <b>{{ nit.projection.mid_s }} %</b> (entre el {{ nit.projection.lo_s }} % i el {{ nit.projection.hi_s }} %).
+    Surt de multiplicar l'últim avanç pel que va créixer la participació des d'aquella hora a les generals del 2016, el 2019 i el 2023. Els avanços no compten el vot per correu.{% endif %}</p>{% endif %}
+  {% if nit.open and nit.scenarios %}
+  <h3>{{ 'Qué significaría para los escaños' if es else 'Què voldria dir per als escons' }}</h3>
+  <p>{% if es %}La media de encuestas de antes de la veda con la participación estimada, según cuatro hipótesis sobre a quién moviliza más la participación. No es un resultado: el recuento lo da el Ministerio del Interior.
+    {% else %}La mitjana d'enquestes d'abans de la veda amb la participació estimada, segons quatre hipòtesis sobre a qui mobilitza més la participació. No és un resultat: el recompte el dona el Ministeri de l'Interior.{% endif %}</p>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'Hipótesis' if es else 'Hipòtesi' }}</th><th class="num">PP</th><th class="num">PSOE</th><th class="num">Vox</th><th class="num">PP + Vox</th><th class="num">{{ 'Bloque de la investidura' if es else 'Bloc de la investidura' }}</th><th class="num">PP + Vox {{ 'si la participación va de' if es else 'si la participació va del' }} {{ nit.projection.lo_s }} {{ 'a' if es else 'al' }} {{ nit.projection.hi_s }} %</th></tr></thead>
+    <tbody>{% for s in nit.scenarios %}<tr><td>{{ s.label }}</td><td class="num">{{ s.pp }}</td><td class="num">{{ s.psoe }}</td><td class="num">{{ s.vox }}</td>
+      <td class="num"><b>{{ s.right }}</b></td><td class="num">{{ s.invest }}</td><td class="num">{{ s.range }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="note">{{ 'Mayoría absoluta: 176. «Techo»: PP y Vox no pasan de 12 millones de votos (hipótesis editorial; los que sobran se abstienen).' if es else 'Majoria absoluta: 176. «Sostre»: PP i Vox no passen de 12 milions de vots (hipòtesi editorial; els que sobren s\'abstenen).' }}
+    <a href="{{ root }}{{ lang }}/{{ page('sandbox') }}/">{{ 'Pruébalo en el simulador' if es else 'Prova-ho al simulador' }} →</a></p>
+  {% elif nit.scenarios %}
+  <p class="note">{{ 'Qué significaría para los escaños, a partir de las 20 h: antes sería publicar una estimación electoral durante la veda (LOREG, artículo 69.7).' if es else "Què voldria dir per als escons, a partir de les 20 h: abans seria publicar una estimació electoral durant la veda (LOREG, article 69.7)." }}</p>
+  {% endif %}
+  <p class="note">{{ 'Fuente: Ministerio del Interior' if es else 'Font: Ministeri de l\'Interior' }}{% if nit.updated_s %} · {{ 'actualizado' if es else 'actualitzat' }} {{ nit.updated_s }}{% endif %}.</p>
+</section>
+{% endif %}

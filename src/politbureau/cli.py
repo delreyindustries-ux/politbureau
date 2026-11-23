@@ -192,6 +192,28 @@ def cmd_congela(args):
     print("NO es puja fins despres de les 20 h del 29/11 (veda, LOREG art. 69.7).")
 
 
+def cmd_nit(args):
+    """Jornada del 29N: `nit 14h 38,2`, `nit 18h 55`, `nit final 70,1` o `nit taula`."""
+    from . import db, nit
+    conn = db.connect()
+    if args.etapa == "taula":
+        print(f"Escenaris desats a {nit.table(conn)} (local, fora del git).")
+        return
+    if args.valor is None:
+        print("Falta la xifra: politbureau nit 18h 55,3")
+        return 1
+    d = nit.record(conn, args.etapa, float(str(args.valor).replace(",", ".")), args.font)
+    p = d["projection"]
+    print(f"{args.etapa}: {d['stages'][args.etapa]['value']} % (2023: {nit.HISTORY['2023'].get(args.etapa)} %). "
+          f"Participacio final estimada {p['mid']} % ({p['lo']}-{p['hi']}).")
+    for s in d["scenarios"]["mid"]:
+        st = s["seats"]
+        print(f"  {s['model']:8s}{' + sostre' if s['cap'] else '         '}  PP {st.get('PP', 0):3d}  PSOE {st.get('PSOE', 0):3d}  "
+              f"Vox {st.get('VOX', 0):3d}  PP+Vox {s['right']:3d}  investidura {s['invest']:3d}")
+    print(f"Desat a {nit.OUT}. Puja'l amb un commit que porti [nit] al missatge (publicacio rapida).")
+    print("Els escons NO surten a la web fins a les 20 h (veda, LOREG art. 69.7); la participacio, si.")
+
+
 def cmd_check(args):
     from .site.check import run
     return run()
@@ -286,6 +308,11 @@ def main(argv=None):
                    ).set_defaults(func=cmd_historic)
     sub.add_parser("congela", help="desa la mitjana, els escons i la previsio d'abans de la veda (local)"
                    ).set_defaults(func=cmd_congela)
+    p = sub.add_parser("nit", help="jornada del 29N: desa la participacio oficial (14h, 18h, final) o fa la taula d'escenaris")
+    p.add_argument("etapa", choices=["14h", "18h", "final", "taula"])
+    p.add_argument("valor", nargs="?", help="participacio oficial en %% (38,2 o 38.2)")
+    p.add_argument("--font", help="adreca de la font oficial")
+    p.set_defaults(func=cmd_nit)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)
 
     p = sub.add_parser("serve", help="arrenca el mapa a l'ordinador")

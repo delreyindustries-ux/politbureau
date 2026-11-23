@@ -121,8 +121,10 @@ def _shares_at(people, q):
 LEFT_HIST = {"PSOE", "PODEMOS", "SUMAR", "?ECP", "?ECPGUANYEM", "?MASPAISEQ", "?MESCOMPROM", "ERC",
              "EHB", "BNG", "CUP", "?FRONTREPUB"}
 RIGHT_HIST = {"PP", "VOX", "CS", "UPN", "?NA"}
-LEFT_NOW = ["PSOE", "SUMAR", "PODEMOS", "ERC", "EHB", "BNG", "CUP"]
-RIGHT_NOW = ["PP", "VOX", "SALF", "UPN", "CS", "AA"]
+# "AA" es Adelante Andalucia (esquerra); Alianca Catalana es "ALIANCA" (fins al
+# 23/11/2026 la dreta portava "AA" pensant en Alianca Catalana).
+LEFT_NOW = ["PSOE", "SUMAR", "PODEMOS", "ERC", "EHB", "BNG", "CUP", "AA"]
+RIGHT_NOW = ["PP", "VOX", "SALF", "UPN", "CS", "ALIANCA"]
 HIST = (("congreso-2016", "2016"), ("congreso-2019a", "2019A"), ("congreso-2019n", "2019N"),
         ("congreso-2023", "2023"))
 

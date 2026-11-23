@@ -164,7 +164,16 @@ def reference() -> dict:
 
 
 def live() -> dict:
-    """Participacio de la nit electoral, si ja n'hi ha: {"updated", "stage", "munis": {codi: {...}}}."""
-    if not LIVE.exists():
-        return {}
-    return json.loads(LIVE.read_text(encoding="utf-8"))
+    """Participacio de la nit electoral, si ja n'hi ha: {"updated", "stage", "munis": {codi: {...}}}.
+
+    Sense el fitxer per municipis, la xifra estatal oficial que es desa a ma amb
+    `politbureau nit` (config/nit-29n.json): la fila "Tot Espanya" de la pagina."""
+    out = json.loads(LIVE.read_text(encoding="utf-8")) if LIVE.exists() else {}
+    from . import nit
+    n = nit.load()
+    if n.get("stages") and not out.get("national"):
+        key = {"14h": "t14", "18h": "t18", "final": "final"}
+        out["national"] = {key[k]: v["value"] for k, v in n["stages"].items()}
+        out.setdefault("stage", [k for k in nit.STAGES if k in n["stages"]][-1])
+        out.setdefault("updated", n.get("updated"))
+    return out

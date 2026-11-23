@@ -513,6 +513,8 @@ METHOD_LOG = [
      "Previsió: l'error de cada partit ja no és una hipòtesi (0,59 × √%, mesurat amb l'error de les mitjanes a l'última elecció de 26 països); s'hi afegeix un error comú per comunitat autònoma (0,50) i el provincial baixa a 0,27, mesurats amb 2016-2023; els partits regionals fan servir el seu % al seu territori; i cada simulació sorteja la participació. Escenaris de participació: probabilitat de votar logística calibrada amb el vot declarat del 2023, factors per comunitat i interval per remostreig."),
     ("2026-11-21", "Perfiles de votantes: para cada colectivo, sus temas, cuánto se mueve su voto y qué partidos compiten por él; para cada partido, los votantes a su alcance (segunda opción o indecisos que lo sienten cercano) y de qué hablan. Microdatos del CIS.",
      "Perfils de votants: per a cada col·lectiu, els seus temes, quant es mou el seu vot i quins partits s'hi disputen; per a cada partit, els votants a l'abast (segona opció o indecisos que el senten proper) i de què parlen. Microdades del CIS."),
+    ("2026-11-23", "Jornada del 29N: la participación oficial (avances de las 14 y las 18 h y final) se publica en cuanto la da el Ministerio del Interior, con la participación final estimada (avance × lo que creció la participación desde esa hora en 2016, 2019 y 2023). Qué significaría para los escaños, con los modelos del simulador (CIS, hipótesis clásica y techo de la derecha), solo a partir de las 20 h, cuando acaba la veda (LOREG, artículo 69.7). Corregido: en la hipótesis clásica, Adelante Andalucía contaba en la derecha (era el código de Aliança Catalana).",
+     "Jornada del 29N: la participació oficial (avanços de les 14 i les 18 h i final) es publica tan bon punt la dona el Ministeri de l'Interior, amb la participació final estimada (avanç × el que va créixer la participació des d'aquella hora el 2016, el 2019 i el 2023). Què voldria dir per als escons, amb els models del simulador (CIS, hipòtesi clàssica i sostre de la dreta), només a partir de les 20 h, quan s'acaba la veda (LOREG, article 69.7). Corregit: a la hipòtesi clàssica, Adelante Andalucía comptava a la dreta (era el codi d'Aliança Catalana)."),
     ("2026-11-23", "Simulador: opción «techo de la derecha». Hipótesis editorial: PP y Vox no pasan de 12 millones de votos (el máximo de los bloques históricos es 11,3 millones, en 2023). Si un escenario les da más, los que sobran se abstienen igual en cada provincia y el resto de partidos conserva sus votos. Con la participación de 2023 no cambia nada (11,9 millones); con un 75 % u 80 % sí. Es una opción que se activa a mano: la proyección y la previsión no la usan.",
      "Simulador: opció «sostre de la dreta». Hipòtesi editorial: PP i Vox no passen de 12 milions de vots (el màxim dels blocs històrics és d'11,3 milions, el 2023). Si un escenari els en dona més, els que sobren s'abstenen igual a cada província i la resta de partits conserva els seus vots. Amb la participació del 2023 no canvia res (11,9 milions); amb un 75 % o un 80 %, sí. És una opció que s'activa a mà: la projecció i la previsió no la fan servir."),
     ("2026-11-23", "Simulador, escenarios de participación: comprobación en votos. Para cada participación, el voto válido y los votos de PP + Vox y de PSOE + Frente Amplio + Podemos como parte del censo, comparados con las generales de 1996 a 2023 (en parte del censo la derecha ha ido siempre del 28,0 % al 30,4 %; la izquierda estatal, del 24,3 % al 37,1 %). Avisa cuando un escenario no tiene precedentes; no cambia ninguna cifra.",
@@ -685,6 +687,43 @@ def home_page(env, cfg, data, urls, highlights):
     except Exception as exc:                              # noqa: BLE001
         print(f"     avis: grafic d'evolucio no generat ({type(exc).__name__}: {exc})")
         trend = None
+    # Jornada del 29N (nit.py): la participacio oficial sempre; els escons que en
+    # surten, nomes quan tanquen els col.legis (veda, LOREG art. 69.7).
+    from .. import nit as nitlib
+    nit_raw = nitlib.load()
+
+    def nit_view(lang):
+        if not nit_raw.get("stages"):
+            return None
+        es = lang == "es"
+        c = lambda x: f"{x:.1f}".replace(".", ",")                       # noqa: E731
+        lab = {"14h": ("Avance de las 14:00", "Avanç de les 14:00"), "18h": ("Avance de las 18:00", "Avanç de les 18:00"),
+               "final": ("Final", "Final")}
+        stages = []
+        for k in nitlib.STAGES:
+            if k in nit_raw["stages"]:
+                v, ref = nit_raw["stages"][k]["value"], nitlib.HISTORY["2023"][k]
+                stages.append({"label": lab[k][0 if es else 1], "value_s": c(v), "ref_s": c(ref), "diff": v - ref,
+                               "diff_s": ("+" if v >= ref else "−") + c(abs(v - ref))})
+        pr = nit_raw.get("projection") or {}
+        names = {("cis", False): ("Según quién dice que irá a votar (CIS)", "Segons qui diu que anirà a votar (CIS)"),
+                 ("cis", True): ("CIS + techo de la derecha", "CIS + sostre de la dreta"),
+                 ("classic", False): ("Clásica: más participación, más izquierda", "Clàssica: més participació, més esquerra"),
+                 ("classic", True): ("Clásica + techo de la derecha", "Clàssica + sostre de la dreta")}
+        sc = []
+        for i, s in enumerate((nit_raw.get("scenarios") or {}).get("mid") or []):
+            st = s["seats"]
+            lo = ((nit_raw["scenarios"].get("lo") or [None] * 4)[i] or {}).get("right")
+            hi = ((nit_raw["scenarios"].get("hi") or [None] * 4)[i] or {}).get("right")
+            rng = sorted(x for x in (lo, hi) if x is not None)
+            sc.append({"label": names[(s["model"], s["cap"])][0 if es else 1], "pp": st.get("PP", 0),
+                       "psoe": st.get("PSOE", 0), "vox": st.get("VOX", 0), "right": s["right"], "invest": s["invest"],
+                       "range": f"{rng[0]}-{rng[-1]}" if rng else "–"})
+        upd = nit_raw.get("updated", "")
+        return {"stages": stages, "open": veda.polls_closed(general),
+                "projection": {"mid_s": c(pr["mid"]), "lo_s": c(pr["lo"]), "hi_s": c(pr["hi"])} if pr else None,
+                "scenarios": sc, "updated_s": (upd[8:10] + "/" + upd[5:7] + " " + upd[11:16]) if len(upd) >= 16 else ""}
+
     for lang in i18n.LANGS:
         canonical = i18n.page_url("spain", lang)
         html = render_page(
@@ -693,7 +732,7 @@ def home_page(env, cfg, data, urls, highlights):
             f"{cfg['site']['name']} · {i18n.t('site_tagline', lang)}",
             i18n.t("site_description", lang),
             highlights=highlights, simulator=sim_json, baseline_year=BASELINE_YEAR, trend=trend, seatgrid=sg,
-            notice=notice, subs=subs, leaders=leaders, congress=congress, forecast=fc,
+            notice=notice, subs=subs, leaders=leaders, congress=congress, forecast=fc, nit=nit_view(lang),
             people_url=people_url.get(lang, ""),
             people=[{**c, "members": (people.get(lang) or {}).get("parties", {}).get(c["code"], [])}
                     for c in congress] if people else [],
