@@ -103,6 +103,24 @@
       <label><input type="radio" name="sb-tm" value="classic"> {{ 'Hipótesis clásica: más participación, más izquierda' if es else "Hipòtesi clàssica: més participació, més esquerra" }}</label>
     </fieldset>
     <div class="tablewrap"><table id="sb-turnout" class="results sb-trows"><thead></thead><tbody></tbody></table></div>
+    <div id="sb-tcheck" hidden>
+      <h3>{{ 'Comprobación en votos: ¿tiene precedentes?' if es else 'Comprovació en vots: té precedents?' }}</h3>
+      <p>{% if es %}Cuántos votos tendría cada bloque con cada participación y qué parte del censo serían, comparado con lo que han votado
+        en las generales de 1996 a 2023. En votos la derecha crece desde 1996, pero también el censo (de 32,5 a 37,5 millones): en parte del censo,
+        PP, Ciudadanos y Vox han ido siempre del 28,0 % al 30,4 %. Un escenario fuera de ese rango no es imposible (en 2011 la izquierda bajó 11 puntos
+        de golpe), pero no tendría precedentes. No cambia ninguna cifra.{% else %}Quants vots tindria cada bloc amb cada participació i quina part del cens
+        serien, comparat amb el que han votat a les generals de 1996 a 2023. En vots la dreta creix des del 1996, però també el cens (de 32,5 a 37,5
+        milions): en part del cens, PP, Ciutadans i Vox han anat sempre del 28,0 % al 30,4 %. Un escenari fora d'aquest rang no és impossible (el 2011
+        l'esquerra va baixar 11 punts de cop), però no tindria precedents. No canvia cap xifra.{% endif %}</p>
+      <p id="sb-tcheck-read" class="sb-tcheck-read"></p>
+      <div class="tablewrap"><table class="results sb-tcheck"><thead></thead><tbody></tbody></table></div>
+      <p class="note">{% if es %}Votos: el voto válido de 2023 (con el blanco), multiplicado por la participación del escenario sobre la de 2023. Censo: el de 2023
+        con los residentes en el extranjero (CERA), como en la serie histórica; el de 2026 es algo mayor, así que el % real sería un poco más bajo. Bloques
+        históricos: PP (con UPN), Ciudadanos y Vox; PSOE, IU, Podemos/Sumar y Más País. Fuente: resultados oficiales de 1996-2023.{% else %}Vots: el vot vàlid
+        del 2023 (amb el blanc), multiplicat per la participació de l'escenari sobre la del 2023. Cens: el del 2023 amb els residents a l'estranger (CERA),
+        com a la sèrie històrica; el del 2026 és una mica més gran, així que el % real seria una mica més baix. Blocs històrics: PP (amb UPN), Ciutadans i
+        Vox; PSOE, IU, Podemos/Sumar i Más País. Font: resultats oficials de 1996-2023.{% endif %}</p>
+    </div>
     {% if turnout.classic %}{% set hc = turnout.classic.history %}
     <details class="minor"><summary>{{ '¿Más participación favorece a la izquierda? Lo que dicen los resultados' if es else "Més participació afavoreix l'esquerra? El que diuen els resultats" }}</summary>
       <div class="tablewrap"><table class="results"><thead><tr><th>{{ 'Elecciones generales' if es else 'Eleccions generals' }}</th>

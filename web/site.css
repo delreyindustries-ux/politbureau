@@ -753,3 +753,9 @@ figure.fchart .prl{font-size:11px;fill:var(--dim)}
   .lp-d{grid-column:1 / 3}
   .ls-b{margin-left:0}
 }
+
+/* Simulador: comprovacio en vots dels escenaris de participacio (23/11/2026) */
+.sb-tcheck td.sb-out b{color:#a15c00}
+.sb-tcheck-read{background:var(--soft,rgba(127,127,127,.08));border-radius:6px;padding:8px 12px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sb-tcheck td.sb-out b{color:#ffb74d}}
+:root[data-theme="dark"] .sb-tcheck td.sb-out b{color:#ffb74d}

@@ -791,6 +791,61 @@
         }).join("") + (D.blocs ? '<td class="num">' + (R >= D.majority ? "<b>" + R + "</b>" : R) + '</td><td class="num">' +
         (L >= D.majority ? "<b>" + L + "</b>" : L) + "</td>" : "") + "</tr>";
     }).join("");
+    turnoutCheck(rows);
+  }
+  /* Comprovacio en vots (23/11/2026): a cada participacio, quants vots i quina
+     part del cens tindria cada bloc, contra el que ha votat de 1996 a 2023.
+     El vot valid de cada escenari es el del 2023 per T / ref (com a la resta
+     del simulador); el cens, el del 2023 amb el CERA, com a la serie historica.
+     No canvia cap xifra: nomes avisa quan un escenari no te precedents. */
+  function turnoutCheck(rows) {
+    var box = $("#sb-tcheck"), C = D.turnout && D.turnout.check;
+    if (!box) return;
+    if (!C || !D.votes) { box.hidden = true; return; }
+    box.hidden = false;
+    var V23 = C.valid || P.reduce(function (a, p) { return a + (p.v || 0); }, 0), ref = D.turnout.ref;
+    var M = function (x) { return (Math.round(x / 1e5) / 10).toFixed(1).replace(".", ",") + (ES ? " M" : " M"); };
+    var names = { right: "PP + Vox", left: "PSOE + Frente Amplio + Podemos" };
+    var yr = function (y) { return y.slice(0, 4) === "2019" ? (y.slice(5) === "04" ? (ES ? "abr. " : "abr. ") : (ES ? "nov. " : "nov. ")) + "2019" : y.slice(0, 4); };
+    var TV = C.turnout;
+    var head = "<tr><th>" + (ES ? "Participación" : "Participació") + "</th>" + (TV ? '<th class="num">' + (ES ? "Voto válido" : "Vot vàlid") +
+      "<br><small>% " + (ES ? "del censo" : "del cens") + " (" + fmt(TV.min) + "-" + fmt(TV.max) + " %)</small></th>" : "");
+    ["right", "left"].forEach(function (k) {
+      var B = C.blocs[k];
+      head += '<th class="num">' + names[k] + "<br><small>" + (ES ? "votos · % del censo" : "vots · % del cens") + " (" + C.from + "-" + C.to + ": " +
+        fmt(B.min) + "-" + fmt(B.max) + " %)</small></th>";
+    });
+    head += "</tr>";
+    var flags = [], tflag = {};
+    var body = rows.map(function (r) {
+      var Vt = V23 * r.t / ref, tr = "<tr" + (r.t === (state.t === null ? Math.round(ref) : state.t) ? ' class="total"' : "") + "><td>" + r.t + " %</td>";
+      if (TV) {
+        var tp = 100 * Vt / C.census, out = tp < TV.min - 0.05 || tp > TV.max + 0.05;
+        if (out) tflag[r.t] = tp < TV.min ? (ES ? "por debajo de la más baja (" : "per sota de la més baixa (") + fmt(TV.min) + " %, " + yr(TV.min_y) + ")" :
+          (ES ? "por encima de la más alta (" : "per sobre de la més alta (") + fmt(TV.max) + " %, " + yr(TV.max_y) + ")";
+        tr += '<td class="num' + (out ? " sb-out" : "") + '"><b>' + fmt(tp) + " %</b>" + (out ? " ⚠" : "") + "</td>";
+      }
+      ["right", "left"].forEach(function (k) {
+        var B = C.blocs[k], sh = B.now.reduce(function (a, q) { return a + (r.nat[q] || 0); }, 0);
+        var votes = sh / 100 * Vt, pc = 100 * votes / C.census, cls = "", tip = "";
+        if (pc > B.max + 0.05) { cls = "up"; tip = (ES ? "por encima del máximo (" : "per sobre del màxim (") + fmt(B.max) + " %, " + yr(B.max_y) + ")"; }
+        else if (pc < B.min - 0.05) { cls = "down"; tip = (ES ? "por debajo del mínimo (" : "per sota del mínim (") + fmt(B.min) + " %, " + yr(B.min_y) + ")"; }
+        if (tip) flags.push({ t: r.t, k: k, tip: tip, pc: pc });
+        tr += '<td class="num' + (cls ? " sb-out" : "") + '"' + (tip ? ' title="' + tip + '"' : "") + ">" + M(votes) + " · <b" +
+          (cls ? ' class="' + cls + '"' : "") + ">" + fmt(pc) + " %</b>" + (tip ? " ⚠" : "") + "</td>";
+      });
+      return tr + "</tr>";
+    }).join("");
+    box.querySelector("thead").innerHTML = head;
+    box.querySelector("tbody").innerHTML = body;
+    var cur = state.t === null ? Math.round(ref) : state.t, now = flags.filter(function (f) { return f.t === cur; });
+    var pre = tflag[cur] ? (ES ? "Esta participación no tiene precedentes desde " : "Aquesta participació no té precedents des del ") + C.from + ": " + tflag[cur] +
+      (ES ? ". Por eso los bloques también salen del rango; lo que cuenta es la participación. " : ". Per això els blocs també surten del rang; el que compta és la participació. ") : "";
+    var txt = pre + (now.length ? now.map(function (f) {
+      return "<b>" + names[f.k] + "</b>: " + fmt(f.pc) + " % " + (ES ? "del censo, " : "del cens, ") + f.tip;
+    }).join(". ") + "." : (ES ? "Con esta participación, los dos bloques quedan dentro de lo que han votado entre " :
+      "Amb aquesta participació, els dos blocs queden dins del que han votat entre ") + C.from + (ES ? " y " : " i ") + C.to + ".");
+    $("#sb-tcheck-read").innerHTML = txt;
   }
   function setTurnout(t) {
     var ref = Math.round(D.turnout.ref);

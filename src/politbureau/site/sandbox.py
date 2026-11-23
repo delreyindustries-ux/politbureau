@@ -141,13 +141,61 @@ def _turnout_data():
         return None
 
 
+# Comprovacio en vots (23/11/2026, a partir d'un fil de Gonzalo Bonet a X sobre
+# els "votants potencials"): quina part del cens hauria de votar cada bloc a
+# cada participacio, comparada amb el que ha votat a les generals de 1996 a
+# 2023 (config/history_es.json). Es una comprovacio, no una correccio: no
+# toca cap xifra. Els blocs historics son les families de history_es.json;
+# els d'avui, els codis del model que hi corresponen.
+CHECK_BLOCS = {
+    "right": {"hist": {"PP", "CS", "VOX"}, "hist_names": {"UPN"}, "now": ["PP", "VOX", "UPN"]},
+    "left": {"hist": {"PSOE", "UP", "IU"}, "hist_names": {"Más País", "Más País–Equo"},
+             "now": ["PSOE", "SUMAR", "PODEMOS"]},
+}
+CHECK_FROM = "1996"
+
+
+def _turnout_check():
+    f = ROOT / "config" / "history_es.json"
+    try:
+        h = json.loads(f.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    els = [e for e in h.get("elections", []) if e["date"] >= CHECK_FROM and e.get("census")]
+    if not els:
+        return None
+    # "valid": el vot valid oficial de l'ultima (amb el blanc), la mateixa base
+    # que els % de les enquestes i de la serie historica.
+    out = {"census": els[-1]["census"], "valid": els[-1].get("valid"), "census_year": els[-1]["date"][:4],
+           "from": els[0]["date"][:4],
+           "to": els[-1]["date"][:4], "blocs": {}}
+    # La participacio mateixa (vot valid sobre el cens amb el CERA): per sota
+    # del minim historic, els dos blocs hi queden per sota per forca.
+    tv = [{"y": e["date"][:7], "pc": round(100.0 * e["valid"] / e["census"], 1)} for e in els if e.get("valid")]
+    if tv:
+        lo, hi = min(tv, key=lambda r: r["pc"]), max(tv, key=lambda r: r["pc"])
+        out["turnout"] = {"min": lo["pc"], "min_y": lo["y"], "max": hi["pc"], "max_y": hi["y"]}
+    for key, b in CHECK_BLOCS.items():
+        rows = []
+        for e in els:
+            votes = sum(x["votes"] for x in e["parties"]
+                        if x.get("family") in b["hist"] or x["name"] in b["hist_names"])
+            rows.append({"y": e["date"][:7], "v": votes, "pc": round(100.0 * votes / e["census"], 1)})
+        lo = min(rows, key=lambda r: r["pc"])
+        hi = max(rows, key=lambda r: r["pc"])
+        out["blocs"][key] = {"now": b["now"], "min": lo["pc"], "min_y": lo["y"], "max": hi["pc"], "max_y": hi["y"],
+                             "max_votes": max(r["v"] for r in rows), "last": rows[-1]}
+    return out
+
+
 def _turnout_payload():
     d = _turnout_data()
     if not d or not d.get("factors"):
         return None
     c = d.get("classic")
     return {"ref": d["ref"], "max": d["max"], "factors": d["factors"], "regional": d.get("regional") or {},
-            "classic": {"slope": c["slope"], "left": c["left"], "right": c["right"]} if c else None}
+            "classic": {"slope": c["slope"], "left": c["left"], "right": c["right"]} if c else None,
+            "check": _turnout_check()}
 
 
 def _turnout_view(meta):
