@@ -162,7 +162,7 @@ def run(clean=True):
         print("     simulador electoral: pagina generada")
     from . import guide
     try:
-        if guide.guide_page(env, cfg, data):
+        if guide.guide_page(env, cfg, data, conn=conn):
             print("     guia del sistema electoral: generada")
     except Exception as exc:                              # noqa: BLE001
         print(f"     avis: guia no generada ({type(exc).__name__}: {exc})")

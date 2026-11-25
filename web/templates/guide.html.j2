@@ -76,6 +76,12 @@
   <p>{{ 'Los parlamentos autonómicos con varias circunscripciones, cada uno con sus reglas y su último resultado:' if es else 'Els parlaments autonòmics amb diverses circumscripcions, cadascun amb les seves regles i el seu últim resultat:' }}</p>
   <ul class="cols">{% for g in regional %}<li><a href="{{ root }}{{ g.url[lang].lstrip('/') }}">{{ g.name[lang] }}</a> <small>{{ g.chamber }}</small></li>{% endfor %}</ul>
   {% endif %}
+  {% if foreign %}
+  <h2>{{ 'Cómo se vota en el mundo' if es else 'Com es vota al món' }}</h2>
+  <p>{{ 'Guías de ' if es else 'Guies de ' }}{{ foreign | length }} {{ 'parlamentos de otros países, con la media de encuestas de hoy:' if es else "parlaments d'altres països, amb la mitjana d'enquestes d'avui:" }}
+    {% for g in foreign %}<a href="{{ root }}{{ g.url[lang].lstrip('/') }}">{{ g.name[lang] }}</a>{% if not loop.last %}, {% endif %}{% endfor %}.
+    <a href="{{ root }}{{ lang }}/{{ page('guide') }}/{{ 'mundo' if es else 'mon' }}/">{{ 'Todos los sistemas' if es else 'Tots els sistemes' }} →</a></p>
+  {% endif %}
   <p class="note">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'resultados del Ministerio del Interior (23/07/2023); reglas: LOREG, artículos 162 y 163.' if es else "resultats del Ministeri de l'Interior (23/07/2023); regles: LOREG, articles 162 i 163." }}</p>
 </article>
 {% endblock %}

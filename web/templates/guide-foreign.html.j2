@@ -1,0 +1,65 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% set ix = 1 if es else 0 %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
+{% macro n2(x) %}{{ ('%.2f'|format(x))|replace('.', ',')|replace(',00', '') }}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('guide') }}/">{{ 'Cómo se vota' if es else 'Com es vota' }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('guide') }}/{{ 'mundo' if es else 'mon' }}/">{{ 'En el mundo' if es else 'Al món' }}</a></nav>
+  <h1>{{ ('Cómo se vota ' if es else 'Com es vota ') ~ where }}</h1>
+  <p class="lede">{% if es %}{{ chamber }}: {{ v.seats }} escaños{% if v.total != v.seats %} de {{ v.total }}{% endif %}. Esta guía explica cómo se reparten
+    con la media de encuestas de hoy, y qué pasaría con otras reglas.{% else %}{{ chamber }}: {{ v.seats }} escons{% if v.total != v.seats %} de {{ v.total }}{% endif %}.
+    Aquesta guia explica com es reparteixen amb la mitjana d'enquestes d'avui, i què passaria amb altres regles.{% endif %}</p>
+
+  <h2>{{ 'Las reglas' if es else 'Les regles' }}</h2>
+  <ul>
+    <li>{% if v.method == 'dhondt' %}{% if es %}<b>Ley d'Hondt</b>: los votos de cada partido se dividen entre 1, 2, 3... y se quedan los cocientes más altos. Favorece algo a los partidos grandes.
+      {% else %}<b>Llei d'Hondt</b>: els vots de cada partit es divideixen entre 1, 2, 3... i es queden els quocients més alts. Afavoreix una mica els partits grans.{% endif %}
+      {% elif v.method == 'sainte_lague' %}{% if es %}<b>Sainte-Laguë</b>: los votos se dividen entre 1, 3, 5, 7... Es más proporcional que d'Hondt.{% if v.first != 1 %} Aquí el primer divisor es <b>{{ n2(v.first) }}</b>, y no 1: a un partido pequeño le cuesta más su primer escaño.{% endif %}
+      {% else %}<b>Sainte-Laguë</b>: els vots es divideixen entre 1, 3, 5, 7... És més proporcional que d'Hondt.{% if v.first != 1 %} Aquí el primer divisor és <b>{{ n2(v.first) }}</b>, i no 1: a un partit petit li costa més el primer escó.{% endif %}{% endif %}
+      {% elif v.method == 'hare' %}{% if es %}<b>Resto mayor con cuota Hare</b>: cada partido se lleva un escaño por cada «cuota» (votos ÷ escaños) y los que faltan van a los restos más grandes. Es de los más proporcionales.
+      {% else %}<b>Resta més gran amb quota Hare</b>: cada partit s'emporta un escó per cada «quota» (vots ÷ escons) i els que falten van a les restes més grans. És dels més proporcionals.{% endif %}
+      {% else %}{% if es %}<b>Resto mayor con cuota Hagenbach-Bischoff</b>: la cuota es votos ÷ (escaños + 1), y los escaños que faltan van a los restos más grandes.
+      {% else %}<b>Resta més gran amb quota Hagenbach-Bischoff</b>: la quota és vots ÷ (escons + 1), i els escons que falten van a les restes més grans.{% endif %}{% endif %}</li>
+    <li>{% if v.thr %}{% if es %}Un partido necesita el <b>{{ n2(v.thr) }} %</b> de los votos de todo el país para entrar.{% else %}Un partit necessita el <b>{{ n2(v.thr) }} %</b> dels vots de tot el país per entrar.{% endif %}
+      {% else %}{{ 'No hay umbral legal en todo el país.' if es else 'No hi ha llindar legal a tot el país.' }}{% endif %}</li>
+    {% if v.bonus == 'gr' %}<li>{% if es %}<b>Prima de mayoría</b>: el partido más votado recibe 20 escaños extra si pasa del 25 %, y uno más por cada medio punto, hasta 50 con el 40 %.
+      {% else %}<b>Prima de majoria</b>: el partit més votat rep 20 escons extra si passa del 25 %, i un més per cada mig punt, fins a 50 amb el 40 %.{% endif %}</li>{% endif %}
+    <li>{{ 'Mayoría absoluta' if es else 'Majoria absoluta' }}: <b>{{ v.majority }}</b>.</li>
+    {% if v.districts %}<li>{% if es %}La ley reparte los escaños por circunscripciones; aquí se calcula con el voto de todo el país, que es una aproximación: en las circunscripciones pequeñas, a los partidos pequeños les cuesta más.
+      {% else %}La llei reparteix els escons per circumscripcions; aquí es calcula amb el vot de tot el país, que és una aproximació: a les circumscripcions petites, als partits petits els costa més.{% endif %}</li>{% endif %}
+    {% if v.note['note_' ~ lang] %}<li>{{ v.note['note_' ~ lang] }}</li>{% endif %}
+  </ul>
+
+  <h2>{{ 'Los escaños con la ley y con otras reglas' if es else 'Els escons amb la llei i amb altres regles' }}</h2>
+  <p>{% if es %}La media de encuestas de hoy repartida con la ley {{ of }} y con otros métodos (con el mismo umbral y sin prima, salvo donde se indica). El índice de Gallagher mide cuánto se separan
+    escaños y votos: 0 es perfectamente proporcional.{% else %}La mitjana d'enquestes d'avui repartida amb la llei {{ of }} i amb altres mètodes (amb el mateix llindar i sense prima, llevat d'on s'indica).
+    L'índex de Gallagher mesura quant se separen escons i vots: 0 és perfectament proporcional.{% endif %}</p>
+  <div class="tablewrap"><table class="results gf">
+    <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="num">%</th>{% for c in v.cols %}<th class="num{% if loop.first %} law{% endif %}">{{ c.l[ix] }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for r in v.rows %}<tr{% if r.out %} class="out"{% endif %}><td><span class="sw" style="background:{{ r.color | vis }}"></span>{{ r.name }}{% if r.out %} <small>({{ 'bajo el umbral' if es else 'sota el llindar' }})</small>{% endif %}</td>
+      <td class="num">{{ n1(r.pct) }}</td>{% for s in r.seats %}<td class="num{% if loop.first %} law{% endif %}">{% if loop.first %}<b>{{ s }}</b>{% else %}{% set dd = s - r.seats[0] %}{{ s }}{% if dd %} <small class="{{ 'up' if dd > 0 else 'down' }}">{{ '+' if dd > 0 else '−' }}{{ dd | abs }}</small>{% endif %}{% endif %}</td>{% endfor %}</tr>{% endfor %}
+      <tr class="gal"><td>{{ 'Índice de Gallagher' if es else 'Índex de Gallagher' }}</td><td></td>{% for c in v.cols %}<td class="num">{{ n1(c.g) }}</td>{% endfor %}</tr></tbody>
+  </table></div>
+
+  <h2>{{ 'El voto que se queda sin escaño' if es else 'El vot que es queda sense escó' }}</h2>
+  <p>{% if v.wasted < 0.05 %}{{ 'Con la media de hoy, todos los partidos que detallan las encuestas tendrían escaño.' if es else "Amb la mitjana d'avui, tots els partits que detallen les enquestes tindrien escó." }}
+    {% elif es %}Con la media de hoy, un <b>{{ n1(v.wasted) }} %</b> del voto no tendría representación{% if v.below %}: {% for r in v.below %}{{ r.name }} ({{ n1(r.pct) }} %{% if r.out %}, bajo el umbral{% endif %}){% if not loop.last %}, {% endif %}{% endfor %}{% if v.other %}, y {% endif %}{% elif v.other %}: {% endif %}{% if v.other %}un {{ n1(v.other) }} % de partidos que las encuestas no detallan{% endif %}.
+    {% else %}Amb la mitjana d'avui, un <b>{{ n1(v.wasted) }} %</b> del vot no tindria representació{% if v.below %}: {% for r in v.below %}{{ r.name }} ({{ n1(r.pct) }} %{% if r.out %}, sota el llindar{% endif %}){% if not loop.last %}, {% endif %}{% endfor %}{% if v.other %}, i {% endif %}{% elif v.other %}: {% endif %}{% if v.other %}un {{ n1(v.other) }} % de partits que les enquestes no detallen{% endif %}.{% endif %}</p>
+  {% if v.rows %}{% set r0 = v.rows[0] %}<p>{% if es %}El primer partido, {{ r0.name }}, tendría el {{ n1(r0.seat_pct) }} % de los escaños con el {{ n1(r0.pct) }} % de los votos.
+    {% else %}El primer partit, {{ r0.name }}, tindria el {{ n1(r0.seat_pct) }} % dels escons amb el {{ n1(r0.pct) }} % dels vots.{% endif %}</p>{% endif %}
+
+  <p><a href="{{ root }}{{ sandbox_url.lstrip('/') }}">{{ 'Pruébalo en el simulador' if es else 'Prova-ho al simulador' }} →</a> ·
+    <a href="{{ root }}{{ country_url.lstrip('/') }}">{{ 'Encuestas y escaños en juego' if es else 'Enquestes i escons en joc' }} →</a> ·
+    <a href="{{ root }}{{ lang }}/{{ page('guide') }}/{{ 'mundo' if es else 'mon' }}/">{{ 'Otros países' if es else 'Altres països' }} →</a></p>
+  <p class="note">{% if es %}Media de encuestas de Polit Bureau (Wikipedia, CC BY-SA 4.0). Reglas: sección «Electoral system» del artículo de Wikipedia de la última elección. No es una previsión del resultado.
+    {% else %}Mitjana d'enquestes de Polit Bureau (Wikipedia, CC BY-SA 4.0). Regles: secció «Electoral system» de l'article de Wikipedia de l'última elecció. No és una previsió del resultat.{% endif %}</p>
+</article>
+<style>
+.gf th.law,.gf td.law{background:var(--soft,rgba(127,127,127,.1))}
+.gf tr.out td{opacity:.6}
+.gf tr.gal td{border-top:2px solid var(--line,#ccc);font-style:italic}
+</style>
+{% endblock %}

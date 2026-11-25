@@ -26,7 +26,7 @@ def _name(p):
     return NAME_2023.get(p) or parties.meta(p, "ES", ELECTION)["name"]
 
 
-def guide_page(env, cfg, data) -> int:
+def guide_page(env, cfg, data, conn=None) -> int:
     from .pages import _fdate                                  # noqa: F401
     mags = data.get("magnitude_real") or data["magnitude"]
     rows = []
@@ -84,6 +84,14 @@ def guide_page(env, cfg, data) -> int:
     except Exception as exc:                              # noqa: BLE001
         print(f"     avis: guies autonomiques no generades ({type(exc).__name__}: {exc})")
         regional = []
+    # Guies dels parlaments estrangers (25/11/2026)
+    foreign = []
+    if conn is not None:
+        from . import guide_foreign
+        try:
+            foreign = guide_foreign.pages(env, cfg, conn)
+        except Exception as exc:                          # noqa: BLE001
+            print(f"     avis: guies estrangeres no generades ({type(exc).__name__}: {exc})")
     for lang in i18n.LANGS:
         es = lang == "es"
         canonical = i18n.page_url("guide", lang)
@@ -95,6 +103,6 @@ def guide_page(env, cfg, data) -> int:
              "cada provincia y un reparto d'Hondt paso a paso." if es else
              "Guia del sistema electoral del Congrés amb els números del 2023: quants vots costa un escó a cada "
              "província i un repartiment d'Hondt pas a pas."),
-            rows=rows, cheapest=cheapest, dearest=dearest, example=example, big=big, regional=regional)
+            rows=rows, cheapest=cheapest, dearest=dearest, example=example, big=big, regional=regional, foreign=foreign)
         write(DIST / canonical.strip("/") / "index.html", html)
     return len(rows)

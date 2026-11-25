@@ -1,0 +1,31 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% set ix = 1 if es else 0 %}
+{% macro n2(x) %}{{ ('%.2f'|format(x))|replace('.', ',')|replace(',00', '') }}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('guide') }}/">{{ 'Cómo se vota' if es else 'Com es vota' }}</a></nav>
+  <h1>{{ 'Cómo se vota en el mundo' if es else 'Com es vota al món' }}</h1>
+  <p class="lede">{% if es %}Cada país reparte los escaños con su propia regla. Estos son los parlamentos proporcionales que la web simula, con una guía cada uno,
+    y cómo se vota en los que no se pueden simular con la media de encuestas.{% else %}Cada país reparteix els escons amb la seva pròpia regla. Aquests són els parlaments
+    proporcionals que la web simula, amb una guia cadascun, i com es vota als que no es poden simular amb la mitjana d'enquestes.{% endif %}</p>
+
+  <h2>{{ 'Parlamentos proporcionales' if es else 'Parlaments proporcionals' }} ({{ guides | length }})</h2>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'País' if es else 'País' }}</th><th>{{ 'Cámara' if es else 'Cambra' }}</th><th class="num">{{ 'Escaños' if es else 'Escons' }}</th>
+      <th>{{ 'Método' if es else 'Mètode' }}</th><th class="num">{{ 'Umbral' if es else 'Llindar' }}</th></tr></thead>
+    <tbody>{% for g in guides %}<tr><td><a href="{{ root }}{{ g.url[lang].lstrip('/') }}">{{ g.name[lang] }}</a></td><td>{{ g.chamber }}</td>
+      <td class="num">{{ g.seats }}</td><td>{{ label[g.method][ix] }}</td><td class="num">{% if g.thr %}{{ n2(g.thr) }} %{% else %}–{% endif %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+
+  {% if notes %}
+  <h2>{{ 'Donde los escaños no se pueden simular' if es else 'On els escons no es poden simular' }} ({{ notes | length }})</h2>
+  <dl class="gw">{% for n in notes %}<dt>{{ n.name[lang] }}</dt><dd>{{ n.note[lang] }}</dd>{% endfor %}</dl>
+  {% endif %}
+
+  <p><a href="{{ root }}{{ lang }}/{{ page('guide') }}/">{{ 'Cómo se vota al Congreso y en cada comunidad' if es else 'Com es vota al Congrés i a cada comunitat' }} →</a></p>
+  <p class="note">{{ 'Reglas: sección «Electoral system» del artículo de Wikipedia de la última elección de cada país.' if es else "Regles: secció «Electoral system» de l'article de Wikipedia de l'última elecció de cada país." }}</p>
+</article>
+<style>.gw dt{font-weight:700;margin-top:10px}.gw dd{margin:2px 0 0 0}</style>
+{% endblock %}

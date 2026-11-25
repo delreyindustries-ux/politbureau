@@ -61,7 +61,7 @@ _EUROPE_NON_PARTY = ("abs", "abs.", "method", "mode", "undecided", "don't know",
 # Sumes de blocs (Finlandia, Suecia...): "Gov." i "Opp." no son partits.
 _BLOCS = {"gov", "gov.", "govt", "govt.", "opp", "opp.", "government", "opposition",
           "blue", "red", "blue bloc", "red bloc", "red-green", "red-greens", "tido parties",
-          "tido", "bloc", "blocs", "sup.", "parties", "polling execution", "client",
+          "tido", "blue-yellow", "blue yellow", "blueyellow", "bloc", "blocs", "sup.", "parties", "polling execution", "client",
           "responses", "resp.", "o/i", "o i", "others/independents", "others independents", "lead"}
 # Trossos del filtre de sempre que a Europa son sigles de partit: "Ref" (Reform
 # UK, Partit Reformista estonià), "Linke", "Danmarksdemokraterne".
