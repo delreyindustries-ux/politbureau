@@ -199,6 +199,12 @@ def cmd_nit(args):
     if args.etapa == "taula":
         print(f"Escenaris desats a {nit.table(conn)} (local, fora del git).")
         return
+    if args.municipis:
+        m = nit.record_munis(args.etapa, args.municipis, args.font)
+        print(f"Feus progressistes: {m['found']} de {m['of']} municipis desats a {m['path']}."
+              + (f" En falten, p. ex.: {', '.join(m['missing'])}" if m["found"] < m["of"] else ""))
+        if args.valor is None:
+            return
     if args.valor is None:
         print("Falta la xifra: politbureau nit 18h 55,3")
         return 1
@@ -312,6 +318,7 @@ def main(argv=None):
     p.add_argument("etapa", choices=["14h", "18h", "final", "taula"])
     p.add_argument("valor", nargs="?", help="participacio oficial en %% (38,2 o 38.2)")
     p.add_argument("--font", help="adreca de la font oficial")
+    p.add_argument("--municipis", help="JSON {codi INE: %%} amb la participacio dels feus progressistes")
     p.set_defaults(func=cmd_nit)
     sub.add_parser("check", help="revisa el lloc generat abans de publicar").set_defaults(func=cmd_check)
 

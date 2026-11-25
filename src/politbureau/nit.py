@@ -185,6 +185,51 @@ def record(conn, stage, value, source=None, now=None):
     return d
 
 
+# ------------------------------------------------------------------ municipis
+MUNI_KEY = {"14h": "t14", "18h": "t18", "final": "final"}
+
+
+def record_munis(stage, path, source=None, now=None):
+    """Participacio oficial dels 500 feus progressistes (25/11/2026).
+
+    `path`: un JSON {codi INE de 5 xifres: % de participacio} (o {codi:
+    {"pct": %}}) amb els municipis que es tinguin; nomes es desen els de la
+    llista de config/participacio/es-general.csv. Es fusiona amb el que ja hi
+    havia de les altres hores a config/participacio/es-general-live.json, que
+    es puja amb el commit [nit] i llegeix la pagina de participacio."""
+    from . import participation
+    if stage not in MUNI_KEY:
+        raise ValueError(f"etapa {stage!r}")
+    raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    codes = {r["code"] for r in participation.load()}
+    out = {}
+    for k, v in raw.items():
+        code = str(k).strip().zfill(5)
+        if isinstance(v, dict):
+            v = v.get("pct", v.get(MUNI_KEY[stage]))
+        try:
+            x = float(str(v).replace(",", ".").replace("%", "").strip())
+        except (TypeError, ValueError):
+            continue
+        if code in codes and 0 < x < 100:
+            out[code] = round(x, 2)
+    dest = participation.LIVE_PUB
+    try:
+        d = json.loads(dest.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        d = {"munis": {}}
+    now = now or dt.datetime.now(dt.timezone(dt.timedelta(hours=1)))
+    for code, x in out.items():
+        d["munis"].setdefault(code, {})[MUNI_KEY[stage]] = x
+    order = [s for s in STAGES if any(MUNI_KEY[s] in m for m in d["munis"].values())]
+    d["stage"] = order[-1] if order else stage
+    d["updated"] = now.strftime("%d/%m/%Y %H:%M")
+    d.setdefault("sources", {})[stage] = source or "Ministerio del Interior"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
+    return {"found": len(out), "of": len(codes), "missing": sorted(codes - set(out))[:10], "path": dest}
+
+
 # ------------------------------------------------------------------ taula
 def _cell(s):
     st = s["seats"]

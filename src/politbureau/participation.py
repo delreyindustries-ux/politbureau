@@ -31,6 +31,8 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "config" / "participacio" / "es-general.csv"
 REF = ROOT / "config" / "participacio" / "es-general-2023.json"
 LIVE = ROOT / "data" / "live" / "es-general-participacio.json"
+# La de la nit que es puja amb el commit [nit] (`politbureau nit ... --municipis`, 25/11/2026).
+LIVE_PUB = ROOT / "config" / "participacio" / "es-general-live.json"
 ELECTIONS = ("congreso-2016", "congreso-2019a", "congreso-2019n", "congreso-2023")
 SIZE = 500
 
@@ -168,7 +170,8 @@ def live() -> dict:
 
     Sense el fitxer per municipis, la xifra estatal oficial que es desa a ma amb
     `politbureau nit` (config/nit-29n.json): la fila "Tot Espanya" de la pagina."""
-    out = json.loads(LIVE.read_text(encoding="utf-8")) if LIVE.exists() else {}
+    src = LIVE if LIVE.exists() else LIVE_PUB
+    out = json.loads(src.read_text(encoding="utf-8")) if src.exists() else {}
     from . import nit
     n = nit.load()
     if n.get("stages") and not out.get("national"):
