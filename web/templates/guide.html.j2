@@ -71,6 +71,11 @@
     {% else %}{{ 'En 2023 no dejó a nadie sin escaño: sin umbral, el reparto habría sido el mismo en las 52 circunscripciones.' if es else "El 2023 no va deixar ningú sense escó: sense llindar, el repartiment hauria estat el mateix a les 52 circumscripcions." }}{% endif %}</p>
 
   <p>{{ 'Pruébalo tú mismo en el' if es else 'Prova-ho tu mateix al' }} <a href="{{ root }}{{ lang }}/{{ page('sandbox') }}/">{{ 'simulador electoral' }}</a>{{ ': con el resultado de 2023 da exactamente estos escaños, y puedes ver qué pasaría con otro sistema.' if es else ": amb el resultat del 2023 dona exactament aquests escons, i pots veure què passaria amb un altre sistema." }}</p>
+  {% if regional %}
+  <h2>{{ 'Cómo se vota en cada comunidad' if es else 'Com es vota a cada comunitat' }}</h2>
+  <p>{{ 'Los parlamentos autonómicos con varias circunscripciones, cada uno con sus reglas y su último resultado:' if es else 'Els parlaments autonòmics amb diverses circumscripcions, cadascun amb les seves regles i el seu últim resultat:' }}</p>
+  <ul class="cols">{% for g in regional %}<li><a href="{{ root }}{{ g.url[lang].lstrip('/') }}">{{ g.name[lang] }}</a> <small>{{ g.chamber }}</small></li>{% endfor %}</ul>
+  {% endif %}
   <p class="note">{{ 'Fuentes' if es else 'Fonts' }}: {{ 'resultados del Ministerio del Interior (23/07/2023); reglas: LOREG, artículos 162 y 163.' if es else "resultats del Ministeri de l'Interior (23/07/2023); regles: LOREG, articles 162 i 163." }}</p>
 </article>
 {% endblock %}

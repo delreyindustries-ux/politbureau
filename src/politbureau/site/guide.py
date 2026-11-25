@@ -77,6 +77,13 @@ def guide_page(env, cfg, data) -> int:
                                 "order": next((i + 1 for i, (_, pp, dd) in enumerate(winners) if pp == p and dd == d), None)}
                                for d in range(1, ex_m + 2)]} for p in ex_parties]}
     big = [r for r in rows if r["seats"] >= 15]
+    # Guies dels parlaments autonomics (25/11/2026)
+    from . import guide_regional
+    try:
+        regional = guide_regional.pages(env, cfg, data)
+    except Exception as exc:                              # noqa: BLE001
+        print(f"     avis: guies autonomiques no generades ({type(exc).__name__}: {exc})")
+        regional = []
     for lang in i18n.LANGS:
         es = lang == "es"
         canonical = i18n.page_url("guide", lang)
@@ -88,6 +95,6 @@ def guide_page(env, cfg, data) -> int:
              "cada provincia y un reparto d'Hondt paso a paso." if es else
              "Guia del sistema electoral del Congrés amb els números del 2023: quants vots costa un escó a cada "
              "província i un repartiment d'Hondt pas a pas."),
-            rows=rows, cheapest=cheapest, dearest=dearest, example=example, big=big)
+            rows=rows, cheapest=cheapest, dearest=dearest, example=example, big=big, regional=regional)
         write(DIST / canonical.strip("/") / "index.html", html)
     return len(rows)

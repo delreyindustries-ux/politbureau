@@ -1,0 +1,93 @@
+{% extends "base.html.j2" %}
+{% block content %}
+{% set es = lang == 'es' %}
+{% set L = lang %}
+{% macro n0(x) %}{{ '{:,.0f}'.format(x).replace(',', '.') }}{% endmacro %}
+{% macro n1(x) %}{{ ('%.1f'|format(x))|replace('.', ',') }}{% endmacro %}
+{% macro n2(x) %}{{ ('%.2f'|format(x))|replace('.', ',') }}{% endmacro %}
+{% macro pn(code) %}<span class="sw" style="background:{{ (meta[code] or {}).color | default('#999') | vis }}"></span>{{ (meta[code] or {}).name | default(code) }}{% endmacro %}
+<article class="doc wide">
+  <nav class="crumbs"><a href="{{ root }}{{ lang }}/">{{ t('world') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('spain') }}/">{{ t('nav_spain') }}</a> <span>›</span>
+    <a href="{{ root }}{{ lang }}/{{ page('guide') }}/">{{ 'Cómo se vota' if es else 'Com es vota' }}</a></nav>
+  <h1>{{ ('Cómo se vota en ' if es else 'Com es vota a ') ~ place }}</h1>
+  <p class="lede">{% if es %}{{ v.chamber }}: {{ v.seats }} escaños, repartidos circunscripción por circunscripción.
+    Esta guía lo explica con el resultado real de {{ v.year }}.{% else %}{{ v.chamber }}: {{ v.seats }} escons, repartits
+    circumscripció per circumscripció. Aquesta guia ho explica amb el resultat real del {{ v.year }}.{% endif %}</p>
+
+  <h2>{{ 'Las reglas' if es else 'Les regles' }}</h2>
+  <ul>
+    <li><b>{{ v.districts | length }} {{ 'circunscripciones' if es else 'circumscripcions' }}</b>:
+      {% for d in v.districts %}{{ d.name[L] }} ({{ d.seats }}){% if not loop.last %}, {% endif %}{% endfor %}.</li>
+    <li>{% if v.scope == 'cn' %}{% if es %}En cada isla entra quien saca el <b>15 %</b> de la isla o el <b>4 %</b> de toda Canarias; en la lista regional, quien saca el 4 % de Canarias.
+      {% else %}A cada illa hi entra qui treu el <b>15 %</b> de l'illa o el <b>4 %</b> de tot Canàries; a la llista regional, qui treu el 4 % de Canàries.{% endif %}
+      {% elif v.scope == 'region' %}{% if es %}Un partido necesita el <b>{{ n0(v.thr) }} %</b> de toda la comunidad para entrar en cualquier circunscripción.
+      {% else %}Un partit necessita el <b>{{ n0(v.thr) }} %</b> de tota la comunitat per entrar a qualsevol circumscripció.{% endif %}
+      {% else %}{% if es %}Dentro de cada circunscripción, un partido necesita el <b>{{ n0(v.thr) }} %</b> de los votos válidos.
+      {% else %}Dins de cada circumscripció, un partit necessita el <b>{{ n0(v.thr) }} %</b> dels vots vàlids.{% endif %}{% endif %}</li>
+    <li>{{ "Reparto con la ley d'Hondt." if es else "Repartiment amb la llei d'Hondt." }} {{ 'Mayoría absoluta' if es else 'Majoria absoluta' }}: <b>{{ v.majority }}</b>.</li>
+  </ul>
+
+  {% if v.cheap %}
+  <h2>{{ 'Un escaño no cuesta lo mismo en todas partes' if es else 'Un escó no costa el mateix a tot arreu' }}</h2>
+  <p>{% if es %}En {{ v.cheap.name[L] }} hay {{ n0(v.cheap.per_seat) }} electores por escaño y en {{ v.dear.name[L] }}, {{ n0(v.dear.per_seat) }}:
+    {{ n1(v.dear.per_seat / v.cheap.per_seat) }} veces más.{% else %}A {{ v.cheap.name[L] }} hi ha {{ n0(v.cheap.per_seat) }} electors per escó i a
+    {{ v.dear.name[L] }}, {{ n0(v.dear.per_seat) }}: {{ n1(v.dear.per_seat / v.cheap.per_seat) }} vegades més.{% endif %}</p>
+  {% endif %}
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'Circunscripción' if es else 'Circumscripció' }}</th><th class="num">{{ 'Escaños' if es else 'Escons' }}</th>
+      {% if v.cheap %}<th class="num">{{ 'Electores por escaño' if es else 'Electors per escó' }}</th>{% endif %}
+      <th class="num">{{ 'Para entrar hacía falta' if es else 'Per entrar calia' }}</th><th>{{ 'Reparto' if es else 'Repartiment' }}</th></tr></thead>
+    <tbody>{% for d in v.districts %}<tr><td>{{ d.name[L] }}</td><td class="num">{{ d.seats }}</td>
+      {% if v.cheap %}<td class="num">{% if d.per_seat %}{{ n0(d.per_seat) }}{% else %}–{% endif %}</td>{% endif %}
+      <td class="num">{% if d.last %}{{ n1(d.last) }} %{% else %}–{% endif %}</td>
+      <td>{% for p, n in d.won | dictsort(by='value', reverse=true) %}{{ pn(p) }} {{ n }}{% if not loop.last %} · {% endif %}{% endfor %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="note">{{ '«Para entrar hacía falta»: el porcentaje del cociente del último escaño repartido.' if es else "«Per entrar calia»: el percentatge del quocient de l'últim escó repartit." }}
+    {% if v.cheap %}{{ 'Electores: censo de las generales (INE).' if es else 'Electors: cens de les generals (INE).' }}{% endif %}</p>
+
+  {% if v.example %}{% set ex = v.example %}
+  <h2>{{ "La ley d'Hondt, paso a paso" if es else "La llei d'Hondt, pas a pas" }}: {{ ex.name[L] }}</h2>
+  <p>{% if es %}{{ ex.name[L] }} elige {{ ex.seats }} escaños. Se divide el porcentaje de cada partido entre 1, 2, 3... y los {{ ex.seats }} cocientes más altos
+    se llevan un escaño cada uno (el número indica el orden). Con porcentajes en lugar de votos, el reparto es el mismo.{% else %}{{ ex.name[L] }} tria {{ ex.seats }} escons.
+    Es divideix el percentatge de cada partit entre 1, 2, 3... i els {{ ex.seats }} quocients més alts s'enduen un escó cadascun (el número indica l'ordre).
+    Amb percentatges en lloc de vots, el repartiment és el mateix.{% endif %}</p>
+  <div class="tablewrap"><table class="results dh">
+    <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="num">%</th>{% for d in ex.divs %}<th class="num">÷ {{ d }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for r in ex.rows %}<tr{% if r.out %} class="out"{% endif %}><td>{{ pn(r.code) }}{% if r.out %} <small>({{ 'no llega al umbral' if es else 'no arriba al llindar' }})</small>{% endif %}</td><td class="num">{{ n1(r.pct) }}</td>
+      {% for q in r.q %}<td class="num{% if q.order %} win{% endif %}">{{ n2(q.v) }}{% if q.order %} <sup>{{ q.order }}</sup>{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div>
+  {% endif %}
+
+  <h2>{{ 'El umbral' if es else 'El llindar' }}</h2>
+  {% if v.lost_any %}<ul>{% for name, lost in v.lost_any %}<li>{% if es %}En {{ name[L] }}, sin el umbral habría sacado escaño:{% else %}A {{ name[L] }}, sense el llindar hauria tret escó:{% endif %}
+    {% for p in lost %}{{ pn(p) }}{% if not loop.last %}, {% endif %}{% endfor %}.</li>{% endfor %}</ul>
+  {% else %}<p>{{ 'En ' ~ v.year ~ ' el umbral no dejó a nadie sin escaño: con tan pocos escaños por circunscripción, hacía falta más que eso para entrar.' if es else 'El ' ~ v.year ~ ' el llindar no va deixar ningú sense escó: amb tan pocs escons per circumscripció, calia més que això per entrar.' }}</p>{% endif %}
+
+  <h2>{{ 'El mismo voto con una sola circunscripción' if es else 'El mateix vot amb una sola circumscripció' }}</h2>
+  <p>{% if es %}Si los {{ v.seats }} escaños se repartieran con el voto de toda la comunidad, sin umbral. El índice de Gallagher mide cuánto se separan
+    escaños y votos (0 = perfectamente proporcional): <b>{{ n1(v.gallagher) }}</b> con el sistema real y {{ n1(v.gallagher_single) }} con una sola circunscripción.
+    {% else %}Si els {{ v.seats }} escons es repartissin amb el vot de tota la comunitat, sense llindar. L'índex de Gallagher mesura quant se separen escons i
+    vots (0 = perfectament proporcional): <b>{{ n1(v.gallagher) }}</b> amb el sistema real i {{ n1(v.gallagher_single) }} amb una sola circumscripció.{% endif %}</p>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th><th class="num">% {{ 'del voto' if es else 'del vot' }}</th><th class="num">{{ 'Escaños reales' if es else 'Escons reals' }}</th>
+      <th class="num">{{ 'Con una sola circunscripción' if es else 'Amb una sola circumscripció' }}</th><th class="num">{{ 'Diferencia' if es else 'Diferència' }}</th></tr></thead>
+    <tbody>{% for r in v.compare %}<tr><td>{{ pn(r.code) }}</td><td class="num">{{ n1(r.pct) }}</td><td class="num"><b>{{ r.real }}</b></td><td class="num">{{ r.single }}</td>
+      <td class="num">{% set dd = r.real - r.single %}{% if dd %}<span class="{{ 'up' if dd > 0 else 'down' }}">{{ '+' if dd > 0 else '−' }}{{ dd | abs }}</span>{% else %}={% endif %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="note">{{ '«Diferencia»: lo que gana (+) o pierde (−) cada partido por repartir circunscripción por circunscripción.' if es else "«Diferència»: el que guanya (+) o perd (−) cada partit per repartir circumscripció per circumscripció." }}</p>
+
+  <p>{% if sandbox_url %}<a href="{{ root }}{{ sandbox_url.lstrip('/') }}">{{ 'Pruébalo en el simulador' if es else 'Prova-ho al simulador' }} →</a> · {% endif %}
+    <a href="{{ root }}{{ polls_url.lstrip('/') }}">{{ 'Encuestas' if es else 'Enquestes' }} →</a> ·
+    <a href="{{ root }}{{ lang }}/{{ page('guide') }}/">{{ 'Cómo se vota al Congreso' if es else 'Com es vota al Congrés' }} →</a></p>
+  <p class="note">{% if es %}Resultado de cada circunscripción: artículo de Wikipedia de las elecciones de {{ v.year }} (CC BY-SA 4.0), en porcentaje sobre el voto válido.
+    Reglas: sección «Electoral system» del mismo artículo. {% if v.mismatch %}Con porcentajes de un decimal, en {% for n in v.mismatch %}{{ n[L] }}{% if not loop.last %}, {% endif %}{% endfor %} el reparto calculado no coincide con el real: la tabla muestra el real.{% else %}Repartido con esos porcentajes, salen los mismos escaños que en la realidad.{% endif %}{% else %}Resultat de cada circumscripció:
+    article de Wikipedia de les eleccions del {{ v.year }} (CC BY-SA 4.0), en percentatge sobre el vot vàlid. Regles: secció «Electoral system» del mateix article.
+    {% if v.mismatch %}Amb percentatges d'un decimal, a {% for n in v.mismatch %}{{ n[L] }}{% if not loop.last %}, {% endif %}{% endfor %} el repartiment calculat no coincideix amb el real: la taula ensenya el real.{% else %}Repartit amb aquests percentatges, surten els mateixos escons que en la realitat.{% endif %}{% endif %}</p>
+</article>
+<style>
+.dh td.win{font-weight:700;background:var(--soft,rgba(127,127,127,.12))}
+.dh tr.out td{opacity:.55}
+.dh sup{font-size:.7em;opacity:.8}
+</style>
+{% endblock %}
