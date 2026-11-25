@@ -38,6 +38,27 @@ ELECTIONS = [
     ("congreso-2019n", "2019-11-10", "Opinion_polling_for_the_November_2019_Spanish_general_election"),
     ("congreso-2023", "2023-07-23", "Opinion_polling_for_the_2023_Spanish_general_election"),
 ]
+# El 29N entra quan hi ha el resultat (pla de ruta, preparat el 25/11/2026):
+# primer el provisional de config/resultat-29n.yaml; quan Infoelectoral
+# publiqui els fitxers (uns mesos despres) es pot afegir a PROCESSES i passa a
+# llegir-se d'alla.
+E2026 = ("congreso-2026", "2026-11-29", "Opinion_polling_for_the_2026_Spanish_general_election")
+RESULT_2026 = ROOT / "config" / "resultat-29n.yaml"
+
+
+def result_2026() -> dict[str, float] | None:
+    """Percentatges sobre el vot valid del 29N (resultat-29n.yaml), o None."""
+    import yaml
+    try:
+        d = yaml.safe_load(RESULT_2026.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return None
+    shares = {k: float(v) for k, v in (d.get("shares") or {}).items() if v}
+    return shares if sum(shares.values()) > 50 else None
+
+
+def election_list() -> list[tuple[str, str, str]]:
+    return ELECTIONS + ([E2026] if result_2026() else [])
 
 # Sigles que el cataleg de partits no coneix (son d'abans del 2023) o que cal
 # sumar a un altre partit per comparar com ho fan les taules de la Wikipedia:
@@ -46,6 +67,7 @@ CANON = {
     "?C's": "CS", "?C'S": "CS", "?CS": "CS", "?Cs": "CS",
     "?ECP": "PODEMOS", "?ECPGUANYEM": "PODEMOS",
     "?PSEEEPSO": "PSOE",
+    "?FA": "SUMAR",             # 2026: la columna "FA" (Frente Amplio) es el codi SUMAR de la web
 }
 NAMES = {"CS": "Ciudadanos", "PODEMOS": "Unidas Podemos", "SUMAR": "Sumar"}
 
@@ -74,6 +96,11 @@ def official(process: str) -> dict[str, float]:
     from .ingest import infoelectoral as ie
     from . import parties
 
+    if process not in ie.PROCESSES and process == E2026[0]:
+        res = result_2026()
+        if not res:
+            raise ValueError("congreso-2026: encara no hi ha config/resultat-29n.yaml")
+        return {_canon(k): v for k, v in res.items()}
     tipo, year, month = ie.PROCESSES[process]
     zf = ie.download(process)
     siglas = ie.candidacies(zf, tipo, year, month)
@@ -121,7 +148,17 @@ def _polls(page: str, date: str):
             out += polls
     finally:
         parties.resolve = original
-    return out, got["url"]
+    # Com la base de dades (UNIQUE pollster, data, mostra; es queda la primera):
+    # el CIS posa a la mateixa data l'estimacio i, a sota, el vot directe. Sense
+    # aixo, a igualtat de data el calcul es quedava el vot directe (25/11/2026).
+    seen, uniq = set(), []
+    for p in out:
+        key = ((p.pollster or "").strip().lower(), p.fieldwork_end, p.sample_size)
+        if p.pollster and key in seen:
+            continue
+        seen.add(key)
+        uniq.append(p)
+    return uniq, got["url"]
 
 
 def evaluate(process: str, date: str, page: str) -> dict:
@@ -240,7 +277,7 @@ def ratings(elections: list[dict]) -> list[dict]:
 
 
 def run() -> dict:
-    elections = [evaluate(pid, date, page) for pid, date, page in ELECTIONS]
+    elections = [evaluate(pid, date, page) for pid, date, page in election_list()]
     data = {
         "computed": dt.date.today().isoformat(),
         "window_days": WINDOW_DAYS, "main_share": MAIN_SHARE,

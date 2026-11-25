@@ -73,6 +73,23 @@ def calibrated_sigma():
             if res and res >= 1 and avg is not None:
                 pts.append((avg - res) ** 2 / res)
                 countries.add(k)
+    # Espanya (pla de ruta: "calibrar SIGMA amb l'error real del 29N"): les
+    # generals del 2016 al 2023 i la del 29N, amb el metode de la web aplicat
+    # el dia abans de la veda (pollster_ratings.json, backtest). Nomes entra
+    # quan ja hi ha el resultat del 29N: abans hauria canviat la previsio
+    # publicada durant la veda.
+    try:
+        from .pollsters import result_2026
+        rat = json.loads((ROOT / "config" / "pollster_ratings.json").read_text(encoding="utf-8"))
+        if result_2026() and any(e["id"] == "congreso-2026" for e in rat["elections"]):
+            for e in rat["elections"]:
+                avg = ((e.get("backtest") or {}).get("current") or {}).get("shares") or {}
+                for k, res in e["result"].items():
+                    if res >= 1 and k in avg:
+                        pts.append((avg[k] - res) ** 2 / res)
+                countries.add("es")
+    except (OSError, ValueError, KeyError, ImportError):
+        pass
     if len(pts) < 30:
         return SIGMA_DEFAULT, len(pts), len(countries)
     return math.sqrt(sum(pts) / len(pts)), len(pts), len(countries)
