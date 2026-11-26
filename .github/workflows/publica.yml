@@ -16,11 +16,32 @@ on:
         description: "Publicacio rapida (jornada electoral): nomes Espanya, la resta de l'ultima execucio"
         type: boolean
         default: false
+      # Jornada del 29N (26/11/2026): l'Alfonso pot posar la xifra oficial de
+      # participacio des del mobil, amb l'ordinador apagat. Es desa amb
+      # `politbureau nit`, es publica en mode rapid i es guarda al repositori.
+      etapa:
+        description: "29N: avanc de participacio (cap = no en desis cap)"
+        type: choice
+        options: [cap, 14h, 18h, final]
+        default: cap
+      valor:
+        description: "29N: participacio oficial de l'Interior, en % (p. ex. 39,87)"
+        type: string
+        default: ""
+      font:
+        description: "29N: adreca de la pagina de l'Interior (opcional)"
+        type: string
+        default: ""
+      prova:
+        description: "Prova: ho calcula tot, pero no guarda res ni publica la web"
+        type: boolean
+        default: false
   push:
     branches: [main]
 
 permissions:
-  contents: read
+  # write: per guardar al repositori la participacio que es posa a ma (etapa/valor).
+  contents: write
   pages: write
   id-token: write
 
@@ -37,7 +58,7 @@ jobs:
     # completa i nomes es tornen a llegir les enquestes d'Espanya: ~10 minuts
     # en lloc de ~35.
     env:
-      NIT: ${{ contains(github.event.head_commit.message, '[nit]') || github.event.inputs.rapid == 'true' }}
+      NIT: ${{ contains(github.event.head_commit.message, '[nit]') || github.event.inputs.rapid == 'true' || (github.event.inputs.etapa != '' && github.event.inputs.etapa != 'cap') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -77,6 +98,35 @@ jobs:
         if: env.NIT == 'true'
         run: |
           test -f data/politbureau.db || { echo "Sense estat guardat, cal una execucio completa abans"; exit 1; }
+
+      # Participacio posada a ma des del boto (etapa + valor). Es comprova que la
+      # xifra es raonable abans de desar-la; si no, no es publica res.
+      - name: Desa la participacio oficial (29N)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.etapa != 'cap' && github.event.inputs.etapa != ''
+        env:
+          ETAPA: ${{ github.event.inputs.etapa }}
+          VALOR: ${{ github.event.inputs.valor }}
+          FONT: ${{ github.event.inputs.font }}
+        run: |
+          export PYTHONPATH=src
+          python - <<'PY'
+          import os, sys
+          lim = {"14h": (30, 50), "18h": (42, 66), "final": (55, 85)}[os.environ["ETAPA"]]
+          try:
+              v = float(os.environ["VALOR"].replace(",", ".").replace("%", "").strip())
+          except ValueError:
+              sys.exit("Valor de participacio no valid: " + os.environ["VALOR"])
+          if not lim[0] <= v <= lim[1]:
+              sys.exit(f"{v} % no te sentit a les {os.environ['ETAPA']} (ha d'estar entre {lim[0]} i {lim[1]}).")
+          PY
+          python -m politbureau nit "$ETAPA" "$VALOR" --font "${FONT:-Ministerio del Interior}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add config/nit-29n.json
+          git commit -m "Participacio del 29N: $ETAPA, $VALOR % (posada a ma)" -m "Font: ${FONT:-Ministerio del Interior}"
+          echo "Participacio desada:"; python -c "import json;d=json.load(open('config/nit-29n.json',encoding='utf-8'));print(d['stages'], d['projection']['mid'])"
+          if [ "${{ github.event.inputs.prova }}" = "true" ]; then echo "Prova: no es guarda res al repositori"; exit 0; fi
+          git push -q origin HEAD:main || { git fetch -q --depth=50 origin main && git rebase -q origin/main && git push -q origin HEAD:main; }
 
       - name: Prepara
         run: |
@@ -181,6 +231,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event.inputs.prova != 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
