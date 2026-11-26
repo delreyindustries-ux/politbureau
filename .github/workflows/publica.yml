@@ -126,7 +126,8 @@ jobs:
           git commit -m "Participacio del 29N: $ETAPA, $VALOR % (posada a ma)" -m "Font: ${FONT:-Ministerio del Interior}"
           echo "Participacio desada:"; python -c "import json;d=json.load(open('config/nit-29n.json',encoding='utf-8'));print(d['stages'], d['projection']['mid'])"
           if [ "${{ github.event.inputs.prova }}" = "true" ]; then echo "Prova: no es guarda res al repositori"; exit 0; fi
-          git push -q origin HEAD:main || { git fetch -q --depth=50 origin main && git rebase -q origin/main && git push -q origin HEAD:main; }
+          # Si no es pot guardar al repositori, la web es publica igualment amb la xifra.
+          git push -q origin HEAD:main || { git fetch -q --depth=50 origin main && git rebase -q origin/main && git push -q origin HEAD:main; }             || echo "::warning::No s'ha pogut guardar config/nit-29n.json al repositori: la web es publica igualment"
 
       - name: Prepara
         run: |
