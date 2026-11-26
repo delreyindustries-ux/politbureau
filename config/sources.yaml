@@ -789,11 +789,16 @@ elections:
      pub: {es: tasmania, ca: tasmania, name_es: "Tasmania", name_ca: "Tasmània"}}
   - {id: sub-au-wa, group: sub, parent: w-au, country: AU, scope: national, kind: state,
      label: "Austràlia Occidental", page: "2029 Western Australian state election",
+     display: {"?WESTERNAUSTRALIANLABORPARTY": "Labor", "?WESTERNAUSTRALIANLIBERALPARTY": "Liberal",
+               "?WESTERNAUSTRALIANNATIONALPARTY": "National", "?WESTERNAUSTRALIANGREENS": "Greens",
+               "?ONENATION": "One Nation"},
      pub: {es: australia-occidental, ca: australia-occidental, name_es: "Australia Occidental", name_ca: "Austràlia Occidental"}}
   # "Oth." enllaca a la llista de partits d'Australia: son els altres.
   - {id: sub-au-sa, group: sub, parent: w-au, country: AU, scope: national, kind: state,
      merge: {"?LISTOFPOLITICALPARTIESINAUSTRALIA": OTHER},
      label: "Austràlia Meridional", page: "2030 South Australian state election",
+     display: {"?SOUTHAUSTRALIANLABORPARTY": "Labor", "?SOUTHAUSTRALIANLIBERALPARTY": "Liberal",
+               "?SOUTHAUSTRALIANGREENS": "Greens", "?PAULINEHANSONSONENATIONSOUTHAUSTRALIA": "One Nation"},
      pub: {es: australia-meridional, ca: australia-meridional, name_es: "Australia Meridional", name_ca: "Austràlia Meridional"}}
   # India: assemblees dels estats del 2027.
   - {id: sub-in-pb, group: sub, parent: w-in, country: IN, scope: national, kind: state,
