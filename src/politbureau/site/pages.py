@@ -513,6 +513,12 @@ METHOD_LOG = [
      "Previsió: l'error de cada partit ja no és una hipòtesi (0,59 × √%, mesurat amb l'error de les mitjanes a l'última elecció de 26 països); s'hi afegeix un error comú per comunitat autònoma (0,50) i el provincial baixa a 0,27, mesurats amb 2016-2023; els partits regionals fan servir el seu % al seu territori; i cada simulació sorteja la participació. Escenaris de participació: probabilitat de votar logística calibrada amb el vot declarat del 2023, factors per comunitat i interval per remostreig."),
     ("2026-11-21", "Perfiles de votantes: para cada colectivo, sus temas, cuánto se mueve su voto y qué partidos compiten por él; para cada partido, los votantes a su alcance (segunda opción o indecisos que lo sienten cercano) y de qué hablan. Microdatos del CIS.",
      "Perfils de votants: per a cada col·lectiu, els seus temes, quant es mou el seu vot i quins partits s'hi disputen; per a cada partit, els votants a l'abast (segona opció o indecisos que el senten proper) i de què parlen. Microdades del CIS."),
+    ("2026-11-26", "Diputados de hoy en los parlamentos de otros países: en la página de cada país, un hemiciclo con las personas que hoy tienen el escaño, agrupadas por partido; al hacer clic en un escaño sale su ficha (circunscripción, nacimiento, estudios y profesión) y hay la lista completa. Todo de Wikidata (CC0): los cargos de diputado sin fecha de fin y el partido sin fecha de fin. Solo se publica un país si Wikidata tiene entre el 90 % y el 105 % de los escaños y conoce el partido de al menos el 80 % de los diputados; si no, se queda sin fichas.",
+     "Diputats d'avui als parlaments d'altres països: a la pàgina de cada país, un hemicicle amb les persones que avui tenen l'escó, agrupades per partit; en clicar un escó en surt la fitxa (circumscripció, naixement, estudis i professió) i hi ha la llista completa. Tot de Wikidata (CC0): els càrrecs de diputat sense data de fi i el partit sense data de fi. Només es publica un país si Wikidata hi té entre el 90 % i el 105 % dels escons i coneix el partit d'almenys el 80 % dels diputats; si no, es queda sense fitxes."),
+    ("2026-11-26", "Elecciones anteriores en otros países: en la página de cada país, el voto de los principales partidos en las elecciones legislativas desde el 2000 (gráfico y tabla, con los escaños y la participación). Las elecciones salen de Wikidata (CC0) y los resultados, del cuadro resumen de cada artículo de Wikipedia (CC BY-SA 4.0); los escaños solo se muestran si suman la cámara.",
+     "Eleccions anteriors a altres països: a la pàgina de cada país, el vot dels principals partits a les eleccions legislatives des del 2000 (gràfic i taula, amb els escons i la participació). Les eleccions surten de Wikidata (CC0) i els resultats, del quadre resum de cada article de la Viquipèdia (CC BY-SA 4.0); els escons només es mostren si sumen la cambra."),
+    ("2026-11-26", "Valoración de institutos en otros países: en la página de cada país, qué instituto acertó más en su última elección (la última encuesta de cada uno del mes anterior contra el resultado: error medio por partido y error en la distancia entre los dos primeros), y un resumen de todos los países en la página de valoración de institutos. Encuestas y resultados de Wikipedia.",
+     "Valoració d'instituts a altres països: a la pàgina de cada país, quin institut la va encertar més a la seva última elecció (l'última enquesta de cadascun del mes d'abans contra el resultat: error mitjà per partit i error en la distància entre els dos primers), i un resum de tots els països a la pàgina de valoració d'instituts. Enquestes i resultats de la Viquipèdia."),
     ("2026-11-25", "Guías «Cómo se vota» de 24 parlamentos de otros países (los proporcionales que la web simula), con la media de encuestas de hoy: las reglas de cada ley (método, primer divisor, umbral, prima de mayoría), los escaños con la ley y con otros métodos y sin umbral, el voto que se queda sin escaño y el índice de Gallagher; y una página con todos los países, que explica en texto cómo se vota donde los escaños no se pueden simular. Corregido: en Suecia, la columna «Blue-Yellow» de las tablas de Wikipedia es la suma de un bloque de partidos y se contaba como un partido más (52 % y 124 escaños); ahora se descarta, como los otros bloques.",
      "Guies «Com es vota» de 24 parlaments d'altres països (els proporcionals que la web simula), amb la mitjana d'enquestes d'avui: les regles de cada llei (mètode, primer divisor, llindar, prima de majoria), els escons amb la llei i amb altres mètodes i sense llindar, el vot que es queda sense escó i l'índex de Gallagher; i una pàgina amb tots els països, que explica en text com es vota allà on els escons no es poden simular. Corregit: a Suècia, la columna «Blue-Yellow» de les taules de Wikipedia és la suma d'un bloc de partits i es comptava com un partit més (52 % i 124 escons); ara es descarta, com els altres blocs."),
     ("2026-11-25", "Guías «Cómo se vota» de los diez parlamentos autonómicos con varias circunscripciones (Andalucía, Aragón, Asturias, Baleares, Canarias, Castilla-La Mancha, Cataluña, Comunidad Valenciana, Galicia y País Vasco): reglas, electores por escaño, el porcentaje que hacía falta para entrar, un reparto d'Hondt paso a paso, quién se quedó fuera por el umbral y el mismo voto con una sola circunscripción (índice de Gallagher). Con el resultado de cada circunscripción de la última elección (Wikipedia); repartido con esos porcentajes salen los mismos escaños que en la realidad en las diez.",
@@ -1297,8 +1303,118 @@ def abroad_data(conn, eid):
             # Parlament actual i cap de govern (09/11/2026, results.py).
             "parliament": (None if election.get("group") == "sub"
                            else _parliament(conn, country)),
+            # Qui hi seu avui, escó a escó (26/11/2026, mps_world.py; Wikidata).
+            "seated": (None if election.get("group") == "sub"
+                       else _seated(country, {"es": pub["name_es"], "ca": pub["name_ca"]})),
+            # Resultats de les eleccions legislatives des del 2000 (26/11/2026).
+            "history": (None if election.get("group") == "sub" or election.get("display") == "candidates"
+                        else _history_world(country)),
             "wiki": (f"https://{election.get('lang', 'en')}.wikipedia.org/wiki/"
                      + election["page"].replace(" ", "_"))}
+
+
+_SEAT_PALETTE = ["#6D8BA8", "#B9855B", "#8E7CA8", "#5E9E8E", "#A8686D", "#9A9A55", "#5F7F5F", "#A07898"]
+
+
+def _seated(country, cname):
+    """Els diputats d'avui segons Wikidata (config/mps_world.json): files per a
+    l'hemicicle, la llista completa i el JSON de fitxes que carrega cambra.js."""
+    from .. import mps_world
+    c = (mps_world.load().get("countries") or {}).get(country)
+    if not c:
+        return None
+    built = mps_world.load().get("built") or ""
+    rows, lists, people = {lg: [] for lg in i18n.LANGS}, {lg: [] for lg in i18n.LANGS}, {lg: {} for lg in i18n.LANGS}
+    used = set()
+    # Dos elements de Wikidata amb el mateix nom (Noruega: dos "Partit del
+    # Progres") son un sol grup a l'hemicicle: s'ajunten al mes gran.
+    merged = {}
+    for g in c["groups"]:
+        k = (g["ca"] or g["qid"] or "").lower()
+        if k in merged:
+            merged[k]["members"] = sorted(merged[k]["members"] + g["members"], key=lambda r: r["n"])
+        else:
+            merged[k] = {**g, "members": list(g["members"])}
+    for i, g in enumerate(sorted(merged.values(), key=lambda g: -len(g["members"]))):
+        key = g["qid"] or "cap"
+        color = g["color"] if g["color"] and g["color"].upper() not in used and g["color"].upper() != "#FFFFFF" else None
+        color = color or _SEAT_PALETTE[i % len(_SEAT_PALETTE)]
+        used.add(color.upper())
+        for lg in i18n.LANGS:
+            name = g[lg] or ({"es": "Sin partido en Wikidata", "ca": "Sense partit a Wikidata"}[lg])
+            name = name[:1].upper() + name[1:]
+            rows[lg].append({"name": name, "code": key, "color": color, "seats": len(g["members"]),
+                             "ideo": {"es": {"position": g["position"]}} if g["position"] else None})
+            lists[lg].append({"name": name, "short": g.get("short"), "color": color,
+                              "members": [{"n": m["n"], "w": m.get("w")} for m in g["members"]]})
+            out = []
+            for m in g["members"]:
+                where = m.get("w") or cname[lg]
+                b = dict((m.get("bio") or {}).get(lg) or {})
+                b["qid"] = m["qid"]
+                out.append({"n": m["n"], "list": name, "w": where, "pv": where, "bio": b,
+                            "nt": ("Diputado o diputada hoy según Wikidata (CC0), consultado el " if lg == "es"
+                                   else "Diputat o diputada avui segons Wikidata (CC0), consultat el ")
+                                  + _fdate(built) + (". Puede contener errores." if lg == "es" else ". Pot contenir errors.")})
+            people[lg][key] = out
+    return {"rows": rows, "lists": lists, "people": people, "count": c["count"], "seats": c["seats"],
+            "majority": c["seats"] // 2 + 1, "built": built, "iso": country}
+
+
+_HIST_PALETTE = ["#4E79A7", "#F28E2B", "#E15759", "#76B7B2", "#59A14F", "#EDC948", "#B07AA1", "#FF9DA7"]
+
+
+def _history_world(country):
+    """Taula partits x eleccions (config/historic_world.json, `politbureau historic-mon`).
+    Els partits s'identifiquen per l'element de Wikidata quan se sap (aixi "The Left"
+    i "Die Linke" son una sola fila) i porten el nom en catala o castella."""
+    from .. import historic_world
+    hw = historic_world.load()
+    rows = ((hw.get("countries") or {}).get(country) or [])[-8:]
+    if len(rows) < 3:                                  # amb menys no hi ha evolucio
+        return None
+    known = (hw.get("names") or {}).get(country) or {}
+    key = lambda n: (known.get(n) or {}).get("qid") or n          # noqa: E731
+    best, first_name = {}, {}
+    for r in rows:
+        for p in r["parties"]:
+            k = key(p["name"])
+            first_name.setdefault(k, p["name"])
+            if p["pct"] is not None:
+                best[k] = max(best.get(k, 0), p["pct"])
+    keys = [k for k, _v in sorted(best.items(), key=lambda kv: -kv[1])][:10]
+    table, used = [], set()
+    for i, k in enumerate(keys):
+        cells = []
+        for r in rows:
+            p = next((x for x in r["parties"] if key(x["name"]) == k), None)
+            cells.append({"pct": p and p["pct"], "seats": p and p["seats"]})
+        en = first_name[k]
+        meta = known.get(en) or next((v for v in known.values() if v.get("qid") == k), {})
+        label = {lg: (meta.get(lg) or en) for lg in i18n.LANGS}
+        # Color: el del partit a la web si el coneix, el de Wikidata, o la paleta.
+        code, ok = parties.resolve(en, country)
+        candidates = [parties.meta(code, country)["color"] if (ok and code) else None, meta.get("color")]
+        color = next((c for c in candidates if c and c.upper() not in used
+                      and c.upper() not in ("#9E9E9E", "#FFFFFF", "#000000", "#DDDDDD")), None)
+        if not color:
+            color = next((c for c in _HIST_PALETTE if c.upper() not in used), _HIST_PALETTE[i % len(_HIST_PALETTE)])
+        used.add(color.upper())
+        table.append({"name": label, "short": meta.get("short"), "qid": meta.get("qid"), "cells": cells, "color": color})
+    # Grafic: linies del vot dels sis primers
+    W, H, n = 640, 200, len(rows)
+    ymax = max([c["pct"] for t in table for c in t["cells"] if c["pct"] is not None] + [10]) + 5
+    xs = [30 + (i / (n - 1)) * (W - 50) for i in range(n)]
+    ys = lambda v: round(H - v / ymax * (H - 10), 1)          # noqa: E731
+    lines = []
+    for t in table[:6]:
+        pts = [(round(xs[i], 1), ys(c["pct"])) for i, c in enumerate(t["cells"]) if c["pct"] is not None]
+        lines.append({"color": t["color"], "points": " ".join(f"{x},{y}" for x, y in pts), "dots": pts})
+    chart = {"w": W, "h": H, "grid": [(g, ys(g)) for g in range(10, int(ymax) + 1, 10)],
+             "x": [(round(x, 1), r["date"][:4]) for x, r in zip(xs, rows)], "lines": lines}
+    return {"elections": [{"year": r["date"][:4], "date": r["date"], "title": r["title"], "turnout": r["turnout"],
+                           "seats_total": r["seats_total"]} for r in rows],
+            "parties": table, "chart": chart}
 
 
 def _pres(country, national):
@@ -1521,6 +1637,15 @@ def abroad_pages(env, cfg, conn):
         except Exception as exc:                          # noqa: BLE001
             print(f"     avis: grafic d'evolucio de {eid} no generat ({type(exc).__name__}: {exc})")
             data["trend"] = None
+        st = data.get("seated")
+        if st:
+            for lang in i18n.LANGS:
+                path = DIST / "dades" / f"diputats-{st['iso'].lower()}-{lang}.json"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(json.dumps({"updated": st["built"], "sources": ["Wikidata (CC0)"],
+                                             "parties": st["people"][lang]},
+                                            ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+            st["url"] = {lg: f"dades/diputats-{st['iso'].lower()}-{lg}.json" for lg in i18n.LANGS}
         for lang in i18n.LANGS:
             title, description = _titles(data, lang)
             canonical = data["urls"][lang]

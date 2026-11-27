@@ -133,5 +133,23 @@
   {% endif %}
   </ul>
   <p class="note">{% if es %}Encuestas: tablas de Wikipedia en inglés (CC BY-SA 4.0). Resultados: <a href="https://infoelectoral.interior.gob.es/" rel="noopener">Ministerio del Interior</a>. Calculado el {{ fdate(computed) }}; tras el 29N se añadirá la elección de 2026. Los datos, en <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">datos abiertos</a>.{% else %}Enquestes: taules de la Viquipèdia en anglès (CC BY-SA 4.0). Resultats: <a href="https://infoelectoral.interior.gob.es/" rel="noopener">Ministeri de l'Interior</a>. Calculat el {{ fdate(computed) }}; després del 29N s'hi afegirà l'elecció del 2026. Les dades, a <a href="{{ root }}{{ lang }}/{{ page('opendata') }}/">dades obertes</a>.{% endif %}</p>
+  {% if world %}
+  <h2 id="mon">{{ 'En el resto del mundo' if lang == 'es' else 'A la resta del món' }}</h2>
+  {% set nbeat = world | selectattr('beat') | list | length %}
+  <p>{% if lang == 'es' %}El mismo cálculo con la última elección de {{ world | length }} países: la última encuesta de cada instituto del mes anterior, comparada con el resultado.
+    La media de la web, con sus reglas y las encuestas hasta la víspera, acertó más que el instituto medio en {{ nbeat }} de los {{ world | length }}.
+    {% else %}El mateix càlcul amb l'última elecció de {{ world | length }} països: l'última enquesta de cada institut del mes d'abans, comparada amb el resultat.
+    La mitjana de la web, amb les seves regles i les enquestes fins a la vigília, la va encertar més que l'institut mitjà en {{ nbeat }} dels {{ world | length }}.{% endif %}</p>
+  <div class="tablewrap"><table class="results">
+    <thead><tr><th>{{ 'País' }}</th><th class="n">{{ 'Elección' if lang == 'es' else 'Elecció' }}</th><th class="n">{{ 'Institutos' if lang == 'es' else 'Instituts' }}</th>
+      <th>{{ 'El que más acertó' if lang == 'es' else 'El que més la va encertar' }}</th><th class="n">{{ 'Su error' if lang == 'es' else 'El seu error' }}</th>
+      <th class="n">{{ 'Instituto medio' if lang == 'es' else 'Institut mitjà' }}</th><th class="n">{{ 'Media de la web' if lang == 'es' else 'Mitjana de la web' }}</th></tr></thead>
+    <tbody>{% for w in world %}<tr><td><a href="{{ root }}{{ w.url[lang].lstrip('/') }}">{{ w.name[lang] }}</a></td><td class="n">{{ w.year }}</td><td class="n">{{ w.n }}</td>
+      <td>{{ w.best.pollster }}</td><td class="n"><b>{{ fmt(w.best.mae) }}</b></td><td class="n">{{ fmt(w.mean_mae) }}</td>
+      <td class="n {{ 'up' if w.avg_mae < w.mean_mae else '' }}">{{ fmt(w.avg_mae) }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="fine">{% if lang == 'es' %}Error medio por partido, en puntos (partidos con al menos el 3 %). Encuestas y resultados: Wikipedia (CC BY-SA 4.0). Detalle de cada instituto en la página de cada país.
+    {% else %}Error mitjà per partit, en punts (partits amb almenys el 3 %). Enquestes i resultats: Wikipedia (CC BY-SA 4.0). Detall de cada institut a la pàgina de cada país.{% endif %}</p>
+  {% endif %}
 </article>
 {% endblock %}

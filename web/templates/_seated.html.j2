@@ -1,0 +1,26 @@
+{# Qui seu avui a cada escó (26/11/2026). `st`: pages._seated(); fitxes: cambra.js amb data-people. #}
+{% if st and st.url %}
+{% set es = lang == 'es' %}
+  <h3 id="diputats">{{ 'Quién se sienta hoy en cada escaño' if es else 'Qui seu avui a cada escó' }}</h3>
+  <p class="note">{% if es %}Las {{ st.count }} personas que hoy tienen el escaño según Wikidata, agrupadas por su partido.
+    Haz clic en un diputado para ver su ficha: circunscripción, nacimiento, estudios y profesión.{% else %}Les
+    {{ st.count }} persones que avui tenen l'escó segons Wikidata, agrupades pel seu partit. Clica un diputat per
+    veure'n la fitxa: circumscripció, naixement, estudis i professió.{% endif %}</p>
+  {% from "_chamber.html.j2" import chamber %}
+  {{ chamber(st.iso ~ '-avui', st.rows[lang], st.iso, st.majority, st.count, lang, 'seats',
+             'Diputados de hoy por partido (Wikidata)' if es else "Diputats d'avui per partit (Wikidata)",
+             root ~ st.url[lang]) }}
+  <details class="mplist">
+    <summary>{{ 'Lista completa de diputados' if es else 'Llista completa de diputats' }}</summary>
+    {% for g in st.lists[lang] %}
+    <p><span class="sw" style="background:{{ g.color }}"></span><b>{{ g.name }}</b>{% if g.short and g.short != g.name %} ({{ g.short }}){% endif %} · {{ g.members | length }}</p>
+    <p class="fine">{% for m in g.members %}{{ m.n }}{% if m.w %} <small>({{ m.w }})</small>{% endif %}{{ ' · ' if not loop.last }}{% endfor %}</p>
+    {% endfor %}
+  </details>
+  <p class="fine">{% if es %}Fuente: Wikidata (CC0), consultada el {{ fdate(st.built) }}: los cargos de diputado
+    abiertos (sin fecha de fin) y el partido sin fecha de fin. Solo se muestra si Wikidata tiene la cámara casi entera
+    (aquí, {{ st.count }} personas para {{ st.seats }} escaños; puede haber suplentes o escaños que aún no recoge). Puede haber errores o cambios recientes que Wikidata aún no
+    recoge.{% else %}Font: Wikidata (CC0), consultada el {{ fdate(st.built) }}: els càrrecs de diputat oberts (sense
+    data de fi) i el partit sense data de fi. Només es mostra si Wikidata té la cambra gairebé sencera (aquí,
+    {{ st.count }} persones per a {{ st.seats }} escons; hi pot haver suplents o escons que encara no recull). Hi pot haver errors o canvis recents que Wikidata encara no recull.{% endif %}</p>
+{% endif %}

@@ -24,7 +24,7 @@ def _party(code):
     return {"code": code, "name": m["name"], "color": m["color"]}
 
 
-def context():
+def context(live=None):
     data = pollsters.load()
     if not data:
         return None
@@ -42,15 +42,39 @@ def context():
     def signed(v):
         return "—" if v is None else ("+" if v > 0.05 else "−" if v < -0.05 else "") + _fmt(abs(v))
 
-    return {"fmt": _fmt, "fdate": _fdate, "signed": signed,
+    return {"fmt": _fmt, "fdate": _fdate, "signed": signed, "world": world(live),
             "elections": elections, "rated": rated, "others": others,
             "computed": data["computed"], "window": data["window_days"],
             "main_share": data["main_share"], "min_elections": MIN_ELECTIONS,
             "beat": sum(1 for e in elections if e["average_mae"] < e["mean_mae"])}
 
 
+def world(live=None):
+    """L'institut que mes la va encertar a l'ultima eleccio de cada pais
+    (config/last_error.json, `politbureau error-anterior`; 26/11/2026).
+    `live`: les eleccions que tenen pagina aquesta vegada (cfg["_abroad"]); les
+    altres no s'enllacen."""
+    from .. import lasterror
+    from .pages import abroad_elections
+    els = abroad_elections()
+    out = []
+    for eid, r in (lasterror.load().get("elections") or {}).items():
+        ps = r.get("pollsters") or []
+        e = els.get(eid)
+        if r.get("status") != "ok" or len(ps) < 2 or not e or not e.get("pub") or (live is not None and eid not in live):
+            continue
+        pub = e["pub"]
+        out.append({"name": {"ca": pub["name_ca"], "es": pub["name_es"]},
+                    "url": {"ca": f"/ca/enquestes-{pub['ca']}/#valoracio-instituts",
+                            "es": f"/es/encuestas-{pub['es']}/#valoracio-instituts"},
+                    "year": r["date"][:4], "n": len(ps), "best": ps[0], "worst": ps[-1],
+                    "avg_mae": r["mae"], "mean_mae": round(sum(p["mae"] for p in ps) / len(ps), 2),
+                    "beat": r["mae"] < sum(p["mae"] for p in ps) / len(ps)})
+    return sorted(out, key=lambda x: x["name"]["ca"])
+
+
 def rating_page(env, cfg):
-    ctx = context()
+    ctx = context(set(cfg.get("_abroad") or []) if "_abroad" in cfg else None)
     if not ctx:
         return 0
     for lang in i18n.LANGS:

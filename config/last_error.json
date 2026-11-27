@@ -1,11 +1,77 @@
 {
- "computed": "2026-11-14",
+ "computed": "2026-11-26",
  "main_share": 3.0,
  "elections": {
   "eu-at": {
    "id": "eu-at",
    "status": "ok",
    "date": "2024-09-29",
+   "pollsters": [
+    {
+     "pollster": "IFDD",
+     "end": "2024-09-22",
+     "sample": 1000,
+     "mae": 0.82,
+     "lead": -0.5,
+     "n": 5
+    },
+    {
+     "pollster": "Unique Research",
+     "end": "2024-09-11",
+     "sample": 800,
+     "mae": 0.82,
+     "lead": 0.5,
+     "n": 5
+    },
+    {
+     "pollster": "Triple M Matzka",
+     "end": "2024-09-03",
+     "sample": 1000,
+     "mae": 0.96,
+     "lead": 2.5,
+     "n": 5
+    },
+    {
+     "pollster": "INSA",
+     "end": "2024-09-11",
+     "sample": 1000,
+     "mae": 0.98,
+     "lead": 3.5,
+     "n": 5
+    },
+    {
+     "pollster": "Spectra",
+     "end": "2024-09-09",
+     "sample": 1000,
+     "mae": 1.06,
+     "lead": 0.5,
+     "n": 5
+    },
+    {
+     "pollster": "OGM",
+     "end": "2024-09-18",
+     "sample": 1022,
+     "mae": 1.22,
+     "lead": -1.5,
+     "n": 5
+    },
+    {
+     "pollster": "Market",
+     "end": "2024-09-17",
+     "sample": 800,
+     "mae": 1.38,
+     "lead": -0.5,
+     "n": 5
+    },
+    {
+     "pollster": "Market-Lazarsfeld",
+     "end": "2024-09-22",
+     "sample": 2000,
+     "mae": 1.46,
+     "lead": -1.5,
+     "n": 5
+    }
+   ],
    "election": "2024 legislative election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Austrian_legislative_election",
    "result_from": "previous",
@@ -64,6 +130,64 @@
    "id": "eu-bg",
    "status": "ok",
    "date": "2026-04-19",
+   "pollsters": [
+    {
+     "pollster": "MarketLinks",
+     "end": "2026-04-14",
+     "sample": 1003,
+     "mae": 1.94,
+     "lead": -12.5,
+     "n": 8
+    },
+    {
+     "pollster": "Alpha Research",
+     "end": "2026-04-15",
+     "sample": 1003,
+     "mae": 2.8,
+     "lead": -16.0,
+     "n": 8
+    },
+    {
+     "pollster": "Myara",
+     "end": "2026-04-13",
+     "sample": 1002,
+     "mae": 2.89,
+     "lead": -14.6,
+     "n": 8
+    },
+    {
+     "pollster": "Sova Harris",
+     "end": "2026-04-06",
+     "sample": 800,
+     "mae": 3.29,
+     "lead": -16.1,
+     "n": 8
+    },
+    {
+     "pollster": "Trend",
+     "end": "2026-04-16",
+     "sample": 1004,
+     "mae": 3.35,
+     "lead": -16.6,
+     "n": 8
+    },
+    {
+     "pollster": "CAM",
+     "end": "2026-04-14",
+     "sample": 1011,
+     "mae": 3.51,
+     "lead": -18.0,
+     "n": 8
+    },
+    {
+     "pollster": "Gallup",
+     "end": "2026-04-16",
+     "sample": 803,
+     "mae": 3.8,
+     "lead": -20.1,
+     "n": 8
+    }
+   ],
    "election": "2026 election",
    "page": "https://en.wikipedia.org/wiki/2026_Bulgarian_parliamentary_election",
    "result_from": "previous",
@@ -167,6 +291,64 @@
    "id": "eu-cz",
    "status": "ok",
    "date": "2025-10-04",
+   "pollsters": [
+    {
+     "pollster": "Ipsos",
+     "end": "2025-09-28",
+     "sample": 1467,
+     "mae": 1.66,
+     "lead": 0.4,
+     "n": 7
+    },
+    {
+     "pollster": "Kantar CZ",
+     "end": "2025-09-19",
+     "sample": 1042,
+     "mae": 1.7,
+     "lead": 2.4,
+     "n": 7
+    },
+    {
+     "pollster": "STEM",
+     "end": "2025-09-26",
+     "sample": 1434,
+     "mae": 2.49,
+     "lead": -2.3,
+     "n": 7
+    },
+    {
+     "pollster": "Lord Ashcroft Polls",
+     "end": "2025-09-22",
+     "sample": 1429,
+     "mae": 2.57,
+     "lead": 5.0,
+     "n": 7
+    },
+    {
+     "pollster": "Median",
+     "end": "2025-09-25",
+     "sample": 1019,
+     "mae": 2.69,
+     "lead": -1.6,
+     "n": 7
+    },
+    {
+     "pollster": "Sanep",
+     "end": "2025-09-12",
+     "sample": 2500,
+     "mae": 2.91,
+     "lead": 6.3,
+     "n": 7
+    },
+    {
+     "pollster": "NMS",
+     "end": "2025-09-28",
+     "sample": 1497,
+     "mae": 3.0,
+     "lead": 0.6,
+     "n": 7
+    }
+   ],
    "election": "2025 legislative election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Czech_parliamentary_election",
    "result_from": "previous",
@@ -264,6 +446,24 @@
    "id": "eu-fi",
    "status": "ok",
    "date": "2023-04-02",
+   "pollsters": [
+    {
+     "pollster": "Kantar Public",
+     "end": "2023-03-23",
+     "sample": 2002,
+     "mae": 0.71,
+     "lead": -0.1,
+     "n": 8
+    },
+    {
+     "pollster": "Taloustutkimus",
+     "end": "2023-03-28",
+     "sample": 2533,
+     "mae": 0.93,
+     "lead": -0.4,
+     "n": 8
+    }
+   ],
    "election": "2023 election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Finnish_parliamentary_election",
    "result_from": "previous",
@@ -346,6 +546,128 @@
    "id": "eu-de",
    "status": "ok",
    "date": "2025-02-23",
+   "pollsters": [
+    {
+     "pollster": "YouGov",
+     "end": "2025-02-20",
+     "sample": 1681,
+     "mae": 0.6,
+     "lead": 1.3,
+     "n": 7
+    },
+    {
+     "pollster": "INSA",
+     "end": "2025-02-22",
+     "sample": 2005,
+     "mae": 0.71,
+     "lead": 0.8,
+     "n": 7
+    },
+    {
+     "pollster": "Ipsos",
+     "end": "2025-02-21",
+     "sample": 1000,
+     "mae": 0.71,
+     "lead": 1.3,
+     "n": 7
+    },
+    {
+     "pollster": "Wahlkreisprognose",
+     "end": "2025-02-21",
+     "sample": 1536,
+     "mae": 0.73,
+     "lead": 1.3,
+     "n": 7
+    },
+    {
+     "pollster": "Forschungsgruppe Wahlen",
+     "end": "2025-02-20",
+     "sample": 1349,
+     "mae": 0.73,
+     "lead": -0.7,
+     "n": 7
+    },
+    {
+     "pollster": "YouGov ( MRP )",
+     "end": "2025-02-19",
+     "sample": 9281,
+     "mae": 0.9,
+     "lead": 2.5,
+     "n": 7
+    },
+    {
+     "pollster": "Forsa",
+     "end": "2025-02-20",
+     "sample": 2002,
+     "mae": 1.0,
+     "lead": 0.3,
+     "n": 7
+    },
+    {
+     "pollster": "Cluster 17",
+     "end": "2025-02-18",
+     "sample": 1457,
+     "mae": 1.09,
+     "lead": 1.3,
+     "n": 7
+    },
+    {
+     "pollster": "Pollytix",
+     "end": "2025-02-12",
+     "sample": 1501,
+     "mae": 1.2,
+     "lead": 2.3,
+     "n": 7
+    },
+    {
+     "pollster": "YouGov (MRP)",
+     "end": "2025-02-05",
+     "sample": 9322,
+     "mae": 1.2,
+     "lead": 1.4,
+     "n": 7
+    },
+    {
+     "pollster": "Allensbach",
+     "end": "2025-02-20",
+     "sample": 1064,
+     "mae": 1.23,
+     "lead": 4.3,
+     "n": 7
+    },
+    {
+     "pollster": "GMS",
+     "end": "2025-02-19",
+     "sample": 1016,
+     "mae": 1.46,
+     "lead": 3.3,
+     "n": 7
+    },
+    {
+     "pollster": "Verian",
+     "end": "2025-01-28",
+     "sample": 1461,
+     "mae": 1.6,
+     "lead": 2.3,
+     "n": 7
+    },
+    {
+     "pollster": "Infratest dimap",
+     "end": "2025-02-12",
+     "sample": 1579,
+     "mae": 1.73,
+     "lead": 3.3,
+     "n": 7
+    },
+    {
+     "pollster": "Democracy Institute",
+     "end": "2025-01-30",
+     "sample": 2430,
+     "mae": 2.0,
+     "lead": -5.7,
+     "n": 7
+    }
+   ],
    "election": "2025 federal election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_German_federal_election",
    "result_from": "previous",
@@ -432,6 +754,112 @@
    "id": "eu-hu",
    "status": "ok",
    "date": "2026-04-12",
+   "pollsters": [
+    {
+     "pollster": "21 Kutatóközpont",
+     "end": "2026-04-11",
+     "sample": 1500,
+     "mae": 1.11,
+     "lead": -2.43,
+     "n": 3
+    },
+    {
+     "pollster": "Medián",
+     "end": "2026-04-11",
+     "sample": 2286,
+     "mae": 1.28,
+     "lead": -1.83,
+     "n": 3
+    },
+    {
+     "pollster": "Závecz Research",
+     "end": "2026-04-09",
+     "sample": 1000,
+     "mae": 2.44,
+     "lead": -5.43,
+     "n": 3
+    },
+    {
+     "pollster": "Publicus",
+     "end": "2026-04-09",
+     "sample": 1004,
+     "mae": 2.44,
+     "lead": -6.43,
+     "n": 3
+    },
+    {
+     "pollster": "IDEA",
+     "end": "2026-04-04",
+     "sample": 1500,
+     "mae": 2.44,
+     "lead": -6.43,
+     "n": 3
+    },
+    {
+     "pollster": "Iránytű Institute",
+     "end": "2026-04-04",
+     "sample": 1000,
+     "mae": 3.44,
+     "lead": -8.43,
+     "n": 3
+    },
+    {
+     "pollster": "Republikon",
+     "end": "2026-03-26",
+     "sample": 1000,
+     "mae": 3.78,
+     "lead": -10.43,
+     "n": 3
+    },
+    {
+     "pollster": "Minerva",
+     "end": "2026-04-10",
+     "sample": 3332,
+     "mae": 3.81,
+     "lead": -9.73,
+     "n": 3
+    },
+    {
+     "pollster": "Alapjogokért Központ",
+     "end": "2026-04-11",
+     "sample": 1000,
+     "mae": 7.68,
+     "lead": -21.93,
+     "n": 3
+    },
+    {
+     "pollster": "XXI. Század",
+     "end": "2026-03-27",
+     "sample": 1000,
+     "mae": 8.18,
+     "lead": -24.43,
+     "n": 3
+    },
+    {
+     "pollster": "McLaughlin & Associates",
+     "end": "2026-04-07",
+     "sample": 1000,
+     "mae": 8.91,
+     "lead": -25.13,
+     "n": 3
+    },
+    {
+     "pollster": "Nézőpont",
+     "end": "2026-03-24",
+     "sample": 1000,
+     "mae": 9.18,
+     "lead": -25.43,
+     "n": 3
+    },
+    {
+     "pollster": "Fidesz internal poll",
+     "end": "2026-03-31",
+     "sample": null,
+     "mae": 15.18,
+     "lead": -44.43,
+     "n": 3
+    }
+   ],
    "election": "National Election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Hungarian_parliamentary_election",
    "result_from": "previous",
@@ -474,6 +902,16 @@
    "id": "eu-ie",
    "status": "ok",
    "date": "2024-11-29",
+   "pollsters": [
+    {
+     "pollster": "Red C",
+     "end": "2024-11-26",
+     "sample": 1004,
+     "mae": 0.76,
+     "lead": -0.1,
+     "n": 8
+    }
+   ],
    "election": "General election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Irish_general_election",
    "result_from": "previous",
@@ -556,6 +994,32 @@
    "id": "eu-lt",
    "status": "ok",
    "date": "2024-10-13",
+   "pollsters": [
+    {
+     "pollster": "Spinter tyrimai",
+     "end": "2024-09-25",
+     "sample": 1008,
+     "mae": 2.01,
+     "lead": 4.75,
+     "n": 7
+    },
+    {
+     "pollster": "Vilmorus",
+     "end": "2024-09-21",
+     "sample": 1000,
+     "mae": 2.37,
+     "lead": 11.75,
+     "n": 8
+    },
+    {
+     "pollster": "Baltijos tyrimai",
+     "end": "2024-09-20",
+     "sample": 1004,
+     "mae": 2.82,
+     "lead": 4.15,
+     "n": 8
+    }
+   ],
    "election": "2024 election",
    "page": "https://en.wikipedia.org/wiki/2024_Lithuanian_parliamentary_election",
    "result_from": "current",
@@ -660,6 +1124,112 @@
    "id": "eu-pl",
    "status": "ok",
    "date": "2023-10-15",
+   "pollsters": [
+    {
+     "pollster": "Pollster",
+     "end": "2023-10-12",
+     "sample": null,
+     "mae": 1.65,
+     "lead": -0.25,
+     "n": 5
+    },
+    {
+     "pollster": "PGB Opinium",
+     "end": "2023-10-12",
+     "sample": 1100,
+     "mae": 1.82,
+     "lead": -2.08,
+     "n": 5
+    },
+    {
+     "pollster": "IBSP",
+     "end": "2023-10-13",
+     "sample": 1100,
+     "mae": 1.83,
+     "lead": 4.91,
+     "n": 5
+    },
+    {
+     "pollster": "Estymator",
+     "end": "2023-10-11",
+     "sample": 1095,
+     "mae": 2.01,
+     "lead": 2.12,
+     "n": 5
+    },
+    {
+     "pollster": "IPC",
+     "end": "2023-10-08",
+     "sample": 1067,
+     "mae": 2.06,
+     "lead": -1.98,
+     "n": 5
+    },
+    {
+     "pollster": "IBRiS",
+     "end": "2023-10-12",
+     "sample": 1243,
+     "mae": 2.14,
+     "lead": 2.22,
+     "n": 5
+    },
+    {
+     "pollster": "ewybory.eu",
+     "end": "2023-10-08",
+     "sample": 10007,
+     "mae": 2.21,
+     "lead": -2.08,
+     "n": 5
+    },
+    {
+     "pollster": "United Surveys",
+     "end": "2023-10-10",
+     "sample": 1000,
+     "mae": 2.4,
+     "lead": 1.02,
+     "n": 5
+    },
+    {
+     "pollster": "Opinia24",
+     "end": "2023-10-13",
+     "sample": 1500,
+     "mae": 2.43,
+     "lead": -0.18,
+     "n": 5
+    },
+    {
+     "pollster": "IPSOS",
+     "end": "2023-10-10",
+     "sample": 1000,
+     "mae": 2.43,
+     "lead": 3.32,
+     "n": 5
+    },
+    {
+     "pollster": "Research Partner",
+     "end": "2023-10-09",
+     "sample": 1084,
+     "mae": 2.46,
+     "lead": 3.92,
+     "n": 5
+    },
+    {
+     "pollster": "Social Changes",
+     "end": "2023-10-10",
+     "sample": 1094,
+     "mae": 2.54,
+     "lead": 3.32,
+     "n": 5
+    },
+    {
+     "pollster": "Kantar",
+     "end": "2023-10-12",
+     "sample": 1702,
+     "mae": 2.94,
+     "lead": 0.32,
+     "n": 5
+    }
+   ],
    "election": "Parliamentary election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Polish_parliamentary_election",
    "result_from": "previous",
@@ -718,6 +1288,48 @@
    "id": "eu-pt",
    "status": "ok",
    "date": "2025-05-18",
+   "pollsters": [
+    {
+     "pollster": "Pitagórica",
+     "end": "2025-05-15",
+     "sample": 810,
+     "mae": 2.05,
+     "lead": -1.4,
+     "n": 4
+    },
+    {
+     "pollster": "ICS",
+     "end": "2025-05-05",
+     "sample": 1002,
+     "mae": 2.15,
+     "lead": -4.0,
+     "n": 4
+    },
+    {
+     "pollster": "CESOP–UCP",
+     "end": "2025-05-13",
+     "sample": 1741,
+     "mae": 2.7,
+     "lead": -1.0,
+     "n": 4
+    },
+    {
+     "pollster": "Aximage",
+     "end": "2025-05-11",
+     "sample": 426,
+     "mae": 2.95,
+     "lead": -8.1,
+     "n": 4
+    },
+    {
+     "pollster": "Consulmark2",
+     "end": "2025-05-13",
+     "sample": 589,
+     "mae": 3.42,
+     "lead": -1.8,
+     "n": 4
+    }
+   ],
    "election": "2025 legislative election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Portuguese_legislative_election",
    "result_from": "previous",
@@ -768,6 +1380,40 @@
    "id": "eu-ro",
    "status": "ok",
    "date": "2024-12-01",
+   "pollsters": [
+    {
+     "pollster": "AtlasIntel",
+     "end": "2024-11-28",
+     "sample": 2116,
+     "mae": 2.24,
+     "lead": -4.95,
+     "n": 7
+    },
+    {
+     "pollster": "INSCOP",
+     "end": "2024-11-12",
+     "sample": 1100,
+     "mae": 3.07,
+     "lead": 6.45,
+     "n": 6
+    },
+    {
+     "pollster": "Newsweek",
+     "end": "2024-11-13",
+     "sample": 1040,
+     "mae": 3.66,
+     "lead": 11.05,
+     "n": 6
+    },
+    {
+     "pollster": "CURS",
+     "end": "2024-11-05",
+     "sample": 1067,
+     "mae": 3.82,
+     "lead": 13.05,
+     "n": 6
+    }
+   ],
    "election": "2024 Chamber election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Romanian_parliamentary_election",
    "result_from": "previous",
@@ -842,6 +1488,64 @@
    "id": "eu-sk",
    "status": "ok",
    "date": "2023-09-30",
+   "pollsters": [
+    {
+     "pollster": "AKO",
+     "end": "2023-09-26",
+     "sample": 1000,
+     "mae": 1.16,
+     "lead": -5.29,
+     "n": 9
+    },
+    {
+     "pollster": "SANEP",
+     "end": "2023-09-25",
+     "sample": 1697,
+     "mae": 1.38,
+     "lead": 1.51,
+     "n": 9
+    },
+    {
+     "pollster": "Ipsos",
+     "end": "2023-09-25",
+     "sample": 1000,
+     "mae": 1.47,
+     "lead": -4.19,
+     "n": 9
+    },
+    {
+     "pollster": "Focus",
+     "end": "2023-09-26",
+     "sample": 1017,
+     "mae": 1.5,
+     "lead": -3.59,
+     "n": 9
+    },
+    {
+     "pollster": "Polis Slovakia",
+     "end": "2023-09-20",
+     "sample": 1110,
+     "mae": 1.56,
+     "lead": 4.31,
+     "n": 9
+    },
+    {
+     "pollster": "NMS",
+     "end": "2023-09-24",
+     "sample": 1411,
+     "mae": 1.93,
+     "lead": -5.29,
+     "n": 9
+    },
+    {
+     "pollster": "Median",
+     "end": "2023-09-26",
+     "sample": 1004,
+     "mae": 1.99,
+     "lead": -4.49,
+     "n": 9
+    }
+   ],
    "election": "2023 elections",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Slovak_parliamentary_election",
    "result_from": "previous",
@@ -932,6 +1636,48 @@
    "id": "eu-si",
    "status": "ok",
    "date": "2026-03-22",
+   "pollsters": [
+    {
+     "pollster": "Mediana",
+     "end": "2026-03-18",
+     "sample": 1598,
+     "mae": 0.75,
+     "lead": -0.7,
+     "n": 8
+    },
+    {
+     "pollster": "Valicon",
+     "end": "2026-03-20",
+     "sample": 1034,
+     "mae": 1.39,
+     "lead": 2.7,
+     "n": 8
+    },
+    {
+     "pollster": "Ninamedia",
+     "end": "2026-03-20",
+     "sample": 860,
+     "mae": 1.42,
+     "lead": 3.2,
+     "n": 8
+    },
+    {
+     "pollster": "IJEK",
+     "end": "2026-03-18",
+     "sample": 678,
+     "mae": 1.92,
+     "lead": -4.3,
+     "n": 8
+    },
+    {
+     "pollster": "Parsifal",
+     "end": "2026-03-10",
+     "sample": 681,
+     "mae": 2.11,
+     "lead": -7.7,
+     "n": 8
+    }
+   ],
    "election": "Election results",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Slovenian_parliamentary_election",
    "result_from": "previous",
@@ -1014,6 +1760,64 @@
    "id": "eu-se",
    "status": "ok",
    "date": "2026-09-13",
+   "pollsters": [
+    {
+     "pollster": "Ipsos",
+     "end": "2026-09-10",
+     "sample": 1800,
+     "mae": 0.83,
+     "lead": 1.0,
+     "n": 8
+    },
+    {
+     "pollster": "Indikator Opinion",
+     "end": "2026-09-10",
+     "sample": 5642,
+     "mae": 0.88,
+     "lead": 3.7,
+     "n": 8
+    },
+    {
+     "pollster": "Verian",
+     "end": "2026-09-10",
+     "sample": 3000,
+     "mae": 1.17,
+     "lead": 3.7,
+     "n": 8
+    },
+    {
+     "pollster": "Novus",
+     "end": "2026-09-11",
+     "sample": 5928,
+     "mae": 1.25,
+     "lead": 2.4,
+     "n": 8
+    },
+    {
+     "pollster": "Infostat",
+     "end": "2026-09-11",
+     "sample": 2578,
+     "mae": 1.27,
+     "lead": 0.9,
+     "n": 8
+    },
+    {
+     "pollster": "Demoskop",
+     "end": "2026-09-11",
+     "sample": 1419,
+     "mae": 1.31,
+     "lead": 4.9,
+     "n": 8
+    },
+    {
+     "pollster": "Indikator",
+     "end": "2026-08-23",
+     "sample": 4296,
+     "mae": 1.54,
+     "lead": 4.3,
+     "n": 8
+    }
+   ],
    "election": "2026 election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Swedish_general_election",
    "result_from": "previous",
@@ -1096,6 +1900,248 @@
    "id": "eu-gb",
    "status": "ok",
    "date": "2024-07-04",
+   "pollsters": [
+    {
+     "pollster": "Norstat",
+     "end": "2024-07-03",
+     "sample": 3134,
+     "mae": 1.46,
+     "lead": 3.0,
+     "n": 5
+    },
+    {
+     "pollster": "Verian",
+     "end": "2024-07-01",
+     "sample": 2135,
+     "mae": 1.54,
+     "lead": 5.0,
+     "n": 5
+    },
+    {
+     "pollster": "YouGov (MRP)",
+     "end": "2024-07-02",
+     "sample": 47751,
+     "mae": 1.62,
+     "lead": 7.0,
+     "n": 5
+    },
+    {
+     "pollster": "More in Common",
+     "end": "2024-06-30",
+     "sample": 4525,
+     "mae": 1.66,
+     "lead": 5.0,
+     "n": 5
+    },
+    {
+     "pollster": "More in Common (MRP)",
+     "end": "2024-07-01",
+     "sample": 13556,
+     "mae": 1.78,
+     "lead": 6.0,
+     "n": 5
+    },
+    {
+     "pollster": "We Think",
+     "end": "2024-07-03",
+     "sample": 1210,
+     "mae": 2.02,
+     "lead": 8.0,
+     "n": 5
+    },
+    {
+     "pollster": "BMG",
+     "end": "2024-07-02",
+     "sample": 1854,
+     "mae": 2.02,
+     "lead": 7.0,
+     "n": 5
+    },
+    {
+     "pollster": "JL Partners",
+     "end": "2024-07-03",
+     "sample": 2005,
+     "mae": 2.06,
+     "lead": 5.0,
+     "n": 5
+    },
+    {
+     "pollster": "Number Cruncher Politics",
+     "end": "2024-07-03",
+     "sample": 2497,
+     "mae": 2.14,
+     "lead": 8.0,
+     "n": 5
+    },
+    {
+     "pollster": "Focaldata (MRP)",
+     "end": "2024-07-01",
+     "sample": 36726,
+     "mae": 2.14,
+     "lead": 7.0,
+     "n": 5
+    },
+    {
+     "pollster": "YouGov",
+     "end": "2024-06-27",
+     "sample": 4110,
+     "mae": 2.14,
+     "lead": 7.0,
+     "n": 5
+    },
+    {
+     "pollster": "Survation",
+     "end": "2024-07-03",
+     "sample": 1679,
+     "mae": 2.22,
+     "lead": 8.0,
+     "n": 5
+    },
+    {
+     "pollster": "JL Partners (SRP)",
+     "end": "2024-06-25",
+     "sample": 13584,
+     "mae": 2.26,
+     "lead": 6.0,
+     "n": 5
+    },
+    {
+     "pollster": "Ipsos",
+     "end": "2024-07-03",
+     "sample": 2076,
+     "mae": 2.42,
+     "lead": 8.0,
+     "n": 5
+    },
+    {
+     "pollster": "Deltapoll",
+     "end": "2024-07-03",
+     "sample": 1737,
+     "mae": 2.42,
+     "lead": 7.0,
+     "n": 5
+    },
+    {
+     "pollster": "We Think (MRP)",
+     "end": "2024-06-24",
+     "sample": 18595,
+     "mae": 2.46,
+     "lead": 10.0,
+     "n": 5
+    },
+    {
+     "pollster": "Techne Archived 12 January 2025 at the Wayback Machine",
+     "end": "2024-07-02",
+     "sample": 5503,
+     "mae": 2.54,
+     "lead": 9.0,
+     "n": 5
+    },
+    {
+     "pollster": "Whitestone Insight",
+     "end": "2024-07-02",
+     "sample": 2008,
+     "mae": 2.62,
+     "lead": 7.0,
+     "n": 5
+    },
+    {
+     "pollster": "Redfield & Wilton",
+     "end": "2024-07-02",
+     "sample": 20000,
+     "mae": 2.74,
+     "lead": 9.0,
+     "n": 5
+    },
+    {
+     "pollster": "Opinium",
+     "end": "2024-07-03",
+     "sample": 2219,
+     "mae": 2.82,
+     "lead": 10.0,
+     "n": 5
+    },
+    {
+     "pollster": "Lord Ashcroft",
+     "end": "2024-07-01",
+     "sample": 5183,
+     "mae": 3.02,
+     "lead": 9.0,
+     "n": 5
+    },
+    {
+     "pollster": "Survation (MRP)",
+     "end": "2024-07-01",
+     "sample": 34558,
+     "mae": 3.06,
+     "lead": 9.0,
+     "n": 5
+    },
+    {
+     "pollster": "Savanta (MRP)",
+     "end": "2024-06-18",
+     "sample": 17812,
+     "mae": 3.06,
+     "lead": 11.0,
+     "n": 5
+    },
+    {
+     "pollster": "Savanta",
+     "end": "2024-07-03",
+     "sample": 2101,
+     "mae": 3.14,
+     "lead": 9.0,
+     "n": 5
+    },
+    {
+     "pollster": "Ipsos (MRP)",
+     "end": "2024-06-12",
+     "sample": 19689,
+     "mae": 3.18,
+     "lead": 8.0,
+     "n": 5
+    },
+    {
+     "pollster": "Focaldata",
+     "end": "2024-06-17",
+     "sample": 2604,
+     "mae": 3.54,
+     "lead": 12.0,
+     "n": 5
+    },
+    {
+     "pollster": "Techne",
+     "end": "2024-06-06",
+     "sample": 1645,
+     "mae": 3.54,
+     "lead": 14.0,
+     "n": 5
+    },
+    {
+     "pollster": "FindOutNow",
+     "end": "2024-06-24",
+     "sample": 19993,
+     "mae": 3.94,
+     "lead": 15.0,
+     "n": 5
+    },
+    {
+     "pollster": "PeoplePolling",
+     "end": "2024-07-02",
+     "sample": 1260,
+     "mae": 4.02,
+     "lead": 10.0,
+     "n": 5
+    },
+    {
+     "pollster": "PeoplePolling Archived 28 June 2024 at the Wayback Machine",
+     "end": "2024-06-26",
+     "sample": 1932,
+     "mae": 5.42,
+     "lead": 15.0,
+     "n": 5
+    }
+   ],
    "election": "2024 general election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_United_Kingdom_general_election",
    "result_from": "previous",
@@ -1154,6 +2200,56 @@
    "id": "eu-no",
    "status": "ok",
    "date": "2025-09-08",
+   "pollsters": [
+    {
+     "pollster": "Verian",
+     "end": "2025-09-06",
+     "sample": 3500,
+     "mae": 0.72,
+     "lead": 1.9,
+     "n": 9
+    },
+    {
+     "pollster": "InFact",
+     "end": "2025-09-02",
+     "sample": 1109,
+     "mae": 1.11,
+     "lead": 0.6,
+     "n": 9
+    },
+    {
+     "pollster": "Norfakta",
+     "end": "2025-09-02",
+     "sample": 1004,
+     "mae": 1.17,
+     "lead": 2.1,
+     "n": 9
+    },
+    {
+     "pollster": "Norstat",
+     "end": "2025-09-04",
+     "sample": 2000,
+     "mae": 1.23,
+     "lead": 1.9,
+     "n": 9
+    },
+    {
+     "pollster": "Respons Analyse",
+     "end": "2025-09-06",
+     "sample": 1001,
+     "mae": 1.26,
+     "lead": 6.5,
+     "n": 9
+    },
+    {
+     "pollster": "Opinion",
+     "end": "2025-09-03",
+     "sample": 1000,
+     "mae": 1.56,
+     "lead": 3.8,
+     "n": 9
+    }
+   ],
    "election": "2025 election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Norwegian_parliamentary_election",
    "result_from": "previous",
@@ -1253,6 +2349,24 @@
    "id": "eu-me",
    "status": "ok",
    "date": "2023-06-11",
+   "pollsters": [
+    {
+     "pollster": "CeDem",
+     "end": "2023-05-31",
+     "sample": null,
+     "mae": 1.73,
+     "lead": 2.7,
+     "n": 6
+    },
+    {
+     "pollster": "NSPM",
+     "end": "2023-05-31",
+     "sample": null,
+     "mae": 2.1,
+     "lead": 8.1,
+     "n": 6
+    }
+   ],
    "election": "Election results",
    "page": "https://en.wikipedia.org/wiki/2023_Montenegrin_parliamentary_election",
    "result_from": "current",
@@ -1337,6 +2451,32 @@
    "id": "eu-md",
    "status": "ok",
    "date": "2025-09-28",
+   "pollsters": [
+    {
+     "pollster": "CBS Research",
+     "end": "2025-09-22",
+     "sample": 1117,
+     "mae": 1.33,
+     "lead": -0.5,
+     "n": 5
+    },
+    {
+     "pollster": "CBS Research–Watchdog",
+     "end": "2025-09-13",
+     "sample": 1127,
+     "mae": 2.62,
+     "lead": 1.1,
+     "n": 5
+    },
+    {
+     "pollster": "iData",
+     "end": "2025-09-19",
+     "sample": 1059,
+     "mae": 6.37,
+     "lead": -26.3,
+     "n": 5
+    }
+   ],
    "election": "2025 parliamentary election",
    "page": "https://en.wikipedia.org/wiki/2025_Moldovan_parliamentary_election",
    "result_from": "current",
@@ -1395,6 +2535,176 @@
    "id": "w-ca",
    "status": "ok",
    "date": "2025-04-28",
+   "pollsters": [
+    {
+     "pollster": "Mainstreet Research",
+     "end": "2025-04-27",
+     "sample": 2000,
+     "mae": 0.27,
+     "lead": 0.5,
+     "n": 4
+    },
+    {
+     "pollster": "Liaison Strategies",
+     "end": "2025-04-27",
+     "sample": 1000,
+     "mae": 0.52,
+     "lead": -0.5,
+     "n": 4
+    },
+    {
+     "pollster": "Angus Reid",
+     "end": "2025-04-26",
+     "sample": 2820,
+     "mae": 0.62,
+     "lead": 1.5,
+     "n": 4
+    },
+    {
+     "pollster": "Kolosowski Strategies",
+     "end": "2025-04-19",
+     "sample": 1237,
+     "mae": 0.77,
+     "lead": -2.5,
+     "n": 4
+    },
+    {
+     "pollster": "Research Co.",
+     "end": "2025-04-27",
+     "sample": 1019,
+     "mae": 0.88,
+     "lead": 2.5,
+     "n": 4
+    },
+    {
+     "pollster": "Cardinal Research",
+     "end": "2025-04-23",
+     "sample": 4057,
+     "mae": 0.98,
+     "lead": 2.5,
+     "n": 4
+    },
+    {
+     "pollster": "Nanos Research",
+     "end": "2025-04-27",
+     "sample": 863,
+     "mae": 1.05,
+     "lead": 0.2,
+     "n": 4
+    },
+    {
+     "pollster": "Pallas Data",
+     "end": "2025-04-26",
+     "sample": 1294,
+     "mae": 1.05,
+     "lead": 1.9,
+     "n": 4
+    },
+    {
+     "pollster": "Forum Research",
+     "end": "2025-04-27",
+     "sample": 1153,
+     "mae": 1.27,
+     "lead": 1.5,
+     "n": 4
+    },
+    {
+     "pollster": "Leger",
+     "end": "2025-04-25",
+     "sample": 1502,
+     "mae": 1.27,
+     "lead": 1.5,
+     "n": 4
+    },
+    {
+     "pollster": "Ipsos",
+     "end": "2025-04-26",
+     "sample": 2500,
+     "mae": 2.02,
+     "lead": 1.5,
+     "n": 4
+    },
+    {
+     "pollster": "Ekos",
+     "end": "2025-04-27",
+     "sample": 1805,
+     "mae": 2.2,
+     "lead": 3.6,
+     "n": 4
+    },
+    {
+     "pollster": "Abacus Data",
+     "end": "2025-04-27",
+     "sample": 2500,
+     "mae": 2.27,
+     "lead": -0.5,
+     "n": 4
+    },
+    {
+     "pollster": "MQO Research",
+     "end": "2025-04-26",
+     "sample": 2236,
+     "mae": 2.27,
+     "lead": 2.5,
+     "n": 4
+    },
+    {
+     "pollster": "YouGov ( MRP )",
+     "end": "2025-04-25",
+     "sample": 5964,
+     "mae": 2.27,
+     "lead": 0.5,
+     "n": 4
+    },
+    {
+     "pollster": "Pollara",
+     "end": "2025-04-24",
+     "sample": 2382,
+     "mae": 2.52,
+     "lead": 0.5,
+     "n": 4
+    },
+    {
+     "pollster": "Deltapoll",
+     "end": "2025-04-09",
+     "sample": 1005,
+     "mae": 2.62,
+     "lead": 1.5,
+     "n": 4
+    },
+    {
+     "pollster": "Focaldata",
+     "end": "2025-04-23",
+     "sample": 2826,
+     "mae": 2.92,
+     "lead": 0.5,
+     "n": 4
+    },
+    {
+     "pollster": "Innovative Research",
+     "end": "2025-04-26",
+     "sample": 1587,
+     "mae": 3.02,
+     "lead": 1.5,
+     "n": 4
+    },
+    {
+     "pollster": "Empirical Intelligence",
+     "end": "2025-04-07",
+     "sample": 1001,
+     "mae": 3.12,
+     "lead": 5.5,
+     "n": 4
+    },
+    {
+     "pollster": "JL Partners",
+     "end": "2025-04-16",
+     "sample": 1000,
+     "mae": 3.37,
+     "lead": -0.5,
+     "n": 4
+    }
+   ],
    "election": "2025 election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Canadian_federal_election",
    "result_from": "previous",
@@ -1445,6 +2755,24 @@
    "id": "w-au",
    "status": "ok",
    "date": "2025-05-03",
+   "pollsters": [
+    {
+     "pollster": "Online",
+     "end": "2025-05-02",
+     "sample": 1368,
+     "mae": 1.43,
+     "lead": -4.3,
+     "n": 4
+    },
+    {
+     "pollster": "Telephone",
+     "end": "2025-04-28",
+     "sample": 2010,
+     "mae": 2.3,
+     "lead": -6.8,
+     "n": 4
+    }
+   ],
    "election": "Election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Australian_federal_election",
    "result_from": "previous",
@@ -1495,36 +2823,86 @@
    "id": "w-nz",
    "status": "ok",
    "date": "2026-11-07",
+   "pollsters": [
+    {
+     "pollster": "Taxpayers' Union–Curia",
+     "end": "2026-11-03",
+     "sample": 1000,
+     "mae": 0.56,
+     "lead": -0.65,
+     "n": 5
+    },
+    {
+     "pollster": "Anacta",
+     "end": "2026-10-10",
+     "sample": 1352,
+     "mae": 1.08,
+     "lead": 0.85,
+     "n": 5
+    },
+    {
+     "pollster": "1 News–Verian",
+     "end": "2026-11-02",
+     "sample": 1006,
+     "mae": 1.25,
+     "lead": -0.85,
+     "n": 5
+    },
+    {
+     "pollster": "Roy Morgan",
+     "end": "2026-10-25",
+     "sample": 859,
+     "mae": 1.41,
+     "lead": 0.85,
+     "n": 5
+    },
+    {
+     "pollster": "The Post",
+     "end": "2026-11-03",
+     "sample": 1044,
+     "mae": 1.56,
+     "lead": 4.15,
+     "n": 5
+    },
+    {
+     "pollster": "RNZ–Reid Research",
+     "end": "2026-10-26",
+     "sample": 1000,
+     "mae": 1.56,
+     "lead": 5.65,
+     "n": 5
+    }
+   ],
    "election": "2026 preliminary election result",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_New_Zealand_general_election",
    "result_from": "previous",
    "cutoff": "2026-11-06",
-   "n_polls": 7,
-   "mae": 0.86,
+   "n_polls": 8,
+   "mae": 0.84,
    "rows": [
     {
      "party": "?NEWZEALANDLABOURPARTY",
-     "average": 29.26,
+     "average": 29.3,
      "result": 29.36,
-     "diff": -0.1
+     "diff": -0.06
     },
     {
      "party": "?NEWZEALANDNATIONALPARTY",
-     "average": 27.49,
+     "average": 27.54,
      "result": 29.21,
-     "diff": -1.72
+     "diff": -1.67
     },
     {
      "party": "?GREENPARTYOFAOTEAROANEWZEALAND",
-     "average": 14.68,
+     "average": 14.63,
      "result": 13.3,
-     "diff": 1.38
+     "diff": 1.33
     },
     {
      "party": "?ACTNEWZEALAND",
-     "average": 10.12,
+     "average": 10.08,
      "result": 10.92,
-     "diff": -0.8
+     "diff": -0.84
     },
     {
      "party": "?NEWZEALANDFIRST",
@@ -1564,6 +2942,224 @@
    "id": "w-kr",
    "status": "ok",
    "date": "2025-06-03",
+   "pollsters": [
+    {
+     "pollster": "WinG Korea",
+     "end": "2025-05-21",
+     "sample": 1009,
+     "mae": 0.74,
+     "lead": 1.13,
+     "n": 3
+    },
+    {
+     "pollster": "Media Research",
+     "end": "2025-05-26",
+     "sample": 1000,
+     "mae": 0.84,
+     "lead": -2.07,
+     "n": 3
+    },
+    {
+     "pollster": "KIR",
+     "end": "2025-05-24",
+     "sample": 1016,
+     "mae": 1.14,
+     "lead": -2.07,
+     "n": 3
+    },
+    {
+     "pollster": "Research Min",
+     "end": "2025-05-27",
+     "sample": 6001,
+     "mae": 1.2,
+     "lead": -3.17,
+     "n": 3
+    },
+    {
+     "pollster": "Ace Research",
+     "end": "2025-05-27",
+     "sample": 1014,
+     "mae": 1.21,
+     "lead": 1.03,
+     "n": 3
+    },
+    {
+     "pollster": "Every Research",
+     "end": "2025-05-19",
+     "sample": 1000,
+     "mae": 1.34,
+     "lead": -3.87,
+     "n": 3
+    },
+    {
+     "pollster": "KOPRA",
+     "end": "2025-05-27",
+     "sample": 1000,
+     "mae": 1.41,
+     "lead": -3.27,
+     "n": 3
+    },
+    {
+     "pollster": "Hangil Research",
+     "end": "2025-05-27",
+     "sample": 1544,
+     "mae": 1.44,
+     "lead": -3.17,
+     "n": 3
+    },
+    {
+     "pollster": "Researchview",
+     "end": "2025-05-27",
+     "sample": 1000,
+     "mae": 1.58,
+     "lead": -1.97,
+     "n": 3
+    },
+    {
+     "pollster": "Media Tomato",
+     "end": "2025-05-27",
+     "sample": 1039,
+     "mae": 1.74,
+     "lead": 1.83,
+     "n": 3
+    },
+    {
+     "pollster": "Jowon C&I",
+     "end": "2025-05-27",
+     "sample": 1012,
+     "mae": 1.83,
+     "lead": 4.43,
+     "n": 3
+    },
+    {
+     "pollster": "29 May 2025",
+     "end": "2025-05-27",
+     "sample": null,
+     "mae": 1.88,
+     "lead": 0.13,
+     "n": 3
+    },
+    {
+     "pollster": "KSOI",
+     "end": "2025-05-27",
+     "sample": 1005,
+     "mae": 1.91,
+     "lead": 4.43,
+     "n": 3
+    },
+    {
+     "pollster": "Metavoice",
+     "end": "2025-05-27",
+     "sample": 5028,
+     "mae": 1.94,
+     "lead": -0.27,
+     "n": 3
+    },
+    {
+     "pollster": "EveryResearch",
+     "end": "2025-05-21",
+     "sample": 1002,
+     "mae": 2.01,
+     "lead": -3.97,
+     "n": 3
+    },
+    {
+     "pollster": "Realmeter",
+     "end": "2025-05-27",
+     "sample": 1003,
+     "mae": 2.18,
+     "lead": 4.13,
+     "n": 3
+    },
+    {
+     "pollster": "30 May 2025",
+     "end": "2025-05-30",
+     "sample": null,
+     "mae": 2.61,
+     "lead": 0.23,
+     "n": 3
+    },
+    {
+     "pollster": "Gongjung",
+     "end": "2025-05-27",
+     "sample": 1000,
+     "mae": 2.61,
+     "lead": -7.37,
+     "n": 3
+    },
+    {
+     "pollster": "Embrain Public",
+     "end": "2025-05-19",
+     "sample": 1001,
+     "mae": 2.69,
+     "lead": 5.73,
+     "n": 3
+    },
+    {
+     "pollster": "Flower Research",
+     "end": "2025-06-02",
+     "sample": 3004,
+     "mae": 3.09,
+     "lead": 7.53,
+     "n": 3
+    },
+    {
+     "pollster": "Gallup Korea",
+     "end": "2025-05-27",
+     "sample": 1003,
+     "mae": 3.41,
+     "lead": 0.73,
+     "n": 3
+    },
+    {
+     "pollster": "Ipsos",
+     "end": "2025-05-27",
+     "sample": 1003,
+     "mae": 3.41,
+     "lead": 5.73,
+     "n": 3
+    },
+    {
+     "pollster": "Next Research",
+     "end": "2025-05-25",
+     "sample": 1003,
+     "mae": 3.68,
+     "lead": 0.73,
+     "n": 3
+    },
+    {
+     "pollster": "Hankook Research",
+     "end": "2025-05-27",
+     "sample": 1000,
+     "mae": 3.74,
+     "lead": 0.73,
+     "n": 3
+    },
+    {
+     "pollster": "Research&Research",
+     "end": "2025-05-25",
+     "sample": 1008,
+     "mae": 4.41,
+     "lead": 3.23,
+     "n": 3
+    },
+    {
+     "pollster": "Korea Research",
+     "end": "2025-05-27",
+     "sample": 1000,
+     "mae": 4.74,
+     "lead": -1.27,
+     "n": 3
+    },
+    {
+     "pollster": "NBS",
+     "end": "2025-05-21",
+     "sample": 1002,
+     "mae": 4.74,
+     "lead": 5.73,
+     "n": 3
+    }
+   ],
    "election": "2025 South Korean presidential election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_South_Korean_presidential_election",
    "result_from": "previous",
@@ -1617,6 +3213,120 @@
    "id": "w-ar",
    "status": "ok",
    "date": "2023-10-22",
+   "pollsters": [
+    {
+     "pollster": "Consultora Tendencias",
+     "end": "2023-10-12",
+     "sample": 17702,
+     "mae": 2.5,
+     "lead": -7.1,
+     "n": 4
+    },
+    {
+     "pollster": "Atlas Intel",
+     "end": "2023-10-13",
+     "sample": 5702,
+     "mae": 3.26,
+     "lead": -2.3,
+     "n": 4
+    },
+    {
+     "pollster": "CB Consultora",
+     "end": "2023-10-11",
+     "sample": 4069,
+     "mae": 3.27,
+     "lead": -7.5,
+     "n": 4
+    },
+    {
+     "pollster": "Circuitos Consultora",
+     "end": "2023-10-11",
+     "sample": 2131,
+     "mae": 3.44,
+     "lead": -8.5,
+     "n": 4
+    },
+    {
+     "pollster": "Clivajes Consultores",
+     "end": "2023-10-11",
+     "sample": 1240,
+     "mae": 3.64,
+     "lead": -8.4,
+     "n": 4
+    },
+    {
+     "pollster": "Zuban Córdoba & Asociados",
+     "end": "2023-10-04",
+     "sample": 1400,
+     "mae": 3.76,
+     "lead": -8.7,
+     "n": 4
+    },
+    {
+     "pollster": "Opinaia",
+     "end": "2023-10-11",
+     "sample": 2000,
+     "mae": 3.83,
+     "lead": -9.7,
+     "n": 4
+    },
+    {
+     "pollster": "Proyección Consultores",
+     "end": "2023-10-09",
+     "sample": 2966,
+     "mae": 4.0,
+     "lead": -11.3,
+     "n": 4
+    },
+    {
+     "pollster": "Aresco",
+     "end": "2023-09-29",
+     "sample": 1200,
+     "mae": 4.04,
+     "lead": -9.6,
+     "n": 4
+    },
+    {
+     "pollster": "UdeSA",
+     "end": "2023-09-25",
+     "sample": 1000,
+     "mae": 4.49,
+     "lead": -11.6,
+     "n": 4
+    },
+    {
+     "pollster": "Giacobbe & Asociados",
+     "end": "2023-10-07",
+     "sample": 2500,
+     "mae": 4.51,
+     "lead": -11.1,
+     "n": 4
+    },
+    {
+     "pollster": "Fixer",
+     "end": "2023-10-05",
+     "sample": 2506,
+     "mae": 5.04,
+     "lead": -14.9,
+     "n": 4
+    },
+    {
+     "pollster": "Reale Dalla Torre",
+     "end": "2023-10-03",
+     "sample": 2615,
+     "mae": 5.8,
+     "lead": -18.2,
+     "n": 4
+    },
+    {
+     "pollster": "DC Consultores",
+     "end": "2023-10-10",
+     "sample": 2700,
+     "mae": 6.14,
+     "lead": -16.1,
+     "n": 4
+    }
+   ],
    "election": "General elections",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Argentine_general_election",
    "result_from": "previous",
@@ -1738,6 +3448,24 @@
    "id": "w-za",
    "status": "ok",
    "date": "2024-05-29",
+   "pollsters": [
+    {
+     "pollster": "Social Research Foundation",
+     "end": "2024-05-27",
+     "sample": 1835,
+     "mae": 1.28,
+     "lead": 2.2,
+     "n": 5
+    },
+    {
+     "pollster": "AtlasIntel",
+     "end": "2024-05-28",
+     "sample": 2308,
+     "mae": 1.44,
+     "lead": -0.2,
+     "n": 5
+    }
+   ],
    "election": "2024 general election",
    "page": "https://en.wikipedia.org/wiki/2024_South_African_general_election",
    "result_from": "previous",
@@ -1938,6 +3666,88 @@
    "id": "w-id",
    "status": "ok",
    "date": "2024-02-14",
+   "pollsters": [
+    {
+     "pollster": "SPIN",
+     "end": "2024-02-08",
+     "sample": 1200,
+     "mae": 1.6,
+     "lead": -3.2,
+     "n": 3
+    },
+    {
+     "pollster": "Populi Center",
+     "end": "2024-02-03",
+     "sample": 1500,
+     "mae": 3.1,
+     "lead": -3.3,
+     "n": 3
+    },
+    {
+     "pollster": "Poltracking",
+     "end": "2024-02-02",
+     "sample": 1220,
+     "mae": 3.27,
+     "lead": -7.9,
+     "n": 3
+    },
+    {
+     "pollster": "Lembaga Point Indonesia",
+     "end": "2024-01-28",
+     "sample": 1500,
+     "mae": 3.5,
+     "lead": -3.5,
+     "n": 3
+    },
+    {
+     "pollster": "Indikator",
+     "end": "2024-02-04",
+     "sample": 1200,
+     "mae": 3.57,
+     "lead": -6.0,
+     "n": 3
+    },
+    {
+     "pollster": "LSI Denny JA",
+     "end": "2024-02-06",
+     "sample": 1200,
+     "mae": 3.67,
+     "lead": -1.9,
+     "n": 3
+    },
+    {
+     "pollster": "Indonesia Survey Center",
+     "end": "2024-01-19",
+     "sample": 1670,
+     "mae": 3.8,
+     "lead": -3.4,
+     "n": 3
+    },
+    {
+     "pollster": "Lembaga Survei Indonesia",
+     "end": "2024-02-05",
+     "sample": 1220,
+     "mae": 4.03,
+     "lead": -5.1,
+     "n": 3
+    },
+    {
+     "pollster": "Political Weather Station",
+     "end": "2024-01-25",
+     "sample": 1220,
+     "mae": 4.37,
+     "lead": -2.7,
+     "n": 3
+    },
+    {
+     "pollster": "Polling Institute",
+     "end": "2024-01-16",
+     "sample": 1219,
+     "mae": 5.4,
+     "lead": -8.0,
+     "n": 3
+    }
+   ],
    "election": "2024 election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2024_Indonesian_presidential_election",
    "result_from": "current",
@@ -1972,7 +3782,7 @@
    },
    "colors": {
     "?PRABOWOSUBIANTO": "#B79164",
-    "?ANIESBASWEDAN": "#DCDCDC",
+    "?ANIESBASWEDAN": "#F8F9FA",
     "?GANJARPRANOWO": "#DB2016"
    }
   },
@@ -1980,6 +3790,48 @@
    "id": "w-th",
    "status": "ok",
    "date": "2026-02-08",
+   "pollsters": [
+    {
+     "pollster": "NIDA",
+     "end": "2026-01-27",
+     "sample": 2500,
+     "mae": 2.85,
+     "lead": -1.06,
+     "n": 4
+    },
+    {
+     "pollster": "Suan Dusit",
+     "end": "2026-01-28",
+     "sample": 26621,
+     "mae": 3.48,
+     "lead": 4.41,
+     "n": 4
+    },
+    {
+     "pollster": "Rajabhat",
+     "end": "2026-01-25",
+     "sample": 11700,
+     "mae": 3.85,
+     "lead": 10.54,
+     "n": 4
+    },
+    {
+     "pollster": "ThaiRath Poll",
+     "end": "2026-01-09",
+     "sample": 40085,
+     "mae": 4.58,
+     "lead": 15.62,
+     "n": 4
+    },
+    {
+     "pollster": "North Bangkok Poll",
+     "end": "2026-01-27",
+     "sample": 2157,
+     "mae": 6.66,
+     "lead": 8.74,
+     "n": 4
+    }
+   ],
    "election": "Election results",
    "page": "https://en.wikipedia.org/wiki/2026_Thai_general_election",
    "result_from": "previous",

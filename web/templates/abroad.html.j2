@@ -358,6 +358,8 @@
 
 {% set pl = d.parliament %}
 {% include "_parliament.html.j2" %}
+{% set st = d.seated %}
+{% include "_seated.html.j2" %}
 
 {% if d.national %}
   <h2>{{ 'Las encuestas que entran en la media' if es else 'Les enquestes que entren a la mitjana' }}</h2>
@@ -385,6 +387,7 @@
 
 {% set le = d.lasterror %}
 {% include "_lasterror.html.j2" %}
+{% include "_history_world.html.j2" %}
 
 {% if d.regions %}
   <h2 id="regions">{{ 'Por regiones' if es else 'Per regions' }}</h2>

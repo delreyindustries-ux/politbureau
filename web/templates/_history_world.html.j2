@@ -1,0 +1,25 @@
+{# Resultats de les eleccions legislatives des del 2000 (26/11/2026). `d.history`: pages._history_world(). #}
+{% set h = d.history %}
+{% if h %}
+{% set es = lang == 'es' %}
+  <h2 id="historia">{{ 'Elecciones anteriores' if es else 'Eleccions anteriors' }}</h2>
+  <p class="note">{% if es %}Resultado de los principales partidos en las elecciones legislativas desde {{ h.elections[0].year }}: porcentaje de voto y, entre paréntesis, escaños.
+    {% else %}Resultat dels principals partits a les eleccions legislatives des del {{ h.elections[0].year }}: percentatge de vot i, entre parèntesis, escons.{% endif %}</p>
+  {% set c = h.chart %}
+  <svg class="histchart" viewBox="0 0 {{ c.w }} {{ c.h + 30 }}" role="img" aria-label="{{ 'Evolución del voto' if es else 'Evolució del vot' }}">
+    {% for g, y in c.grid %}<line x1="30" x2="{{ c.w - 10 }}" y1="{{ y }}" y2="{{ y }}" class="hgrid"/><text x="26" y="{{ y + 4 }}" class="hlab" text-anchor="end">{{ g }}</text>{% endfor %}
+    {% for x, yr in c.x %}<text x="{{ x }}" y="{{ c.h + 18 }}" class="hlab" text-anchor="middle">{{ yr }}</text>{% endfor %}
+    {% for l in c.lines %}<polyline points="{{ l.points }}" fill="none" stroke="{{ l.color }}" stroke-width="2.4"/>{% for x, y in l.dots %}<circle cx="{{ x }}" cy="{{ y }}" r="3" fill="{{ l.color }}"/>{% endfor %}{% endfor %}
+  </svg>
+  <div class="tablewrap"><table class="results part">
+    <thead><tr><th>{{ 'Partido' if es else 'Partit' }}</th>{% for e in h.elections %}<th class="n"><a href="https://en.wikipedia.org/wiki/{{ e.title }}" rel="noopener">{{ e.year }}</a></th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for p in h.parties %}<tr><td><span class="sw" style="background:{{ p.color if loop.index0 < 6 else '#bbb' }}"></span>{{ p.name[lang] }}{% if p.short and p.short != p.name[lang] %} <small>({{ p.short }})</small>{% endif %}</td>
+      {% for c in p.cells %}<td class="n">{% if c.pct is not none %}{{ fmt(c.pct) }}{% if c.seats is not none %} <small>({{ c.seats | int }})</small>{% endif %}{% else %}–{% endif %}</td>{% endfor %}</tr>{% endfor %}
+    <tr><td><i>{{ 'Participación' if es else 'Participació' }}</i></td>{% for e in h.elections %}<td class="n">{% if e.turnout %}{{ fmt(e.turnout) }} %{% else %}–{% endif %}</td>{% endfor %}</tr>
+    </tbody>
+  </table></div>
+  <p class="fine">{% if es %}Partidos que aparecen en el cuadro resumen de cada artículo de la Wikipedia en inglés (CC BY-SA 4.0); elecciones de Wikidata (CC0). Nombres de los partidos: Wikidata (CC0), cuando el artículo se puede identificar; si no, en inglés. «–»: el partido no se presentaba o no sale en el cuadro.
+    {% else %}Partits que surten al quadre resum de cada article de la Viquipèdia anglesa (CC BY-SA 4.0); eleccions de Wikidata (CC0). Noms dels partits: Wikidata (CC0), quan l'article es pot identificar; si no, en anglès. «–»: el partit no s'hi presentava o no surt al quadre.{% endif %}</p>
+  <style>.histchart{max-width:680px;width:100%;height:auto;display:block;margin:8px 0}.histchart .hgrid{stroke:var(--line,#ddd);stroke-width:1}.histchart .hlab{font-size:11px;fill:currentColor;opacity:.7}</style>
+{% endif %}

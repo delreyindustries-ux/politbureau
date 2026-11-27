@@ -109,6 +109,19 @@ def cmd_error_anterior(args):
     print(f"{ok} de {len(data['elections'])} paisos calculats; desat a {lasterror.OUT}")
 
 
+def cmd_historic_mon(args):
+    from . import historic_world
+    data = historic_world.run()
+    historic_world.names()                     # noms dels partits en catala i castella (Wikidata)
+    print(f"{len(data['countries'])} paisos amb resultats historics; desat a {historic_world.OUT}")
+
+
+def cmd_diputats_mon(args):
+    from . import mps_world
+    data = mps_world.run(set(args.only) if args.only else None)
+    print(f"{len(data['countries'])} parlaments amb diputats; desat a {mps_world.OUT}")
+
+
 def cmd_sistemes(args):
     from . import systems
     data = systems.build_gb()
@@ -290,6 +303,11 @@ def main(argv=None):
                    ).set_defaults(func=cmd_instituts)
     sub.add_parser("error-anterior", help="error de la mitjana a l'ultima eleccio de cada pais (Wikipedia)"
                    ).set_defaults(func=cmd_error_anterior)
+    sub.add_parser("historic-mon", help="resultats de les eleccions legislatives des del 2000 de cada pais (Wikidata + Viquipedia)"
+                   ).set_defaults(func=cmd_historic_mon)
+    dm = sub.add_parser("diputats-mon", help="qui seu avui a cada parlament estranger (Wikidata, CC0)")
+    dm.add_argument("only", nargs="*", help="codis de pais (per defecte, tots)")
+    dm.set_defaults(func=cmd_diputats_mon)
     sub.add_parser("sistemes", help="resultats per circumscripcio per als sistemes majoritaris (Regne Unit)"
                    ).set_defaults(func=cmd_sistemes)
     sub.add_parser("perfils", help="curriculum dels candidats que entrarien al Congres (Wikidata, CC0)"

@@ -31,4 +31,24 @@
     que sacaron al menos el 3 %. Encuestas y resultado: <a href="{{ le.page }}" rel="noopener">Wikipedia</a> (CC BY-SA 4.0).{% else %}Error
     = mitjana − resultat, en punts. Compten els {{ 'candidats' if d.presidential else 'partits' }} que van treure almenys
     el 3 %. Enquestes i resultat: <a href="{{ le.page }}" rel="noopener">Wikipedia</a> (CC BY-SA 4.0).{% endif %}</p>
+  {% if le.pollsters and le.pollsters | length >= 2 %}
+  <h3 id="valoracio-instituts">{{ ('Qué instituto acertó más en ' if es else 'Quin institut ho va encertar més el ') ~ le.year }}</h3>
+  <p class="note">{% if es %}La última encuesta de cada instituto del mes anterior a las elecciones, comparada con el resultado: error medio por partido y error en la distancia entre los dos primeros.
+    {% else %}L'última enquesta de cada institut del mes d'abans de les eleccions, comparada amb el resultat: error mitjà per partit i error en la distància entre els dos primers.{% endif %}</p>
+  <div class="tablewrap">
+  <table class="results part">
+    <thead><tr><th>{{ 'Instituto' if es else 'Institut' }}</th><th class="n">{{ 'Trabajo de campo' if es else 'Treball de camp' }}</th>
+      <th class="n">{{ 'Muestra' if es else 'Mostra' }}</th><th class="n">{{ 'Error medio' if es else 'Error mitjà' }}</th>
+      <th class="n">{{ 'Error en la distancia 1.º-2.º' if es else 'Error en la distància 1r-2n' }}</th></tr></thead>
+    <tbody>
+    {% for p in le.pollsters %}
+    <tr><td>{{ p.pollster }}</td><td class="n">{{ fdate(p.end) }}</td><td class="n">{{ (p.sample | thousands) if p.sample else '–' }}</td>
+      <td class="n"><b>{{ fmt(p.mae) }}</b></td><td class="n">{% if p.lead is not none %}{{ '+' if p.lead > 0 }}{{ fmt(p.lead) }}{% else %}–{% endif %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <p class="fine">{% if es %}En puntos. «Error en la distancia»: positivo si la encuesta daba más ventaja al primero que la que tuvo. Error medio de la media de la web: {{ fmt(le.mae) }}.
+    {% else %}En punts. «Error en la distància»: positiu si l'enquesta donava més avantatge al primer del que va tenir. Error mitjà de la mitjana de la web: {{ fmt(le.mae) }}.{% endif %}</p>
+  {% endif %}
 {% endif %}

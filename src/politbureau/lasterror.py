@@ -34,6 +34,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "config" / "last_error.json"
 
 MAIN_SHARE = 3.0      # partits que compten: >= 3 % al resultat
+POLLSTER_DAYS = 30    # valoracio d'instituts: la seva ultima enquesta del mes d'abans
 MIN_MAIN = 3          # cal comparar com a minim 3 partits
 MIN_POLLS = 2         # i que la mitjana surti d'almenys 2 instituts
 EXCLUDED = {"US", "BR", "RU"}
@@ -256,7 +257,25 @@ def evaluate(session, election, today=None) -> dict | None:
         if n_polls < MIN_POLLS:
             continue
         missing = [k for k in main if k not in agg]
-        return {"id": election["id"], "status": "ok", "date": e_date,
+        # Valoracio d'instituts (26/11/2026, com la d'Espanya): l'ultima enquesta
+        # de cada institut del mes d'abans de l'eleccio contra el resultat.
+        recent = (dt.date.fromisoformat(e_date) - dt.timedelta(days=POLLSTER_DAYS)).isoformat()
+        first, second = (main + [None, None])[:2]
+        prow = []
+        for e in latest:
+            if e["fieldwork_end"] < recent or not e["pollster"]:
+                continue
+            sh = {k: v for k, (v, _a, _b) in e["results"].items()}
+            have = [k for k in main if k in sh]
+            if len(have) < MIN_MAIN:
+                continue
+            lead = ((sh[first] - sh[second]) - (result[first] - result[second])
+                    if first in sh and second in sh else None)
+            prow.append({"pollster": e["pollster"], "end": e["fieldwork_end"], "sample": e.get("sample_size"),
+                         "mae": round(statistics.mean(abs(sh[k] - result[k]) for k in have), 2),
+                         "lead": round(lead, 2) if lead is not None else None, "n": len(have)})
+        prow.sort(key=lambda r: r["mae"])
+        return {"id": election["id"], "status": "ok", "date": e_date, "pollsters": prow,
                 "election": (res_row.pollster or "").strip(),
                 "page": page["url"], "result_from": "previous" if res_row is not last else "current",
                 "cutoff": cutoff.isoformat(), "n_polls": n_polls,
@@ -301,8 +320,16 @@ def run(only=None) -> dict:
     return data
 
 
+# Noms que son el metode de l'enquesta, no l'institut (columna mal llegida).
+_NOT_POLLSTER = re.compile(r"^(online|telephone|phone|cati|cawi|ivr|mixed|face[- ]to[- ]face|web|internet|sms)$", re.I)
+
+
 def load() -> dict:
     try:
-        return json.loads(OUT.read_text(encoding="utf-8"))
+        data = json.loads(OUT.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
+    for r in (data.get("elections") or {}).values():
+        if r.get("pollsters"):
+            r["pollsters"] = [x for x in r["pollsters"] if not _NOT_POLLSTER.match((x.get("pollster") or "").strip())]
+    return data
