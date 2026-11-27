@@ -896,6 +896,11 @@
       "seats": null
      },
      {
+      "name": "1País",
+      "pct": 5.97,
+      "seats": null
+     },
+     {
       "name": "Workers' Left Front",
       "pct": 4.7,
       "seats": null
@@ -933,6 +938,29 @@
      {
       "name": "Justicialist Front",
       "pct": 8.92,
+      "seats": null
+     }
+    ]
+   },
+   {
+    "date": "2019-10-27",
+    "title": "2019_Argentine_general_election",
+    "turnout": 78.27,
+    "seats_total": null,
+    "parties": [
+     {
+      "name": "Frente de Todos | percentage1 = 40.16 | seats1 = 13",
+      "pct": 48.24,
+      "seats": null
+     },
+     {
+      "name": "Juntos por el Cambio | percentage2 = 40.36 | seats2 = 56",
+      "pct": 40.28,
+      "seats": null
+     },
+     {
+      "name": "Federal Consensus | percentage3 = 5.85 | seats3 = 3",
+      "pct": 6.15,
       "seats": null
      }
     ]
@@ -5249,6 +5277,189 @@
       "seats": 17
      }
     ]
+   },
+   {
+    "date": "2004-04-15",
+    "title": "2004_South_Korean_legislative_election",
+    "turnout": 60.63,
+    "seats_total": 299.0,
+    "parties": [
+     {
+      "name": "Uri Party",
+      "pct": 8145824.0,
+      "seats": 152
+     },
+     {
+      "name": "Grand National Party",
+      "pct": 7613660.0,
+      "seats": 121
+     },
+     {
+      "name": "Democratic Labor Party",
+      "pct": 2774061.0,
+      "seats": 10
+     },
+     {
+      "name": "Millennium Democratic Party",
+      "pct": 2774061.0,
+      "seats": 9
+     }
+    ]
+   },
+   {
+    "date": "2008-04-09",
+    "title": "2008_South_Korean_legislative_election",
+    "turnout": 46.08,
+    "seats_total": 299.0,
+    "parties": [
+     {
+      "name": "Grand National Party",
+      "pct": 6421727.0,
+      "seats": 153
+     },
+     {
+      "name": "United Democratic Party (South Korea, 2008)",
+      "pct": 4313111.0,
+      "seats": 81
+     },
+     {
+      "name": "Pro-Park Alliance",
+      "pct": 2258750.0,
+      "seats": 14
+     },
+     {
+      "name": "Liberty Forward Party",
+      "pct": 1173463.0,
+      "seats": 18
+     },
+     {
+      "name": "Democratic Labor Party",
+      "pct": 973445.0,
+      "seats": 5
+     },
+     {
+      "name": "Creative Korea Party",
+      "pct": 651993.0,
+      "seats": 3
+     }
+    ]
+   },
+   {
+    "date": "2012-04-11",
+    "title": "2012_South_Korean_legislative_election",
+    "turnout": 54.24,
+    "seats_total": 300.0,
+    "parties": [
+     {
+      "name": "Saenuri Party",
+      "pct": 9130651.0,
+      "seats": 152
+     },
+     {
+      "name": "Democratic United Party",
+      "pct": 7777123.0,
+      "seats": 127
+     },
+     {
+      "name": "Unified Progressive Party",
+      "pct": 2198405.0,
+      "seats": 13
+     },
+     {
+      "name": "Liberty Forward",
+      "pct": 690754.0,
+      "seats": 5
+     }
+    ]
+   },
+   {
+    "date": "2016-04-13",
+    "title": "2016_South_Korean_legislative_election",
+    "turnout": 58.15,
+    "seats_total": 300.0,
+    "parties": [
+     {
+      "name": "Democratic Party (South Korea, 2015)",
+      "pct": 6069744.0,
+      "seats": 123
+     },
+     {
+      "name": "Saenuri Party",
+      "pct": 7960272.0,
+      "seats": 122
+     },
+     {
+      "name": "People Party (South Korea, 2016)",
+      "pct": 6355572.0,
+      "seats": 38
+     },
+     {
+      "name": "Justice Party",
+      "pct": 1719891.0,
+      "seats": 6
+     }
+    ]
+   },
+   {
+    "date": "2020-04-15",
+    "title": "2020_South_Korean_legislative_election",
+    "turnout": 66.19,
+    "seats_total": 300.0,
+    "parties": [
+     {
+      "name": "Democratic",
+      "pct": 33.36,
+      "seats": 180
+     },
+     {
+      "name": "United Future",
+      "pct": 33.84,
+      "seats": 103
+     },
+     {
+      "name": "Justice Party",
+      "pct": 9.67,
+      "seats": 6
+     },
+     {
+      "name": "People Party (South Korea, 2020)",
+      "pct": 6.8,
+      "seats": 3
+     },
+     {
+      "name": "Open Democratic",
+      "pct": 5.42,
+      "seats": 3
+     }
+    ]
+   },
+   {
+    "date": "2024-04-10",
+    "title": "2024_South_Korean_legislative_election",
+    "turnout": 66.97,
+    "seats_total": 300.0,
+    "parties": [
+     {
+      "name": "Democratic",
+      "pct": 26.7,
+      "seats": 173
+     },
+     {
+      "name": "People Power",
+      "pct": 36.67,
+      "seats": 108
+     },
+     {
+      "name": "Rebuilding Korea Party",
+      "pct": 24.25,
+      "seats": 12
+     },
+     {
+      "name": "Reform Party",
+      "pct": 3.62,
+      "seats": 3
+     }
+    ]
    }
   ],
   "LT": [
@@ -6672,6 +6883,360 @@
   ],
   "NZ": [
    {
+    "date": "2002-07-27",
+    "title": "2002_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 120.0,
+    "parties": [
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 41.26,
+      "seats": 52
+     },
+     {
+      "name": "New Zealand National Party",
+      "pct": 20.93,
+      "seats": 27
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 10.38,
+      "seats": 13
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 7.14,
+      "seats": 9
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 7.0,
+      "seats": 9
+     },
+     {
+      "name": "United Future New Zealand",
+      "pct": 6.69,
+      "seats": 8
+     },
+     {
+      "name": "New Zealand Progressive Party",
+      "pct": 1.7,
+      "seats": 2
+     },
+     {
+      "name": "Alliance",
+      "pct": 1.27,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2005-09-17",
+    "title": "2005_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 121.0,
+    "parties": [
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 41.1,
+      "seats": 50
+     },
+     {
+      "name": "New Zealand National Party",
+      "pct": 39.1,
+      "seats": 48
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 5.72,
+      "seats": 7
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 5.3,
+      "seats": 6
+     },
+     {
+      "name": "Māori Party",
+      "pct": 2.12,
+      "seats": 4
+     },
+     {
+      "name": "United Future New Zealand",
+      "pct": 2.67,
+      "seats": 3
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 1.51,
+      "seats": 2
+     },
+     {
+      "name": "New Zealand Progressive Party",
+      "pct": 1.16,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2008-11-08",
+    "title": "2008_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 122.0,
+    "parties": [
+     {
+      "name": "New Zealand National Party",
+      "pct": 44.93,
+      "seats": 58
+     },
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 33.99,
+      "seats": 43
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 6.72,
+      "seats": 9
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 3.65,
+      "seats": 5
+     },
+     {
+      "name": "Māori Party",
+      "pct": 2.39,
+      "seats": 5
+     },
+     {
+      "name": "New Zealand Progressive Party",
+      "pct": 0.91,
+      "seats": 1
+     },
+     {
+      "name": "United Future New Zealand",
+      "pct": 0.87,
+      "seats": 1
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 4.07,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2011-11-26",
+    "title": "2011_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 121.0,
+    "parties": [
+     {
+      "name": "New Zealand National Party",
+      "pct": 47.31,
+      "seats": 59
+     },
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 27.48,
+      "seats": 34
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 11.06,
+      "seats": 14
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 6.59,
+      "seats": 8
+     },
+     {
+      "name": "Māori Party",
+      "pct": 1.43,
+      "seats": 3
+     },
+     {
+      "name": "Mana Party",
+      "pct": 1.08,
+      "seats": 1
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 1.07,
+      "seats": 1
+     },
+     {
+      "name": "United Future",
+      "pct": 0.6,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2014-09-20",
+    "title": "2014_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 121.0,
+    "parties": [
+     {
+      "name": "New Zealand National Party",
+      "pct": 47.04,
+      "seats": 60
+     },
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 25.13,
+      "seats": 32
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 10.7,
+      "seats": 14
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 8.66,
+      "seats": 11
+     },
+     {
+      "name": "Māori Party",
+      "pct": 1.32,
+      "seats": 2
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 0.69,
+      "seats": 1
+     },
+     {
+      "name": "United Future",
+      "pct": 0.22,
+      "seats": 1
+     },
+     {
+      "name": "Internet Party and Mana Movement",
+      "pct": 1.42,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2017-09-23",
+    "title": "2017_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 120.0,
+    "parties": [
+     {
+      "name": "New Zealand National Party",
+      "pct": 44.45,
+      "seats": 56
+     },
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 36.89,
+      "seats": 46
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 7.2,
+      "seats": 9
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 6.27,
+      "seats": 8
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 0.5,
+      "seats": 1
+     },
+     {
+      "name": "Māori Party",
+      "pct": 1.18,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2020-10-17",
+    "title": "2020_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 120.0,
+    "parties": [
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 50.01,
+      "seats": 65
+     },
+     {
+      "name": "New Zealand National Party",
+      "pct": 25.58,
+      "seats": 33
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 7.86,
+      "seats": 10
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 7.59,
+      "seats": 10
+     },
+     {
+      "name": "Māori Party",
+      "pct": 1.17,
+      "seats": 2
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 2.6,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2023-10-14",
+    "title": "2023_New_Zealand_general_election",
+    "turnout": null,
+    "seats_total": 123.0,
+    "parties": [
+     {
+      "name": "New Zealand National Party",
+      "pct": 38.06,
+      "seats": 48
+     },
+     {
+      "name": "New Zealand Labour Party",
+      "pct": 26.91,
+      "seats": 34
+     },
+     {
+      "name": "Green Party of Aotearoa New Zealand",
+      "pct": 11.6,
+      "seats": 15
+     },
+     {
+      "name": "ACT New Zealand",
+      "pct": 8.64,
+      "seats": 11
+     },
+     {
+      "name": "New Zealand First",
+      "pct": 6.08,
+      "seats": 8
+     },
+     {
+      "name": "Te Pāti Māori",
+      "pct": 3.08,
+      "seats": 6
+     }
+    ]
+   },
+   {
     "date": "2026-11-07",
     "title": "2026_New_Zealand_general_election",
     "turnout": null,
@@ -7837,7 +8402,7 @@
       "seats": null
      },
      {
-      "name": "Independent (politician) | leader5 = | last_election5 = 4 | seats5 = 4 | percentage5 = 5.98",
+      "name": "Confederation",
       "pct": 6.8,
       "seats": null
      },
@@ -7870,7 +8435,7 @@
       "seats": 9
      },
      {
-      "name": "Independent",
+      "name": "The Left",
       "pct": 2.68,
       "seats": 4
      },
@@ -9490,6 +10055,67 @@
   ],
   "TH": [
    {
+    "date": "2001-01-06",
+    "title": "2001_Thai_general_election",
+    "turnout": 69.43,
+    "seats_total": 500.0,
+    "parties": [
+     {
+      "name": "Thai Rak Thai",
+      "pct": 39.91,
+      "seats": 248
+     },
+     {
+      "name": "Democrat Party",
+      "pct": 25.86,
+      "seats": 128
+     },
+     {
+      "name": "Thai Nation Party",
+      "pct": 5.23,
+      "seats": 41
+     },
+     {
+      "name": "New Aspiration Party",
+      "pct": 6.89,
+      "seats": 36
+     },
+     {
+      "name": "National Development Party",
+      "pct": 6.05,
+      "seats": 29
+     }
+    ]
+   },
+   {
+    "date": "2005-02-06",
+    "title": "2005_Thai_general_election",
+    "turnout": 72.56,
+    "seats_total": 500.0,
+    "parties": [
+     {
+      "name": "Thai Rak Thai",
+      "pct": 60.48,
+      "seats": 377
+     },
+     {
+      "name": "Democrat Party",
+      "pct": 22.96,
+      "seats": 96
+     },
+     {
+      "name": "Thai Nation Party",
+      "pct": 6.56,
+      "seats": 25
+     },
+     {
+      "name": "Mahachon",
+      "pct": 4.29,
+      "seats": 2
+     }
+    ]
+   },
+   {
     "date": "2006-04-02",
     "title": "2006_Thai_general_election",
     "turnout": 64.77,
@@ -9504,6 +10130,67 @@
       "name": "Casual vacancy",
       "pct": null,
       "seats": 39
+     }
+    ]
+   },
+   {
+    "date": "2007-12-23",
+    "title": "2007_Thai_general_election",
+    "turnout": 72.4,
+    "seats_total": 480.0,
+    "parties": [
+     {
+      "name": "People's Power Party",
+      "pct": 39.84,
+      "seats": 233
+     },
+     {
+      "name": "Democrat Party",
+      "pct": 39.23,
+      "seats": 164
+     },
+     {
+      "name": "Thai Nation Party",
+      "pct": 3.92,
+      "seats": 34
+     },
+     {
+      "name": "Puea Pandin",
+      "pct": 5.16,
+      "seats": 24
+     },
+     {
+      "name": "Neutral Democratic Party",
+      "pct": 1.45,
+      "seats": 12
+     }
+    ]
+   },
+   {
+    "date": "2011-07-03",
+    "title": "2011_Thai_general_election",
+    "turnout": 75.03,
+    "seats_total": 500.0,
+    "parties": [
+     {
+      "name": "Pheu Thai Party",
+      "pct": 47.03,
+      "seats": 265
+     },
+     {
+      "name": "Democrat Party",
+      "pct": 34.14,
+      "seats": 159
+     },
+     {
+      "name": "Bhumjaithai Party",
+      "pct": 3.83,
+      "seats": 34
+     },
+     {
+      "name": "Chartthaipattana Party",
+      "pct": 2.71,
+      "seats": 19
      }
     ]
    },
@@ -9537,6 +10224,77 @@
       "name": "Bhumjaithai Party",
       "pct": 10.33,
       "seats": 51
+     }
+    ]
+   },
+   {
+    "date": "2023-05-14",
+    "title": "2023_Thai_general_election",
+    "turnout": 75.64,
+    "seats_total": 500.0,
+    "parties": [
+     {
+      "name": "Move Forward Party",
+      "pct": 37.99,
+      "seats": 151
+     },
+     {
+      "name": "Pheu Thai Party",
+      "pct": 28.84,
+      "seats": 141
+     },
+     {
+      "name": "Bhumjaithai Party",
+      "pct": 2.99,
+      "seats": 71
+     },
+     {
+      "name": "Palang Pracharat Party",
+      "pct": 1.41,
+      "seats": 40
+     },
+     {
+      "name": "United Thai Nation Party",
+      "pct": 12.54,
+      "seats": 36
+     },
+     {
+      "name": "Democrat Party",
+      "pct": 2.43,
+      "seats": 25
+     }
+    ]
+   },
+   {
+    "date": "2026-02-08",
+    "title": "2026_Thai_general_election",
+    "turnout": 71.42,
+    "seats_total": 500.0,
+    "parties": [
+     {
+      "name": "Bhumjaithai Party",
+      "pct": 17.9,
+      "seats": 192
+     },
+     {
+      "name": "People's Party (Thailand, 2024)",
+      "pct": 30.56,
+      "seats": 120
+     },
+     {
+      "name": "Pheu Thai Party",
+      "pct": 15.43,
+      "seats": 74
+     },
+     {
+      "name": "Kla Tham Party",
+      "pct": 1.79,
+      "seats": 58
+     },
+     {
+      "name": "Democrat Party",
+      "pct": 10.91,
+      "seats": 21
      }
     ]
    }
@@ -10485,6 +11243,2072 @@
      }
     ]
    }
+  ],
+  "CA": [
+   {
+    "date": "2000-11-27",
+    "title": "2000_Canadian_federal_election",
+    "turnout": 64.1,
+    "seats_total": 301.0,
+    "parties": [
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 40.85,
+      "seats": 172
+     },
+     {
+      "name": "Canadian Alliance",
+      "pct": 25.49,
+      "seats": 66
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 10.72,
+      "seats": 38
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 8.51,
+      "seats": 13
+     },
+     {
+      "name": "Progressive Conservative Party of Canada",
+      "pct": 12.19,
+      "seats": 12
+     }
+    ]
+   },
+   {
+    "date": "2004-06-28",
+    "title": "2004_Canadian_federal_election",
+    "turnout": 60.9,
+    "seats_total": 308.0,
+    "parties": [
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 36.73,
+      "seats": 135
+     },
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 29.63,
+      "seats": 99
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 12.39,
+      "seats": 54
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 15.68,
+      "seats": 19
+     }
+    ]
+   },
+   {
+    "date": "2006-01-23",
+    "title": "2006_Canadian_federal_election",
+    "turnout": 64.7,
+    "seats_total": 308.0,
+    "parties": [
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 36.27,
+      "seats": 124
+     },
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 30.23,
+      "seats": 103
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 10.48,
+      "seats": 51
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 17.48,
+      "seats": 29
+     }
+    ]
+   },
+   {
+    "date": "2008-10-14",
+    "title": "2008_Canadian_federal_election",
+    "turnout": 58.8,
+    "seats_total": 308.0,
+    "parties": [
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 37.65,
+      "seats": 143
+     },
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 26.26,
+      "seats": 77
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 9.98,
+      "seats": 49
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 18.18,
+      "seats": 37
+     },
+     {
+      "name": "Green Party of Canada",
+      "pct": 6.78,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2011-05-02",
+    "title": "2011_Canadian_federal_election",
+    "turnout": 61.1,
+    "seats_total": 308.0,
+    "parties": [
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 39.62,
+      "seats": 166
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 30.63,
+      "seats": 103
+     },
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 18.91,
+      "seats": 34
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 6.04,
+      "seats": 4
+     },
+     {
+      "name": "Green Party of Canada",
+      "pct": 3.91,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2015-10-19",
+    "title": "2015_Canadian_federal_election",
+    "turnout": 68.3,
+    "seats_total": 338.0,
+    "parties": [
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 39.47,
+      "seats": 184
+     },
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 31.91,
+      "seats": 99
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 19.72,
+      "seats": 44
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 4.67,
+      "seats": 10
+     },
+     {
+      "name": "Green Party of Canada",
+      "pct": 3.43,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2019-10-21",
+    "title": "2019_Canadian_federal_election",
+    "turnout": 67.0,
+    "seats_total": 338.0,
+    "parties": [
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 33.12,
+      "seats": 157
+     },
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 34.34,
+      "seats": 121
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 7.63,
+      "seats": 32
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 15.98,
+      "seats": 24
+     },
+     {
+      "name": "Green Party of Canada",
+      "pct": 6.55,
+      "seats": 3
+     },
+     {
+      "name": "People's Party of Canada",
+      "pct": 1.62,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2021-09-20",
+    "title": "2021_Canadian_federal_election",
+    "turnout": 62.3,
+    "seats_total": 338.0,
+    "parties": [
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 32.62,
+      "seats": 160
+     },
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 33.74,
+      "seats": 119
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 7.64,
+      "seats": 32
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 17.82,
+      "seats": 25
+     },
+     {
+      "name": "Green Party of Canada",
+      "pct": 2.33,
+      "seats": 2
+     },
+     {
+      "name": "People's Party of Canada",
+      "pct": 4.94,
+      "seats": 0
+     }
+    ]
+   },
+   {
+    "date": "2025-04-28",
+    "title": "2025_Canadian_federal_election",
+    "turnout": 69.5,
+    "seats_total": 343.0,
+    "parties": [
+     {
+      "name": "Liberal Party of Canada",
+      "pct": 43.76,
+      "seats": 169
+     },
+     {
+      "name": "Conservative Party of Canada",
+      "pct": 41.31,
+      "seats": 144
+     },
+     {
+      "name": "Bloc Québécois",
+      "pct": 6.29,
+      "seats": 22
+     },
+     {
+      "name": "New Democratic Party",
+      "pct": 6.29,
+      "seats": 7
+     },
+     {
+      "name": "Green Party of Canada",
+      "pct": 1.22,
+      "seats": 1
+     }
+    ]
+   }
+  ],
+  "DK": [
+   {
+    "date": "2005-02-08",
+    "title": "2005_Danish_general_election",
+    "turnout": 84.2,
+    "seats_total": 179.0,
+    "parties": [
+     {
+      "name": "Venstre",
+      "pct": 29.03,
+      "seats": 52
+     },
+     {
+      "name": "Social Democrats",
+      "pct": 25.84,
+      "seats": 47
+     },
+     {
+      "name": "Danish People's Party",
+      "pct": 13.25,
+      "seats": 24
+     },
+     {
+      "name": "Conservative People's Party",
+      "pct": 10.27,
+      "seats": 18
+     },
+     {
+      "name": "Danish Social Liberal Party",
+      "pct": 9.18,
+      "seats": 17
+     },
+     {
+      "name": "Socialist People's Party",
+      "pct": 5.99,
+      "seats": 11
+     },
+     {
+      "name": "Red–Green Alliance",
+      "pct": 3.4,
+      "seats": 6
+     },
+     {
+      "name": "Republican",
+      "pct": 25.36,
+      "seats": 1
+     },
+     {
+      "name": "People's Party",
+      "pct": 24.02,
+      "seats": 1
+     },
+     {
+      "name": "Siumut",
+      "pct": 33.66,
+      "seats": 1
+     },
+     {
+      "name": "Inuit Ataqatigiit",
+      "pct": 25.04,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2007-11-13",
+    "title": "2007_Danish_general_election",
+    "turnout": 86.59,
+    "seats_total": 179.0,
+    "parties": [
+     {
+      "name": "Venstre",
+      "pct": 26.26,
+      "seats": 46
+     },
+     {
+      "name": "Social Democrats",
+      "pct": 25.47,
+      "seats": 45
+     },
+     {
+      "name": "Danish People's Party",
+      "pct": 13.86,
+      "seats": 25
+     },
+     {
+      "name": "Socialist People's Party",
+      "pct": 13.04,
+      "seats": 23
+     },
+     {
+      "name": "Conservative People's Party",
+      "pct": 10.39,
+      "seats": 18
+     },
+     {
+      "name": "Danish Social Liberal Party",
+      "pct": 5.12,
+      "seats": 9
+     },
+     {
+      "name": "New Alliance",
+      "pct": 2.81,
+      "seats": 5
+     },
+     {
+      "name": "Red–Green Alliance",
+      "pct": 2.17,
+      "seats": 4
+     },
+     {
+      "name": "Republic",
+      "pct": 25.36,
+      "seats": 1
+     },
+     {
+      "name": "Union Party",
+      "pct": 23.47,
+      "seats": 1
+     },
+     {
+      "name": "Inuit Ataqatigiit",
+      "pct": 33.25,
+      "seats": 1
+     },
+     {
+      "name": "Siumut",
+      "pct": 32.16,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2011-09-15",
+    "title": "2011_Danish_general_election",
+    "turnout": 87.21,
+    "seats_total": 179.0,
+    "parties": [
+     {
+      "name": "Venstre",
+      "pct": 26.73,
+      "seats": 47
+     },
+     {
+      "name": "Social Democrats",
+      "pct": 24.81,
+      "seats": 44
+     },
+     {
+      "name": "Danish People's Party",
+      "pct": 12.32,
+      "seats": 22
+     },
+     {
+      "name": "Danish Social Liberal Party",
+      "pct": 9.5,
+      "seats": 17
+     },
+     {
+      "name": "Socialist People's Party",
+      "pct": 9.2,
+      "seats": 16
+     },
+     {
+      "name": "Red–Green Alliance",
+      "pct": 6.68,
+      "seats": 12
+     },
+     {
+      "name": "Liberal Alliance",
+      "pct": 4.98,
+      "seats": 9
+     },
+     {
+      "name": "Conservative People's Party",
+      "pct": 4.94,
+      "seats": 8
+     },
+     {
+      "name": "Union Party",
+      "pct": 30.77,
+      "seats": 1
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 20.95,
+      "seats": 1
+     },
+     {
+      "name": "Inuit Ataqatigiit",
+      "pct": 42.61,
+      "seats": 1
+     },
+     {
+      "name": "Siumut",
+      "pct": 37.22,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2015-06-18",
+    "title": "2015_Danish_general_election",
+    "turnout": 85.89,
+    "seats_total": 179.0,
+    "parties": [
+     {
+      "name": "Social Democrats",
+      "pct": 26.28,
+      "seats": 47
+     },
+     {
+      "name": "Danish People's Party",
+      "pct": 21.08,
+      "seats": 37
+     },
+     {
+      "name": "Venstre",
+      "pct": 19.47,
+      "seats": 34
+     },
+     {
+      "name": "Red–Green Alliance",
+      "pct": 7.8,
+      "seats": 14
+     },
+     {
+      "name": "Liberal Alliance",
+      "pct": 7.53,
+      "seats": 13
+     },
+     {
+      "name": "The Alternative",
+      "pct": 4.8,
+      "seats": 9
+     },
+     {
+      "name": "Danish Social Liberal Party",
+      "pct": 4.58,
+      "seats": 8
+     },
+     {
+      "name": "Socialist People's Party",
+      "pct": 4.19,
+      "seats": 7
+     },
+     {
+      "name": "Conservative People's Party",
+      "pct": 3.35,
+      "seats": 6
+     },
+     {
+      "name": "Republic",
+      "pct": 24.47,
+      "seats": 1
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 24.27,
+      "seats": 1
+     },
+     {
+      "name": "Inuit Ataqatigiit",
+      "pct": 39.17,
+      "seats": 1
+     },
+     {
+      "name": "Siumut",
+      "pct": 38.87,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2019-06-05",
+    "title": "2019_Danish_general_election",
+    "turnout": 84.6,
+    "seats_total": 179.0,
+    "parties": [
+     {
+      "name": "Social Democrats",
+      "pct": 25.9,
+      "seats": 48
+     },
+     {
+      "name": "Venstre",
+      "pct": 23.39,
+      "seats": 43
+     },
+     {
+      "name": "Danish People's Party",
+      "pct": 8.74,
+      "seats": 16
+     },
+     {
+      "name": "Danish Social Liberal Party",
+      "pct": 8.63,
+      "seats": 16
+     },
+     {
+      "name": "Socialist People's Party",
+      "pct": 7.71,
+      "seats": 14
+     },
+     {
+      "name": "Red–Green Alliance",
+      "pct": 6.94,
+      "seats": 13
+     },
+     {
+      "name": "Conservative People's Party",
+      "pct": 6.62,
+      "seats": 12
+     },
+     {
+      "name": "The Alternative",
+      "pct": 2.95,
+      "seats": 5
+     },
+     {
+      "name": "New Right",
+      "pct": 2.36,
+      "seats": 4
+     },
+     {
+      "name": "Liberal Alliance",
+      "pct": 2.33,
+      "seats": 4
+     },
+     {
+      "name": "Union Party",
+      "pct": 28.32,
+      "seats": 1
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 25.55,
+      "seats": 1
+     },
+     {
+      "name": "Inuit Ataqatigiit",
+      "pct": 34.35,
+      "seats": 1
+     },
+     {
+      "name": "Siumut",
+      "pct": 30.33,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2022-11-01",
+    "title": "2022_Danish_general_election",
+    "turnout": 84.16,
+    "seats_total": 179.0,
+    "parties": [
+     {
+      "name": "Social Democrats",
+      "pct": 27.54,
+      "seats": 50
+     },
+     {
+      "name": "Venstre",
+      "pct": 13.31,
+      "seats": 23
+     },
+     {
+      "name": "Moderates",
+      "pct": 9.27,
+      "seats": 16
+     },
+     {
+      "name": "Green Left",
+      "pct": 8.29,
+      "seats": 15
+     },
+     {
+      "name": "Denmark Democrats",
+      "pct": 8.08,
+      "seats": 14
+     },
+     {
+      "name": "Liberal Alliance",
+      "pct": 7.87,
+      "seats": 14
+     },
+     {
+      "name": "Conservative People's Party",
+      "pct": 5.51,
+      "seats": 10
+     },
+     {
+      "name": "Red–Green Alliance",
+      "pct": 5.16,
+      "seats": 9
+     },
+     {
+      "name": "Danish Social Liberal Party",
+      "pct": 3.79,
+      "seats": 7
+     },
+     {
+      "name": "New Right",
+      "pct": 3.66,
+      "seats": 6
+     },
+     {
+      "name": "The Alternative",
+      "pct": 3.33,
+      "seats": 6
+     },
+     {
+      "name": "Danish People's Party",
+      "pct": 2.63,
+      "seats": 5
+     },
+     {
+      "name": "Union Party",
+      "pct": 30.19,
+      "seats": 1
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 28.2,
+      "seats": 1
+     },
+     {
+      "name": "Siumut",
+      "pct": 38.58,
+      "seats": 1
+     },
+     {
+      "name": "Inuit Ataqatigiit",
+      "pct": 25.21,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2026-03-24",
+    "title": "2026_Danish_general_election",
+    "turnout": 83.99,
+    "seats_total": 179.0,
+    "parties": [
+     {
+      "name": "Social Democrats",
+      "pct": 21.85,
+      "seats": 38
+     },
+     {
+      "name": "Green Left",
+      "pct": 11.59,
+      "seats": 20
+     },
+     {
+      "name": "Venstre",
+      "pct": 10.14,
+      "seats": 18
+     },
+     {
+      "name": "Liberal Alliance",
+      "pct": 9.37,
+      "seats": 16
+     },
+     {
+      "name": "Danish People's Party",
+      "pct": 9.1,
+      "seats": 16
+     },
+     {
+      "name": "Moderates",
+      "pct": 7.68,
+      "seats": 14
+     },
+     {
+      "name": "Conservative People's Party",
+      "pct": 7.59,
+      "seats": 13
+     },
+     {
+      "name": "Red–Green Alliance",
+      "pct": 6.34,
+      "seats": 11
+     },
+     {
+      "name": "Danish Social Liberal Party",
+      "pct": 5.82,
+      "seats": 10
+     },
+     {
+      "name": "Denmark Democrats",
+      "pct": 5.75,
+      "seats": 10
+     },
+     {
+      "name": "The Alternative",
+      "pct": 2.58,
+      "seats": 5
+     },
+     {
+      "name": "Citizens' Party",
+      "pct": 2.13,
+      "seats": 4
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 44.91,
+      "seats": 1
+     },
+     {
+      "name": "Union Party",
+      "pct": 25.19,
+      "seats": 1
+     },
+     {
+      "name": "Inuit Ataqatigiit",
+      "pct": 29.24,
+      "seats": 1
+     },
+     {
+      "name": "Naleraq",
+      "pct": 25.12,
+      "seats": 1
+     }
+    ]
+   }
+  ],
+  "HU": [
+   {
+    "date": "2002-04-07",
+    "title": "2002_Hungarian_parliamentary_election",
+    "turnout": 70.53,
+    "seats_total": 386.0,
+    "parties": [
+     {
+      "name": "Fidesz",
+      "pct": 41.07,
+      "seats": 188
+     },
+     {
+      "name": "MSZP",
+      "pct": 42.05,
+      "seats": 178
+     },
+     {
+      "name": "Alliance of Free Democrats",
+      "pct": 5.57,
+      "seats": 20
+     }
+    ]
+   },
+   {
+    "date": "2006-04-09",
+    "title": "2006_Hungarian_parliamentary_election",
+    "turnout": 67.83,
+    "seats_total": 386.0,
+    "parties": [
+     {
+      "name": "Hungarian Socialist Party",
+      "pct": 43.21,
+      "seats": 190
+     },
+     {
+      "name": "Fidesz",
+      "pct": 42.03,
+      "seats": 164
+     },
+     {
+      "name": "Alliance of Free Democrats",
+      "pct": 6.5,
+      "seats": 20
+     },
+     {
+      "name": "Hungarian Democratic Forum",
+      "pct": 5.04,
+      "seats": 11
+     }
+    ]
+   },
+   {
+    "date": "2010-04-25",
+    "title": "2010_Hungarian_parliamentary_election",
+    "turnout": 64.38,
+    "seats_total": 386.0,
+    "parties": [
+     {
+      "name": "Fidesz",
+      "pct": 52.73,
+      "seats": 263
+     },
+     {
+      "name": "Hungarian Socialist Party",
+      "pct": 19.3,
+      "seats": 59
+     },
+     {
+      "name": "Jobbik",
+      "pct": 16.67,
+      "seats": 47
+     },
+     {
+      "name": "Politics Can Be Different",
+      "pct": 7.48,
+      "seats": 16
+     }
+    ]
+   },
+   {
+    "date": "2014-04-06",
+    "title": "2014_Hungarian_parliamentary_election",
+    "turnout": 61.73,
+    "seats_total": 199.0,
+    "parties": [
+     {
+      "name": "Fidesz",
+      "pct": 44.87,
+      "seats": 133
+     },
+     {
+      "name": "MSZP",
+      "pct": 25.57,
+      "seats": 38
+     },
+     {
+      "name": "Jobbik",
+      "pct": 20.22,
+      "seats": 23
+     },
+     {
+      "name": "Politics Can Be Different",
+      "pct": 5.34,
+      "seats": 5
+     }
+    ]
+   },
+   {
+    "date": "2018-04-08",
+    "title": "2018_Hungarian_parliamentary_election",
+    "turnout": 69.73,
+    "seats_total": 199.0,
+    "parties": [
+     {
+      "name": "Fidesz",
+      "pct": 49.27,
+      "seats": 133
+     },
+     {
+      "name": "Jobbik",
+      "pct": 19.06,
+      "seats": 26
+     },
+     {
+      "name": "Párbeszéd",
+      "pct": 11.91,
+      "seats": 20
+     },
+     {
+      "name": "Democratic Coalition",
+      "pct": 5.38,
+      "seats": 9
+     },
+     {
+      "name": "Politics Can Be Different",
+      "pct": 7.06,
+      "seats": 8
+     },
+     {
+      "name": "Together 2014",
+      "pct": 0.66,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2022-04-03",
+    "title": "2022_Hungarian_parliamentary_election",
+    "turnout": 69.59,
+    "seats_total": 199.0,
+    "parties": [
+     {
+      "name": "Fidesz",
+      "pct": 54.13,
+      "seats": 135
+     },
+     {
+      "name": "United for Hungary",
+      "pct": 34.44,
+      "seats": 57
+     },
+     {
+      "name": "Mi Hazánk",
+      "pct": 5.88,
+      "seats": 6
+     }
+    ]
+   },
+   {
+    "date": "2026-04-12",
+    "title": "2026_Hungarian_parliamentary_election",
+    "turnout": 78.99,
+    "seats_total": 199.0,
+    "parties": [
+     {
+      "name": "TISZA",
+      "pct": 53.18,
+      "seats": 141
+     },
+     {
+      "name": "Fidesz",
+      "pct": 38.61,
+      "seats": 52
+     },
+     {
+      "name": "MH",
+      "pct": 5.63,
+      "seats": 6
+     }
+    ]
+   }
+  ],
+  "JP": [
+   {
+    "date": "2000-06-25",
+    "title": "2000_Japanese_general_election",
+    "turnout": 62.49,
+    "seats_total": 480.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party (Japan, pre-2017)",
+      "pct": 28.31,
+      "seats": 233
+     },
+     {
+      "name": "Democratic Party of Japan",
+      "pct": 25.18,
+      "seats": 127
+     },
+     {
+      "name": "New Komeito",
+      "pct": 12.97,
+      "seats": 31
+     },
+     {
+      "name": "Liberal Party (Japan, 1998)",
+      "pct": 11.01,
+      "seats": 22
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 11.23,
+      "seats": 20
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 9.36,
+      "seats": 19
+     }
+    ]
+   },
+   {
+    "date": "2003-11-09",
+    "title": "2003_Japanese_general_election",
+    "turnout": 59.85,
+    "seats_total": 480.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party (Japan, pre-2017)",
+      "pct": 34.96,
+      "seats": 237
+     },
+     {
+      "name": "Democratic Party of Japan",
+      "pct": 37.39,
+      "seats": 177
+     },
+     {
+      "name": "New Komeito",
+      "pct": 14.78,
+      "seats": 34
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 7.76,
+      "seats": 9
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 5.12,
+      "seats": 6
+     },
+     {
+      "name": "New Conservative Party",
+      "pct": 1.33,
+      "seats": 4
+     }
+    ]
+   },
+   {
+    "date": "2005-09-11",
+    "title": "2005_Japanese_general_election",
+    "turnout": 67.51,
+    "seats_total": 480.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party (Japan, pre-2017)",
+      "pct": 38.18,
+      "seats": 296
+     },
+     {
+      "name": "Democratic Party of Japan",
+      "pct": 31.02,
+      "seats": 113
+     },
+     {
+      "name": "New Komeito",
+      "pct": 13.25,
+      "seats": 31
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 7.25,
+      "seats": 9
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 5.49,
+      "seats": 7
+     },
+     {
+      "name": "People's New Party",
+      "pct": 1.74,
+      "seats": 4
+     }
+    ]
+   },
+   {
+    "date": "2009-08-30",
+    "title": "2009_Japanese_general_election",
+    "turnout": 69.19,
+    "seats_total": 480.0,
+    "parties": [
+     {
+      "name": "Democratic Party of Japan",
+      "pct": 42.41,
+      "seats": 308
+     },
+     {
+      "name": "Liberal Democratic Party",
+      "pct": 26.73,
+      "seats": 119
+     },
+     {
+      "name": "New Komeito",
+      "pct": 11.45,
+      "seats": 21
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 7.03,
+      "seats": 9
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 4.27,
+      "seats": 7
+     },
+     {
+      "name": "Your Party",
+      "pct": 4.27,
+      "seats": 5
+     }
+    ]
+   },
+   {
+    "date": "2012-12-16",
+    "title": "2012_Japanese_general_election",
+    "turnout": 59.32,
+    "seats_total": 480.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party (Japan, pre-2017)",
+      "pct": 27.79,
+      "seats": 294
+     },
+     {
+      "name": "Democratic Party of Japan",
+      "pct": 15.49,
+      "seats": 57
+     },
+     {
+      "name": "Japan Restoration Party",
+      "pct": 20.5,
+      "seats": 54
+     },
+     {
+      "name": "Komeito",
+      "pct": 11.9,
+      "seats": 31
+     },
+     {
+      "name": "Your Party",
+      "pct": 8.77,
+      "seats": 18
+     },
+     {
+      "name": "Tomorrow Party of Japan",
+      "pct": 5.72,
+      "seats": 9
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 6.17,
+      "seats": 8
+     },
+     {
+      "name": "Social Democratic Party",
+      "pct": 2.36,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2014-12-14",
+    "title": "2014_Japanese_general_election",
+    "turnout": 52.65,
+    "seats_total": 475.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party (Japan, pre-2017)",
+      "pct": 33.11,
+      "seats": 291
+     },
+     {
+      "name": "Democratic Party of Japan",
+      "pct": 18.33,
+      "seats": 73
+     },
+     {
+      "name": "Japan Innovation Party (2014–2016)",
+      "pct": 15.72,
+      "seats": 41
+     },
+     {
+      "name": "Komeito",
+      "pct": 13.71,
+      "seats": 35
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 11.37,
+      "seats": 21
+     },
+     {
+      "name": "Party for Future Generations",
+      "pct": 2.65,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2017-10-22",
+    "title": "2017_Japanese_general_election",
+    "turnout": 53.68,
+    "seats_total": 465.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party",
+      "pct": 33.28,
+      "seats": 284
+     },
+     {
+      "name": "Constitutional Democratic Party of Japan",
+      "pct": 19.88,
+      "seats": 55
+     },
+     {
+      "name": "Kibō no Tō",
+      "pct": 17.36,
+      "seats": 50
+     },
+     {
+      "name": "Komeito",
+      "pct": 12.51,
+      "seats": 29
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 7.9,
+      "seats": 12
+     },
+     {
+      "name": "Japan Innovation Party",
+      "pct": 6.07,
+      "seats": 11
+     }
+    ]
+   },
+   {
+    "date": "2021-10-31",
+    "title": "2021_Japanese_general_election",
+    "turnout": 55.98,
+    "seats_total": 465.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party",
+      "pct": 34.66,
+      "seats": 259
+     },
+     {
+      "name": "Constitutional Democratic Party of Japan",
+      "pct": 20.0,
+      "seats": 96
+     },
+     {
+      "name": "Japan Innovation Party",
+      "pct": 14.01,
+      "seats": 41
+     },
+     {
+      "name": "Komeito",
+      "pct": 12.38,
+      "seats": 32
+     },
+     {
+      "name": "Democratic Party For the People",
+      "pct": 4.51,
+      "seats": 11
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 7.25,
+      "seats": 10
+     }
+    ]
+   },
+   {
+    "date": "2024-10-27",
+    "title": "2024_Japanese_general_election",
+    "turnout": 53.84,
+    "seats_total": 465.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party",
+      "pct": 26.73,
+      "seats": 191
+     },
+     {
+      "name": "Constitutional Democratic Party of Japan",
+      "pct": 21.2,
+      "seats": 148
+     },
+     {
+      "name": "Nippon Ishin no Kai",
+      "pct": 9.36,
+      "seats": 38
+     },
+     {
+      "name": "Democratic Party For the People",
+      "pct": 11.32,
+      "seats": 28
+     },
+     {
+      "name": "Komeito",
+      "pct": 10.93,
+      "seats": 24
+     },
+     {
+      "name": "Reiwa Shinsengumi",
+      "pct": 6.98,
+      "seats": 9
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 6.16,
+      "seats": 8
+     },
+     {
+      "name": "Sanseitō",
+      "pct": 3.43,
+      "seats": 3
+     },
+     {
+      "name": "Conservative Party of Japan",
+      "pct": 2.1,
+      "seats": 3
+     }
+    ]
+   },
+   {
+    "date": "2026-02-08",
+    "title": "2026_Japanese_general_election",
+    "turnout": 56.26,
+    "seats_total": 465.0,
+    "parties": [
+     {
+      "name": "Liberal Democratic Party",
+      "pct": 36.72,
+      "seats": 316
+     },
+     {
+      "name": "Centrist Reform Alliance",
+      "pct": 18.23,
+      "seats": 49
+     },
+     {
+      "name": "Japan Innovation Party",
+      "pct": 8.63,
+      "seats": 36
+     },
+     {
+      "name": "Democratic Party For the People",
+      "pct": 9.73,
+      "seats": 28
+     },
+     {
+      "name": "Sanseitō",
+      "pct": 7.44,
+      "seats": 15
+     },
+     {
+      "name": "Team Mirai",
+      "pct": 6.66,
+      "seats": 11
+     },
+     {
+      "name": "Japanese Communist Party",
+      "pct": 4.4,
+      "seats": 4
+     },
+     {
+      "name": "Reiwa Shinsengumi",
+      "pct": 2.92,
+      "seats": 1
+     },
+     {
+      "name": "Tax Cuts Japan and Yukoku Alliance",
+      "pct": 1.42,
+      "seats": 1
+     }
+    ]
+   }
+  ],
+  "NL": [
+   {
+    "date": "2002-05-15",
+    "title": "2002_Dutch_general_election",
+    "turnout": 79.06,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 27.93,
+      "seats": 43
+     },
+     {
+      "name": "Pim Fortuyn List",
+      "pct": 17.0,
+      "seats": 26
+     },
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 15.44,
+      "seats": 24
+     },
+     {
+      "name": "Labour Party",
+      "pct": 15.11,
+      "seats": 23
+     },
+     {
+      "name": "GreenLeft",
+      "pct": 6.95,
+      "seats": 10
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 5.9,
+      "seats": 9
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 5.1,
+      "seats": 7
+     },
+     {
+      "name": "Christian Union",
+      "pct": 2.54,
+      "seats": 4
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 1.72,
+      "seats": 2
+     },
+     {
+      "name": "Livable Netherlands",
+      "pct": 1.61,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2003-01-22",
+    "title": "2003_Dutch_general_election",
+    "turnout": 80.04,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 28.62,
+      "seats": 44
+     },
+     {
+      "name": "Labour Party",
+      "pct": 27.26,
+      "seats": 42
+     },
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 17.91,
+      "seats": 28
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 6.32,
+      "seats": 9
+     },
+     {
+      "name": "Pim Fortuyn List",
+      "pct": 5.7,
+      "seats": 8
+     },
+     {
+      "name": "GreenLeft",
+      "pct": 5.14,
+      "seats": 8
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 4.07,
+      "seats": 6
+     },
+     {
+      "name": "ChristianUnion",
+      "pct": 2.12,
+      "seats": 3
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 1.56,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2006-11-22",
+    "title": "2006_Dutch_general_election",
+    "turnout": 80.35,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 26.51,
+      "seats": 41
+     },
+     {
+      "name": "Labour Party",
+      "pct": 21.19,
+      "seats": 33
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 16.58,
+      "seats": 25
+     },
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 14.67,
+      "seats": 22
+     },
+     {
+      "name": "Party for Freedom",
+      "pct": 5.89,
+      "seats": 9
+     },
+     {
+      "name": "GroenLinks",
+      "pct": 4.6,
+      "seats": 7
+     },
+     {
+      "name": "Christian Union",
+      "pct": 3.97,
+      "seats": 6
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 1.96,
+      "seats": 3
+     },
+     {
+      "name": "Party for the Animals",
+      "pct": 1.83,
+      "seats": 2
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 1.56,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2010-06-09",
+    "title": "2010_Dutch_general_election",
+    "turnout": 75.4,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 20.49,
+      "seats": 31
+     },
+     {
+      "name": "Labour Party",
+      "pct": 19.63,
+      "seats": 30
+     },
+     {
+      "name": "Party for Freedom",
+      "pct": 15.45,
+      "seats": 24
+     },
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 13.61,
+      "seats": 21
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 9.82,
+      "seats": 15
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 6.95,
+      "seats": 10
+     },
+     {
+      "name": "GreenLeft",
+      "pct": 6.67,
+      "seats": 10
+     },
+     {
+      "name": "ChristianUnion",
+      "pct": 3.24,
+      "seats": 5
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 1.74,
+      "seats": 2
+     },
+     {
+      "name": "Party for the Animals",
+      "pct": 1.3,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2012-09-12",
+    "title": "2012_Dutch_general_election",
+    "turnout": 74.6,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 26.58,
+      "seats": 41
+     },
+     {
+      "name": "Labour Party",
+      "pct": 24.84,
+      "seats": 38
+     },
+     {
+      "name": "Party for Freedom",
+      "pct": 10.08,
+      "seats": 15
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 9.65,
+      "seats": 15
+     },
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 8.51,
+      "seats": 13
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 8.03,
+      "seats": 12
+     },
+     {
+      "name": "ChristianUnion",
+      "pct": 3.13,
+      "seats": 5
+     },
+     {
+      "name": "GreenLeft",
+      "pct": 2.33,
+      "seats": 4
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 2.09,
+      "seats": 3
+     },
+     {
+      "name": "Party for the Animals",
+      "pct": 1.93,
+      "seats": 2
+     },
+     {
+      "name": "50PLUS",
+      "pct": 1.88,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2017-03-15",
+    "title": "2017_Dutch_general_election",
+    "turnout": 81.93,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 21.29,
+      "seats": 33
+     },
+     {
+      "name": "Party for Freedom",
+      "pct": 13.06,
+      "seats": 20
+     },
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 12.38,
+      "seats": 19
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 12.23,
+      "seats": 19
+     },
+     {
+      "name": "GroenLinks",
+      "pct": 9.13,
+      "seats": 14
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 9.09,
+      "seats": 14
+     },
+     {
+      "name": "Labour Party",
+      "pct": 5.7,
+      "seats": 9
+     },
+     {
+      "name": "Christian Union",
+      "pct": 3.39,
+      "seats": 5
+     },
+     {
+      "name": "Party for the Animals",
+      "pct": 3.19,
+      "seats": 5
+     },
+     {
+      "name": "50PLUS",
+      "pct": 3.11,
+      "seats": 4
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 2.08,
+      "seats": 3
+     },
+     {
+      "name": "DENK",
+      "pct": 2.06,
+      "seats": 3
+     },
+     {
+      "name": "Forum for Democracy",
+      "pct": 1.78,
+      "seats": 2
+     }
+    ]
+   },
+   {
+    "date": "2021-03-17",
+    "title": "2021_Dutch_general_election",
+    "turnout": 78.71,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 21.87,
+      "seats": 34
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 15.02,
+      "seats": 24
+     },
+     {
+      "name": "Party for Freedom",
+      "pct": 10.79,
+      "seats": 17
+     },
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 9.5,
+      "seats": 15
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 5.98,
+      "seats": 9
+     },
+     {
+      "name": "Labour Party",
+      "pct": 5.73,
+      "seats": 9
+     },
+     {
+      "name": "GroenLinks",
+      "pct": 5.16,
+      "seats": 8
+     },
+     {
+      "name": "Forum for Democracy",
+      "pct": 5.02,
+      "seats": 8
+     },
+     {
+      "name": "Party for the Animals",
+      "pct": 3.84,
+      "seats": 6
+     },
+     {
+      "name": "Christian Union",
+      "pct": 3.37,
+      "seats": 5
+     },
+     {
+      "name": "Volt Netherlands",
+      "pct": 2.42,
+      "seats": 3
+     },
+     {
+      "name": "JA21",
+      "pct": 2.37,
+      "seats": 3
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 2.07,
+      "seats": 3
+     },
+     {
+      "name": "Denk",
+      "pct": 2.03,
+      "seats": 3
+     },
+     {
+      "name": "50PLUS",
+      "pct": 1.02,
+      "seats": 1
+     },
+     {
+      "name": "Farmer–Citizen Movement",
+      "pct": 1.0,
+      "seats": 1
+     },
+     {
+      "name": "BIJ1",
+      "pct": 0.84,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2023-11-22",
+    "title": "2023_Dutch_general_election",
+    "turnout": 77.75,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "Party for Freedom",
+      "pct": 23.49,
+      "seats": 37
+     },
+     {
+      "name": "GroenLinks–PvdA",
+      "pct": 15.75,
+      "seats": 25
+     },
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 15.24,
+      "seats": 24
+     },
+     {
+      "name": "New Social Contract",
+      "pct": 12.88,
+      "seats": 20
+     },
+     {
+      "name": "Democrats 66",
+      "pct": 6.29,
+      "seats": 9
+     },
+     {
+      "name": "Farmer–Citizen Movement",
+      "pct": 4.65,
+      "seats": 7
+     },
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 3.31,
+      "seats": 5
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 3.15,
+      "seats": 5
+     },
+     {
+      "name": "Denk",
+      "pct": 2.37,
+      "seats": 3
+     },
+     {
+      "name": "Party for the Animals",
+      "pct": 2.25,
+      "seats": 3
+     },
+     {
+      "name": "Forum for Democracy",
+      "pct": 2.23,
+      "seats": 3
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 2.08,
+      "seats": 3
+     },
+     {
+      "name": "Christian Union",
+      "pct": 2.04,
+      "seats": 3
+     },
+     {
+      "name": "Volt Netherlands",
+      "pct": 1.71,
+      "seats": 2
+     },
+     {
+      "name": "JA21",
+      "pct": 0.68,
+      "seats": 1
+     }
+    ]
+   },
+   {
+    "date": "2025-10-29",
+    "title": "2025_Dutch_general_election",
+    "turnout": 78.3,
+    "seats_total": 150.0,
+    "parties": [
+     {
+      "name": "Democrats 66",
+      "pct": 16.94,
+      "seats": 26
+     },
+     {
+      "name": "Party for Freedom",
+      "pct": 16.66,
+      "seats": 26
+     },
+     {
+      "name": "People's Party for Freedom and Democracy",
+      "pct": 14.24,
+      "seats": 22
+     },
+     {
+      "name": "GroenLinks–PvdA",
+      "pct": 12.79,
+      "seats": 20
+     },
+     {
+      "name": "Christian Democratic Appeal",
+      "pct": 11.79,
+      "seats": 18
+     },
+     {
+      "name": "JA21",
+      "pct": 5.95,
+      "seats": 9
+     },
+     {
+      "name": "Forum for Democracy",
+      "pct": 4.54,
+      "seats": 7
+     },
+     {
+      "name": "Farmer–Citizen Movement",
+      "pct": 2.65,
+      "seats": 4
+     },
+     {
+      "name": "Denk",
+      "pct": 2.37,
+      "seats": 3
+     },
+     {
+      "name": "Reformed Political Party",
+      "pct": 2.25,
+      "seats": 3
+     },
+     {
+      "name": "Party for the Animals",
+      "pct": 2.08,
+      "seats": 3
+     },
+     {
+      "name": "Christian Union",
+      "pct": 1.9,
+      "seats": 3
+     },
+     {
+      "name": "Socialist Party",
+      "pct": 1.89,
+      "seats": 3
+     },
+     {
+      "name": "50Plus",
+      "pct": 1.43,
+      "seats": 2
+     },
+     {
+      "name": "Volt Netherlands",
+      "pct": 1.1,
+      "seats": 1
+     }
+    ]
+   }
   ]
  },
  "built": "2026-11-27",
@@ -10597,6 +13421,13 @@
     "es": "Sinn Féin",
     "short": "SF",
     "color": "#326760"
+   },
+   "DUP": {
+    "qid": "Q215519",
+    "ca": "Partit Unionista Democràtic",
+    "es": "Partido Unionista Democrático",
+    "short": "DUP",
+    "color": "#D46A4C"
    }
   },
   "IE": {
@@ -10704,6 +13535,20 @@
     "es": null,
     "short": "WUA",
     "color": "#FA8072"
+   },
+   "Anti-Austerity Alliance–People Before Profit": {
+    "qid": "Q21218940",
+    "ca": "Solidaritat-People Before Profit",
+    "es": "Solidaridad–El Pueblo Antes que el Lucro",
+    "short": null,
+    "color": "#FF0090"
+   },
+   "People Before Profit–Solidarity": {
+    "qid": "Q21218940",
+    "ca": "Solidaritat-People Before Profit",
+    "es": "Solidaridad–El Pueblo Antes que el Lucro",
+    "short": null,
+    "color": "#FF0090"
    }
   },
   "AR": {
@@ -10871,6 +13716,13 @@
     "es": null,
     "short": null,
     "color": "#006644"
+   },
+   "Centre Alliance": {
+    "qid": "Q19876280",
+    "ca": "Aliança de Centre",
+    "es": "Alianza del Centro (Australia)",
+    "short": null,
+    "color": "#FF6300"
    }
   },
   "BE": {
@@ -10971,6 +13823,48 @@
     "es": "Partido del Trabajo de Bélgica",
     "short": "PVDA-PTB",
     "color": "#8B0000"
+   },
+   "Christian Democratic and Flemish": {
+    "qid": "Q750673",
+    "ca": "Christen-Democratisch en Vlaams",
+    "es": "Cristiano Demócrata y Flamenco",
+    "short": null,
+    "color": "#FF6200"
+   },
+   "VLD": {
+    "qid": "Q1160192",
+    "ca": "Anders",
+    "es": "Anders",
+    "short": null,
+    "color": "#3D35FF"
+   },
+   "FDF": {
+    "qid": "Q1470087",
+    "ca": "Demòcrates Federalistes Independents",
+    "es": "DéFI",
+    "short": null,
+    "color": "#DE007B"
+   },
+   "Vooruit": {
+    "qid": "Q939354",
+    "ca": "Endavant (Vooruit)",
+    "es": "Adelante",
+    "short": null,
+    "color": "#FF2900"
+   },
+   "Centre démocrate humaniste": {
+    "qid": "Q113903993",
+    "ca": "Centre Demòcrata Humanista",
+    "es": "Centro Democrático Humanista",
+    "short": null,
+    "color": "#F4761A"
+   },
+   "Groen": {
+    "qid": "Q513521",
+    "ca": "Groen",
+    "es": "Groen",
+    "short": null,
+    "color": "#01796F"
    }
   },
   "BG": {
@@ -11057,6 +13951,13 @@
     "es": "Continuamos el Cambio",
     "short": null,
     "color": "#FFC300"
+   },
+   "GERB–SDS": {
+    "qid": "Q115817806",
+    "ca": "GERB-SDS",
+    "es": "GERB–SDS",
+    "short": null,
+    "color": "#226ABA"
    }
   },
   "CH": {
@@ -11229,6 +14130,34 @@
     "es": "TOP 09",
     "short": null,
     "color": "#993366"
+   },
+   "AUTO": {
+    "qid": "Q29789623",
+    "ca": null,
+    "es": "Automovilistas por sí mismos",
+    "short": null,
+    "color": "#1C9CD9"
+   },
+   "Pirates": {
+    "qid": "Q341085",
+    "ca": "Partit Pirata Txec",
+    "es": "Partido Pirata Checo",
+    "short": null,
+    "color": "#000000"
+   },
+   "STAN": {
+    "qid": "Q1586610",
+    "ca": "Alcaldes i Independents",
+    "es": "Alcaldes e independientes",
+    "short": null,
+    "color": "#CD0F69"
+   },
+   "ANO": {
+    "qid": "Q10728124",
+    "ca": "ANO 2011",
+    "es": "ANO 2011",
+    "short": null,
+    "color": "#261060"
    }
   },
   "EE": {
@@ -11315,6 +14244,13 @@
     "es": "Partido Socialdemócrata",
     "short": null,
     "color": "#E10600"
+   },
+   "Isamaa": {
+    "qid": "Q163347",
+    "ca": "Pro Pàtria",
+    "es": "Isamaa",
+    "short": null,
+    "color": "#009CE2"
    }
   },
   "FI": {
@@ -11387,6 +14323,20 @@
     "es": "Coalición Åland",
     "short": null,
     "color": null
+   },
+   "Swedish People's Party of Finland": {
+    "qid": "Q845537",
+    "ca": "Partit Popular Suec",
+    "es": "Partido Popular Sueco",
+    "short": null,
+    "color": "#FFDD93"
+   },
+   "Finns Party": {
+    "qid": "Q634277",
+    "ca": "Partit dels Finlandesos",
+    "es": "Partido de los finlandeses",
+    "short": null,
+    "color": "#FFDE55"
    }
   },
   "GE": {
@@ -11431,6 +14381,13 @@
     "es": "Movimiento Nacional Unido",
     "short": null,
     "color": "#B22222"
+   },
+   "Christian-Democratic Movement": {
+    "qid": "Q3651346",
+    "ca": "Moviment Democristià",
+    "es": "Movimento Cristiano-Democrático (Georgia)",
+    "short": null,
+    "color": "#A52A2A"
    }
   },
   "GM": {
@@ -11582,6 +14539,20 @@
     "es": "Movimiento Patriótico Democrático - Victoria",
     "short": null,
     "color": "#910048"
+   },
+   "Spartans": {
+    "qid": "Q119458066",
+    "ca": "Espartans",
+    "es": "Espartanos",
+    "short": null,
+    "color": "#E9B460"
+   },
+   "PASOK – Movement for Change": {
+    "qid": "Q46505372",
+    "ca": "PASOK - Moviment pel Canvi",
+    "es": "Movimiento para el Cambio",
+    "short": null,
+    "color": "#179045"
    }
   },
   "HR": {
@@ -11619,6 +14590,13 @@
     "es": "Puente de Listas Independientes",
     "short": null,
     "color": "#E85726"
+   },
+   "HSS": {
+    "qid": "Q638194",
+    "ca": "Partit Camperol Croat",
+    "es": "Partido Campesino Croata",
+    "short": null,
+    "color": "#04B431"
    }
   },
   "ID": {
@@ -11691,6 +14669,13 @@
     "es": null,
     "short": null,
     "color": "#00A100"
+   },
+   "PBB": {
+    "qid": "Q2915024",
+    "ca": "Partit de l'Estrella Creixent",
+    "es": null,
+    "short": null,
+    "color": "#005019"
    }
   },
   "IN": {
@@ -11789,12 +14774,40 @@
     "short": null,
     "color": "#C9151E"
    },
+   "Justice Party": {
+    "qid": "Q487520",
+    "ca": "Partit de la Justícia",
+    "es": "Partido de la Justicia",
+    "short": null,
+    "color": "#FFCC00"
+   },
    "Millennium Democratic Party": {
     "qid": "Q488952",
     "ca": "Partit Democràtic",
     "es": null,
     "short": null,
     "color": "#00A594"
+   },
+   "People Party (South Korea, 2020)": {
+    "qid": "Q86021688",
+    "ca": "Partit Popular",
+    "es": "Partido Popular (Corea del Sur)",
+    "short": null,
+    "color": null
+   },
+   "Rebuilding Korea Party": {
+    "qid": "Q124657368",
+    "ca": "Partit de la Reconstrucció de Corea",
+    "es": null,
+    "short": null,
+    "color": "#2773BA"
+   },
+   "Reform Party": {
+    "qid": "Q124335482",
+    "ca": "Partit Nova Reforma",
+    "es": "Nuevo Partido Reformista",
+    "short": null,
+    "color": "#ED6C00"
    },
    "United Liberal Democrats": {
     "qid": "Q482723",
@@ -11972,6 +14985,20 @@
     "es": null,
     "short": null,
     "color": "#CA0123"
+   },
+   "Lithuanian Farmers and Greens Union": {
+    "qid": "Q285817",
+    "ca": "Unió Lituana d'Agricultors i Verds",
+    "es": "Unión de los Campesinos y Verdes Lituanos",
+    "short": null,
+    "color": "#00A54F"
+   },
+   "Electoral Action of Poles in Lithuania – Christian Families Alliance": {
+    "qid": "Q1357218",
+    "ca": "Acció Electoral dels Polonesos a Lituània",
+    "es": "Acción Electoral de Polacos en Lituania - Alianza de Familias Cristianas",
+    "short": null,
+    "color": "#781323"
    }
   },
   "LU": {
@@ -12116,6 +15143,13 @@
     "es": "Partido Șor",
     "short": null,
     "color": "#5CBB72"
+   },
+   "BECS": {
+    "qid": "Q106833368",
+    "ca": null,
+    "es": "Bloque Electoral de Comunistas y Socialistas",
+    "short": null,
+    "color": null
    }
   },
   "MX": {
@@ -12188,6 +15222,13 @@
     "es": "Partido Encuentro Social",
     "short": null,
     "color": "#6E2F7D"
+   },
+   "Citizens' Movement": {
+    "qid": "Q10920094",
+    "ca": "Moviment Ciutadà",
+    "es": "Movimiento Ciudadano",
+    "short": null,
+    "color": "#FF8C00"
    }
   },
   "NO": {
@@ -12270,6 +15311,34 @@
     "short": "ACT",
     "color": "#FDE401"
    },
+   "Alliance": {
+    "qid": "Q4732275",
+    "ca": "Aliança",
+    "es": null,
+    "short": null,
+    "color": "#33CC66"
+   },
+   "Internet Party and Mana Movement": {
+    "qid": "Q18167309",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": "#7F0000"
+   },
+   "Mana Party": {
+    "qid": "Q1888545",
+    "ca": "Moviment Mana",
+    "es": null,
+    "short": null,
+    "color": "#770808"
+   },
+   "Māori Party": {
+    "qid": "Q1375170",
+    "ca": "Partit Maori",
+    "es": "Partido Maorí",
+    "short": null,
+    "color": "#EF4A42"
+   },
    "New Zealand First": {
     "qid": "Q180059",
     "ca": "Nova Zelanda Primer",
@@ -12291,6 +15360,13 @@
     "short": null,
     "color": "#00529F"
    },
+   "New Zealand Progressive Party": {
+    "qid": "Q1071444",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": "#9E9E9E"
+   },
    "Opportunity Party": {
     "qid": "Q28181034",
     "ca": null,
@@ -12298,12 +15374,26 @@
     "short": null,
     "color": "#151A61"
    },
+   "United Future New Zealand": {
+    "qid": "Q211656",
+    "ca": "Unit Futur",
+    "es": null,
+    "short": null,
+    "color": "#501557"
+   },
    "Te Pāti Māori": {
     "qid": "Q1375170",
     "ca": "Partit Maori",
     "es": "Partido Maorí",
     "short": null,
     "color": "#EF4A42"
+   },
+   "United Future": {
+    "qid": "Q211656",
+    "ca": "Unit Futur",
+    "es": null,
+    "short": null,
+    "color": "#501557"
    }
   },
   "PH": {
@@ -12544,13 +15634,97 @@
     "es": null,
     "short": null,
     "color": null
+   },
+   "ALIF": {
+    "qid": "Q115347805",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": null
+   },
+   "Probinsyano Ako": {
+    "qid": "Q66791299",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": null
+   },
+   "YACAP": {
+    "qid": "Q66809529",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": null
+   },
+   "BUTIL": {
+    "qid": "Q5002524",
+    "ca": null,
+    "es": "Partido Agrario",
+    "short": null,
+    "color": null
+   },
+   "PBA": {
+    "qid": "Q66791310",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": null
+   },
+   "Citizens' Battle Against Corruption": {
+    "qid": "Q5122625",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": "#FFBF00"
+   },
+   "APEC": {
+    "qid": "Q4809970",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": null
+   },
+   "Gabriela": {
+    "qid": "Q5512790",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": "#800080"
+   },
+   "Marino": {
+    "qid": "Q66791301",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": null
    }
   },
   "PL": {
+   "The Left": {
+    "qid": "Q66807204",
+    "ca": "L'Esquerra",
+    "es": null,
+    "short": null,
+    "color": "#AC145A"
+   },
    "United Right": {
     "qid": "Q124749032",
     "ca": null,
     "es": null,
+    "short": null,
+    "color": null
+   },
+   "Lewica": {
+    "qid": "Q66807204",
+    "ca": "L'Esquerra",
+    "es": null,
+    "short": null,
+    "color": "#AC145A"
+   },
+   "KO": {
+    "qid": "Q1021144",
+    "ca": "Coalició Cívica",
+    "es": "Coalición Cívica",
     "short": null,
     "color": null
    }
@@ -12597,6 +15771,34 @@
     "es": "Partido Socialista",
     "short": null,
     "color": "#FF66FF"
+   },
+   "PAN": {
+    "qid": "Q2054840",
+    "ca": "Persones–Animals–Natura",
+    "es": "Personas–Animales–Naturaleza",
+    "short": null,
+    "color": "#036A84"
+   },
+   "IL": {
+    "qid": "Q46122950",
+    "ca": "Iniciativa Liberal",
+    "es": "Iniciativa Liberal",
+    "short": null,
+    "color": "#00ADEF"
+   },
+   "PSD": {
+    "qid": "Q595575",
+    "ca": "Partit Socialdemòcrata",
+    "es": "Partido Social Demócrata",
+    "short": null,
+    "color": "#FF9900"
+   },
+   "JPP": {
+    "qid": "Q19694667",
+    "ca": "Junts pel Poble",
+    "es": null,
+    "short": null,
+    "color": "#00A28B"
    }
   },
   "RO": {
@@ -12683,6 +15885,20 @@
     "es": null,
     "short": null,
     "color": "#00B7FF"
+   },
+   "National Liberal Party": {
+    "qid": "Q686228",
+    "ca": "Partit Nacional Liberal",
+    "es": "Partido Nacional Liberal",
+    "short": null,
+    "color": "#FFDD00"
+   },
+   "UDMR": {
+    "qid": "Q266582",
+    "ca": "Unió Democràtica dels Hongaresos de Romania",
+    "es": "Unión Democrática de Húngaros en Rumania",
+    "short": null,
+    "color": "#296633"
    }
   },
   "SE": {
@@ -12741,6 +15957,13 @@
     "es": "Partido Socialdemócrata Sueco",
     "short": null,
     "color": "#ED1B34"
+   },
+   "Liberals": {
+    "qid": "Q110857",
+    "ca": "Liberals",
+    "es": "Liberales",
+    "short": null,
+    "color": "#0069B4"
    }
   },
   "SI": {
@@ -12869,6 +16092,13 @@
     "es": null,
     "short": null,
     "color": null
+   },
+   "SAB": {
+    "qid": "Q17061458",
+    "ca": "Partit d'Alenka Bratušek",
+    "es": "Partido de Alenka Bratušek",
+    "short": null,
+    "color": null
    }
   },
   "SK": {
@@ -12934,6 +16164,13 @@
     "es": "Voz - Socialdemocracia",
     "short": null,
     "color": "#830F38"
+   },
+   "People's Party Our Slovakia": {
+    "qid": "Q2532168",
+    "ca": "Partit Popular La nostra Eslovàquia",
+    "es": "Kotlebovci - Partido Popular Nuestra Eslovaquia",
+    "short": null,
+    "color": "#005222"
    }
   },
   "SV": {
@@ -13006,6 +16243,20 @@
     "es": "VAMOS",
     "short": null,
     "color": null
+   },
+   "NI": {
+    "qid": "Q57986086",
+    "ca": "Nuevas Ideas",
+    "es": "Nuevas Ideas",
+    "short": null,
+    "color": "#00ADEF"
+   },
+   "Farabundo Martí National Liberation Front": {
+    "qid": "Q648924",
+    "ca": "Front Farabundo Martí per a l'Alliberament Nacional",
+    "es": "FMLN",
+    "short": null,
+    "color": "#DC143C"
    }
   },
   "TH": {
@@ -13015,6 +16266,13 @@
     "es": "Bhum Jai Thai",
     "short": "BJT",
     "color": "#0F1599"
+   },
+   "Chartthaipattana Party": {
+    "qid": "Q4924582",
+    "ca": null,
+    "es": "Partido de Desarrollo de la Nación Tailandesa",
+    "short": null,
+    "color": "#DE2559"
    },
    "Democrat Party": {
     "qid": "Q1186248",
@@ -13030,6 +16288,41 @@
     "short": null,
     "color": "#F47933"
    },
+   "Mahachon": {
+    "qid": "Q4389847",
+    "ca": null,
+    "es": "Partido Mahachon",
+    "short": null,
+    "color": "#FF0000"
+   },
+   "Move Forward Party": {
+    "qid": "Q87647572",
+    "ca": "Avançar",
+    "es": "Partido Avanzar",
+    "short": null,
+    "color": null
+   },
+   "National Development Party": {
+    "qid": "Q4921004",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": "#FFA500"
+   },
+   "Neutral Democratic Party": {
+    "qid": "Q1889631",
+    "ca": null,
+    "es": "Partido Democrático Neutral",
+    "short": null,
+    "color": "#FF0000"
+   },
+   "New Aspiration Party": {
+    "qid": "Q1127756",
+    "ca": null,
+    "es": "Partido Nueva Aspiración",
+    "short": null,
+    "color": "#FFFF00"
+   },
    "Palang Pracharat Party": {
     "qid": "Q55077745",
     "ca": null,
@@ -13037,12 +16330,54 @@
     "short": null,
     "color": "#4061A6"
    },
+   "People's Party (Thailand, 2024)": {
+    "qid": "Q128605255",
+    "ca": "Partit Popular de Tailàndia",
+    "es": "Partido del Pueblo",
+    "short": null,
+    "color": "#FF640B"
+   },
+   "People's Power Party": {
+    "qid": "Q112051",
+    "ca": "Partit del Poder del Poble",
+    "es": "Partido del Poder del Pueblo",
+    "short": null,
+    "color": "#FF0800"
+   },
    "Pheu Thai Party": {
     "qid": "Q1142913",
     "ca": "Pheu Thai",
     "es": "Puea Thai",
     "short": "PTP",
     "color": "#DA3731"
+   },
+   "Thai Nation Party": {
+    "qid": "Q1067749",
+    "ca": null,
+    "es": "Nación Tailandesa",
+    "short": null,
+    "color": "#FF69B4"
+   },
+   "Thai Rak Thai": {
+    "qid": "Q1542181",
+    "ca": "Thai Rak Thai",
+    "es": "Partido Thai Rak Thai",
+    "short": "TRT",
+    "color": null
+   },
+   "United Thai Nation Party": {
+    "qid": "Q115864566",
+    "ca": null,
+    "es": "Partido de la Nación Tailandesa Unida",
+    "short": null,
+    "color": null
+   },
+   "Kla Tham Party": {
+    "qid": "Q131747756",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": null
    }
   },
   "TR": {
@@ -13138,6 +16473,13 @@
     "es": null,
     "short": null,
     "color": "#C69E6A"
+   },
+   "People First Party": {
+    "qid": "Q1442482",
+    "ca": "Partit Primer el Poble",
+    "es": "Partido Primero el Pueblo",
+    "short": null,
+    "color": "#FF6310"
    }
   },
   "UA": {
@@ -13259,6 +16601,20 @@
     "es": "Bloque Yulia Timoshenko",
     "short": null,
     "color": "#FF3030"
+   },
+   "European Solidarity": {
+    "qid": "Q4349891",
+    "ca": "Solidaritat Europea",
+    "es": "Solidaridad Europea",
+    "short": null,
+    "color": "#1B3892"
+   },
+   "Self Reliance": {
+    "qid": "Q12139013",
+    "ca": "Autoajuda",
+    "es": "Samopomich",
+    "short": null,
+    "color": "#007229"
    }
   },
   "VE": {
@@ -13359,6 +16715,27 @@
     "es": "La Causa Radical",
     "short": null,
     "color": "#1E90FF"
+   },
+   "EL CAMBIO": {
+    "qid": "Q58368572",
+    "ca": null,
+    "es": "Partido El Cambio",
+    "short": null,
+    "color": "#7A8C2A"
+   },
+   "PPT": {
+    "qid": "Q60668",
+    "ca": "Pàtria per a Tots",
+    "es": "Patria Para Todos",
+    "short": null,
+    "color": "#0000FF"
+   },
+   "PCV": {
+    "qid": "Q847914",
+    "ca": "Partit Comunista de Veneçuela",
+    "es": "Partido Comunista de Venezuela",
+    "short": null,
+    "color": null
    }
   },
   "ZA": {
@@ -13431,6 +16808,576 @@
     "es": "Movimiento Democrático Unido",
     "short": null,
     "color": "#FFDE01"
+   },
+   "Congress of the People": {
+    "qid": "Q1125988",
+    "ca": null,
+    "es": "Congreso del Pueblo",
+    "short": null,
+    "color": "#FFCA08"
+   }
+  },
+  "CA": {
+   "Bloc Québécois": {
+    "qid": "Q735105",
+    "ca": "Bloc Quebequès",
+    "es": "Bloc québécois",
+    "short": null,
+    "color": "#87CEFA"
+   },
+   "Canadian Alliance": {
+    "qid": "Q546881",
+    "ca": "Aliança Canadenca",
+    "es": "Alianza Canadiense",
+    "short": null,
+    "color": null
+   },
+   "Conservative Party of Canada": {
+    "qid": "Q488523",
+    "ca": "Partit Conservador del Canadà",
+    "es": "Partido Conservador de Canadá",
+    "short": null,
+    "color": "#003F72"
+   },
+   "Liberal Party of Canada": {
+    "qid": "Q138345",
+    "ca": "Partit Liberal del Canadà",
+    "es": "Partido Liberal de Canadá",
+    "short": null,
+    "color": "#D71920"
+   },
+   "New Democratic Party": {
+    "qid": "Q130765",
+    "ca": "Nou Partit Democràtic",
+    "es": "Nuevo Partido Democrático",
+    "short": "NDP",
+    "color": "#F58220"
+   },
+   "People's Party of Canada": {
+    "qid": "Q56612740",
+    "ca": "Partit Popular del Canadà",
+    "es": "Partido Popular de Canadá",
+    "short": null,
+    "color": "#442D7B"
+   },
+   "Progressive Conservative Party of Canada": {
+    "qid": "Q1292617",
+    "ca": "Partit Conservador Progressista",
+    "es": "Partido Conservador Progresivo",
+    "short": null,
+    "color": "#9999FF"
+   }
+  },
+  "DK": {
+   "Citizens' Party": {
+    "qid": "Q131933143",
+    "ca": "Partit dels Ciutadans",
+    "es": "Partido Ciudadano",
+    "short": null,
+    "color": "#2B72FD"
+   },
+   "Conservative People's Party": {
+    "qid": "Q902619",
+    "ca": "Partit Popular Conservador",
+    "es": "Partido Popular Conservador",
+    "short": null,
+    "color": "#6B9249"
+   },
+   "Danish People's Party": {
+    "qid": "Q507170",
+    "ca": "Partit Popular Danès",
+    "es": "Partido Popular Danés",
+    "short": null,
+    "color": "#FCD03B"
+   },
+   "Danish Social Liberal Party": {
+    "qid": "Q916161",
+    "ca": "Partit Socioliberal Danés",
+    "es": "Izquierda Radical",
+    "short": null,
+    "color": "#733280"
+   },
+   "Denmark Democrats": {
+    "qid": "Q112677506",
+    "ca": "Demòcrates de Dinamarca",
+    "es": "Demócratas de Dinamarca",
+    "short": null,
+    "color": "#1D70B5"
+   },
+   "Moderates": {
+    "qid": "Q107110050",
+    "ca": "Els Moderats",
+    "es": "Moderados",
+    "short": null,
+    "color": "#B48CD2"
+   },
+   "New Alliance": {
+    "qid": "Q478180",
+    "ca": "Aliança Liberal",
+    "es": "Alianza Liberal",
+    "short": null,
+    "color": "#3FB2BE"
+   },
+   "New Right": {
+    "qid": "Q23014672",
+    "ca": "Nova Dreta",
+    "es": "La Nueva Derecha",
+    "short": null,
+    "color": "#004451"
+   },
+   "Red–Green Alliance": {
+    "qid": "Q25785",
+    "ca": "Aliança Roja-Verda",
+    "es": "Alianza Roji-Verde",
+    "short": null,
+    "color": "#F7660D"
+   },
+   "Social Democrats": {
+    "qid": "Q212101",
+    "ca": "Socialdemòcrates",
+    "es": "Socialdemócratas",
+    "short": null,
+    "color": "#C82518"
+   },
+   "Socialist People's Party": {
+    "qid": "Q615603",
+    "ca": "Esquerra Verda",
+    "es": "Partido Popular Socialista",
+    "short": null,
+    "color": "#EB94D1"
+   },
+   "The Alternative": {
+    "qid": "Q18042964",
+    "ca": "L'Alternativa",
+    "es": "La Alternativa",
+    "short": null,
+    "color": "#18942D"
+   },
+   "Venstre": {
+    "qid": "Q217321",
+    "ca": "Venstre",
+    "es": "Venstre",
+    "short": null,
+    "color": "#01438E"
+   },
+   "Green Left": {
+    "qid": "Q615603",
+    "ca": "Esquerra Verda",
+    "es": "Partido Popular Socialista",
+    "short": null,
+    "color": "#EB94D1"
+   },
+   "Liberal Alliance": {
+    "qid": "Q478180",
+    "ca": "Aliança Liberal",
+    "es": "Alianza Liberal",
+    "short": null,
+    "color": "#3FB2BE"
+   }
+  },
+  "HU": {
+   "Alliance of Free Democrats": {
+    "qid": "Q200599",
+    "ca": "Aliança dels Demòcrates Lliures",
+    "es": "Alianza de los Demócratas Libres-Partido Liberal Húngaro",
+    "short": null,
+    "color": "#73C2FB"
+   },
+   "Democratic Coalition": {
+    "qid": "Q847504",
+    "ca": "Coalició Democràtica",
+    "es": "Coalición Democrática (Hungría)",
+    "short": null,
+    "color": "#0067AA"
+   },
+   "Fidesz": {
+    "qid": "Q387006",
+    "ca": "Fidesz – Unió Cívica Hongaresa",
+    "es": "Fidesz-Unión Cívica Húngara",
+    "short": null,
+    "color": "#FF6A00"
+   },
+   "Hungarian Democratic Forum": {
+    "qid": "Q766275",
+    "ca": "Fòrum Democràtic Hongarès",
+    "es": "Foro Democrático de Hungría",
+    "short": null,
+    "color": "#008000"
+   },
+   "Jobbik": {
+    "qid": "Q633442",
+    "ca": "Jobbik - Conservadors",
+    "es": "Movimiento por una Hungría Mejor",
+    "short": null,
+    "color": "#047B60"
+   },
+   "MSZP": {
+    "qid": "Q753223",
+    "ca": "Partit Socialista Hongarès",
+    "es": "Partido Socialista Húngaro",
+    "short": null,
+    "color": "#CD2626"
+   },
+   "Mi Hazánk": {
+    "qid": "Q55443054",
+    "ca": "Moviment La Nostra Pàtria",
+    "es": "Movimiento Nuestra Patria",
+    "short": null,
+    "color": "#688D1B"
+   },
+   "Politics Can Be Different": {
+    "qid": "Q54801",
+    "ca": "LMP - Partit Verd d'Hongria",
+    "es": "La Política Puede Ser Diferente",
+    "short": null,
+    "color": "#54B586"
+   },
+   "Párbeszéd": {
+    "qid": "Q15177537",
+    "ca": "Diàleg – Partit dels Verds",
+    "es": null,
+    "short": null,
+    "color": "#39B54A"
+   },
+   "TISZA": {
+    "qid": "Q125418097",
+    "ca": "Partit Respecte i Llibertat",
+    "es": "Partido Respeto y Libertad",
+    "short": null,
+    "color": "#88E8FF"
+   },
+   "Together 2014": {
+    "qid": "Q3054830",
+    "ca": "Junts (Hongria)",
+    "es": "Együtt",
+    "short": null,
+    "color": "#FED500"
+   },
+   "United for Hungary": {
+    "qid": "Q97196460",
+    "ca": "Units per Hongria",
+    "es": "Oposición Unida (Hungría)",
+    "short": null,
+    "color": "#40E0D0"
+   }
+  },
+  "JP": {
+   "Centrist Reform Alliance": {
+    "qid": "Q137787102",
+    "ca": "Aliança Reformista Centrista",
+    "es": "Alianza de la Reforma Centrista",
+    "short": "CRA",
+    "color": "#1E90FF"
+   },
+   "Conservative Party of Japan": {
+    "qid": "Q122639399",
+    "ca": "Partit Conservador del Japó",
+    "es": "Partido Conservador de Japón",
+    "short": null,
+    "color": "#0B80DB"
+   },
+   "Constitutional Democratic Party of Japan": {
+    "qid": "Q99233271",
+    "ca": "Partit Democràtic Constitucional",
+    "es": "Partido Democrático Constitucional de Japón",
+    "short": "CDP",
+    "color": "#184589"
+   },
+   "Democratic Party For the People": {
+    "qid": "Q99527550",
+    "ca": "Partit Democràtic Popular (Japó)",
+    "es": "Partido Democrático para el Pueblo",
+    "short": "DPFP",
+    "color": "#FFD700"
+   },
+   "Democratic Party of Japan": {
+    "qid": "Q200314",
+    "ca": "Partit Democràtic",
+    "es": "Partido Democrático de Japón",
+    "short": "DPJ",
+    "color": "#DC143C"
+   },
+   "Japan Innovation Party (2014–2016)": {
+    "qid": "Q18116909",
+    "ca": "Partit de la Innovació",
+    "es": "Partido de la Innovación",
+    "short": null,
+    "color": "#006699"
+   },
+   "Japan Restoration Party": {
+    "qid": "Q1027055",
+    "ca": "Partit de la Restauració del Japó",
+    "es": "Partido de la Restauración",
+    "short": null,
+    "color": "#6FBA2C"
+   },
+   "Japanese Communist Party": {
+    "qid": "Q641600",
+    "ca": "Partit Comunista del Japó",
+    "es": "Partido Comunista Japonés",
+    "short": "JCP",
+    "color": "#FF0000"
+   },
+   "Kibō no Tō": {
+    "qid": "Q41040535",
+    "ca": "Partit de l'Esperança",
+    "es": "Partido de la Esperanza",
+    "short": null,
+    "color": "#186439"
+   },
+   "Liberal Democratic Party": {
+    "qid": "Q232595",
+    "ca": "Partit Liberal Democràtic",
+    "es": "Partido Liberal Democrático",
+    "short": "LDP",
+    "color": "#D7003A"
+   },
+   "Liberal Democratic Party (Japan, pre-2017)": {
+    "qid": "Q232595",
+    "ca": "Partit Liberal Democràtic",
+    "es": "Partido Liberal Democrático",
+    "short": "LDP",
+    "color": "#D7003A"
+   },
+   "New Conservative Party": {
+    "qid": "Q1807627",
+    "ca": null,
+    "es": "Nuevo Partido Conservador",
+    "short": null,
+    "color": "#1A70A5"
+   },
+   "New Komeito": {
+    "qid": "Q1061354",
+    "ca": "Kōmeitō",
+    "es": "Nuevo Kōmeitō",
+    "short": "Kōmeitō",
+    "color": "#F55881"
+   },
+   "Nippon Ishin no Kai": {
+    "qid": "Q21499745",
+    "ca": "Nippon Ishin no Kai",
+    "es": "Iniciativas desde Osaka",
+    "short": "Ishin",
+    "color": "#B8CE43"
+   },
+   "Party for Future Generations": {
+    "qid": "Q17488856",
+    "ca": null,
+    "es": "Partido para las Futuras Generaciones",
+    "short": null,
+    "color": null
+   },
+   "People's New Party": {
+    "qid": "Q241325",
+    "ca": "Nou partit del poble",
+    "es": "Nuevo Partido del Pueblo",
+    "short": null,
+    "color": "#FFA500"
+   },
+   "Reiwa Shinsengumi": {
+    "qid": "Q64405573",
+    "ca": "Partit de la Vida",
+    "es": "Reiwa Shinsengumi",
+    "short": null,
+    "color": "#ED008C"
+   },
+   "Sanseitō": {
+    "qid": "Q113009668",
+    "ca": "Sanseitō",
+    "es": "Sanseitō",
+    "short": null,
+    "color": "#ED7301"
+   },
+   "Social Democratic Party": {
+    "qid": "Q835109",
+    "ca": "Partit Socialdemòcrata",
+    "es": "Partido Socialdemócrata",
+    "short": "SDP",
+    "color": "#0099FF"
+   },
+   "Tax Cuts Japan and Yukoku Alliance": {
+    "qid": "Q137873854",
+    "ca": null,
+    "es": "Genzei Nippon-Alianza Yūkoku",
+    "short": null,
+    "color": null
+   },
+   "Team Mirai": {
+    "qid": "Q134414127",
+    "ca": null,
+    "es": "Equipo para el futuro",
+    "short": null,
+    "color": "#84E6D5"
+   },
+   "Tomorrow Party of Japan": {
+    "qid": "Q194683",
+    "ca": null,
+    "es": null,
+    "short": null,
+    "color": "#00A550"
+   },
+   "Your Party": {
+    "qid": "Q1355093",
+    "ca": "El Vostre Partit",
+    "es": "Minna no Tō",
+    "short": null,
+    "color": "#FF004C"
+   }
+  },
+  "NL": {
+   "50PLUS": {
+    "qid": "Q59574",
+    "ca": "50PLUS",
+    "es": "50PLUS",
+    "short": null,
+    "color": "#92107D"
+   },
+   "BIJ1": {
+    "qid": "Q28857892",
+    "ca": "BIJ1",
+    "es": "BIJ1",
+    "short": null,
+    "color": "#FDFD00"
+   },
+   "Christian Democratic Appeal": {
+    "qid": "Q273749",
+    "ca": "Crida Demòcrata Cristiana",
+    "es": "Llamada Demócrata Cristiana",
+    "short": null,
+    "color": "#1F9359"
+   },
+   "ChristianUnion": {
+    "qid": "Q239539",
+    "ca": "Unió Cristiana",
+    "es": "Unión Cristiana",
+    "short": null,
+    "color": "#00A7EB"
+   },
+   "Democrats 66": {
+    "qid": "Q747910",
+    "ca": "Demòcrates 66",
+    "es": "Democrats 66",
+    "short": null,
+    "color": "#00AE41"
+   },
+   "Farmer–Citizen Movement": {
+    "qid": "Q101083924",
+    "ca": "Moviment Ciutadans-Pagesos",
+    "es": "Movimiento Campesino-Ciudadano",
+    "short": null,
+    "color": "#95C11F"
+   },
+   "Forum for Democracy": {
+    "qid": "Q28163962",
+    "ca": "Fòrum per a la Democràcia",
+    "es": "Foro para la Democracia",
+    "short": null,
+    "color": "#A71C20"
+   },
+   "GreenLeft": {
+    "qid": "Q667680",
+    "ca": "Esquerra Verda",
+    "es": "Izquierda Verde",
+    "short": null,
+    "color": "#32CD32"
+   },
+   "GroenLinks–PvdA": {
+    "qid": "Q110853869",
+    "ca": "Esquerra Verda-Partit del Treball",
+    "es": null,
+    "short": null,
+    "color": "#DD2132"
+   },
+   "JA21": {
+    "qid": "Q104244010",
+    "ca": "JA21",
+    "es": "JA21",
+    "short": null,
+    "color": "#1F2756"
+   },
+   "Livable Netherlands": {
+    "qid": "Q1416031",
+    "ca": "Leefbaar Nederland",
+    "es": null,
+    "short": null,
+    "color": "#FF4400"
+   },
+   "New Social Contract": {
+    "qid": "Q121705847",
+    "ca": "Nou Contracte Social",
+    "es": "Nuevo Contrato Social",
+    "short": null,
+    "color": "#F0C400"
+   },
+   "Party for Freedom": {
+    "qid": "Q332739",
+    "ca": "Partit per la Llibertat",
+    "es": "Partido por la Libertad",
+    "short": null,
+    "color": "#244674"
+   },
+   "Party for the Animals": {
+    "qid": "Q663535",
+    "ca": "Partit pels Animals",
+    "es": "Partido por los Animales",
+    "short": null,
+    "color": "#00743C"
+   },
+   "People's Party for Freedom and Democracy": {
+    "qid": "Q239333",
+    "ca": "Partit Popular per la Llibertat i la Democràcia",
+    "es": "Partido Popular por la Libertad y la Democracia",
+    "short": "VVD",
+    "color": "#0328CB"
+   },
+   "Pim Fortuyn List": {
+    "qid": "Q1573190",
+    "ca": "Llista Pim Fortuyn",
+    "es": "Lista Pim Fortuyn",
+    "short": null,
+    "color": "#FCE11F"
+   },
+   "Reformed Political Party": {
+    "qid": "Q60172",
+    "ca": "Partit Polític Reformat",
+    "es": "Partido Político Reformado",
+    "short": null,
+    "color": "#EA5D06"
+   },
+   "Volt Netherlands": {
+    "qid": "Q105412880",
+    "ca": "Volt Països Baixos",
+    "es": "Volt Países Bajos",
+    "short": null,
+    "color": "#582C83"
+   },
+   "Labour Party": {
+    "qid": "Q275441",
+    "ca": "Partit del Treball",
+    "es": "Partido del Trabajo",
+    "short": null,
+    "color": "#DF111A"
+   },
+   "Christian Union": {
+    "qid": "Q239539",
+    "ca": "Unió Cristiana",
+    "es": "Unión Cristiana",
+    "short": null,
+    "color": "#00A7EB"
+   },
+   "GroenLinks": {
+    "qid": "Q667680",
+    "ca": "Esquerra Verda",
+    "es": "Izquierda Verde",
+    "short": null,
+    "color": "#32CD32"
+   },
+   "DENK": {
+    "qid": "Q28147283",
+    "ca": "DENK",
+    "es": "DENK",
+    "short": null,
+    "color": "#00B7B2"
    }
   }
  }

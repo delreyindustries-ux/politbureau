@@ -1,5 +1,5 @@
 {
- "built": "2026-11-09",
+ "built": "2026-11-27",
  "recent": [
   {
    "iso": "KZ",
@@ -309,7 +309,7 @@
      "leader": null
     },
     {
-     "name": "Andrey Gyurov",
+     "name": "Andrey Gurov",
      "pct": 39.48,
      "seats": null,
      "prev": null,
@@ -446,7 +446,7 @@
    "rows": [
     {
      "name": "National Democratic Congress",
-     "pct": 61.0,
+     "pct": 60.95,
      "seats": 14,
      "prev": 9,
      "party": null,
@@ -454,7 +454,7 @@
     },
     {
      "name": "New National Party",
-     "pct": 36.84,
+     "pct": 36.89,
      "seats": 1,
      "prev": 6,
      "party": null,
@@ -482,15 +482,15 @@
    "rows": [
     {
      "name": "New Zealand National Party",
-     "pct": 29.21,
-     "seats": 42,
+     "pct": 28.35,
+     "seats": 40,
      "prev": 48,
      "party": null,
      "leader": "Christopher Luxon"
     },
     {
      "name": "New Zealand Labour Party",
-     "pct": 29.36,
+     "pct": 29.88,
      "seats": 36,
      "prev": 34,
      "party": null,
@@ -498,15 +498,15 @@
     },
     {
      "name": "Green Party of Aotearoa New Zealand",
-     "pct": 13.3,
-     "seats": 16,
+     "pct": 14.06,
+     "seats": 17,
      "prev": 15,
      "party": null,
      "leader": "Marama Davidson & Chlöe Swarbrick"
     },
     {
      "name": "ACT New Zealand",
-     "pct": 10.92,
+     "pct": 10.54,
      "seats": 13,
      "prev": 11,
      "party": null,
@@ -514,7 +514,7 @@
     },
     {
      "name": "New Zealand First",
-     "pct": 9.78,
+     "pct": 9.6,
      "seats": 12,
      "prev": 8,
      "party": null,
@@ -522,7 +522,7 @@
     },
     {
      "name": "Opportunity Party",
-     "pct": 5.96,
+     "pct": 6.06,
      "seats": 7,
      "prev": 0,
      "party": null,
@@ -530,7 +530,7 @@
     },
     {
      "name": "Te Pāti Māori",
-     "pct": 0.56,
+     "pct": 0.63,
      "seats": 5,
      "prev": 6,
      "party": null,
@@ -538,12 +538,48 @@
     }
    ],
    "date_text": "7 November 2026",
-   "seats_total": 131.0,
+   "seats_total": 130.0,
    "majority": null,
    "gov_title": "Prime Minister and coalition",
    "gov_after": null,
    "party_after": null,
-   "turnout": null
+   "turnout": 2884111.0
+  },
+  {
+   "iso": "CV",
+   "kind": "candidate",
+   "date": "2026-11-15",
+   "title": "2026_Cape_Verdean_presidential_election",
+   "superseded": false,
+   "country": {
+    "ca": "Cap Verd",
+    "es": "Cabo Verde"
+   },
+   "rows": [
+    {
+     "name": "José Maria Neves",
+     "pct": 63.98,
+     "seats": null,
+     "prev": null,
+     "party": "African Party for the Independence of Cape Verde",
+     "leader": null
+    },
+    {
+     "name": "Joana Rosa",
+     "pct": 31.39,
+     "seats": null,
+     "prev": null,
+     "party": "Movement for Democracy",
+     "leader": null
+    }
+   ],
+   "date_text": "15 November 2026",
+   "seats_total": null,
+   "majority": null,
+   "gov_title": "President",
+   "gov_after": "José Maria Neves",
+   "party_after": "African Party for the Independence of Cape Verde",
+   "turnout": 31.69
   }
  ],
  "parliaments": {
@@ -791,16 +827,136 @@
    "party_after": null,
    "turnout": 88.45
   },
+  "BG": {
+   "iso": "BG",
+   "kind": "party",
+   "superseded": false,
+   "country": {
+    "ca": "Bulgària",
+    "es": "Bulgaria"
+   },
+   "title": "2026_Bulgarian_parliamentary_election",
+   "date": "2026-04-19",
+   "rows": [
+    {
+     "name": "Progressive Bulgaria",
+     "pct": 43.91,
+     "seats": 131,
+     "prev": null,
+     "party": null,
+     "leader": "Rumen Radev{{efn|Radev was the lead candidate and unofficial leader of the coalition, which is de jure led by five co-chairs: Galab Donev, , , Todor Barbolov, and Atanas Kalchev}}"
+    },
+    {
+     "name": "GERB–SDS",
+     "pct": 13.18,
+     "seats": 39,
+     "prev": 66,
+     "party": null,
+     "leader": "Boyko Borisov"
+    },
+    {
+     "name": "We Continue the Change – Democratic Bulgaria",
+     "pct": 12.42,
+     "seats": 37,
+     "prev": 36,
+     "party": null,
+     "leader": "Assen Vassilev"
+    },
+    {
+     "name": "Movement for Rights and Freedoms",
+     "pct": 7.01,
+     "seats": 21,
+     "prev": 29,
+     "party": null,
+     "leader": "Delyan Peevski"
+    },
+    {
+     "name": "Revival",
+     "pct": 4.19,
+     "seats": 12,
+     "prev": 33,
+     "party": null,
+     "leader": "Kostadin Kostadinov"
+    }
+   ],
+   "date_text": "19 April 2026",
+   "seats_total": 240.0,
+   "majority": 121.0,
+   "gov_title": "Prime Minister",
+   "gov_after": "Rumen Radev",
+   "party_after": "PB (Radev government)",
+   "turnout": 50.7
+  },
+  "CA": {
+   "iso": "CA",
+   "kind": "party",
+   "date": "2025-04-28",
+   "title": "2025_Canadian_federal_election",
+   "superseded": false,
+   "country": {
+    "ca": "Canadà",
+    "es": "Canadá"
+   },
+   "rows": [
+    {
+     "name": "Liberal Party of Canada",
+     "pct": 43.76,
+     "seats": 169,
+     "prev": 160,
+     "party": null,
+     "leader": "Mark Carney"
+    },
+    {
+     "name": "Conservative Party of Canada",
+     "pct": 41.31,
+     "seats": 144,
+     "prev": 119,
+     "party": null,
+     "leader": "Pierre Poilievre"
+    },
+    {
+     "name": "Bloc Québécois",
+     "pct": 6.29,
+     "seats": 22,
+     "prev": 32,
+     "party": null,
+     "leader": "Yves-François Blanchet"
+    },
+    {
+     "name": "New Democratic Party",
+     "pct": 6.29,
+     "seats": 7,
+     "prev": 25,
+     "party": null,
+     "leader": "Jagmeet Singh"
+    },
+    {
+     "name": "Green Party of Canada",
+     "pct": 1.22,
+     "seats": 1,
+     "prev": 2,
+     "party": null,
+     "leader": "Elizabeth May & Jonathan Pedneault"
+    }
+   ],
+   "date_text": null,
+   "seats_total": 343.0,
+   "majority": 172.0,
+   "gov_title": "Prime Minister",
+   "gov_after": "Mark Carney",
+   "party_after": null,
+   "turnout": 69.5
+  },
   "CZ": {
    "iso": "CZ",
    "kind": "party",
-   "date": "2025-10-03",
-   "title": "2025_Czech_parliamentary_election",
    "superseded": false,
    "country": {
     "ca": "Txèquia",
     "es": "República Checa"
    },
+   "title": "2025_Czech_parliamentary_election",
+   "date": "2025-10-04",
    "rows": [
     {
      "name": "ANO",
@@ -942,6 +1098,151 @@
    "gov_after": "Merz cabinet",
    "party_after": "CDU/CSU–SPD",
    "turnout": 82.5
+  },
+  "DK": {
+   "iso": "DK",
+   "kind": "party",
+   "superseded": false,
+   "country": {},
+   "title": "2026_Danish_general_election",
+   "date": "2026-03-24",
+   "rows": [
+    {
+     "name": "Social Democrats",
+     "pct": 21.85,
+     "seats": 38,
+     "prev": 50,
+     "party": null,
+     "leader": "Mette Frederiksen"
+    },
+    {
+     "name": "Green Left",
+     "pct": 11.59,
+     "seats": 20,
+     "prev": 15,
+     "party": null,
+     "leader": "Pia Olsen Dyhr"
+    },
+    {
+     "name": "Venstre",
+     "pct": 10.14,
+     "seats": 18,
+     "prev": 23,
+     "party": null,
+     "leader": "Troels Lund Poulsen"
+    },
+    {
+     "name": "Liberal Alliance",
+     "pct": 9.37,
+     "seats": 16,
+     "prev": 14,
+     "party": null,
+     "leader": "Alex Vanopslagh"
+    },
+    {
+     "name": "Danish People's Party",
+     "pct": 9.1,
+     "seats": 16,
+     "prev": 5,
+     "party": null,
+     "leader": "Morten Messerschmidt"
+    },
+    {
+     "name": "Moderates",
+     "pct": 7.68,
+     "seats": 14,
+     "prev": 16,
+     "party": null,
+     "leader": "Lars&nbsp;Løkke&nbsp;Rasmussen"
+    },
+    {
+     "name": "Conservative People's Party",
+     "pct": 7.59,
+     "seats": 13,
+     "prev": 10,
+     "party": null,
+     "leader": "Mona Juul"
+    },
+    {
+     "name": "Red–Green Alliance",
+     "pct": 6.34,
+     "seats": 11,
+     "prev": 9,
+     "party": null,
+     "leader": "Pelle Dragsted{{efn|Formally, the Red–Green Alliance has collective leadership. See |name=Villadsen}}"
+    },
+    {
+     "name": "Danish Social Liberal Party",
+     "pct": 5.82,
+     "seats": 10,
+     "prev": 7,
+     "party": null,
+     "leader": "Martin Lidegaard"
+    },
+    {
+     "name": "Denmark Democrats",
+     "pct": 5.75,
+     "seats": 10,
+     "prev": 14,
+     "party": null,
+     "leader": "Inger Støjberg"
+    },
+    {
+     "name": "The Alternative",
+     "pct": 2.58,
+     "seats": 5,
+     "prev": 6,
+     "party": null,
+     "leader": "Franciska Rosenkilde"
+    },
+    {
+     "name": "Citizens' Party",
+     "pct": 2.13,
+     "seats": 4,
+     "prev": null,
+     "party": null,
+     "leader": "Lars Boje Mathiesen"
+    },
+    {
+     "name": "Social Democratic Party",
+     "pct": 44.91,
+     "seats": 1,
+     "prev": 1,
+     "party": null,
+     "leader": "Aksel V. Johannesen"
+    },
+    {
+     "name": "Union Party",
+     "pct": 25.19,
+     "seats": 1,
+     "prev": 1,
+     "party": null,
+     "leader": "Bárður á Steig Nielsen"
+    },
+    {
+     "name": "Inuit Ataqatigiit",
+     "pct": 29.24,
+     "seats": 1,
+     "prev": 1,
+     "party": null,
+     "leader": "Múte Bourup Egede"
+    },
+    {
+     "name": "Naleraq",
+     "pct": 25.12,
+     "seats": 1,
+     "prev": 0,
+     "party": null,
+     "leader": "Pele Broberg"
+    }
+   ],
+   "date_text": "24 March 2026",
+   "seats_total": 179.0,
+   "majority": 90.0,
+   "gov_title": "Government",
+   "gov_after": "Frederiksen III",
+   "party_after": "S–SF–M–RV",
+   "turnout": 83.99
   },
   "EE": {
    "iso": "EE",
@@ -1423,6 +1724,50 @@
    "party_after": null,
    "turnout": 62.31
   },
+  "HU": {
+   "iso": "HU",
+   "kind": "party",
+   "date": "2026-04-12",
+   "title": "2026_Hungarian_parliamentary_election",
+   "superseded": false,
+   "country": {
+    "ca": "Hongria",
+    "es": "Hungría"
+   },
+   "rows": [
+    {
+     "name": "TISZA",
+     "pct": 53.18,
+     "seats": 141,
+     "prev": null,
+     "party": null,
+     "leader": "Péter Magyar"
+    },
+    {
+     "name": "Fidesz",
+     "pct": 38.61,
+     "seats": 52,
+     "prev": 135,
+     "party": null,
+     "leader": "Viktor Orbán"
+    },
+    {
+     "name": "MH",
+     "pct": 5.63,
+     "seats": 6,
+     "prev": 6,
+     "party": null,
+     "leader": "László Toroczkai"
+    }
+   ],
+   "date_text": "12 April 2026",
+   "seats_total": 199.0,
+   "majority": 100.0,
+   "gov_title": "Government",
+   "gov_after": "Magyar Government",
+   "party_after": "Tisza Party",
+   "turnout": 78.99
+  },
   "IE": {
    "iso": "IE",
    "kind": "party",
@@ -1582,6 +1927,150 @@
    "gov_after": "Kristrún Frostadóttir",
    "party_after": "Social Democratic Alliance",
    "turnout": 80.18
+  },
+  "JP": {
+   "iso": "JP",
+   "kind": "party",
+   "date": "2026-02-08",
+   "title": "2026_Japanese_general_election",
+   "superseded": false,
+   "country": {
+    "ca": "Japó",
+    "es": "Japón"
+   },
+   "rows": [
+    {
+     "name": "Liberal Democratic Party",
+     "pct": 36.72,
+     "seats": 316,
+     "prev": 191,
+     "party": null,
+     "leader": "Sanae Takaichi"
+    },
+    {
+     "name": "Centrist Reform Alliance",
+     "pct": 18.23,
+     "seats": 49,
+     "prev": 172,
+     "party": null,
+     "leader": "Yoshihiko Noda Tetsuo Saito"
+    },
+    {
+     "name": "Japan Innovation Party",
+     "pct": 8.63,
+     "seats": 36,
+     "prev": 38,
+     "party": null,
+     "leader": "Hirofumi Yoshimura Fumitake Fujita"
+    },
+    {
+     "name": "Democratic Party For the People",
+     "pct": 9.73,
+     "seats": 28,
+     "prev": 28,
+     "party": null,
+     "leader": "Yuichiro Tamaki"
+    },
+    {
+     "name": "Sanseitō",
+     "pct": 7.44,
+     "seats": 15,
+     "prev": 3,
+     "party": null,
+     "leader": "Sohei Kamiya"
+    },
+    {
+     "name": "Team Mirai",
+     "pct": 6.66,
+     "seats": 11,
+     "prev": null,
+     "party": null,
+     "leader": "Takahiro Anno"
+    },
+    {
+     "name": "Japanese Communist Party",
+     "pct": 4.4,
+     "seats": 4,
+     "prev": 8,
+     "party": null,
+     "leader": "Tomoko Tamura"
+    },
+    {
+     "name": "Reiwa Shinsengumi",
+     "pct": 2.92,
+     "seats": 1,
+     "prev": 9,
+     "party": null,
+     "leader": "Taro Yamamoto"
+    },
+    {
+     "name": "Tax Cuts Japan and Yukoku Alliance",
+     "pct": 1.42,
+     "seats": 1,
+     "prev": null,
+     "party": null,
+     "leader": "Kazuhiro Haraguchi Takashi Kawamura"
+    }
+   ],
+   "date_text": null,
+   "seats_total": 465.0,
+   "majority": 233.0,
+   "gov_title": "Prime Minister",
+   "gov_after": "Sanae Takaichi",
+   "party_after": "Liberal Democratic Party (Japan)",
+   "turnout": 56.26
+  },
+  "KR": {
+   "iso": "KR",
+   "kind": "party",
+   "date": "2024-04-10",
+   "title": "2024_South_Korean_legislative_election",
+   "superseded": false,
+   "country": {
+    "ca": "Corea del Sud",
+    "es": "Corea del Sur"
+   },
+   "rows": [
+    {
+     "name": "Democratic",
+     "pct": 26.7,
+     "seats": 173,
+     "prev": 180,
+     "party": null,
+     "leader": "Lee Jae Myung"
+    },
+    {
+     "name": "People Power",
+     "pct": 36.67,
+     "seats": 108,
+     "prev": 103,
+     "party": null,
+     "leader": "Han Dong-hoon"
+    },
+    {
+     "name": "Rebuilding Korea Party",
+     "pct": 24.25,
+     "seats": 12,
+     "prev": null,
+     "party": null,
+     "leader": "Cho Kuk"
+    },
+    {
+     "name": "Reform Party",
+     "pct": 3.62,
+     "seats": 3,
+     "prev": null,
+     "party": null,
+     "leader": "Lee Jun-seok"
+    }
+   ],
+   "date_text": "10 April 2024",
+   "seats_total": 300.0,
+   "majority": 151.0,
+   "gov_title": "Speaker",
+   "gov_after": "Woo Won-shik",
+   "party_after": "Democratic Party (South Korea, 2015)",
+   "turnout": 66.97
   },
   "LT": {
    "iso": "LT",
@@ -1819,6 +2308,143 @@
    "party_after": "Party of Action and Solidarity",
    "turnout": 52.21
   },
+  "NL": {
+   "iso": "NL",
+   "kind": "party",
+   "superseded": false,
+   "country": {},
+   "title": "2025_Dutch_general_election",
+   "date": "2025-10-29",
+   "rows": [
+    {
+     "name": "Democrats 66",
+     "pct": 16.94,
+     "seats": 26,
+     "prev": 9,
+     "party": null,
+     "leader": "Rob Jetten"
+    },
+    {
+     "name": "Party for Freedom",
+     "pct": 16.66,
+     "seats": 26,
+     "prev": 37,
+     "party": null,
+     "leader": "Geert Wilders"
+    },
+    {
+     "name": "People's Party for Freedom and Democracy",
+     "pct": 14.24,
+     "seats": 22,
+     "prev": 24,
+     "party": null,
+     "leader": "Dilan Yeşilgöz"
+    },
+    {
+     "name": "GroenLinks–PvdA",
+     "pct": 12.79,
+     "seats": 20,
+     "prev": 25,
+     "party": null,
+     "leader": "Frans Timmermans"
+    },
+    {
+     "name": "Christian Democratic Appeal",
+     "pct": 11.79,
+     "seats": 18,
+     "prev": 5,
+     "party": null,
+     "leader": "Henri Bontenbal"
+    },
+    {
+     "name": "JA21",
+     "pct": 5.95,
+     "seats": 9,
+     "prev": 1,
+     "party": null,
+     "leader": "Joost Eerdmans"
+    },
+    {
+     "name": "Forum for Democracy",
+     "pct": 4.54,
+     "seats": 7,
+     "prev": 3,
+     "party": null,
+     "leader": "Lidewij de Vos"
+    },
+    {
+     "name": "Farmer–Citizen Movement",
+     "pct": 2.65,
+     "seats": 4,
+     "prev": 7,
+     "party": null,
+     "leader": "Caroline van der Plas"
+    },
+    {
+     "name": "Denk",
+     "pct": 2.37,
+     "seats": 3,
+     "prev": 3,
+     "party": null,
+     "leader": "Stephan van Baarle"
+    },
+    {
+     "name": "Reformed Political Party",
+     "pct": 2.25,
+     "seats": 3,
+     "prev": 3,
+     "party": null,
+     "leader": "Chris Stoffer"
+    },
+    {
+     "name": "Party for the Animals",
+     "pct": 2.08,
+     "seats": 3,
+     "prev": 3,
+     "party": null,
+     "leader": "Esther Ouwehand"
+    },
+    {
+     "name": "Christian Union",
+     "pct": 1.9,
+     "seats": 3,
+     "prev": 3,
+     "party": null,
+     "leader": "Mirjam Bikker"
+    },
+    {
+     "name": "Socialist Party",
+     "pct": 1.89,
+     "seats": 3,
+     "prev": 5,
+     "party": null,
+     "leader": "Jimmy Dijk"
+    },
+    {
+     "name": "50Plus",
+     "pct": 1.43,
+     "seats": 2,
+     "prev": 0,
+     "party": null,
+     "leader": "Jan Struijs"
+    },
+    {
+     "name": "Volt Netherlands",
+     "pct": 1.1,
+     "seats": 1,
+     "prev": 2,
+     "party": null,
+     "leader": "Laurens Dassen"
+    }
+   ],
+   "date_text": "29 October 2025",
+   "seats_total": 150.0,
+   "majority": 76.0,
+   "gov_title": "Cabinet",
+   "gov_after": "Jetten cabinet",
+   "party_after": "D66–VVD–CDA",
+   "turnout": 78.3
+  },
   "NO": {
    "iso": "NO",
    "kind": "party",
@@ -1924,15 +2550,15 @@
    "rows": [
     {
      "name": "New Zealand National Party",
-     "pct": 29.21,
-     "seats": 42,
+     "pct": 28.35,
+     "seats": 40,
      "prev": 48,
      "party": null,
      "leader": "Christopher Luxon"
     },
     {
      "name": "New Zealand Labour Party",
-     "pct": 29.36,
+     "pct": 29.88,
      "seats": 36,
      "prev": 34,
      "party": null,
@@ -1940,15 +2566,15 @@
     },
     {
      "name": "Green Party of Aotearoa New Zealand",
-     "pct": 13.3,
-     "seats": 16,
+     "pct": 14.06,
+     "seats": 17,
      "prev": 15,
      "party": null,
      "leader": "Marama Davidson & Chlöe Swarbrick"
     },
     {
      "name": "ACT New Zealand",
-     "pct": 10.92,
+     "pct": 10.54,
      "seats": 13,
      "prev": 11,
      "party": null,
@@ -1956,7 +2582,7 @@
     },
     {
      "name": "New Zealand First",
-     "pct": 9.78,
+     "pct": 9.6,
      "seats": 12,
      "prev": 8,
      "party": null,
@@ -1964,7 +2590,7 @@
     },
     {
      "name": "Opportunity Party",
-     "pct": 5.96,
+     "pct": 6.06,
      "seats": 7,
      "prev": 0,
      "party": null,
@@ -1972,7 +2598,7 @@
     },
     {
      "name": "Te Pāti Māori",
-     "pct": 0.56,
+     "pct": 0.63,
      "seats": 5,
      "prev": 6,
      "party": null,
@@ -1980,12 +2606,12 @@
     }
    ],
    "date_text": "7 November 2026",
-   "seats_total": 131.0,
+   "seats_total": 130.0,
    "majority": null,
    "gov_title": "Prime Minister and coalition",
    "gov_after": null,
    "party_after": null,
-   "turnout": null
+   "turnout": 2884111.0
   },
   "PH": {
    "iso": "PH",
@@ -2331,7 +2957,7 @@
      "leader": "Janez Janša"
     },
     {
-     "name": "New Slovenia",
+     "name": "SA",
      "pct": 9.26,
      "seats": 9,
      "prev": 8,
@@ -2355,7 +2981,7 @@
      "leader": "Anže Logar"
     },
     {
-     "name": "The Left",
+     "name": "LV",
      "pct": 5.69,
      "seats": 5,
      "prev": 5,
@@ -2382,7 +3008,7 @@
   "SK": {
    "iso": "SK",
    "kind": "party",
-   "date": "2023-09-30",
+   "date": null,
    "title": "2023_Slovak_parliamentary_election",
    "superseded": false,
    "country": {
@@ -2458,7 +3084,7 @@
   "SV": {
    "iso": "SV",
    "kind": "party",
-   "date": "2024-02-04",
+   "date": "2024-03-03",
    "title": "2024_Salvadoran_legislative_election",
    "superseded": false,
    "country": {
@@ -2514,6 +3140,66 @@
    "gov_after": "Ernesto Castro",
    "party_after": "Nuevas Ideas",
    "turnout": null
+  },
+  "TH": {
+   "iso": "TH",
+   "kind": "party",
+   "date": "2026-02-08",
+   "title": "2026_Thai_general_election",
+   "superseded": false,
+   "country": {
+    "ca": "Tailàndia",
+    "es": "Tailandia"
+   },
+   "rows": [
+    {
+     "name": "Bhumjaithai Party",
+     "pct": 17.9,
+     "seats": 192,
+     "prev": 71,
+     "party": null,
+     "leader": null
+    },
+    {
+     "name": "People's Party (Thailand, 2024)",
+     "pct": 30.56,
+     "seats": 120,
+     "prev": 151,
+     "party": null,
+     "leader": null
+    },
+    {
+     "name": "Pheu Thai Party",
+     "pct": 15.43,
+     "seats": 74,
+     "prev": 141,
+     "party": null,
+     "leader": null
+    },
+    {
+     "name": "Kla Tham Party",
+     "pct": 1.79,
+     "seats": 58,
+     "prev": null,
+     "party": null,
+     "leader": null
+    },
+    {
+     "name": "Democrat Party",
+     "pct": 10.91,
+     "seats": 21,
+     "prev": 25,
+     "party": null,
+     "leader": null
+    }
+   ],
+   "date_text": "8 February 2026",
+   "seats_total": 500.0,
+   "majority": 251.0,
+   "gov_title": "Prime Minister",
+   "gov_after": "Anutin Charnvirakul",
+   "party_after": "Bhumjaithai Party",
+   "turnout": 71.42
   },
   "TR": {
    "iso": "TR",
@@ -2590,6 +3276,74 @@
    "gov_after": "Numan Kurtulmuş",
    "party_after": "AKP",
    "turnout": 87.05
+  },
+  "ZA": {
+   "iso": "ZA",
+   "kind": "party",
+   "superseded": false,
+   "country": {
+    "ca": "Sud-àfrica",
+    "es": "Sudáfrica"
+   },
+   "title": "2024_South_African_general_election",
+   "date": "2024-05-29",
+   "rows": [
+    {
+     "name": "African National Congress",
+     "pct": 40.18,
+     "seats": 159,
+     "prev": 230,
+     "party": null,
+     "leader": "Cyril Ramaphosa"
+    },
+    {
+     "name": "Democratic Alliance",
+     "pct": 21.81,
+     "seats": 87,
+     "prev": 84,
+     "party": null,
+     "leader": "John Steenhuisen"
+    },
+    {
+     "name": "uMkhonto we Sizwe",
+     "pct": 14.58,
+     "seats": 58,
+     "prev": null,
+     "party": null,
+     "leader": "Jacob Zuma"
+    },
+    {
+     "name": "Economic Freedom Fighters",
+     "pct": 9.52,
+     "seats": 39,
+     "prev": 44,
+     "party": null,
+     "leader": "Julius Malema"
+    },
+    {
+     "name": "Inkatha Freedom Party",
+     "pct": 3.85,
+     "seats": 17,
+     "prev": 14,
+     "party": null,
+     "leader": "Velenkosini Hlabisa"
+    },
+    {
+     "name": "Patriotic Alliance",
+     "pct": 2.06,
+     "seats": 9,
+     "prev": 0,
+     "party": null,
+     "leader": "Gayton McKenzie"
+    }
+   ],
+   "date_text": "29 May 2024",
+   "seats_total": 400.0,
+   "majority": 201.0,
+   "gov_title": "Cabinet",
+   "gov_after": "Ramaphosa III",
+   "party_after": "Government of National Unity",
+   "turnout": 58.64
   }
  },
  "heads": {
@@ -2609,6 +3363,10 @@
    "name": "Mindaugas Sinkevičius",
    "party": "Social Democratic Party of Lithuania"
   },
+  "MX": {
+   "name": "Q5771800",
+   "party": "Morena"
+  },
   "CZ": {
    "name": "Andrej Babiš",
    "party": "ANO 2011"
@@ -2620,6 +3378,10 @@
   "TH": {
    "name": "Phumtham Wechayachai",
    "party": "Pheu Thai Party"
+  },
+  "PS": {
+   "name": "Mohammad Mustafa",
+   "party": "independent politician"
   },
   "BG": {
    "name": "Rumen Radev",
@@ -2653,6 +3415,10 @@
    "name": "Narendra Modi",
    "party": "Bharatiya Janata Party"
   },
+  "CH": {
+   "name": "Swiss Federal Council",
+   "party": null
+  },
   "TR": {
    "name": "Recep Tayyip Erdoğan",
    "party": "Justice and Development Party"
@@ -2661,13 +3427,17 @@
    "name": "Wu Den-yih",
    "party": "Kuomintang"
   },
+  "AU": {
+   "name": "Anthony Albanese",
+   "party": "Australian Labor Party"
+  },
+  "GR": {
+   "name": "Kyriakos Mitsotakis",
+   "party": "New Democracy"
+  },
   "PH": {
    "name": "Bongbong Marcos",
    "party": "Nacionalista Party"
-  },
-  "MX": {
-   "name": "Q5771800",
-   "party": "Morena"
   },
   "PT": {
    "name": "Luís Montenegro",
@@ -2677,10 +3447,6 @@
    "name": "Nayib Bukele",
    "party": "Farabundo Martí National Liberation Front"
   },
-  "PS": {
-   "name": "Mohammad Mustafa",
-   "party": "independent politician"
-  },
   "PL": {
    "name": "Donald Tusk",
    "party": "Civic Platform"
@@ -2688,10 +3454,6 @@
   "DK": {
    "name": "Mette Frederiksen",
    "party": "Social Democrats"
-  },
-  "CH": {
-   "name": "Swiss Federal Council",
-   "party": null
   },
   "SK": {
    "name": "Robert Fico",
@@ -2705,10 +3467,6 @@
    "name": "Victor de Tornaco",
    "party": "Christian Social People's Party"
   },
-  "AU": {
-   "name": "Anthony Albanese",
-   "party": "Australian Labor Party"
-  },
   "BE": {
    "name": "Bart De Wever",
    "party": "New Flemish Alliance"
@@ -2716,10 +3474,6 @@
   "NO": {
    "name": "Jonas Gahr Støre",
    "party": "Norwegian Labour Party"
-  },
-  "GR": {
-   "name": "Kyriakos Mitsotakis",
-   "party": "New Democracy"
   },
   "DE": {
    "name": "Friedrich Merz",
@@ -2757,14 +3511,6 @@
    "name": "Adama Barrow",
    "party": "National Reconciliation Party"
   },
-  "AR": {
-   "name": "Javier Milei",
-   "party": "Avanza Libertad"
-  },
-  "AT": {
-   "name": "Christian Stocker",
-   "party": "Austrian People's Party"
-  },
   "ME": {
    "name": "Milojko Spajić",
    "party": "Europe Now"
@@ -2772,6 +3518,14 @@
   "IS": {
    "name": "Kristrún Mjöll Frostadóttir",
    "party": "Social Democratic Alliance"
+  },
+  "AR": {
+   "name": "Javier Milei",
+   "party": "Avanza Libertad"
+  },
+  "AT": {
+   "name": "Christian Stocker",
+   "party": "Austrian People's Party"
   },
   "NZ": {
    "name": "Christopher Luxon",

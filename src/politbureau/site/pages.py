@@ -513,6 +513,8 @@ METHOD_LOG = [
      "Previsió: l'error de cada partit ja no és una hipòtesi (0,59 × √%, mesurat amb l'error de les mitjanes a l'última elecció de 26 països); s'hi afegeix un error comú per comunitat autònoma (0,50) i el provincial baixa a 0,27, mesurats amb 2016-2023; els partits regionals fan servir el seu % al seu territori; i cada simulació sorteja la participació. Escenaris de participació: probabilitat de votar logística calibrada amb el vot declarat del 2023, factors per comunitat i interval per remostreig."),
     ("2026-11-21", "Perfiles de votantes: para cada colectivo, sus temas, cuánto se mueve su voto y qué partidos compiten por él; para cada partido, los votantes a su alcance (segunda opción o indecisos que lo sienten cercano) y de qué hablan. Microdatos del CIS.",
      "Perfils de votants: per a cada col·lectiu, els seus temes, quant es mou el seu vot i quins partits s'hi disputen; per a cada partit, els votants a l'abast (segona opció o indecisos que el senten proper) i de què parlen. Microdades del CIS."),
+    ("2026-11-27", "Más países con elecciones anteriores (Canadá, Dinamarca, Hungría, Japón, Países Bajos y Tailandia), con la composición que salió de la última elección (también Bulgaria y Corea del Sur) y con los diputados de hoy (Canadá, Hungría y Países Bajos; en los Países Bajos, si Wikidata no da el partido de un diputado, se toma su grupo parlamentario). Cuando a Wikidata le falta una elección, se sigue la «elección anterior» del cuadro resumen de cada artículo de Wikipedia, desde el de la próxima elección; en los sistemas mixtos (Japón, Hungría, Tailandia) se toma el voto de lista; los nombres en inglés que no se encuentran se buscan también entre los alias de Wikidata. En Dinamarca no se cuentan los escaños de las Feroe y Groenlandia, que llevan el porcentaje de su territorio.",
+     "Més països amb eleccions anteriors (Canadà, Dinamarca, Hongria, Japó, Països Baixos i Tailàndia), amb la composició que va sortir de l'última elecció (també Bulgària i Corea del Sud) i amb els diputats d'avui (Canadà, Hongria i Països Baixos; als Països Baixos, si Wikidata no dona el partit d'un diputat, es pren el seu grup parlamentari). Quan a Wikidata li falta una elecció, se segueix l'«elecció anterior» del quadre resum de cada article de la Viquipèdia, des del de la propera elecció; als sistemes mixtos (Japó, Hongria, Tailàndia) es pren el vot de llista; els noms en anglès que no es troben es busquen també entre els àlies de Wikidata. A Dinamarca no es compten els escons de les Fèroe i Groenlàndia, que porten el percentatge del seu territori."),
     ("2026-11-26", "Diputados de hoy en los parlamentos de otros países: en la página de cada país, un hemiciclo con las personas que hoy tienen el escaño, agrupadas por partido; al hacer clic en un escaño sale su ficha (circunscripción, nacimiento, estudios y profesión) y hay la lista completa. Todo de Wikidata (CC0): los cargos de diputado sin fecha de fin y el partido sin fecha de fin. Solo se publica un país si Wikidata tiene entre el 90 % y el 105 % de los escaños y conoce el partido de al menos el 80 % de los diputados; si no, se queda sin fichas.",
      "Diputats d'avui als parlaments d'altres països: a la pàgina de cada país, un hemicicle amb les persones que avui tenen l'escó, agrupades per partit; en clicar un escó en surt la fitxa (circumscripció, naixement, estudis i professió) i hi ha la llista completa. Tot de Wikidata (CC0): els càrrecs de diputat sense data de fi i el partit sense data de fi. Només es publica un país si Wikidata hi té entre el 90 % i el 105 % dels escons i coneix el partit d'almenys el 80 % dels diputats; si no, es queda sense fitxes."),
     ("2026-11-26", "Elecciones anteriores en otros países: en la página de cada país, el voto de los principales partidos en las elecciones legislativas desde el 2000 (gráfico y tabla, con los escaños y la participación). Las elecciones salen de Wikidata (CC0) y los resultados, del cuadro resumen de cada artículo de Wikipedia (CC BY-SA 4.0); los escaños solo se muestran si suman la cámara.",
@@ -1374,7 +1376,16 @@ def _history_world(country):
     if len(rows) < 3:                                  # amb menys no hi ha evolucio
         return None
     known = (hw.get("names") or {}).get(country) or {}
-    key = lambda n: (known.get(n) or {}).get("qid") or n          # noqa: E731
+    import unicodedata
+    canon: dict = {}
+
+    def key(n):
+        # Per element de Wikidata i, si dos elements es diuen igual en catala
+        # (Japo: "Komeito" i "Komeitō"), una sola fila.
+        meta = known.get(n) or {}
+        lab = "".join(c for c in unicodedata.normalize("NFKD", meta.get("ca") or n)
+                      if not unicodedata.combining(c)).casefold().strip()
+        return canon.setdefault(lab, meta.get("qid") or n)
     best, first_name = {}, {}
     for r in rows:
         for p in r["parties"]:

@@ -47,7 +47,14 @@ def _sparql(query: str) -> list[dict]:
             time.sleep(10 * (attempt + 1))
             continue
         r.raise_for_status()
-        return r.json()["results"]["bindings"]
+        try:
+            return r.json()["results"]["bindings"]
+        except ValueError:                             # resposta tallada a mitges (temps esgotat a WDQS)
+            if attempt == 3:
+                raise
+            # WDQS desa a la memoria cau la resposta tallada: un comentari la fa nova.
+            query = query + "\n# " + str(int(time.time()))
+            time.sleep(10 * (attempt + 1))
 
 
 def elections(since: str) -> list[dict]:
@@ -112,11 +119,64 @@ def _wikitext(title: str) -> str:
     import requests
     from .ingest.wikipedia import _throttled_get
     global _SESSION
+    if title in _WT_CACHE:
+        return _WT_CACHE[title]
     _SESSION = _SESSION or requests.Session()
     r = _throttled_get(_SESSION, {"action": "parse", "page": urllib.parse.unquote(title),
                                   "prop": "wikitext", "section": 0, "format": "json",
                                   "formatversion": 2, "redirects": 1}, tries=6)
-    return r.json().get("parse", {}).get("wikitext", "")
+    _WT_CACHE[title] = r.json().get("parse", {}).get("wikitext", "")
+    return _WT_CACHE[title]
+
+
+_WT_CACHE: dict = {}
+
+
+def _expand(text: str) -> str:
+    """Expandeix les plantilles d'un tros de wikitext (els noms de partit del
+    Canada surten d'una plantilla: {{Canadian party colour|CA|Liberal|name}})."""
+    import requests
+    from .ingest.wikipedia import _throttled_get
+    global _SESSION
+    _SESSION = _SESSION or requests.Session()
+    r = _throttled_get(_SESSION, {"action": "expandtemplates", "text": text, "prop": "wikitext",
+                                  "format": "json"}, tries=6)
+    return (r.json().get("expandtemplates") or {}).get("wikitext", "")
+
+
+_MONTHS = {m: i + 1 for i, m in enumerate(("january", "february", "march", "april", "may", "june", "july",
+                                           "august", "september", "october", "november", "december"))}
+
+
+def _date(raw: str) -> str | None:
+    """Data ISO del parametre election_date ({{Start date|2022|11|1}} o '1 November 2022')."""
+    raw = raw or ""
+    m = re.search(r"\{\{\s*(?:start|end)[ _]date[^|}]*\|\s*(\d{4})\s*\|\s*(\d{1,2})\s*\|\s*(\d{1,2})", raw, re.I)
+    if m:
+        return f"{int(m.group(1)):04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
+    txt = _clean(raw)
+    m = re.search(r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})", txt) or re.search(r"([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})", txt)
+    if not m:
+        return None
+    a, b, y = m.groups()
+    d, mon = (a, b) if a.isdigit() else (b, a)
+    mo = _MONTHS.get(mon.lower())
+    return f"{int(y):04d}-{mo:02d}-{int(d):02d}" if mo else None
+
+
+def previous_election(title: str) -> str | None:
+    """L'article de l'eleccio anterior segons el quadre resum (previous_election)."""
+    text = _wikitext(title)
+    i = text.find("{{Infobox")
+    if i < 0:
+        return None
+    m = re.search(r"\n\s*\|\s*previous_election\s*=\s*([^\n]*)", text[i:i + 40000])
+    if not m:
+        return None
+    v = m.group(1).strip()
+    link = re.search(r"\[\[([^|\]]+)", v)
+    t = (link.group(1) if link else _clean(v)).strip()
+    return t.replace(" ", "_") if t and "election" in t.lower() else None
 
 
 def _clean(v: str) -> str:
@@ -171,6 +231,22 @@ def infobox(title: str, kind: str = "leg") -> dict | None:
     params: dict = {}
     for m in re.finditer(r"\n\s*\|\s*([a-z_]+?)(\d*)[ \t]*=[ \t]*(.*?)(?=\n\s*\||\n\}\}|$)", body, re.S):
         params.setdefault(m.group(1), {})[m.group(2)] = m.group(3)
+    # Sistemes mixtos (Japo, Hongria, Nova Zelanda, Corea...): el % no va a
+    # percentageN sino a columnes "1data1, 2data1..." amb l'etiqueta a "1blank".
+    cols: dict = {}
+    for m in re.finditer(r"\n\s*\|\s*(\d)(data|blank)(\d*)[ \t]*=[ \t]*(.*?)(?=\n\s*\||\n\}\}|$)", body, re.S):
+        cols.setdefault((int(m.group(1)), m.group(2)), {})[m.group(3)] = m.group(4)
+
+    def mixed_pct(k):
+        cand = sorted(c for (c, kind) in cols if kind == "data" and "%" in (cols[(c, "data")].get(k) or ""))
+        if not cand:
+            return None
+
+        def label(c):
+            return " ".join(_clean(cols.get((x, "blank"), {}).get("", "")) for x in (c, c - 1))
+        pref = [c for c in cand if re.search(r"party|list|\bPR\b|proportional|national", label(c), re.I)]
+        return _number(_clean(cols[(c := (pref or cand)[-1], "data")][k]))
+
     rows = []
     # Legislatives: el partit (alguns quadres porten tambe el candidat a primer
     # ministre). Presidencials: la persona.
@@ -185,9 +261,23 @@ def infobox(title: str, kind: str = "leg") -> dict | None:
         return None
     for k, raw in sorted(params[who].items(), key=lambda kv: int(kv[0] or 0)):
         name = _strip_disambig(_clean(raw))
+        if not name and "{{" in raw and who == "party":
+            exp = _expand(raw.strip())
+            link = re.search(r"\[\[([^|\]]+)", exp)
+            name = _strip_disambig(link.group(1).strip() if link else _clean(exp))
+        if name.lower().startswith("independent") and who == "party":
+            # Hongria 2002 i 2022: el candidat era independent i la llista, una alianca
+            # o un partit ("Independent (MSZP)").
+            araw = params.get("alliance", {}).get(k, "")
+            link = re.search(r"\[\[([^|\]]+)", araw)
+            inner = re.fullmatch(r"independent[^(]*\((.+)\)", name, re.I)
+            name = (_strip_disambig(link.group(1).strip()) if link else _strip_disambig(_clean(araw))) \
+                or (inner.group(1).strip() if inner else name)
         if not name or name.lower() == "none":
             continue
         pct = _number(_clean(params.get("percentage", {}).get(k, "")))
+        if pct is None and who == "party":
+            pct = mixed_pct(k)
         seats = _number(_clean(params.get("seats", {}).get(k, "") or params.get("seats_after", {}).get(k, "")))
         last = _clean(params.get("last_election", {}).get(k, ""))
         prev = re.search(r"(\d+)\s*seats?", last) or (re.fullmatch(r"\d+", last) and re.match(r"(\d+)", last))
@@ -210,7 +300,8 @@ def infobox(title: str, kind: str = "leg") -> dict | None:
             "seats_total": _number(one("seats_for_election") or ""),
             "majority": _number(one("majority_seats") or ""),
             "gov_title": gov("title"), "gov_after": gov("after_election"),
-            "party_after": gov("after_party"), "turnout": _number(one("turnout") or "")}
+            "party_after": gov("after_party"), "turnout": _number(one("turnout") or ""),
+            "date": _date((params.get("election_date") or {}).get("", ""))}
 
 
 # ---------------------------------------------------------------------- tot
@@ -233,8 +324,16 @@ def build(our_isos: set[str]) -> dict:
         box = infobox(e["title"], e["kind"])
         if box and box["rows"]:
             out["recent"].append({**e, **box})
+    nxt = _next_pages(our_isos)
     for iso in sorted(our_isos - EXCLUDED):
         e = last_leg.get(iso)
+        # Wikidata no sempre te la darrera (Dinamarca, Paisos Baixos) o va tard
+        # (Nova Zelanda 2026): l'article de la propera eleccio diu quina va ser
+        # l'anterior. Si es mes nova que la de Wikidata, mana aquesta.
+        alt = _last_from_next(nxt.get(iso))
+        if alt and (not e or e.get("superseded") or alt["date"] > e["date"]):
+            e = {"iso": iso, "kind": "leg", "superseded": False,
+                 "country": (e or {}).get("country") or {}, **alt}
         if not e:
             continue
         if e["date"] < "2022-01-01" or e.get("superseded"):
@@ -259,6 +358,31 @@ def build(our_isos: set[str]) -> dict:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     return out
+
+
+def _next_pages(our_isos: set[str]) -> dict:
+    """{pais: article de la propera eleccio legislativa} de config/sources.yaml."""
+    from .ingest.runner import load_config
+    out = {}
+    for e in load_config()["elections"]:
+        if e.get("country") in our_isos and e.get("pub") and e.get("group") in ("europa", "mon") and e.get("page"):
+            out.setdefault(e["country"], e["page"].replace(" ", "_"))
+    return out
+
+
+def _last_from_next(page: str | None) -> dict | None:
+    if not page:
+        return None
+    try:
+        prev = previous_election(page)
+        if not prev or "presidential" in prev.lower() or _NOT_MAIN.search(prev.replace("_", " ")):
+            return None
+        box = infobox(prev, "leg")
+    except Exception:                                  # noqa: BLE001
+        return None
+    if not box or not box.get("date"):
+        return None
+    return {"title": prev, "date": box["date"]}
 
 
 def _chamber_totals() -> dict:

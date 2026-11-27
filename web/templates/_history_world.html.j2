@@ -19,7 +19,7 @@
     <tr><td><i>{{ 'Participación' if es else 'Participació' }}</i></td>{% for e in h.elections %}<td class="n">{% if e.turnout %}{{ fmt(e.turnout) }} %{% else %}–{% endif %}</td>{% endfor %}</tr>
     </tbody>
   </table></div>
-  <p class="fine">{% if es %}Partidos que aparecen en el cuadro resumen de cada artículo de la Wikipedia en inglés (CC BY-SA 4.0); elecciones de Wikidata (CC0). Nombres de los partidos: Wikidata (CC0), cuando el artículo se puede identificar; si no, en inglés. «–»: el partido no se presentaba o no sale en el cuadro.
-    {% else %}Partits que surten al quadre resum de cada article de la Viquipèdia anglesa (CC BY-SA 4.0); eleccions de Wikidata (CC0). Noms dels partits: Wikidata (CC0), quan l'article es pot identificar; si no, en anglès. «–»: el partit no s'hi presentava o no surt al quadre.{% endif %}</p>
+  <p class="fine">{% if es %}Partidos que aparecen en el cuadro resumen de cada artículo de la Wikipedia en inglés (CC BY-SA 4.0); elecciones de Wikidata (CC0) y, las que le faltan, siguiendo la «elección anterior» de cada artículo. En los sistemas mixtos, el voto de lista. Nombres de los partidos: Wikidata (CC0), cuando el artículo se puede identificar; si no, en inglés. «–»: el partido no se presentaba o no sale en el cuadro.
+    {% else %}Partits que surten al quadre resum de cada article de la Viquipèdia anglesa (CC BY-SA 4.0); eleccions de Wikidata (CC0) i, les que hi falten, seguint l'«elecció anterior» de cada article. Als sistemes mixtos, el vot de llista. Noms dels partits: Wikidata (CC0), quan l'article es pot identificar; si no, en anglès. «–»: el partit no s'hi presentava o no surt al quadre.{% endif %}</p>
   <style>.histchart{max-width:680px;width:100%;height:auto;display:block;margin:8px 0}.histchart .hgrid{stroke:var(--line,#ddd);stroke-width:1}.histchart .hlab{font-size:11px;fill:currentColor;opacity:.7}</style>
 {% endif %}

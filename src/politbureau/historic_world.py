@@ -17,6 +17,7 @@ publicacio no depen de la Viquipedia). `politbureau historic-mon`.
 from __future__ import annotations
 
 import datetime as dt
+import re
 import time
 import json
 from pathlib import Path
@@ -42,6 +43,17 @@ def run(only: set[str] | None = None, resume: bool = False) -> dict:
     by = {}
     for e in sorted(els, key=lambda e: e["date"]):
         by.setdefault(e["iso"], []).append(e)
+    # Wikidata no les te totes (Dinamarca, Paisos Baixos...): es completen seguint
+    # "eleccio anterior" del quadre resum, des de l'article de la propera eleccio
+    # (el de les enquestes) i des de la darrera que dona Wikidata.
+    for iso in sorted(ours):
+        starts = [e["page"].replace(" ", "_") for e in _national(iso)]
+        starts += [e["title"] for e in by.get(iso, [])[-1:]]
+        have = {e["title"] for e in by.get(iso, [])}
+        extra = _chain(starts, have)
+        if extra:
+            print(f"  {iso}: +{len(extra)} eleccions per la cadena d'anteriors", flush=True)
+            by[iso] = sorted(by.get(iso, []) + extra, key=lambda e: e["date"])
     print(f"  {len(els)} eleccions de {len(by)} paisos", flush=True)
     for iso, lst in sorted(by.items()):
         rows = []
@@ -80,6 +92,41 @@ def run(only: set[str] | None = None, resume: bool = False) -> dict:
     return data
 
 
+def _national(iso: str) -> list[dict]:
+    from .ingest.runner import load_config
+    return [e for e in load_config()["elections"]
+            if e.get("country") == iso and e.get("pub") and e.get("group") in ("europa", "mon")
+            and e.get("scope", "national") == "national" and e.get("page")]
+
+
+def _chain(starts: list[str], have: set[str], limit: int = 12) -> list[dict]:
+    """Eleccions anteriors (des del 2000) que no son a `have`, seguint previous_election."""
+    out, seen = [], set(have)
+    for t in starts:
+        for _ in range(limit):
+            try:
+                prev = results.previous_election(t)
+            except Exception:                          # noqa: BLE001
+                break
+            if not prev:
+                break
+            try:
+                box = results.infobox(prev, "leg")
+            except Exception:                          # noqa: BLE001
+                box = None
+            date = (box or {}).get("date")
+            m = re.match(r"(\d{4})", prev)
+            year = date[:4] if date else (m.group(1) if m else None)
+            if not year or year < SINCE[:4]:
+                break
+            if (prev not in seen and date and "presidential" not in prev.lower()
+                    and not results._NOT_MAIN.search(prev.replace("_", " "))):
+                out.append({"title": prev, "date": date, "kind": "leg"})
+            seen.add(prev)
+            t = prev
+    return out
+
+
 def clean(rows: list[dict]) -> list[dict]:
     """Treu el que no es pot ensenyar amb seguretat:
       * la participacio fora del 10-100 % (alguns quadres hi porten els vots);
@@ -91,7 +138,12 @@ def clean(rows: list[dict]) -> list[dict]:
     for r in sorted(rows, key=lambda r: (r["date"], len(r["title"]))):   # el titol curt es l'article de l'eleccio
         if r["date"] in seen:
             continue
-        ps = r["parties"]
+        ps = list(r["parties"])
+        # Dinamarca: al final del quadre hi ha els partits de les Feroe i Groenlandia
+        # (1 esco cadascun) amb el % del seu territori. Fora, si nomes aixi quadra.
+        while ps and sum(p["pct"] or 0 for p in ps) > 102 and ps[-1]["seats"] in (1, 2):
+            ps.pop()
+        r = {**r, "parties": ps}
         if any("=" in p["name"] or " | " in p["name"] for p in ps):
             continue                                   # quadre mal llegit (parametres en una sola linia)
         if not ps or sum(p["pct"] or 0 for p in ps) > 102 or any(p["pct"] is None for p in ps[:3]):
@@ -161,6 +213,36 @@ def _lookup(session, titles: list[str]) -> dict:
     return found
 
 
+def _by_alias(iso: str, todo: list[str]) -> dict:
+    if not todo:
+        return {}
+    cq = [b["c"]["value"].rsplit("/", 1)[1] for b in results._sparql(f'SELECT ?c WHERE {{ ?c wdt:P297 "{iso}" }}')]
+    cq += {"NL": ["Q55"]}.get(iso, [])     # els Paisos Baixos "constituents", dins el Regne
+    lit = " ".join(json.dumps(n) + "@en" for n in todo)
+    cands: dict = {}
+    for b in results._sparql(f"""SELECT DISTINCT ?n ?x ?kl ?ca ?es ?short ?color WHERE {{
+  VALUES ?n {{ {lit} }}
+  VALUES ?c {{ {" ".join("wd:" + c for c in cq)} }}
+  ?x rdfs:label|skos:altLabel ?n .
+  ?x wdt:P17 ?c ; wdt:P31 ?k .
+  ?k rdfs:label ?kl . FILTER(LANG(?kl) = "en")
+  OPTIONAL {{ ?x rdfs:label ?ca . FILTER(LANG(?ca) = "ca") }}
+  OPTIONAL {{ ?x rdfs:label ?es . FILTER(LANG(?es) = "es") }}
+  OPTIONAL {{ ?x wdt:P1813 ?short . FILTER(LANG(?short) IN ("en", "mul", "")) }}
+  OPTIONAL {{ ?x wdt:P465 ?color }}
+}}"""):
+        kl = b["kl"]["value"].lower()
+        if not any(k in kl for k in _KINDS) or "wikimedia" in kl:
+            continue
+        n = b["n"]["value"]
+        q = b["x"]["value"].rsplit("/", 1)[1]
+        cands.setdefault(n, {}).setdefault(q, {
+            "qid": q, "ca": (b.get("ca") or {}).get("value"), "es": (b.get("es") or {}).get("value"),
+            "short": (b.get("short") or {}).get("value"),
+            "color": ("#" + b["color"]["value"]) if b.get("color") else None})
+    return {n: next(iter(c.values())) for n, c in cands.items() if len(c) == 1}
+
+
 def names(only: set[str] | None = None) -> dict:
     import requests
     raw = json.loads(OUT.read_text(encoding="utf-8"))
@@ -196,7 +278,7 @@ def names(only: set[str] | None = None) -> dict:
   OPTIONAL {{ ?x rdfs:label ?es . FILTER(LANG(?es) = "es") }}
   OPTIONAL {{ ?x wdt:P1813 ?short . FILTER(LANG(?short) IN ("en", "mul", "")) }}
   OPTIONAL {{ ?x wdt:P465 ?color }}
-  OPTIONAL {{ ?x wdt:P17 ?c . ?c wdt:P297 ?iso }}
+  OPTIONAL {{ ?x wdt:P17 ?c . ?c wdt:P297|(wdt:P17/wdt:P297) ?iso }}   # Paisos Baixos: Q55 no te codi, el Regne si
   OPTIONAL {{ ?x wdt:P31 ?k . ?k rdfs:label ?kindL . FILTER(LANG(?kindL) = "en") }}
 }}"""):
                 x = b["x"]["value"].rsplit("/", 1)[1]
@@ -228,6 +310,11 @@ def names(only: set[str] | None = None) -> dict:
             qid, d = hit
             out[name] = {"qid": qid, "ca": d.get("ca"), "es": d.get("es"), "short": d.get("short"),
                          "color": ("#" + d["color"]) if d.get("color") else None}
+        # Tercer intent: el nom angles com a etiqueta o alies d'un partit del pais
+        # ("Green Left" es l'alies del Partit Popular Socialista danes). Nomes si
+        # n'hi ha un de sol.
+        for name, hit in _by_alias(iso, [n for n in todo if n not in out]).items():
+            out[name] = hit
         table[iso] = out
         print(f"  {iso}: {len(out)} de {len(todo)} noms amb element de Wikidata", flush=True)
         OUT.write_text(json.dumps(raw, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -41,6 +41,10 @@ POSITIONS = {
     "IE": "Q654291", "IS": "Q21272959", "LT": "Q18507240", "LU": "Q21328592", "MD": "Q18390049",
     "NO": "Q9045502", "NZ": "Q18145518", "PT": "Q19953703", "SE": "Q10655178", "SI": "Q21296001",
     "SK": "Q19967563", "SV": "Q21328618", "TR": "Q21030356",
+    # 27/11/2026: mes cambres (mateixa regla: nomes si Wikidata la te gairebe sencera)
+    "BG": "Q18924508", "CA": "Q15964890", "DK": "Q12311817", "GE": "Q21290878", "HU": "Q17590876",
+    "IN": "Q16556694", "JP": "Q17506823", "KR": "Q14850694", "ME": "Q21328576", "NL": "Q18887908",
+    "PL": "Q19269361", "RO": "Q17556530", "TH": "Q21290865", "TW": "Q6310593",
 }
 LOW, HIGH = 0.90, 1.05
 
@@ -102,6 +106,14 @@ def _members(pos: str) -> dict:
         if b.get("name") and not m["name"]:
             m["name"] = b["name"]["value"]
     return {q: m for q, m in out.items() if q not in subs}
+
+
+def _groups(pos: str) -> dict:
+    """{diputat: grup parlamentari (P4100) del carrec obert}."""
+    rows = _post(f"""SELECT ?p ?g WHERE {{
+  ?p p:P39 ?st . ?st ps:P39 wd:{pos} ; pq:P4100 ?g . FILTER NOT EXISTS {{ ?st pq:P582 ?e }}
+}}""")
+    return {_q(b, "p"): _q(b, "g") for b in rows}
 
 
 def _labels(pos: str) -> dict:
@@ -213,6 +225,13 @@ def country(iso: str, pos: str, seats: int, election: str) -> dict | None:
         opts = aff.get(q) or []
         if opts:
             party_of[q] = max(opts, key=lambda ps: (freq[ps[0]], ps[1]))[0]
+    # Sense partit (el PVV neerlandes no te afiliats): el grup parlamentari del
+    # carrec (P4100), que sovint es el mateix partit o una escissio.
+    if any(q not in party_of for q in pick):
+        grp = _groups(pos)
+        for q in pick:
+            if q not in party_of and grp.get(q):
+                party_of[q] = grp[q]
     info = _party_info(sorted({p for p in party_of.values() if p}))
     groups = defaultdict(list)
     for q, m in pick.items():
@@ -244,6 +263,9 @@ def country(iso: str, pos: str, seats: int, election: str) -> dict | None:
     unknown = sum(len(g["members"]) for g in out if not g["qid"])
     if total and unknown / total > 0.2:
         print(f"  {iso}: {unknown} de {total} sense partit a Wikidata -> fora", flush=True)
+        return None
+    if not LOW * seats <= total <= HIGH * seats:
+        print(f"  {iso}: nomes {total} amb nom per a {seats} escons -> fora", flush=True)
         return None
     return {"position": pos, "rule": rule, "seats": seats, "election": election,
             "count": sum(len(g["members"]) for g in out), "groups": out}
