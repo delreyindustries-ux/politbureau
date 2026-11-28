@@ -287,3 +287,42 @@ leaders:
       - key: approval
         metric: approval
         tables: [{section: "presidential approval rating", subject: "Nayib Bukele"}]
+
+  # 28/11/2026: mes paisos amb taules de lideres a la Viquipedia
+  - id: ld-se
+    head: "Ulf Kristersson (M)"
+    country: SE
+    election: eu-se
+    page: 2030 Swedish general election
+    blocks:
+      - key: preferred
+        metric: share
+        title: {ca: "Confiança en els líders", es: "Confianza en los líderes"}
+        tables: [{section: "leadership polling"}]
+
+  - id: ld-th
+    country: TH
+    election: w-th
+    page: Next Thai general election
+    rename: {"Natthaphong PPLE": "Natthaphong Ruengpanyawut (PPLE)", "Anutin BJT": "Anutin Charnvirakul (BJT)",
+             "Yodchanan PTP": "Yodchanan Wongsawat (PTP)", "Julapun PTP": "Julapun Amornvivat (PTP)",
+             "Abhisit Dem": "Abhisit Vejjajiva (Dem)", "Warong TPD": "Warong Dechgitvigrom (TPD)",
+             "Sudarat TST": "Sudarat Keyuraphan (TST)", "Rewat Rak": "Rewat Klinkasorn (Rak)",
+             "Sereepisuth TLP": "Sereepisuth Temeeyaves (TLP)", "Rangsi ECON": "Rangsi Kitiyansap (ECON)",
+             "Pirapan UTN": "Pirapan Salirathavibhaga (UTN)", "Prayut": "Prayut Chan-o-cha"}
+    blocks:
+      - key: preferred
+        metric: share
+        title: {ca: "Primer ministre preferit", es: "Primer ministro preferido"}
+        tables: [{section: "preferred prime minister"}]
+
+  - id: ld-in
+    head: "Narendra Modi"
+    country: IN
+    election: w-in
+    page: Opinion polling for the next Indian general election
+    blocks:
+      - key: preferred
+        metric: share
+        title: {ca: "Primer ministre preferit", es: "Primer ministro preferido"}
+        tables: [{section: "preferred candidate for prime minister"}]

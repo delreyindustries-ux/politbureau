@@ -1,5 +1,5 @@
 {
- "computed": "2026-11-26",
+ "computed": "2026-11-28",
  "main_share": 3.0,
  "elections": {
   "eu-at": {
@@ -421,20 +421,151 @@
   },
   "eu-dk": {
    "id": "eu-dk",
-   "status": "no-previous-page",
-   "date": null,
-   "tried": [
-    "Opinion polling for the 2026 Danish general election",
-    "2026 Danish general election",
-    "Opinion polling for the 2026 Danish general elections",
-    "Opinion polling for the 2026 Danish parliamentary election"
-   ]
+   "status": "ok",
+   "date": "2026-03-24",
+   "pollsters": [
+    {
+     "pollster": "Voxmeter",
+     "end": "2026-03-23",
+     "sample": 4200,
+     "mae": 0.75,
+     "lead": 0.34,
+     "n": 10
+    },
+    {
+     "pollster": "YouGov",
+     "end": "2026-03-18",
+     "sample": 4966,
+     "mae": 0.83,
+     "lead": -2.46,
+     "n": 10
+    },
+    {
+     "pollster": "Megafon",
+     "end": "2026-03-18",
+     "sample": 1010,
+     "mae": 0.99,
+     "lead": -1.36,
+     "n": 10
+    },
+    {
+     "pollster": "Verian",
+     "end": "2026-03-17",
+     "sample": 1608,
+     "mae": 1.02,
+     "lead": -1.26,
+     "n": 10
+    },
+    {
+     "pollster": "Epinion",
+     "end": "2026-03-21",
+     "sample": 1662,
+     "mae": 1.11,
+     "lead": -2.86,
+     "n": 10
+    }
+   ],
+   "election": "2026 election result",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Danish_general_election",
+   "result_from": "previous",
+   "cutoff": "2026-03-23",
+   "n_polls": 5,
+   "mae": 0.66,
+   "rows": [
+    {
+     "party": "?SOCIALDEMOCRATS",
+     "average": 21.56,
+     "result": 21.85,
+     "diff": -0.29
+    },
+    {
+     "party": "?GREENLEFT",
+     "average": 12.68,
+     "result": 11.59,
+     "diff": 1.09
+    },
+    {
+     "party": "?VENSTRE",
+     "average": 9.7,
+     "result": 10.14,
+     "diff": -0.44
+    },
+    {
+     "party": "?LIBERALALLIANCE",
+     "average": 10.4,
+     "result": 9.37,
+     "diff": 1.03
+    },
+    {
+     "party": "?DANISHPEOPLESPARTY",
+     "average": 8.45,
+     "result": 9.1,
+     "diff": -0.65
+    },
+    {
+     "party": "?MODERATES",
+     "average": 6.55,
+     "result": 7.68,
+     "diff": -1.13
+    },
+    {
+     "party": "?CONSERVATIVEPEOPLESPARTY",
+     "average": 7.12,
+     "result": 7.59,
+     "diff": -0.47
+    },
+    {
+     "party": "?REDGREENALLIANCE",
+     "average": 6.3,
+     "result": 6.34,
+     "diff": -0.04
+    },
+    {
+     "party": "?DANISHSOCIALLIBERALPARTY",
+     "average": 5.35,
+     "result": 5.82,
+     "diff": -0.47
+    },
+    {
+     "party": "?DENMARKDEMOCRATS",
+     "average": 6.71,
+     "result": 5.75,
+     "diff": 0.96
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?SOCIALDEMOCRATS": "A",
+    "?GREENLEFT": "F",
+    "?VENSTRE": "V",
+    "?LIBERALALLIANCE": "I",
+    "?DANISHPEOPLESPARTY": "O",
+    "?MODERATES": "M",
+    "?CONSERVATIVEPEOPLESPARTY": "C",
+    "?REDGREENALLIANCE": "Ø",
+    "?DANISHSOCIALLIBERALPARTY": "B",
+    "?DENMARKDEMOCRATS": "Æ"
+   },
+   "colors": {
+    "?SOCIALDEMOCRATS": "#C82518",
+    "?GREENLEFT": "#EB94D1",
+    "?VENSTRE": "#01438E",
+    "?LIBERALALLIANCE": "#3FB2BE",
+    "?DANISHPEOPLESPARTY": "#FCD03B",
+    "?MODERATES": "#B48CD2",
+    "?CONSERVATIVEPEOPLESPARTY": "#6B9249",
+    "?REDGREENALLIANCE": "#F7660D",
+    "?DANISHSOCIALLIBERALPARTY": "#733280",
+    "?DENMARKDEMOCRATS": "#668DD1"
+   }
   },
   "eu-ee": {
    "id": "eu-ee",
    "status": "no-previous-page",
    "date": "2024-06-09",
    "tried": [
+    "Opinion polling for the 2023 Estonian parliamentary election",
+    "2023 Estonian parliamentary election",
     "Opinion polling for the 2024 Estonian parliamentary election",
     "2024 Estonian parliamentary election",
     "Opinion polling for the 2024 Estonian parliamentary elections",
@@ -740,15 +871,175 @@
   },
   "eu-gr": {
    "id": "eu-gr",
-   "status": "no-previous-page",
+   "status": "ok",
    "date": "2023-06-25",
-   "tried": [
-    "Opinion polling for the 2023 Greek parliamentary election",
-    "2023 Greek parliamentary election",
-    "Opinion polling for the 2023 Greek parliamentary elections",
-    "Opinion polling for the 2023 Greek legislative election",
-    "Opinion polling for the 2023 Greek general election"
-   ]
+   "pollsters": [
+    {
+     "pollster": "Pulse RC",
+     "end": "2023-06-22",
+     "sample": 1021,
+     "mae": 0.65,
+     "lead": -2.2,
+     "n": 8
+    },
+    {
+     "pollster": "MRB",
+     "end": "2023-06-22",
+     "sample": 1000,
+     "mae": 0.68,
+     "lead": -2.4,
+     "n": 8
+    },
+    {
+     "pollster": "Marc",
+     "end": "2023-06-22",
+     "sample": 1506,
+     "mae": 0.85,
+     "lead": 0.2,
+     "n": 8
+    },
+    {
+     "pollster": "Palmos Analysis",
+     "end": "2023-06-22",
+     "sample": 1023,
+     "mae": 0.89,
+     "lead": 0.4,
+     "n": 8
+    },
+    {
+     "pollster": "GPO",
+     "end": "2023-06-23",
+     "sample": 1000,
+     "mae": 0.95,
+     "lead": 2.7,
+     "n": 8
+    },
+    {
+     "pollster": "Metron Analysis",
+     "end": "2023-06-21",
+     "sample": 1302,
+     "mae": 0.96,
+     "lead": -3.5,
+     "n": 8
+    },
+    {
+     "pollster": "Opinion Poll",
+     "end": "2023-06-14",
+     "sample": 1001,
+     "mae": 1.09,
+     "lead": -1.6,
+     "n": 8
+    },
+    {
+     "pollster": "Alco",
+     "end": "2023-06-21",
+     "sample": 1403,
+     "mae": 1.12,
+     "lead": -0.2,
+     "n": 8
+    },
+    {
+     "pollster": "Rass",
+     "end": "2023-06-22",
+     "sample": 1005,
+     "mae": 1.24,
+     "lead": 3.1,
+     "n": 8
+    },
+    {
+     "pollster": "Real Polls",
+     "end": "2023-06-21",
+     "sample": 4626,
+     "mae": 1.37,
+     "lead": -0.1,
+     "n": 8
+    },
+    {
+     "pollster": "Interview",
+     "end": "2023-06-19",
+     "sample": 2005,
+     "mae": 1.49,
+     "lead": -2.1,
+     "n": 7
+    }
+   ],
+   "election": "June 2023 parliamentary election",
+   "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_June_2023_Greek_parliamentary_election",
+   "result_from": "previous",
+   "cutoff": "2023-06-24",
+   "n_polls": 12,
+   "mae": 0.87,
+   "rows": [
+    {
+     "party": "?NEWDEMOCRACY",
+     "average": 41.97,
+     "result": 40.6,
+     "diff": 1.37
+    },
+    {
+     "party": "?SYRIZA",
+     "average": 19.65,
+     "result": 17.8,
+     "diff": 1.85
+    },
+    {
+     "party": "?PASOKMOVEMENTFORCHANGE",
+     "average": 11.91,
+     "result": 11.8,
+     "diff": 0.11
+    },
+    {
+     "party": "?COMMUNISTPARTYOFGREECE",
+     "average": 7.15,
+     "result": 7.7,
+     "diff": -0.55
+    },
+    {
+     "party": "?SPARTANS",
+     "average": 3.22,
+     "result": 4.6,
+     "diff": -1.38
+    },
+    {
+     "party": "?GREEKSOLUTION",
+     "average": 3.72,
+     "result": 4.4,
+     "diff": -0.68
+    },
+    {
+     "party": "?VICTORY",
+     "average": 3.03,
+     "result": 3.7,
+     "diff": -0.67
+    },
+    {
+     "party": "?COURSEOFFREEDOM",
+     "average": 3.55,
+     "result": 3.2,
+     "diff": 0.35
+    }
+   ],
+   "missing": [],
+   "labels": {
+    "?NEWDEMOCRACY": "ND",
+    "?SYRIZA": "SYRIZA",
+    "?PASOKMOVEMENTFORCHANGE": "PASOK",
+    "?COMMUNISTPARTYOFGREECE": "KKE",
+    "?SPARTANS": "Sp.",
+    "?GREEKSOLUTION": "EL",
+    "?VICTORY": "NIKI",
+    "?COURSEOFFREEDOM": "PE"
+   },
+   "colors": {
+    "?NEWDEMOCRACY": "#1B5CC7",
+    "?SYRIZA": "#EE808F",
+    "?PASOKMOVEMENTFORCHANGE": "#2D902D",
+    "?COMMUNISTPARTYOFGREECE": "#E30301",
+    "?SPARTANS": "#E9B460",
+    "?GREEKSOLUTION": "#6BB6E6",
+    "?VICTORY": "#910048",
+    "?COURSEOFFREEDOM": "#9F1897"
+   }
   },
   "eu-hu": {
    "id": "eu-hu",
@@ -2341,6 +2632,8 @@
    "status": "no-previous-page",
    "date": null,
    "tried": [
+    "Opinion polling for the 2024 Icelandic parliamentary election",
+    "2024 Icelandic parliamentary election",
     "Opinion polling for the 2024 Næstu alþingiskosningar",
     "2024 Næstu alþingiskosningar"
    ]
@@ -2434,6 +2727,10 @@
    "status": "no-previous-page",
    "date": null,
    "tried": [
+    "Opinion polling for the 2015 Swiss federal election",
+    "2015 Swiss federal election",
+    "Opinion polling for the 2015 Élections fédérales suisses de 2027",
+    "2015 Élections fédérales suisses de 2027",
     "Opinion polling for the 2023 Élections fédérales suisses de 2027",
     "2023 Élections fédérales suisses de 2027"
    ]
@@ -2443,6 +2740,8 @@
    "status": "no-previous-page",
    "date": null,
    "tried": [
+    "Opinion polling for the 2023 Turkish parliamentary election",
+    "2023 Turkish parliamentary election",
     "Opinion polling for the 2023 Bir sonraki Türkiye genel seçimleri için yapılan anketler",
     "2023 Bir sonraki Türkiye genel seçimleri için yapılan anketler"
    ]
@@ -2755,24 +3054,7 @@
    "id": "w-au",
    "status": "ok",
    "date": "2025-05-03",
-   "pollsters": [
-    {
-     "pollster": "Online",
-     "end": "2025-05-02",
-     "sample": 1368,
-     "mae": 1.43,
-     "lead": -4.3,
-     "n": 4
-    },
-    {
-     "pollster": "Telephone",
-     "end": "2025-04-28",
-     "sample": 2010,
-     "mae": 2.3,
-     "lead": -6.8,
-     "n": 4
-    }
-   ],
+   "pollsters": [],
    "election": "Election",
    "page": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2025_Australian_federal_election",
    "result_from": "previous",
@@ -3203,6 +3485,10 @@
    "status": "no-previous-page",
    "date": null,
    "tried": [
+    "Opinion polling for the 2021 Mexican legislative election",
+    "2021 Mexican legislative election",
+    "Opinion polling for the 2021 Mexican legislative elections",
+    "Opinion polling for the 2021 Mexican parliamentary election",
     "Opinion polling for the 2024 Mexican legislative election",
     "2024 Mexican legislative election",
     "Opinion polling for the 2024 Mexican legislative elections",

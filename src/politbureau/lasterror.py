@@ -84,6 +84,31 @@ def candidates(page: str, prev_year: int) -> list[str]:
     return out
 
 
+def _previous_articles(election) -> list[tuple[int, str]]:
+    """[(any, titol)] de l'eleccio anterior segons la Viquipedia i Wikidata."""
+    from . import historic_world, results
+    out = []
+    try:
+        t = results.previous_election(election["page"].replace(" ", "_"))
+        if t:
+            box = results.infobox(t, "leg")
+            y = int(((box or {}).get("date") or t)[:4]) if re.match(r"\d{4}", (box or {}).get("date") or t) else None
+            if y:
+                out.append((y, t.replace("_", " ")))
+    except Exception:                                  # noqa: BLE001
+        pass
+    try:
+        rows = (historic_world.load().get("countries") or {}).get(election["country"]) or []
+    except Exception:                                  # noqa: BLE001
+        rows = []
+    if rows and election.get("display") != "candidates":
+        r = rows[-1]
+        t = r["title"].replace("_", " ")
+        if all(t != x for _y, x in out):
+            out.append((int(r["date"][:4]), t))
+    return out
+
+
 def _sections(election):
     from .ingest import runner as rn
     from .ingest import wikipedia as wk
@@ -158,9 +183,18 @@ def _result_rows(results, presidential):
         if (presidential and re.search(r"parliament|legislative", label, re.I)
                 and not re.search(r"president", label, re.I)):
             continue
+        if not r.fieldwork_end:
+            # Fila "2026 election result" sense data (Dinamarca): la data de
+            # l'eleccio d'aquell any, si se sap (historic_world.json).
+            m = re.search(r"\b((?:19|20)\d{2})\b", label)
+            if m and _DATES.get(m.group(1)):
+                r.fieldwork_end = _DATES[m.group(1)]
         if r.fieldwork_end:
             out.append(_fix_year(r))
     return out
+
+
+_DATES: dict = {}       # {any: data} de les legislatives del pais que s'avalua
 
 
 def _last_result(results, before, presidential=False):
@@ -179,6 +213,14 @@ def evaluate(session, election, today=None) -> dict | None:
     country = election["country"]
 
     presidential = election.get("display") == "candidates"
+    _DATES.clear()
+    if not presidential:
+        try:
+            from . import historic_world
+            for r in (historic_world.load().get("countries") or {}).get(country) or []:
+                _DATES.setdefault(r["date"][:4], r["date"])
+        except Exception:                              # noqa: BLE001
+            pass
     cur = read(session, election["page"], election)
     if cur is None:
         return {"id": election["id"], "status": "no-page"}
@@ -196,7 +238,15 @@ def evaluate(session, election, today=None) -> dict | None:
         years = [int(m.group(1))] if m else list(range(this, this - 6, -1))
 
     tried = []
-    names = [(y, n) for y in years for n in candidates(election["page"], y)]
+    # L'article real de l'eleccio anterior (28/11/2026): el que diu el quadre de
+    # la pagina actual ("previous_election") o la darrera d'historic_world.json.
+    # Amb ell, "Opinion polling for the <article>" i l'article mateix, abans dels
+    # noms endevinats (Dinamarca, Paisos Baixos, Grecia...).
+    known = _previous_articles(election)
+    if last is None and known:
+        years = list(dict.fromkeys([y for y, _t in known] + years))
+    names = [(y, n) for y, t in known for n in (f"Opinion polling for the {t}", t)]
+    names += [(y, n) for y in years for n in candidates(election["page"], y)]
     # La pagina actual pot ser la del cicle anterior si l'eleccio ja ha passat.
     if any(str(y) in election["page"] for y in years):
         names.insert(0, (years[0], election["page"]))
